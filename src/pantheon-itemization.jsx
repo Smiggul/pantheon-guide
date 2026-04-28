@@ -4,46 +4,9 @@ import { useState } from "react";
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
 // ─────────────────────────────────────────────────────────────────────────────
 const IMG      = "./images";
-// Converts any display name to the Data Dragon filename format.
-// Examples: "Vel'Koz" → "Velkoz",  "Dr. Mundo" → "DrMundo",
-//           "Nunu & Willump" → "Nunu",  "Wukong" → "MonkeyKing"
-const DD_OVERRIDES = {
-  "Wukong":          "MonkeyKing",
-  "Nunu & Willump":  "Nunu",
-  "Jarvan IV":       "JarvanIV",
-  "K'Sante":         "KSante",
-  "Renata Glasc":    "Renata",
-  "Aurelion Sol":    "AurelionSol",
-  "Bel'Veth":        "Belveth",
-  "Kog'Maw":         "KogMaw",
-  "Cho'Gath":        "Chogath",
-  "Kha'Zix":         "Khazix",
-  "Kai'Sa":          "Kaisa",
-  "Rek'Sai":         "RekSai",
-  "LeBlanc":         "Leblanc",
-  "Lee Sin":         "LeeSin",
-  "Master Yi":       "MasterYi",
-  "Miss Fortune":    "MissFortune",
-  "Tahm Kench":      "TahmKench",
-  "Twisted Fate":    "TwistedFate",
-  "Dr. Mundo":       "DrMundo",
-  "Vel'Koz":         "Velkoz",
-  "Xin Zhao":        "XinZhao",
-
-};
-
-const toDD = (name) => {
-  if (DD_OVERRIDES[name]) return DD_OVERRIDES[name];
-  return name
-    .replace(/'([A-Z])/g, (_, c) => c.toLowerCase()) // 'K → k  (Vel'Koz → Velkoz)
-    .replace(/\./g,  "")   // remove dots  (Dr. → Dr)
-    .replace(/ & .*/g, "") // drop & Willump etc
-    .replace(/ /g,   "")   // remove spaces
-    .replace(/'/g,   "");  // any leftover apostrophes
-};
-
-const champImg = (name) => `${IMG}/champions/${toDD(name)}.png`;
+const champImg = (dd)   => `${IMG}/champions/${dd}.png`;
 const itemImg  = (name) => `${IMG}/items/${name.replace(/'/g, "").replace(/\s+/g, "_")}.png`;
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  ITEM ACCENT COLOURS  (fallback dot colour when image is missing)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -104,263 +67,87 @@ const I = (name, why) => ({ name, why });
 //     `ahead` and `behind` arrays of exactly 3 items using I("Name","Why").
 //  That's it. The UI handles everything else automatically.
 // ─────────────────────────────────────────────────────────────────────────────
-
 const CHAMPS = [
 
   // ══════════════════════════════════════════════════════════════════════════
   //  PANTHEON — Diver / Bruiser
   // ══════════════════════════════════════════════════════════════════════════
   {
-    id:      "pantheon",
     display:  "Pantheon",
     dd:       "Pantheon",       // must match filename: champions/Pantheon.png
+    role:     "Diver / Bruiser",
     color:    "#c0392b",
     glow:     "#e74c3c",
-    lanes:    ["Top", "Mid", "Support", "Jungle"],
-  
-    roles:{
-            Top:  {  
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
-                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Shojin amplifies Q-poke into extended skirmishes.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Death's Dance","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
-                        data: {
-                                JUGGERNAUT: {
-                                  ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
-                                  behind: [ I("Black Cleaver","HP + shred in one item — survive while peeling their armor."), I("Death's Dance","Delay lethal burst into a bleed, keeping combo window open."), I("Sterak's Gage","Shield keeps you alive when they catch you at low HP.") ],
-                                },
-                                DIVER: {
-                                  ahead:  [ I("Eclipse","Convert lead fast — burst before they can sustain or disengage."), I("Youmuu's Ghostblade","Active move-speed to chase or re-engage after Ult landing."), I("Death's Dance","Sustain through their mirror-dive while burst finishes them.") ],
-                                  behind: [ I("Sterak's Gage","Shield at low HP when Camille/Irelia survives burst and all-ins."), I("Plated Steelcaps","Flat auto reduction on Irelia/Renekton — every auto counts behind."), I("Death's Dance","Convert their burst to bleed so combo window still exists.") ],
-                                },
-                                ASSASSIN: {
-                                  ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
-                                },
-                                SKIRMISHER: {
-                                  ahead:  [ I("Eclipse","Burst them before they stack defensive items."), I("Lord Dominik's Regards","Pen through early Fiora/Jax armor during your lead window."), I("Serylda's Grudge","Slow stops Yone/Yasuo kiting and keeps them in your combo.") ],
-                                  behind: [ I("Randuin's Omen","Crit damage reduction — vital vs Yasuo, Yone, Tryndamere."), I("Frozen Heart","–20% nearby attack speed. Destroys Fiora/Tryndamere."), I("Black Cleaver","HP + shred to keep damage relevant while in deficit.") ],
-                                },
-                                BURST_MAGE: {
-                                  ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
-                                },
-                                BATTLEMAGE: {
-                                  ahead:  [ I("Eclipse","Short burst window — kill before Vladimir can drain back up."), I("Mortal Reminder","GW 40% eliminates their sustain advantage before they regen."), I("Lord Dominik's Regards","Swain/Malzahar stack HP — % pen keeps damage high.") ],
-                                  behind: [ I("Maw of Malmortius","Survive the sustained AP DPS window with magic shield."), I("Mortal Reminder","GW is your only offset for their healing when behind."), I("Sterak's Gage","Extra shield gives another window after sustained damage.") ],
-                                },
-                                ARTILLERY: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
-                                  behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
-                                },
-                                MARKSMAN: {
-                                  ahead:  [ I("Eclipse","Two-ability proc = guaranteed one-rotation kill on any ADC."), I("Youmuu's Ghostblade","Active speed closes before they can kite or reposition."), I("Serpent's Fang","Kai'Sa/Samira shields stripped — no escaping your burst.") ],
-                                  behind: [ I("Plated Steelcaps","Flat auto reduction is massive — cuts every Jinx/Caitlyn attack."), I("Eclipse","Best damage path even behind — one good Ult = back in game."), I("Sterak's Gage","Shield keeps you alive long enough to find that combo window.") ],
-                                },
-                                ENCHANTER: {
-                                  ahead:  [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on contact while ahead."), I("Youmuu's Ghostblade","Active speed: Janna/Lulu can't reposition before your W stun."), I("Eclipse","Overkill burst — with Serpent's Fang up they simply die.") ],
-                                  behind: [ I("Serpent's Fang","Still priority even behind — skipping costs every shield trade."), I("Mortal Reminder","Q poke applies GW to limit heals when you can't reach them."), I("Sterak's Gage","Survive Lulu polymorph + their carry's follow-up burst.") ],
-                                },
-                                CATCHER: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
-                                  behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
-                                },
-                                VANGUARD: {
-                                  ahead:  [ I("Eclipse","Ult in, E their CC, finish with burst before they act."), I("Black Cleaver","Shred Malphite/Ornn armor in 6 Q taps while team is disrupted."), I("Lord Dominik's Regards","% pen while ahead makes their armor irrelevant.") ],
-                                  behind: [ I("Mercury's Treads","Default. Malphite Ult, Leona chain, Nautilus root — all shorter."), I("Sterak's Gage","Survive the burst that follows a Vanguard's initiation."), I("Randuin's Omen","AoE slow active peels their engage. Crit reduction vs carry builds.") ],
-                                },
-                                WARDEN: {
-                                  ahead:  [ I("Serpent's Fang","Shen Ult + Braum passive shields stripped by 50% on contact."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Serylda's Grudge","Slow on Ult stops Tahm Kench body-blocking at the last second.") ],
-                                  behind: [ I("Black Cleaver","Shred gradually — even behind, 6 stacks still open them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shut down your dives — reduce duration.") ],
-                                },
-                                SPECIALIST: {
-                                  ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
-                                  behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
-                                },
-                              },
-                    },
-
-            Mid:    {  
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
-                        coreNote: "Mid Pantheon is a counterpick into assassins. Eclipse gives kill pressure on short trades; transition into bruiser for mid-game roams and skirmishes.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Serpent's Fang","Maw of Malmortius","Death's Dance","Serylda's Grudge","Guardian Angel","Black Cleaver"],
-                        data: {
-                                ASSASSIN: {
-                                  ahead:  [ I("Eclipse","You out-burst them — mid lane trades are shorter and lethal."), I("Youmuu's Ghostblade","Roam pressure — convert lane lead into map wins."), I("Serylda's Grudge","Slow prevents escape after their disengage tools.") ],
-                                  behind: [ I("Plated Steelcaps","Reduces auto-based assassins like Zed/Qiyana."), I("Death's Dance","Convert burst to bleed so you survive initial combo."), I("Sterak's Gage","Prevents getting one-shot after failed engage.") ],
-                                },
-                                BURST_MAGE: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Close gap before they complete spell rotation."), I("Eclipse","One combo = kill before they kite back."), I("Edge of Night","Spell shield blocks key CC like Syndra E.") ],
-                                  behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Banshee's Veil","Blocks engage spell so you can still all-in.") ],
-                                },
-                                BATTLEMAGE: {
-                                  ahead:  [ I("Mortal Reminder","Grievous Wounds denies sustain (Swain/Vlad)."), I("Eclipse","Kill during short trade windows before healing ramps."), I("Black Cleaver","HP + shred vs their scaling durability.") ],
-                                  behind: [ I("Maw of Malmortius","Sustain through extended AP damage."), I("Mortal Reminder","Essential vs healing-based mages."), I("Sterak's Gage","Gives second rotation window in extended fights.") ],
-                                },
-                                ARTILLERY: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
-                                  behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
-                                },
-                              },
-                      },
-
-            Support:{  
-                          corePath: "Umbral Glaive  ›  Eclipse  ›  Black Cleaver  ›  Sundered Sky",
-                          coreNote: "Support Pantheon focuses on vision denial + early kill lanes. Umbral Glaive spike is mandatory for map control; then transition into bruiser.",
-                          sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Serpent's Fang","Maw of Malmortius","Death's Dance","Knight's Vow","Zeke's Convergence","Edge of Night"],
-
-                          data: {
-                            MARKSMAN: {
-                              ahead:  [ I("Eclipse","Burst ADC instantly with W engage."), I("Youmuu's Ghostblade","Close gap before they kite."), I("Serpent's Fang","Remove shielding from supports.") ],
-                              behind: [ I("Plated Steelcaps","Reduce ADC auto damage."), I("Knight's Vow","Protect your carry while behind."), I("Sterak's Gage","Survive engages.") ],
-                            },
-                            ENCHANTER: {
-                              ahead:  [ I("Serpent's Fang","⭐ CORE — destroys shields (Lulu/Janna)."), I("Eclipse","With shields removed, burst always kills."), I("Youmuu's Ghostblade","No reposition window for them.") ],
-                              behind: [ I("Serpent's Fang","Still mandatory — never skip."), I("Mortal Reminder","Reduce healing when fights drag."), I("Knight's Vow","Play peel instead of engage.") ],
-                            },
-                            CATCHER: {
-                              ahead:  [ I("Youmuu's Ghostblade","Dodge hooks and engage first."), I("Eclipse","Kill them before they reset fight."), I("Edge of Night","Block hook/CC entirely.") ],
-                              behind: [ I("Banshee's Veil","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
-                            },
-                            VANGUARD: {
-                              ahead:  [ I("Black Cleaver","Help team shred tanks."), I("Eclipse","Still threatens backline."), I("Serpent's Fang","Remove shields from tank supports.") ],
-                              behind: [ I("Mercury's Treads","Reduce CC lock duration."), I("Knight's Vow","Shift to peel role."), I("Sterak's Gage","Survive engage burst.") ],
-                            },
-                          },
-                      },
-
-            Jungle: {  
-                corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Spear of Shojin",
-                coreNote: "Jungle Pantheon relies on early tempo and ganks. Eclipse spike enables early kills; Cleaver transitions into mid-game teamfights.",
-                sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Death's Dance","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
-
-                data: {
-                  DIVER: {
-                    ahead:  [ I("Eclipse","Win early skirmishes instantly."), I("Youmuu's Ghostblade","Faster rotations between lanes."), I("Death's Dance","Outlast mirror dive fights.") ],
-                    behind: [ I("Plated Steelcaps","Reduces sustained auto damage."), I("Sterak's Gage","Gives survivability during engages."), I("Death's Dance","Keeps you alive after committing.") ],
-                  },
-                  ASSASSIN: {
-                    ahead:  [ I("Eclipse","You win burst race easily when ahead."), I("Edge of Night","Block their engage tool."), I("Youmuu's Ghostblade","Catch them before they reset.") ],
-                    behind: [ I("Maw of Malmortius","Essential vs AP assassins."), I("Sterak's Gage","Prevents one-shot after invade."), I("Death's Dance","Extends fight duration.") ],
-                  },
-                  VANGUARD: {
-                    ahead:  [ I("Black Cleaver","Shred tanks for your team."), I("Eclipse","Still gives threat to backline."), I("Serylda's Grudge","Slow helps stick to carries after engage.") ],
-                    behind: [ I("Mercury's Treads","Reduce CC chains."), I("Sterak's Gage","Survive engage burst."), I("Black Cleaver","Keep damage relevant.") ],
-                  },
-                  MARKSMAN: {
-                    ahead:  [ I("Youmuu's Ghostblade","Reach backline instantly."), I("Eclipse","Guaranteed one-shot combo."), I("Serpent's Fang","Removes shielding supports’ protection.") ],
-                    behind: [ I("Plated Steelcaps","Reduce DPS from ADC."), I("Sterak's Gage","Survive initial burst."), I("Guardian Angel","Second life for risky engages.") ],
-                  },
-                },
-              },
-
-          },
-  
+    lanes:    ["Top", "Mid", "Support"],
+    corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
+    coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Shojin amplifies Q-poke into extended skirmishes.",
+    sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Death's Dance","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
+    data: {
+      JUGGERNAUT: {
+        ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
+        behind: [ I("Black Cleaver","HP + shred in one item — survive while peeling their armor."), I("Death's Dance","Delay lethal burst into a bleed, keeping combo window open."), I("Sterak's Gage","Shield keeps you alive when they catch you at low HP.") ],
+      },
+      DIVER: {
+        ahead:  [ I("Eclipse","Convert lead fast — burst before they can sustain or disengage."), I("Youmuu's Ghostblade","Active move-speed to chase or re-engage after Ult landing."), I("Death's Dance","Sustain through their mirror-dive while burst finishes them.") ],
+        behind: [ I("Sterak's Gage","Shield at low HP when Camille/Irelia survives burst and all-ins."), I("Plated Steelcaps","Flat auto reduction on Irelia/Renekton — every auto counts behind."), I("Death's Dance","Convert their burst to bleed so combo window still exists.") ],
+      },
+      ASSASSIN: {
+        ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
+        behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
+      },
+      SKIRMISHER: {
+        ahead:  [ I("Eclipse","Burst them before they stack defensive items."), I("Lord Dominik's Regards","Pen through early Fiora/Jax armor during your lead window."), I("Serylda's Grudge","Slow stops Yone/Yasuo kiting and keeps them in your combo.") ],
+        behind: [ I("Randuin's Omen","Crit damage reduction — vital vs Yasuo, Yone, Tryndamere."), I("Frozen Heart","–20% nearby attack speed. Destroys Fiora/Tryndamere."), I("Black Cleaver","HP + shred to keep damage relevant while in deficit.") ],
+      },
+      BURST_MAGE: {
+        ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
+        behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
+      },
+      BATTLEMAGE: {
+        ahead:  [ I("Eclipse","Short burst window — kill before Vladimir can drain back up."), I("Mortal Reminder","GW 40% eliminates their sustain advantage before they regen."), I("Lord Dominik's Regards","Swain/Malzahar stack HP — % pen keeps damage high.") ],
+        behind: [ I("Maw of Malmortius","Survive the sustained AP DPS window with magic shield."), I("Mortal Reminder","GW is your only offset for their healing when behind."), I("Sterak's Gage","Extra shield gives another window after sustained damage.") ],
+      },
+      ARTILLERY: {
+        ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
+        behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
+      },
+      MARKSMAN: {
+        ahead:  [ I("Eclipse","Two-ability proc = guaranteed one-rotation kill on any ADC."), I("Youmuu's Ghostblade","Active speed closes before they can kite or reposition."), I("Serpent's Fang","Kai'Sa/Samira shields stripped — no escaping your burst.") ],
+        behind: [ I("Plated Steelcaps","Flat auto reduction is massive — cuts every Jinx/Caitlyn attack."), I("Eclipse","Best damage path even behind — one good Ult = back in game."), I("Sterak's Gage","Shield keeps you alive long enough to find that combo window.") ],
+      },
+      ENCHANTER: {
+        ahead:  [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on contact while ahead."), I("Youmuu's Ghostblade","Active speed: Janna/Lulu can't reposition before your W stun."), I("Eclipse","Overkill burst — with Serpent's Fang up they simply die.") ],
+        behind: [ I("Serpent's Fang","Still priority even behind — skipping costs every shield trade."), I("Mortal Reminder","Q poke applies GW to limit heals when you can't reach them."), I("Sterak's Gage","Survive Lulu polymorph + their carry's follow-up burst.") ],
+      },
+      CATCHER: {
+        ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
+        behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
+      },
+      VANGUARD: {
+        ahead:  [ I("Eclipse","Ult in, E their CC, finish with burst before they act."), I("Black Cleaver","Shred Malphite/Ornn armor in 6 Q taps while team is disrupted."), I("Lord Dominik's Regards","% pen while ahead makes their armor irrelevant.") ],
+        behind: [ I("Mercury's Treads","Default. Malphite Ult, Leona chain, Nautilus root — all shorter."), I("Sterak's Gage","Survive the burst that follows a Vanguard's initiation."), I("Randuin's Omen","AoE slow active peels their engage. Crit reduction vs carry builds.") ],
+      },
+      WARDEN: {
+        ahead:  [ I("Serpent's Fang","Shen Ult + Braum passive shields stripped by 50% on contact."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Serylda's Grudge","Slow on Ult stops Tahm Kench body-blocking at the last second.") ],
+        behind: [ I("Black Cleaver","Shred gradually — even behind, 6 stacks still open them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shut down your dives — reduce duration.") ],
+      },
+      SPECIALIST: {
+        ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
+        behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
+      },
+    },
   },
+
   // ══════════════════════════════════════════════════════════════════════════
   //  TEEMO — AP On-Hit Specialist
   // ══════════════════════════════════════════════════════════════════════════
   {
-    id:      "teemo",
     display:  "Teemo",
     dd:       "Teemo",
     role:     "AP On-Hit Specialist",
     color:    "#27ae60",
     glow:     "#2ecc71",
-    lanes:    ["Top", "Mid", "Support", "Jungle"],
-
-    roles:{
-Top:{  
-  corePath: "Liandry's Torment  ›  Nashor's Tooth  ›  Malignance  ›  Rylai's Crystal Scepter",
-  coreNote: "Teemo top plays for lane dominance and zone control. Liandry's burns tanks, Nashor's enables DPS, Malignance amplifies mushroom map control.",
-  sideItems: ["Sorcerer's Shoes","Plated Steelcaps","Mercury's Treads","Morellonomicon","Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Demonic Embrace","Cosmic Drive"],
-
-  data: {
-    JUGGERNAUT: {
-      ahead:  [ I("Liandry's Torment","Burn scales off their HP stacking — perfect into juggernauts."), I("Rylai's Crystal Scepter","Perma-slow prevents them ever reaching you."), I("Nashor's Tooth","Sustained DPS while kiting wins every extended trade.") ],
-      behind: [ I("Plated Steelcaps","Reduces auto damage from champs like Darius/Sett."), I("Zhonya's Hourglass","Stall their all-in window and survive burst."), I("Rylai's Crystal Scepter","Utility slow keeps them off you even when weak.") ],
-    },
-    DIVER: {
-      ahead:  [ I("Nashor's Tooth","Higher DPS to punish failed engages."), I("Rylai's Crystal Scepter","Slows their engage follow-up completely."), I("Liandry's Torment","Burn continues even after they disengage.") ],
-      behind: [ I("Zhonya's Hourglass","Negates their dive combo timing."), I("Plated Steelcaps","Reduces sustained damage during all-in."), I("Banshee's Veil","Blocks engage abilities like Camille hook.") ],
-    },
-    SKIRMISHER: {
-      ahead:  [ I("Nashor's Tooth","You out-DPS them if they can't stick."), I("Rylai's Crystal Scepter","Stops Yasuo/Yone from chasing."), I("Liandry's Torment","Burn punishes their mid-fight sustain.") ],
-      behind: [ I("Plated Steelcaps","Critical vs auto-heavy duelists."), I("Zhonya's Hourglass","Buy time vs burst windows."), I("Morellonomicon","Cut healing from lifesteal champs.") ],
-    },
-    VANGUARD: {
-      ahead:  [ I("Liandry's Torment","Melts high-HP tanks."), I("Void Staff","Penetrates early MR stacking."), I("Rylai's Crystal Scepter","Keeps tanks permanently slowed.") ],
-      behind: [ I("Void Staff","Required to deal damage vs MR stack."), I("Zhonya's Hourglass","Survive engage combos."), I("Rylai's Crystal Scepter","Utility even when behind.") ],
-    },
-    SPECIALIST: {
-      ahead:  [ I("Malignance","Mushroom spam controls side lanes."), I("Liandry's Torment","Synergy with poison + traps."), I("Shadowflame","Extra burst vs squishy specialists.") ],
-      behind: [ I("Morellonomicon","Anti-heal vs sustain champs."), I("Banshee's Veil","Block key abilities (Teemo blind mirror, Kennen stun)."), I("Zhonya's Hourglass","Survive burst setups.") ],
-    },
-  },
-},
-
-Support:{  
-  corePath: "Malignance  ›  Liandry's Torment  ›  Rylai's Crystal Scepter  ›  Morellonomicon",
-  coreNote: "Support Teemo plays for vision denial and choke control. Mushrooms replace wards as zone tools.",
-  sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Void Staff","Demonic Embrace","Shadowflame"],
-
-  data: {
-    MARKSMAN: {
-      ahead:  [ I("Liandry's Torment","Constant burn poke forces recalls."), I("Rylai's Crystal Scepter","Slow prevents escape after poke."), I("Shadowflame","Extra damage vs squishy ADCs.") ],
-      behind: [ I("Zhonya's Hourglass","Survive all-ins."), I("Morellonomicon","Reduce lifesteal sustain."), I("Rylai's Crystal Scepter","Utility slow still valuable.") ],
-    },
-    ENCHANTER: {
-      ahead:  [ I("Morellonomicon","Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain."), I("Malignance","Zone their positioning.") ],
-      behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive polymorph setups."), I("Banshee's Veil","Block engage CC.") ],
-    },
-    CATCHER: {
-      ahead:  [ I("Rylai's Crystal Scepter","Punish missed hooks with slows."), I("Liandry's Torment","Burn during extended trades."), I("Malignance","Control choke points.") ],
-      behind: [ I("Banshee's Veil","Block hooks."), I("Zhonya's Hourglass","Survive engages."), I("Ionian Boots of Lucidity","Lower cooldowns for more traps.") ],
-    },
-    VANGUARD: {
-      ahead:  [ I("Liandry's Torment","Melts tank supports."), I("Morellonomicon","Reduce healing."), I("Rylai's Crystal Scepter","Kite engages easily.") ],
-      behind: [ I("Zhonya's Hourglass","Avoid engage burst."), I("Morellonomicon","Still needed vs sustain."), I("Banshee's Veil","Block engage abilities.") ],
-    },
-  },
-},
-
-Jungle:{  
-  corePath: "Malignance  ›  Liandry's Torment  ›  Nashor's Tooth  ›  Rylai's Crystal Scepter",
-  coreNote: "Teemo jungle plays for fast clears and map control. Malignance enables constant mushroom pressure on objectives; Liandry's amplifies burn for camps and fights.",
-  sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Void Staff","Zhonya's Hourglass","Banshee's Veil","Shadowflame","Demonic Embrace","Cosmic Drive"],
-
-  data: {
-    DIVER: {
-      ahead:  [ I("Liandry's Torment","Burn punishes their HP stacking during engages."), I("Rylai's Crystal Scepter","Slows completely disrupt their dive pathing."), I("Nashor's Tooth","DPS wins extended skirmishes.") ],
-      behind: [ I("Zhonya's Hourglass","Negates their all-in timing."), I("Rylai's Crystal Scepter","Utility slow helps team peel."), I("Morellonomicon","Cuts their sustain in fights.") ],
-    },
-    ASSASSIN: {
-      ahead:  [ I("Nashor's Tooth","Punish melee range with constant DPS."), I("Malignance","Trap jungle paths — denies their mobility."), I("Shadowflame","Burst squishy targets before they escape.") ],
-      behind: [ I("Zhonya's Hourglass","Essential vs burst junglers."), I("Banshee's Veil","Blocks engage tools."), I("Rylai's Crystal Scepter","Peel yourself with slows.") ],
-    },
-    SKIRMISHER: {
-      ahead:  [ I("Nashor's Tooth","Out-DPS in extended fights."), I("Liandry's Torment","Burn punishes their sustain."), I("Rylai's Crystal Scepter","Prevents them sticking to you.") ],
-      behind: [ I("Morellonomicon","Reduce healing from lifesteal champs."), I("Zhonya's Hourglass","Buy time vs dueling champs."), I("Rylai's Crystal Scepter","Utility remains strong.") ],
-    },
-    VANGUARD: {
-      ahead:  [ I("Liandry's Torment","Melts tank junglers."), I("Void Staff","Penetrates MR stacking."), I("Malignance","Objective control with traps.") ],
-      behind: [ I("Void Staff","Required vs MR stack."), I("Zhonya's Hourglass","Survive engage."), I("Rylai's Crystal Scepter","Teamfight utility.") ],
-    },
-    MARKSMAN: {
-      ahead:  [ I("Shadowflame","Extra burst vs squishy backline."), I("Rylai's Crystal Scepter","Slow prevents escape."), I("Liandry's Torment","Burn finishes targets after disengage.") ],
-      behind: [ I("Zhonya's Hourglass","Avoid burst from ADC focus."), I("Rylai's Crystal Scepter","Peel and kite."), I("Banshee's Veil","Block engage CC.") ],
-    },
-    ENCHANTER: {
-      ahead:  [ I("Morellonomicon","⭐ Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain comps."), I("Malignance","Zone objectives with traps.") ],
-      behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive buffed carries."), I("Rylai's Crystal Scepter","Utility slows for team.") ],
-    },
-    CATCHER: {
-      ahead:  [ I("Rylai's Crystal Scepter","Punish missed engages."), I("Malignance","Control jungle choke points."), I("Liandry's Torment","Burn during extended fights.") ],
-      behind: [ I("Banshee's Veil","Block hooks/pick tools."), I("Zhonya's Hourglass","Survive catches."), I("Ionian Boots of Lucidity","More traps, more control.") ],
-    },
-  },
-},
-
-    },
+    lanes:    ["Top", "Mid"],
     corePath: "Nashor's Tooth  ›  Liandry's Torment  ›  Malignance  ›  Sorcerer's Shoes",
     coreNote: "Nashor's first for on-hit AP + attack speed spike. Liandry's second for % max HP burn through tanks. Malignance third for ability haste and shroom density. Sorc Shoes for flat magic pen to close out the build.",
     sideItems: ["Shadowflame","Rabadon's Deathcap","Void Staff","Morellonomicon","Zhonya's Hourglass","Rylai's Crystal Scepter","Wit's End","Banshee's Veil","Boots of Swiftness"],
@@ -427,7 +214,6 @@ Jungle:{
   //     role, color, glow, lanes, corePath, coreNote, sideItems, and data.
   // ══════════════════════════════════════════════════════════════════════════
   {
-    id:      "renekton",
     display:  "Renekton",
     dd:       "Renekton",       // champions/Renekton.png
     role:     "Diver / Bruiser",
@@ -495,7 +281,6 @@ Jungle:{
 
 ];
 
-
 // ─────────────────────────────────────────────────────────────────────────────
 //  LANE CONFIG
 // ─────────────────────────────────────────────────────────────────────────────
@@ -506,13 +291,6 @@ const LANES = [
   { key:"Bot",     label:"Bot",     emoji:"🏹" },
   { key:"Support", label:"Support", emoji:"💚" },
 ];
-
-const defaultRole  = selectedLane && activeChampRole.role?.[selectedLane]
-  ? selectedLane
-  : champ.lanes?.[0];
-
-const currentRole  = (activeRole && activeChampRole.role?.[activeRole]) ? activeRole : defaultRole;
-const activeChampRole = activeChampRole.role ? activeChampRole.role[currentRole] : champ;
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  APP
@@ -529,36 +307,26 @@ export default function App() {
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
 
-
-const [activeRole, setActiveRole] = useState(null);
-
-  
-const pickChamp = (c, lane) => {
-  if (c.id === champ.id) {
-    // Same champion, different lane — just swap the role
-    setActiveRole(lane);
-  } else {
+  const pickChamp = (c) => {
     setChamp(c);
-    setActiveRole(lane);
-  }
-  setOpenClass(null);
-  setShowCore(false);
-  setSelectedLane(null); // collapse selector back to lane buttons
-};
+    setOpenClass(null);
+    setShowCore(false);
+    setSelectedLane(null);   // collapse selector back to lane buttons
+  };
 
   // Champions visible for the chosen lane, excluding the current champ
   const championsForLane = selectedLane
-    ? CHAMPS.filter(c => c.lanes.includes(selectedLane) && c.id !== champ.id)
+    ? CHAMPS.filter(c => c.lanes.includes(selectedLane) && c.display !== champ.display)
     : [];
 
   const classEntry = openClass ? CLASSES[openClass] : null;
   // Filter out the currently selected champion from the opponent list
-  const classItems = openClass ? (activeChampRole.data[openClass]?.[mode] || []) : [];
+  const classItems = openClass ? (champ.data[openClass]?.[mode] || []) : [];
   const classChamps = classEntry
     ? classEntry.champions.filter(c => c !== champ.display)
     : [];
 
-  const coreArrow = activeChampRole.corePath.split("›").map(s => s.trim());
+  const coreArrow = champ.corePath.split("›").map(s => s.trim());
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   const S = {                       // shared style tokens
@@ -663,15 +431,9 @@ const pickChamp = (c, lane) => {
         }}>
           {champ.display} — Situational Itemization
         </h1>
-      <p style={{ margin:0, fontSize:"12px", color:champ.glow, letterSpacing:"1px" }}>
-        {activeChampRole.role}
-        {champ.roles && (
-         <span style={{ color:"rgba(255,255,255,.3)", margin:"0 8px" }}>·</span>
-      )}
-      {champ.roles && (
-         <span style={{ fontSize:"11px", color:"rgba(255,255,255,.4)" }}>{currentRole}</span>
-      )}
-      </p>
+        <p style={{ margin:0, fontSize:"12px", color:champ.glow, letterSpacing:"1px" }}>
+          {champ.role}
+        </p>
       </div>
 
       {/* ── LANE SELECTOR ── */}
@@ -733,7 +495,7 @@ const pickChamp = (c, lane) => {
               </span>
               {LANES.map(lane => {
                 const hasChamps = CHAMPS.some(
-                  c => c.lanes.includes(lane.key) && c.id !== champ.id // exclude current champ from selector , was c.display !== champ.display
+                  c => c.lanes.includes(lane.key) && c.display !== champ.display
                 );
                 return (
                   <button key={lane.key} onClick={() => hasChamps && setSelectedLane(lane.key)}
@@ -762,7 +524,7 @@ const pickChamp = (c, lane) => {
               </div>
               <div style={{ display:"flex", gap:"12px", flexWrap:"wrap" }}>
                 {championsForLane.length > 0 ? championsForLane.map(c => (
-                  <div key={c.display} onClick={() => pickChamp(c, selectedLane)}
+                  <div key={c.display} onClick={() => pickChamp(c)}
                     style={{ cursor:"pointer", textAlign:"center", transition:"all .18s" }}>
                     <div style={{
                       width:"72px", height:"72px", borderRadius:"10px", overflow:"hidden",
@@ -890,7 +652,7 @@ const pickChamp = (c, lane) => {
           {showCore && (
             <p style={{ margin:0, fontSize:"13px", color:"#a0896a", lineHeight:1.7,
               borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
-              {activeChampRole.coreNote}
+              {champ.coreNote}
             </p>
           )}
         </div>
@@ -1076,7 +838,7 @@ const pickChamp = (c, lane) => {
             Common Situational Items — {champ.display}
           </div>
           <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
-            {activeChampRole.sideItems.map(name => {
+            {champ.sideItems.map(name => {
               const col = ic(name);
               const ek  = `side-${name}`;
               return (
