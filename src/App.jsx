@@ -507,18 +507,13 @@ const LANES = [
   { key:"Support", label:"Support", emoji:"💚" },
 ];
 
-const defaultRole  = selectedLane && activeChampRole.role?.[selectedLane]
-  ? selectedLane
-  : champ.lanes?.[0];
-
-const currentRole  = (activeRole && activeChampRole.role?.[activeRole]) ? activeRole : defaultRole;
-const activeChampRole = activeChampRole.role ? activeChampRole.role[currentRole] : champ;
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  APP
 // ─────────────────────────────────────────────────────────────────────────────
 export default function App() {
   const [champ,        setChamp]        = useState(CHAMPS[0]);
+  const [activeRole,   setActiveRole]   = useState(null); 
   const [openClass,    setOpenClass]    = useState(null);
   const [mode,         setMode]         = useState("behind");
   const [imgErr,       setImgErr]       = useState({});
@@ -526,11 +521,19 @@ export default function App() {
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [selectedLane, setSelectedLane] = useState(null);
 
+  // Resolve which role/lane is currently active for this champion
+  const currentRole = (activeRole && champ.roles?.[activeRole])
+    ? activeRole
+    : champ.lanes?.[0];
+
+  // If the champion has a roles object (Pantheon), read from that.
+  // Otherwise (Teemo, Renekton) fall back to the champion object itself.
+  const activeChampRole = champ.roles
+    ? (champ.roles[currentRole] || champ.roles[champ.lanes[0]])
+    : champ;
+
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
-
-
-const [activeRole, setActiveRole] = useState(null);
 
   
 const pickChamp = (c, lane) => {
@@ -553,7 +556,11 @@ const pickChamp = (c, lane) => {
 
   const classEntry = openClass ? CLASSES[openClass] : null;
   // Filter out the currently selected champion from the opponent list
-  const classItems = openClass ? (activeChampRole.data[openClass]?.[mode] || []) : [];
+  const classItems = openClass
+  ? (activeChampRole.data?.[openClass]?.[mode]
+     || champ.data?.[openClass]?.[mode]
+     || [])
+  : [];
   const classChamps = classEntry
     ? classEntry.champions.filter(c => c !== champ.display)
     : [];
