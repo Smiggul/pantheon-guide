@@ -44,6 +44,14 @@ const toDD = (name) => {
 
 const champImg = (name) => `${IMG}/champions/${toDD(name)}.png`;
 const itemImg  = (name) => `${IMG}/items/${name.replace(/'/g, "").replace(/\s+/g, "_")}.png`;
+const ROLE_ICON_NAMES = {
+  Top:     "position-top",
+  Jungle:  "position-jungle",
+  Mid:     "position-middle",
+  Bot:     "position-bottom",
+  Support: "position-utility",
+};
+const roleIcon = (role) => `${IMG}/roles/${ROLE_ICON_NAMES[role] || role.toLowerCase()}.svg`;
 // ─────────────────────────────────────────────────────────────────────────────
 //  ITEM ACCENT COLOURS  (fallback dot colour when image is missing)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -70,21 +78,20 @@ const ic = (n) => IC[n] || "#aaaaaa";
 //  ENEMY CLASSES
 // ─────────────────────────────────────────────────────────────────────────────
 const CLASSES = {
-  JUGGERNAUT:  { label:"Juggernaut",   emoji:"🏋️", color:"#c0392b", glow:"#e74c3c", desc:"High HP, high damage, low mobility. Walks you down.", champions:["Darius","Garen","Sett","Mordekaiser","Nasus","Urgot","Illaoi","Dr. Mundo","Trundle","Sion","Yorick","Olaf","Warwick","Volibear","Aatrox"] },
-  DIVER:       { label:"Diver",         emoji:"⚡",  color:"#d35400", glow:"#e67e22", desc:"Mobile fighters who mirror your aggression. Extended fights kill you.", champions:["Irelia","Camille","Renekton","Vi","Lee Sin","Hecarim","Jarvan IV","Briar","Rek'Sai","Diana","Wukong","Xin Zhao","Sylas","Elise","Nocturne","Riven"] },
-  ASSASSIN:    { label:"Assassin",      emoji:"🗡️", color:"#7d3c98", glow:"#9b59b6", desc:"One-shot from fog of war. Their burst window is your kill window.", champions:["Zed","Akali","Talon","Katarina","Kha'Zix","Fizz","Evelynn","Kassadin","LeBlanc","Ekko","Qiyana","Rengar","Naafiri","Shaco","Pyke"] },
-  SKIRMISHER:  { label:"Skirmisher",    emoji:"⚔️", color:"#1a6b3c", glow:"#27ae60", desc:"Win extended fights. Survive your burst and they out-duel you.", champions:["Fiora","Jax","Yasuo","Yone","Tryndamere","Gwen","Master Yi","Kayn","Kled","Viego","Nilah","Lillia"] },
-  BURST_MAGE:  { label:"Burst Mage",    emoji:"💥", color:"#1a5276", glow:"#2980b9", desc:"Single large combo from range. Often CC before you can react.", champions:["Syndra","Veigar","Orianna","Lissandra","Vex","Annie","Zoe","Aurora","Neeko","Ahri","Karma","Lux"] },
-  BATTLEMAGE:  { label:"Battlemage",    emoji:"🌀", color:"#0e6655", glow:"#1abc9c", desc:"Sustained AP DPS at medium range, often with significant healing.", champions:["Vladimir","Ryze","Cassiopeia","Swain","Viktor","Karthus","Brand","Malzahar","Azir","Rumble","Taliyah","Aurelion Sol"] },
-  ARTILLERY:   { label:"Artillery",     emoji:"🎯", color:"#4a235a", glow:"#8e44ad", desc:"Long-range poke outside your engage range. Whittle you down first.", champions:["Xerath","Vel'Koz","Ziggs","Heimerdinger","Hwei","Mel","Jayce","Lux"] },
-  MARKSMAN:    { label:"Marksman",      emoji:"🏹", color:"#7b6d00", glow:"#f1c40f", desc:"Fragile but deal massive sustained DPS if left uncontested.", champions:["Jinx","Caitlyn","Jhin","Kai'Sa","Draven","Aphelios","Ashe","Kalista","Xayah","Lucian","Vayne","Zeri","Tristana","Samira","Miss Fortune","Ezreal","Sivir","Smolder"] },
-  ENCHANTER:   { label:"Enchanter",     emoji:"💚", color:"#145a32", glow:"#2ecc71", desc:"Shields and heals negate your burst. Can knock you away mid-engage.", champions:["Janna","Lulu","Soraka","Yuumi","Nami","Sona","Milio","Karma","Taric","Renata Glasc","Seraphine"] },
-  CATCHER:     { label:"Catcher",       emoji:"🔒", color:"#2471a3", glow:"#3498db", desc:"CC chains remove your mobility. Hooks kill your dive pattern.", champions:["Thresh","Blitzcrank","Morgana","Nautilus","Skarner","Zac","Bard","Ivern","Zyra","Maokai","Varus","Lissandra"] },
-  VANGUARD:    { label:"Vanguard",      emoji:"🛡️", color:"#2e4053", glow:"#5d6d7e", desc:"Engage tanks. Hard CC into team collapse.", champions:["Malphite","Leona","Nautilus","Maokai","Sejuani","Jarvan IV","Gragas","Amumu","Alistar","Ornn","Zac","Rammus","Volibear","Nunu & Willump"] },
-  WARDEN:      { label:"Warden",        emoji:"🗿", color:"#4d3319", glow:"#a04000", desc:"Block your damage for their carry. Shield generators and peel machines.", champions:["Braum","Shen","Tahm Kench","Poppy","Galio","K'Sante"] },
-  SPECIALIST:  { label:"Specialist",    emoji:"🎭", color:"#5f5f5f", glow:"#95a5a6", desc:"Wildly varied kits. Each plays by their own rules — read the matchup.", champions:["Teemo","Singed","Gangplank","Shyvana","Graves","Kayle","Kennen","Nidalee","Quinn","Twisted Fate","Udyr","Fiddlesticks","Gnar","Zilean"] },
+  JUGGERNAUT:  { label:"Juggernaut",  color:"#c0392b", glow:"#e74c3c", desc:"High HP, high damage, low mobility. Walks you down.", champions:["Darius","Garen","Sett","Mordekaiser","Nasus","Urgot","Illaoi","Dr. Mundo","Trundle","Sion","Yorick","Olaf","Warwick","Volibear","Aatrox"] },
+  DIVER:       { label:"Diver",        color:"#d35400", glow:"#e67e22", desc:"Mobile fighters who mirror your aggression. Extended fights kill you.", champions:["Irelia","Camille","Renekton","Vi","Lee Sin","Hecarim","Jarvan IV","Briar","Rek'Sai","Diana","Wukong","Xin Zhao","Sylas","Elise","Nocturne","Riven", "Pantheon"] },
+  ASSASSIN:    { label:"Assassin",    color:"#7d3c98", glow:"#9b59b6", desc:"One-shot from fog of war. Their burst window is your kill window.", champions:["Zed","Akali","Talon","Katarina","Kha'Zix","Fizz","Evelynn","Kassadin","LeBlanc","Ekko","Qiyana","Rengar","Naafiri","Shaco","Pyke"] },
+  SKIRMISHER:  { label:"Skirmisher",  color:"#1a6b3c", glow:"#27ae60", desc:"Win extended fights. Survive your burst and they out-duel you.", champions:["Fiora","Jax","Yasuo","Yone","Tryndamere","Gwen","Master Yi","Kayn","Kled","Viego","Nilah","Lillia"] },
+  BURST_MAGE:  { label:"Burst Mage",  color:"#1a5276", glow:"#2980b9", desc:"Single large combo from range. Often CC before you can react.", champions:["Syndra","Veigar","Orianna","Lissandra","Vex","Annie","Zoe","Aurora","Neeko","Ahri","Karma","Lux"] },
+  BATTLEMAGE:  { label:"Battlemage",  color:"#0e6655", glow:"#1abc9c", desc:"Sustained AP DPS at medium range, often with significant healing.", champions:["Vladimir","Ryze","Cassiopeia","Swain","Viktor","Karthus","Brand","Malzahar","Azir","Rumble","Taliyah","Aurelion Sol"] },
+  ARTILLERY:   { label:"Artillery",   color:"#4a235a", glow:"#8e44ad", desc:"Long-range poke outside your engage range. Whittle you down first.", champions:["Xerath","Vel'Koz","Ziggs","Heimerdinger","Hwei","Mel","Jayce","Lux"] },
+  MARKSMAN:    { label:"Marksman",    color:"#7b6d00", glow:"#f1c40f", desc:"Fragile but deal massive sustained DPS if left uncontested.", champions:["Jinx","Caitlyn","Jhin","Kai'Sa","Draven","Aphelios","Ashe","Kalista","Xayah","Lucian","Vayne","Zeri","Tristana","Samira","Miss Fortune","Ezreal","Sivir","Smolder"] },
+  ENCHANTER:   { label:"Enchanter",   color:"#145a32", glow:"#2ecc71", desc:"Shields and heals negate your burst. Can knock you away mid-engage.", champions:["Janna","Lulu","Soraka","Yuumi","Nami","Sona","Milio","Karma","Taric","Renata Glasc","Seraphine"] },
+  CATCHER:     { label:"Catcher",     color:"#2471a3", glow:"#3498db", desc:"CC chains remove your mobility. Hooks kill your dive pattern.", champions:["Thresh","Blitzcrank","Morgana","Nautilus","Skarner","Zac","Bard","Ivern","Zyra","Maokai","Varus","Lissandra"] },
+  VANGUARD:    { label:"Vanguard",    color:"#2e4053", glow:"#5d6d7e", desc:"Engage tanks. Hard CC into team collapse.", champions:["Malphite","Leona","Nautilus","Maokai","Sejuani","Jarvan IV","Gragas","Amumu","Alistar","Ornn","Zac","Rammus","Volibear","Nunu & Willump"] },
+  WARDEN:      { label:"Warden",      color:"#4d3319", glow:"#a04000", desc:"Block your damage for their carry. Shield generators and peel machines.", champions:["Braum","Shen","Tahm Kench","Poppy","Galio","K'Sante"] },
+  SPECIALIST:  { label:"Specialist",  color:"#5f5f5f", glow:"#95a5a6", desc:"Wildly varied kits. Each plays by their own rules — read the matchup.", champions:["Teemo","Singed","Gangplank","Shyvana","Graves","Kayle","Kennen","Nidalee","Quinn","Twisted Fate","Udyr","Fiddlesticks","Gnar","Zilean"] },
 };
-
 // ─────────────────────────────────────────────────────────────────────────────
 //  ITEM ENTRY HELPER
 // ─────────────────────────────────────────────────────────────────────────────
@@ -493,6 +500,229 @@ Jungle:{
     },
   },
 
+  // ══════════════════════════════════════════════════════════════════════════
+  //  AURELION SOL — Battlemage / Scaling
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    id: "aurelionsol",
+    display: "Aurelion Sol",
+    dd: "AurelionSol",
+    color: "#5dade2",
+    glow: "#85c1e9",
+    lanes: ["Mid"],
+
+    roles: {
+      Mid: {
+        corePath: "Rod of Ages  ›  Rylai's Crystal Scepter  ›  Liandry's Torment  ›  Rabadon's Deathcap",
+        coreNote: "Stack scaling safely. Rod gives survivability + mana; Rylai's enables perma-slow on Q/E; Liandry's amplifies burn in extended fights.",
+
+        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Void Staff","Zhonya's Hourglass","Banshee's Veil","Shadowflame","Cosmic Drive"],
+
+        data: {
+          ASSASSIN: {
+            ahead: [
+              I("Rylai's Crystal Scepter","Perma-slow denies re-engage from Zed/Katarina."),
+              I("Liandry's Torment","Burn punishes their short trades."),
+              I("Rabadon's Deathcap","Scaling spike closes game faster.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Hard counter to burst windows."),
+              I("Rod of Ages","HP + sustain to survive lane phase."),
+              I("Banshee's Veil","Blocks key engage abilities.")
+            ],
+          },
+
+          BURST_MAGE: {
+            ahead: [
+              I("Rylai's Crystal Scepter","Keeps them inside your damage zones."),
+              I("Liandry's Torment","Out-DPS them in extended fights."),
+              I("Void Staff","Penetrate early MR stacking.")
+            ],
+            behind: [
+              I("Banshee's Veil","Prevents getting one-shot by opener."),
+              I("Mercury's Treads","Shorter CC = more reposition time."),
+              I("Zhonya's Hourglass","Second life in teamfights.")
+            ],
+          },
+
+          ARTILLERY: {
+            ahead: [
+              I("Rylai's Crystal Scepter","Catch them once → they die."),
+              I("Cosmic Drive","Mobility to dodge skillshots."),
+              I("Liandry's Torment","Burn while they try to disengage.")
+            ],
+            behind: [
+              I("Banshee's Veil","Blocks key poke ability."),
+              I("Mercury's Treads","Reduce CC duration."),
+              I("Rod of Ages","Sustain through poke.")
+            ],
+          },
+        },
+      },
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  //  KATARINA — Assassin / Reset
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    id: "katarina",
+    display: "Katarina",
+    dd: "Katarina",
+    color: "#c0392b",
+    glow: "#ff6b6b",
+    lanes: ["Mid"],
+
+    roles: {
+      Mid: {
+        corePath: "Nashor's Tooth  ›  Riftmaker  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
+        coreNote: "Hybrid sustained burst. Nashor enables on-hit resets; Riftmaker gives extended fight power; Zhonya's enables aggressive dives.",
+
+        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Shadowflame","Void Staff","Banshee's Veil","Hextech Rocketbelt"],
+
+        data: {
+          BURST_MAGE: {
+            ahead: [
+              I("Hextech Rocketbelt","Gap-close to force fights."),
+              I("Shadowflame","Amplify burst vs low MR targets."),
+              I("Rabadon's Deathcap","End fights instantly.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Reset cooldowns safely."),
+              I("Mercury's Treads","Reduce CC lock."),
+              I("Banshee's Veil","Block key CC ability.")
+            ],
+          },
+
+          ASSASSIN: {
+            ahead: [
+              I("Nashor's Tooth","Win extended duels."),
+              I("Riftmaker","Out-sustain other assassins."),
+              I("Shadowflame","Push burst advantage.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Survive first burst."),
+              I("Plated Steelcaps","Reduce AD assassin damage."),
+              I("Riftmaker","Stay relevant in longer fights.")
+            ],
+          },
+
+          MARKSMAN: {
+            ahead: [
+              I("Hextech Rocketbelt","Reach backline instantly."),
+              I("Shadowflame","Delete squishies instantly."),
+              I("Rabadon's Deathcap","Guarantee resets.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Buy time in teamfights."),
+              I("Riftmaker","Sustain through fights."),
+              I("Banshee's Veil","Avoid being locked down.")
+            ],
+          },
+        },
+      },
+    },
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  //  XERATH — Artillery / Poke
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    id: "xerath",
+    display: "Xerath",
+    dd: "Xerath",
+    color: "#3498db",
+    glow: "#5dade2",
+    lanes: ["Mid", "Support"],
+
+    roles: {
+      Mid: {
+        corePath: "Luden's Companion  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Void Staff",
+        coreNote: "Maximize long-range burst. Luden's + Shadowflame spike lets you chunk before fights even start.",
+
+        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Zhonya's Hourglass","Banshee's Veil","Horizon Focus","Cosmic Drive"],
+
+        data: {
+          ASSASSIN: {
+            ahead: [
+              I("Shadowflame","Punish low MR targets."),
+              I("Rabadon's Deathcap","End fights before they reach you."),
+              I("Horizon Focus","Amplify long-range poke.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Essential vs dive."),
+              I("Banshee's Veil","Block engage."),
+              I("Mercury's Treads","Reduce CC chain.")
+            ],
+          },
+
+          ARTILLERY: {
+            ahead: [
+              I("Horizon Focus","Max poke amplification."),
+              I("Shadowflame","Out-damage opposing poke."),
+              I("Rabadon's Deathcap","Hard scaling spike.")
+            ],
+            behind: [
+              I("Banshee's Veil","Block key poke."),
+              I("Cosmic Drive","Mobility to dodge skillshots."),
+              I("Void Staff","Deal damage through MR.")
+            ],
+          },
+
+          MARKSMAN: {
+            ahead: [
+              I("Shadowflame","Burst ADCs easily."),
+              I("Rabadon's Deathcap","Delete them from range."),
+              I("Horizon Focus","Amplify ult damage.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Survive dives."),
+              I("Banshee's Veil","Prevent engage."),
+              I("Void Staff","Keep damage relevant.")
+            ],
+          },
+        },
+      },
+
+      Support: {
+        corePath: "Zaz'Zak's Realmspike  ›  Luden's Companion  ›  Shadowflame  ›  Rabadon's Deathcap",
+        coreNote: "Support Xerath plays for lane dominance and poke. Realmspike + Q spam creates constant pressure.",
+
+        sideItems: ["Sorcerer's Shoes","Horizon Focus","Zhonya's Hourglass","Banshee's Veil","Void Staff"],
+
+        data: {
+          MARKSMAN: {
+            ahead: [
+              I("Luden's Companion","Burst lane constantly."),
+              I("Shadowflame","Punish low MR ADC."),
+              I("Horizon Focus","Amplify poke.")
+            ],
+            behind: [
+              I("Zhonya's Hourglass","Survive engages."),
+              I("Banshee's Veil","Block engage support."),
+              I("Void Staff","Stay relevant.")
+            ],
+          },
+
+          ENCHANTER: {
+            ahead: [
+              I("Shadowflame","Punish shielded targets."),
+              I("Luden's Companion","Burst through heals."),
+              I("Horizon Focus","Long-range pressure.")
+            ],
+            behind: [
+              I("Oblivion Orb","Apply GW vs healing."),
+              I("Banshee's Veil","Block CC."),
+              I("Zhonya's Hourglass","Survive collapse.")
+            ],
+          },
+        },
+      },
+    },
+  },
+
+  
+
 ];
 
 
@@ -536,17 +766,12 @@ export default function App() {
   const imgFail = (k) => imgErr[k];
 
   
-const pickChamp = (c, lane) => {
-  if (c.id === champ.id) {
-    // Same champion, different lane — just swap the role
-    setActiveRole(lane);
-  } else {
-    setChamp(c);
-    setActiveRole(lane);
-  }
+const pickChamp = (c) => {
+  setChamp(c);
+  setActiveRole(c.roles ? Object.keys(c.roles)[0] : null);
   setOpenClass(null);
   setShowCore(false);
-  setSelectedLane(null); // collapse selector back to lane buttons
+  setSelectedLane(null);
 };
 
   // Champions visible for the chosen lane, excluding the current champ
@@ -648,6 +873,7 @@ const pickChamp = (c, lane) => {
   return (
     <div style={{
       minHeight:"100vh",
+      position:"relative",
       background:"radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
       fontFamily:"'Georgia','Times New Roman',serif",
       color:"#e8d5b0",
@@ -661,7 +887,7 @@ const pickChamp = (c, lane) => {
       }}>
         <div style={{ fontSize:"11px", letterSpacing:"6px", color:S.goldDim,
           textTransform:"uppercase", marginBottom:"6px" }}>
-          Aspectum Martis · Patch 16.8
+          Aspectum Martis · Patch 16.9
         </div>
         <h1 style={{
           fontSize:"clamp(18px,3.5vw,30px)", fontWeight:"bold",
@@ -681,165 +907,118 @@ const pickChamp = (c, lane) => {
       </p>
       </div>
 
-      {/* ── LANE SELECTOR ── */}
+      {/* ── CHAMPION SELECTOR ── */}
       <div style={{
         background:"rgba(0,0,0,.45)",
         borderBottom:`1px solid rgba(180,120,20,.14)`,
-        padding:"16px 24px",
+        padding:"14px 24px",
       }}>
-        <div style={{ maxWidth:"1400px", margin:"0 auto" }}>
+        <div style={{
+          maxWidth:"1400px", margin:"0 auto",
+          display:"flex", alignItems:"center", gap:"20px", flexWrap:"wrap",
+        }}>
 
-          {/* Currently playing as — always visible */}
-          <div style={{ display:"flex", alignItems:"center", gap:"14px",
-            marginBottom: selectedLane || !selectedLane ? "14px" : "0",
-            flexWrap:"wrap" }}>
-            <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-              textTransform:"uppercase", flexShrink:0 }}>Playing as</span>
-            <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-              <div style={{
-                width:"52px", height:"52px", borderRadius:"9px", overflow:"hidden",
-                border:`2.5px solid ${champ.glow}`,
-                boxShadow:`0 0 18px ${champ.glow}60`, background:"#111",
-              }}>
-                {!imgFail(`me-${champ.dd}`)
-                  ? <img src={champImg(champ.dd)} alt={champ.display}
-                      onError={() => onErr(`me-${champ.dd}`)}
-                      style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                  : <div style={{ width:"100%", height:"100%", display:"flex",
-                      alignItems:"center", justifyContent:"center",
-                      fontSize:"20px", color:champ.glow }}>{champ.display[0]}</div>
-                }
-              </div>
-              <div>
-                <div style={{ fontSize:"16px", fontWeight:"bold", color:champ.glow }}>
-                  {champ.display}
-                </div>
-                <div style={{ fontSize:"11px", color:S.textDim, marginTop:"2px" }}>
-                  {champ.lanes.join(" · ")}
-                </div>
-              </div>
-            </div>
-            <button onClick={() => setSelectedLane(selectedLane ? null : "Top")}
-              style={{
-                marginLeft:"auto", background:"none",
-                border:`1px solid ${S.border}`, borderRadius:"6px",
-                padding:"7px 14px", cursor:"pointer",
-                color:S.goldDim, fontSize:"11px", letterSpacing:"1px",
-                transition:"all .18s",
-              }}>
-              {selectedLane ? "✕ Cancel" : "⇄ Change Champion"}
-            </button>
+          {/* ── PLAYING AS ── */}
+          <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
+            textTransform:"uppercase", flexShrink:0 }}>Playing as</span>
+
+          {/* Active champion portrait */}
+          <div style={{
+            width:"56px", height:"56px", borderRadius:"9px", overflow:"hidden",
+            border:`2.5px solid ${champ.glow}`,
+            boxShadow:`0 0 18px ${champ.glow}60`, background:"#111", flexShrink:0,
+          }}>
+            {!imgFail(`me-${champ.dd}`)
+              ? <img src={champImg(champ.dd)} alt={champ.display}
+                  onError={() => onErr(`me-${champ.dd}`)}
+                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+              : <div style={{ width:"100%", height:"100%", display:"flex",
+                  alignItems:"center", justifyContent:"center",
+                  fontSize:"20px", color:champ.glow }}>{champ.display[0]}</div>
+            }
           </div>
 
-          {/* Lane buttons — shown when no lane is selected yet */}
-          {!selectedLane && (
-            <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
-              <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.textDim,
-                textTransform:"uppercase", alignSelf:"center", marginRight:"4px" }}>
-                Select lane to change:
-              </span>
-              {LANES.map(lane => {
-                const hasChamps = CHAMPS.some(
-                  c => c.lanes.includes(lane.key) && c.id !== champ.id // exclude current champ from selector , was c.display !== champ.display
-                );
-                return (
-                  <button key={lane.key} onClick={() => hasChamps && setSelectedLane(lane.key)}
-                    style={{
-                      padding:"9px 18px", borderRadius:"7px", cursor:hasChamps?"pointer":"not-allowed",
-                      border:`1px solid ${hasChamps ? S.border : "rgba(255,255,255,.05)"}`,
-                      background:"rgba(255,255,255,.04)",
-                      color: hasChamps ? "#c8a96a" : "#3a3a3a",
-                      fontSize:"13px", letterSpacing:".5px",
-                      transition:"all .18s",
-                      opacity: hasChamps ? 1 : 0.4,
-                    }}>
-                    {lane.emoji} {lane.label}
-                  </button>
-                );
-              })}
+          {/* Name + inline role icons */}
+          <div>
+            <div style={{ fontSize:"16px", fontWeight:"bold", color:champ.glow, marginBottom:"6px" }}>
+              {champ.display}
             </div>
-          )}
-
-          {/* Champion picker — shown after lane is selected */}
-          {selectedLane && (
-            <div>
-              <div style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-                textTransform:"uppercase", marginBottom:"12px" }}>
-                {LANES.find(l=>l.key===selectedLane)?.emoji} {selectedLane} Champions
-              </div>
-              <div style={{ display:"flex", gap:"12px", flexWrap:"wrap" }}>
-                {championsForLane.length > 0 ? championsForLane.map(c => (
-                  <div key={c.display} onClick={() => pickChamp(c, selectedLane)}
-                    style={{ cursor:"pointer", textAlign:"center", transition:"all .18s" }}>
-                    <div style={{
-                      width:"72px", height:"72px", borderRadius:"10px", overflow:"hidden",
-                      border:`2px solid rgba(255,255,255,.12)`,
-                      background:"#111", margin:"0 auto 6px",
-                      transition:"all .18s",
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.border = `2px solid ${c.glow}`;
-                      e.currentTarget.style.boxShadow = `0 0 14px ${c.glow}60`;
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.border = "2px solid rgba(255,255,255,.12)";
-                      e.currentTarget.style.boxShadow = "none";
-                    }}>
-                      {!imgFail(`pick-${c.dd}`)
-                        ? <img src={champImg(c.dd)} alt={c.display}
-                            onError={() => onErr(`pick-${c.dd}`)}
-                            style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                        : <div style={{ width:"100%", height:"100%", display:"flex",
-                            alignItems:"center", justifyContent:"center",
-                            fontSize:"24px", color:c.glow, background:`${c.color}20` }}>
-                            {c.display[0]}
-                          </div>
+            {champ.roles ? (
+              <div style={{ display:"flex", gap:"6px" }}>
+                {Object.keys(champ.roles).map(roleKey => {
+                  const isActive = currentRole === roleKey;
+                  const ek = `role-${roleKey}`;
+                  return (
+                    <div key={roleKey} onClick={() => setActiveRole(roleKey)} title={roleKey}
+                      style={{
+                        width:"30px", height:"30px", borderRadius:"6px", overflow:"hidden",
+                        cursor:"pointer",
+                        border: isActive ? `2px solid ${champ.glow}` : "1px solid rgba(255,255,255,.15)",
+                        background: isActive ? `${champ.color}30` : "#111",
+                        boxShadow: isActive ? `0 0 10px ${champ.glow}60` : "none",
+                        opacity: isActive ? 1 : 0.4,
+                        transition:"all .15s",
+                        display:"flex", alignItems:"center", justifyContent:"center",
+                      }}>
+                      {!imgFail(ek)
+                        ? <img src={roleIcon(roleKey)} alt={roleKey} onError={() => onErr(ek)}
+                            style={{ width:"20px", height:"20px", objectFit:"contain",
+                              filter: isActive ? "brightness(1)" : "grayscale(80%) brightness(0.5)" }} />
+                        : <span style={{ fontSize:"9px", fontWeight:"bold",
+                            color: isActive ? champ.glow : "#555" }}>{roleKey[0]}</span>
                       }
                     </div>
-                    <div style={{ fontSize:"12px", color:"#c8a96a" }}>{c.display}</div>
-                    <div style={{ fontSize:"10px", color:S.textDim, marginTop:"2px" }}>
-                      {c.lanes.join(" / ")}
-                    </div>
-                  </div>
-                )) : (
-                  <div style={{ fontSize:"13px", color:S.textDim, fontStyle:"italic", padding:"8px 0" }}>
-                    No other champions available for this lane yet.
-                  </div>
-                )}
+                  );
+                })}
               </div>
-            </div>
-          )}
-        </div>
-      </div>
+            ) : (
+              <div style={{ fontSize:"11px", color:S.textDim }}>{champ.lanes.join(" · ")}</div>
+            )}
+          </div>
 
-      {/* ── GAME STATE TOGGLE ── */}
-      <div style={{
-        display:"flex", justifyContent:"center", padding:"16px 24px 8px",
-        gap:"0",
-      }}>
-        <div style={{ borderRadius:"10px", overflow:"hidden",
-          border:"1px solid rgba(255,255,255,.1)", background:"rgba(0,0,0,.4)",
-          display:"flex" }}>
-          {[
-            { key:"ahead",  label:"⚔  Ahead",        activeColor:"#b8860b", textColor:"#f0d060" },
-            { key:"behind", label:"🛡  Even / Behind", activeColor:"#4a6fa5", textColor:"#7eb8f7" },
-          ].map(opt => (
-            <button key={opt.key} onClick={() => setMode(opt.key)} style={{
-              padding:"11px 26px", cursor:"pointer", border:"none",
-              background: mode===opt.key ? `${opt.activeColor}30` : "transparent",
-              color: mode===opt.key ? opt.textColor : "#5a6a5a",
-              fontSize:"13px", fontWeight: mode===opt.key ? "bold" : "normal",
-              letterSpacing:".8px", transition:"all .15s",
-              boxShadow: mode===opt.key ? `inset 0 -2px 0 ${opt.activeColor}` : "none",
-              borderRight: opt.key==="ahead" ? "1px solid rgba(255,255,255,.08)" : "none",
-            }}>
-              {opt.label}
-            </button>
-          ))}
-        </div>
-        <div style={{ alignSelf:"center", marginLeft:"14px", fontSize:"11px",
-          color:S.textDim, fontStyle:"italic" }}>
-          {mode==="ahead" ? "Snowball your lead" : "Survive and scale back"}
+          {/* Divider */}
+          <div style={{ width:"1px", height:"48px", background:"rgba(180,120,20,.2)", flexShrink:0 }} />
+
+          {/* ── ALL CHAMPIONS ── */}
+          <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
+            textTransform:"uppercase", flexShrink:0 }}>Switch to</span>
+
+          <div style={{ display:"flex", gap:"10px", flexWrap:"wrap", flex:1 }}>
+            {CHAMPS.filter(c => c.id !== champ.id).map(c => {
+              const ek = `sw-${c.dd}`;
+              return (
+                <div key={c.id} onClick={() => pickChamp(c)} title={c.display}
+                  style={{ cursor:"pointer", textAlign:"center", flexShrink:0 }}>
+                  <div style={{
+                    width:"48px", height:"48px", borderRadius:"8px", overflow:"hidden",
+                    border:"1.5px solid rgba(255,255,255,.12)",
+                    background:"#111", margin:"0 auto 4px",
+                    transition:"all .15s",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.border = `1.5px solid ${c.glow}`;
+                    e.currentTarget.style.boxShadow = `0 0 12px ${c.glow}50`;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.border = "1.5px solid rgba(255,255,255,.12)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}>
+                    {!imgFail(ek)
+                      ? <img src={champImg(c.dd)} alt={c.display} onError={() => onErr(ek)}
+                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                      : <div style={{ width:"100%", height:"100%", display:"flex",
+                          alignItems:"center", justifyContent:"center",
+                          fontSize:"18px", color:c.glow, background:`${c.color}20` }}>
+                          {c.display[0]}
+                        </div>
+                    }
+                  </div>
+                  <div style={{ fontSize:"10px", color:"#9a8a6a", whiteSpace:"nowrap" }}>{c.display}</div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </div>
 
@@ -987,15 +1166,20 @@ const pickChamp = (c, lane) => {
                   {classEntry.desc}
                 </p>
               </div>
-              <div style={{
-                padding:"6px 14px", borderRadius:"7px", fontSize:"12px",
-                fontWeight:"bold", letterSpacing:"1px", flexShrink:0,
-                background: mode==="ahead" ? "rgba(184,134,11,.18)" : "rgba(74,111,165,.18)",
-                border: mode==="ahead" ? "1px solid #b8860b60" : "1px solid #4a6fa560",
-                color: mode==="ahead" ? "#f0d060" : "#7eb8f7",
-              }}>
-                {mode==="ahead" ? "⚔ AHEAD" : "🛡 EVEN / BEHIND"}
-              </div>
+                <button onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")}
+                  style={{
+                  padding:"16px 22px",
+                  cursor:"pointer",
+                  border:"1px solid rgba(255,255,255,.1)",
+                  background: mode==="ahead" ? "rgba(184,134,11,.18)" : "rgba(74,111,165,.18)",
+                  color: mode==="ahead" ? "#f0d060" : "#7eb8f7",
+                  borderRadius:"7px",
+                  fontSize:"18px",
+                  transition:"all .15s",                  
+                  }}>
+                  {mode === "ahead" ? "⚔ AHEAD" : "🛡 EVEN / BEHIND"}
+                </button>
+              
             </div>
 
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
@@ -1112,6 +1296,55 @@ const pickChamp = (c, lane) => {
             })}
           </div>
         </div>
+      </div>
+
+      {/* ── FLOATING GAME STATE TOGGLE ── */}
+      <div style={{
+        position: "fixed",
+        bottom: "30px",
+        right: "25px",
+        zIndex: 9999,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "12px",
+      }}>
+      
+      {/* SINGLE TOGGLE BUTTON */}
+      <button
+        onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")}
+        style={{
+          padding:"16px 22px",
+          cursor:"pointer",
+          border:"1px solid rgba(255,255,255,.1)",
+          borderRadius:"10px",
+          background: mode === "ahead"
+            ? "rgba(184,134,11,.25)"
+            : "rgba(74,111,165,.25)",
+          color: mode === "ahead" ? "#f0d060" : "#7eb8f7",
+          fontSize:"24px",
+          transition:"all .15s",
+          backdropFilter:"blur(6px)",
+          boxShadow: mode === "ahead"
+            ? "0 0 12px rgba(184,134,11,.35)"
+            : "0 0 12px rgba(74,111,165,.35)",
+        }}
+      >
+        {mode === "ahead" ? "⚔" : "🛡"}
+      </button>
+
+      {/* TEXT UNDERNEATH */}
+      <div style={{
+        fontSize:"16px",
+        color:"rgba(200,180,140,.5)",
+        fontStyle:"italic",
+        textAlign:"center",
+        lineHeight:1.2,
+      }}>
+        {mode === "ahead"
+          ? "Snowball your lead"
+          : "Stabilize, Survive & Scale"}
+      </div>
       </div>
 
     </div>
