@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -42,8 +42,35 @@ const toDD = (name) => {
     .replace(/'/g,   "");  // any leftover apostrophes
 };
 
-const champImg = (name) => `${IMG}/champions/${toDD(name)}.png`;
-const itemImg  = (name) => `${IMG}/items/${name.replace(/'/g, "").replace(/\s+/g, "_")}.png`;
+// ── Data Dragon base (populated by setup_ddragon.py) ─────────────────────────
+const DD = "/ddragon";
+
+// Champions — uses your existing toDD() key
+const champImg = (name) => {
+  const key = DD_OVERRIDES[name] || name
+    .replace(/'([A-Z])/g, (_, c) => c.toLowerCase())
+    .replace(/\./g,  "")
+    .replace(/ & .*/g, "")
+    .replace(/ /g,   "")
+    .replace(/'/g,   "");
+  return `${DD}/img/champion/${key}.png`;
+};
+
+// Items — resolved at runtime from item.json (numeric ID)
+// itemMap is populated in useEffect below — { "Eclipse": "6692", ... }
+const itemImg = (name, itemMap) => {
+  const id = itemMap?.[name];
+  return id ? `${DD}/img/item/${id}.png` : null;
+};
+
+// Runes — resolved at runtime from runesReforged.json (icon path)
+// runeMap is populated in useEffect below — { "Conqueror": "perk-images/Styles/..." }
+const runeImg = (name, runeMap) => {
+  const path = runeMap?.[name];
+  return path ? `${DD}/img/${path}` : null;
+};
+
+// Role icons — not in DD, keep your own files
 const ROLE_ICON_NAMES = {
   Top:     "position-top",
   Jungle:  "position-jungle",
@@ -51,7 +78,10 @@ const ROLE_ICON_NAMES = {
   Bot:     "position-bottom",
   Support: "position-utility",
 };
-const roleIcon = (role) => `${IMG}/roles/${ROLE_ICON_NAMES[role] || role.toLowerCase()}.svg`;
+const roleIcon = (role) =>
+  `/images/roles/${ROLE_ICON_NAMES[role] || role.toLowerCase()}.svg`;
+
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  ITEM ACCENT COLOURS  (fallback dot colour when image is missing)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -97,6 +127,77 @@ const CLASSES = {
 // ─────────────────────────────────────────────────────────────────────────────
 const I = (name, why) => ({ name, why });
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  RUNE TREES  — full layout for every path (patch 26.9)
+// ─────────────────────────────────────────────────────────────────────────────
+const RUNE_TREES = {
+      Precision: {
+        color: "#c89b3c", label: "Precision", abbr: "P",
+        keystones: ["Conqueror","Lethal Tempo","Press the Attack","Fleet Footwork"],
+        rows: [
+          ["Absorb Life","Triumph","Presence of Mind"],
+          ["Legend: Alacrity","Legend: Haste","Legend: Bloodline"],
+          ["Coup de Grace","Cut Down","Last Stand"],
+        ],
+      },
+      Domination: {
+        color: "#c0392b", label: "Domination", abbr: "D",
+        keystones: ["Electrocute","Dark Harvest","Predator","Hail of Blades"],
+        rows: [
+          ["Cheap Shot","Taste of Blood","Sudden Impact"],
+          ["Zombie Ward","Ghost Poro","Eyeball Collection"],
+          ["Treasure Hunter","Ingenious Hunter","Relentless Hunter","Ultimate Hunter"],
+        ],
+      },
+      Sorcery: {
+        color: "#9b59b6", label: "Sorcery", abbr: "S",
+        keystones: ["Summon Aery","Arcane Comet","Deathfire Touch","Stormraider's Surge"],
+        rows: [
+          ["Manaflow Band","Nimbus Cloak","Axiom Arcanist"],
+          ["Transcendence","Celerity","Absolute Focus"],
+          ["Scorch","Waterwalking","Gathering Storm"],
+        ],
+      },
+      Resolve: {
+        color: "#27ae60", label: "Resolve", abbr: "R",
+        keystones: ["Grasp of the Undying","Aftershock","Guardian"],
+        rows: [
+          ["Demolish","Font of Life","Shield Bash"],
+          ["Conditioning","Second Wind","Bone Plating"],
+          ["Overgrowth","Revitalize","Unflinching"],
+        ],
+      },
+      Inspiration: {
+        color: "#3498db", label: "Inspiration", abbr: "I",
+        keystones: ["Glacial Augment","First Strike","Unsealed Spellbook"],
+        rows: [
+          ["Hextech Flashtraption","Magical Footwear","Cash Back"],
+          ["Triple Tonic","Time Warp Tonic","Biscuit Delivery"],
+          ["Cosmic Insight","Approach Velocity","Jack Of All Trades"],
+        ],
+      },
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    //  STAT SHARDS
+    // ─────────────────────────────────────────────────────────────────────────────
+    const STAT_SHARDS = [
+      { label:"Offense", options:["Attack Speed","Adaptive Force","Ability Haste"]  },
+      { label:"Flex",    options:["Adaptive Force","Move Speed","Health (scaling)"] },
+      { label:"Defense", options:["Health (scaling)","Armor","Magic Resist"]        },
+      ];
+
+    // Helper — merges a champ override with the default page
+    const mergeRunePage = (defaults, override = {}) => ({
+      ...defaults,
+      ...override,
+      // these arrays need explicit override if specified, otherwise keep default
+      primaryRunes:   override.primaryRunes   || defaults.primaryRunes,
+      secondaryRunes: override.secondaryRunes || defaults.secondaryRunes,
+      shards:         override.shards         || defaults.shards,
+    });
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  CHAMPION DEFINITIONS
 //  ─────────────────────────────────────────────────────────────────────────
@@ -134,54 +235,396 @@ const CHAMPS = [
                                 JUGGERNAUT: {
                                   ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
                                   behind: [ I("Black Cleaver","HP + shred in one item — survive while peeling their armor."), I("Death's Dance","Delay lethal burst into a bleed, keeping combo window open."), I("Sterak's Gage","Shield keeps you alive when they catch you at low HP.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Cut Down amplifies damage vs high-HP Juggernauts by up to 15%. Conqueror stacks on every Q poke.",
+                                            champOverrides: {
+                                              "Dr. Mundo": {
+                                                secondaryRunes: ["Transcendence","Gathering Storm"],
+                                                reason: "Dr. Mundo outscales you hard — Gathering Storm helps you stay relevant. Rush Mortal Reminder.",
+                                              },
+                                              "Nasus": {
+                                                primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
+                                                secondary: "Domination",
+                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                                shards: ["Ability Haste","Adaptive Force","Armor"],
+                                                reason: "Nasus is a lane bully pre-30 stacks but loses late. Relentless Hunter lets you roam and starve him of CS.",
+                                              },
+                                            },
+                                          },
                                 },
                                 DIVER: {
                                   ahead:  [ I("Eclipse","Convert lead fast — burst before they can sustain or disengage."), I("Youmuu's Ghostblade","Active move-speed to chase or re-engage after Ult landing."), I("Death's Dance","Sustain through their mirror-dive while burst finishes them.") ],
                                   behind: [ I("Sterak's Gage","Shield at low HP when Camille/Irelia survives burst and all-ins."), I("Plated Steelcaps","Flat auto reduction on Irelia/Renekton — every auto counts behind."), I("Death's Dance","Convert their burst to bleed so combo window still exists.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                            secondary: "Resolve",
+                                            secondaryRunes: ["Bone Plating","Second Wind"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Divers CC you during dives — Tenacity shortens every stun, slow and root. Bone Plating reduces their burst on landing.",
+                                            champOverrides: {
+                                              "Irelia": {
+                                                primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Conditioning"],
+                                                shards: ["Ability Haste","Adaptive Force","Armor"],
+                                                reason: "Irelia's mark and stun stack into long CC chains. Bone Plating breaks her short-trade pattern. E her during the stun.",
+                                              },
+                                              "Camille": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Camille's E deals physical + true damage. Bone Plating reduces both hits. Don't fight her in her hextech cage.",
+                                              },
+                                              "Sylas": {
+                                                shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                reason: "Sylas deals AP damage — swap the armor shard for MR. His chains CC you — Tenacity is essential.",
+                                              },
+                                            },
+                                          },     
+                                          runes: {
+                                          keystone: "Conqueror",
+                                          primary: "Precision",
+                                          primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                          secondary: "Resolve",
+                                          secondaryRunes: ["Bone Plating","Second Wind"],
+                                          shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                          reason: "Assassin burst windows are short — Bone Plating breaks their opener. Magic Resist shard vs AP assassins.",
+                                          champOverrides: {
+                                            "Zed": {
+                                              secondary: "Sorcery",
+                                              secondaryRunes: ["Transcendence","Scorch"],
+                                              shards: ["Ability Haste","Adaptive Force","Armor"],
+                                              reason: "Zed deals pure AD — armor shard over MR. Scorch pokes him pre-6. Trade into his W shadow, not out of it.",
+                                            },
+                                            "Katarina": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
+                                              reason: "Kata has no hard CC so Tenacity is less critical — but her dagger slow + shunpo still benefits from it. Coup de Grace secures resets.",
+                                            },
+                                            "Fizz": {
+                                              shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                              reason: "Fizz is pure AP — MR shard throughout. His E makes him untargetable; never W or Q into his E. Bone Plating blocks his Q-AA combo.",
+                                            },
+                                            "Akali": {
+                                              reason: "Akali's ring slows inside it — Tenacity is essential to escape. Bone Plating breaks her Q-AA opener before her empowered Q.",
+                                            },
+                                          },
+                                        },                    
                                 },
                                 ASSASSIN: {
                                   ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
                                   behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
+                                  runes: {
+                                          keystone: "Conqueror",
+                                          primary: "Precision",
+                                          primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                          secondary: "Resolve",
+                                          secondaryRunes: ["Bone Plating","Second Wind"],
+                                          shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                          reason: "Assassin burst windows are short — Bone Plating breaks their opener. Magic Resist shard vs AP assassins.",
+                                          champOverrides: {
+                                            "Zed": {
+                                              secondary: "Sorcery",
+                                              secondaryRunes: ["Transcendence","Scorch"],
+                                              shards: ["Ability Haste","Adaptive Force","Armor"],
+                                              reason: "Zed deals pure AD — armor shard over MR. Scorch pokes him pre-6. Trade into his W shadow, not out of it.",
+                                            },
+                                            "Katarina": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
+                                              reason: "Kata has no hard CC so Tenacity is less critical — but her dagger slow + shunpo still benefits from it. Coup de Grace secures resets.",
+                                            },
+                                            "Fizz": {
+                                              shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                              reason: "Fizz is pure AP — MR shard throughout. His E makes him untargetable; never W or Q into his E. Bone Plating blocks his Q-AA combo.",
+                                            },
+                                            "Akali": {
+                                              reason: "Akali's ring slows inside it — Tenacity is essential to escape. Bone Plating breaks her Q-AA opener before her empowered Q.",
+                                            },
+                                          },
+                                        },                         
                                 },
                                 SKIRMISHER: {
                                   ahead:  [ I("Eclipse","Burst them before they stack defensive items."), I("Lord Dominik's Regards","Pen through early Fiora/Jax armor during your lead window."), I("Serylda's Grudge","Slow stops Yone/Yasuo kiting and keeps them in your combo.") ],
                                   behind: [ I("Randuin's Omen","Crit damage reduction — vital vs Yasuo, Yone, Tryndamere."), I("Frozen Heart","–20% nearby attack speed. Destroys Fiora/Tryndamere."), I("Black Cleaver","HP + shred to keep damage relevant while in deficit.") ],
+                                  runes: {
+                                          keystone: "Conqueror",
+                                          primary: "Precision",
+                                          primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                          secondary: "Sorcery",
+                                          secondaryRunes: ["Transcendence","Scorch"],
+                                          shards: ["Ability Haste","Adaptive Force","Armor"],
+                                          reason: "Standard Conqueror page. Skirmishers have minimal CC — Haste over Tenacity. Scorch pokes them before they can stack defenses.",
+                                          champOverrides: {
+                                            "Yasuo": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Unflinching"],
+                                              shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                              reason: "Yasuo's R is a guaranteed knockup into any ally CC — Tenacity + Unflinching shortens it. Bone Plating breaks his Wind Wall trade burst. Magic Resist vs his E true damage passive.",
+                                            },
+                                            "Yone": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                              reason: "Yone deals hybrid physical + magic damage via Soul Unbound. MR shard + Bone Plating reduces both. Tenacity on his E knockback.",
+                                            },
+                                            "Fiora": {
+                                              primaryRunes: ["Triumph","Legend: Alacrity","Last Stand"],
+                                              secondary: "Sorcery",
+                                              secondaryRunes: ["Transcendence","Gathering Storm"],
+                                              shards: ["Ability Haste","Adaptive Force","Armor"],
+                                              reason: "Fiora barely CCs you — skip Tenacity entirely. Alacrity wins short trades before she procs vitals. Gathering Storm: she outscales you, so you scale back.",
+                                            },
+                                            "Tryndamere": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Revitalize"],
+                                              shards: ["Ability Haste","Adaptive Force","Armor"],
+                                              reason: "Tryndamere's adrenaline rage + Ignite = CC chain window. Tenacity on his slow. Bone Plating reduces his short-trade crit burst.",
+                                            },
+                                            "Jax": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              reason: "Jax counter-strike stuns — Tenacity essential. Bone Plating makes his E-AA burst shorter. You beat him pre-6; respect his ult power spike.",
+                                            },
+                                            "Master Yi": {
+                                              primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                              secondary: "Domination",
+                                              secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                              reason: "Yi has zero CC. Skip Tenacity. Your W stun + Ignite during Meditate is his biggest fear. Coup de Grace executes him at low HP post-Q.",
+                                            },
+                                          },
+                                        },
                                 },
                                 BURST_MAGE: {
                                   ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
                                   behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                            reason: "Magic Resist shard throughout vs burst mages. Scorch poke trades punish their limited mobility between casts.",
+                                            champOverrides: {
+                                              "Syndra": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Syndra's ball scatter (E) stuns you from range — Bone Plating reduces her follow-up burst. Respect her power spike at 9 balls.",
+                                              },
+                                              "Veigar": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Veigar's Event Horizon cage stuns corner-to-corner. Never stand near walls. Bone Plating reduces his Q-auto opener damage.",
+                                              },
+                                            },
+                                          },
                                 },
                                 BATTLEMAGE: {
                                   ahead:  [ I("Eclipse","Short burst window — kill before Vladimir can drain back up."), I("Mortal Reminder","GW 40% eliminates their sustain advantage before they regen."), I("Lord Dominik's Regards","Swain/Malzahar stack HP — % pen keeps damage high.") ],
                                   behind: [ I("Maw of Malmortius","Survive the sustained AP DPS window with magic shield."), I("Mortal Reminder","GW is your only offset for their healing when behind."), I("Sterak's Gage","Extra shield gives another window after sustained damage.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                            reason: "Battlemages want sustained trades — Conqueror meets them there and beats them at it. Scorch adds early poke pressure.",
+                                            champOverrides: {
+                                              "Vladimir": {
+                                                keystone: "Conqueror",
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                reason: "Vladimir's Transfusion sustain is a war of attrition. Second Wind lets you sustain back. Build Mortal Reminder second.",
+                                              },
+                                              "Cassiopeia": {
+                                                shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Cassiopeia's Twin Fang chains deal massive DPS when poisoned. Bone Plating breaks her opener. Never walk into her miasma without E.",
+                                              },
+                                            },
+                                          },
                                 },
                                 ARTILLERY: {
                                   ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
                                   behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
+                                   runes: {
+                                            keystone: "Fleet Footwork",
+                                            primary: "Precision",
+                                            primaryRunes: ["Absorb Life","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                            shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                            reason: "Fleet Footwork sustains through poke lane. Nimbus Cloak + Celerity grants burst speed on Flash/Ignite to close the poke gap instantly.",
+                                            champOverrides: {
+                                              "Xerath": {
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Xerath's range means you must close quickly. Nimbus Cloak on Ignite = free gap close at his max range.",
+                                              },
+                                            },
+                                          },                                
                                 },
                                 MARKSMAN: {
                                   ahead:  [ I("Eclipse","Two-ability proc = guaranteed one-rotation kill on any ADC."), I("Youmuu's Ghostblade","Active speed closes before they can kite or reposition."), I("Serpent's Fang","Kai'Sa/Samira shields stripped — no escaping your burst.") ],
                                   behind: [ I("Plated Steelcaps","Flat auto reduction is massive — cuts every Jinx/Caitlyn attack."), I("Eclipse","Best damage path even behind — one good Ult = back in game."), I("Sterak's Gage","Shield keeps you alive long enough to find that combo window.") ],
+                                   runes: {
+                                            keystone: "Press the Attack",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                            secondary: "Domination",
+                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Press the Attack procs faster on ADCs than Conqueror stacks. Coup de Grace executes from your burst. Relentless Hunter enables roaming after tower.",
+                                          },
                                 },
                                 ENCHANTER: {
                                   ahead:  [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on contact while ahead."), I("Youmuu's Ghostblade","Active speed: Janna/Lulu can't reposition before your W stun."), I("Eclipse","Overkill burst — with Serpent's Fang up they simply die.") ],
                                   behind: [ I("Serpent's Fang","Still priority even behind — skipping costs every shield trade."), I("Mortal Reminder","Q poke applies GW to limit heals when you can't reach them."), I("Sterak's Gage","Survive Lulu polymorph + their carry's follow-up burst.") ],
+                                  runes: {
+                                            keystone: "Press the Attack",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                            secondary: "Domination",
+                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Press the Attack procs in 3 autos into their carry — amplifies your burst window after shields are stripped. Cheap Shot adds true damage on W stun.",
+                                            champOverrides: {
+                                              "Lulu": {
+                                                primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
+                                                reason: "Lulu's Glitterlance slows and her ult knocks up. Tenacity reduces both CC durations significantly.",
+                                              },
+                                              "Janna": {
+                                                primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Janna's whirlwind knockup + Monsoon knockback are her only CC. Nimbus Cloak lets you chase after she blows R.",
+                                              },
+                                            },
+                                          },              
                                 },
                                 CATCHER: {
                                   ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
                                   behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
+                                    runes: {
+                                              keystone: "Conqueror",
+                                              primary: "Precision",
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Inspiration",
+                                              secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
+                                              shards: ["Ability Haste","Adaptive Force","Armor"],
+                                              reason: "Hextech Flashtraption lets you Flash through walls on a 20s CD while standing still — surprise W stuns from unexpected angles. Tenacity on every hook.",
+                                              champOverrides: {
+                                                "Morgana": {
+                                                  secondary: "Resolve",
+                                                  secondaryRunes: ["Bone Plating","Second Wind"],
+                                                  shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                  reason: "Morgana deals AP damage with Black Shield blocking your CC. Resolve secondary for durability. MR shard vs her Q + W damage.",
+                                                },
+                                                "Blitzcrank": {
+                                                  reason: "Blitz hook into Power Fist = hard CC chain. If he misses his hook, all-in immediately — his cooldowns are long early.",
+                                                },
+                                              },
+                                            },
                                 },
                                 VANGUARD: {
                                   ahead:  [ I("Eclipse","Ult in, E their CC, finish with burst before they act."), I("Black Cleaver","Shred Malphite/Ornn armor in 6 Q taps while team is disrupted."), I("Lord Dominik's Regards","% pen while ahead makes their armor irrelevant.") ],
                                   behind: [ I("Mercury's Treads","Default. Malphite Ult, Leona chain, Nautilus root — all shorter."), I("Sterak's Gage","Survive the burst that follows a Vanguard's initiation."), I("Randuin's Omen","AoE slow active peels their engage. Crit reduction vs carry builds.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Cut Down deals up to 15% more damage vs high-HP tanks. Conqueror stacks faster than they can rotate CC.",
+                                            champOverrides: {
+                                              "Malphite": {
+                                                shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                reason: "Malphite deals AP damage via passive and ult. MR shard + Conditioning gives sustained MR scaling into his ult timing.",
+                                              },
+                                              "Leona": {
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                                reason: "Leona chains: E stun → W → R stun. Tenacity on every CC in the chain. Never fight her with her E up.",
+                                              },
+                                            },
+                                          },
                                 },
                                 WARDEN: {
                                   ahead:  [ I("Serpent's Fang","Shen Ult + Braum passive shields stripped by 50% on contact."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Serylda's Grudge","Slow on Ult stops Tahm Kench body-blocking at the last second.") ],
                                   behind: [ I("Black Cleaver","Shred gradually — even behind, 6 stacks still open them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shut down your dives — reduce duration.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Cut Down vs high-HP Wardens. Conqueror stacks fast enough on Braum/Shen that sustained trades are winnable.",
+                                            champOverrides: {
+                                              "Poppy": {
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Poppy's Steadfast Presence blocks dashes and her E knocks into walls. Tenacity + Bone Plating makes her trades shorter. Don't dash near walls.",
+                                              },
+                                              "Galio": {
+                                                shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                reason: "Galio deals AP damage. MR shard over armor. His taunt CC + ult knockup = Tenacity is more valuable than Haste here.",
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                              },
+                                            },
+                                          },
                                 },
                                 SPECIALIST: {
                                   ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
                                   behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Armor"],
+                                            reason: "Default sustained page — Specialists are so varied that Conqueror works as the baseline across most of them.",
+                                            champOverrides: {
+                                              "Singed": {
+                                                keystone: "Conqueror",
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Nimbus Cloak on Ignite gives you a movement speed burst to close on Singed while he runs. Without it, he simply kites you forever.",
+                                              },
+                                              "Teemo": {
+                                                keystone: "Grasp of the Undying",
+                                                primary: "Resolve",
+                                                primaryRunes: ["Shield Bash","Bone Plating","Overgrowth"],
+                                                secondary: "Domination",
+                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                                shards: ["Ability Haste","Adaptive Force","Magic Resist"],
+                                                reason: "Grasp wins short trades (Teemo blind = your autos are useless so trades MUST be short). Bone Plating absorbs his Q blind + auto opener. MR shard vs his AP damage.",
+                                              },
+                                              "Gangplank": {
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Transcendence","Scorch"],
+                                                reason: "GP Oranges cleanse your W stun — bait them first, then W when he's used the Orange. Scorch poke synergises with your ranged Q harassment.",
+                                              },
+                                            },
+                                          },
                                 },
                               },
                     },
@@ -1179,6 +1622,34 @@ export default function App() {
     ? activeRole
     : champ.lanes?.[0];
 
+    const [itemMap, setItemMap] = useState({});   // displayName → numeric id string
+    const [runeMap, setRuneMap] = useState({});   // runeName    → icon path string
+
+useEffect(() => {
+  // Load item name → ID map
+  fetch("/ddragon/data/item.json")
+    .then(r => r.json())
+    .then(json => {
+      const map = {};
+      Object.values(json.data).forEach(item => {
+        // item.image is "3071.png" — strip extension for the id
+        map[item.name] = item.image.replace(".png", "");
+      });
+      setItemMap(map);
+    })
+    .catch(e => console.warn("item.json failed to load", e));
+
+  // Load rune name → icon path map
+  fetch("/ddragon/data/runesReforged.json")
+    .then(r => r.json())
+    .then(json => {
+      // runesReforged.json is already a flat { name: iconPath } object
+      // from our setup script — just use it directly
+      setRuneMap(json);
+    })
+    .catch(e => console.warn("runesReforged.json failed to load", e));
+}, []);
+
   // If the champion has a roles object (Pantheon), read from that.
   // Otherwise (Teemo, Renekton) fall back to the champion object itself.
   const activeChampRole = champ.roles
@@ -1187,8 +1658,7 @@ export default function App() {
 
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
-
-  
+ 
   const pickChamp = (c) => {
     setChamp(c);
     setActiveRole(c.roles ? Object.keys(c.roles)[0] : null);
@@ -1220,6 +1690,8 @@ export default function App() {
     gold:         "#f0d060",
     goldDim:      "#b8860b",
   };
+
+  const [detailTab, setDetailTab] = useState("items"); // "items" | "runes"
 
   // ── Reusable: portrait chip ───────────────────────────────────────────────
   const ChampChip = ({ name, size = 56 }) => {
@@ -1268,7 +1740,7 @@ export default function App() {
           boxShadow:`0 0 10px ${col}30`,
         }}>
           {!imgFail(ek)
-            ? <img src={itemImg(item.name)} alt={item.name} onError={() => onErr(ek)}
+            ? <img src={itemImg(item.name, itemMap)} alt={item.name} onError={() => onErr(ek)}
                 style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
             : <div style={{ width:"12px", height:"12px", borderRadius:"50%",
                 background:col, boxShadow:`0 0 8px ${col}` }} />
@@ -1288,6 +1760,249 @@ export default function App() {
       </div>
     );
   };
+
+  const RunePage = ({ runeData, enemyChamp }) => {
+  const [hoveredRune, setHoveredRune] = useState(null);
+  const [activeRuneTab, setActiveRuneTab] = useState("page");
+
+  if (!runeData) return (
+    <div style={{ padding:"16px", color:S.textDim, fontSize:"12px", fontStyle:"italic" }}>
+      No rune data for this matchup yet.
+    </div>
+  );
+
+  // Merge default with champion override if one exists
+  const override = runeData.champOverrides?.[enemyChamp];
+  const page = override ? mergeRunePage(runeData, override) : runeData;
+
+  const primaryTree   = RUNE_TREES[page.primary];
+  const secondaryTree = RUNE_TREES[page.secondary];
+  if (!primaryTree || !secondaryTree) return null;
+
+  // Which runes are selected
+  const selectedPrimary   = new Set([page.keystone, ...page.primaryRunes]);
+  const selectedSecondary = new Set(page.secondaryRunes);
+  const hasOverride = !!override;
+
+  // ── Rune circle renderer ─────────────────────────────────────────
+  const Rune = ({ name, size = 42, isKeystone = false, selected, treeColor }) => {
+    const ek   = `rune-${name.replace(/\s/g,"")}`;
+    const isHovered = hoveredRune === name;
+    const dimmed = !selected;
+
+    return (
+      <div
+        onMouseEnter={() => setHoveredRune(name)}
+        onMouseLeave={() => setHoveredRune(null)}
+        title={name}
+        style={{
+          width:size, height:size, borderRadius:"50%",
+          position:"relative", flexShrink:0, cursor:"default",
+          transition:"all .18s ease",
+          transform: isHovered && selected ? "scale(1.12)" : "scale(1)",
+        }}
+      >
+        {/* Outer glow ring for selected */}
+        <div style={{
+          position:"absolute", inset: selected ? -3 : -1,
+          borderRadius:"50%",
+          border: selected
+            ? `2px solid ${treeColor}`
+            : "1px solid rgba(255,255,255,.12)",
+          boxShadow: selected
+            ? `0 0 12px ${treeColor}80, 0 0 24px ${treeColor}30`
+            : "none",
+          transition:"all .18s",
+          zIndex:1,
+        }} />
+
+        {/* Rune image or fallback */}
+        <div style={{
+          width:"100%", height:"100%", borderRadius:"50%",
+          overflow:"hidden", background:"rgba(0,0,0,.6)",
+          opacity: dimmed ? 0.22 : 1,
+          transition:"opacity .18s",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          filter: dimmed ? "grayscale(100%)" : "none",
+        }}>
+          {!imgFail(ek)
+            ? <img src={runeImg(name, runeMap)} alt={name} onError={() => onErr(ek)}
+                style={{ width:"78%", height:"78%", objectFit:"contain", display:"block" }} />
+            : <span style={{
+                fontSize: isKeystone ? 13 : 10,
+                fontWeight:"bold", textAlign:"center",
+                color: selected ? treeColor : "#444",
+                padding:"2px", lineHeight:1.1,
+              }}>
+                {name.split(" ").map(w => w[0]).join("").slice(0,3)}
+              </span>
+          }
+        </div>
+      </div>
+    );
+  };
+
+  // ── Tree column renderer ─────────────────────────────────────────
+  const TreeColumn = ({ tree, treeName, isPrimary }) => {
+    const treeColor  = tree.color;
+    const selectedSet = isPrimary ? selectedPrimary : selectedSecondary;
+
+    return (
+      <div style={{ flex:1, minWidth:0 }}>
+        {/* Tree header */}
+        <div style={{
+          display:"flex", alignItems:"center", gap:"8px",
+          marginBottom:"14px", paddingBottom:"8px",
+          borderBottom:`1px solid ${treeColor}40`,
+        }}>
+          <div style={{
+            width:"28px", height:"28px", borderRadius:"50%",
+            background:`${treeColor}25`, border:`1.5px solid ${treeColor}60`,
+            display:"flex", alignItems:"center", justifyContent:"center",
+            fontSize:"11px", fontWeight:"bold", color:treeColor,
+          }}>
+            {tree.abbr}
+          </div>
+          <span style={{ fontSize:"13px", fontWeight:"bold", color:treeColor, letterSpacing:".5px" }}>
+            {treeName}
+          </span>
+          <span style={{
+            marginLeft:"auto", fontSize:"9px", letterSpacing:"2px",
+            color:"rgba(255,255,255,.35)", fontWeight:"600",
+          }}>
+            {isPrimary ? "PRIMARY" : "SECONDARY"}
+          </span>
+        </div>
+
+        {/* Keystones row (primary only) */}
+        {isPrimary && (
+          <div style={{ display:"flex", justifyContent:"center", gap:"8px", marginBottom:"12px" }}>
+            {tree.keystones.map(k => (
+              <Rune key={k} name={k} size={52} isKeystone selected={selectedSet.has(k)}
+                treeColor={treeColor} />
+            ))}
+          </div>
+        )}
+
+        {/* Minor rune rows */}
+        {tree.rows.map((row, ri) => (
+          <div key={ri} style={{
+            display:"flex", justifyContent:"center", gap:"8px",
+            marginBottom:"10px",
+          }}>
+            {row.map(r => (
+              <Rune key={r} name={r} size={40} selected={selectedSet.has(r)}
+                treeColor={treeColor} />
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {/* Override badge */}
+      {hasOverride && (
+        <div style={{
+          display:"inline-flex", alignItems:"center", gap:"6px",
+          marginBottom:"12px", padding:"4px 10px",
+          background:"rgba(200,155,60,.12)", border:"1px solid rgba(200,155,60,.3)",
+          borderRadius:"20px", fontSize:"10px", color:S.gold, letterSpacing:"1px",
+        }}>
+          ✦ CHAMPION-SPECIFIC OVERRIDE — {enemyChamp.toUpperCase()}
+        </div>
+      )}
+
+      {/* Two-column rune display */}
+      <div style={{ display:"flex", gap:"20px" }}>
+        <TreeColumn tree={primaryTree}   treeName={page.primary}   isPrimary />
+        <TreeColumn tree={secondaryTree} treeName={page.secondary} isPrimary={false} />
+      </div>
+
+      {/* Stat shards */}
+      <div style={{
+        marginTop:"14px", paddingTop:"12px",
+        borderTop:"1px solid rgba(255,255,255,.06)",
+      }}>
+        <div style={{ fontSize:"9px", letterSpacing:"3px", color:S.goldDim,
+          textTransform:"uppercase", marginBottom:"10px" }}>Stat Shards</div>
+        <div style={{ display:"flex", flexDirection:"column", gap:"6px" }}>
+          {STAT_SHARDS.map((row, ri) => {
+            const selected = page.shards?.[ri];
+            return (
+              <div key={ri} style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+                <span style={{ fontSize:"9px", color:S.textDim,
+                  width:"50px", flexShrink:0, letterSpacing:".5px" }}>
+                  {row.label}
+                </span>
+                <div style={{ display:"flex", gap:"6px" }}>
+                  {row.options.map(opt => {
+                    const isSelected = opt === selected;
+                    return (
+                      <div key={opt} title={opt} style={{
+                        width:"22px", height:"22px",
+                        borderRadius:"50%",
+                        background: isSelected
+                          ? "rgba(200,155,60,.2)"
+                          : "rgba(255,255,255,.04)",
+                        border: isSelected
+                          ? "1.5px solid rgba(200,155,60,.7)"
+                          : "1px solid rgba(255,255,255,.12)",
+                        display:"flex", alignItems:"center", justifyContent:"center",
+                        position:"relative",
+                        boxShadow: isSelected ? "0 0 8px rgba(200,155,60,.5)" : "none",
+                      }}>
+                        <div style={{
+                          width:"8px", height:"8px",
+                          background: isSelected
+                            ? "#c89b3c"
+                            : "rgba(255,255,255,.15)",
+                          clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)", // diamond
+                        }} />
+                      </div>
+                    );
+                  })}
+                </div>
+                <span style={{ fontSize:"10px", color: selected ? S.gold : S.textDim }}>
+                  {selected || "—"}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Reason */}
+      <div style={{
+        marginTop:"14px", padding:"10px 14px",
+        background:"rgba(255,255,255,.03)",
+        border:"1px solid rgba(255,255,255,.06)",
+        borderRadius:"8px", borderLeft:`3px solid ${primaryTree.color}`,
+      }}>
+        <div style={{ fontSize:"9px", letterSpacing:"2px", color:primaryTree.color,
+          textTransform:"uppercase", marginBottom:"4px" }}>Why this page</div>
+        <p style={{ margin:0, fontSize:"11px", color:"#b0a080", lineHeight:1.6 }}>
+          {page.reason || runeData.reason}
+        </p>
+      </div>
+
+      {/* Hovered rune tooltip */}
+      {hoveredRune && (
+        <div style={{
+          marginTop:"10px", padding:"8px 12px",
+          background:"rgba(0,0,0,.7)", borderRadius:"6px",
+          border:"1px solid rgba(255,255,255,.08)",
+          fontSize:"11px", color:"#e8d5b0",
+        }}>
+          <strong style={{ color: selectedPrimary.has(hoveredRune) ? primaryTree.color : secondaryTree.color }}>
+            {hoveredRune}
+          </strong>
+        </div>
+      )}
+    </div>
+  );
+};
 
   // ────────────────────────────────────────────────────────────────────────
   return (
@@ -1688,7 +2403,7 @@ export default function App() {
             .filter(c => c !== champ.display)
             .slice(0, 3);
           return (
-            <div key={k} onClick={() => setOpenClass(on ? null : k)} style={{
+            <div key={k} onClick={() => { setOpenClass(on ? null : k); setDetailTab("items"); }} style={{
               cursor:"pointer", borderRadius:"12px",
               padding:"14px 10px 12px", textAlign:"center",
               background: on
@@ -1772,7 +2487,43 @@ export default function App() {
                 </button>
               
             </div>
+            {/* Tab switcher — Items vs Runes */}
+            <div style={{
+              display:"flex", gap:"0", marginBottom:"16px",
+              background:"rgba(0,0,0,.3)", borderRadius:"7px", overflow:"hidden",
+              border:"1px solid rgba(255,255,255,.07)", alignSelf:"flex-start",
+            }}>
+              {[
+                { key:"items", label:"⚔ Items" },
+                { key:"runes", label:"◈ Runes" },
+              ].map(t => (
+                <button key={t.key} onClick={() => setDetailTab(t.key)} style={{
+                  padding:"7px 18px", border:"none", cursor:"pointer",
+                  background: detailTab===t.key ? `${classEntry.color}35` : "transparent",
+                  color: detailTab===t.key ? classEntry.glow : "#5a6a5a",
+                  fontSize:"12px", fontWeight: detailTab===t.key ? "bold" : "normal",
+                  letterSpacing:".5px", transition:"all .15s",
+                  borderRight: t.key==="items" ? "1px solid rgba(255,255,255,.06)" : "none",
+                  boxShadow: detailTab===t.key ? `inset 0 -2px 0 ${classEntry.glow}` : "none",
+                }}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
 
+            {/* Content swap */}
+            {detailTab === "items" && (
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
+                {/* ...your existing champion grid and ItemCard list... */}
+              </div>
+            )}
+
+            {detailTab === "runes" && (
+              <RunePage
+                runeData={classItems.length > 0 ? activeChampRole.data?.[openClass]?.runes : null}
+                enemyChamp={/* pass the hovered/selected enemy champ name, or empty string */  ""}
+              />
+            )}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
 
               {/* Champions in class */}
