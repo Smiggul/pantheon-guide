@@ -216,7 +216,7 @@ const RUNE_DESCRIPTIONS = {
   "Hail of Blades":      "Gain massively increased attack speed on the first 3 attacks against champions.",
   "Summon Aery":         "Your attacks and abilities send Aery to damage enemies or shield allies.",
   "Arcane Comet":        "Damaging a champion calls down Arcane Comet at their location.",
-  "Deathfire Touch":     "Abilities deal a burn of 4-12 + 8% bonus AD + 3% AP per second, doubling after 3s.",
+  "Deathfire Touch":     "Abilities deal a burn of 4–12 + 8% bonus AD + 3% AP per second, doubling after 3s.",
   "Stormraider's Surge": "Dealing 25% of a champion's max HP within 3s grants move speed and slow resistance.",
   "Grasp of the Undying":"Every 4s in combat, your next attack on a champion deals bonus damage, heals you, and grows your HP permanently.",
   "Aftershock":          "Immobilising a champion grants you bonus resistances and then detonates for AoE damage.",
@@ -812,30 +812,35 @@ const CHAMPS = [
                   DIVER: {
                     ahead:  [ I("Eclipse","Win early skirmishes instantly."), I("Youmuu's Ghostblade","Faster rotations between lanes."), I("Death's Dance","Outlast mirror dive fights.") ],
                     behind: [ I("Plated Steelcaps","Reduces sustained auto damage."), I("Sterak's Gage","Gives survivability during engages."), I("Death's Dance","Keeps you alive after committing.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES } 
+                    runes: {
+                              PANTH_JGL_DEFAULT_RUNES,
+                    } 
                   },
                   ASSASSIN: {
                     ahead:  [ I("Eclipse","You win burst race easily when ahead."), I("Edge of Night","Block their engage tool."), I("Youmuu's Ghostblade","Catch them before they reset.") ],
                     behind: [ I("Maw of Malmortius","Essential vs AP assassins."), I("Sterak's Gage","Prevents one-shot after invade."), I("Death's Dance","Extends fight duration.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES }
+                    runes: {    
+                              PANTH_JGL_DEFAULT_RUNES,      
+                            }
                   },
                   VANGUARD: {
                     ahead:  [ I("Black Cleaver","Shred tanks for your team."), I("Eclipse","Still gives threat to backline."), I("Serylda's Grudge","Slow helps stick to carries after engage.") ],
                     behind: [ I("Mercury's Treads","Reduce CC chains."), I("Sterak's Gage","Survive engage burst."), I("Black Cleaver","Keep damage relevant.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES }                                         
+                    runes: {
+                              PANTH_JGL_DEFAULT_RUNES,
+                            }                                         
                   },
                   MARKSMAN: {
                     ahead:  [ I("Youmuu's Ghostblade","Reach backline instantly."), I("Eclipse","Guaranteed one-shot combo."), I("Serpent's Fang","Removes shielding supports’ protection.") ],
                     behind: [ I("Plated Steelcaps","Reduce DPS from ADC."), I("Sterak's Gage","Survive initial burst."), I("Guardian Angel","Second life for risky engages.") ],
-                    runes: {
-                      ...PANTH_JGL_DEFAULT_RUNES,
-                      reason: "Hextech Flashtraption from river bush: appear behind bot lane to cut off escape before the hook lands. Coup de Grace over Last Stand — ADCs die fast.",
-                      primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                    runes: {  
+                              PANTH_JGL_DEFAULT_RUNES,
+                              reason: "Hextech Flashtraption from river bush: appear behind bot lane to cut off escape before the hook lands. Coup de Grace over Last Stand — ADCs die fast.",
+                              primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                            },
                     },
+                },
                     },
-
-                        },    // closes Jungle data:
-                      },      // closes Jungle role
 
             Mid:    {  
                         corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
@@ -845,22 +850,30 @@ const CHAMPS = [
                                 ASSASSIN: {
                                   ahead:  [ I("Eclipse","You out-burst them — mid lane trades are shorter and lethal."), I("Youmuu's Ghostblade","Roam pressure — convert lane lead into map wins."), I("Serylda's Grudge","Slow prevents escape after their disengage tools.") ],
                                   behind: [ I("Plated Steelcaps","Reduces auto-based assassins like Zed/Qiyana."), I("Death's Dance","Convert burst to bleed so you survive initial combo."), I("Sterak's Gage","Prevents getting one-shot after failed engage.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                  runes: {  
+                                            PANTH_MID_DEFAULT_RUNES,
+                                          },
                                 },
                                 BURST_MAGE: {
                                   ahead:  [ I("Youmuu's Ghostblade","Close gap before they complete spell rotation."), I("Eclipse","One combo = kill before they kite back."), I("Edge of Night","Spell shield blocks key CC like Syndra E.") ],
                                   behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Banshee's Veil","Blocks engage spell so you can still all-in.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },                                
+                                  runes: {  
+                                            PANTH_MID_DEFAULT_RUNES,
+                                          },                                
                                 },
                                 BATTLEMAGE: {
                                   ahead:  [ I("Mortal Reminder","Grievous Wounds denies sustain (Swain/Vlad)."), I("Eclipse","Kill during short trade windows before healing ramps."), I("Black Cleaver","HP + shred vs their scaling durability.") ],
                                   behind: [ I("Maw of Malmortius","Sustain through extended AP damage."), I("Mortal Reminder","Essential vs healing-based mages."), I("Sterak's Gage","Gives second rotation window in extended fights.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                  runes: {  
+                                            PANTH_MID_DEFAULT_RUNES,
+                                          },
                                 },
                                 ARTILLERY: {
                                   ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
                                   behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                  runes: {  
+                                            PANTH_MID_DEFAULT_RUNES,
+                                          },
                                 },
                               },
                     },
@@ -874,30 +887,28 @@ const CHAMPS = [
                             MARKSMAN: {
                               ahead:  [ I("Eclipse","Burst ADC instantly with W engage."), I("Youmuu's Ghostblade","Close gap before they kite."), I("Serpent's Fang","Remove shielding from supports.") ],
                               behind: [ I("Plated Steelcaps","Reduce ADC auto damage."), I("Knight's Vow","Protect your carry while behind."), I("Sterak's Gage","Survive engages.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                              runes: {  
+                                        PANTH_SUP_DEFAULT_RUNES,    
+                              },  
                             },
                             ENCHANTER: {
                               ahead:  [ I("Serpent's Fang","⭐ CORE — destroys shields (Lulu/Janna)."), I("Eclipse","With shields removed, burst always kills."), I("Youmuu's Ghostblade","No reposition window for them.") ],
                               behind: [ I("Serpent's Fang","Still mandatory — never skip."), I("Mortal Reminder","Reduce healing when fights drag."), I("Knight's Vow","Play peel instead of engage.") ],
-                              runes: {
-                                ...PANTH_SUP_DEFAULT_RUNES,
-                                champOverrides: {
-                                  "Lulu": {
-                                    primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                    reason: "Lulu's Glitterlance slows and her ult knocks up. You need Coup de Grace to execute carries before Lulu saves them.",
-                                  },
-                                },
-                              },
+                              runes: {  
+                                      PANTH_SUP_DEFAULT_RUNES,
+                                      champOverrides: {
+                                              "Lulu": {
+                                                primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                                reason: "Lulu's Glitterlance slows and her ult knocks up. You need Coup de Grace to execute carries before Lulu saves them.",
+                                              },
                             },
                             CATCHER: {
                               ahead:  [ I("Youmuu's Ghostblade","Dodge hooks and engage first."), I("Eclipse","Kill them before they reset fight."), I("Edge of Night","Block hook/CC entirely.") ],
                               behind: [ I("Banshee's Veil","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
                             },
                             VANGUARD: {
                               ahead:  [ I("Black Cleaver","Help team shred tanks."), I("Eclipse","Still threatens backline."), I("Serpent's Fang","Remove shields from tank supports.") ],
                               behind: [ I("Mercury's Treads","Reduce CC lock duration."), I("Knight's Vow","Shift to peel role."), I("Sterak's Gage","Survive engage burst.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
                             },
                           },
                     },
@@ -956,37 +967,30 @@ const CHAMPS = [
           DIVER: {
             ahead:  [ I("Liandry's Torment","Burn punishes their HP stacking during engages."), I("Rylai's Crystal Scepter","Slows completely disrupt their dive pathing."), I("Nashor's Tooth","DPS wins extended skirmishes.") ],
             behind: [ I("Zhonya's Hourglass","Negates their all-in timing."), I("Rylai's Crystal Scepter","Utility slow helps team peel."), I("Morellonomicon","Cuts their sustain in fights.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           ASSASSIN: {
             ahead:  [ I("Nashor's Tooth","Punish melee range with constant DPS."), I("Malignance","Trap jungle paths — denies their mobility."), I("Shadowflame","Burst squishy targets before they escape.") ],
             behind: [ I("Zhonya's Hourglass","Essential vs burst junglers."), I("Banshee's Veil","Blocks engage tools."), I("Rylai's Crystal Scepter","Peel yourself with slows.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           SKIRMISHER: {
             ahead:  [ I("Nashor's Tooth","Out-DPS in extended fights."), I("Liandry's Torment","Burn punishes their sustain."), I("Rylai's Crystal Scepter","Prevents them sticking to you.") ],
             behind: [ I("Morellonomicon","Reduce healing from lifesteal champs."), I("Zhonya's Hourglass","Buy time vs dueling champs."), I("Rylai's Crystal Scepter","Utility remains strong.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           VANGUARD: {
             ahead:  [ I("Liandry's Torment","Melts tank junglers."), I("Void Staff","Penetrates MR stacking."), I("Malignance","Objective control with traps.") ],
             behind: [ I("Void Staff","Required vs MR stack."), I("Zhonya's Hourglass","Survive engage."), I("Rylai's Crystal Scepter","Teamfight utility.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           MARKSMAN: {
             ahead:  [ I("Shadowflame","Extra burst vs squishy backline."), I("Rylai's Crystal Scepter","Slow prevents escape."), I("Liandry's Torment","Burn finishes targets after disengage.") ],
             behind: [ I("Zhonya's Hourglass","Avoid burst from ADC focus."), I("Rylai's Crystal Scepter","Peel and kite."), I("Banshee's Veil","Block engage CC.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           ENCHANTER: {
             ahead:  [ I("Morellonomicon","⭐ Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain comps."), I("Malignance","Zone objectives with traps.") ],
             behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive buffed carries."), I("Rylai's Crystal Scepter","Utility slows for team.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
           CATCHER: {
             ahead:  [ I("Rylai's Crystal Scepter","Punish missed engages."), I("Malignance","Control jungle choke points."), I("Liandry's Torment","Burn during extended fights.") ],
             behind: [ I("Banshee's Veil","Block hooks/pick tools."), I("Zhonya's Hourglass","Survive catches."), I("Ionian Boots of Lucidity","More traps, more control.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
           },
         },
       },
@@ -1015,7 +1019,6 @@ const CHAMPS = [
               I("Plated Steelcaps","Reduces AD assassin auto damage during trades."),
               I("Rylai's Crystal Scepter","Utility slow lets you kite instead of dying instantly.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           SKIRMISHER: {
@@ -1029,7 +1032,6 @@ const CHAMPS = [
               I("Morellonomicon","Reduce healing (Yasuo, Yone lifesteal builds)."),
               I("Rylai's Crystal Scepter","Kiting becomes your primary survival tool.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           BURST_MAGE: {
@@ -1043,7 +1045,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC duration to survive combos."),
               I("Zhonya's Hourglass","Second life vs full spell rotations.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           BATTLEMAGE: {
@@ -1057,7 +1058,6 @@ const CHAMPS = [
               I("Banshee's Veil","Prevents getting locked in extended fights."),
               I("Rylai's Crystal Scepter","Control spacing instead of trading.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           ARTILLERY: {
@@ -1071,7 +1071,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC duration from long-range abilities."),
               I("Malignance","Play for map control instead of lane dominance.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           MARKSMAN: {
@@ -1085,7 +1084,6 @@ const CHAMPS = [
               I("Zhonya's Hourglass","Avoid being burst in fights."),
               I("Rylai's Crystal Scepter","Peel yourself and your team.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           ENCHANTER: {
@@ -1099,7 +1097,6 @@ const CHAMPS = [
               I("Banshee's Veil","Block CC that enables buffed carries."),
               I("Rylai's Crystal Scepter","Utility over damage when behind.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           CATCHER: {
@@ -1113,7 +1110,6 @@ const CHAMPS = [
               I("Zhonya's Hourglass","Survive if caught."),
               I("Rylai's Crystal Scepter","Kite after disengage.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
           VANGUARD: {
@@ -1127,7 +1123,6 @@ const CHAMPS = [
               I("Zhonya's Hourglass","Survive engage."),
               I("Rylai's Crystal Scepter","Teamfight utility.")
             ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
           },
 
         },
@@ -1142,17 +1137,14 @@ const CHAMPS = [
           MARKSMAN: {
             ahead:  [ I("Liandry's Torment","Constant burn poke forces recalls."), I("Rylai's Crystal Scepter","Slow prevents escape after poke."), I("Shadowflame","Extra damage vs squishy ADCs.") ],
             behind: [ I("Zhonya's Hourglass","Survive all-ins."), I("Morellonomicon","Reduce lifesteal sustain."), I("Rylai's Crystal Scepter","Utility slow still valuable.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
           },
           ENCHANTER: {
             ahead:  [ I("Morellonomicon","Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain."), I("Malignance","Zone their positioning.") ],
             behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive polymorph setups."), I("Banshee's Veil","Block engage CC.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
           },
           CATCHER: {
             ahead:  [ I("Rylai's Crystal Scepter","Punish missed hooks with slows."), I("Liandry's Torment","Burn during extended trades."), I("Malignance","Control choke points.") ],
             behind: [ I("Banshee's Veil","Block hooks."), I("Zhonya's Hourglass","Survive engages."), I("Ionian Boots of Lucidity","Lower cooldowns for more traps.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
           },
           VANGUARD: {
             ahead:  [ I("Liandry's Torment","Melts tank supports."), I("Morellonomicon","Reduce healing."), I("Rylai's Crystal Scepter","Kite engages easily.") ],
@@ -1245,67 +1237,54 @@ const CHAMPS = [
             JUGGERNAUT: {
               ahead:  [ I("Serylda's Grudge","Slow + armor pen keeps Juggernauts from walking you down when ahead."), I("Lord Dominik's Regards","% pen into their HP stacks — their armor investment becomes worthless."), I("Trinity Force","Sheen procs in extended trades outdamage their slow cadence.") ],
               behind: [ I("Death's Dance","Delay Darius/Mundo burst into bleed; W stun window reopens."), I("Sterak's Gage","Shield vs their walk-down damage keeps you alive for one more Q."), I("Plated Steelcaps","Flat auto reduction vs every Juggernaut's auto-weave between abilities.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             DIVER: {
               ahead:  [ I("Sundered Sky","Healing burst wins mirror fights — Q proc keeps you healthy."), I("Trinity Force","Sheen proc on empowered W out-bursts mirror Divers who match your dive."), I("Black Cleaver","Shred their armor before they can defensive item.") ],
               behind: [ I("Sterak's Gage","Shield when Camille/Irelia survives your burst and all-ins back."), I("Death's Dance","Bleed delay gives you time to land another empowered W stun."), I("Plated Steelcaps","Auto reduction on Irelia/Lee Sin chains — every hit matters behind.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             ASSASSIN: {
               ahead:  [ I("Trinity Force","Sheen proc punishes their cooldown windows between dashes."), I("Sterak's Gage","Secondary shield vs one-shots when you're ahead and they're desperate."), I("Black Cleaver","Fast shred before they can reset and re-engage.") ],
               behind: [ I("Sterak's Gage","Shield vs Zed Ult / Akali burst — mandatory when behind."), I("Maw of Malmortius","AP assassins (Akali/Ekko) — magic shield + omnivamp covers their combo."), I("Mercury's Treads","Shorter CC durations so your W stun can still land.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             SKIRMISHER: {
               ahead:  [ I("Sundered Sky","Healing wins extended duels vs Fiora/Jax — Q proc sustains you."), I("Trinity Force","Sheen procs outdamage Skirmisher sustained DPS while ahead."), I("Black Cleaver","Shred before they stack armor — win the stat check early.") ],
               behind: [ I("Frozen Heart","–20% nearby attack speed. Completely dismantles Fiora/Tryndamere."), I("Randuin's Omen","Crit reduction vs Yasuo/Yone crit builds — AoE slow helps peel."), I("Sterak's Gage","Shield when they survive your burst and try to extended-fight back.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             BURST_MAGE: {
               ahead:  [ I("Trinity Force","Dash in, W stun during their cast, Sheen proc = kill before they react."), I("Sterak's Gage","Shield absorbs their burst while you complete the W-Q combo ahead."), I("Black Cleaver","Close fast, shred, kill before their cooldowns reset.") ],
               behind: [ I("Maw of Malmortius","<35% magic shield absorbs Syndra/Orianna full combo when behind."), I("Sterak's Gage","Second shield layer — stacked with Maw you often survive one-shots."), I("Mercury's Treads","Shorter stun duration = your W stun can still land on entry.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             BATTLEMAGE: {
               ahead:  [ I("Mortal Reminder","Vladimir/Swain sustain shut down by GW 40% on every auto."), I("Trinity Force","Sheen proc burst defeats their sustained damage when ahead."), I("Black Cleaver","Armor shred while you have the lead — force the fight.") ],
               behind: [ I("Maw of Malmortius","Magic shield sustains through AP DPS window when behind."), I("Mortal Reminder","GW is your only healing counter even behind — buy it."), I("Death's Dance","Bleed delay vs Cassiopeia/Viktor tick damage when item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             ARTILLERY: {
               ahead:  [ I("Trinity Force","Sprint passive closes the poke gap; Sheen proc on arrival = kill."), I("Serylda's Grudge","Slow on E prevents Artillery kiting out after you dash in."), I("Black Cleaver","Once you close, fast shred + empowered Q destroys squishy Artillery.") ],
               behind: [ I("Sterak's Gage","Poke accumulated while walking over — shield keeps you alive on arrival."), I("Mercury's Treads","Shorter Xerath root / Vel'Koz CC so your dash arrives uninterrupted."), I("Plated Steelcaps","Reduces auto-weave poke they add between skillshots during approach.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             MARKSMAN: {
               ahead:  [ I("Plated Steelcaps","ADC auto reduction — critical even ahead. Every trade benefits."), I("Trinity Force","Sprint + Sheen proc = delete the ADC before Enchanter can react."), I("Black Cleaver","6-stack shred on a tanky ADC building Bloodthirster/Shieldbow.") ],
               behind: [ I("Plated Steelcaps","Non-negotiable — sustained ADC physical DPS kills you when behind."), I("Sterak's Gage","Shield vs ADC burst + Enchanter follow-up when behind."), I("Death's Dance","Delay their DPS window; empowered W stun can still turn the fight.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             ENCHANTER: {
               ahead:  [ I("Serpent's Fang","⭐ 50% shield strip on dash-in — Lulu/Janna can't save their carry."), I("Trinity Force","Sprint to Enchanter before they cast their next shield."), I("Black Cleaver","Shred the carry once Enchanter is gone.") ],
               behind: [ I("Serpent's Fang","Still priority even behind — their shields negate all your damage."), I("Mortal Reminder","GW limits Soraka/Nami healing even when you can't engage freely."), I("Sterak's Gage","Survive Lulu polymorph + carry burst while item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             CATCHER: {
               ahead:  [ I("Mercury's Treads","Shorter hook/root chains — maintain mobility for dash combos."), I("Trinity Force","Sprint past hooks to reach carry; Sheen proc on arrival."), I("Serpent's Fang","Zac/Morgana shields absorbed on dash-in.") ],
               behind: [ I("Mercury's Treads","Nautilus/Morgana CC completely stops your dashes when behind — mandatory."), I("Sterak's Gage","Survive burst after their hook lands when you couldn't dodge."), I("Maw of Malmortius","Zyra/Morgana AP follow-up after root — magic shield buys the W window.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             VANGUARD: {
               ahead:  [ I("Black Cleaver","6 stacks shred Malphite/Ornn while disrupted — kill the engage tank."), I("Trinity Force","Dive in during their engage cooldown, Sheen proc cleans up."), I("Lord Dominik's Regards","% pen while ahead makes their armor investment worthless.") ],
               behind: [ I("Mercury's Treads","Malphite Ult, Leona chain, Ornn CC — all shorter when behind."), I("Sterak's Gage","Survive burst that follows a Vanguard's initiation."), I("Plated Steelcaps","Jarvan IV/Wukong have AD scaling — reduce auto-weave when behind.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             WARDEN: {
               ahead:  [ I("Serpent's Fang","Braum passive / Shen Ult shields stripped on dash-in while ahead."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Black Cleaver","Shred Warden armor to expose the carry behind them.") ],
               behind: [ I("Black Cleaver","Chip armor gradually — patience behind with Cleaver still opens them."), I("Mercury's Treads","Poppy E / Galio taunt — shorter duration when behind."), I("Sterak's Gage","Survive carry + Warden combined burst when item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
             SPECIALIST: {
               ahead:  [ I("Trinity Force","Sprint closes on Singed/Quinn before they disengage; Sheen punishes."), I("Serylda's Grudge","Slow on E means Singed's kite loop finally stops working."), I("Black Cleaver","Close on Gangplank, fast shred, kill before he can orange barrel poke.") ],
               behind: [ I("Plated Steelcaps","Graves/Quinn auto reliance — reduce each hit when behind."), I("Sterak's Gage","Survive Kennen stun + ult or Singed flip when item-deficient."), I("Mortal Reminder","GP Oranges / passive heal — GW 40% on all physical damage.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
           },
         },
@@ -1342,7 +1321,6 @@ const CHAMPS = [
               I("Rod of Ages","HP + sustain to survive lane phase."),
               I("Banshee's Veil","Blocks key engage abilities.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           BURST_MAGE: {
@@ -1356,7 +1334,6 @@ const CHAMPS = [
               I("Mercury's Treads","Shorter CC = more reposition time."),
               I("Zhonya's Hourglass","Second life in teamfights.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ARTILLERY: {
@@ -1370,7 +1347,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC duration."),
               I("Rod of Ages","Sustain through poke.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1406,7 +1382,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC lock."),
               I("Banshee's Veil","Block key CC ability.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ASSASSIN: {
@@ -1420,7 +1395,6 @@ const CHAMPS = [
               I("Plated Steelcaps","Reduce AD assassin damage."),
               I("Riftmaker","Stay relevant in longer fights.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           MARKSMAN: {
@@ -1434,7 +1408,6 @@ const CHAMPS = [
               I("Riftmaker","Sustain through fights."),
               I("Banshee's Veil","Avoid being locked down.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1470,7 +1443,6 @@ const CHAMPS = [
               I("Banshee's Veil","Block engage."),
               I("Mercury's Treads","Reduce CC chain.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ARTILLERY: {
@@ -1484,7 +1456,6 @@ const CHAMPS = [
               I("Cosmic Drive","Mobility to dodge skillshots."),
               I("Void Staff","Deal damage through MR.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           MARKSMAN: {
@@ -1498,7 +1469,6 @@ const CHAMPS = [
               I("Banshee's Veil","Prevent engage."),
               I("Void Staff","Keep damage relevant.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1521,7 +1491,6 @@ const CHAMPS = [
               I("Banshee's Veil","Block engage support."),
               I("Void Staff","Stay relevant.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ENCHANTER: {
@@ -1535,7 +1504,6 @@ const CHAMPS = [
               I("Banshee's Veil","Block CC."),
               I("Zhonya's Hourglass","Survive collapse.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1578,7 +1546,6 @@ const CHAMPS = [
               I("Sunfire Aegis","Waveclear safely under tower."),
               I("Frozen Heart","Reduces their DPS in extended fights.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           DIVER: {
@@ -1592,7 +1559,6 @@ const CHAMPS = [
               I("Frozen Heart","Attack speed slow cripples dive follow-up."),
               I("Thornmail","Punish healing during engages.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           SKIRMISHER: {
@@ -1606,7 +1572,6 @@ const CHAMPS = [
               I("Plated Steelcaps","Flat reduction vs auto-heavy champs."),
               I("Sunfire Aegis","Waveclear without contesting fights.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           VANGUARD: {
@@ -1620,7 +1585,6 @@ const CHAMPS = [
               I("Force of Nature","Reduce magic-heavy tank damage."),
               I("Jak'Sho, The Protean","Scale into teamfight durability.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           MARKSMAN: {
@@ -1634,7 +1598,6 @@ const CHAMPS = [
               I("Frozen Heart","Attack speed slow reduces DPS massively."),
               I("Thornmail","Punish lifesteal builds.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           SPECIALIST: {
@@ -1648,7 +1611,6 @@ const CHAMPS = [
               I("Force of Nature","Counter AP specialists."),
               I("Thornmail","Reduce sustain patterns.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1676,7 +1638,6 @@ const CHAMPS = [
               I("Mercury's Treads","Shorter CC duration."),
               I("Sunfire Aegis","Waveclear safely under pressure.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ASSASSIN: {
@@ -1690,7 +1651,6 @@ const CHAMPS = [
               I("Plated Steelcaps","Survive lane phase."),
               I("Sunfire Aegis","Waveclear safely.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ARTILLERY: {
@@ -1704,7 +1664,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC from long range."),
               I("Sunfire Aegis","Waveclear without interaction.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1732,7 +1691,6 @@ const CHAMPS = [
               I("Frozen Heart","Cripples dive follow-up."),
               I("Thornmail","Punish healing.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ASSASSIN: {
@@ -1746,7 +1704,6 @@ const CHAMPS = [
               I("Frozen Heart","Lower DPS window."),
               I("Randuin's Omen","Extra survivability.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           VANGUARD: {
@@ -1760,7 +1717,6 @@ const CHAMPS = [
               I("Force of Nature","Anti-AP tank option."),
               I("Thornmail","Reduce healing.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           MARKSMAN: {
@@ -1774,7 +1730,6 @@ const CHAMPS = [
               I("Frozen Heart","Reduce DPS."),
               I("Plated Steelcaps","Survive fights.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -1802,7 +1757,6 @@ const CHAMPS = [
               I("Knight's Vow","Protect carry."),
               I("Frozen Heart","Reduce damage output.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           ENCHANTER: {
@@ -1816,7 +1770,6 @@ const CHAMPS = [
               I("Knight's Vow","Play peel."),
               I("Force of Nature","Anti-AP sustain.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
 
           CATCHER: {
@@ -1830,7 +1783,6 @@ const CHAMPS = [
               I("Mercury's Treads","Reduce CC."),
               I("Knight's Vow","Peel instead of engage.")
             ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
           },
         },
       },
@@ -2019,115 +1971,81 @@ useEffect(() => {
     );
   };
 
- const RunePage = ({ runeData, enemyChamp }) => {
-  const override    = runeData?.champOverrides?.[enemyChamp];
-  const recommended = runeData
-    ? (override ? mergeRunePage(runeData, override) : runeData)
-    : null;
+  const RunePage = ({ runeData, enemyChamp }) => {
+  const [tooltip, setTooltip] = useState(null); // { name, x, y }
+  const [activeRuneTab, setActiveRuneTab] = useState("page");
 
-  const [primTree,  setPrimTree]  = useState(recommended?.primary        || "Precision");
-  const [keystone,  setKeystone]  = useState(recommended?.keystone       || "");
-  const [primRows,  setPrimRows]  = useState(recommended?.primaryRunes   || [null, null, null]);
-  const [secTree,   setSecTree]   = useState(recommended?.secondary      || "");
-  const [secRunes,  setSecRunes]  = useState(recommended?.secondaryRunes || []);
-  const [shards,    setShards]    = useState(recommended?.shards         || [null, null, null]);
-  const [tooltip,   setTooltip]   = useState(null);
+  if (!runeData) return (
+    <div style={{ padding:"16px", color:S.textDim, fontSize:"12px", fontStyle:"italic" }}>
+      No rune data for this matchup yet.
+    </div>
+  );
 
-  const ALL_TREES = Object.keys(RUNE_TREES);
+  // Merge default with champion override if one exists
+  const override = runeData.champOverrides?.[enemyChamp];
+  const page = override ? mergeRunePage(runeData, override) : runeData;
 
-  // ── Handlers ─────────────────────────────────────────────────────────────
-  const pickPrimTree = (name) => {
-    if (name === primTree) return;
-    setPrimTree(name);
-    setKeystone("");
-    setPrimRows([null, null, null]);
-    if (secTree === name) { setSecTree(""); setSecRunes([]); }
-  };
+  const primaryTree   = RUNE_TREES[page.primary];
+  const secondaryTree = RUNE_TREES[page.secondary];
+  if (!primaryTree || !secondaryTree) return null;
 
-  const pickSecTree = (name) => {
-    if (name === primTree) return;
-    if (name === secTree)  { setSecTree(""); setSecRunes([]); return; }
-    setSecTree(name);
-    setSecRunes([]);
-  };
+  // Which runes are selected
+  const selectedPrimary   = new Set([page.keystone, ...page.primaryRunes]);
+  const selectedSecondary = new Set(page.secondaryRunes);
+  const hasOverride = !!override;
 
-  const pickKeystone = (name) => setKeystone(k => k === name ? "" : name);
+  // ── Rune circle renderer ─────────────────────────────────────────
+  const Rune = ({ name, size = 42, isKeystone = false, selected, treeColor }) => {
+    const ek   = `rune-${name.replace(/\s/g,"")}`;
+    const isHovered = hoveredRune === name;
+    const dimmed = !selected;
 
-  const pickPrimRune = (rowIdx, name) => {
-    setPrimRows(prev => {
-      const next = [...prev];
-      next[rowIdx] = next[rowIdx] === name ? null : name;
-      return next;
-    });
-  };
-
-  const pickSecRune = (name, rowIdx) => {
-    setSecRunes(prev => {
-      if (prev.includes(name)) return prev.filter(r => r !== name);
-      const rowRunes   = RUNE_TREES[secTree]?.rows[rowIdx] || [];
-      const withoutRow = prev.filter(r => !rowRunes.includes(r));
-      if (withoutRow.length >= 2) return [withoutRow[1], name];
-      return [...withoutRow, name];
-    });
-  };
-
-  const pickShard = (rowIdx, name) => {
-    setShards(prev => { const n = [...prev]; n[rowIdx] = name; return n; });
-  };
-
-  const tip     = (name, e) => setTooltip({ name, x: e.clientX, y: e.clientY });
-  const moveTip = (name, e) => setTooltip(t => t ? { ...t, x: e.clientX, y: e.clientY } : null);
-
-  // ── Rune circle ───────────────────────────────────────────────────────────
-  const Rune = ({ name, size = 42, isKeystone = false, selected, treeColor,
-                  locked = false, onClick }) => {
-    const ek  = `rune-${name.replace(/[^a-zA-Z0-9]/g, "")}`;
-    const src = runeImg(name, runeMap);
-    const dim = !selected || locked;
     return (
       <div
-        onClick={!locked ? onClick : undefined}
-        onMouseEnter={e  => tip(name, e)}
-        onMouseMove={e   => moveTip(name, e)}
+        onMouseEnter={(e) => setTooltip({ name, x: e.clientX, y: e.clientY })}
+        onMouseMove={(e)  => setTooltip(t => t ? { ...t, x: e.clientX, y: e.clientY } : null)}
         onMouseLeave={()  => setTooltip(null)}
+        title={name}
         style={{
-          width: size, height: size, borderRadius: "50%",
-          position: "relative", flexShrink: 0,
-          cursor: locked ? "not-allowed" : "pointer",
-          transition: "all .18s ease",
-          transform: tooltip?.name === name && selected ? "scale(1.12)" : "scale(1)",
+          width:size, height:size, borderRadius:"50%",
+          position:"relative", flexShrink:0, cursor:"default",
+          transition:"all .18s ease",
+          transform: isHovered && selected ? "scale(1.12)" : "scale(1)",
         }}
       >
-        {/* Glow ring */}
+        {/* Outer glow ring for selected */}
         <div style={{
-          position: "absolute", inset: selected && !locked ? -3 : -1,
-          borderRadius: "50%",
-          border: selected && !locked
+          position:"absolute", inset: selected ? -3 : -1,
+          borderRadius:"50%",
+          border: selected
             ? `2px solid ${treeColor}`
-            : "1px solid rgba(255,255,255,.10)",
-          boxShadow: selected && !locked
+            : "1px solid rgba(255,255,255,.12)",
+          boxShadow: selected
             ? `0 0 12px ${treeColor}80, 0 0 24px ${treeColor}30`
             : "none",
-          transition: "all .18s", zIndex: 1,
+          transition:"all .18s",
+          zIndex:1,
         }} />
-        {/* Image */}
+
+        {/* Rune image or fallback */}
         <div style={{
-          width: "100%", height: "100%", borderRadius: "50%",
-          overflow: "hidden", background: "rgba(0,0,0,.5)",
-          opacity: dim ? (locked ? 0.08 : 0.22) : 1,
-          transition: "opacity .18s",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          filter: dim ? "grayscale(100%)" : "none",
+          width:"100%", height:"100%", borderRadius:"50%",
+          overflow:"hidden", background:"rgba(0,0,0,.6)",
+          opacity: dimmed ? 0.22 : 1,
+          transition:"opacity .18s",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          filter: dimmed ? "grayscale(100%)" : "none",
         }}>
-          {src && !imgFail(ek)
-            ? <img src={src} alt={name} onError={() => onErr(ek)}
-                style={{ width: "78%", height: "78%", objectFit: "contain", display: "block" }} />
+          {!imgFail(ek)
+            ? <img src={runeImg(name, runeMap)} alt={name} onError={() => onErr(ek)}
+                style={{ width:"78%", height:"78%", objectFit:"contain", display:"block" }} />
             : <span style={{
-                fontSize: isKeystone ? 11 : 9, fontWeight: "bold",
-                textAlign: "center", padding: "2px", lineHeight: 1.1,
-                color: selected && !locked ? treeColor : "#444",
+                fontSize: isKeystone ? 13 : 10,
+                fontWeight:"bold", textAlign:"center",
+                color: selected ? treeColor : "#444",
+                padding:"2px", lineHeight:1.1,
               }}>
-                {name.replace(/['\u2019]/g, "").split(" ").map(w => w[0]).join("").slice(0, 3).toUpperCase()}
+                {name.split(" ").map(w => w[0]).join("").slice(0,3)}
               </span>
           }
         </div>
@@ -2135,274 +2053,162 @@ useEffect(() => {
     );
   };
 
-  // ── Tree icon row ─────────────────────────────────────────────────────────
-  const TreeSelector = ({ active, blocked, onPick, label }) => (
-    <div style={{ marginBottom: 14 }}>
-      <div style={{ fontSize: "8px", letterSpacing: "2px",
-        color: "rgba(255,255,255,.22)", textTransform: "uppercase", marginBottom: 6 }}>
-        {label}
-      </div>
-      <div style={{ display: "flex", gap: 6 }}>
-        {ALL_TREES.map(t => {
-          const isActive  = t === active;
-          const isBlocked = t === blocked;
-          const meta      = RUNE_TREES[t];
-          const src       = runeImg(t, runeMap);
-          const ek        = `tree-${t}`;
-          return (
-            <div key={t}
-              onClick={!isBlocked ? () => onPick(t) : undefined}
-              onMouseEnter={e  => !isBlocked && tip(t, e)}
-              onMouseLeave={()  => setTooltip(null)}
-              style={{
-                width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
-                border: isActive
-                  ? `2px solid ${meta.color}`
-                  : "1.5px solid rgba(255,255,255,.12)",
-                background: isActive ? `${meta.color}20` : "rgba(0,0,0,.4)",
-                boxShadow: isActive ? `0 0 14px ${meta.color}70` : "none",
-                opacity: isBlocked ? 0.10 : 1,
-                cursor: isBlocked ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "all .15s", flexShrink: 0,
-                filter: !isActive && !isBlocked
-                  ? "grayscale(60%) brightness(0.65)" : "none",
-              }}
-            >
-              {src && !imgFail(ek)
-                ? <img src={src} alt={t} onError={() => onErr(ek)}
-                    style={{ width: "80%", height: "80%", objectFit: "contain" }} />
-                : <span style={{ fontSize: 9, fontWeight: "bold",
-                    color: isActive ? meta.color : "#555" }}>{meta.abbr}</span>
-              }
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+  // ── Tree column renderer ─────────────────────────────────────────
+  const TreeColumn = ({ tree, treeName, isPrimary }) => {
+    const treeColor  = tree.color;
+    const selectedSet = isPrimary ? selectedPrimary : selectedSecondary;
 
-  // ── Primary column ────────────────────────────────────────────────────────
-  const primMeta = RUNE_TREES[primTree];
+    return (
+      <div style={{ flex:1, minWidth:0 }}>
+        {/* Tree header */}
+        <div style={{
+          display:"flex", alignItems:"center", gap:"8px",
+          marginBottom:"14px", paddingBottom:"8px",
+          borderBottom:`1px solid ${treeColor}40`,
+        }}>
+          <div style={{
+            width:"28px", height:"28px", borderRadius:"50%",
+            background:`${treeColor}25`, border:`1.5px solid ${treeColor}60`,
+            display:"flex", alignItems:"center", justifyContent:"center",
+            fontSize:"11px", fontWeight:"bold", color:treeColor,
+          }}>
+            {tree.abbr}
+          </div>
+          <span style={{ fontSize:"13px", fontWeight:"bold", color:treeColor, letterSpacing:".5px" }}>
+            {treeName}
+          </span>
+          <span style={{
+            marginLeft:"auto", fontSize:"9px", letterSpacing:"2px",
+            color:"rgba(255,255,255,.35)", fontWeight:"600",
+          }}>
+            {isPrimary ? "PRIMARY" : "SECONDARY"}
+          </span>
+        </div>
 
-  const PrimaryColumn = () => (
-    <div style={{ flex: 1, minWidth: 0 }}>
-      <TreeSelector active={primTree} blocked={secTree}
-        onPick={pickPrimTree} label="Primary Path" />
-
-      <div style={{ display: "flex", alignItems: "center", gap: 8,
-        marginBottom: 10, paddingBottom: 8,
-        borderBottom: `1px solid ${primMeta.color}40` }}>
-        <span style={{ fontSize: 13, fontWeight: "bold",
-          color: primMeta.color, letterSpacing: ".5px" }}>{primTree}</span>
-        <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "2px",
-          color: "rgba(255,255,255,.35)", fontWeight: 600 }}>PRIMARY</span>
-      </div>
-
-      {/* Keystones */}
-      <div style={{ fontSize: "8px", letterSpacing: "2px",
-        color: "rgba(255,255,255,.22)", textTransform: "uppercase",
-        textAlign: "center", marginBottom: 6 }}>Keystone</div>
-      <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 14 }}>
-        {primMeta.keystones.map(k => (
-          <Rune key={k} name={k} size={54} isKeystone
-            selected={keystone === k} treeColor={primMeta.color}
-            onClick={() => pickKeystone(k)} />
-        ))}
-      </div>
-      <div style={{ height: 1, background: "rgba(255,255,255,.07)", margin: "0 0 12px" }} />
-
-      {/* Minor rows */}
-      {primMeta.rows.map((row, ri) => (
-        <div key={ri} style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: "7px", letterSpacing: "1.5px",
-            color: "rgba(255,255,255,.16)", textTransform: "uppercase",
-            textAlign: "center", marginBottom: 4 }}>Row {ri + 1}</div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-            {row.map(r => (
-              <Rune key={r} name={r} size={40}
-                selected={primRows[ri] === r} treeColor={primMeta.color}
-                onClick={() => pickPrimRune(ri, r)} />
+        {/* Keystones row (primary only) */}
+        {isPrimary && (
+          <div style={{ display:"flex", justifyContent:"center", gap:"8px", marginBottom:"12px" }}>
+            {tree.keystones.map(k => (
+              <Rune key={k} name={k} size={52} isKeystone selected={selectedSet.has(k)}
+                treeColor={treeColor} />
             ))}
           </div>
-        </div>
-      ))}
-    </div>
-  );
+        )}
 
-  // ── Secondary column ──────────────────────────────────────────────────────
-  const secMeta = secTree ? RUNE_TREES[secTree] : null;
-
-  const SecondaryColumn = () => (
-    <div style={{ flex: 1, minWidth: 0 }}>
-      <TreeSelector active={secTree} blocked={primTree}
-        onPick={pickSecTree} label="Secondary Path" />
-
-      {secMeta ? (
-        <>
-          <div style={{ display: "flex", alignItems: "center", gap: 8,
-            marginBottom: 10, paddingBottom: 8,
-            borderBottom: `1px solid ${secMeta.color}40` }}>
-            <span style={{ fontSize: 13, fontWeight: "bold",
-              color: secMeta.color, letterSpacing: ".5px" }}>{secTree}</span>
-            <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "2px",
-              color: "rgba(255,255,255,.35)", fontWeight: 600 }}>SECONDARY</span>
-            <span style={{
-              fontSize: "8px", padding: "2px 6px", borderRadius: 10,
-              background: "rgba(255,255,255,.05)",
-              border: "1px solid rgba(255,255,255,.10)",
-              color: secRunes.length >= 2 ? secMeta.color : "rgba(255,255,255,.25)",
-              letterSpacing: ".5px",
-            }}>{secRunes.length}/2</span>
+        {/* Minor rune rows */}
+        {tree.rows.map((row, ri) => (
+          <div key={ri} style={{
+            display:"flex", justifyContent:"center", gap:"8px",
+            marginBottom:"10px",
+          }}>
+            {row.map(r => (
+              <Rune key={r} name={r} size={40} selected={selectedSet.has(r)}
+                treeColor={treeColor} />
+            ))}
           </div>
+        ))}
+      </div>
+    );
+  };
 
-          {secMeta.rows.map((row, ri) => {
+  return (
+    <div>
+      {/* Override badge */}
+      {hasOverride && (
+        <div style={{
+          display:"inline-flex", alignItems:"center", gap:"6px",
+          marginBottom:"12px", padding:"4px 10px",
+          background:"rgba(200,155,60,.12)", border:"1px solid rgba(200,155,60,.3)",
+          borderRadius:"20px", fontSize:"10px", color:S.gold, letterSpacing:"1px",
+        }}>
+          ✦ CHAMPION-SPECIFIC OVERRIDE — {enemyChamp.toUpperCase()}
+        </div>
+      )}
+
+      {/* Two-column rune display */}
+      <div style={{ display:"flex", gap:"20px" }}>
+        <TreeColumn tree={primaryTree}   treeName={page.primary}   isPrimary />
+        <TreeColumn tree={secondaryTree} treeName={page.secondary} isPrimary={false} />
+      </div>
+
+      {/* Stat shards */}
+      <div style={{
+        marginTop:"14px", paddingTop:"12px",
+        borderTop:"1px solid rgba(255,255,255,.06)",
+      }}>
+        <div style={{ fontSize:"9px", letterSpacing:"3px", color:S.goldDim,
+          textTransform:"uppercase", marginBottom:"10px" }}>Stat Shards</div>
+        <div style={{ display:"flex", flexDirection:"column", gap:"6px" }}>
+          {STAT_SHARDS.map((row, ri) => {
+            const selected = page.shards?.[ri];
             return (
-              <div key={ri} style={{ marginBottom: 10 }}>
-                <div style={{ fontSize: "7px", letterSpacing: "1.5px",
-                  color: "rgba(255,255,255,.16)", textTransform: "uppercase",
-                  textAlign: "center", marginBottom: 4 }}>Row {ri + 1}</div>
-                <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-                  {row.map(r => {
-                    const isSel     = secRunes.includes(r);
-                    const lockedOut = !isSel && secRunes.length >= 2;
+              <div key={ri} style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+                <span style={{ fontSize:"9px", color:S.textDim,
+                  width:"50px", flexShrink:0, letterSpacing:".5px" }}>
+                  {row.label}
+                </span>
+                <div style={{ display:"flex", gap:"6px" }}>
+                  {row.options.map(opt => {
+                    const isSelected = opt === selected;
                     return (
-                      <Rune key={r} name={r} size={40}
-                        selected={isSel} treeColor={secMeta.color}
-                        locked={lockedOut}
-                        onClick={() => pickSecRune(r, ri)} />
+                      <div key={opt} title={opt} style={{
+                        width:"22px", height:"22px",
+                        borderRadius:"50%",
+                        background: isSelected
+                          ? "rgba(200,155,60,.2)"
+                          : "rgba(255,255,255,.04)",
+                        border: isSelected
+                          ? "1.5px solid rgba(200,155,60,.7)"
+                          : "1px solid rgba(255,255,255,.12)",
+                        display:"flex", alignItems:"center", justifyContent:"center",
+                        position:"relative",
+                        boxShadow: isSelected ? "0 0 8px rgba(200,155,60,.5)" : "none",
+                      }}>
+                        <div style={{
+                          width:"8px", height:"8px",
+                          background: isSelected
+                            ? "#c89b3c"
+                            : "rgba(255,255,255,.15)",
+                          clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)", // diamond
+                        }} />
+                      </div>
                     );
                   })}
                 </div>
+                <span style={{ fontSize:"10px", color: selected ? S.gold : S.textDim }}>
+                  {selected || "—"}
+                </span>
               </div>
             );
           })}
-        </>
-      ) : (
-        /* No secondary selected */
-        <div style={{ display: "flex", flexDirection: "column", gap: 20,
-          padding: "30px 20px", alignItems: "center" }}>
-          {[0, 1].map(i => (
-            <div key={i} style={{ textAlign: "center" }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: "50%",
-                border: "1.5px solid rgba(255,255,255,.22)",
-                margin: "0 auto 6px",
-              }} />
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,.25)",
-                letterSpacing: ".5px", textTransform: "uppercase" }}>Secondary</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,.18)", marginTop: 2 }}>
-                Select your secondary path above
-              </div>
-            </div>
-          ))}
         </div>
-      )}
-
-      {/* Stat shards — always visible */}
-      <div style={{ marginTop: 16, paddingTop: 12,
-        borderTop: "1px solid rgba(255,255,255,.06)" }}>
-        <div style={{ fontSize: "9px", letterSpacing: "3px", color: S.goldDim,
-          textTransform: "uppercase", marginBottom: 8 }}>Stat Shards</div>
-        {STAT_SHARDS.map((row, ri) => (
-          <div key={ri} style={{ display: "flex", alignItems: "center",
-            gap: 8, marginBottom: 6 }}>
-            <span style={{ fontSize: 9, color: S.textDim,
-              width: 50, flexShrink: 0 }}>{row.label}</span>
-            <div style={{ display: "flex", gap: 6 }}>
-              {row.options.map(opt => {
-                const isSel    = shards[ri] === opt;
-                const shardSrc = shardImg(opt);
-                const ek       = `shard-${opt.replace(/[^a-zA-Z0-9]/g, "")}`;
-                return (
-                  <div key={opt}
-                    onClick={() => pickShard(ri, opt)}
-                    onMouseEnter={e  => tip(opt, e)}
-                    onMouseLeave={()  => setTooltip(null)}
-                    style={{
-                      width: 24, height: 24, borderRadius: "50%", cursor: "pointer",
-                      background: isSel ? "rgba(200,155,60,.2)" : "rgba(255,255,255,.04)",
-                      border: isSel ? "1.5px solid rgba(200,155,60,.7)"
-                        : "1px solid rgba(255,255,255,.12)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: isSel ? "0 0 8px rgba(200,155,60,.5)" : "none",
-                      opacity: isSel ? 1 : 0.28,
-                      overflow: "hidden", transition: "all .15s",
-                    }}>
-                    {shardSrc && !imgFail(ek)
-                      ? <img src={shardSrc} alt={opt} onError={() => onErr(ek)}
-                          style={{ width: "80%", height: "80%", objectFit: "contain" }} />
-                      : <div style={{
-                          width: 8, height: 8,
-                          clipPath: "polygon(50% 0%,100% 50%,50% 100%,0% 50%)",
-                          background: isSel ? "#c89b3c" : "rgba(255,255,255,.3)",
-                        }} />
-                    }
-                  </div>
-                );
-              })}
-            </div>
-            <span style={{ fontSize: 10, color: shards[ri] ? S.gold : S.textDim }}>
-              {shards[ri] || "—"}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  return (
-    <div style={{ position: "relative" }}>
-      {/* Override badge */}
-      {override && (
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          marginBottom: 12, padding: "4px 10px",
-          background: "rgba(200,155,60,.12)",
-          border: "1px solid rgba(200,155,60,.3)",
-          borderRadius: 20, fontSize: 10, color: S.gold, letterSpacing: "1px",
-        }}>
-          ✦ CHAMPION-SPECIFIC — {enemyChamp.toUpperCase()}
-        </div>
-      )}
-
-      {/* Two columns */}
-      <div style={{ display: "flex", gap: 24 }}>
-        <PrimaryColumn />
-        <SecondaryColumn />
       </div>
 
-      {/* Why this page */}
-      {recommended?.reason && (
-        <div style={{
-          marginTop: 14, padding: "10px 14px",
-          background: "rgba(255,255,255,.03)",
-          border: "1px solid rgba(255,255,255,.06)",
-          borderRadius: 8, borderLeft: `3px solid ${primMeta.color}`,
-        }}>
-          <div style={{ fontSize: 9, letterSpacing: "2px", color: primMeta.color,
-            textTransform: "uppercase", marginBottom: 4 }}>Recommended page — why</div>
-          <p style={{ margin: 0, fontSize: 11, color: "#b0a080", lineHeight: 1.6 }}>
-            {recommended.reason}
-          </p>
-        </div>
-      )}
+      {/* Reason */}
+      <div style={{
+        marginTop:"14px", padding:"10px 14px",
+        background:"rgba(255,255,255,.03)",
+        border:"1px solid rgba(255,255,255,.06)",
+        borderRadius:"8px", borderLeft:`3px solid ${primaryTree.color}`,
+      }}>
+        <div style={{ fontSize:"9px", letterSpacing:"2px", color:primaryTree.color,
+          textTransform:"uppercase", marginBottom:"4px" }}>Why this page</div>
+        <p style={{ margin:0, fontSize:"11px", color:"#b0a080", lineHeight:1.6 }}>
+          {page.reason || runeData.reason}
+        </p>
+      </div>
 
-      {/* Cursor tooltip */}
-      {tooltip && (
+      {/* Hovered rune tooltip */}
+      {hoveredRune && (
         <div style={{
-          position: "fixed", left: tooltip.x + 16, top: tooltip.y - 12,
-          zIndex: 9999, pointerEvents: "none", maxWidth: 240,
-          background: "rgba(6,12,28,.97)",
-          border: "1px solid rgba(200,155,60,.35)",
-          borderRadius: 8, padding: "8px 12px",
-          boxShadow: "0 8px 32px rgba(0,0,0,.7)",
+          marginTop:"10px", padding:"8px 12px",
+          background:"rgba(0,0,0,.7)", borderRadius:"6px",
+          border:"1px solid rgba(255,255,255,.08)",
+          fontSize:"11px", color:"#e8d5b0",
         }}>
-          <div style={{ fontSize: 12, fontWeight: "bold", color: "#f0d060",
-            marginBottom: 4, letterSpacing: ".3px" }}>{tooltip.name}</div>
-          <div style={{ fontSize: 11, color: "#b0a080", lineHeight: 1.5 }}>
-            {RUNE_DESCRIPTIONS[tooltip.name] || ""}
-          </div>
+          <strong style={{ color: selectedPrimary.has(hoveredRune) ? primaryTree.color : secondaryTree.color }}>
+            {hoveredRune}
+          </strong>
         </div>
       )}
     </div>
@@ -2919,77 +2725,107 @@ useEffect(() => {
             {/* Content swap */}
             {detailTab === "items" && (
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
-
-                {/* Champions in class */}
-                <div>
-                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"12px",
-                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
-                    Champions in class
-                  </div>
-                  <div style={{
-                    display:"grid",
-                    gridTemplateColumns:"repeat(auto-fill, minmax(72px, 1fr))",
-                    gap:"10px",
-                  }}>
-                    {classChamps.map(c => {
-                      const ek = `cls-${c}`;
-                      return (
-                        <div key={c} style={{
-                          display:"flex", flexDirection:"column", alignItems:"center", gap:"5px",
-                          background:`${classEntry.color}18`,
-                          border:`1px solid ${classEntry.glow}28`,
-                          borderRadius:"8px", padding:"8px 4px 6px",
-                        }}>
-                          <div style={{
-                            width:"52px", height:"52px", borderRadius:"7px", overflow:"hidden",
-                            border:`1.5px solid ${classEntry.glow}45`,
-                            background:"#0d1a2a",
-                          }}>
-                            {!imgFail(ek)
-                              ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
-                                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                              : <div style={{ width:"100%", height:"100%", display:"flex",
-                                  alignItems:"center", justifyContent:"center",
-                                  fontSize:"14px", color:"#5c6a7a" }}>{c[0]}</div>
-                            }
-                          </div>
-                          <span style={{
-                            fontSize:"10px", color:"#c8a96a", textAlign:"center",
-                            lineHeight:1.2, maxWidth:"68px",
-                            overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
-                          }}>{c}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Item recommendations */}
-                <div>
-                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"12px",
-                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
-                    Items · {champ.display} · {mode==="ahead" ? "Ahead" : "Even / Behind"}
-                  </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
-                    {classItems.map((item, i) => (
-                      <ItemCard key={i} item={item} rank={i+1} glow={classEntry.glow} />
-                    ))}
-                  </div>
-                </div>
+                {/* ...your existing champion grid and ItemCard list... */}
               </div>
             )}
 
             {detailTab === "runes" && (
-              <div style={{ isolation: "isolate" }}>
-                <RunePage
-                  runeData={activeChampRole.data?.[openClass]?.runes ?? null}
-                  enemyChamp={""}
-                />
-              </div>
+              <RunePage
+                runeData={classItems.length > 0 ? activeChampRole.data?.[openClass]?.runes : null}
+                enemyChamp={/* pass the hovered/selected enemy champ name, or empty string */  ""}
+              />
             )}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
+
+              {/* Champions in class */}
+              <div>
+                <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
+                  textTransform:"uppercase", marginBottom:"12px",
+                  borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
+                  Champions in class
+                </div>
+                {/* GRID OF PORTRAIT CARDS — image is the focus, name below */}
+                <div style={{
+                  display:"grid",
+                  gridTemplateColumns:"repeat(auto-fill, minmax(72px, 1fr))",
+                  gap:"10px",
+                }}>
+                  {classChamps.map(c => {
+                    const ek = `cls-${c}`;
+                    return (
+                      <div key={c} style={{
+                        display:"flex", flexDirection:"column", alignItems:"center", gap:"5px",
+                        background:`${classEntry.color}18`,
+                        border:`1px solid ${classEntry.glow}28`,
+                        borderRadius:"8px", padding:"8px 4px 6px",
+                      }}>
+                        <div style={{
+                          width:"52px", height:"52px", borderRadius:"7px", overflow:"hidden",
+                          border:`1.5px solid ${classEntry.glow}45`,
+                          background:"#0d1a2a",
+                        }}>
+                          {!imgFail(ek)
+                            ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
+                                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                            : <div style={{ width:"100%", height:"100%", display:"flex",
+                                alignItems:"center", justifyContent:"center",
+                                fontSize:"14px", color:"#5c6a7a" }}>{c[0]}</div>
+                          }
+                        </div>
+                        <span style={{
+                          fontSize:"10px", color:"#c8a96a", textAlign:"center",
+                          lineHeight:1.2, maxWidth:"68px",
+                          overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
+                        }}>{c}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Item recommendations */}
+              <div>
+                <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
+                  textTransform:"uppercase", marginBottom:"12px",
+                  borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
+                  Items · {champ.display} · {mode==="ahead" ? "Ahead" : "Even / Behind"}
+                </div>
+                <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
+                  {classItems.map((item, i) => (
+                    <ItemCard key={i} item={item} rank={i+1} glow={classEntry.glow} />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+          {/* Floating cursor tooltip */}
+          {tooltip && (
+            <div style={{
+              position: "fixed",
+              left:   tooltip.x + 14,
+              top:    tooltip.y - 10,
+              zIndex: 9999,
+              pointerEvents: "none",
+              maxWidth: "240px",
+              background: "rgba(6,12,28,.97)",
+              border: "1px solid rgba(200,155,60,.35)",
+              borderRadius: "8px",
+              padding: "8px 12px",
+              boxShadow: "0 8px 32px rgba(0,0,0,.7)",
+            }}>
+              <div style={{
+                fontSize: "12px", fontWeight: "bold",
+                color: "#f0d060", marginBottom: "4px",
+              }}>
+                {tooltip.name}
+              </div>
+              <div style={{
+                fontSize: "11px", color: "#b0a080", lineHeight: 1.5,
+              }}>
+                {RUNE_DESCRIPTIONS[tooltip.name] || "Rune description coming soon."}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
