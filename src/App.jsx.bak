@@ -399,95 +399,54 @@ const RENEKTON_TOP_DEFAULT_RUNES = {
   reason:         "Conqueror stacks on every E-W-Q combo and heals massively on empowered Q. Legend: Alacrity vs auto-heavy matchups, swap to Haste vs poke/CC-heavy lanes. Bone Plating makes short trades winnable. Unflinching is crucial — Renekton needs to stick to targets and CC resistance keeps him connected.",
 };
 
-// ── Patch 26.14 — new champions ───────────────────────────────────────────────
-const WUKONG_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on Q resets and R spin. Magical Footwear saves 300g for Trinity Force rush. Cosmic Insight reduces E and R cooldowns. Legend: Alacrity accelerates Q reset proc rate.",
-};
-
-const WUKONG_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks from Sheen procs and R spin. Magical Footwear + Cosmic Insight saves 300g to rush Trinity Force faster. Last Stand — fight at low HP after diving into a teamfight.",
-};
-
-const REKSAI_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on Q empowered autos and E knockup. Coup de Grace closes out low HP targets after W knockup. Magical Footwear + Cosmic Insight free gold for Stridebreaker rush. Legend: Alacrity accelerates Q fury generation.",
-};
-
-const SHYVANA_JGL_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Press the Attack procs fast with Q's rapid attacks on ganks. Legend: Haste over Alacrity — Shyvana's play pattern revolves around ability cooldowns more than sustained autos. Magical Footwear's +10 bonus move speed amplifies her dragon form stickiness. Swap to Conqueror vs tank-heavy comps.",
-};
-
-const WARWICK_JGL_DEFAULT_RUNES = {
-  keystone:       "Lethal Tempo",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Celerity","Waterwalking"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Lethal Tempo amplifies Warwick's sustained auto pattern — stacks instantly on Q. Celerity + Waterwalking gives permanent river movement speed to appear faster for Ult ganks. Last Stand synergises with Primal Howl at low HP where W healing is strongest.",
-};
-
-const UDYR_JGL_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Coup de Grace"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Approach Velocity","Magical Footwear"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Press the Attack lines up with Q-Awaken's burst. Legend: Haste allows faster form swaps and more Awaken uses per fight. Approach Velocity helps chase targets after E stun. Coup de Grace closes low HP targets. Build AD bruiser — Spear of Shojin first.",
-};
-
-const SETT_TOP_DEFAULT_RUNES = {
+const VOLIBEAR_TOP_DEFAULT_RUNES = {
   keystone:       "Grasp of the Undying",
   primary:        "Resolve",
   primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
   secondary:      "Precision",
   secondaryRunes: ["Triumph","Legend: Alacrity"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Grasp procs on every W auto and stacks HP permanently. Demolish converts your HP lead into tower plates. Conditioning + Overgrowth makes you progressively harder to kill as the game goes on. Heartsteel first amplifies all HP stacking.",
+  reason:         "Grasp stacks HP permanently and procs on every Q empowered hit. Demolish converts your HP lead into tower pressure. Conditioning + Overgrowth scales your tank stats into the mid-late game.",
 };
 
-const SETT_JGL_DEFAULT_RUNES = {
+const VOLIBEAR_JGL_DEFAULT_RUNES = {
+  keystone:       "Lethal Tempo",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Magical Footwear","Jack Of All Trades"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Lethal Tempo stacks attack speed massively in extended fights, syncing with his passive lightning and Navori Flickerblade's on-hit CDR. Legend: Haste over Alacrity — Lethal Tempo already handles AS, Haste means more ability casts per fight and more W heals. Last Stand procs exactly when W heals hardest (low HP). Magical Footwear saves 300g to rush Dusk and Dawn faster. Jack Of All Trades reaches 10 different stats from Dusk and Dawn + Navori + boots alone.",
+};
+
+const NOCTURNE_JGL_DEFAULT_RUNES = {
+  keystone:       "Dark Harvest",
+  primary:        "Domination",
+  primaryRunes:   ["Cheap Shot","Grisly Mementos","Relentless Hunter"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Absolute Focus","Gathering Storm"],
+  shards:         ["Adaptive Force","Adaptive Force","Health"],
+  reason:         "Dark Harvest stacks every kill and executes low-HP targets — your R guarantees you arrive on someone already low. Cheap Shot procs on fear. Relentless Hunter lets you roam faster between R cooldowns.",
+};
+
+const BRIAR_JGL_DEFAULT_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Transcendence","Gathering Storm"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Conqueror stacks on her E multi-hits and heals massively during Hemomania (R). Legend: Alacrity speeds up her E proc rate. Last Stand procs constantly at low HP during her passive bleed fights.",
+};
+
+const BRIAR_TOP_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
   secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Overgrowth"],
+  secondaryRunes: ["Bone Plating","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on W auto chains during jungle clear and skirmishes. Bone Plating for counter-jungling skirmishes. Overgrowth scales HP into mid game.",
-};
-
-const LOCKE_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Sixth Sense","Ultimate Hunter"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Revitalize"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute procs off Q nail throw + auto consuming the mark — reliable 3-input. Sudden Impact fires on both E dashes. Ultimate Hunter reduces Purgatory from 120s toward 80s at full stacks. Bone Plating secondary — as a melee assassin you take damage before killing.",
+  reason:         "Same Conqueror core. Resolve secondary over Sorcery in lane — Bone Plating breaks the short trade burst from fighters like Darius and Irelia. Unflinching helps you stick to targets through their CC.",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1930,259 +1889,147 @@ const CHAMPS = [
   }, 
 
 // ══════════════════════════════════════════════════════════════════════════
-//  WUKONG — Diver / Bruiser
+//  VOLIBEAR — Bruiser / Tank
 // ══════════════════════════════════════════════════════════════════════════
 {
-  id:"wukong", display:"Wukong", dd:"MonkeyKing",
-  color:"#b8860b", glow:"#ffd700",
-  roles:{
-    Top:{
-      role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Trinity Force for Sheen proc on Q reset. Sundered Sky second for healing burst on Q empowered hit. Black Cleaver third stacks on R spin and Q autos. Build into Death's Dance or Sterak's based on burst threat.",
-      sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Mercury's Treads"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen while ahead into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver instantly — 6 hits in one rotation."),I("Serylda's Grudge","Slow on Q/R stops Juggernauts walking you down.")],behind:[I("Death's Dance","Delay Darius/Mundo burst into bleed while W clone baits their combo."),I("Sterak's Gage","Shield when they walk you down at low HP."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Sundered Sky","Healing burst wins mirror dives."),I("Trinity Force","Sheen proc outdamages their burst window."),I("Black Cleaver","Shred before they defensive item.")],behind:[I("Sterak's Gage","Shield when their dive survives your clone bait."),I("Death's Dance","Delay burst while W clone absorbs their attention."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sundered Sky","Burst them during W stealth approach."),I("Sterak's Gage","Absorb their one-shot while you reposition."),I("Trinity Force","Sheen proc on Q finishes them.")],behind:[I("Sterak's Gage","Shield vs one-shots — mandatory."),I("Maw of Malmortius","AP assassins — magic shield absorbs burst."),I("Death's Dance","Delay their combo while W clone distracts.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Sundered Sky","Out-sustain extended duels with Q proc healing."),I("Trinity Force","Sheen DPS beats sustained Skirmisher output."),I("Black Cleaver","Shred Fiora/Jax armor before they build defensive items.")],behind:[I("Sterak's Gage","Shield vs crit burst — Yasuo/Yone."),I("Guardian Angel","Fiora ult timing — passive revive mid-fight."),I("Plated Steelcaps","Crit damage reduction.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","W stealth approach + Sheen proc = burst before they cast."),I("Sterak's Gage","Shield their counter-burst."),I("Maw of Malmortius","Magic shield on W stealth approach.")],behind:[I("Maw of Malmortius","Non-negotiable — magic shield absorbs their combo."),I("Sterak's Gage","Secondary shield layer."),I("Mercury's Treads","Shorter stun so you land Q before they recover.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Black Cleaver","Shred Vladimir/Swain HP stacks during R spin."),I("Sundered Sky","Your sustain vs their sustain."),I("Death's Dance","Convert AP DPS to bleed — your W clone draws their attention.")],behind:[I("Death's Dance","Delay sustained AP DPS."),I("Maw of Malmortius","MR shield vs prolonged AP damage."),I("Sterak's Gage","Shield at low HP.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","W stealth approach + sprint passive closes gap."),I("Serylda's Grudge","Slow stops them repositioning after you arrive."),I("Sundered Sky","Q proc on arrival = instant healing burst.")],behind:[I("Sterak's Gage","Absorb poke burst on arrival."),I("Maw of Malmortius","MR vs AP poke."),I("Mercury's Treads","Shorter CC so W approach completes.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction — critical even ahead."),I("Trinity Force","Sprint + Sheen = delete ADC before they kite."),I("Black Cleaver","Shred tanky ADCs building Bloodthirster/Shieldbow.")],behind:[I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."),I("Sterak's Gage","Shield vs carry + Enchanter burst."),I("Death's Dance","Delay DPS window.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Sundered Sky","Stay healthy through Enchanter poke."),I("Black Cleaver","Shred the carry once you reach them via W stealth."),I("Trinity Force","Sprint closes before Enchanter repositions to peel.")],behind:[I("Sterak's Gage","Survive carry burst + Enchanter follow-up."),I("Maw of Malmortius","AP Enchanters Karma/Nami."),I("Death's Dance","Delay combined burst.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC chains — W stealth is cancelled by CC."),I("Trinity Force","Close and burst before they hook again."),I("Sundered Sky","Q proc healing after surviving CC.")],behind:[I("Mercury's Treads","Mandatory — CC stops W stealth entirely."),I("Sterak's Gage","Survive burst after CC lands."),I("Maw of Malmortius","AP Catchers Morgana/Zyra.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","R spin stacks Cleaver instantly vs Malphite/Ornn."),I("Trinity Force","Dive in during their engage cooldown."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Malphite Ult/Leona chain — shorter CC."),I("Sterak's Gage","Survive burst following engage."),I("Death's Dance","Delay engage burst.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Shred Warden armor — R spin fills it instantly."),I("Lord Dominik's Regards","% pen into their stacking."),I("Trinity Force","Dive through peel with sprint passive.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your armor shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","W stealth + sprint closes on kiting Specialists."),I("Serylda's Grudge","Slow stops Singed kite loop."),I("Sundered Sky","Q proc healing sustains through poke.")],behind:[I("Sterak's Gage","Survive Kennen stun + ult."),I("Maw of Malmortius","Teemo/Kennen AP — magic shield."),I("Mercury's Treads","Teemo blind stops Q reset — Tenacity shortens.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
+  id:      "volibear",
+  display: "Volibear",
+  dd:      "Volibear",
+  color:   "#2e4053",
+  glow:    "#5d9bd4",
+  lanes:   ["Top","Jungle"],
+  roles: {
+    Top: {
+      role:     "Juggernaut / Tank",
+      corePath: "Trinity Force  ›  Sundered Sky  ›  Sterak's Gage  ›  Plated Steelcaps",
+      coreNote: "Trinity Force for Sheen proc on empowered Q. Sundered Sky for healing burst. Sterak's as your defensive anchor. Steelcaps because you're always in melee.",
+      sideItems: ["Dead Man's Plate","Force of Nature","Warmog's Armor","Heartsteel","Thornmail","Gargoyle Stoneplate","Mercury's Treads"],
+      data: {
+        JUGGERNAUT: { ahead: [ I("Heartsteel","Stack HP into a mirror fight — Volibear wins stat checks vs other Juggernauts."), I("Lord Dominik's Regards","% pen while ahead turns their armor into wasted gold."), I("Dead Man's Plate","Chase them down with bonus damage on first auto.") ], behind: [ I("Sterak's Gage","Shield when their burst catches you low — then W back to health."), I("Thornmail","GW 40% on Warwick/Mundo regen while you trade auto-for-auto."), I("Plated Steelcaps","Every juggernaut auto-weaves — reduce each hit when behind.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        DIVER: { ahead: [ I("Sundered Sky","Healing burst wins mirror dives — Q proc keeps you ahead in HP."), I("Dead Man's Plate","Bonus damage on charge into Irelia/Camille approaches."), I("Sterak's Gage","Secondary shield if their dive survives your burst.") ], behind: [ I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains when behind."), I("Death's Dance","Delay their burst while W heals overlap."), I("Sterak's Gage","Shield at low HP when they all-in after surviving your combo.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        ASSASSIN: { ahead: [ I("Sterak's Gage","Absorb Zed Ult / Akali burst — then walk them down."), I("Sundered Sky","Healing burst after their combo."), I("Dead Man's Plate","Chase down mobile assassins after they use escapes.") ], behind: [ I("Sterak's Gage","Shield vs one-shots — mandatory when behind."), I("Force of Nature","AP assassins (Akali/Ekko) — MR stacking + movement speed."), I("Plated Steelcaps","Zed/Talon AD autos in their burst chain — reduce each hit.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        SKIRMISHER: { ahead: [ I("Thornmail","GW 40% + reflect on Fiora/Tryndamere auto chains."), I("Sundered Sky","Out-sustain their extended duels with Q proc healing."), I("Dead Man's Plate","Bonus damage charge punishes them when they extend the fight.") ], behind: [ I("Thornmail","GW stack decimates Fiora/Tryndamere."), I("Plated Steelcaps","Critical auto reduction vs crit Skirmishers."), I("Sterak's Gage","Shield when their crit burst gets you low.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        BURST_MAGE: { ahead: [ I("Force of Nature","MR + HP regen amp + move speed while ahead."), I("Sundered Sky","Q proc healing offsets any poke they land."), I("Sterak's Gage","Absorb their burst combo if they land it.") ], behind: [ I("Force of Nature","Non-negotiable vs AP burst — stack MR fast."), I("Sterak's Gage","Secondary shield after Force of Nature proc."), I("Mercury's Treads","Shorter stun/root so Q can land and W can heal.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        BATTLEMAGE: { ahead: [ I("Thornmail","GW on Vladimir/Swain drain — 40% reduced every tick."), I("Force of Nature","Sustained AP DPS — MR stacking absorbs their damage model."), I("Sundered Sky","Your sustain vs their sustain — Q proc tips the fight.") ], behind: [ I("Force of Nature","Non-negotiable vs sustained AP damage."), I("Thornmail","GW reduces Vladimir/Swain regen when you can't out-damage them."), I("Sterak's Gage","Shield when sustained damage catches you low.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        ARTILLERY: { ahead: [ I("Dead Man's Plate","Charge speed closes poke gap with bonus damage on arrival."), I("Sundered Sky","Q proc healing sustains through poke during the approach."), I("Sterak's Gage","Absorb poke accumulated while walking over.") ], behind: [ I("Sterak's Gage","Shield absorbs poke burst on arrival."), I("Force of Nature","MR stack vs Xerath/Vel'Koz AP poke damage."), I("Mercury's Treads","Shorter CC duration = more walking time to close the gap.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        MARKSMAN: { ahead: [ I("Plated Steelcaps","ADC auto reduction — critical even ahead."), I("Thornmail","GW 40% + reflect on every ADC auto chain."), I("Sundered Sky","Q proc healing sustains through their sustained DPS.") ], behind: [ I("Plated Steelcaps","Non-negotiable — consistent physical DPS kills you without it."), I("Sterak's Gage","Shield vs carry burst + Enchanter follow-up."), I("Thornmail","GW limits their lifesteal sustain.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        ENCHANTER: { ahead: [ I("Thornmail","GW 40% — neuters all heals and shields amplified by Enchanter."), I("Dead Man's Plate","Charge into their backline, bonus damage reaches carry."), I("Sundered Sky","Stay healthy through Enchanter heals with your own Q sustain.") ], behind: [ I("Thornmail","GW is your equaliser vs amplified heals."), I("Sterak's Gage","Survive carry burst + Enchanter follow-up when behind."), I("Plated Steelcaps","Carry auto reduction when behind.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        CATCHER: { ahead: [ I("Mercury's Treads","Shorter hook/CC chains so you can still walk forward."), I("Sundered Sky","Q proc healing sustains through poke while closing."), I("Dead Man's Plate","Charge past their hooks; bonus damage on arrival.") ], behind: [ I("Mercury's Treads","Mandatory — CC chains drain you when behind."), I("Sterak's Gage","Survive burst after a Catcher lands CC on you."), I("Warmog's Armor","Regen to full between CC attempts.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        VANGUARD: { ahead: [ I("Sundered Sky","Out-tank the engage tank with superior healing."), I("Dead Man's Plate","Charge into their team during their own engage."), I("Heartsteel","Mirror HP stacking — Volibear wins sustained HP fights.") ], behind: [ I("Mercury's Treads","Malphite Ult / Leona chain — shorter when behind."), I("Sterak's Gage","Survive burst following their engage."), I("Warmog's Armor","Regen between teamfight attempts.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        WARDEN: { ahead: [ I("Dead Man's Plate","Charge past Warden peel; bonus damage reaches carry."), I("Thornmail","GW vs Braum passive shield stacking."), I("Sundered Sky","Stay healthy through peel pressure.") ], behind: [ I("Sterak's Gage","Survive carry burst through Warden body-block."), I("Warmog's Armor","Regen between peel attempts."), I("Mercury's Treads","Poppy E / Galio taunt — reduce durations when behind.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
+        SPECIALIST: { ahead: [ I("Dead Man's Plate","Charge Singed down — he cannot outrun a charged Volibear."), I("Thornmail","GW 40% on Gangplank regen / Udyr sustain."), I("Sundered Sky","Q proc healing sustains through Teemo shroom/poke damage.") ], behind: [ I("Sterak's Gage","Survive Kennen stun + ult or Gangplank barrel burst."), I("Force of Nature","Kennen/Teemo/Shyvana AP damage — MR stack."), I("Mercury's Treads","Teemo blind = you can't Q — Tenacity shortens it.") ], runes: { ...VOLIBEAR_TOP_DEFAULT_RUNES } },
       },
     },
-    Jungle:{
-      role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Same core as Top. Jungle Wukong uses W clone to bait enemy spells during ganks — drop it and circle behind while they attack it. R spin for engagement and AoE after W repositioning.",
-      sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Lord Dominik's Regards"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver in one rotation on ganks."),I("Serylda's Grudge","Slow stops their walk-down after gank landing.")],behind:[I("Death's Dance","Delay Darius burst while W clone distracts them."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Sundered Sky","Healing burst wins counter-jungling fights."),I("Trinity Force","Sheen proc burst ahead of their dive."),I("Black Cleaver","Fast shred — R spin fills it in one cast.")],behind:[I("Sterak's Gage","Shield when they counter-invade."),I("Death's Dance","Delay their burst."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Trinity Force","W stealth approach into Sheen proc burst on gank."),I("Sundered Sky","Q proc healing keeps you healthy post-gank."),I("Sterak's Gage","Absorb their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots in counter-gank situations."),I("Death's Dance","Delay burst while W clone absorbs their combo."),I("Maw of Malmortius","AP assassins in counter-ganks.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Sundered Sky","Out-sustain jungle skirmishes."),I("Trinity Force","Sheen DPS beats their sustained output."),I("Black Cleaver","Shred before they build defensive items.")],behind:[I("Death's Dance","Delay their extended trade."),I("Sterak's Gage","Shield at low HP."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","W gank approach + Sheen burst before they combo."),I("Sterak's Gage","Shield their retaliatory burst."),I("Maw of Malmortius","Magic shield on approach.")],behind:[I("Maw of Malmortius","Non-negotiable."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter CC so your gank connects.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Black Cleaver","R spin shreds their HP fast."),I("Sundered Sky","Your sustain vs their sustain."),I("Death's Dance","Convert AP DPS to bleed while W clone distracts.")],behind:[I("Death's Dance","Delay sustained AP DPS."),I("Maw of Malmortius","MR shield."),I("Sterak's Gage","Shield at low HP.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","W stealth gank approach closes gap safely."),I("Serylda's Grudge","Slow stops them repositioning."),I("Sundered Sky","Q proc healing after arriving.")],behind:[I("Sterak's Gage","Absorb poke burst."),I("Maw of Malmortius","AP poke."),I("Mercury's Treads","Shorter CC so W approach completes.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Trinity Force","Sprint + Sheen = instant ADC kill on gank."),I("Black Cleaver","Shred tanky ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay DPS window.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Black Cleaver","Shred the carry — R spin fills it."),I("Trinity Force","Sprint closes before Enchanter peels."),I("Sundered Sky","Stay healthy through poke.")],behind:[I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay combined burst."),I("Maw of Malmortius","AP Enchanters.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","CC cancels W stealth — shorter duration."),I("Trinity Force","Close and burst after dodging hook."),I("Sundered Sky","Q proc healing post-gank.")],behind:[I("Mercury's Treads","Mandatory."),I("Sterak's Gage","Survive burst after CC lands."),I("Maw of Malmortius","AP Catchers.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","R spin stacks Cleaver vs engage tanks."),I("Trinity Force","Dive in during their cooldown window."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Their CC chains — shorter."),I("Sterak's Gage","Survive burst."),I("Death's Dance","Delay engage burst.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","R spin shreds their armor."),I("Lord Dominik's Regards","% pen."),I("Trinity Force","Sprint through peel.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","W stealth + sprint closes on Specialists."),I("Serylda's Grudge","Slow stops kiting."),I("Sundered Sky","Q proc sustain.")],behind:[I("Sterak's Gage","Survive burst setups."),I("Maw of Malmortius","AP Specialists."),I("Mercury's Treads","Teemo blind — Tenacity shortens.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
+    Jungle: {
+      role:     "Bruiser Jungler",
+      corePath: "Dusk and Dawn  ›  Navori Flickerblade  ›  Plated Steelcaps  ›  Spirit Visage",
+      coreNote: "Dusk and Dawn first — Spellblade procs with his passive to stack lightning twice after each ability. Navori Flickerblade second — on-hit CDR reduces every non-ult cooldown per auto, creating an ability spam loop that feeds constant W heals. These two items plus boots hit 10 Jack Of All Trades stacks immediately. Spirit Visage fourth doubles the W healing that already scales with missing HP. Take Plated Steelcaps vs heavy AD/AA, Mercury's Treads vs heavy AP or CC.",
+      sideItems: ["Mercury's Treads","Spirit Visage","Thornmail","Dead Man's Plate","Force of Nature","Sterak's Gage","Warmog's Armor","Gargoyle Stoneplate"],
+      data: {
+        JUGGERNAUT: { ahead: [ I("Thornmail","GW 40% + reflect shuts down Darius/Mundo regen while your W outheals theirs."), I("Navori Flickerblade","On-hit CDR keeps W cycling fast — your sustain loop beats their walk-down."), I("Dead Man's Plate","Bonus damage charge punishes them between W cooldowns.") ], behind: [ I("Spirit Visage","⭐ Doubles W healing — the lower you get the harder you heal back."), I("Thornmail","GW cuts their sustain even when behind."), I("Plated Steelcaps","Auto reduction vs every Juggernaut auto-weave when behind.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        DIVER: { ahead: [ I("Navori Flickerblade","On-hit CDR means W is always available during their dive window."), I("Spirit Visage","Healing amp turns every dive skirmish into a free trade."), I("Dead Man's Plate","Charge speed into their dive approach with bonus damage.") ], behind: [ I("Spirit Visage","W heal amp is your lifeline when behind — scales with missing HP."), I("Sterak's Gage","Shield absorbs their dive burst when your W is on cooldown."), I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        ASSASSIN: { ahead: [ I("Navori Flickerblade","Spam W between assassination windows — they can't burst through your regen."), I("Sterak's Gage","Absorb Zed Ult / Akali full combo — then W back to full."), I("Dead Man's Plate","Chase mobile assassins after they burn escapes.") ], behind: [ I("Sterak's Gage","Shield vs one-shots is mandatory — W can't save you if you die instantly."), I("Spirit Visage","Healing amp gives you a window to fight back after surviving the burst."), I("Plated Steelcaps","AD assassin auto-weave in burst chain — reduce each hit.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        SKIRMISHER: { ahead: [ I("Navori Flickerblade","Cycling W constantly means your sustain outlasts any Skirmisher duel."), I("Thornmail","GW 40% + reflect — Fiora/Tryndamere auto chains trigger it constantly."), I("Spirit Visage","Healing amp stacks with Thornmail's GW cutdown timing.") ], behind: [ I("Spirit Visage","W sustain at low HP tips extended fights in your favour."), I("Thornmail","GW cuts Fiora/Tryndamere regen even behind."), I("Plated Steelcaps","Crit damage reduction and auto mitigation.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        BURST_MAGE: { ahead: [ I("Spirit Visage","MR + healing amp while ahead — their burst doesn't land often enough to matter."), I("Navori Flickerblade","CDR loop keeps W ready every time they try to poke."), I("Dead Man's Plate","Engage speed into mid lane before their combo fires.") ], behind: [ I("Spirit Visage","Non-negotiable MR + W healing amp vs AP burst."), I("Force of Nature","Stack MR fast when AP burst is a consistent threat."), I("Sterak's Gage","Secondary shield when burst does land.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        BATTLEMAGE: { ahead: [ I("Thornmail","GW 40% on Vladimir/Swain drain — 40% reduced every tick."), I("Spirit Visage","Your W sustain vs their sustain — yours wins with Visage amp."), I("Navori Flickerblade","CDR loop means W is always available in the sustained trade.") ], behind: [ I("Spirit Visage","Non-negotiable vs sustained AP damage."), I("Thornmail","GW cuts Vladimir/Swain regen even when behind."), I("Force of Nature","Stack MR when AP damage is consistent and prolonged.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        ARTILLERY: { ahead: [ I("Dead Man's Plate","Charge speed + bonus damage closes the poke gap instantly."), I("Navori Flickerblade","CDR loop keeps W healing through poke accumulated on approach."), I("Dusk and Dawn","Spellblade burst on arrival after the charge — instant kill threat.") ], behind: [ I("Spirit Visage","W healing sustains through accumulated poke on approach."), I("Sterak's Gage","Shield absorbs their burst if they land it on arrival."), I("Mercury's Treads","Shorter CC duration so the charge can complete.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        MARKSMAN: { ahead: [ I("Plated Steelcaps","ADC auto reduction is critical — Lethal Tempo makes you trade autos so this is priority."), I("Navori Flickerblade","CDR loop + Lethal Tempo = infinite ability spam in the ADC's face."), I("Thornmail","GW + reflect on their lifesteal during your extended auto trade.") ], behind: [ I("Plated Steelcaps","Non-negotiable vs sustained ADC physical DPS."), I("Spirit Visage","W healing sustains through their DPS when behind."), I("Thornmail","GW limits their lifesteal sustain.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        ENCHANTER: { ahead: [ I("Thornmail","GW 40% destroys every heal and shield the Enchanter provides."), I("Navori Flickerblade","CDR loop + ability spam reaches backline faster than peel reacts."), I("Dead Man's Plate","Charge speed into Bot lane before Enchanter repositions.") ], behind: [ I("Thornmail","GW is the equaliser — their heal/shield advantage vanishes."), I("Spirit Visage","W healing sustains through carry burst even when behind."), I("Sterak's Gage","Shield vs carry + Enchanter follow-up.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        CATCHER: { ahead: [ I("Mercury's Treads","Shorter hooks/CC chains — Lethal Tempo stacks reset if you get hooked."), I("Navori Flickerblade","CDR loop keeps W available on approach through CC windows."), I("Dead Man's Plate","Charge speed past hook range.") ], behind: [ I("Mercury's Treads","Mandatory — CC stops Lethal Tempo stacks entirely."), I("Spirit Visage","W healing keeps you healthy between gank approach attempts."), I("Sterak's Gage","Shield after being caught.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        VANGUARD: { ahead: [ I("Dead Man's Plate","Charge through their engage — bonus damage into their team."), I("Navori Flickerblade","CDR loop turns the extended tank fight into an ability spam contest you win."), I("Dusk and Dawn","Spellblade proc + Lethal Tempo + passive lightning = burst damage on engage.") ], behind: [ I("Spirit Visage","W healing keeps you relevant when you can't out-damage their tank."), I("Sterak's Gage","Shield after their engage burst."), I("Mercury's Treads","Their CC chains disable Lethal Tempo stacks — reduce durations.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        WARDEN: { ahead: [ I("Dead Man's Plate","Charge past Warden body-block with bonus damage to the carry."), I("Navori Flickerblade","CDR loop — you spam abilities through Braum/Shen peel."), I("Thornmail","GW on any Warden sustain/healing passive.") ], behind: [ I("Spirit Visage","W heal amp keeps you in fights through Warden peel pressure."), I("Sterak's Gage","Shield vs carry burst through the body-block."), I("Mercury's Treads","Poppy E / Galio taunt disable Lethal Tempo — reduce them.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
+        SPECIALIST: { ahead: [ I("Dead Man's Plate","Charge Singed down — bonus damage on first auto after the charge."), I("Navori Flickerblade","CDR loop + ability spam melts Kennen/TF before they reposition."), I("Thornmail","GW on GP regen / Udyr passive sustain.") ], behind: [ I("Spirit Visage","W healing sustains through Teemo shroom poke and Kennen chip."), I("Force of Nature","Kennen/Teemo/Shyvana AP build — MR stack when behind."), I("Mercury's Treads","Teemo blind stops Lethal Tempo stacks entirely — reduce duration.") ], runes: { ...VOLIBEAR_JGL_DEFAULT_RUNES } },
       },
     },
   },
 },
 
 // ══════════════════════════════════════════════════════════════════════════
-//  REK'SAI — Diver / Assassin
+//  NOCTURNE — Diver / Assassin
 // ══════════════════════════════════════════════════════════════════════════
 {
-  id:"reksai", display:"Rek'Sai", dd:"RekSai",
-  color:"#8b0000", glow:"#e74c3c",
-  roles:{
-    Jungle:{
-      role:"Diver / Assassin",
-      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
-      coreNote:"Stridebreaker first for the AoE slow on W unburrow — they can't escape after you surface under them. Spear of Shojin third for ability haste to reduce W tunnel CD and more W knocks per fight. Sterak's fourth for the shield that keeps you alive mid-dive.",
-      sideItems:["Guardian Angel","Death's Dance","Lord Dominik's Regards","Black Cleaver","Mercury's Treads","Serpent's Fang"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen while ahead into their HP."),I("Black Cleaver","Q empowered autos stack Cleaver fast."),I("Stridebreaker","AoE slow on surface stops Juggernauts walking out.")],behind:[I("Sterak's Gage","Shield after W surface when they walk you down."),I("Death's Dance","Delay Darius/Mundo burst."),I("Plated Steelcaps","Auto reduction on their auto-weave.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stridebreaker","Surface under them — AoE slow and knock wins mirror dives."),I("Spear of Shojin","More W uses per fight = more knocks."),I("Sterak's Gage","Shield if their dive survives your burst.")],behind:[I("Sterak's Gage","Shield after failed gank."),I("Death's Dance","Delay their burst."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Stridebreaker","Surface burst before they can reposition."),I("Spear of Shojin","More E uses to chase escapes."),I("Sterak's Gage","Absorb their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots."),I("Guardian Angel","Revive after dive fails."),I("Death's Dance","Delay their burst while Q rage ticks.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Stridebreaker","Slow stops Fiora/Jax extended duel pattern."),I("Spear of Shojin","More W knocks interrupts their dueling rhythm."),I("Sterak's Gage","Shield when their sustained DPS kicks in.")],behind:[I("Sterak's Gage","Shield at low HP."),I("Guardian Angel","Revive mid-fight."),I("Death's Dance","Delay sustained trade damage.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Stridebreaker","Surface before their combo fires."),I("Sterak's Gage","Shield their retaliation."),I("Spear of Shojin","More W knocks to prevent casting.")],behind:[I("Sterak's Gage","Shield absorbs burst on failed gank."),I("Guardian Angel","Revive if they burst you before W."),I("Mercury's Treads","Shorter CC so W tunnel can surface.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Stridebreaker","Close on kiting Battlemages and slow them."),I("Black Cleaver","Shred HP stacks — Cleaver fills on Q autos."),I("Spear of Shojin","More W interrupts their sustained DPS.")],behind:[I("Sterak's Gage","Shield when sustained AP damage catches you."),I("Death's Dance","Delay AP DPS."),I("Mercury's Treads","Shorter CC.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Stridebreaker","Surface under them — AoE slow on arrival prevents escape."),I("Spear of Shojin","Faster W tunnel = surprise surface timing."),I("Sterak's Gage","Absorb poke on arrival.")],behind:[I("Sterak's Gage","Shield vs burst on arrival."),I("Mercury's Treads","Shorter CC so W surfaces."),I("Guardian Angel","Revive if burst lands before your W.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Stridebreaker","Surface under ADC — AoE slow, they cannot kite."),I("Spear of Shojin","More W surfaces per fight."),I("Lord Dominik's Regards","% pen on tanky ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."),I("Sterak's Gage","Shield vs carry burst."),I("Stridebreaker","Still your gank tool even behind.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Stridebreaker","Surface between carry and Enchanter — AoE slow hits both."),I("Serpent's Fang","Shield strip on surface landing."),I("Spear of Shojin","More W surfaces to separate the duo.")],behind:[I("Serpent's Fang","Still mandatory — their shields negate everything."),I("Sterak's Gage","Survive carry burst."),I("Stridebreaker","Still your separation tool.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — W tunnel is cancelled by most hooks."),I("Stridebreaker","Surface and slow before they reset."),I("Spear of Shojin","Faster W CD reduces hook vulnerability window.")],behind:[I("Mercury's Treads","Mandatory — CC stops tunnel entirely."),I("Sterak's Gage","Survive burst after being caught."),I("Guardian Angel","Revive if hook into burst kills you.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","Q autos stack Cleaver vs tanks."),I("Stridebreaker","Surface in their backline during engage."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Their CC chains stop tunnels."),I("Sterak's Gage","Survive engage burst."),I("Death's Dance","Delay follow-up burst.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Q autos shred Warden armor."),I("Lord Dominik's Regards","% pen into their stacking."),I("Stridebreaker","Surface past their body-block.")],behind:[I("Sterak's Gage","Survive carry burst through peel."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Stridebreaker","Surface under Singed/TF before they disengage."),I("Spear of Shojin","More W surfaces denies their repositioning."),I("Sterak's Gage","Survive their counter.")],behind:[I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","CC reduces tunnel options."),I("Guardian Angel","Revive after failed dive.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
+  id:      "nocturne",
+  display: "Nocturne",
+  dd:      "Nocturne",
+  color:   "#1a0a2e",
+  glow:    "#8a4fff",
+  lanes:   ["Jungle"],
+  roles: {
+    Jungle: {
+      role:     "Diver / Assassin",
+      corePath: "Eclipse  ›  Youmuu's Ghostblade  ›  Serylda's Grudge  ›  Plated Steelcaps",
+      coreNote: "Eclipse for burst damage and physical shield on Q proc — the shield absorbs counter-attack on R landing. Youmuu's active speed during R approach is critical. Serylda's slows the target after landing so they can't disengage.",
+      sideItems: ["Maw of Malmortius","Sterak's Gage","Death's Dance","Guardian Angel","Edge of Night","Lord Dominik's Regards","Serpent's Fang"],
+      data: {
+        JUGGERNAUT: { ahead: [ I("Lord Dominik's Regards","% pen while ahead turns their HP stacking into wasted gold."), I("Eclipse","Burst + shield on Q proc absorbs their auto-weave retaliation."), I("Serylda's Grudge","Slow after R land — Juggernauts can't walk away while you finish.") ], behind: [ I("Eclipse","Still your best damage path even behind — one good R = back in game."), I("Death's Dance","Delay their burst into bleed; R combo completes during the window."), I("Plated Steelcaps","Flat auto reduction vs every Juggernaut's auto-weave.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        DIVER: { ahead: [ I("Eclipse","Burst them before they can dive back out."), I("Youmuu's Ghostblade","Active speed to reposition after R landing."), I("Serylda's Grudge","Slow prevents Camille/Irelia from gap-closing after your landing.") ], behind: [ I("Eclipse","One successful R gank resets your whole game."), I("Death's Dance","Delay their dive burst while your combo lands."), I("Sterak's Gage","Shield when a Diver counter-dives after your R.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        ASSASSIN: { ahead: [ I("Eclipse","Out-burst them — your R guarantees you land first."), I("Youmuu's Ghostblade","Active speed during R approach and to chase escapes."), I("Edge of Night","Spell shield blocks their engage opener after you land.") ], behind: [ I("Eclipse","Single kill resets the whole game — never abandon damage items."), I("Death's Dance","Delay their burst combo while your Q fear ticks."), I("Sterak's Gage","Shield vs one-shots in counter-gank situations.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        SKIRMISHER: { ahead: [ I("Eclipse","Burst before they can extended-duel back."), I("Serylda's Grudge","Slow stops Fiora/Jax from chasing after your R landing."), I("Youmuu's Ghostblade","Reposition speed after R.") ], behind: [ I("Eclipse","Your burst window must open before their sustained DPS kicks in."), I("Guardian Angel","Fiora ult timing — passive revives mid-fight."), I("Death's Dance","Delay their extended trade damage.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        BURST_MAGE: { ahead: [ I("Eclipse","Arrive and burst before their combo fires."), I("Youmuu's Ghostblade","Active speed closes pre-cast animation."), I("Maw of Malmortius","Q spell shield blocks their CC opener.") ], behind: [ I("Maw of Malmortius","Magic shield absorbs burst when you arrive low HP."), I("Eclipse","Still your kill path even behind."), I("Sterak's Gage","Secondary shield for double protection.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        BATTLEMAGE: { ahead: [ I("Eclipse","Short burst window — kill before Vladimir can drain back."), I("Youmuu's Ghostblade","Close on kiting Battlemages before they reposition."), I("Maw of Malmortius","Shield absorbs AP DPS while your combo completes.") ], behind: [ I("Maw of Malmortius","Sustained AP DPS — shield is your survival tool."), I("Death's Dance","Delay their damage while Q fear ticks."), I("Eclipse","Always build damage — one gank kill = comeback.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        ARTILLERY: { ahead: [ I("Youmuu's Ghostblade","R approach + active speed closes before they reposition."), I("Eclipse","One-shot on landing — they have no escape."), I("Serylda's Grudge","Slow prevents repositioning after you arrive.") ], behind: [ I("Eclipse","Dive them immediately after R — they die to one combo."), I("Maw of Malmortius","AP poke accumulated during R approach."), I("Sterak's Gage","Absorb poke burst at arrival.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        MARKSMAN: { ahead: [ I("Eclipse","Two-ability proc deletes any ADC immediately."), I("Youmuu's Ghostblade","Active speed closes before kite pattern starts."), I("Serpent's Fang","Shieldbow / Immortal Shieldbow lifeline stripped on R arrival.") ], behind: [ I("Youmuu's Ghostblade","Still closes the gap even when behind — single ADC kill = game."), I("Eclipse","Never give up damage items vs squishy ADCs."), I("Sterak's Gage","Survive carry + Enchanter burst after landing.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        ENCHANTER: { ahead: [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on R arrival."), I("Eclipse","Burst them before their second shield cast."), I("Youmuu's Ghostblade","Active speed reaches Enchanter before peel reaction.") ], behind: [ I("Serpent's Fang","Still mandatory — never skip vs shield supports."), I("Eclipse","Still your path to the carry."), I("Sterak's Gage","Survive carry follow-up after Enchanter peel.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        CATCHER: { ahead: [ I("Eclipse","Arrive and delete Catcher before they chain CC."), I("Edge of Night","Block Blitz Q / Thresh hook on R arrival."), I("Youmuu's Ghostblade","Move past their hook range to the carry.") ], behind: [ I("Edge of Night","Your single lifeline vs hooks on arrival."), I("Eclipse","Still dive their carry — one kill = back in game."), I("Sterak's Gage","Survive burst after getting hooked.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        VANGUARD: { ahead: [ I("Eclipse","Dive the carry behind the tank — burst them instantly."), I("Youmuu's Ghostblade","Skip past engage tank to reach backline."), I("Serylda's Grudge","Slow the carry after landing so they can't reposition.") ], behind: [ I("Eclipse","Target the carry, not the tank — always."), I("Lord Dominik's Regards","% pen while behind helps vs their stacked armor."), I("Death's Dance","Survive their CC chain follow-up.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        WARDEN: { ahead: [ I("Eclipse","Dive through Warden body-block to reach carry."), I("Serpent's Fang","Braum/Shen shields stripped on R arrival."), I("Serylda's Grudge","Slow carry after Warden body-block.") ], behind: [ I("Eclipse","Always aim for carry — Warden can't prevent your R."), I("Lord Dominik's Regards","% pen vs their stacked armor."), I("Death's Dance","Survive their follow-up burst.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
+        SPECIALIST: { ahead: [ I("Eclipse","Dive Singed/TF before their unique kit engages."), I("Youmuu's Ghostblade","Close on kiting Specialists who run from R."), I("Serylda's Grudge","Slow prevents Singed kite loop after R arrival.") ], behind: [ I("Eclipse","One good gank kill restarts your game."), I("Maw of Malmortius","Kennen stun + ult / Shyvana fire — magic shield."), I("Edge of Night","Block Teemo blind / TF gold card on landing.") ], runes: { ...NOCTURNE_JGL_DEFAULT_RUNES } },
       },
     },
   },
 },
 
 // ══════════════════════════════════════════════════════════════════════════
-//  SHYVANA — Skirmisher / Bruiser
+//  BRIAR — Diver / Skirmisher
 // ══════════════════════════════════════════════════════════════════════════
 {
-  id:"shyvana", display:"Shyvana", dd:"Shyvana",
-  color:"#c0392b", glow:"#e67e22",
-  roles:{
-    Jungle:{
-      role:"Skirmisher / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Guinsoo's Rageblade  ›  Titanic Hydra",
-      coreNote:"Trinity Force first for Sheen proc on Q double-strike. Guinsoo's second enables on-hit Q magic damage that scales with dragon form. Titanic Hydra third for AoE damage on her Q resets. Prioritise dragon buffs — objective control is her kit's identity.",
-      sideItems:["Blade of the Ruined King","Nashor's Tooth","Wit's End","Sterak's Gage","Death's Dance","Randuin's Omen"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Blade of the Ruined King","% current HP on Q double-strike destroys their HP stacking."),I("Guinsoo's Rageblade","On-hit Q magic damage — ignores their armor stacking."),I("Titanic Hydra","AoE on Q resets shreds their camp while poking them.")],behind:[I("Sterak's Gage","Shield when they walk you down."),I("Death's Dance","Delay Darius/Mundo burst — E to disengage."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Trinity Force","Sheen proc wins mirror dives."),I("Guinsoo's Rageblade","On-hit damage procs faster than their dive burst."),I("Blade of the Ruined King","% HP drain — sustains through dive skirmishes.")],behind:[I("Sterak's Gage","Shield when their dive beats your burst."),I("Death's Dance","Delay burst while you R form to escape."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Trinity Force","Close and burst before they reset."),I("Sterak's Gage","Absorb their burst attempt."),I("Guinsoo's Rageblade","On-hit DPS in dragon form executes them post-combo.")],behind:[I("Sterak's Gage","Shield vs one-shots — they burst faster than you."),I("Death's Dance","Delay burst while dragon form procs drain."),I("Wit's End","MR + on-hit for AP assassins Akali/Ekko.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Guinsoo's Rageblade","On-hit DPS wins extended duels vs Fiora/Jax."),I("Blade of the Ruined King","% HP drain — you sustain through their dueling damage."),I("Titanic Hydra","AoE on Q resets maintains DPS while they trade.")],behind:[I("Randuin's Omen","Crit reduction vs Yasuo/Yone — dragon form has no armour."),I("Sterak's Gage","Shield when their crit burst peaks."),I("Plated Steelcaps","Critical auto mitigation.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","Close before their combo fires."),I("Sterak's Gage","Shield their burst while you reach dragon form."),I("Wit's End","MR + on-hit while ahead vs AP mid laners.")],behind:[I("Wit's End","MR stack + drain — non-negotiable vs AP burst."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter stun so dragon form can land.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Blade of the Ruined King","% HP drain on sustained AP targets."),I("Wit's End","MR + drain — your sustain vs their sustain."),I("Guinsoo's Rageblade","On-hit magic damage in dragon form beats their AP DPS.")],behind:[I("Wit's End","Non-negotiable — MR drain vs sustained AP."),I("Sterak's Gage","Shield when their DPS window opens."),I("Mercury's Treads","Shorter CC.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","Sprint passive closes poke gap."),I("Guinsoo's Rageblade","On-hit procs in dragon form melts them on arrival."),I("Sterak's Gage","Absorb poke burst accumulated on approach.")],behind:[I("Sterak's Gage","Shield vs burst on arrival."),I("Wit's End","MR vs AP poke."),I("Mercury's Treads","Shorter CC so your gank connects.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Guinsoo's Rageblade","On-hit DPS races their sustained damage."),I("Blade of the Ruined King","% HP drain on high-HP ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay their DPS window.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Guinsoo's Rageblade","Dragon form on-hit DPS reaches carry through peel."),I("Titanic Hydra","AoE hits both Enchanter and carry."),I("Blade of the Ruined King","% HP drain sustains through Enchanter poke.")],behind:[I("Sterak's Gage","Survive carry + Enchanter burst."),I("Death's Dance","Delay combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC chains — dragon form is cancelled by hooks."),I("Trinity Force","Close and burst before they reset CC."),I("Guinsoo's Rageblade","On-hit DPS on arrival.")],behind:[I("Mercury's Treads","Mandatory — CC kills dragon form entirely."),I("Sterak's Gage","Survive burst after CC lands."),I("Wit's End","AP Catchers drain.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Blade of the Ruined King","% HP drain on high-HP Vanguards."),I("Guinsoo's Rageblade","On-hit magic damage bypasses armor stacking."),I("Titanic Hydra","AoE on Q resets — hits engage tank and backline.")],behind:[I("Sterak's Gage","Survive engage burst."),I("Death's Dance","Delay burst."),I("Mercury's Treads","Their CC chains kill dragon form.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Blade of the Ruined King","% HP drain shreds Warden HP stacking."),I("Guinsoo's Rageblade","Magic on-hit bypasses their armor."),I("Titanic Hydra","AoE past their body-block.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Death's Dance","Delay burst."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","Sprint closes on kiting Specialists."),I("Guinsoo's Rageblade","Dragon form DPS melts Singed/Kennen."),I("Blade of the Ruined King","% HP drain on sustain Specialists.")],behind:[I("Wit's End","Kennen/Teemo AP — MR drain."),I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","Teemo blind stops Q double-strike — Tenacity shortens.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
+  id:      "briar",
+  display: "Briar",
+  dd:      "Briar",
+  color:   "#8b0000",
+  glow:    "#cc3300",
+  lanes:   ["Jungle","Top"],
+  roles: {
+    Jungle: {
+      role:     "Diver / Skirmisher",
+      corePath: "Sundered Sky  ›  Black Cleaver  ›  Death's Dance  ›  Plated Steelcaps",
+      coreNote: "Sundered Sky for the healing burst that amplifies her passive sustain. Black Cleaver stacks with her multi-hit E and shreds armor. Death's Dance converts burst damage to bleeds — she heals through the bleed window with her passive.",
+      sideItems: ["Sterak's Gage","Guardian Angel","Spear of Shojin","Ravenous Hydra","Lord Dominik's Regards","Serpent's Fang"],
+      data: {
+        JUGGERNAUT: { ahead: [ I("Black Cleaver","Stack shred fast — 6 E-hits fills Cleaver and strips their armor lead."), I("Lord Dominik's Regards","% pen while ahead turns HP stacking into wasted gold."), I("Sundered Sky","Q proc healing sustains through their walk-down pattern.") ], behind: [ I("Sundered Sky","Healing burst keeps you in the fight during their bleed window."), I("Death's Dance","Delay Darius/Mundo burst into bleed while passive heals."), I("Plated Steelcaps","Auto reduction vs Juggernaut auto-weave when behind.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        DIVER: { ahead: [ I("Sundered Sky","Healing burst wins mirror dives — your passive sustain tips the fight."), I("Black Cleaver","Shred their armor before they can defensive item."), I("Spear of Shojin","Haste = more E charges = more Cleaver stacks faster.") ], behind: [ I("Sundered Sky","Superior healing in extended fights — her passive advantage."), I("Death's Dance","Delay Irelia/Camille burst into bleed window."), I("Sterak's Gage","Shield when their dive survives your burst.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        ASSASSIN: { ahead: [ I("Sundered Sky","Burst them before they can escape — Q proc on first hit."), I("Black Cleaver","Fast shred + HP to survive their burst attempt."), I("Sterak's Gage","Secondary shield — Assassins try to one-shot even when you're ahead.") ], behind: [ I("Sterak's Gage","Shield vs one-shots when they get to you first."), I("Death's Dance","Delay their burst combo while passive heals."), I("Sundered Sky","Still your healing anchor even when behind.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        SKIRMISHER: { ahead: [ I("Sundered Sky","Out-sustain their extended duel — her passive advantage."), I("Black Cleaver","Shred Fiora/Jax armor before they can stack defensive items."), I("Spear of Shojin","Faster E charges = more DPS and Cleaver stacks vs sustained fighters.") ], behind: [ I("Sundered Sky","Healing is your only advantage behind — max it."), I("Sterak's Gage","Shield when their sustained damage catches you low."), I("Guardian Angel","Fiora ult timing / Jax counter — passive revive mid-fight.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        BURST_MAGE: { ahead: [ I("Sundered Sky","Burst them before their combo fires."), I("Sterak's Gage","Shield absorbs their burst if they get it off."), I("Death's Dance","Delay magic burst into bleed while passive heals.") ], behind: [ I("Sterak's Gage","Shield vs burst when you arrive at low HP."), I("Death's Dance","Bleed delay gives passive healing time to kick in."), I("Sundered Sky","Q proc healing offsets poke damage on approach.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        BATTLEMAGE: { ahead: [ I("Sundered Sky","Your sustain vs their sustain — passive healing tips the fight."), I("Black Cleaver","Shred Vladimir/Swain HP stacks while ahead."), I("Death's Dance","Convert sustained AP DPS to bleed while passive heals over it.") ], behind: [ I("Death's Dance","Delay Cassiopeia/Vladimir tick damage — passive heals during bleed."), I("Sterak's Gage","Shield when sustained damage catches you low."), I("Sundered Sky","Healing anchor — never skip it vs sustain matchups.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        ARTILLERY: { ahead: [ I("Sundered Sky","Q proc healing sustains through poke on approach."), I("Black Cleaver","Close and shred — they die instantly to her E chain."), I("Sterak's Gage","Absorb poke burst accumulated during approach.") ], behind: [ I("Sterak's Gage","Shield on arrival after poke damage."), I("Sundered Sky","Healing sustains through the approach."), I("Death's Dance","Delay any burst on arrival while passive heals.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        MARKSMAN: { ahead: [ I("Plated Steelcaps","ADC auto reduction on every gank approach."), I("Sundered Sky","Q proc healing sustains through their sustained DPS."), I("Black Cleaver","Shred their armor after landing.") ], behind: [ I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."), I("Sterak's Gage","Shield vs carry + Enchanter burst."), I("Sundered Sky","Healing sustains you through the gank.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        ENCHANTER: { ahead: [ I("Black Cleaver","Shred the carry once you're on them — E chain fills it fast."), I("Sundered Sky","Healing sustains through Enchanter poke damage."), I("Serpent's Fang","Lulu/Janna shield stripped on landing — 50% reduction.") ], behind: [ I("Serpent's Fang","Still priority — their shields nullify everything without it."), I("Sundered Sky","Healing keeps you alive through carry follow-up."), I("Sterak's Gage","Survive carry + Enchanter burst after landing.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        CATCHER: { ahead: [ I("Sundered Sky","Heal through poke while approaching hook range."), I("Black Cleaver","Close and shred — E chain melts Catchers."), I("Mercury's Treads","Shorter hook/CC chains for better gank reliability.") ], behind: [ I("Mercury's Treads","Mandatory — CC chains stop your E entirely."), I("Sterak's Gage","Survive burst after getting caught."), I("Sundered Sky","Healing sustains you between gank attempts.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        VANGUARD: { ahead: [ I("Black Cleaver","Stack shred vs Malphite/Ornn — E chain fills it fast."), I("Lord Dominik's Regards","% pen while ahead into their armor stacking."), I("Sundered Sky","Superior healing sustains through their HP advantage.") ], behind: [ I("Sterak's Gage","Survive engage burst when they initiate on you."), I("Death's Dance","Delay burst while passive heals."), I("Mercury's Treads","Malphite Ult / Leona chain — shorter CC when behind.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        WARDEN: { ahead: [ I("Black Cleaver","Shred Braum/K'Sante armor — E chain fills Cleaver instantly."), I("Lord Dominik's Regards","% pen makes their armor stacking worthless while ahead."), I("Sundered Sky","Sustain through their peel pressure.") ], behind: [ I("Sterak's Gage","Survive carry burst through Warden body-block."), I("Black Cleaver","Still your best armor shred path even behind."), I("Mercury's Treads","Poppy E / Galio taunt — reduce when behind.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
+        SPECIALIST: { ahead: [ I("Sundered Sky","Close on Singed — passive healing means his kite loop doesn't work."), I("Black Cleaver","Fast shred on close-range Specialists."), I("Death's Dance","GP barrel burst into bleed while passive heals.") ], behind: [ I("Sundered Sky","Her passive is the answer to sustain Specialists."), I("Sterak's Gage","Survive Kennen stun + ult / Singed flip."), I("Death's Dance","Delay burst while passive heals over it.") ], runes: { ...BRIAR_JGL_DEFAULT_RUNES } },
       },
     },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  WARWICK — Diver / Tank
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"warwick", display:"Warwick", dd:"Warwick",
-  color:"#4a235a", glow:"#8e44ad",
-  roles:{
-    Jungle:{
-      role:"Diver / Tank",
-      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Blade of the Ruined King  ›  Thornmail",
-      coreNote:"Stridebreaker first for the AoE slow on Infinite Duress — they cannot escape your ult suppression. Blade of the Ruined King second for % HP drain that synergises with Blood Hunt passive. Thornmail third for GW against healing targets. Spirit Visage fourth amplifies your W passive healing.",
-      sideItems:["Spirit Visage","Sterak's Gage","Dead Man's Plate","Force of Nature","Mercury's Treads","Warmog's Armor"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Thornmail","GW 40% on Warwick vs Darius/Mundo regen — mirror sustain fight, yours wins."),I("Blade of the Ruined King","% current HP drain beats their HP stacking model."),I("Spirit Visage","W passive healing amplified — sustains through their walk-down.")],behind:[I("Spirit Visage","W healing amp is your lifeline when behind."),I("Thornmail","GW cuts their regen even when behind."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stridebreaker","AoE slow on ult landing — they can't counter-dive out."),I("Blade of the Ruined King","% HP drain wins gank skirmishes."),I("Spirit Visage","W healing keeps you healthy post-dive.")],behind:[I("Spirit Visage","W healing is your advantage behind — never skip it."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Stridebreaker","Ult suppression + AoE slow = no escape."),I("Blade of the Ruined King","Drain their burst window."),I("Sterak's Gage","Shield their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots — ult makes you visible."),I("Spirit Visage","W heal keeps you alive after ult."),I("Force of Nature","AP assassins — MR stack.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Thornmail","GW + reflect on Fiora/Tryndamere auto chains."),I("Blade of the Ruined King","% HP drain wins extended duels."),I("Spirit Visage","W healing amp tips the sustain war.")],behind:[I("Spirit Visage","W sustain tips extended fights."),I("Thornmail","GW on Fiora/Tryndamere regen."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Stridebreaker","Close before their combo fires."),I("Spirit Visage","MR + W healing amp."),I("Sterak's Gage","Absorb burst.")],behind:[I("Spirit Visage","Non-negotiable MR + healing amp."),I("Force of Nature","Stack MR fast."),I("Sterak's Gage","Secondary shield.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain — 40% per tick."),I("Spirit Visage","Your W sustain vs their sustain — yours wins with Visage."),I("Blade of the Ruined King","% HP drain through their HP stacking.")],behind:[I("Spirit Visage","Non-negotiable."),I("Thornmail","GW cuts their regen even behind."),I("Force of Nature","Sustained AP DPS MR.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Charge speed + W scent triggers for fast approach."),I("Stridebreaker","AoE slow on ult arrival."),I("Spirit Visage","W sustains through poke during approach.")],behind:[I("Spirit Visage","W sustain on approach."),I("Sterak's Gage","Shield on arrival."),I("Mercury's Treads","Shorter CC so ult can land.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Blade of the Ruined King","% HP drain + active reposition on ADC."),I("Thornmail","GW on ADC lifesteal.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Spirit Visage","W healing sustains through their DPS."),I("Thornmail","GW limits lifesteal.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW 40% — destroys all Enchanter heals and shields."),I("Dead Man's Plate","Charge speed into Bot lane."),I("Spirit Visage","W sustains through Enchanter poke.")],behind:[I("Thornmail","GW still the equaliser."),I("Spirit Visage","W healing sustains."),I("Sterak's Gage","Survive carry burst.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — Blood Hunt passive triggers but hooks cancel ult."),I("Stridebreaker","AoE slow after CC window."),I("Spirit Visage","W healing sustains through gank.")],behind:[I("Mercury's Treads","Mandatory — CC cancels ult suppression."),I("Spirit Visage","W healing keeps you healthy."),I("Sterak's Gage","Survive burst after CC.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Blade of the Ruined King","% HP drain on engage tanks."),I("Stridebreaker","AoE slow during their initiation."),I("Spirit Visage","W healing through their tank pressure.")],behind:[I("Spirit Visage","W healing keeps you relevant."),I("Sterak's Gage","Survive engage burst."),I("Mercury's Treads","Their CC chains — shorter.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Blade of the Ruined King","% HP drain past their body-block."),I("Thornmail","GW on Warden sustain/passive."),I("Spirit Visage","W healing through their peel.")],behind:[I("Spirit Visage","W healing sustains."),I("Sterak's Gage","Survive carry burst through body-block."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Blood Hunt triggers on low-HP Specialists — charge speed."),I("Blade of the Ruined King","% HP drain on sustain Specialists."),I("Spirit Visage","W healing through their kit.")],behind:[I("Spirit Visage","W healing sustains."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind stops Lethal Tempo stacks.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  UDYR — Skirmisher / Bruiser (AD Build, patch 26.14)
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"udyr", display:"Udyr", dd:"Udyr",
-  color:"#1a5276", glow:"#2980b9",
-  roles:{
-    Jungle:{
-      role:"Skirmisher / Bruiser",
-      corePath:"Spear of Shojin  ›  Boots of Swiftness  ›  Experimental Hexplate  ›  Death's Dance",
-      coreNote:"Spear of Shojin first — ability haste converts directly to more Awaken uses per fight and faster form swap cycling. Boots of Swiftness for permanent kite resist (Udyr needs to stick to targets with E stun). Experimental Hexplate third for the on-ability-use move speed burst that lets you chase between E stuns. Death's Dance fourth for sustained survivability.",
-      sideItems:["Spirit Visage","Sterak's Gage","Thornmail","Black Cleaver","Plated Steelcaps","Guardian Angel"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Black Cleaver","Q-Awaken autos stack Cleaver — 6 hits shreds their armor."),I("Spear of Shojin","More Awaken uses per fight."),I("Death's Dance","Delay Darius/Mundo burst during your auto chain.")],behind:[I("Sterak's Gage","Shield when they walk you down."),I("Thornmail","GW on regen-heavy Juggernauts."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Spear of Shojin","More E stuns per fight — keeps Divers from counter-diving."),I("Experimental Hexplate","Move speed burst between E stuns."),I("Black Cleaver","Q autos stack shred during the stun chain.")],behind:[I("Sterak's Gage","Shield after E stun fails to stop their dive."),I("Death's Dance","Delay burst during your next E window."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Spear of Shojin","More W shield uses — absorb their burst attempt."),I("Experimental Hexplate","Chase them between their dashes."),I("Sterak's Gage","Absorb one-shot during your W form.")],behind:[I("Sterak's Gage","Shield vs one-shots."),I("Death's Dance","Delay burst while E stun lands."),I("Guardian Angel","Revive after failed counter-gank.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Spear of Shojin","More E stuns interrupts Fiora/Jax extended duel."),I("Experimental Hexplate","Chase between E stuns."),I("Black Cleaver","Q autos shred between stuns.")],behind:[I("Sterak's Gage","Shield when their sustained DPS peaks."),I("Death's Dance","Delay extended trade damage."),I("Thornmail","GW + reflect on auto-heavy Skirmishers.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Spear of Shojin","More W shields absorb their burst attempts."),I("Experimental Hexplate","Close before their combo fires."),I("Sterak's Gage","Absorb their burst.")],behind:[I("Spirit Visage","MR + W shield amplification."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter CC so E can land.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Spirit Visage","W shield amp vs their sustained AP."),I("Spear of Shojin","More W form uses per fight.")],behind:[I("Spirit Visage","W shield amp non-negotiable."),I("Thornmail","GW cuts their regen."),I("Death's Dance","Delay sustained AP DPS.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Experimental Hexplate","Move speed burst closes poke gap on ability use."),I("Boots of Swiftness","Slow resist — poke slows don't stop your approach."),I("Spear of Shojin","More W shields on approach.")],behind:[I("Spirit Visage","W shield sustains through poke."),I("Sterak's Gage","Shield on arrival."),I("Mercury's Treads","Shorter CC so your approach completes.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Experimental Hexplate","Chase ADC kite pattern with move speed bursts."),I("Black Cleaver","Q autos shred after E stun.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay DPS window.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Black Cleaver","Q autos shred carry after E stun."),I("Experimental Hexplate","Reach carry before Enchanter repositions."),I("Spear of Shojin","More E stuns to separate duo.")],behind:[I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — E stun trades with their CC."),I("Experimental Hexplate","Move speed dodge hooks between forms."),I("Spear of Shojin","More E stuns vs hook attempts.")],behind:[I("Mercury's Treads","Mandatory — CC stops your entire form pattern."),I("Sterak's Gage","Survive burst after CC lands."),I("Guardian Angel","Revive after getting caught.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","Q autos stack Cleaver vs engage tanks."),I("Experimental Hexplate","Move speed burst into their backline during engage."),I("Spear of Shojin","More E stuns disrupts their engage pattern.")],behind:[I("Mercury's Treads","Their CC stops your form swaps."),I("Sterak's Gage","Survive engage burst."),I("Spirit Visage","W shield amp.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Q autos shred Warden armor."),I("Experimental Hexplate","Chase through their body-block."),I("Spear of Shojin","More E stuns past their peel.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Boots of Swiftness","Singed cannot outrun Udyr + slow resist."),I("Experimental Hexplate","Move speed burst closes on kiting Specialists."),I("Spear of Shojin","More E stuns on repositioning Specialists.")],behind:[I("Spirit Visage","W shield sustains."),I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","Teemo blind stops Q Awaken — Tenacity shortens.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  SETT — Juggernaut / Tank
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"sett", display:"Sett", dd:"Sett",
-  color:"#7b241c", glow:"#e74c3c",
-  roles:{
-    Top:{
-      role:"Juggernaut / Tank",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
-      coreNote:"Heartsteel first for the HP stacking that amplifies every subsequent item. Sterak's third — Grit (W mechanic) stores 8% of damage taken as a grey health bar, and the Haymaker expends it as true damage bonus. The more HP you have, the more Grit stores. Titanic Hydra procs on Q and W autos for massive AoE damage.",
-      sideItems:["Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage scales with HP — more HP = bigger Haymaker."),I("Dead Man's Plate","Charge speed into their walk-down with bonus damage."),I("Warmog's Armor","Regen between trades — Grit restores passive HP.")],behind:[I("Sterak's Gage","Grit + Sterak shield = two separate damage-absorbing mechanics."),I("Gargoyle Stoneplate","Activates during their walk-down for massive resistances."),I("Thornmail","GW 40% on Darius/Mundo regen.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE punishes their dive cluster."),I("Dead Man's Plate","Charge speed into their dive approach."),I("Sterak's Gage","Grit stored from their dive = bigger Haymaker.")],behind:[I("Sterak's Gage","Grit + shield — their dive damage becomes your damage."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains."),I("Dead Man's Plate","Move speed to stay in Haymaker range.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sterak's Gage","Absorb one-shot — Grit stored = massive Haymaker retaliation."),I("Dead Man's Plate","Chase after their escape."),I("Titanic Hydra","Haymaker AoE punishes their melee range requirement.")],behind:[I("Sterak's Gage","Grit + shield is your only survival vs one-shots."),I("Gargoyle Stoneplate","Activates during their burst combo."),I("Force of Nature","AP assassins — MR stack.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Titanic Hydra","Grit W damage stored from their auto-heavy dueling."),I("Thornmail","GW + reflect on Fiora/Tryndamere chains."),I("Dead Man's Plate","Charge speed into their kite.")],behind:[I("Sterak's Gage","Grit from their DPS = bigger counter Haymaker."),I("Thornmail","GW + reflect even behind."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Sterak's Gage","Grit stored from burst = instant Haymaker retaliation."),I("Force of Nature","MR stack while ahead."),I("Dead Man's Plate","Engage before their combo fires.")],behind:[I("Force of Nature","Non-negotiable MR vs AP burst."),I("Sterak's Gage","Grit + shield absorbs their combo."),I("Mercury's Treads","Shorter stun so you can Haymaker.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Force of Nature","MR + move speed vs sustained AP."),I("Sterak's Gage","Grit stored from AP DPS = big Haymaker.")],behind:[I("Force of Nature","Non-negotiable."),I("Thornmail","GW cuts their regen."),I("Sterak's Gage","Grit + shield absorbs sustained damage.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Charge speed + bonus damage closes poke gap."),I("Sterak's Gage","Grit stored from poke = Haymaker on arrival."),I("Force of Nature","MR vs AP poke.")],behind:[I("Sterak's Gage","Grit from poke = retaliation damage."),I("Force of Nature","MR vs AP poke."),I("Gargoyle Stoneplate","Activates on arrival for bonus survivability.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Titanic Hydra","Haymaker AoE in their face."),I("Dead Man's Plate","Charge speed to reach ADC.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Grit from their DPS = Haymaker retaliation."),I("Gargoyle Stoneplate","Activates during their sustained DPS.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW destroys Enchanter healing amplification."),I("Dead Man's Plate","Charge into backline."),I("Titanic Hydra","Haymaker AoE hits both Enchanter and carry.")],behind:[I("Thornmail","GW equaliser."),I("Sterak's Gage","Grit + shield vs combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — Haymaker requires melee range."),I("Dead Man's Plate","Charge past hooks."),I("Sterak's Gage","Grit from any poke = Haymaker on landing.")],behind:[I("Mercury's Treads","Mandatory — CC prevents Haymaker."),I("Sterak's Gage","Grit + shield after surviving CC."),I("Gargoyle Stoneplate","Activates during their burst after CC.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Dead Man's Plate","Counter-charge into their engage."),I("Titanic Hydra","Haymaker AoE punishes their clustered engage."),I("Sterak's Gage","Grit from their engage = massive counter Haymaker.")],behind:[I("Mercury's Treads","Their CC prevents Haymaker — shorter duration."),I("Sterak's Gage","Grit stored during their engage = retaliation."),I("Gargoyle Stoneplate","Activates mid-engage for massive resistances.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Dead Man's Plate","Charge through their peel."),I("Titanic Hydra","Haymaker AoE past their body-block."),I("Thornmail","GW on any Warden sustain.")],behind:[I("Sterak's Gage","Grit + shield through their peel pressure."),I("Gargoyle Stoneplate","Activates during their sustained peel."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Charge Singed down — Sett wins the run."),I("Titanic Hydra","Haymaker AoE punishes Singed fling clusters."),I("Thornmail","GW on Gangplank regen / Udyr passive.")],behind:[I("Sterak's Gage","Grit from their poke/kit = retaliation Haymaker."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind stops autos — Tenacity shortens.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-      },
-    },
-    Jungle:{
-      role:"Juggernaut / Bruiser",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
-      coreNote:"Same core as Top. Sett Jungle uses Q suplex to clear camps quickly. Gank with E into W — E pull forces a cluster, W Haymaker expends stored Grit as true damage. The more the enemy jungle trades into you, the more Grit you store.",
-      sideItems:["Thornmail","Dead Man's Plate","Force of Nature","Warmog's Armor","Gargoyle Stoneplate","Mercury's Treads"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage + Titanic AoE destroys Juggernaut HP."),I("Thornmail","GW on regen-heavy Juggernauts."),I("Dead Man's Plate","Charge speed on ganks.")],behind:[I("Sterak's Gage","Grit + shield absorbs their walk-down."),I("Thornmail","GW even behind."),I("Plated Steelcaps","Auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE on dive cluster."),I("Dead Man's Plate","Counter-charge into their dive approach."),I("Sterak's Gage","Grit from their dive = counter Haymaker.")],behind:[I("Sterak's Gage","Grit + shield."),I("Plated Steelcaps","Auto reduction."),I("Dead Man's Plate","Stay mobile for counter-ganks.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sterak's Gage","Grit + shield absorbs their burst — then Haymaker retaliation."),I("Dead Man's Plate","Chase after their escape."),I("Titanic Hydra","AoE punishes their melee burst window.")],behind:[I("Sterak's Gage","Grit + shield is survival."),I("Gargoyle Stoneplate","Activates during burst combo."),I("Force of Nature","AP assassins.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Titanic Hydra","Grit from their autos = big Haymaker."),I("Thornmail","GW + reflect on their extended trade."),I("Dead Man's Plate","Charge into their duel.")],behind:[I("Sterak's Gage","Grit absorbs their DPS."),I("Thornmail","GW + reflect."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Sterak's Gage","Grit + shield absorbs burst — Haymaker retaliation."),I("Force of Nature","MR stack on mid lane ganks."),I("Dead Man's Plate","Charge before their combo fires.")],behind:[I("Force of Nature","Non-negotiable MR."),I("Sterak's Gage","Grit + shield."),I("Mercury's Treads","Shorter CC so Haymaker lands.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Force of Nature","MR vs sustained AP."),I("Sterak's Gage","Grit from AP DPS = Haymaker.")],behind:[I("Force of Nature","Non-negotiable."),I("Thornmail","GW."),I("Sterak's Gage","Grit + shield.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Gank speed + bonus damage on arrival."),I("Sterak's Gage","Grit from poke = Haymaker."),I("Force of Nature","MR vs AP poke.")],behind:[I("Sterak's Gage","Grit from poke = retaliation."),I("Force of Nature","MR."),I("Mercury's Treads","Shorter CC.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Dead Man's Plate","Gank approach speed."),I("Titanic Hydra","Haymaker AoE + Titanic proc.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates during their DPS.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW on Enchanter heals."),I("Dead Man's Plate","Gank approach speed."),I("Titanic Hydra","AoE hits both Enchanter and carry.")],behind:[I("Thornmail","GW equaliser."),I("Sterak's Gage","Grit + shield."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — E + Haymaker requires melee range."),I("Dead Man's Plate","Charge past hooks on gank."),I("Sterak's Gage","Grit from any CC poke = Haymaker.")],behind:[I("Mercury's Treads","Mandatory."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates after CC lands.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Dead Man's Plate","Counter-charge into engage."),I("Titanic Hydra","W AoE during their clustered engage."),I("Sterak's Gage","Grit from engage = counter Haymaker.")],behind:[I("Mercury's Treads","Their CC prevents Haymaker."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates mid-engage.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Dead Man's Plate","Charge through their peel on gank."),I("Titanic Hydra","Haymaker past their body-block."),I("Thornmail","GW on Warden passive sustain.")],behind:[I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates during peel pressure."),I("Mercury's Treads","Poppy E/Galio taunt.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Charge Singed — E pull into Haymaker cluster."),I("Titanic Hydra","W AoE punishes Singed flings."),I("Thornmail","GW on GP/Udyr regen.")],behind:[I("Sterak's Gage","Grit from their kit = Haymaker."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind — Tenacity.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  LOCKE — AP Assassin (patch 26.14 — Q nerfed, adapt build)
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"locke", display:"Locke", dd:"Locke",
-  color:"#2c3e50", glow:"#9b59b6",
-  roles:{
-    Mid:{
-      role:"AP Assassin",
-      corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Lich Bane first — Sheen proc fires on both nail-mark consumption auto AND on W recast, giving two Sheen procs per combo. Shadowflame third for flat pen vs mid-lane squishies. Zhonya's fourth since melee assassin who takes damage before dealing it. Rabadon's fifth to amplify all accumulated AP.",
-      sideItems:["Rabadon's Deathcap","Stormsurge","Cryptbloom","Banshee's Veil","Hextech Rocketbelt","Void Staff"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Cryptbloom","% pen bypasses their HP stacking — flat pen from Shadowflame wasted."),I("Void Staff","40% magic pen cuts through MR stack."),I("Zhonya's Hourglass","Stasis during their walk-down while poison mark ticks.")],behind:[I("Zhonya's Hourglass","Stasis during their burst — nail marks tick during stasis."),I("Banshee's Veil","Block one CC ability to land your Q combo safely."),I("Cryptbloom","% pen remains effective regardless of gold lead.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stormsurge","Proc damage on divers diving into melee range."),I("Shadowflame","Burst the diver before they close the gap fully."),I("Lich Bane","Sheen proc on Q mark consume + W recast in combo.")],behind:[I("Zhonya's Hourglass","Stasis cancels their dive window — nail marks still tick."),I("Banshee's Veil","Block Camille E / Irelia E before they can gap close."),I("Hextech Rocketbelt","Dash out of their dive with damage.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Shadowflame","Out-burst them — your Q mark + Lich Bane + Shadowflame one-shots squishies."),I("Stormsurge","Proc damage after first Sheen proc."),I("Lich Bane","Double Sheen in combo finishes them before their recast.")],behind:[I("Zhonya's Hourglass","Stasis during Zed Ult / Akali combo."),I("Banshee's Veil","Block Akali E / Katarina Shunpo opener."),I("Hextech Rocketbelt","Escape dash when they jump you.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Stormsurge","Proc damage during their extended duel window."),I("Shadowflame","Flat pen burst wins the short window before their sustain kicks in."),I("Lich Bane","Double Sheen proc in combo — don't let them trade autos with you.")],behind:[I("Zhonya's Hourglass","Stasis during Fiora ult / Jax counter-strike."),I("Banshee's Veil","Block their engage opener."),I("Hextech Rocketbelt","Escape when they chase post-duel.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Shadowflame","Out-burst them — your Q mark + Lich Bane Sheen proc is faster."),I("Stormsurge","Add proc damage during their cast animations."),I("Lich Bane","Double Sheen in combo deletes before their full combo fires.")],behind:[I("Banshee's Veil","Block their CC opener to land your Q safely."),I("Zhonya's Hourglass","Stasis during Syndra/Orianna full combo."),I("Hextech Rocketbelt","Create distance before their combo fires.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Void Staff","Vladimir/Swain will stack MR — % pen necessary."),I("Shadowflame","Burst trades punish before they sustain back."),I("Lich Bane","Double Sheen forces a decision — fight or flee during the window.")],behind:[I("Zhonya's Hourglass","Stasis during their sustained AP DPS."),I("Banshee's Veil","Block Vladimir Transfusion range or Swain E."),I("Void Staff","% pen vs their MR building.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Stormsurge","Close fast — proc fires immediately on arrival."),I("Shadowflame","One-shot on landing."),I("Hextech Rocketbelt","Dash in during their cast animation.")],behind:[I("Banshee's Veil","Block one long-range CC to create an approach window."),I("Hextech Rocketbelt","Dash past their poke to close the gap."),I("Zhonya's Hourglass","Stasis if they land CC on approach.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Shadowflame","Flat pen one-shots any ADC — Q mark + Lich Bane + Shadowflame = instant."),I("Stormsurge","Proc damage eliminates any HP remaining."),I("Lich Bane","Double Sheen confirm the kill before they kite.")],behind:[I("Shadowflame","ADCs are always squishy — never give up flat pen vs them."),I("Hextech Rocketbelt","Dash past their kite pattern."),I("Zhonya's Hourglass","Stasis vs carry + support burst after you land.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Shadowflame","Flat pen into low-MR Enchanters."),I("Stormsurge","Proc damage while they try to shield/heal the carry."),I("Lich Bane","Burst the Enchanter before they react.")],behind:[I("Void Staff","They rush MR when losing — % pen required."),I("Zhonya's Hourglass","Stasis when carry follows up after you kill Enchanter."),I("Banshee's Veil","Block Lulu polymorph / Janna knock to land Q.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Banshee's Veil","Block hook/root to approach — then Q mark + Lich Bane."),I("Shadowflame","Flat pen burst on gap-closed."),I("Stormsurge","Proc damage after Sheen.")],behind:[I("Banshee's Veil","Your only approach window — never skip vs hook supports."),I("Hextech Rocketbelt","Dash past their CC range."),I("Zhonya's Hourglass","Stasis after CC lands before their follow-up.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Void Staff","% pen into tank armor/MR stacking."),I("Cryptbloom","Healing amp from % pen source."),I("Stormsurge","Proc damage while they try to engage.")],behind:[I("Void Staff","% pen is your only damage source vs their stacking."),I("Zhonya's Hourglass","Stasis during Malphite Ult / Leona chain."),I("Banshee's Veil","Block their initiation ability.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Void Staff","% pen vs Warden HP/MR stacking."),I("Cryptbloom","% pen path."),I("Shadowflame","Burst through before they body-block for carry.")],behind:[I("Void Staff","Non-negotiable vs Warden stacking."),I("Zhonya's Hourglass","Stasis during combined Warden + carry burst."),I("Banshee's Veil","Block Poppy E / Galio taunt.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Shadowflame","Burst Singed/GP before their kits engage."),I("Stormsurge","Proc damage mid-combo."),I("Lich Bane","Double Sheen closes kill before they activate kit.")],behind:[I("Banshee's Veil","Block Teemo blind / TF gold card before Q mark."),I("Zhonya's Hourglass","Stasis during Kennen stun + ult."),I("Hextech Rocketbelt","Escape when kiting Specialists catch you.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
+    Top: {
+      role:     "Diver / Bruiser",
+      corePath: "Sundered Sky  ›  Black Cleaver  ›  Sterak's Gage  ›  Plated Steelcaps",
+      coreNote: "Same Sundered Sky + Cleaver core. Sterak's over Death's Dance in lane — her passive makes her bleed herself constantly, so the shield absorbs the self-damage she takes during extended trades.",
+      sideItems: ["Death's Dance","Ravenous Hydra","Spear of Shojin","Guardian Angel","Lord Dominik's Regards","Serpent's Fang"],
+      data: {
+        JUGGERNAUT: { ahead: [ I("Black Cleaver","Stack shred fast — 6 E-hits wins the stat check vs Darius/Garen."), I("Lord Dominik's Regards","% pen while ahead into their HP bulk."), I("Sundered Sky","Healing sustains through their walk-down pattern.") ], behind: [ I("Sterak's Gage","Shield absorbs self-bleed + their damage when behind."), I("Plated Steelcaps","Auto reduction vs every Juggernaut auto-weave."), I("Ravenous Hydra","AoE sustain to keep HP up for E resets.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        DIVER: { ahead: [ I("Sundered Sky","Healing burst tips the mirror sustained fight in your favour."), I("Black Cleaver","Shred their armor before they defensive item."), I("Spear of Shojin","More E charges = more Cleaver stacks faster.") ], behind: [ I("Sterak's Gage","Shield absorbs self-bleed + their burst when losing."), I("Ravenous Hydra","AoE sustain through multiple trade windows."), I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        ASSASSIN: { ahead: [ I("Sundered Sky","Burst them before they can escape — Q proc + passive."), I("Black Cleaver","Fast shred + HP to absorb their burst attempt."), I("Sterak's Gage","Shield vs one-shots — Assassins try regardless of your lead.") ], behind: [ I("Sterak's Gage","Shield is your lifeline vs one-shots + self-bleed."), I("Plated Steelcaps","AD assassin auto-weaves — reduce each hit."), I("Ravenous Hydra","Sustain between trade windows.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        SKIRMISHER: { ahead: [ I("Sundered Sky","Out-sustain their extended duel — passive tips the fight."), I("Black Cleaver","Shred Fiora/Jax armor before they defensive item."), I("Spear of Shojin","Faster E = faster Cleaver and more DPS.") ], behind: [ I("Sterak's Gage","Shield vs self-bleed + sustained Skirmisher DPS."), I("Guardian Angel","Fiora ult timing — passive revive mid-fight."), I("Ravenous Hydra","Sustain through their extended trade pattern.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        BURST_MAGE: { ahead: [ I("Sundered Sky","Burst before their combo — Q proc one-shot window."), I("Sterak's Gage","Shield absorbs self-bleed + their burst if it lands."), I("Black Cleaver","Fast close and shred before they react.") ], behind: [ I("Sterak's Gage","Double protection vs self-bleed + burst combo."), I("Ravenous Hydra","Sustain between trade windows."), I("Sundered Sky","Q proc healing offsets poke + self-bleed.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        BATTLEMAGE: { ahead: [ I("Sundered Sky","Your passive sustain beats their sustained AP."), I("Black Cleaver","Shred Vladimir/Swain HP while ahead."), I("Death's Dance","Delay AP DPS to bleed while passive heals over it.") ], behind: [ I("Sterak's Gage","Shield vs self-bleed + sustained AP damage."), I("Ravenous Hydra","Sustain to offset Vladimir Transfusion healing."), I("Death's Dance","Delay their AP DPS while passive heals.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        ARTILLERY: { ahead: [ I("Sundered Sky","Q proc healing sustains through poke + self-bleed."), I("Black Cleaver","Close and shred — E chain melts Artillery instantly."), I("Sterak's Gage","Absorb poke burst accumulated during approach.") ], behind: [ I("Sterak's Gage","Shield vs poke + self-bleed when behind."), I("Ravenous Hydra","Sustain to offset self-bleed during approach."), I("Sundered Sky","Healing anchor during the walk-in.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        MARKSMAN: { ahead: [ I("Plated Steelcaps","ADC auto reduction — critical even ahead."), I("Sundered Sky","Healing sustains through their sustained DPS."), I("Black Cleaver","Shred after landing — E chain fills it.") ], behind: [ I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."), I("Sterak's Gage","Shield vs carry burst + self-bleed."), I("Ravenous Hydra","Sustain to offset self-bleed in lane.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        ENCHANTER: { ahead: [ I("Black Cleaver","Shred the carry fast — E chain fills Cleaver instantly."), I("Sundered Sky","Sustain through Enchanter poke."), I("Serpent's Fang","Lulu/Janna shields stripped on engage.") ], behind: [ I("Serpent's Fang","Still priority — shields completely negate your damage."), I("Sterak's Gage","Survive carry burst + self-bleed."), I("Ravenous Hydra","Sustain between trade windows.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        CATCHER: { ahead: [ I("Mercury's Treads","Shorter hook/CC chains — her E needs free movement to work."), I("Sundered Sky","Heal through poke while approaching."), I("Black Cleaver","Close and shred — E chain melts Catchers instantly.") ], behind: [ I("Mercury's Treads","Mandatory — CC stops E entirely and she bleeds herself."), I("Sterak's Gage","Shield absorbs burst + self-bleed when caught."), I("Ravenous Hydra","Sustain between engagement attempts.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        VANGUARD: { ahead: [ I("Black Cleaver","E chain fills Cleaver vs Malphite/Ornn armor."), I("Lord Dominik's Regards","% pen while ahead into their armor stacking."), I("Sundered Sky","Sustain through their tank pressure.") ], behind: [ I("Sterak's Gage","Shield vs engage burst + self-bleed."), I("Black Cleaver","Still your best armor shred even behind."), I("Mercury's Treads","Malphite Ult / Leona chain — shorter when behind.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        WARDEN: { ahead: [ I("Black Cleaver","E chain fills Cleaver vs Braum/K'Sante armor."), I("Lord Dominik's Regards","% pen while ahead."), I("Sundered Sky","Sustain through peel pressure.") ], behind: [ I("Sterak's Gage","Shield vs carry burst + self-bleed through their body-block."), I("Ravenous Hydra","Sustain to offset self-bleed in extended fights."), I("Mercury's Treads","Poppy E / Galio taunt — reduce when behind.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
+        SPECIALIST: { ahead: [ I("Sundered Sky","Passive healing means Singed's kite loop simply doesn't work."), I("Black Cleaver","Close and shred — her passive makes her walk him down."), I("Sterak's Gage","Shield absorbs self-bleed + Kennen stun combo.") ], behind: [ I("Sterak's Gage","Shield vs self-bleed + burst setups."), I("Ravenous Hydra","Sustain to offset passive self-bleed in lane."), I("Mercury's Treads","Teemo blind stops her E chain — Tenacity shortens it.") ], runes: { ...BRIAR_TOP_DEFAULT_RUNES } },
       },
     },
   },
