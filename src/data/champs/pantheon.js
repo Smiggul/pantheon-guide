@@ -1,0 +1,536 @@
+import { I } from "../runeHelpers.js";
+
+const PANTH_TOP_DEFAULT_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Transcendence","Scorch"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "Conqueror stacks fast on Q spam. Legend: Haste reduces Q/W/E cooldowns. Transcendence resets non-ult CDs on takedowns. Scorch adds early poke pressure.",
+};
+
+const PANTH_JGL_DEFAULT_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "Hextech Flashtraption replaces Flash while on CD with a wall-traversing version — surprise W stuns from unexpected jungle angles. Cosmic Insight reduces Summoner Spell CDs for more Smite and Hexflash uptime.",
+};
+
+const PANTH_MID_DEFAULT_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Transcendence","Scorch"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "Same core as Top. Mid Pantheon plays nearly identically with more roam priority post-6. Scorch wins poke trades vs most mid-lane mages.",
+};
+
+const PANTH_SUP_DEFAULT_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Coup de Grace"],
+  secondary:      "Domination",
+  secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "Coup de Grace executes low-HP targets after your W stun. Cheap Shot adds true damage on every W. Relentless Hunter enables roaming between Bot and Mid after getting kills.",
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+//  PANTHEON — Diver / Bruiser
+// ══════════════════════════════════════════════════════════════════════════
+
+export default {
+    id:      "pantheon",
+    display:  "Pantheon",
+    dd:       "Pantheon",       // must match filename: champions/Pantheon.png
+    color:    "#c0392b",
+    glow:     "#e74c3c",
+    lanes:    ["Top", "Mid", "Support", "Jungle"],
+  
+    roles:{
+            Top:    {  
+              bans:["Jax","Malphite","Fiora"], replacements:["Renekton","Sett","Wukong"],
+                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
+                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Shojin amplifies Q-poke into extended skirmishes.",
+                        sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Death's Dance","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
+                        data: {
+                                JUGGERNAUT: {
+                                  ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
+                                  behind: [ I("Black Cleaver","HP + shred in one item — survive while peeling their armor."), I("Death's Dance","Delay lethal burst into a bleed, keeping combo window open."), I("Sterak's Gage","Shield keeps you alive when they catch you at low HP.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Cut Down amplifies damage vs high-HP Juggernauts by up to 15%. Conqueror stacks on every Q poke.",
+                                            champOverrides: {
+                                              "Dr. Mundo": {
+                                                secondaryRunes: ["Transcendence","Gathering Storm"],
+                                                reason: "Dr. Mundo outscales you hard — Gathering Storm helps you stay relevant. Rush Mortal Reminder.",
+                                              },
+                                              "Nasus": {
+                                                primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
+                                                secondary: "Domination",
+                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                                shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                                reason: "Nasus is a lane bully pre-30 stacks but loses late. Relentless Hunter lets you roam and starve him of CS.",
+                                              },
+                                            },
+                                          },
+                                },
+                                DIVER: {
+                                  ahead:  [ I("Eclipse","Convert lead fast — burst before they can sustain or disengage."), I("Youmuu's Ghostblade","Active move-speed to chase or re-engage after Ult landing."), I("Death's Dance","Sustain through their mirror-dive while burst finishes them.") ],
+                                  behind: [ I("Sterak's Gage","Shield at low HP when Camille/Irelia survives burst and all-ins."), I("Plated Steelcaps","Flat auto reduction on Irelia/Renekton — every auto counts behind."), I("Death's Dance","Convert their burst to bleed so combo window still exists.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                            secondary: "Resolve",
+                                            secondaryRunes: ["Bone Plating","Second Wind"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Divers CC you during dives — Tenacity shortens every stun, slow and root. Bone Plating reduces their burst on landing.",
+                                            champOverrides: {
+                                              "Irelia": {
+                                                primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Conditioning"],
+                                                shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                                reason: "Irelia's mark and stun stack into long CC chains. Bone Plating breaks her short-trade pattern. E her during the stun.",
+                                              },
+                                              "Camille": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Camille's E deals physical + true damage. Bone Plating reduces both hits. Don't fight her in her hextech cage.",
+                                              },
+                                              "Sylas": {
+                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                reason: "Sylas deals AP damage — swap the armor shard for MR. His chains CC you — Tenacity is essential.",
+                                              },
+                                            },
+                                          },     
+                   
+                                },
+                                ASSASSIN: {
+                                  ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
+                                  behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
+                                  runes: {
+                                          keystone: "Conqueror",
+                                          primary: "Precision",
+                                          primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                          secondary: "Resolve",
+                                          secondaryRunes: ["Bone Plating","Second Wind"],
+                                          shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                          reason: "Assassin burst windows are short — Bone Plating breaks their opener. Magic Resist shard vs AP assassins.",
+                                          champOverrides: {
+                                            "Zed": {
+                                              secondary: "Sorcery",
+                                              secondaryRunes: ["Transcendence","Scorch"],
+                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                              reason: "Zed deals pure AD — armor shard over MR. Scorch pokes him pre-6. Trade into his W shadow, not out of it.",
+                                            },
+                                            "Katarina": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
+                                              reason: "Kata has no hard CC so Tenacity is less critical — but her dagger slow + shunpo still benefits from it. Coup de Grace secures resets.",
+                                            },
+                                            "Fizz": {
+                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                              reason: "Fizz is pure AP — MR shard throughout. His E makes him untargetable; never W or Q into his E. Bone Plating blocks his Q-AA combo.",
+                                            },
+                                            "Akali": {
+                                              reason: "Akali's ring slows inside it — Tenacity is essential to escape. Bone Plating breaks her Q-AA opener before her empowered Q.",
+                                            },
+                                          },
+                                        },                         
+                                },
+                                SKIRMISHER: {
+                                  ahead:  [ I("Eclipse","Burst them before they stack defensive items."), I("Lord Dominik's Regards","Pen through early Fiora/Jax armor during your lead window."), I("Serylda's Grudge","Slow stops Yone/Yasuo kiting and keeps them in your combo.") ],
+                                  behind: [ I("Randuin's Omen","Crit damage reduction — vital vs Yasuo, Yone, Tryndamere."), I("Frozen Heart","–20% nearby attack speed. Destroys Fiora/Tryndamere."), I("Black Cleaver","HP + shred to keep damage relevant while in deficit.") ],
+                                  runes: {
+                                          keystone: "Conqueror",
+                                          primary: "Precision",
+                                          primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                          secondary: "Sorcery",
+                                          secondaryRunes: ["Transcendence","Scorch"],
+                                          shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                          reason: "Standard Conqueror page. Skirmishers have minimal CC — Haste over Tenacity. Scorch pokes them before they can stack defenses.",
+                                          champOverrides: {
+                                            "Yasuo": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Unflinching"],
+                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                              reason: "Yasuo's R is a guaranteed knockup into any ally CC — Tenacity + Unflinching shortens it. Bone Plating breaks his Wind Wall trade burst. Magic Resist vs his E true damage passive.",
+                                            },
+                                            "Yone": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                              reason: "Yone deals hybrid physical + magic damage via Soul Unbound. MR shard + Bone Plating reduces both. Tenacity on his E knockback.",
+                                            },
+                                            "Fiora": {
+                                              primaryRunes: ["Triumph","Legend: Alacrity","Last Stand"],
+                                              secondary: "Sorcery",
+                                              secondaryRunes: ["Transcendence","Gathering Storm"],
+                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                              reason: "Fiora barely CCs you — skip Tenacity entirely. Alacrity wins short trades before she procs vitals. Gathering Storm: she outscales you, so you scale back.",
+                                            },
+                                            "Tryndamere": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Revitalize"],
+                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                              reason: "Tryndamere's adrenaline rage + Ignite = CC chain window. Tenacity on his slow. Bone Plating reduces his short-trade crit burst.",
+                                            },
+                                            "Jax": {
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Resolve",
+                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              reason: "Jax counter-strike stuns — Tenacity essential. Bone Plating makes his E-AA burst shorter. You beat him pre-6; respect his ult power spike.",
+                                            },
+                                            "Master Yi": {
+                                              primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                              secondary: "Domination",
+                                              secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                              reason: "Yi has zero CC. Skip Tenacity. Your W stun + Ignite during Meditate is his biggest fear. Coup de Grace executes him at low HP post-Q.",
+                                            },
+                                          },
+                                        },
+                                },
+                                BURST_MAGE: {
+                                  ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
+                                  behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                            reason: "Magic Resist shard throughout vs burst mages. Scorch poke trades punish their limited mobility between casts.",
+                                            champOverrides: {
+                                              "Syndra": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Syndra's ball scatter (E) stuns you from range — Bone Plating reduces her follow-up burst. Respect her power spike at 9 balls.",
+                                              },
+                                              "Veigar": {
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Veigar's Event Horizon cage stuns corner-to-corner. Never stand near walls. Bone Plating reduces his Q-auto opener damage.",
+                                              },
+                                            },
+                                          },
+                                },
+                                BATTLEMAGE: {
+                                  ahead:  [ I("Eclipse","Short burst window — kill before Vladimir can drain back up."), I("Mortal Reminder","GW 40% eliminates their sustain advantage before they regen."), I("Lord Dominik's Regards","Swain/Malzahar stack HP — % pen keeps damage high.") ],
+                                  behind: [ I("Maw of Malmortius","Survive the sustained AP DPS window with magic shield."), I("Mortal Reminder","GW is your only offset for their healing when behind."), I("Sterak's Gage","Extra shield gives another window after sustained damage.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                            reason: "Battlemages want sustained trades — Conqueror meets them there and beats them at it. Scorch adds early poke pressure.",
+                                            champOverrides: {
+                                              "Vladimir": {
+                                                keystone: "Conqueror",
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                reason: "Vladimir's Transfusion sustain is a war of attrition. Second Wind lets you sustain back. Build Mortal Reminder second.",
+                                              },
+                                              "Cassiopeia": {
+                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Cassiopeia's Twin Fang chains deal massive DPS when poisoned. Bone Plating breaks her opener. Never walk into her miasma without E.",
+                                              },
+                                            },
+                                          },
+                                },
+                                ARTILLERY: {
+                                  ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
+                                  behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
+                                   runes: {
+                                            keystone: "Fleet Footwork",
+                                            primary: "Precision",
+                                            primaryRunes: ["Absorb Life","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                            reason: "Fleet Footwork sustains through poke lane. Nimbus Cloak + Celerity grants burst speed on Flash/Ignite to close the poke gap instantly.",
+                                            champOverrides: {
+                                              "Xerath": {
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Xerath's range means you must close quickly. Nimbus Cloak on Ignite = free gap close at his max range.",
+                                              },
+                                            },
+                                          },                                
+                                },
+                                MARKSMAN: {
+                                  ahead:  [ I("Eclipse","Two-ability proc = guaranteed one-rotation kill on any ADC."), I("Youmuu's Ghostblade","Active speed closes before they can kite or reposition."), I("Serpent's Fang","Kai'Sa/Samira shields stripped — no escaping your burst.") ],
+                                  behind: [ I("Plated Steelcaps","Flat auto reduction is massive — cuts every Jinx/Caitlyn attack."), I("Eclipse","Best damage path even behind — one good Ult = back in game."), I("Sterak's Gage","Shield keeps you alive long enough to find that combo window.") ],
+                                   runes: {
+                                            keystone: "Press the Attack",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                            secondary: "Domination",
+                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Press the Attack procs faster on ADCs than Conqueror stacks. Coup de Grace executes from your burst. Relentless Hunter enables roaming after tower.",
+                                          },
+                                },
+                                ENCHANTER: {
+                                  ahead:  [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on contact while ahead."), I("Youmuu's Ghostblade","Active speed: Janna/Lulu can't reposition before your W stun."), I("Eclipse","Overkill burst — with Serpent's Fang up they simply die.") ],
+                                  behind: [ I("Serpent's Fang","Still priority even behind — skipping costs every shield trade."), I("Mortal Reminder","Q poke applies GW to limit heals when you can't reach them."), I("Sterak's Gage","Survive Lulu polymorph + their carry's follow-up burst.") ],
+                                  runes: {
+                                            keystone: "Press the Attack",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                            secondary: "Domination",
+                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Press the Attack procs in 3 autos into their carry — amplifies your burst window after shields are stripped. Cheap Shot adds true damage on W stun.",
+                                            champOverrides: {
+                                              "Lulu": {
+                                                primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
+                                                reason: "Lulu's Glitterlance slows and her ult knocks up. Tenacity reduces both CC durations significantly.",
+                                              },
+                                              "Janna": {
+                                                primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Janna's whirlwind knockup + Monsoon knockback are her only CC. Nimbus Cloak lets you chase after she blows R.",
+                                              },
+                                            },
+                                          },              
+                                },
+                                CATCHER: {
+                                  ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
+                                  behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
+                                    runes: {
+                                              keystone: "Conqueror",
+                                              primary: "Precision",
+                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
+                                              secondary: "Inspiration",
+                                              secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
+                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                              reason: "Hextech Flashtraption lets you Flash through walls on a 20s CD while standing still — surprise W stuns from unexpected angles. Tenacity on every hook.",
+                                              champOverrides: {
+                                                "Morgana": {
+                                                  secondary: "Resolve",
+                                                  secondaryRunes: ["Bone Plating","Second Wind"],
+                                                  shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                  reason: "Morgana deals AP damage with Black Shield blocking your CC. Resolve secondary for durability. MR shard vs her Q + W damage.",
+                                                },
+                                                "Blitzcrank": {
+                                                  reason: "Blitz hook into Power Fist = hard CC chain. If he misses his hook, all-in immediately — his cooldowns are long early.",
+                                                },
+                                              },
+                                            },
+                                },
+                                VANGUARD: {
+                                  ahead:  [ I("Eclipse","Ult in, E their CC, finish with burst before they act."), I("Black Cleaver","Shred Malphite/Ornn armor in 6 Q taps while team is disrupted."), I("Lord Dominik's Regards","% pen while ahead makes their armor irrelevant.") ],
+                                  behind: [ I("Mercury's Treads","Default. Malphite Ult, Leona chain, Nautilus root — all shorter."), I("Sterak's Gage","Survive the burst that follows a Vanguard's initiation."), I("Randuin's Omen","AoE slow active peels their engage. Crit reduction vs carry builds.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Cut Down deals up to 15% more damage vs high-HP tanks. Conqueror stacks faster than they can rotate CC.",
+                                            champOverrides: {
+                                              "Malphite": {
+                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                reason: "Malphite deals AP damage via passive and ult. MR shard + Conditioning gives sustained MR scaling into his ult timing.",
+                                              },
+                                              "Leona": {
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                                reason: "Leona chains: E stun → W → R stun. Tenacity on every CC in the chain. Never fight her with her E up.",
+                                              },
+                                            },
+                                          },
+                                },
+                                WARDEN: {
+                                  ahead:  [ I("Serpent's Fang","Shen Ult + Braum passive shields stripped by 50% on contact."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Serylda's Grudge","Slow on Ult stops Tahm Kench body-blocking at the last second.") ],
+                                  behind: [ I("Black Cleaver","Shred gradually — even behind, 6 stacks still open them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shut down your dives — reduce duration.") ],
+                                   runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Cut Down vs high-HP Wardens. Conqueror stacks fast enough on Braum/Shen that sustained trades are winnable.",
+                                            champOverrides: {
+                                              "Poppy": {
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                                secondary: "Resolve",
+                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                reason: "Poppy's Steadfast Presence blocks dashes and her E knocks into walls. Tenacity + Bone Plating makes her trades shorter. Don't dash near walls.",
+                                              },
+                                              "Galio": {
+                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                reason: "Galio deals AP damage. MR shard over armor. His taunt CC + ult knockup = Tenacity is more valuable than Haste here.",
+                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
+                                              },
+                                            },
+                                          },
+                                },
+                                SPECIALIST: {
+                                  ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
+                                  behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
+                                  runes: {
+                                            keystone: "Conqueror",
+                                            primary: "Precision",
+                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                            secondary: "Sorcery",
+                                            secondaryRunes: ["Transcendence","Scorch"],
+                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
+                                            reason: "Default sustained page — Specialists are so varied that Conqueror works as the baseline across most of them.",
+                                            champOverrides: {
+                                              "Singed": {
+                                                keystone: "Conqueror",
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
+                                                reason: "Nimbus Cloak on Ignite gives you a movement speed burst to close on Singed while he runs. Without it, he simply kites you forever.",
+                                              },
+                                              "Teemo": {
+                                                keystone: "Grasp of the Undying",
+                                                primary: "Resolve",
+                                                primaryRunes: ["Shield Bash","Bone Plating","Overgrowth"],
+                                                secondary: "Domination",
+                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
+                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
+                                                reason: "Grasp wins short trades (Teemo blind = your autos are useless so trades MUST be short). Bone Plating absorbs his Q blind + auto opener. MR shard vs his AP damage.",
+                                              },
+                                              "Gangplank": {
+                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
+                                                secondary: "Sorcery",
+                                                secondaryRunes: ["Transcendence","Scorch"],
+                                                reason: "GP Oranges cleanse your W stun — bait them first, then W when he's used the Orange. Scorch poke synergises with your ranged Q harassment.",
+                                              },
+                                            },
+                                          },
+                                },
+                              },
+                    },
+
+            Jungle: {  
+              bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
+                corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Spear of Shojin",
+                coreNote: "Jungle Pantheon relies on early tempo and ganks. Eclipse spike enables early kills; Cleaver transitions into mid-game teamfights.",
+                sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Death's Dance","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
+
+                data: {
+                  DIVER: {
+                    ahead:  [ I("Eclipse","Win early skirmishes instantly."), I("Youmuu's Ghostblade","Faster rotations between lanes."), I("Death's Dance","Outlast mirror dive fights.") ],
+                    behind: [ I("Plated Steelcaps","Reduces sustained auto damage."), I("Sterak's Gage","Gives survivability during engages."), I("Death's Dance","Keeps you alive after committing.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES } 
+                  },
+                  ASSASSIN: {
+                    ahead:  [ I("Eclipse","You win burst race easily when ahead."), I("Edge of Night","Block their engage tool."), I("Youmuu's Ghostblade","Catch them before they reset.") ],
+                    behind: [ I("Maw of Malmortius","Essential vs AP assassins."), I("Sterak's Gage","Prevents one-shot after invade."), I("Death's Dance","Extends fight duration.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES }
+                  },
+                  VANGUARD: {
+                    ahead:  [ I("Black Cleaver","Shred tanks for your team."), I("Eclipse","Still gives threat to backline."), I("Serylda's Grudge","Slow helps stick to carries after engage.") ],
+                    behind: [ I("Mercury's Treads","Reduce CC chains."), I("Sterak's Gage","Survive engage burst."), I("Black Cleaver","Keep damage relevant.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES }                                         
+                  },
+                  MARKSMAN: {
+                    ahead:  [ I("Youmuu's Ghostblade","Reach backline instantly."), I("Eclipse","Guaranteed one-shot combo."), I("Serpent's Fang","Removes shielding supports’ protection.") ],
+                    behind: [ I("Plated Steelcaps","Reduce DPS from ADC."), I("Sterak's Gage","Survive initial burst."), I("Guardian Angel","Second life for risky engages.") ],
+                    runes: {
+                      ...PANTH_JGL_DEFAULT_RUNES,
+                      reason: "Hextech Flashtraption from river bush: appear behind bot lane to cut off escape before the hook lands. Coup de Grace over Last Stand — ADCs die fast.",
+                      primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                    },
+                    },
+
+                        },    // closes Jungle data:
+                      },      // closes Jungle role
+
+            Mid:    {  
+              bans:["Ahri","Ziggs","Akali"], replacements:["Locke","Katarina","Talon"],
+                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
+                        coreNote: "Mid Pantheon is a counterpick into assassins. Eclipse gives kill pressure on short trades; transition into bruiser for mid-game roams and skirmishes.",
+                        sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Serpent's Fang","Maw of Malmortius","Death's Dance","Serylda's Grudge","Guardian Angel","Black Cleaver"],
+                        data: {
+                                ASSASSIN: {
+                                  ahead:  [ I("Eclipse","You out-burst them — mid lane trades are shorter and lethal."), I("Youmuu's Ghostblade","Roam pressure — convert lane lead into map wins."), I("Serylda's Grudge","Slow prevents escape after their disengage tools.") ],
+                                  behind: [ I("Plated Steelcaps","Reduces auto-based assassins like Zed/Qiyana."), I("Death's Dance","Convert burst to bleed so you survive initial combo."), I("Sterak's Gage","Prevents getting one-shot after failed engage.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                BURST_MAGE: {
+                                  ahead:  [ I("Youmuu's Ghostblade","Close gap before they complete spell rotation."), I("Eclipse","One combo = kill before they kite back."), I("Edge of Night","Spell shield blocks key CC like Syndra E.") ],
+                                  behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Banshee's Veil","Blocks engage spell so you can still all-in.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },                                
+                                },
+                                BATTLEMAGE: {
+                                  ahead:  [ I("Mortal Reminder","Grievous Wounds denies sustain (Swain/Vlad)."), I("Eclipse","Kill during short trade windows before healing ramps."), I("Black Cleaver","HP + shred vs their scaling durability.") ],
+                                  behind: [ I("Maw of Malmortius","Sustain through extended AP damage."), I("Mortal Reminder","Essential vs healing-based mages."), I("Sterak's Gage","Gives second rotation window in extended fights.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                ARTILLERY: {
+                                  ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
+                                  behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                              },
+                    },
+
+            Support:{  
+              bans:["Janna","Braum","Zyra"], replacements:["Pyke","Xerath","Teemo"],
+                          corePath: "Umbral Glaive  ›  Eclipse  ›  Black Cleaver  ›  Sundered Sky",
+                          coreNote: "Support Pantheon focuses on vision denial + early kill lanes. Umbral Glaive spike is mandatory for map control; then transition into bruiser.",
+                          sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Serpent's Fang","Maw of Malmortius","Death's Dance","Knight's Vow","Zeke's Convergence","Edge of Night"],
+
+                          data: {
+                            MARKSMAN: {
+                              ahead:  [ I("Eclipse","Burst ADC instantly with W engage."), I("Youmuu's Ghostblade","Close gap before they kite."), I("Serpent's Fang","Remove shielding from supports.") ],
+                              behind: [ I("Plated Steelcaps","Reduce ADC auto damage."), I("Knight's Vow","Protect your carry while behind."), I("Sterak's Gage","Survive engages.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            ENCHANTER: {
+                              ahead:  [ I("Serpent's Fang","⭐ CORE — destroys shields (Lulu/Janna)."), I("Eclipse","With shields removed, burst always kills."), I("Youmuu's Ghostblade","No reposition window for them.") ],
+                              behind: [ I("Serpent's Fang","Still mandatory — never skip."), I("Mortal Reminder","Reduce healing when fights drag."), I("Knight's Vow","Play peel instead of engage.") ],
+                              runes: {
+                                ...PANTH_SUP_DEFAULT_RUNES,
+                                champOverrides: {
+                                  "Lulu": {
+                                    primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
+                                    reason: "Lulu's Glitterlance slows and her ult knocks up. You need Coup de Grace to execute carries before Lulu saves them.",
+                                  },
+                                },
+                              },
+                            },
+                            CATCHER: {
+                              ahead:  [ I("Youmuu's Ghostblade","Dodge hooks and engage first."), I("Eclipse","Kill them before they reset fight."), I("Edge of Night","Block hook/CC entirely.") ],
+                              behind: [ I("Banshee's Veil","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            VANGUARD: {
+                              ahead:  [ I("Black Cleaver","Help team shred tanks."), I("Eclipse","Still threatens backline."), I("Serpent's Fang","Remove shields from tank supports.") ],
+                              behind: [ I("Mercury's Treads","Reduce CC lock duration."), I("Knight's Vow","Shift to peel role."), I("Sterak's Gage","Survive engage burst.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                          },
+                    },
+
+          },
+  
+  };

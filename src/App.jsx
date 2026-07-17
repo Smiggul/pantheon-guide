@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { CHAMPS } from "./data/champs/index.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -57,9 +58,10 @@ const champImg = (name) => {
 };
 
 // Items — resolved at runtime from item.json (numeric ID)
-// itemMap is populated in useEffect below — { "Eclipse": "6692", ... }
+// itemMap is populated in useEffect below — keys lowercased so champion data
+// doesn't break on DD casing quirks ("Blade of The Ruined King")
 const itemImg = (name, itemMap) => {
-  const id = itemMap?.[name];
+  const id = itemMap?.[name?.toLowerCase()];
   return id ? `${DD}/img/item/${id}.png` : null;
 };
 
@@ -67,9 +69,8 @@ const itemImg = (name, itemMap) => {
 // runeMap is populated in useEffect below — { "Conqueror": "perk-images/Styles/..." }
 const runeImg = (name, runeMap) => {
   const path = runeMap?.[name];
-  if (!path) return null;
-  const ext = path.includes("StatMods") ? ".png" : ".svg";
-  return `${DD}/img/${path.replace(/\.(png|svg)$/, ext)}`;
+  // all rune/perk images in DD are .png — use the icon path exactly as given
+  return path ? `${DD}/img/${path}` : null;
 };
 
 // Stat shards — map display names to exact DD filenames
@@ -138,10 +139,6 @@ const CLASSES = {
   WARDEN:      { label:"Warden",      color:"#4d3319", glow:"#a04000", desc:"Block your damage for their carry. Shield generators and peel machines.", champions:["Braum","Shen","Tahm Kench","Poppy","Galio","K'Sante"] },
   SPECIALIST:  { label:"Specialist",  color:"#5f5f5f", glow:"#95a5a6", desc:"Wildly varied kits. Each plays by their own rules — read the matchup.", champions:["Teemo","Singed","Gangplank","Shyvana","Graves","Kayle","Kennen","Nidalee","Quinn","Twisted Fate","Udyr","Fiddlesticks","Gnar","Zilean"] },
 };
-// ─────────────────────────────────────────────────────────────────────────────
-//  ITEM ENTRY HELPER
-// ─────────────────────────────────────────────────────────────────────────────
-const I = (name, why) => ({ name, why });
 
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -304,1891 +301,6 @@ const RUNE_DESCRIPTIONS = {
       shards:         override.shards         || defaults.shards,
     });
  
-// ─────────────────────────────────────────────────────────────────────────────
-//  DEFAULT RUNE PAGES (patch 26.9)
-//  Spread these into class runes blocks so you only write what differs.
-// ─────────────────────────────────────────────────────────────────────────────
-
-const PANTH_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Transcendence","Scorch"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast on Q spam. Legend: Haste reduces Q/W/E cooldowns. Transcendence resets non-ult CDs on takedowns. Scorch adds early poke pressure.",
-};
-
-const PANTH_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Hextech Flashtraption replaces Flash while on CD with a wall-traversing version — surprise W stuns from unexpected jungle angles. Cosmic Insight reduces Summoner Spell CDs for more Smite and Hexflash uptime.",
-};
-
-const PANTH_MID_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Transcendence","Scorch"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Same core as Top. Mid Pantheon plays nearly identically with more roam priority post-6. Scorch wins poke trades vs most mid-lane mages.",
-};
-
-const PANTH_SUP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Coup de Grace"],
-  secondary:      "Domination",
-  secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Coup de Grace executes low-HP targets after your W stun. Cheap Shot adds true damage on every W. Relentless Hunter enables roaming between Bot and Mid after getting kills.",
-};
-
-const TEEMO_TOP_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Overgrowth"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Press the Attack procs in 3 autos and amplifies all damage to the target by 8% — pairs with Toxic Shot poison ticking during that window. Legend: Alacrity increases auto attack speed for more poison stacks per second. Bone Plating makes short melee trades survivable.",
-};
-
-const TEEMO_JGL_DEFAULT_RUNES = {
-  keystone:       "Dark Harvest",
-  primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Absolute Focus","Gathering Storm"],
-  shards:         ["Adaptive Force","Adaptive Force","Health"],
-  reason:         "Dark Harvest stacks off every kill and executes low-HP champions — mushrooms are perfect triggers. Cheap Shot adds true damage on Toxic Shot slow. Ultimate Hunter reduces mushroom CD for permanent map control.",
-};
-
-const TEEMO_MID_DEFAULT_RUNES = {
-  keystone:       "Dark Harvest",
-  primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Absolute Focus","Gathering Storm"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Dark Harvest snowballs hard in mid lane where kill pressure is highest. Ultimate Hunter reduces mushroom CD — more shrooms placed per minute means permanent zone control in mid lane choke points.",
-};
-
-const TEEMO_SUP_DEFAULT_RUNES = {
-  keystone:       "Dark Harvest",
-  primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Absolute Focus","Gathering Storm"],
-  shards:         ["Adaptive Force","Adaptive Force","Health"],
-  reason:         "Dark Harvest off mushroom procs in the bot lane. Ultimate Hunter is the reason to play Teemo Support — reducing R CD means more mushrooms placed per minute for permanent vision denial.",
-};
-
-const RENEKTON_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Unflinching"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on every E-W-Q combo and heals massively on empowered Q. Legend: Alacrity vs auto-heavy matchups, swap to Haste vs poke/CC-heavy lanes. Bone Plating makes short trades winnable. Unflinching is crucial — Renekton needs to stick to targets and CC resistance keeps him connected.",
-};
-
-// ── Patch 26.14 — new champions ───────────────────────────────────────────────
-const WUKONG_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on Q resets and R spin. Magical Footwear saves 300g for Trinity Force rush. Cosmic Insight reduces E and R cooldowns. Legend: Alacrity accelerates Q reset proc rate.",
-};
-
-const WUKONG_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks from Sheen procs and R spin. Magical Footwear + Cosmic Insight saves 300g to rush Trinity Force faster. Last Stand — fight at low HP after diving into a teamfight.",
-};
-
-const REKSAI_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on Q empowered autos and E knockup. Coup de Grace closes out low HP targets after W knockup. Magical Footwear + Cosmic Insight free gold for Stridebreaker rush. Legend: Alacrity accelerates Q fury generation.",
-};
-
-const SHYVANA_JGL_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Press the Attack procs fast with Q's rapid attacks on ganks. Legend: Haste over Alacrity — Shyvana's play pattern revolves around ability cooldowns more than sustained autos. Magical Footwear's +10 bonus move speed amplifies her dragon form stickiness. Swap to Conqueror vs tank-heavy comps.",
-};
-
-const WARWICK_JGL_DEFAULT_RUNES = {
-  keystone:       "Lethal Tempo",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Celerity","Waterwalking"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Lethal Tempo amplifies Warwick's sustained auto pattern — stacks instantly on Q. Celerity + Waterwalking gives permanent river movement speed to appear faster for Ult ganks. Last Stand synergises with Primal Howl at low HP where W healing is strongest.",
-};
-
-const UDYR_JGL_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Coup de Grace"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Approach Velocity","Magical Footwear"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Press the Attack lines up with Q-Awaken's burst. Legend: Haste allows faster form swaps and more Awaken uses per fight. Approach Velocity helps chase targets after E stun. Coup de Grace closes low HP targets. Build AD bruiser — Spear of Shojin first.",
-};
-
-const SETT_TOP_DEFAULT_RUNES = {
-  keystone:       "Grasp of the Undying",
-  primary:        "Resolve",
-  primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
-  secondary:      "Precision",
-  secondaryRunes: ["Triumph","Legend: Alacrity"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Grasp procs on every W auto and stacks HP permanently. Demolish converts your HP lead into tower plates. Conditioning + Overgrowth makes you progressively harder to kill as the game goes on. Heartsteel first amplifies all HP stacking.",
-};
-
-const SETT_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
-  primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Overgrowth"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on W auto chains during jungle clear and skirmishes. Bone Plating for counter-jungling skirmishes. Overgrowth scales HP into mid game.",
-};
-
-const LOCKE_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Sixth Sense","Ultimate Hunter"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Revitalize"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute procs off Q nail throw + auto consuming the mark — reliable 3-input. Sudden Impact fires on both E dashes. Ultimate Hunter reduces Purgatory from 120s toward 80s at full stacks. Bone Plating secondary — as a melee assassin you take damage before killing.",
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-//  CHAMPION DEFINITIONS
-//  ─────────────────────────────────────────────────────────────────────────
-//  HOW TO ADD A NEW CHAMPION:
-//  1. Copy one of the objects below and paste it as a new entry in CHAMPS.
-//  2. Change `display` (shown in UI), `dd` (Data Dragon key — must match the
-//     filename in your champions/ folder, e.g. "LeeSin"), `role`, `color`,
-//     `glow`, and `lanes` (which lane buttons will reveal this champion).
-//  3. Update `corePath` and `coreNote` with the champion's core build.
-//  4. Update `sideItems` with common situational picks.
-//  5. Fill in the `data` block — one entry per class key, each with
-//     `ahead` and `behind` arrays of exactly 3 items using I("Name","Why").
-//  That's it. The UI handles everything else automatically.
-// ─────────────────────────────────────────────────────────────────────────────
-
-const CHAMPS = [
-
-  // ══════════════════════════════════════════════════════════════════════════
-  //  PANTHEON — Diver / Bruiser
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id:      "pantheon",
-    display:  "Pantheon",
-    dd:       "Pantheon",       // must match filename: champions/Pantheon.png
-    color:    "#c0392b",
-    glow:     "#e74c3c",
-    lanes:    ["Top", "Mid", "Support", "Jungle"],
-  
-    roles:{
-            Top:    {  
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
-                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Shojin amplifies Q-poke into extended skirmishes.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Death's Dance","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
-                        data: {
-                                JUGGERNAUT: {
-                                  ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
-                                  behind: [ I("Black Cleaver","HP + shred in one item — survive while peeling their armor."), I("Death's Dance","Delay lethal burst into a bleed, keeping combo window open."), I("Sterak's Gage","Shield keeps you alive when they catch you at low HP.") ],
-                                  runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Cut Down amplifies damage vs high-HP Juggernauts by up to 15%. Conqueror stacks on every Q poke.",
-                                            champOverrides: {
-                                              "Dr. Mundo": {
-                                                secondaryRunes: ["Transcendence","Gathering Storm"],
-                                                reason: "Dr. Mundo outscales you hard — Gathering Storm helps you stay relevant. Rush Mortal Reminder.",
-                                              },
-                                              "Nasus": {
-                                                primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
-                                                secondary: "Domination",
-                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-                                                shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                                reason: "Nasus is a lane bully pre-30 stacks but loses late. Relentless Hunter lets you roam and starve him of CS.",
-                                              },
-                                            },
-                                          },
-                                },
-                                DIVER: {
-                                  ahead:  [ I("Eclipse","Convert lead fast — burst before they can sustain or disengage."), I("Youmuu's Ghostblade","Active move-speed to chase or re-engage after Ult landing."), I("Death's Dance","Sustain through their mirror-dive while burst finishes them.") ],
-                                  behind: [ I("Sterak's Gage","Shield at low HP when Camille/Irelia survives burst and all-ins."), I("Plated Steelcaps","Flat auto reduction on Irelia/Renekton — every auto counts behind."), I("Death's Dance","Convert their burst to bleed so combo window still exists.") ],
-                                   runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                            secondary: "Resolve",
-                                            secondaryRunes: ["Bone Plating","Second Wind"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Divers CC you during dives — Tenacity shortens every stun, slow and root. Bone Plating reduces their burst on landing.",
-                                            champOverrides: {
-                                              "Irelia": {
-                                                primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Conditioning"],
-                                                shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                                reason: "Irelia's mark and stun stack into long CC chains. Bone Plating breaks her short-trade pattern. E her during the stun.",
-                                              },
-                                              "Camille": {
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
-                                                reason: "Camille's E deals physical + true damage. Bone Plating reduces both hits. Don't fight her in her hextech cage.",
-                                              },
-                                              "Sylas": {
-                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                reason: "Sylas deals AP damage — swap the armor shard for MR. His chains CC you — Tenacity is essential.",
-                                              },
-                                            },
-                                          },     
-                   
-                                },
-                                ASSASSIN: {
-                                  ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
-                                  runes: {
-                                          keystone: "Conqueror",
-                                          primary: "Precision",
-                                          primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                          secondary: "Resolve",
-                                          secondaryRunes: ["Bone Plating","Second Wind"],
-                                          shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                          reason: "Assassin burst windows are short — Bone Plating breaks their opener. Magic Resist shard vs AP assassins.",
-                                          champOverrides: {
-                                            "Zed": {
-                                              secondary: "Sorcery",
-                                              secondaryRunes: ["Transcendence","Scorch"],
-                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                              reason: "Zed deals pure AD — armor shard over MR. Scorch pokes him pre-6. Trade into his W shadow, not out of it.",
-                                            },
-                                            "Katarina": {
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
-                                              reason: "Kata has no hard CC so Tenacity is less critical — but her dagger slow + shunpo still benefits from it. Coup de Grace secures resets.",
-                                            },
-                                            "Fizz": {
-                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                              reason: "Fizz is pure AP — MR shard throughout. His E makes him untargetable; never W or Q into his E. Bone Plating blocks his Q-AA combo.",
-                                            },
-                                            "Akali": {
-                                              reason: "Akali's ring slows inside it — Tenacity is essential to escape. Bone Plating breaks her Q-AA opener before her empowered Q.",
-                                            },
-                                          },
-                                        },                         
-                                },
-                                SKIRMISHER: {
-                                  ahead:  [ I("Eclipse","Burst them before they stack defensive items."), I("Lord Dominik's Regards","Pen through early Fiora/Jax armor during your lead window."), I("Serylda's Grudge","Slow stops Yone/Yasuo kiting and keeps them in your combo.") ],
-                                  behind: [ I("Randuin's Omen","Crit damage reduction — vital vs Yasuo, Yone, Tryndamere."), I("Frozen Heart","–20% nearby attack speed. Destroys Fiora/Tryndamere."), I("Black Cleaver","HP + shred to keep damage relevant while in deficit.") ],
-                                  runes: {
-                                          keystone: "Conqueror",
-                                          primary: "Precision",
-                                          primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                          secondary: "Sorcery",
-                                          secondaryRunes: ["Transcendence","Scorch"],
-                                          shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                          reason: "Standard Conqueror page. Skirmishers have minimal CC — Haste over Tenacity. Scorch pokes them before they can stack defenses.",
-                                          champOverrides: {
-                                            "Yasuo": {
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                              secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Unflinching"],
-                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                              reason: "Yasuo's R is a guaranteed knockup into any ally CC — Tenacity + Unflinching shortens it. Bone Plating breaks his Wind Wall trade burst. Magic Resist vs his E true damage passive.",
-                                            },
-                                            "Yone": {
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                              secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Second Wind"],
-                                              shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                              reason: "Yone deals hybrid physical + magic damage via Soul Unbound. MR shard + Bone Plating reduces both. Tenacity on his E knockback.",
-                                            },
-                                            "Fiora": {
-                                              primaryRunes: ["Triumph","Legend: Alacrity","Last Stand"],
-                                              secondary: "Sorcery",
-                                              secondaryRunes: ["Transcendence","Gathering Storm"],
-                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                              reason: "Fiora barely CCs you — skip Tenacity entirely. Alacrity wins short trades before she procs vitals. Gathering Storm: she outscales you, so you scale back.",
-                                            },
-                                            "Tryndamere": {
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                              secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Revitalize"],
-                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                              reason: "Tryndamere's adrenaline rage + Ignite = CC chain window. Tenacity on his slow. Bone Plating reduces his short-trade crit burst.",
-                                            },
-                                            "Jax": {
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                              secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Second Wind"],
-                                              reason: "Jax counter-strike stuns — Tenacity essential. Bone Plating makes his E-AA burst shorter. You beat him pre-6; respect his ult power spike.",
-                                            },
-                                            "Master Yi": {
-                                              primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                              secondary: "Domination",
-                                              secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-                                              reason: "Yi has zero CC. Skip Tenacity. Your W stun + Ignite during Meditate is his biggest fear. Coup de Grace executes him at low HP post-Q.",
-                                            },
-                                          },
-                                        },
-                                },
-                                BURST_MAGE: {
-                                  ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
-                                  runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Presence of Mind","Legend: Haste","Last Stand"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                            reason: "Magic Resist shard throughout vs burst mages. Scorch poke trades punish their limited mobility between casts.",
-                                            champOverrides: {
-                                              "Syndra": {
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
-                                                reason: "Syndra's ball scatter (E) stuns you from range — Bone Plating reduces her follow-up burst. Respect her power spike at 9 balls.",
-                                              },
-                                              "Veigar": {
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
-                                                reason: "Veigar's Event Horizon cage stuns corner-to-corner. Never stand near walls. Bone Plating reduces his Q-auto opener damage.",
-                                              },
-                                            },
-                                          },
-                                },
-                                BATTLEMAGE: {
-                                  ahead:  [ I("Eclipse","Short burst window — kill before Vladimir can drain back up."), I("Mortal Reminder","GW 40% eliminates their sustain advantage before they regen."), I("Lord Dominik's Regards","Swain/Malzahar stack HP — % pen keeps damage high.") ],
-                                  behind: [ I("Maw of Malmortius","Survive the sustained AP DPS window with magic shield."), I("Mortal Reminder","GW is your only offset for their healing when behind."), I("Sterak's Gage","Extra shield gives another window after sustained damage.") ],
-                                   runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                            reason: "Battlemages want sustained trades — Conqueror meets them there and beats them at it. Scorch adds early poke pressure.",
-                                            champOverrides: {
-                                              "Vladimir": {
-                                                keystone: "Conqueror",
-                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Second Wind","Conditioning"],
-                                                reason: "Vladimir's Transfusion sustain is a war of attrition. Second Wind lets you sustain back. Build Mortal Reminder second.",
-                                              },
-                                              "Cassiopeia": {
-                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
-                                                reason: "Cassiopeia's Twin Fang chains deal massive DPS when poisoned. Bone Plating breaks her opener. Never walk into her miasma without E.",
-                                              },
-                                            },
-                                          },
-                                },
-                                ARTILLERY: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
-                                  behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
-                                   runes: {
-                                            keystone: "Fleet Footwork",
-                                            primary: "Precision",
-                                            primaryRunes: ["Absorb Life","Legend: Haste","Last Stand"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Nimbus Cloak","Celerity"],
-                                            shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                            reason: "Fleet Footwork sustains through poke lane. Nimbus Cloak + Celerity grants burst speed on Flash/Ignite to close the poke gap instantly.",
-                                            champOverrides: {
-                                              "Xerath": {
-                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
-                                                reason: "Xerath's range means you must close quickly. Nimbus Cloak on Ignite = free gap close at his max range.",
-                                              },
-                                            },
-                                          },                                
-                                },
-                                MARKSMAN: {
-                                  ahead:  [ I("Eclipse","Two-ability proc = guaranteed one-rotation kill on any ADC."), I("Youmuu's Ghostblade","Active speed closes before they can kite or reposition."), I("Serpent's Fang","Kai'Sa/Samira shields stripped — no escaping your burst.") ],
-                                  behind: [ I("Plated Steelcaps","Flat auto reduction is massive — cuts every Jinx/Caitlyn attack."), I("Eclipse","Best damage path even behind — one good Ult = back in game."), I("Sterak's Gage","Shield keeps you alive long enough to find that combo window.") ],
-                                   runes: {
-                                            keystone: "Press the Attack",
-                                            primary: "Precision",
-                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                            secondary: "Domination",
-                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Press the Attack procs faster on ADCs than Conqueror stacks. Coup de Grace executes from your burst. Relentless Hunter enables roaming after tower.",
-                                          },
-                                },
-                                ENCHANTER: {
-                                  ahead:  [ I("Serpent's Fang","⭐ PRIORITY — 50% shield strip on contact while ahead."), I("Youmuu's Ghostblade","Active speed: Janna/Lulu can't reposition before your W stun."), I("Eclipse","Overkill burst — with Serpent's Fang up they simply die.") ],
-                                  behind: [ I("Serpent's Fang","Still priority even behind — skipping costs every shield trade."), I("Mortal Reminder","Q poke applies GW to limit heals when you can't reach them."), I("Sterak's Gage","Survive Lulu polymorph + their carry's follow-up burst.") ],
-                                  runes: {
-                                            keystone: "Press the Attack",
-                                            primary: "Precision",
-                                            primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                            secondary: "Domination",
-                                            secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Press the Attack procs in 3 autos into their carry — amplifies your burst window after shields are stripped. Cheap Shot adds true damage on W stun.",
-                                            champOverrides: {
-                                              "Lulu": {
-                                                primaryRunes: ["Triumph","Legend: Bloodline","Coup de Grace"],
-                                                reason: "Lulu's Glitterlance slows and her ult knocks up. Tenacity reduces both CC durations significantly.",
-                                              },
-                                              "Janna": {
-                                                primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                                secondary: "Sorcery",
-                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
-                                                reason: "Janna's whirlwind knockup + Monsoon knockback are her only CC. Nimbus Cloak lets you chase after she blows R.",
-                                              },
-                                            },
-                                          },              
-                                },
-                                CATCHER: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
-                                  behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
-                                    runes: {
-                                              keystone: "Conqueror",
-                                              primary: "Precision",
-                                              primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
-                                              secondary: "Inspiration",
-                                              secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
-                                              shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                              reason: "Hextech Flashtraption lets you Flash through walls on a 20s CD while standing still — surprise W stuns from unexpected angles. Tenacity on every hook.",
-                                              champOverrides: {
-                                                "Morgana": {
-                                                  secondary: "Resolve",
-                                                  secondaryRunes: ["Bone Plating","Second Wind"],
-                                                  shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                  reason: "Morgana deals AP damage with Black Shield blocking your CC. Resolve secondary for durability. MR shard vs her Q + W damage.",
-                                                },
-                                                "Blitzcrank": {
-                                                  reason: "Blitz hook into Power Fist = hard CC chain. If he misses his hook, all-in immediately — his cooldowns are long early.",
-                                                },
-                                              },
-                                            },
-                                },
-                                VANGUARD: {
-                                  ahead:  [ I("Eclipse","Ult in, E their CC, finish with burst before they act."), I("Black Cleaver","Shred Malphite/Ornn armor in 6 Q taps while team is disrupted."), I("Lord Dominik's Regards","% pen while ahead makes their armor irrelevant.") ],
-                                  behind: [ I("Mercury's Treads","Default. Malphite Ult, Leona chain, Nautilus root — all shorter."), I("Sterak's Gage","Survive the burst that follows a Vanguard's initiation."), I("Randuin's Omen","AoE slow active peels their engage. Crit reduction vs carry builds.") ],
-                                   runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Cut Down deals up to 15% more damage vs high-HP tanks. Conqueror stacks faster than they can rotate CC.",
-                                            champOverrides: {
-                                              "Malphite": {
-                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Second Wind","Conditioning"],
-                                                reason: "Malphite deals AP damage via passive and ult. MR shard + Conditioning gives sustained MR scaling into his ult timing.",
-                                              },
-                                              "Leona": {
-                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
-                                                reason: "Leona chains: E stun → W → R stun. Tenacity on every CC in the chain. Never fight her with her E up.",
-                                              },
-                                            },
-                                          },
-                                },
-                                WARDEN: {
-                                  ahead:  [ I("Serpent's Fang","Shen Ult + Braum passive shields stripped by 50% on contact."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Serylda's Grudge","Slow on Ult stops Tahm Kench body-blocking at the last second.") ],
-                                  behind: [ I("Black Cleaver","Shred gradually — even behind, 6 stacks still open them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shut down your dives — reduce duration.") ],
-                                   runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Presence of Mind","Legend: Haste","Cut Down"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Cut Down vs high-HP Wardens. Conqueror stacks fast enough on Braum/Shen that sustained trades are winnable.",
-                                            champOverrides: {
-                                              "Poppy": {
-                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
-                                                secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
-                                                reason: "Poppy's Steadfast Presence blocks dashes and her E knocks into walls. Tenacity + Bone Plating makes her trades shorter. Don't dash near walls.",
-                                              },
-                                              "Galio": {
-                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                reason: "Galio deals AP damage. MR shard over armor. His taunt CC + ult knockup = Tenacity is more valuable than Haste here.",
-                                                primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
-                                              },
-                                            },
-                                          },
-                                },
-                                SPECIALIST: {
-                                  ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
-                                  behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
-                                  runes: {
-                                            keystone: "Conqueror",
-                                            primary: "Precision",
-                                            primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                            secondary: "Sorcery",
-                                            secondaryRunes: ["Transcendence","Scorch"],
-                                            shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
-                                            reason: "Default sustained page — Specialists are so varied that Conqueror works as the baseline across most of them.",
-                                            champOverrides: {
-                                              "Singed": {
-                                                keystone: "Conqueror",
-                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                                secondary: "Sorcery",
-                                                secondaryRunes: ["Nimbus Cloak","Celerity"],
-                                                reason: "Nimbus Cloak on Ignite gives you a movement speed burst to close on Singed while he runs. Without it, he simply kites you forever.",
-                                              },
-                                              "Teemo": {
-                                                keystone: "Grasp of the Undying",
-                                                primary: "Resolve",
-                                                primaryRunes: ["Shield Bash","Bone Plating","Overgrowth"],
-                                                secondary: "Domination",
-                                                secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-                                                shards: ["Ability Haste","Adaptive Force","Tenacity"],
-                                                reason: "Grasp wins short trades (Teemo blind = your autos are useless so trades MUST be short). Bone Plating absorbs his Q blind + auto opener. MR shard vs his AP damage.",
-                                              },
-                                              "Gangplank": {
-                                                primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
-                                                secondary: "Sorcery",
-                                                secondaryRunes: ["Transcendence","Scorch"],
-                                                reason: "GP Oranges cleanse your W stun — bait them first, then W when he's used the Orange. Scorch poke synergises with your ranged Q harassment.",
-                                              },
-                                            },
-                                          },
-                                },
-                              },
-                    },
-
-            Jungle: {  
-                corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Spear of Shojin",
-                coreNote: "Jungle Pantheon relies on early tempo and ganks. Eclipse spike enables early kills; Cleaver transitions into mid-game teamfights.",
-                sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Death's Dance","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
-
-                data: {
-                  DIVER: {
-                    ahead:  [ I("Eclipse","Win early skirmishes instantly."), I("Youmuu's Ghostblade","Faster rotations between lanes."), I("Death's Dance","Outlast mirror dive fights.") ],
-                    behind: [ I("Plated Steelcaps","Reduces sustained auto damage."), I("Sterak's Gage","Gives survivability during engages."), I("Death's Dance","Keeps you alive after committing.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES } 
-                  },
-                  ASSASSIN: {
-                    ahead:  [ I("Eclipse","You win burst race easily when ahead."), I("Edge of Night","Block their engage tool."), I("Youmuu's Ghostblade","Catch them before they reset.") ],
-                    behind: [ I("Maw of Malmortius","Essential vs AP assassins."), I("Sterak's Gage","Prevents one-shot after invade."), I("Death's Dance","Extends fight duration.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES }
-                  },
-                  VANGUARD: {
-                    ahead:  [ I("Black Cleaver","Shred tanks for your team."), I("Eclipse","Still gives threat to backline."), I("Serylda's Grudge","Slow helps stick to carries after engage.") ],
-                    behind: [ I("Mercury's Treads","Reduce CC chains."), I("Sterak's Gage","Survive engage burst."), I("Black Cleaver","Keep damage relevant.") ],
-                    runes: { ...PANTH_JGL_DEFAULT_RUNES }                                         
-                  },
-                  MARKSMAN: {
-                    ahead:  [ I("Youmuu's Ghostblade","Reach backline instantly."), I("Eclipse","Guaranteed one-shot combo."), I("Serpent's Fang","Removes shielding supports’ protection.") ],
-                    behind: [ I("Plated Steelcaps","Reduce DPS from ADC."), I("Sterak's Gage","Survive initial burst."), I("Guardian Angel","Second life for risky engages.") ],
-                    runes: {
-                      ...PANTH_JGL_DEFAULT_RUNES,
-                      reason: "Hextech Flashtraption from river bush: appear behind bot lane to cut off escape before the hook lands. Coup de Grace over Last Stand — ADCs die fast.",
-                      primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                    },
-                    },
-
-                        },    // closes Jungle data:
-                      },      // closes Jungle role
-
-            Mid:    {  
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
-                        coreNote: "Mid Pantheon is a counterpick into assassins. Eclipse gives kill pressure on short trades; transition into bruiser for mid-game roams and skirmishes.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Serpent's Fang","Maw of Malmortius","Death's Dance","Serylda's Grudge","Guardian Angel","Black Cleaver"],
-                        data: {
-                                ASSASSIN: {
-                                  ahead:  [ I("Eclipse","You out-burst them — mid lane trades are shorter and lethal."), I("Youmuu's Ghostblade","Roam pressure — convert lane lead into map wins."), I("Serylda's Grudge","Slow prevents escape after their disengage tools.") ],
-                                  behind: [ I("Plated Steelcaps","Reduces auto-based assassins like Zed/Qiyana."), I("Death's Dance","Convert burst to bleed so you survive initial combo."), I("Sterak's Gage","Prevents getting one-shot after failed engage.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
-                                },
-                                BURST_MAGE: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Close gap before they complete spell rotation."), I("Eclipse","One combo = kill before they kite back."), I("Edge of Night","Spell shield blocks key CC like Syndra E.") ],
-                                  behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Banshee's Veil","Blocks engage spell so you can still all-in.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },                                
-                                },
-                                BATTLEMAGE: {
-                                  ahead:  [ I("Mortal Reminder","Grievous Wounds denies sustain (Swain/Vlad)."), I("Eclipse","Kill during short trade windows before healing ramps."), I("Black Cleaver","HP + shred vs their scaling durability.") ],
-                                  behind: [ I("Maw of Malmortius","Sustain through extended AP damage."), I("Mortal Reminder","Essential vs healing-based mages."), I("Sterak's Gage","Gives second rotation window in extended fights.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
-                                },
-                                ARTILLERY: {
-                                  ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
-                                  behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
-                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
-                                },
-                              },
-                    },
-
-            Support:{  
-                          corePath: "Umbral Glaive  ›  Eclipse  ›  Black Cleaver  ›  Sundered Sky",
-                          coreNote: "Support Pantheon focuses on vision denial + early kill lanes. Umbral Glaive spike is mandatory for map control; then transition into bruiser.",
-                          sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Serpent's Fang","Maw of Malmortius","Death's Dance","Knight's Vow","Zeke's Convergence","Edge of Night"],
-
-                          data: {
-                            MARKSMAN: {
-                              ahead:  [ I("Eclipse","Burst ADC instantly with W engage."), I("Youmuu's Ghostblade","Close gap before they kite."), I("Serpent's Fang","Remove shielding from supports.") ],
-                              behind: [ I("Plated Steelcaps","Reduce ADC auto damage."), I("Knight's Vow","Protect your carry while behind."), I("Sterak's Gage","Survive engages.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
-                            },
-                            ENCHANTER: {
-                              ahead:  [ I("Serpent's Fang","⭐ CORE — destroys shields (Lulu/Janna)."), I("Eclipse","With shields removed, burst always kills."), I("Youmuu's Ghostblade","No reposition window for them.") ],
-                              behind: [ I("Serpent's Fang","Still mandatory — never skip."), I("Mortal Reminder","Reduce healing when fights drag."), I("Knight's Vow","Play peel instead of engage.") ],
-                              runes: {
-                                ...PANTH_SUP_DEFAULT_RUNES,
-                                champOverrides: {
-                                  "Lulu": {
-                                    primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
-                                    reason: "Lulu's Glitterlance slows and her ult knocks up. You need Coup de Grace to execute carries before Lulu saves them.",
-                                  },
-                                },
-                              },
-                            },
-                            CATCHER: {
-                              ahead:  [ I("Youmuu's Ghostblade","Dodge hooks and engage first."), I("Eclipse","Kill them before they reset fight."), I("Edge of Night","Block hook/CC entirely.") ],
-                              behind: [ I("Banshee's Veil","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
-                            },
-                            VANGUARD: {
-                              ahead:  [ I("Black Cleaver","Help team shred tanks."), I("Eclipse","Still threatens backline."), I("Serpent's Fang","Remove shields from tank supports.") ],
-                              behind: [ I("Mercury's Treads","Reduce CC lock duration."), I("Knight's Vow","Shift to peel role."), I("Sterak's Gage","Survive engage burst.") ],
-                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
-                            },
-                          },
-                    },
-
-          },
-  
-  },
-  // ══════════════════════════════════════════════════════════════════════════
-  //  TEEMO — AP On-Hit Specialist
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id:      "teemo",
-    display:  "Teemo",
-    dd:       "Teemo",
-    role:     "AP On-Hit Specialist",
-    color:    "#27ae60",
-    glow:     "#2ecc71",
-    lanes:    ["Top", "Mid", "Support", "Jungle"],
-
-    roles:{
-      Top:{  
-        corePath: "Liandry's Torment  ›  Nashor's Tooth  ›  Malignance  ›  Rylai's Crystal Scepter",
-        coreNote: "Teemo top plays for lane dominance and zone control. Liandry's burns tanks, Nashor's enables DPS, Malignance amplifies mushroom map control.",
-        sideItems: ["Sorcerer's Shoes","Plated Steelcaps","Mercury's Treads","Morellonomicon","Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Demonic Embrace","Cosmic Drive"],
-
-        data: {
-          JUGGERNAUT: {
-            ahead:  [ I("Liandry's Torment","Burn scales off their HP stacking — perfect into juggernauts."), I("Rylai's Crystal Scepter","Perma-slow prevents them ever reaching you."), I("Nashor's Tooth","Sustained DPS while kiting wins every extended trade.") ],
-            behind: [ I("Plated Steelcaps","Reduces auto damage from champs like Darius/Sett."), I("Zhonya's Hourglass","Stall their all-in window and survive burst."), I("Rylai's Crystal Scepter","Utility slow keeps them off you even when weak.") ],
-          },
-          DIVER: {
-            ahead:  [ I("Nashor's Tooth","Higher DPS to punish failed engages."), I("Rylai's Crystal Scepter","Slows their engage follow-up completely."), I("Liandry's Torment","Burn continues even after they disengage.") ],
-            behind: [ I("Zhonya's Hourglass","Negates their dive combo timing."), I("Plated Steelcaps","Reduces sustained damage during all-in."), I("Banshee's Veil","Blocks engage abilities like Camille hook.") ],
-          },
-          SKIRMISHER: {
-            ahead:  [ I("Nashor's Tooth","You out-DPS them if they can't stick."), I("Rylai's Crystal Scepter","Stops Yasuo/Yone from chasing."), I("Liandry's Torment","Burn punishes their mid-fight sustain.") ],
-            behind: [ I("Plated Steelcaps","Critical vs auto-heavy duelists."), I("Zhonya's Hourglass","Buy time vs burst windows."), I("Morellonomicon","Cut healing from lifesteal champs.") ],
-          },
-          VANGUARD: {
-            ahead:  [ I("Liandry's Torment","Melts high-HP tanks."), I("Void Staff","Penetrates early MR stacking."), I("Rylai's Crystal Scepter","Keeps tanks permanently slowed.") ],
-            behind: [ I("Void Staff","Required to deal damage vs MR stack."), I("Zhonya's Hourglass","Survive engage combos."), I("Rylai's Crystal Scepter","Utility even when behind.") ],
-          },
-          SPECIALIST: {
-            ahead:  [ I("Malignance","Mushroom spam controls side lanes."), I("Liandry's Torment","Synergy with poison + traps."), I("Shadowflame","Extra burst vs squishy specialists.") ],
-            behind: [ I("Morellonomicon","Anti-heal vs sustain champs."), I("Banshee's Veil","Block key abilities (Teemo blind mirror, Kennen stun)."), I("Zhonya's Hourglass","Survive burst setups.") ],
-          },
-        },
-      },
-
-      Jungle:{  
-        corePath: "Malignance  ›  Liandry's Torment  ›  Nashor's Tooth  ›  Rylai's Crystal Scepter",
-        coreNote: "Teemo jungle plays for fast clears and map control. Malignance enables constant mushroom pressure on objectives; Liandry's amplifies burn for camps and fights.",
-        sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Void Staff","Zhonya's Hourglass","Banshee's Veil","Shadowflame","Demonic Embrace","Cosmic Drive"],
-
-        data: {
-          DIVER: {
-            ahead:  [ I("Liandry's Torment","Burn punishes their HP stacking during engages."), I("Rylai's Crystal Scepter","Slows completely disrupt their dive pathing."), I("Nashor's Tooth","DPS wins extended skirmishes.") ],
-            behind: [ I("Zhonya's Hourglass","Negates their all-in timing."), I("Rylai's Crystal Scepter","Utility slow helps team peel."), I("Morellonomicon","Cuts their sustain in fights.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          ASSASSIN: {
-            ahead:  [ I("Nashor's Tooth","Punish melee range with constant DPS."), I("Malignance","Trap jungle paths — denies their mobility."), I("Shadowflame","Burst squishy targets before they escape.") ],
-            behind: [ I("Zhonya's Hourglass","Essential vs burst junglers."), I("Banshee's Veil","Blocks engage tools."), I("Rylai's Crystal Scepter","Peel yourself with slows.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          SKIRMISHER: {
-            ahead:  [ I("Nashor's Tooth","Out-DPS in extended fights."), I("Liandry's Torment","Burn punishes their sustain."), I("Rylai's Crystal Scepter","Prevents them sticking to you.") ],
-            behind: [ I("Morellonomicon","Reduce healing from lifesteal champs."), I("Zhonya's Hourglass","Buy time vs dueling champs."), I("Rylai's Crystal Scepter","Utility remains strong.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          VANGUARD: {
-            ahead:  [ I("Liandry's Torment","Melts tank junglers."), I("Void Staff","Penetrates MR stacking."), I("Malignance","Objective control with traps.") ],
-            behind: [ I("Void Staff","Required vs MR stack."), I("Zhonya's Hourglass","Survive engage."), I("Rylai's Crystal Scepter","Teamfight utility.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          MARKSMAN: {
-            ahead:  [ I("Shadowflame","Extra burst vs squishy backline."), I("Rylai's Crystal Scepter","Slow prevents escape."), I("Liandry's Torment","Burn finishes targets after disengage.") ],
-            behind: [ I("Zhonya's Hourglass","Avoid burst from ADC focus."), I("Rylai's Crystal Scepter","Peel and kite."), I("Banshee's Veil","Block engage CC.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          ENCHANTER: {
-            ahead:  [ I("Morellonomicon","⭐ Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain comps."), I("Malignance","Zone objectives with traps.") ],
-            behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive buffed carries."), I("Rylai's Crystal Scepter","Utility slows for team.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-          CATCHER: {
-            ahead:  [ I("Rylai's Crystal Scepter","Punish missed engages."), I("Malignance","Control jungle choke points."), I("Liandry's Torment","Burn during extended fights.") ],
-            behind: [ I("Banshee's Veil","Block hooks/pick tools."), I("Zhonya's Hourglass","Survive catches."), I("Ionian Boots of Lucidity","More traps, more control.") ],
-            runes: { ...TEEMO_JGL_DEFAULT_RUNES },
-          },
-        },
-      },
-
-      Mid:{
-        corePath: "Nashor's Tooth  ›  Liandry's Torment  ›  Malignance  ›  Rylai's Crystal Scepter",
-
-        coreNote: "Mid Teemo plays for lane dominance and anti-melee control. Nashor's enables constant poke and wave pressure; Liandry's amplifies sustained burn; Malignance transitions into map control through mushrooms once lane priority is secured.",
-
-        sideItems: [
-          "Sorcerer's Shoes","Mercury's Treads","Plated Steelcaps",
-          "Zhonya's Hourglass","Banshee's Veil","Shadowflame",
-          "Void Staff","Morellonomicon","Cosmic Drive"
-        ],
-
-        data: {
-
-          ASSASSIN: {
-            ahead: [
-              I("Nashor's Tooth","Constant DPS punishes melee attempts to farm."),
-              I("Liandry's Torment","Burn continues after short trades — they can't re-engage safely."),
-              I("Rylai's Crystal Scepter","Slow completely disrupts dash-in/out patterns.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Essential vs burst all-in (Zed, Talon, Katarina)."),
-              I("Plated Steelcaps","Reduces AD assassin auto damage during trades."),
-              I("Rylai's Crystal Scepter","Utility slow lets you kite instead of dying instantly.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          SKIRMISHER: {
-            ahead: [
-              I("Nashor's Tooth","Win extended trades through superior DPS."),
-              I("Liandry's Torment","Burn punishes sustain fighters over time."),
-              I("Rylai's Crystal Scepter","Prevents them sticking to you in duels.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Buy time vs all-in duelists."),
-              I("Morellonomicon","Reduce healing (Yasuo, Yone lifesteal builds)."),
-              I("Rylai's Crystal Scepter","Kiting becomes your primary survival tool.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          BURST_MAGE: {
-            ahead: [
-              I("Nashor's Tooth","Out-trade between cooldown windows."),
-              I("Shadowflame","Amplifies burst against low MR targets."),
-              I("Liandry's Torment","Punishes them when abilities are down.")
-            ],
-            behind: [
-              I("Banshee's Veil","Blocks key CC (Syndra E, Ahri charm)."),
-              I("Mercury's Treads","Reduce CC duration to survive combos."),
-              I("Zhonya's Hourglass","Second life vs full spell rotations.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          BATTLEMAGE: {
-            ahead: [
-              I("Liandry's Torment","Burn outscales their sustain in extended fights."),
-              I("Morellonomicon","Cuts healing (Vladimir, Swain)."),
-              I("Nashor's Tooth","Sustained DPS keeps pressure constant.")
-            ],
-            behind: [
-              I("Morellonomicon","Mandatory vs sustain-heavy kits."),
-              I("Banshee's Veil","Prevents getting locked in extended fights."),
-              I("Rylai's Crystal Scepter","Control spacing instead of trading.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          ARTILLERY: {
-            ahead: [
-              I("Rylai's Crystal Scepter","Landing one Q → they cannot escape follow-up."),
-              I("Nashor's Tooth","Punish when they misposition."),
-              I("Malignance","Control choke points — deny safe positioning.")
-            ],
-            behind: [
-              I("Banshee's Veil","Blocks key poke/CC ability."),
-              I("Mercury's Treads","Reduce CC duration from long-range abilities."),
-              I("Malignance","Play for map control instead of lane dominance.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          MARKSMAN: {
-            ahead: [
-              I("Nashor's Tooth","Blind + autos completely shuts them down."),
-              I("Liandry's Torment","Burn punishes their low HP pool."),
-              I("Rylai's Crystal Scepter","They cannot kite with permanent slow.")
-            ],
-            behind: [
-              I("Plated Steelcaps","Flat auto reduction vs ADC damage."),
-              I("Zhonya's Hourglass","Avoid being burst in fights."),
-              I("Rylai's Crystal Scepter","Peel yourself and your team.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          ENCHANTER: {
-            ahead: [
-              I("Morellonomicon","⭐ Mandatory — cuts healing and shielding value."),
-              I("Liandry's Torment","Burn negates sustain comps."),
-              I("Malignance","Zone fights with mushrooms — deny positioning.")
-            ],
-            behind: [
-              I("Morellonomicon","Still mandatory — never skip vs sustain."),
-              I("Banshee's Veil","Block CC that enables buffed carries."),
-              I("Rylai's Crystal Scepter","Utility over damage when behind.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          CATCHER: {
-            ahead: [
-              I("Rylai's Crystal Scepter","Punish missed hooks instantly."),
-              I("Nashor's Tooth","DPS when they fail engage."),
-              I("Malignance","Trap choke points to deny picks.")
-            ],
-            behind: [
-              I("Banshee's Veil","Blocks hook/pick abilities."),
-              I("Zhonya's Hourglass","Survive if caught."),
-              I("Rylai's Crystal Scepter","Kite after disengage.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-          VANGUARD: {
-            ahead: [
-              I("Liandry's Torment","Melts HP-stacking tanks."),
-              I("Void Staff","Penetrates MR stacking."),
-              I("Malignance","Objective control through traps.")
-            ],
-            behind: [
-              I("Void Staff","Required vs MR stack."),
-              I("Zhonya's Hourglass","Survive engage."),
-              I("Rylai's Crystal Scepter","Teamfight utility.")
-            ],
-            runes: { ...TEEMO_MID_DEFAULT_RUNES },
-          },
-
-        },
-      },
-
-            Support:{  
-        corePath: "Malignance  ›  Liandry's Torment  ›  Rylai's Crystal Scepter  ›  Morellonomicon",
-        coreNote: "Support Teemo plays for vision denial and choke control. Mushrooms replace wards as zone tools.",
-        sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Void Staff","Demonic Embrace","Shadowflame"],
-
-        data: {
-          MARKSMAN: {
-            ahead:  [ I("Liandry's Torment","Constant burn poke forces recalls."), I("Rylai's Crystal Scepter","Slow prevents escape after poke."), I("Shadowflame","Extra damage vs squishy ADCs.") ],
-            behind: [ I("Zhonya's Hourglass","Survive all-ins."), I("Morellonomicon","Reduce lifesteal sustain."), I("Rylai's Crystal Scepter","Utility slow still valuable.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
-          },
-          ENCHANTER: {
-            ahead:  [ I("Morellonomicon","Mandatory vs healing/shielding."), I("Liandry's Torment","Burn counters sustain."), I("Malignance","Zone their positioning.") ],
-            behind: [ I("Morellonomicon","Still required anti-heal."), I("Zhonya's Hourglass","Survive polymorph setups."), I("Banshee's Veil","Block engage CC.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
-          },
-          CATCHER: {
-            ahead:  [ I("Rylai's Crystal Scepter","Punish missed hooks with slows."), I("Liandry's Torment","Burn during extended trades."), I("Malignance","Control choke points.") ],
-            behind: [ I("Banshee's Veil","Block hooks."), I("Zhonya's Hourglass","Survive engages."), I("Ionian Boots of Lucidity","Lower cooldowns for more traps.") ],
-            runes: { ...TEEMO_SUP_DEFAULT_RUNES },
-          },
-          VANGUARD: {
-            ahead:  [ I("Liandry's Torment","Melts tank supports."), I("Morellonomicon","Reduce healing."), I("Rylai's Crystal Scepter","Kite engages easily.") ],
-            behind: [ I("Zhonya's Hourglass","Avoid engage burst."), I("Morellonomicon","Still needed vs sustain."), I("Banshee's Veil","Block engage abilities.") ],
-          },
-        },
-      },
-
-    },
-    corePath: "Nashor's Tooth  ›  Liandry's Torment  ›  Malignance  ›  Sorcerer's Shoes",
-    coreNote: "Nashor's first for on-hit AP + attack speed spike. Liandry's second for % max HP burn through tanks. Malignance third for ability haste and shroom density. Sorc Shoes for flat magic pen to close out the build.",
-    sideItems: ["Shadowflame","Rabadon's Deathcap","Void Staff","Morellonomicon","Zhonya's Hourglass","Rylai's Crystal Scepter","Wit's End","Banshee's Veil","Boots of Swiftness"],
-    data: {
-      JUGGERNAUT: {
-        ahead:  [ I("Shadowflame","Flat pen into low-MR Juggernauts while ahead — burst trades hurt."), I("Rabadon's Deathcap","Amplify all AP; shrooms deal enormous burst on a gold lead."), I("Void Staff","If they rush Wit's End early — 40% magic pen keeps damage up.") ],
-        behind: [ I("Liandry's Torment","% max HP burn bypasses their HP stacking — no stats required."), I("Rylai's Crystal Scepter","Every Toxic Shot auto applies a slow — impossible to reach you."), I("Morellonomicon","Dr. Mundo/Warwick regen + Nasus stacking — GW on every auto.") ],
-      },
-      DIVER: {
-        ahead:  [ I("Nashor's Tooth","⭐ Blind (Q) negates Irelia/Camille empowered auto combos entirely."), I("Shadowflame","Burst in the 2-second blind window — they can't fight back."), I("Malignance","Haste = more Q casts + shrooms to zone their approach angles.") ],
-        behind: [ I("Zhonya's Hourglass","Stasis during their dive wastes all cooldowns — emerge poisoning."), I("Rylai's Crystal Scepter","Autos + Q apply slows every hit — Lee Sin/Hecarim can't stick."), I("Wit's End","MR + attack speed + drain for extended kiting vs Sylas/Diana.") ],
-      },
-      ASSASSIN: {
-        ahead:  [ I("Shadowflame","Out-burst them — your lead means you delete first after blinding."), I("Rabadon's Deathcap","AP advantage wins the trade before their combo can complete."), I("Malignance","Haste = faster Q casts; blind them the moment they dash in.") ],
-        behind: [ I("Zhonya's Hourglass","Stasis neutralises Zed Ult / Akali full combo — they waste all."), I("Banshee's Veil","Block Akali E engage or Kata Shunpo — prevent the opening dash."), I("Morellonomicon","Slow their regen after skirmish so they can't recover and re-engage.") ],
-      },
-      SKIRMISHER: {
-        ahead:  [ I("Nashor's Tooth","⭐ Blind hard-counters Fiora/Tryndamere/Master Yi entirely."), I("Shadowflame","Burst them in the blind window; they have nothing to fight back with."), I("Malignance","More Q casts = more blinds in extended duels vs Jax/Kayn.") ],
-        behind: [ I("Zhonya's Hourglass","Jax passive and Fiora riposte eat your burst — stasis buys resets."), I("Wit's End","MR + sustain for the extended trades Skirmishers always force."), I("Rylai's Crystal Scepter","Slows on every auto let you re-kite even from a bad position.") ],
-      },
-      BURST_MAGE: {
-        ahead:  [ I("Rabadon's Deathcap","Out-AP them — mushrooms and autos deal more than their combo."), I("Shadowflame","After they miss their opener, burst before the cooldown resets."), I("Malignance","More shrooms faster = no safe ground for them to stand on.") ],
-        behind: [ I("Banshee's Veil","Block the CC that starts their combo (Syndra E / Annie stun)."), I("Zhonya's Hourglass","Survive the full AP detonation; poison and shroom stacks remain."), I("Malignance","Haste for more Q casts and shroom density — outzone them safely.") ],
-      },
-      BATTLEMAGE: {
-        ahead:  [ I("Rabadon's Deathcap","Outscale their sustained damage with raw AP — burst trades win."), I("Void Staff","Ryze/Viktor build early MR — 40% pen pierces it as you press ahead."), I("Shadowflame","Burst trades in the lead window punish before they can drain back.") ],
-        behind: [ I("Morellonomicon","Vladimir Transfusion + Swain drain — GW 40% on every auto."), I("Malignance","Keep Toxic Shot stacks up from max range — no need to trade."), I("Zhonya's Hourglass","Survive Ryze/Viktor burst on a bad engage; poison does the work.") ],
-      },
-      ARTILLERY: {
-        ahead:  [ I("Boots of Swiftness","Dodge Xerath/Vel'Koz skillshots freely while pressuring forward."), I("Rabadon's Deathcap","Your AP wins at range — mushrooms in their poke lane are lethal."), I("Shadowflame","Once you close the gap and blind, flat pen one-shots the Artillery.") ],
-        behind: [ I("Malignance","More shrooms = zone out their entire safe poke angle on the map."), I("Boots of Swiftness","Slow resist + speed to dodge skillshots when you can't get hit."), I("Banshee's Veil","Block one long-range stun — the window to push in or escape.") ],
-      },
-      MARKSMAN: {
-        ahead:  [ I("Nashor's Tooth","⭐ PRIORITY — Blind nullifies every ADC auto for 2–3 seconds."), I("Shadowflame","Post-blind, flat pen + AP one-shots most ADCs before blind wears off."), I("Rabadon's Deathcap","Amplify shroom burst — one shroom can execute a low ADC.") ],
-        behind: [ I("Morellonomicon","Deny lifesteal and Bloodthirster shields — their sustain gone."), I("Liandry's Torment","Poison stacks melt Kai'Sa/Vayne HP items safely from range."), I("Rylai's Crystal Scepter","Slow on every auto; kite the ADC indefinitely even from deficit.") ],
-      },
-      ENCHANTER: {
-        ahead:  [ I("Shadowflame","10% extra pen vs shielded targets — counters Lulu/Janna spam."), I("Rabadon's Deathcap","Mushrooms shred through their shields and one-shot the carry."), I("Malignance","More shrooms under the Enchanter force constant repositioning.") ],
-        behind: [ I("Morellonomicon","Soraka/Nami core is healing — GW on every auto neuters them."), I("Malignance","Shrooms placed faster; zone Enchanters off their peel angles."), I("Liandry's Torment","Poison burn on every auto drains through Soraka's healing output.") ],
-      },
-      CATCHER: {
-        ahead:  [ I("Boots of Swiftness","Outpace Blitzcrank Q and Thresh hook with slow-resist + speed."), I("Shadowflame","If you get close, burst the Catcher before they chain another CC."), I("Malignance","Mushrooms in hook angles force Catchers to reposition or die.") ],
-        behind: [ I("Boots of Swiftness","Slow-resist is your survival tool vs Morgana root / Nautilus CC."), I("Banshee's Veil","Spell shield absorbs Blitz hook / Morgana bind — most critical item."), I("Zhonya's Hourglass","If Nautilus chains you anyway, stasis buys your team time to respond.") ],
-      },
-      VANGUARD: {
-        ahead:  [ I("Void Staff","Press your lead — % magic pen pierces their MR before they stack."), I("Liandry's Torment","% HP burn while ahead stacks enormously as they build Warmog's."), I("Rabadon's Deathcap","Amplify all AP; mushrooms burst even low-MR tanks heavily.") ],
-        behind: [ I("Liandry's Torment","% HP burn is the only reliable damage vs Malphite/Ornn stacking."), I("Malignance","Mushrooms ahead of their engage path zone them from initiating."), I("Rylai's Crystal Scepter","Slow on every auto lets you kite Leona/Sejuani indefinitely.") ],
-      },
-      WARDEN: {
-        ahead:  [ I("Void Staff","K'Sante/Galio stack MR — % pen is your answer while ahead."), I("Liandry's Torment","% HP burn stacks enormously against high-HP Wardens while ahead."), I("Rabadon's Deathcap","Amplify your AP so even shielded Wardens take serious shroom damage.") ],
-        behind: [ I("Liandry's Torment","% HP burn is your only reliable damage vs Warden HP/MR stacks."), I("Malignance","Mushrooms zone Tahm Kench/Shen from peeling with their body."), I("Morellonomicon","Tahm Kench passive sustain + Shen regen — GW reduces tankiness.") ],
-      },
-      SPECIALIST: {
-        ahead:  [ I("Shadowflame","Burst Singed before he can begin his kite loop."), I("Rabadon's Deathcap","Amplify shroom burst so GP barrels and Shyvana dives become lethal."), I("Malignance","More shroom speed = deny Gangplank barrel spots entirely.") ],
-        behind: [ I("Boots of Swiftness","Singed chases you infinitely — slow resist is your only out."), I("Morellonomicon","GP Oranges, Kayle sustain, Udyr regen — GW 40% cuts all of it."), I("Malignance","More shroom density to deny Gangplank barrel placement.") ],
-      },
-    },
-  },
-
-  // ══════════════════════════════════════════════════════════════════════════
-  //  RENEKTON — Diver / Bruiser
-  //  ── HOW TO ADD MORE CHAMPIONS: copy this entire block (from the opening
-  //     { down to the closing },) and paste it below. Change display, dd,
-  //     role, color, glow, lanes, corePath, coreNote, sideItems, and data.
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id:      "renekton",
-    display:  "Renekton",
-    dd:       "Renekton",       // champions/Renekton.png
-    role:     "Diver / Bruiser",
-    color:    "#e67e22",
-    glow:     "#f39c12",
-    lanes:    ["Top"],
-
-    roles:{
-          Top:{
-          corePath: "Trinity Force  ›  Sundered Sky  ›  Black Cleaver  ›  Death's Dance",
-          coreNote: "Trinity Force first — Sheen procs on empowered W stuns are devastating early. Sundered Sky second for healing burst on Q proc. Black Cleaver third stacks armor shred with every E pass. Death's Dance fourth to sustain through extended teamfights.",
-          sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Serylda's Grudge","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Frozen Heart","Maw of Malmortius","Randuin's Omen"],
-          data: {
-            JUGGERNAUT: {
-              ahead:  [ I("Serylda's Grudge","Slow + armor pen keeps Juggernauts from walking you down when ahead."), I("Lord Dominik's Regards","% pen into their HP stacks — their armor investment becomes worthless."), I("Trinity Force","Sheen procs in extended trades outdamage their slow cadence.") ],
-              behind: [ I("Death's Dance","Delay Darius/Mundo burst into bleed; W stun window reopens."), I("Sterak's Gage","Shield vs their walk-down damage keeps you alive for one more Q."), I("Plated Steelcaps","Flat auto reduction vs every Juggernaut's auto-weave between abilities.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            DIVER: {
-              ahead:  [ I("Sundered Sky","Healing burst wins mirror fights — Q proc keeps you healthy."), I("Trinity Force","Sheen proc on empowered W out-bursts mirror Divers who match your dive."), I("Black Cleaver","Shred their armor before they can defensive item.") ],
-              behind: [ I("Sterak's Gage","Shield when Camille/Irelia survives your burst and all-ins back."), I("Death's Dance","Bleed delay gives you time to land another empowered W stun."), I("Plated Steelcaps","Auto reduction on Irelia/Lee Sin chains — every hit matters behind.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            ASSASSIN: {
-              ahead:  [ I("Trinity Force","Sheen proc punishes their cooldown windows between dashes."), I("Sterak's Gage","Secondary shield vs one-shots when you're ahead and they're desperate."), I("Black Cleaver","Fast shred before they can reset and re-engage.") ],
-              behind: [ I("Sterak's Gage","Shield vs Zed Ult / Akali burst — mandatory when behind."), I("Maw of Malmortius","AP assassins (Akali/Ekko) — magic shield + omnivamp covers their combo."), I("Mercury's Treads","Shorter CC durations so your W stun can still land.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            SKIRMISHER: {
-              ahead:  [ I("Sundered Sky","Healing wins extended duels vs Fiora/Jax — Q proc sustains you."), I("Trinity Force","Sheen procs outdamage Skirmisher sustained DPS while ahead."), I("Black Cleaver","Shred before they stack armor — win the stat check early.") ],
-              behind: [ I("Frozen Heart","–20% nearby attack speed. Completely dismantles Fiora/Tryndamere."), I("Randuin's Omen","Crit reduction vs Yasuo/Yone crit builds — AoE slow helps peel."), I("Sterak's Gage","Shield when they survive your burst and try to extended-fight back.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            BURST_MAGE: {
-              ahead:  [ I("Trinity Force","Dash in, W stun during their cast, Sheen proc = kill before they react."), I("Sterak's Gage","Shield absorbs their burst while you complete the W-Q combo ahead."), I("Black Cleaver","Close fast, shred, kill before their cooldowns reset.") ],
-              behind: [ I("Maw of Malmortius","<35% magic shield absorbs Syndra/Orianna full combo when behind."), I("Sterak's Gage","Second shield layer — stacked with Maw you often survive one-shots."), I("Mercury's Treads","Shorter stun duration = your W stun can still land on entry.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            BATTLEMAGE: {
-              ahead:  [ I("Mortal Reminder","Vladimir/Swain sustain shut down by GW 40% on every auto."), I("Trinity Force","Sheen proc burst defeats their sustained damage when ahead."), I("Black Cleaver","Armor shred while you have the lead — force the fight.") ],
-              behind: [ I("Maw of Malmortius","Magic shield sustains through AP DPS window when behind."), I("Mortal Reminder","GW is your only healing counter even behind — buy it."), I("Death's Dance","Bleed delay vs Cassiopeia/Viktor tick damage when item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            ARTILLERY: {
-              ahead:  [ I("Trinity Force","Sprint passive closes the poke gap; Sheen proc on arrival = kill."), I("Serylda's Grudge","Slow on E prevents Artillery kiting out after you dash in."), I("Black Cleaver","Once you close, fast shred + empowered Q destroys squishy Artillery.") ],
-              behind: [ I("Sterak's Gage","Poke accumulated while walking over — shield keeps you alive on arrival."), I("Mercury's Treads","Shorter Xerath root / Vel'Koz CC so your dash arrives uninterrupted."), I("Plated Steelcaps","Reduces auto-weave poke they add between skillshots during approach.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            MARKSMAN: {
-              ahead:  [ I("Plated Steelcaps","ADC auto reduction — critical even ahead. Every trade benefits."), I("Trinity Force","Sprint + Sheen proc = delete the ADC before Enchanter can react."), I("Black Cleaver","6-stack shred on a tanky ADC building Bloodthirster/Shieldbow.") ],
-              behind: [ I("Plated Steelcaps","Non-negotiable — sustained ADC physical DPS kills you when behind."), I("Sterak's Gage","Shield vs ADC burst + Enchanter follow-up when behind."), I("Death's Dance","Delay their DPS window; empowered W stun can still turn the fight.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            ENCHANTER: {
-              ahead:  [ I("Serpent's Fang","⭐ 50% shield strip on dash-in — Lulu/Janna can't save their carry."), I("Trinity Force","Sprint to Enchanter before they cast their next shield."), I("Black Cleaver","Shred the carry once Enchanter is gone.") ],
-              behind: [ I("Serpent's Fang","Still priority even behind — their shields negate all your damage."), I("Mortal Reminder","GW limits Soraka/Nami healing even when you can't engage freely."), I("Sterak's Gage","Survive Lulu polymorph + carry burst while item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            CATCHER: {
-              ahead:  [ I("Mercury's Treads","Shorter hook/root chains — maintain mobility for dash combos."), I("Trinity Force","Sprint past hooks to reach carry; Sheen proc on arrival."), I("Serpent's Fang","Zac/Morgana shields absorbed on dash-in.") ],
-              behind: [ I("Mercury's Treads","Nautilus/Morgana CC completely stops your dashes when behind — mandatory."), I("Sterak's Gage","Survive burst after their hook lands when you couldn't dodge."), I("Maw of Malmortius","Zyra/Morgana AP follow-up after root — magic shield buys the W window.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            VANGUARD: {
-              ahead:  [ I("Black Cleaver","6 stacks shred Malphite/Ornn while disrupted — kill the engage tank."), I("Trinity Force","Dive in during their engage cooldown, Sheen proc cleans up."), I("Lord Dominik's Regards","% pen while ahead makes their armor investment worthless.") ],
-              behind: [ I("Mercury's Treads","Malphite Ult, Leona chain, Ornn CC — all shorter when behind."), I("Sterak's Gage","Survive burst that follows a Vanguard's initiation."), I("Plated Steelcaps","Jarvan IV/Wukong have AD scaling — reduce auto-weave when behind.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            WARDEN: {
-              ahead:  [ I("Serpent's Fang","Braum passive / Shen Ult shields stripped on dash-in while ahead."), I("Lord Dominik's Regards","% pen turns their armor stacking into irrelevant stats."), I("Black Cleaver","Shred Warden armor to expose the carry behind them.") ],
-              behind: [ I("Black Cleaver","Chip armor gradually — patience behind with Cleaver still opens them."), I("Mercury's Treads","Poppy E / Galio taunt — shorter duration when behind."), I("Sterak's Gage","Survive carry + Warden combined burst when item-deficient.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-            SPECIALIST: {
-              ahead:  [ I("Trinity Force","Sprint closes on Singed/Quinn before they disengage; Sheen punishes."), I("Serylda's Grudge","Slow on E means Singed's kite loop finally stops working."), I("Black Cleaver","Close on Gangplank, fast shred, kill before he can orange barrel poke.") ],
-              behind: [ I("Plated Steelcaps","Graves/Quinn auto reliance — reduce each hit when behind."), I("Sterak's Gage","Survive Kennen stun + ult or Singed flip when item-deficient."), I("Mortal Reminder","GP Oranges / passive heal — GW 40% on all physical damage.") ],
-              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-            },
-          },
-        },
-
-    },
-  },
-  // ══════════════════════════════════════════════════════════════════════════
-  //  AURELION SOL — Battlemage / Scaling
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id: "aurelionsol",
-    display: "Aurelion Sol",
-    dd: "AurelionSol",
-    color: "#5dade2",
-    glow: "#85c1e9",
-    lanes: ["Mid"],
-
-    roles: {
-      Mid: {
-        corePath: "Rod of Ages  ›  Rylai's Crystal Scepter  ›  Liandry's Torment  ›  Rabadon's Deathcap",
-        coreNote: "Stack scaling safely. Rod gives survivability + mana; Rylai's enables perma-slow on Q/E; Liandry's amplifies burn in extended fights.",
-
-        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Void Staff","Zhonya's Hourglass","Banshee's Veil","Shadowflame","Cosmic Drive"],
-
-        data: {
-          ASSASSIN: {
-            ahead: [
-              I("Rylai's Crystal Scepter","Perma-slow denies re-engage from Zed/Katarina."),
-              I("Liandry's Torment","Burn punishes their short trades."),
-              I("Rabadon's Deathcap","Scaling spike closes game faster.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Hard counter to burst windows."),
-              I("Rod of Ages","HP + sustain to survive lane phase."),
-              I("Banshee's Veil","Blocks key engage abilities.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          BURST_MAGE: {
-            ahead: [
-              I("Rylai's Crystal Scepter","Keeps them inside your damage zones."),
-              I("Liandry's Torment","Out-DPS them in extended fights."),
-              I("Void Staff","Penetrate early MR stacking.")
-            ],
-            behind: [
-              I("Banshee's Veil","Prevents getting one-shot by opener."),
-              I("Mercury's Treads","Shorter CC = more reposition time."),
-              I("Zhonya's Hourglass","Second life in teamfights.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ARTILLERY: {
-            ahead: [
-              I("Rylai's Crystal Scepter","Catch them once → they die."),
-              I("Cosmic Drive","Mobility to dodge skillshots."),
-              I("Liandry's Torment","Burn while they try to disengage.")
-            ],
-            behind: [
-              I("Banshee's Veil","Blocks key poke ability."),
-              I("Mercury's Treads","Reduce CC duration."),
-              I("Rod of Ages","Sustain through poke.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-    },
-  },
-  // ══════════════════════════════════════════════════════════════════════════
-  //  KATARINA — Assassin / Reset
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id: "katarina",
-    display: "Katarina",
-    dd: "Katarina",
-    color: "#c0392b",
-    glow: "#ff6b6b",
-    lanes: ["Mid"],
-
-    roles: {
-      Mid: {
-        corePath: "Nashor's Tooth  ›  Riftmaker  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-        coreNote: "Hybrid sustained burst. Nashor enables on-hit resets; Riftmaker gives extended fight power; Zhonya's enables aggressive dives.",
-
-        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Shadowflame","Void Staff","Banshee's Veil","Hextech Rocketbelt"],
-
-        data: {
-          BURST_MAGE: {
-            ahead: [
-              I("Hextech Rocketbelt","Gap-close to force fights."),
-              I("Shadowflame","Amplify burst vs low MR targets."),
-              I("Rabadon's Deathcap","End fights instantly.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Reset cooldowns safely."),
-              I("Mercury's Treads","Reduce CC lock."),
-              I("Banshee's Veil","Block key CC ability.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ASSASSIN: {
-            ahead: [
-              I("Nashor's Tooth","Win extended duels."),
-              I("Riftmaker","Out-sustain other assassins."),
-              I("Shadowflame","Push burst advantage.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Survive first burst."),
-              I("Plated Steelcaps","Reduce AD assassin damage."),
-              I("Riftmaker","Stay relevant in longer fights.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          MARKSMAN: {
-            ahead: [
-              I("Hextech Rocketbelt","Reach backline instantly."),
-              I("Shadowflame","Delete squishies instantly."),
-              I("Rabadon's Deathcap","Guarantee resets.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Buy time in teamfights."),
-              I("Riftmaker","Sustain through fights."),
-              I("Banshee's Veil","Avoid being locked down.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-    },
-  },
-  // ══════════════════════════════════════════════════════════════════════════
-  //  XERATH — Artillery / Poke
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id: "xerath",
-    display: "Xerath",
-    dd: "Xerath",
-    color: "#3498db",
-    glow: "#5dade2",
-    lanes: ["Mid", "Support"],
-
-    roles: {
-      Mid: {
-        corePath: "Luden's Echo  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Void Staff",
-        coreNote: "Maximize long-range burst. Luden's + Shadowflame spike lets you chunk before fights even start.",
-
-        sideItems: ["Sorcerer's Shoes","Mercury's Treads","Zhonya's Hourglass","Banshee's Veil","Horizon Focus","Cosmic Drive"],
-
-        data: {
-          ASSASSIN: {
-            ahead: [
-              I("Shadowflame","Punish low MR targets."),
-              I("Rabadon's Deathcap","End fights before they reach you."),
-              I("Horizon Focus","Amplify long-range poke.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Essential vs dive."),
-              I("Banshee's Veil","Block engage."),
-              I("Mercury's Treads","Reduce CC chain.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ARTILLERY: {
-            ahead: [
-              I("Horizon Focus","Max poke amplification."),
-              I("Shadowflame","Out-damage opposing poke."),
-              I("Rabadon's Deathcap","Hard scaling spike.")
-            ],
-            behind: [
-              I("Banshee's Veil","Block key poke."),
-              I("Cosmic Drive","Mobility to dodge skillshots."),
-              I("Void Staff","Deal damage through MR.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          MARKSMAN: {
-            ahead: [
-              I("Shadowflame","Burst ADCs easily."),
-              I("Rabadon's Deathcap","Delete them from range."),
-              I("Horizon Focus","Amplify ult damage.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Survive dives."),
-              I("Banshee's Veil","Prevent engage."),
-              I("Void Staff","Keep damage relevant.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-
-      Support: {
-        corePath: "Zaz'Zak's Realmspike  ›  Luden's Echo  ›  Shadowflame  ›  Rabadon's Deathcap",
-        coreNote: "Support Xerath plays for lane dominance and poke. Realmspike + Q spam creates constant pressure.",
-
-        sideItems: ["Sorcerer's Shoes","Horizon Focus","Zhonya's Hourglass","Banshee's Veil","Void Staff"],
-
-        data: {
-          MARKSMAN: {
-            ahead: [
-              I("Luden's Echo","Burst lane constantly."),
-              I("Shadowflame","Punish low MR ADC."),
-              I("Horizon Focus","Amplify poke.")
-            ],
-            behind: [
-              I("Zhonya's Hourglass","Survive engages."),
-              I("Banshee's Veil","Block engage support."),
-              I("Void Staff","Stay relevant.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ENCHANTER: {
-            ahead: [
-              I("Shadowflame","Punish shielded targets."),
-              I("Luden's Echo","Burst through heals."),
-              I("Horizon Focus","Long-range pressure.")
-            ],
-            behind: [
-              I("Oblivion Orb","Apply GW vs healing."),
-              I("Banshee's Veil","Block CC."),
-              I("Zhonya's Hourglass","Survive collapse.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-    },
-  },
-
-  // ══════════════════════════════════════════════════════════════════════════
-  //  SION — Scaling Tank / Splitpush Specialist
-  // ══════════════════════════════════════════════════════════════════════════
-  {
-    id:      "sion",
-    display: "Sion",
-    dd:      "Sion",
-    role:    "Scaling Tank / Splitpush Specialist",
-    color:   "#7f8c8d",
-    glow:    "#95a5a6",
-    lanes:   ["Top","Mid","Support","Jungle"],
-
-    roles:{
-      Top:{
-        corePath: "Heartsteel  ›  Sunfire Aegis  ›  Titanic Hydra  ›  Thornmail",
-        coreNote: "Sion top is a scaling HP stacker and wave controller. Heartsteel stacking defines your mid-game; Sunfire + Titanic converts HP into damage while maintaining frontline presence.",
-
-        sideItems: [
-          "Plated Steelcaps","Mercury's Treads",
-          "Frozen Heart","Randuin's Omen","Force of Nature",
-          "Jak'Sho, The Protean","Hullbreaker","Sterak's Gage"
-        ],
-
-        data: {
-
-          JUGGERNAUT: {
-            ahead: [
-              I("Heartsteel","Outscale through infinite HP stacking — they cannot match late."),
-              I("Titanic Hydra","HP → AD conversion lets you win extended trades."),
-              I("Hullbreaker","Side lane pressure — force them into losing map states.")
-            ],
-            behind: [
-              I("Bramble Vest","Cuts their sustain early (Darius, Aatrox)."),
-              I("Sunfire Aegis","Waveclear safely under tower."),
-              I("Frozen Heart","Reduces their DPS in extended fights.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          DIVER: {
-            ahead: [
-              I("Sunfire Aegis","Constant burn during their engage window."),
-              I("Heartsteel","Stack HP while they commit into you."),
-              I("Titanic Hydra","Punish failed dives with sustained damage.")
-            ],
-            behind: [
-              I("Plated Steelcaps","Reduces burst from AD divers."),
-              I("Frozen Heart","Attack speed slow cripples dive follow-up."),
-              I("Thornmail","Punish healing during engages.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          SKIRMISHER: {
-            ahead: [
-              I("Titanic Hydra","Win extended trades via HP scaling damage."),
-              I("Heartsteel","They cannot burst through stacked HP."),
-              I("Randuin's Omen","Critical vs Yasuo/Yone — deny crit scaling.")
-            ],
-            behind: [
-              I("Frozen Heart","–20% attack speed shuts down duelists."),
-              I("Plated Steelcaps","Flat reduction vs auto-heavy champs."),
-              I("Sunfire Aegis","Waveclear without contesting fights.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          VANGUARD: {
-            ahead: [
-              I("Heartsteel","Outscale tank vs tank."),
-              I("Titanic Hydra","You deal more damage in extended fights."),
-              I("Hullbreaker","Force side lane where they cannot match push.")
-            ],
-            behind: [
-              I("Sunfire Aegis","Match waveclear safely."),
-              I("Force of Nature","Reduce magic-heavy tank damage."),
-              I("Jak'Sho, The Protean","Scale into teamfight durability.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          MARKSMAN: {
-            ahead: [
-              I("Heartsteel","Stack HP safely — they cannot punish early."),
-              I("Randuin's Omen","Cripples crit-based ADCs."),
-              I("Hullbreaker","Splitpush — avoid teamfight kiting.")
-            ],
-            behind: [
-              I("Randuin's Omen","Essential vs crit DPS."),
-              I("Frozen Heart","Attack speed slow reduces DPS massively."),
-              I("Thornmail","Punish lifesteal builds.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          SPECIALIST: {
-            ahead: [
-              I("Hullbreaker","Abuse side lane vs unconventional champs."),
-              I("Heartsteel","Scale freely when they can't contest."),
-              I("Titanic Hydra","Waveclear + tower pressure.")
-            ],
-            behind: [
-              I("Sunfire Aegis","Maintain wave control."),
-              I("Force of Nature","Counter AP specialists."),
-              I("Thornmail","Reduce sustain patterns.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-
-      Mid:{
-        corePath: "Heartsteel  ›  Sunfire Aegis  ›  Titanic Hydra  ›  Force of Nature",
-        coreNote: "Mid Sion is a wave-control disruptor. You don't win lane — you neutralize it, then impact side lanes with R and shove priority.",
-
-        sideItems: [
-          "Mercury's Treads","Plated Steelcaps",
-          "Frozen Heart","Randuin's Omen",
-          "Abyssal Mask","Jak'Sho, The Protean"
-        ],
-
-        data: {
-
-          BURST_MAGE: {
-            ahead: [
-              I("Mercury's Treads","Reduce CC chains — enables aggression."),
-              I("Heartsteel","Stack HP while they lack kill pressure."),
-              I("Force of Nature","Completely nullifies their damage over time.")
-            ],
-            behind: [
-              I("Force of Nature","Primary anti-AP spike."),
-              I("Mercury's Treads","Shorter CC duration."),
-              I("Sunfire Aegis","Waveclear safely under pressure.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ASSASSIN: {
-            ahead: [
-              I("Plated Steelcaps","Negates AD burst patterns."),
-              I("Heartsteel","They cannot one-shot through stacked HP."),
-              I("Titanic Hydra","Punish after failed burst.")
-            ],
-            behind: [
-              I("Frozen Heart","Reduces follow-up DPS."),
-              I("Plated Steelcaps","Survive lane phase."),
-              I("Sunfire Aegis","Waveclear safely.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ARTILLERY: {
-            ahead: [
-              I("Force of Nature","Shrug off poke."),
-              I("Heartsteel","Scale freely under pressure."),
-              I("Hullbreaker","Force side lane away from poke.")
-            ],
-            behind: [
-              I("Force of Nature","Mandatory vs poke."),
-              I("Mercury's Treads","Reduce CC from long range."),
-              I("Sunfire Aegis","Waveclear without interaction.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-
-      Jungle:{
-        corePath: "Sunfire Aegis  ›  Heartsteel  ›  Titanic Hydra  ›  Thornmail",
-        coreNote: "Sion jungle plays for scaling and objective control. Clear speed is stable, but your value comes from mid-game frontline and engage.",
-
-        sideItems: [
-          "Plated Steelcaps","Mercury's Treads",
-          "Frozen Heart","Randuin's Omen",
-          "Force of Nature","Jak'Sho, The Protean"
-        ],
-
-        data: {
-
-          DIVER: {
-            ahead: [
-              I("Sunfire Aegis","Win skirmishes through burn damage."),
-              I("Heartsteel","Stack HP during fights."),
-              I("Titanic Hydra","Convert HP into damage.")
-            ],
-            behind: [
-              I("Plated Steelcaps","Reduce incoming burst."),
-              I("Frozen Heart","Cripples dive follow-up."),
-              I("Thornmail","Punish healing.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ASSASSIN: {
-            ahead: [
-              I("Heartsteel","Outscale burst champs."),
-              I("Sunfire Aegis","Punish close fights."),
-              I("Titanic Hydra","Win extended skirmishes.")
-            ],
-            behind: [
-              I("Plated Steelcaps","Reduce burst."),
-              I("Frozen Heart","Lower DPS window."),
-              I("Randuin's Omen","Extra survivability.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          VANGUARD: {
-            ahead: [
-              I("Heartsteel","Outscale tanks."),
-              I("Titanic Hydra","Better damage output."),
-              I("Sunfire Aegis","Objective control.")
-            ],
-            behind: [
-              I("Jak'Sho, The Protean","Scaling durability."),
-              I("Force of Nature","Anti-AP tank option."),
-              I("Thornmail","Reduce healing.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          MARKSMAN: {
-            ahead: [
-              I("Randuin's Omen","Cripple ADC damage."),
-              I("Heartsteel","Stack freely."),
-              I("Titanic Hydra","Punish positioning.")
-            ],
-            behind: [
-              I("Randuin's Omen","Mandatory vs crit."),
-              I("Frozen Heart","Reduce DPS."),
-              I("Plated Steelcaps","Survive fights.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-
-      Support:{
-        corePath: "Locket of the Iron Solari  ›  Thornmail  ›  Frozen Heart  ›  Force of Nature",
-        coreNote: "Support Sion is engage + disruption. You trade lane dominance for teamfight initiation and soak.",
-
-        sideItems: [
-          "Mercury's Treads","Plated Steelcaps",
-          "Knight's Vow","Zeke's Convergence",
-          "Abyssal Mask","Randuin's Omen"
-        ],
-
-        data: {
-
-          MARKSMAN: {
-            ahead: [
-              I("Locket of the Iron Solari","Protect your ADC in trades."),
-              I("Thornmail","Punish sustain."),
-              I("Frozen Heart","Reduce their DPS.")
-            ],
-            behind: [
-              I("Locket of the Iron Solari","Teamfight shielding."),
-              I("Knight's Vow","Protect carry."),
-              I("Frozen Heart","Reduce damage output.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          ENCHANTER: {
-            ahead: [
-              I("Thornmail","Reduce healing/shield comps."),
-              I("Locket of the Iron Solari","Mitigate poke."),
-              I("Force of Nature","Reduce AP poke.")
-            ],
-            behind: [
-              I("Locket of the Iron Solari","Core defensive value."),
-              I("Knight's Vow","Play peel."),
-              I("Force of Nature","Anti-AP sustain.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-
-          CATCHER: {
-            ahead: [
-              I("Locket of the Iron Solari","Negate pick attempts."),
-              I("Frozen Heart","Reduce follow-up damage."),
-              I("Thornmail","Punish engage.")
-            ],
-            behind: [
-              I("Locket of the Iron Solari","Survive picks."),
-              I("Mercury's Treads","Reduce CC."),
-              I("Knight's Vow","Peel instead of engage.")
-            ],
-            runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
-          },
-        },
-      },
-
-    },
-  }, 
-
-// ══════════════════════════════════════════════════════════════════════════
-//  WUKONG — Diver / Bruiser
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"wukong", display:"Wukong", dd:"MonkeyKing",
-  color:"#b8860b", glow:"#ffd700",
-  roles:{
-    Top:{
-      role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Trinity Force for Sheen proc on Q reset. Sundered Sky second for healing burst on Q empowered hit. Black Cleaver third stacks on R spin and Q autos. Build into Death's Dance or Sterak's based on burst threat.",
-      sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Mercury's Treads"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen while ahead into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver instantly — 6 hits in one rotation."),I("Serylda's Grudge","Slow on Q/R stops Juggernauts walking you down.")],behind:[I("Death's Dance","Delay Darius/Mundo burst into bleed while W clone baits their combo."),I("Sterak's Gage","Shield when they walk you down at low HP."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Sundered Sky","Healing burst wins mirror dives."),I("Trinity Force","Sheen proc outdamages their burst window."),I("Black Cleaver","Shred before they defensive item.")],behind:[I("Sterak's Gage","Shield when their dive survives your clone bait."),I("Death's Dance","Delay burst while W clone absorbs their attention."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sundered Sky","Burst them during W stealth approach."),I("Sterak's Gage","Absorb their one-shot while you reposition."),I("Trinity Force","Sheen proc on Q finishes them.")],behind:[I("Sterak's Gage","Shield vs one-shots — mandatory."),I("Maw of Malmortius","AP assassins — magic shield absorbs burst."),I("Death's Dance","Delay their combo while W clone distracts.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Sundered Sky","Out-sustain extended duels with Q proc healing."),I("Trinity Force","Sheen DPS beats sustained Skirmisher output."),I("Black Cleaver","Shred Fiora/Jax armor before they build defensive items.")],behind:[I("Sterak's Gage","Shield vs crit burst — Yasuo/Yone."),I("Guardian Angel","Fiora ult timing — passive revive mid-fight."),I("Plated Steelcaps","Crit damage reduction.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","W stealth approach + Sheen proc = burst before they cast."),I("Sterak's Gage","Shield their counter-burst."),I("Maw of Malmortius","Magic shield on W stealth approach.")],behind:[I("Maw of Malmortius","Non-negotiable — magic shield absorbs their combo."),I("Sterak's Gage","Secondary shield layer."),I("Mercury's Treads","Shorter stun so you land Q before they recover.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Black Cleaver","Shred Vladimir/Swain HP stacks during R spin."),I("Sundered Sky","Your sustain vs their sustain."),I("Death's Dance","Convert AP DPS to bleed — your W clone draws their attention.")],behind:[I("Death's Dance","Delay sustained AP DPS."),I("Maw of Malmortius","MR shield vs prolonged AP damage."),I("Sterak's Gage","Shield at low HP.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","W stealth approach + sprint passive closes gap."),I("Serylda's Grudge","Slow stops them repositioning after you arrive."),I("Sundered Sky","Q proc on arrival = instant healing burst.")],behind:[I("Sterak's Gage","Absorb poke burst on arrival."),I("Maw of Malmortius","MR vs AP poke."),I("Mercury's Treads","Shorter CC so W approach completes.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction — critical even ahead."),I("Trinity Force","Sprint + Sheen = delete ADC before they kite."),I("Black Cleaver","Shred tanky ADCs building Bloodthirster/Shieldbow.")],behind:[I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."),I("Sterak's Gage","Shield vs carry + Enchanter burst."),I("Death's Dance","Delay DPS window.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Sundered Sky","Stay healthy through Enchanter poke."),I("Black Cleaver","Shred the carry once you reach them via W stealth."),I("Trinity Force","Sprint closes before Enchanter repositions to peel.")],behind:[I("Sterak's Gage","Survive carry burst + Enchanter follow-up."),I("Maw of Malmortius","AP Enchanters Karma/Nami."),I("Death's Dance","Delay combined burst.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC chains — W stealth is cancelled by CC."),I("Trinity Force","Close and burst before they hook again."),I("Sundered Sky","Q proc healing after surviving CC.")],behind:[I("Mercury's Treads","Mandatory — CC stops W stealth entirely."),I("Sterak's Gage","Survive burst after CC lands."),I("Maw of Malmortius","AP Catchers Morgana/Zyra.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","R spin stacks Cleaver instantly vs Malphite/Ornn."),I("Trinity Force","Dive in during their engage cooldown."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Malphite Ult/Leona chain — shorter CC."),I("Sterak's Gage","Survive burst following engage."),I("Death's Dance","Delay engage burst.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Shred Warden armor — R spin fills it instantly."),I("Lord Dominik's Regards","% pen into their stacking."),I("Trinity Force","Dive through peel with sprint passive.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your armor shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","W stealth + sprint closes on kiting Specialists."),I("Serylda's Grudge","Slow stops Singed kite loop."),I("Sundered Sky","Q proc healing sustains through poke.")],behind:[I("Sterak's Gage","Survive Kennen stun + ult."),I("Maw of Malmortius","Teemo/Kennen AP — magic shield."),I("Mercury's Treads","Teemo blind stops Q reset — Tenacity shortens.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
-      },
-    },
-    Jungle:{
-      role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Same core as Top. Jungle Wukong uses W clone to bait enemy spells during ganks — drop it and circle behind while they attack it. R spin for engagement and AoE after W repositioning.",
-      sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Lord Dominik's Regards"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver in one rotation on ganks."),I("Serylda's Grudge","Slow stops their walk-down after gank landing.")],behind:[I("Death's Dance","Delay Darius burst while W clone distracts them."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Sundered Sky","Healing burst wins counter-jungling fights."),I("Trinity Force","Sheen proc burst ahead of their dive."),I("Black Cleaver","Fast shred — R spin fills it in one cast.")],behind:[I("Sterak's Gage","Shield when they counter-invade."),I("Death's Dance","Delay their burst."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Trinity Force","W stealth approach into Sheen proc burst on gank."),I("Sundered Sky","Q proc healing keeps you healthy post-gank."),I("Sterak's Gage","Absorb their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots in counter-gank situations."),I("Death's Dance","Delay burst while W clone absorbs their combo."),I("Maw of Malmortius","AP assassins in counter-ganks.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Sundered Sky","Out-sustain jungle skirmishes."),I("Trinity Force","Sheen DPS beats their sustained output."),I("Black Cleaver","Shred before they build defensive items.")],behind:[I("Death's Dance","Delay their extended trade."),I("Sterak's Gage","Shield at low HP."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","W gank approach + Sheen burst before they combo."),I("Sterak's Gage","Shield their retaliatory burst."),I("Maw of Malmortius","Magic shield on approach.")],behind:[I("Maw of Malmortius","Non-negotiable."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter CC so your gank connects.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Black Cleaver","R spin shreds their HP fast."),I("Sundered Sky","Your sustain vs their sustain."),I("Death's Dance","Convert AP DPS to bleed while W clone distracts.")],behind:[I("Death's Dance","Delay sustained AP DPS."),I("Maw of Malmortius","MR shield."),I("Sterak's Gage","Shield at low HP.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","W stealth gank approach closes gap safely."),I("Serylda's Grudge","Slow stops them repositioning."),I("Sundered Sky","Q proc healing after arriving.")],behind:[I("Sterak's Gage","Absorb poke burst."),I("Maw of Malmortius","AP poke."),I("Mercury's Treads","Shorter CC so W approach completes.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Trinity Force","Sprint + Sheen = instant ADC kill on gank."),I("Black Cleaver","Shred tanky ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay DPS window.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Black Cleaver","Shred the carry — R spin fills it."),I("Trinity Force","Sprint closes before Enchanter peels."),I("Sundered Sky","Stay healthy through poke.")],behind:[I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay combined burst."),I("Maw of Malmortius","AP Enchanters.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","CC cancels W stealth — shorter duration."),I("Trinity Force","Close and burst after dodging hook."),I("Sundered Sky","Q proc healing post-gank.")],behind:[I("Mercury's Treads","Mandatory."),I("Sterak's Gage","Survive burst after CC lands."),I("Maw of Malmortius","AP Catchers.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","R spin stacks Cleaver vs engage tanks."),I("Trinity Force","Dive in during their cooldown window."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Their CC chains — shorter."),I("Sterak's Gage","Survive burst."),I("Death's Dance","Delay engage burst.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","R spin shreds their armor."),I("Lord Dominik's Regards","% pen."),I("Trinity Force","Sprint through peel.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","W stealth + sprint closes on Specialists."),I("Serylda's Grudge","Slow stops kiting."),I("Sundered Sky","Q proc sustain.")],behind:[I("Sterak's Gage","Survive burst setups."),I("Maw of Malmortius","AP Specialists."),I("Mercury's Treads","Teemo blind — Tenacity shortens.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  REK'SAI — Diver / Assassin
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"reksai", display:"Rek'Sai", dd:"RekSai",
-  color:"#8b0000", glow:"#e74c3c",
-  roles:{
-    Jungle:{
-      role:"Diver / Assassin",
-      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
-      coreNote:"Stridebreaker first for the AoE slow on W unburrow — they can't escape after you surface under them. Spear of Shojin third for ability haste to reduce W tunnel CD and more W knocks per fight. Sterak's fourth for the shield that keeps you alive mid-dive.",
-      sideItems:["Guardian Angel","Death's Dance","Lord Dominik's Regards","Black Cleaver","Mercury's Treads","Serpent's Fang"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen while ahead into their HP."),I("Black Cleaver","Q empowered autos stack Cleaver fast."),I("Stridebreaker","AoE slow on surface stops Juggernauts walking out.")],behind:[I("Sterak's Gage","Shield after W surface when they walk you down."),I("Death's Dance","Delay Darius/Mundo burst."),I("Plated Steelcaps","Auto reduction on their auto-weave.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stridebreaker","Surface under them — AoE slow and knock wins mirror dives."),I("Spear of Shojin","More W uses per fight = more knocks."),I("Sterak's Gage","Shield if their dive survives your burst.")],behind:[I("Sterak's Gage","Shield after failed gank."),I("Death's Dance","Delay their burst."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Stridebreaker","Surface burst before they can reposition."),I("Spear of Shojin","More E uses to chase escapes."),I("Sterak's Gage","Absorb their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots."),I("Guardian Angel","Revive after dive fails."),I("Death's Dance","Delay their burst while Q rage ticks.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Stridebreaker","Slow stops Fiora/Jax extended duel pattern."),I("Spear of Shojin","More W knocks interrupts their dueling rhythm."),I("Sterak's Gage","Shield when their sustained DPS kicks in.")],behind:[I("Sterak's Gage","Shield at low HP."),I("Guardian Angel","Revive mid-fight."),I("Death's Dance","Delay sustained trade damage.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Stridebreaker","Surface before their combo fires."),I("Sterak's Gage","Shield their retaliation."),I("Spear of Shojin","More W knocks to prevent casting.")],behind:[I("Sterak's Gage","Shield absorbs burst on failed gank."),I("Guardian Angel","Revive if they burst you before W."),I("Mercury's Treads","Shorter CC so W tunnel can surface.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Stridebreaker","Close on kiting Battlemages and slow them."),I("Black Cleaver","Shred HP stacks — Cleaver fills on Q autos."),I("Spear of Shojin","More W interrupts their sustained DPS.")],behind:[I("Sterak's Gage","Shield when sustained AP damage catches you."),I("Death's Dance","Delay AP DPS."),I("Mercury's Treads","Shorter CC.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Stridebreaker","Surface under them — AoE slow on arrival prevents escape."),I("Spear of Shojin","Faster W tunnel = surprise surface timing."),I("Sterak's Gage","Absorb poke on arrival.")],behind:[I("Sterak's Gage","Shield vs burst on arrival."),I("Mercury's Treads","Shorter CC so W surfaces."),I("Guardian Angel","Revive if burst lands before your W.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Stridebreaker","Surface under ADC — AoE slow, they cannot kite."),I("Spear of Shojin","More W surfaces per fight."),I("Lord Dominik's Regards","% pen on tanky ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable vs sustained ADC DPS."),I("Sterak's Gage","Shield vs carry burst."),I("Stridebreaker","Still your gank tool even behind.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Stridebreaker","Surface between carry and Enchanter — AoE slow hits both."),I("Serpent's Fang","Shield strip on surface landing."),I("Spear of Shojin","More W surfaces to separate the duo.")],behind:[I("Serpent's Fang","Still mandatory — their shields negate everything."),I("Sterak's Gage","Survive carry burst."),I("Stridebreaker","Still your separation tool.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — W tunnel is cancelled by most hooks."),I("Stridebreaker","Surface and slow before they reset."),I("Spear of Shojin","Faster W CD reduces hook vulnerability window.")],behind:[I("Mercury's Treads","Mandatory — CC stops tunnel entirely."),I("Sterak's Gage","Survive burst after being caught."),I("Guardian Angel","Revive if hook into burst kills you.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","Q autos stack Cleaver vs tanks."),I("Stridebreaker","Surface in their backline during engage."),I("Lord Dominik's Regards","% pen while ahead.")],behind:[I("Mercury's Treads","Their CC chains stop tunnels."),I("Sterak's Gage","Survive engage burst."),I("Death's Dance","Delay follow-up burst.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Q autos shred Warden armor."),I("Lord Dominik's Regards","% pen into their stacking."),I("Stridebreaker","Surface past their body-block.")],behind:[I("Sterak's Gage","Survive carry burst through peel."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Stridebreaker","Surface under Singed/TF before they disengage."),I("Spear of Shojin","More W surfaces denies their repositioning."),I("Sterak's Gage","Survive their counter.")],behind:[I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","CC reduces tunnel options."),I("Guardian Angel","Revive after failed dive.")],runes:{...REKSAI_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  SHYVANA — Skirmisher / Bruiser
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"shyvana", display:"Shyvana", dd:"Shyvana",
-  color:"#c0392b", glow:"#e67e22",
-  roles:{
-    Jungle:{
-      role:"Skirmisher / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Guinsoo's Rageblade  ›  Titanic Hydra",
-      coreNote:"Trinity Force first for Sheen proc on Q double-strike. Guinsoo's second enables on-hit Q magic damage that scales with dragon form. Titanic Hydra third for AoE damage on her Q resets. Prioritise dragon buffs — objective control is her kit's identity.",
-      sideItems:["Blade of the Ruined King","Nashor's Tooth","Wit's End","Sterak's Gage","Death's Dance","Randuin's Omen"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Blade of the Ruined King","% current HP on Q double-strike destroys their HP stacking."),I("Guinsoo's Rageblade","On-hit Q magic damage — ignores their armor stacking."),I("Titanic Hydra","AoE on Q resets shreds their camp while poking them.")],behind:[I("Sterak's Gage","Shield when they walk you down."),I("Death's Dance","Delay Darius/Mundo burst — E to disengage."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Trinity Force","Sheen proc wins mirror dives."),I("Guinsoo's Rageblade","On-hit damage procs faster than their dive burst."),I("Blade of the Ruined King","% HP drain — sustains through dive skirmishes.")],behind:[I("Sterak's Gage","Shield when their dive beats your burst."),I("Death's Dance","Delay burst while you R form to escape."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Trinity Force","Close and burst before they reset."),I("Sterak's Gage","Absorb their burst attempt."),I("Guinsoo's Rageblade","On-hit DPS in dragon form executes them post-combo.")],behind:[I("Sterak's Gage","Shield vs one-shots — they burst faster than you."),I("Death's Dance","Delay burst while dragon form procs drain."),I("Wit's End","MR + on-hit for AP assassins Akali/Ekko.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Guinsoo's Rageblade","On-hit DPS wins extended duels vs Fiora/Jax."),I("Blade of the Ruined King","% HP drain — you sustain through their dueling damage."),I("Titanic Hydra","AoE on Q resets maintains DPS while they trade.")],behind:[I("Randuin's Omen","Crit reduction vs Yasuo/Yone — dragon form has no armour."),I("Sterak's Gage","Shield when their crit burst peaks."),I("Plated Steelcaps","Critical auto mitigation.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Trinity Force","Close before their combo fires."),I("Sterak's Gage","Shield their burst while you reach dragon form."),I("Wit's End","MR + on-hit while ahead vs AP mid laners.")],behind:[I("Wit's End","MR stack + drain — non-negotiable vs AP burst."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter stun so dragon form can land.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Blade of the Ruined King","% HP drain on sustained AP targets."),I("Wit's End","MR + drain — your sustain vs their sustain."),I("Guinsoo's Rageblade","On-hit magic damage in dragon form beats their AP DPS.")],behind:[I("Wit's End","Non-negotiable — MR drain vs sustained AP."),I("Sterak's Gage","Shield when their DPS window opens."),I("Mercury's Treads","Shorter CC.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Trinity Force","Sprint passive closes poke gap."),I("Guinsoo's Rageblade","On-hit procs in dragon form melts them on arrival."),I("Sterak's Gage","Absorb poke burst accumulated on approach.")],behind:[I("Sterak's Gage","Shield vs burst on arrival."),I("Wit's End","MR vs AP poke."),I("Mercury's Treads","Shorter CC so your gank connects.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Guinsoo's Rageblade","On-hit DPS races their sustained damage."),I("Blade of the Ruined King","% HP drain on high-HP ADCs.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay their DPS window.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Guinsoo's Rageblade","Dragon form on-hit DPS reaches carry through peel."),I("Titanic Hydra","AoE hits both Enchanter and carry."),I("Blade of the Ruined King","% HP drain sustains through Enchanter poke.")],behind:[I("Sterak's Gage","Survive carry + Enchanter burst."),I("Death's Dance","Delay combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC chains — dragon form is cancelled by hooks."),I("Trinity Force","Close and burst before they reset CC."),I("Guinsoo's Rageblade","On-hit DPS on arrival.")],behind:[I("Mercury's Treads","Mandatory — CC kills dragon form entirely."),I("Sterak's Gage","Survive burst after CC lands."),I("Wit's End","AP Catchers drain.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Blade of the Ruined King","% HP drain on high-HP Vanguards."),I("Guinsoo's Rageblade","On-hit magic damage bypasses armor stacking."),I("Titanic Hydra","AoE on Q resets — hits engage tank and backline.")],behind:[I("Sterak's Gage","Survive engage burst."),I("Death's Dance","Delay burst."),I("Mercury's Treads","Their CC chains kill dragon form.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Blade of the Ruined King","% HP drain shreds Warden HP stacking."),I("Guinsoo's Rageblade","Magic on-hit bypasses their armor."),I("Titanic Hydra","AoE past their body-block.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Death's Dance","Delay burst."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Trinity Force","Sprint closes on kiting Specialists."),I("Guinsoo's Rageblade","Dragon form DPS melts Singed/Kennen."),I("Blade of the Ruined King","% HP drain on sustain Specialists.")],behind:[I("Wit's End","Kennen/Teemo AP — MR drain."),I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","Teemo blind stops Q double-strike — Tenacity shortens.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  WARWICK — Diver / Tank
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"warwick", display:"Warwick", dd:"Warwick",
-  color:"#4a235a", glow:"#8e44ad",
-  roles:{
-    Jungle:{
-      role:"Diver / Tank",
-      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Blade of the Ruined King  ›  Thornmail",
-      coreNote:"Stridebreaker first for the AoE slow on Infinite Duress — they cannot escape your ult suppression. Blade of the Ruined King second for % HP drain that synergises with Blood Hunt passive. Thornmail third for GW against healing targets. Spirit Visage fourth amplifies your W passive healing.",
-      sideItems:["Spirit Visage","Sterak's Gage","Dead Man's Plate","Force of Nature","Mercury's Treads","Warmog's Armor"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Thornmail","GW 40% on Warwick vs Darius/Mundo regen — mirror sustain fight, yours wins."),I("Blade of the Ruined King","% current HP drain beats their HP stacking model."),I("Spirit Visage","W passive healing amplified — sustains through their walk-down.")],behind:[I("Spirit Visage","W healing amp is your lifeline when behind."),I("Thornmail","GW cuts their regen even when behind."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stridebreaker","AoE slow on ult landing — they can't counter-dive out."),I("Blade of the Ruined King","% HP drain wins gank skirmishes."),I("Spirit Visage","W healing keeps you healthy post-dive.")],behind:[I("Spirit Visage","W healing is your advantage behind — never skip it."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Stridebreaker","Ult suppression + AoE slow = no escape."),I("Blade of the Ruined King","Drain their burst window."),I("Sterak's Gage","Shield their counter-burst.")],behind:[I("Sterak's Gage","Shield vs one-shots — ult makes you visible."),I("Spirit Visage","W heal keeps you alive after ult."),I("Force of Nature","AP assassins — MR stack.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Thornmail","GW + reflect on Fiora/Tryndamere auto chains."),I("Blade of the Ruined King","% HP drain wins extended duels."),I("Spirit Visage","W healing amp tips the sustain war.")],behind:[I("Spirit Visage","W sustain tips extended fights."),I("Thornmail","GW on Fiora/Tryndamere regen."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Stridebreaker","Close before their combo fires."),I("Spirit Visage","MR + W healing amp."),I("Sterak's Gage","Absorb burst.")],behind:[I("Spirit Visage","Non-negotiable MR + healing amp."),I("Force of Nature","Stack MR fast."),I("Sterak's Gage","Secondary shield.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain — 40% per tick."),I("Spirit Visage","Your W sustain vs their sustain — yours wins with Visage."),I("Blade of the Ruined King","% HP drain through their HP stacking.")],behind:[I("Spirit Visage","Non-negotiable."),I("Thornmail","GW cuts their regen even behind."),I("Force of Nature","Sustained AP DPS MR.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Charge speed + W scent triggers for fast approach."),I("Stridebreaker","AoE slow on ult arrival."),I("Spirit Visage","W sustains through poke during approach.")],behind:[I("Spirit Visage","W sustain on approach."),I("Sterak's Gage","Shield on arrival."),I("Mercury's Treads","Shorter CC so ult can land.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Blade of the Ruined King","% HP drain + active reposition on ADC."),I("Thornmail","GW on ADC lifesteal.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Spirit Visage","W healing sustains through their DPS."),I("Thornmail","GW limits lifesteal.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW 40% — destroys all Enchanter heals and shields."),I("Dead Man's Plate","Charge speed into Bot lane."),I("Spirit Visage","W sustains through Enchanter poke.")],behind:[I("Thornmail","GW still the equaliser."),I("Spirit Visage","W healing sustains."),I("Sterak's Gage","Survive carry burst.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — Blood Hunt passive triggers but hooks cancel ult."),I("Stridebreaker","AoE slow after CC window."),I("Spirit Visage","W healing sustains through gank.")],behind:[I("Mercury's Treads","Mandatory — CC cancels ult suppression."),I("Spirit Visage","W healing keeps you healthy."),I("Sterak's Gage","Survive burst after CC.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Blade of the Ruined King","% HP drain on engage tanks."),I("Stridebreaker","AoE slow during their initiation."),I("Spirit Visage","W healing through their tank pressure.")],behind:[I("Spirit Visage","W healing keeps you relevant."),I("Sterak's Gage","Survive engage burst."),I("Mercury's Treads","Their CC chains — shorter.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Blade of the Ruined King","% HP drain past their body-block."),I("Thornmail","GW on Warden sustain/passive."),I("Spirit Visage","W healing through their peel.")],behind:[I("Spirit Visage","W healing sustains."),I("Sterak's Gage","Survive carry burst through body-block."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Blood Hunt triggers on low-HP Specialists — charge speed."),I("Blade of the Ruined King","% HP drain on sustain Specialists."),I("Spirit Visage","W healing through their kit.")],behind:[I("Spirit Visage","W healing sustains."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind stops Lethal Tempo stacks.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  UDYR — Skirmisher / Bruiser (AD Build, patch 26.14)
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"udyr", display:"Udyr", dd:"Udyr",
-  color:"#1a5276", glow:"#2980b9",
-  roles:{
-    Jungle:{
-      role:"Skirmisher / Bruiser",
-      corePath:"Spear of Shojin  ›  Boots of Swiftness  ›  Experimental Hexplate  ›  Death's Dance",
-      coreNote:"Spear of Shojin first — ability haste converts directly to more Awaken uses per fight and faster form swap cycling. Boots of Swiftness for permanent kite resist (Udyr needs to stick to targets with E stun). Experimental Hexplate third for the on-ability-use move speed burst that lets you chase between E stuns. Death's Dance fourth for sustained survivability.",
-      sideItems:["Spirit Visage","Sterak's Gage","Thornmail","Black Cleaver","Plated Steelcaps","Guardian Angel"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Black Cleaver","Q-Awaken autos stack Cleaver — 6 hits shreds their armor."),I("Spear of Shojin","More Awaken uses per fight."),I("Death's Dance","Delay Darius/Mundo burst during your auto chain.")],behind:[I("Sterak's Gage","Shield when they walk you down."),I("Thornmail","GW on regen-heavy Juggernauts."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Spear of Shojin","More E stuns per fight — keeps Divers from counter-diving."),I("Experimental Hexplate","Move speed burst between E stuns."),I("Black Cleaver","Q autos stack shred during the stun chain.")],behind:[I("Sterak's Gage","Shield after E stun fails to stop their dive."),I("Death's Dance","Delay burst during your next E window."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Spear of Shojin","More W shield uses — absorb their burst attempt."),I("Experimental Hexplate","Chase them between their dashes."),I("Sterak's Gage","Absorb one-shot during your W form.")],behind:[I("Sterak's Gage","Shield vs one-shots."),I("Death's Dance","Delay burst while E stun lands."),I("Guardian Angel","Revive after failed counter-gank.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Spear of Shojin","More E stuns interrupts Fiora/Jax extended duel."),I("Experimental Hexplate","Chase between E stuns."),I("Black Cleaver","Q autos shred between stuns.")],behind:[I("Sterak's Gage","Shield when their sustained DPS peaks."),I("Death's Dance","Delay extended trade damage."),I("Thornmail","GW + reflect on auto-heavy Skirmishers.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Spear of Shojin","More W shields absorb their burst attempts."),I("Experimental Hexplate","Close before their combo fires."),I("Sterak's Gage","Absorb their burst.")],behind:[I("Spirit Visage","MR + W shield amplification."),I("Sterak's Gage","Secondary shield."),I("Mercury's Treads","Shorter CC so E can land.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Spirit Visage","W shield amp vs their sustained AP."),I("Spear of Shojin","More W form uses per fight.")],behind:[I("Spirit Visage","W shield amp non-negotiable."),I("Thornmail","GW cuts their regen."),I("Death's Dance","Delay sustained AP DPS.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Experimental Hexplate","Move speed burst closes poke gap on ability use."),I("Boots of Swiftness","Slow resist — poke slows don't stop your approach."),I("Spear of Shojin","More W shields on approach.")],behind:[I("Spirit Visage","W shield sustains through poke."),I("Sterak's Gage","Shield on arrival."),I("Mercury's Treads","Shorter CC so your approach completes.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Experimental Hexplate","Chase ADC kite pattern with move speed bursts."),I("Black Cleaver","Q autos shred after E stun.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay DPS window.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Black Cleaver","Q autos shred carry after E stun."),I("Experimental Hexplate","Reach carry before Enchanter repositions."),I("Spear of Shojin","More E stuns to separate duo.")],behind:[I("Sterak's Gage","Survive carry burst."),I("Death's Dance","Delay combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — E stun trades with their CC."),I("Experimental Hexplate","Move speed dodge hooks between forms."),I("Spear of Shojin","More E stuns vs hook attempts.")],behind:[I("Mercury's Treads","Mandatory — CC stops your entire form pattern."),I("Sterak's Gage","Survive burst after CC lands."),I("Guardian Angel","Revive after getting caught.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Black Cleaver","Q autos stack Cleaver vs engage tanks."),I("Experimental Hexplate","Move speed burst into their backline during engage."),I("Spear of Shojin","More E stuns disrupts their engage pattern.")],behind:[I("Mercury's Treads","Their CC stops your form swaps."),I("Sterak's Gage","Survive engage burst."),I("Spirit Visage","W shield amp.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Black Cleaver","Q autos shred Warden armor."),I("Experimental Hexplate","Chase through their body-block."),I("Spear of Shojin","More E stuns past their peel.")],behind:[I("Sterak's Gage","Survive carry burst through body-block."),I("Black Cleaver","Still your shred path."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Boots of Swiftness","Singed cannot outrun Udyr + slow resist."),I("Experimental Hexplate","Move speed burst closes on kiting Specialists."),I("Spear of Shojin","More E stuns on repositioning Specialists.")],behind:[I("Spirit Visage","W shield sustains."),I("Sterak's Gage","Survive burst setups."),I("Mercury's Treads","Teemo blind stops Q Awaken — Tenacity shortens.")],runes:{...UDYR_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  SETT — Juggernaut / Tank
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"sett", display:"Sett", dd:"Sett",
-  color:"#7b241c", glow:"#e74c3c",
-  roles:{
-    Top:{
-      role:"Juggernaut / Tank",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
-      coreNote:"Heartsteel first for the HP stacking that amplifies every subsequent item. Sterak's third — Grit (W mechanic) stores 8% of damage taken as a grey health bar, and the Haymaker expends it as true damage bonus. The more HP you have, the more Grit stores. Titanic Hydra procs on Q and W autos for massive AoE damage.",
-      sideItems:["Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage scales with HP — more HP = bigger Haymaker."),I("Dead Man's Plate","Charge speed into their walk-down with bonus damage."),I("Warmog's Armor","Regen between trades — Grit restores passive HP.")],behind:[I("Sterak's Gage","Grit + Sterak shield = two separate damage-absorbing mechanics."),I("Gargoyle Stoneplate","Activates during their walk-down for massive resistances."),I("Thornmail","GW 40% on Darius/Mundo regen.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE punishes their dive cluster."),I("Dead Man's Plate","Charge speed into their dive approach."),I("Sterak's Gage","Grit stored from their dive = bigger Haymaker.")],behind:[I("Sterak's Gage","Grit + shield — their dive damage becomes your damage."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains."),I("Dead Man's Plate","Move speed to stay in Haymaker range.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sterak's Gage","Absorb one-shot — Grit stored = massive Haymaker retaliation."),I("Dead Man's Plate","Chase after their escape."),I("Titanic Hydra","Haymaker AoE punishes their melee range requirement.")],behind:[I("Sterak's Gage","Grit + shield is your only survival vs one-shots."),I("Gargoyle Stoneplate","Activates during their burst combo."),I("Force of Nature","AP assassins — MR stack.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Titanic Hydra","Grit W damage stored from their auto-heavy dueling."),I("Thornmail","GW + reflect on Fiora/Tryndamere chains."),I("Dead Man's Plate","Charge speed into their kite.")],behind:[I("Sterak's Gage","Grit from their DPS = bigger counter Haymaker."),I("Thornmail","GW + reflect even behind."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Sterak's Gage","Grit stored from burst = instant Haymaker retaliation."),I("Force of Nature","MR stack while ahead."),I("Dead Man's Plate","Engage before their combo fires.")],behind:[I("Force of Nature","Non-negotiable MR vs AP burst."),I("Sterak's Gage","Grit + shield absorbs their combo."),I("Mercury's Treads","Shorter stun so you can Haymaker.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Force of Nature","MR + move speed vs sustained AP."),I("Sterak's Gage","Grit stored from AP DPS = big Haymaker.")],behind:[I("Force of Nature","Non-negotiable."),I("Thornmail","GW cuts their regen."),I("Sterak's Gage","Grit + shield absorbs sustained damage.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Charge speed + bonus damage closes poke gap."),I("Sterak's Gage","Grit stored from poke = Haymaker on arrival."),I("Force of Nature","MR vs AP poke.")],behind:[I("Sterak's Gage","Grit from poke = retaliation damage."),I("Force of Nature","MR vs AP poke."),I("Gargoyle Stoneplate","Activates on arrival for bonus survivability.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Titanic Hydra","Haymaker AoE in their face."),I("Dead Man's Plate","Charge speed to reach ADC.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Grit from their DPS = Haymaker retaliation."),I("Gargoyle Stoneplate","Activates during their sustained DPS.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW destroys Enchanter healing amplification."),I("Dead Man's Plate","Charge into backline."),I("Titanic Hydra","Haymaker AoE hits both Enchanter and carry.")],behind:[I("Thornmail","GW equaliser."),I("Sterak's Gage","Grit + shield vs combined burst."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — Haymaker requires melee range."),I("Dead Man's Plate","Charge past hooks."),I("Sterak's Gage","Grit from any poke = Haymaker on landing.")],behind:[I("Mercury's Treads","Mandatory — CC prevents Haymaker."),I("Sterak's Gage","Grit + shield after surviving CC."),I("Gargoyle Stoneplate","Activates during their burst after CC.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Dead Man's Plate","Counter-charge into their engage."),I("Titanic Hydra","Haymaker AoE punishes their clustered engage."),I("Sterak's Gage","Grit from their engage = massive counter Haymaker.")],behind:[I("Mercury's Treads","Their CC prevents Haymaker — shorter duration."),I("Sterak's Gage","Grit stored during their engage = retaliation."),I("Gargoyle Stoneplate","Activates mid-engage for massive resistances.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Dead Man's Plate","Charge through their peel."),I("Titanic Hydra","Haymaker AoE past their body-block."),I("Thornmail","GW on any Warden sustain.")],behind:[I("Sterak's Gage","Grit + shield through their peel pressure."),I("Gargoyle Stoneplate","Activates during their sustained peel."),I("Mercury's Treads","Poppy E/Galio taunt — reduce.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Charge Singed down — Sett wins the run."),I("Titanic Hydra","Haymaker AoE punishes Singed fling clusters."),I("Thornmail","GW on Gangplank regen / Udyr passive.")],behind:[I("Sterak's Gage","Grit from their poke/kit = retaliation Haymaker."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind stops autos — Tenacity shortens.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
-      },
-    },
-    Jungle:{
-      role:"Juggernaut / Bruiser",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
-      coreNote:"Same core as Top. Sett Jungle uses Q suplex to clear camps quickly. Gank with E into W — E pull forces a cluster, W Haymaker expends stored Grit as true damage. The more the enemy jungle trades into you, the more Grit you store.",
-      sideItems:["Thornmail","Dead Man's Plate","Force of Nature","Warmog's Armor","Gargoyle Stoneplate","Mercury's Treads"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage + Titanic AoE destroys Juggernaut HP."),I("Thornmail","GW on regen-heavy Juggernauts."),I("Dead Man's Plate","Charge speed on ganks.")],behind:[I("Sterak's Gage","Grit + shield absorbs their walk-down."),I("Thornmail","GW even behind."),I("Plated Steelcaps","Auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE on dive cluster."),I("Dead Man's Plate","Counter-charge into their dive approach."),I("Sterak's Gage","Grit from their dive = counter Haymaker.")],behind:[I("Sterak's Gage","Grit + shield."),I("Plated Steelcaps","Auto reduction."),I("Dead Man's Plate","Stay mobile for counter-ganks.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Sterak's Gage","Grit + shield absorbs their burst — then Haymaker retaliation."),I("Dead Man's Plate","Chase after their escape."),I("Titanic Hydra","AoE punishes their melee burst window.")],behind:[I("Sterak's Gage","Grit + shield is survival."),I("Gargoyle Stoneplate","Activates during burst combo."),I("Force of Nature","AP assassins.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Titanic Hydra","Grit from their autos = big Haymaker."),I("Thornmail","GW + reflect on their extended trade."),I("Dead Man's Plate","Charge into their duel.")],behind:[I("Sterak's Gage","Grit absorbs their DPS."),I("Thornmail","GW + reflect."),I("Plated Steelcaps","Crit auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Sterak's Gage","Grit + shield absorbs burst — Haymaker retaliation."),I("Force of Nature","MR stack on mid lane ganks."),I("Dead Man's Plate","Charge before their combo fires.")],behind:[I("Force of Nature","Non-negotiable MR."),I("Sterak's Gage","Grit + shield."),I("Mercury's Treads","Shorter CC so Haymaker lands.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Thornmail","GW on Vladimir/Swain drain."),I("Force of Nature","MR vs sustained AP."),I("Sterak's Gage","Grit from AP DPS = Haymaker.")],behind:[I("Force of Nature","Non-negotiable."),I("Thornmail","GW."),I("Sterak's Gage","Grit + shield.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Dead Man's Plate","Gank speed + bonus damage on arrival."),I("Sterak's Gage","Grit from poke = Haymaker."),I("Force of Nature","MR vs AP poke.")],behind:[I("Sterak's Gage","Grit from poke = retaliation."),I("Force of Nature","MR."),I("Mercury's Treads","Shorter CC.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Plated Steelcaps","ADC auto reduction."),I("Dead Man's Plate","Gank approach speed."),I("Titanic Hydra","Haymaker AoE + Titanic proc.")],behind:[I("Plated Steelcaps","Non-negotiable."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates during their DPS.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Thornmail","GW on Enchanter heals."),I("Dead Man's Plate","Gank approach speed."),I("Titanic Hydra","AoE hits both Enchanter and carry.")],behind:[I("Thornmail","GW equaliser."),I("Sterak's Gage","Grit + shield."),I("Plated Steelcaps","Carry auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — E + Haymaker requires melee range."),I("Dead Man's Plate","Charge past hooks on gank."),I("Sterak's Gage","Grit from any CC poke = Haymaker.")],behind:[I("Mercury's Treads","Mandatory."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates after CC lands.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Dead Man's Plate","Counter-charge into engage."),I("Titanic Hydra","W AoE during their clustered engage."),I("Sterak's Gage","Grit from engage = counter Haymaker.")],behind:[I("Mercury's Treads","Their CC prevents Haymaker."),I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates mid-engage.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Dead Man's Plate","Charge through their peel on gank."),I("Titanic Hydra","Haymaker past their body-block."),I("Thornmail","GW on Warden passive sustain.")],behind:[I("Sterak's Gage","Grit + shield."),I("Gargoyle Stoneplate","Activates during peel pressure."),I("Mercury's Treads","Poppy E/Galio taunt.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Dead Man's Plate","Charge Singed — E pull into Haymaker cluster."),I("Titanic Hydra","W AoE punishes Singed flings."),I("Thornmail","GW on GP/Udyr regen.")],behind:[I("Sterak's Gage","Grit from their kit = Haymaker."),I("Force of Nature","Kennen/Teemo AP."),I("Mercury's Treads","Teemo blind — Tenacity.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-// ══════════════════════════════════════════════════════════════════════════
-//  LOCKE — AP Assassin (patch 26.14 — Q nerfed, adapt build)
-// ══════════════════════════════════════════════════════════════════════════
-{
-  id:"locke", display:"Locke", dd:"Locke",
-  color:"#2c3e50", glow:"#9b59b6",
-  roles:{
-    Mid:{
-      role:"AP Assassin",
-      corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Lich Bane first — Sheen proc fires on both nail-mark consumption auto AND on W recast, giving two Sheen procs per combo. Shadowflame third for flat pen vs mid-lane squishies. Zhonya's fourth since melee assassin who takes damage before dealing it. Rabadon's fifth to amplify all accumulated AP.",
-      sideItems:["Rabadon's Deathcap","Stormsurge","Cryptbloom","Banshee's Veil","Hextech Rocketbelt","Void Staff"],
-      data:{
-        JUGGERNAUT:{ahead:[I("Cryptbloom","% pen bypasses their HP stacking — flat pen from Shadowflame wasted."),I("Void Staff","40% magic pen cuts through MR stack."),I("Zhonya's Hourglass","Stasis during their walk-down while poison mark ticks.")],behind:[I("Zhonya's Hourglass","Stasis during their burst — nail marks tick during stasis."),I("Banshee's Veil","Block one CC ability to land your Q combo safely."),I("Cryptbloom","% pen remains effective regardless of gold lead.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        DIVER:{ahead:[I("Stormsurge","Proc damage on divers diving into melee range."),I("Shadowflame","Burst the diver before they close the gap fully."),I("Lich Bane","Sheen proc on Q mark consume + W recast in combo.")],behind:[I("Zhonya's Hourglass","Stasis cancels their dive window — nail marks still tick."),I("Banshee's Veil","Block Camille E / Irelia E before they can gap close."),I("Hextech Rocketbelt","Dash out of their dive with damage.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ASSASSIN:{ahead:[I("Shadowflame","Out-burst them — your Q mark + Lich Bane + Shadowflame one-shots squishies."),I("Stormsurge","Proc damage after first Sheen proc."),I("Lich Bane","Double Sheen in combo finishes them before their recast.")],behind:[I("Zhonya's Hourglass","Stasis during Zed Ult / Akali combo."),I("Banshee's Veil","Block Akali E / Katarina Shunpo opener."),I("Hextech Rocketbelt","Escape dash when they jump you.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        SKIRMISHER:{ahead:[I("Stormsurge","Proc damage during their extended duel window."),I("Shadowflame","Flat pen burst wins the short window before their sustain kicks in."),I("Lich Bane","Double Sheen proc in combo — don't let them trade autos with you.")],behind:[I("Zhonya's Hourglass","Stasis during Fiora ult / Jax counter-strike."),I("Banshee's Veil","Block their engage opener."),I("Hextech Rocketbelt","Escape when they chase post-duel.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        BURST_MAGE:{ahead:[I("Shadowflame","Out-burst them — your Q mark + Lich Bane Sheen proc is faster."),I("Stormsurge","Add proc damage during their cast animations."),I("Lich Bane","Double Sheen in combo deletes before their full combo fires.")],behind:[I("Banshee's Veil","Block their CC opener to land your Q safely."),I("Zhonya's Hourglass","Stasis during Syndra/Orianna full combo."),I("Hextech Rocketbelt","Create distance before their combo fires.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        BATTLEMAGE:{ahead:[I("Void Staff","Vladimir/Swain will stack MR — % pen necessary."),I("Shadowflame","Burst trades punish before they sustain back."),I("Lich Bane","Double Sheen forces a decision — fight or flee during the window.")],behind:[I("Zhonya's Hourglass","Stasis during their sustained AP DPS."),I("Banshee's Veil","Block Vladimir Transfusion range or Swain E."),I("Void Staff","% pen vs their MR building.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Stormsurge","Close fast — proc fires immediately on arrival."),I("Shadowflame","One-shot on landing."),I("Hextech Rocketbelt","Dash in during their cast animation.")],behind:[I("Banshee's Veil","Block one long-range CC to create an approach window."),I("Hextech Rocketbelt","Dash past their poke to close the gap."),I("Zhonya's Hourglass","Stasis if they land CC on approach.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        MARKSMAN:{ahead:[I("Shadowflame","Flat pen one-shots any ADC — Q mark + Lich Bane + Shadowflame = instant."),I("Stormsurge","Proc damage eliminates any HP remaining."),I("Lich Bane","Double Sheen confirm the kill before they kite.")],behind:[I("Shadowflame","ADCs are always squishy — never give up flat pen vs them."),I("Hextech Rocketbelt","Dash past their kite pattern."),I("Zhonya's Hourglass","Stasis vs carry + support burst after you land.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        ENCHANTER:{ahead:[I("Shadowflame","Flat pen into low-MR Enchanters."),I("Stormsurge","Proc damage while they try to shield/heal the carry."),I("Lich Bane","Burst the Enchanter before they react.")],behind:[I("Void Staff","They rush MR when losing — % pen required."),I("Zhonya's Hourglass","Stasis when carry follows up after you kill Enchanter."),I("Banshee's Veil","Block Lulu polymorph / Janna knock to land Q.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        CATCHER:{ahead:[I("Banshee's Veil","Block hook/root to approach — then Q mark + Lich Bane."),I("Shadowflame","Flat pen burst on gap-closed."),I("Stormsurge","Proc damage after Sheen.")],behind:[I("Banshee's Veil","Your only approach window — never skip vs hook supports."),I("Hextech Rocketbelt","Dash past their CC range."),I("Zhonya's Hourglass","Stasis after CC lands before their follow-up.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        VANGUARD:{ahead:[I("Void Staff","% pen into tank armor/MR stacking."),I("Cryptbloom","Healing amp from % pen source."),I("Stormsurge","Proc damage while they try to engage.")],behind:[I("Void Staff","% pen is your only damage source vs their stacking."),I("Zhonya's Hourglass","Stasis during Malphite Ult / Leona chain."),I("Banshee's Veil","Block their initiation ability.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        WARDEN:{ahead:[I("Void Staff","% pen vs Warden HP/MR stacking."),I("Cryptbloom","% pen path."),I("Shadowflame","Burst through before they body-block for carry.")],behind:[I("Void Staff","Non-negotiable vs Warden stacking."),I("Zhonya's Hourglass","Stasis during combined Warden + carry burst."),I("Banshee's Veil","Block Poppy E / Galio taunt.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-        SPECIALIST:{ahead:[I("Shadowflame","Burst Singed/GP before their kits engage."),I("Stormsurge","Proc damage mid-combo."),I("Lich Bane","Double Sheen closes kill before they activate kit.")],behind:[I("Banshee's Veil","Block Teemo blind / TF gold card before Q mark."),I("Zhonya's Hourglass","Stasis during Kennen stun + ult."),I("Hextech Rocketbelt","Escape when kiting Specialists catch you.")],runes:{...LOCKE_MID_DEFAULT_RUNES}},
-      },
-    },
-  },
-},
-
-];
 
 // Ensure lanes always reflects reality for role-based champions.
 // This means you only need to update `roles` — lanes stays in sync automatically.
@@ -2241,7 +353,10 @@ useEffect(() => {
       const map = {};
       Object.values(json.data).forEach(item => {
         // item.image is "3071.png" — strip extension for the id
-        map[item.name] = item.image.replace(".png", "");
+        // keep the first (lowest-id = base) item when Ornn Masterwork
+        // upgrades share the same name
+        const key = item.name.toLowerCase();
+        if (!(key in map)) map[key] = item.image.replace(".png", "");
       });
       setItemMap(map);
     })
@@ -2332,6 +447,7 @@ useEffect(() => {
   const ItemCard = ({ item, rank, glow }) => {
     const col = ic(item.name);
     const ek  = `item-${item.name}`;
+    const src = itemImg(item.name, itemMap);
     return (
       <div style={{
         background:"rgba(255,255,255,.04)",
@@ -2347,8 +463,8 @@ useEffect(() => {
           display:"flex", alignItems:"center", justifyContent:"center",
           boxShadow:`0 0 10px ${col}30`,
         }}>
-          {!imgFail(ek)
-            ? <img src={itemImg(item.name, itemMap)} alt={item.name} onError={() => onErr(ek)}
+          {src && !imgFail(ek)
+            ? <img src={src} alt={item.name} onError={() => onErr(ek)}
                 style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
             : <div style={{ width:"12px", height:"12px", borderRadius:"50%",
                 background:col, boxShadow:`0 0 8px ${col}` }} />
@@ -2385,17 +501,46 @@ useEffect(() => {
 
   const ALL_TREES = Object.keys(RUNE_TREES);
 
+  // Recommended picks stay marked (gold dot) even after the user deviates —
+  // rune names are unique across trees so one flat set covers both columns.
+  const recSet = new Set(recommended
+    ? [recommended.keystone,
+       ...(recommended.primaryRunes   || []),
+       ...(recommended.secondaryRunes || [])]
+    : []);
+  const recDotStyle = {
+    position: "absolute", top: -2, right: -2, width: 9, height: 9,
+    borderRadius: "50%", background: "#c89b3c",
+    border: "1.5px solid #0a0d14",
+    boxShadow: "0 0 6px rgba(200,155,60,.9)", zIndex: 3,
+    pointerEvents: "none",
+  };
+
   // ── Handlers ─────────────────────────────────────────────────────────────
+  // In-game behavior: clicking the other page's tree swaps primary ↔ secondary.
+  // Old secondary picks slot into the new primary rows; the first two old
+  // primary picks carry over as the new secondary pair. Keystone must be
+  // re-picked, like the client.
+  const swapTrees = () => {
+    if (!secTree) return;
+    const newPrim = secTree;
+    setPrimRows(RUNE_TREES[newPrim].rows.map(row => secRunes.find(r => row.includes(r)) || null));
+    setSecRunes(primRows.filter(Boolean).slice(0, 2));
+    setPrimTree(newPrim);
+    setSecTree(primTree);
+    setKeystone("");
+  };
+
   const pickPrimTree = (name) => {
     if (name === primTree) return;
+    if (name === secTree)  { swapTrees(); return; }
     setPrimTree(name);
     setKeystone("");
     setPrimRows([null, null, null]);
-    if (secTree === name) { setSecTree(""); setSecRunes([]); }
   };
 
   const pickSecTree = (name) => {
-    if (name === primTree) return;
+    if (name === primTree) { swapTrees(); return; }
     if (name === secTree)  { setSecTree(""); setSecRunes([]); return; }
     setSecTree(name);
     setSecRunes([]);
@@ -2416,7 +561,8 @@ useEffect(() => {
       if (prev.includes(name)) return prev.filter(r => r !== name);
       const rowRunes   = RUNE_TREES[secTree]?.rows[rowIdx] || [];
       const withoutRow = prev.filter(r => !rowRunes.includes(r));
-      if (withoutRow.length >= 2) return [withoutRow[1], name];
+      // page full → deselect the last-picked rune and take the new one
+      if (withoutRow.length >= 2) return [withoutRow[0], name];
       return [...withoutRow, name];
     });
   };
@@ -2431,9 +577,10 @@ useEffect(() => {
   // ── Rune circle ───────────────────────────────────────────────────────────
   const Rune = ({ name, size = 42, isKeystone = false, selected, treeColor,
                   locked = false, onClick }) => {
-    const ek  = `rune-${name.replace(/[^a-zA-Z0-9]/g, "")}`;
-    const src = runeImg(name, runeMap);
-    const dim = !selected || locked;
+    const ek    = `rune-${name.replace(/[^a-zA-Z0-9]/g, "")}`;
+    const src   = runeImg(name, runeMap);
+    const dim   = !selected || locked;
+    const isRec = recSet.has(name);
     return (
       <div
         onClick={!locked ? onClick : undefined}
@@ -2481,12 +628,16 @@ useEffect(() => {
               </span>
           }
         </div>
+        {/* Recommended marker \u2014 visible regardless of selection state */}
+        {isRec && <div style={recDotStyle} />}
       </div>
     );
   };
 
   // ── Tree icon row ─────────────────────────────────────────────────────────
-  const TreeSelector = ({ active, blocked, onPick, label }) => (
+  // "blocked" is the tree held by the other page — clicking it swaps the pages,
+  // so it stays clickable, just visually parked.
+  const TreeSelector = ({ active, blocked, onPick, label, recTree }) => (
     <div style={{ marginBottom: 14 }}>
       <div style={{ fontSize: "8px", letterSpacing: "2px",
         color: "rgba(255,255,255,.22)", textTransform: "uppercase", marginBottom: 6 }}>
@@ -2496,35 +647,40 @@ useEffect(() => {
         {ALL_TREES.map(t => {
           const isActive  = t === active;
           const isBlocked = t === blocked;
+          const isRec     = t === recTree;
           const meta      = RUNE_TREES[t];
           const src       = runeImg(t, runeMap);
           const ek        = `tree-${t}`;
           return (
-            <div key={t}
-              onClick={!isBlocked ? () => onPick(t) : undefined}
-              onMouseEnter={e  => !isBlocked && tip(t, e)}
-              onMouseLeave={()  => setTooltip(null)}
-              style={{
-                width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
-                border: isActive
-                  ? `2px solid ${meta.color}`
-                  : "1.5px solid rgba(255,255,255,.12)",
-                background: isActive ? `${meta.color}20` : "rgba(0,0,0,.4)",
-                boxShadow: isActive ? `0 0 14px ${meta.color}70` : "none",
-                opacity: isBlocked ? 0.10 : 1,
-                cursor: isBlocked ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "all .15s", flexShrink: 0,
-                filter: !isActive && !isBlocked
-                  ? "grayscale(60%) brightness(0.65)" : "none",
-              }}
-            >
-              {src && !imgFail(ek)
-                ? <img src={src} alt={t} onError={() => onErr(ek)}
-                    style={{ width: "80%", height: "80%", objectFit: "contain" }} />
-                : <span style={{ fontSize: 9, fontWeight: "bold",
-                    color: isActive ? meta.color : "#555" }}>{meta.abbr}</span>
-              }
+            <div key={t} style={{ position: "relative", flexShrink: 0 }}
+              title={isBlocked ? "Click to swap primary ↔ secondary" : t}>
+              <div
+                onClick={() => onPick(t)}
+                onMouseEnter={e  => tip(t, e)}
+                onMouseLeave={()  => setTooltip(null)}
+                style={{
+                  width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
+                  border: isActive
+                    ? `2px solid ${meta.color}`
+                    : "1.5px solid rgba(255,255,255,.12)",
+                  background: isActive ? `${meta.color}20` : "rgba(0,0,0,.4)",
+                  boxShadow: isActive ? `0 0 14px ${meta.color}70` : "none",
+                  opacity: isBlocked ? 0.35 : 1,
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "all .15s",
+                  filter: !isActive && !isBlocked
+                    ? "grayscale(60%) brightness(0.65)" : "none",
+                }}
+              >
+                {src && !imgFail(ek)
+                  ? <img src={src} alt={t} onError={() => onErr(ek)}
+                      style={{ width: "80%", height: "80%", objectFit: "contain" }} />
+                  : <span style={{ fontSize: 9, fontWeight: "bold",
+                      color: isActive ? meta.color : "#555" }}>{meta.abbr}</span>
+                }
+              </div>
+              {isRec && <div style={recDotStyle} />}
             </div>
           );
         })}
@@ -2538,7 +694,7 @@ useEffect(() => {
   const PrimaryColumn = () => (
     <div style={{ flex: 1, minWidth: 0 }}>
       <TreeSelector active={primTree} blocked={secTree}
-        onPick={pickPrimTree} label="Primary Path" />
+        onPick={pickPrimTree} label="Primary Path" recTree={recommended?.primary} />
 
       <div style={{ display: "flex", alignItems: "center", gap: 8,
         marginBottom: 10, paddingBottom: 8,
@@ -2586,7 +742,7 @@ useEffect(() => {
   const SecondaryColumn = () => (
     <div style={{ flex: 1, minWidth: 0 }}>
       <TreeSelector active={secTree} blocked={primTree}
-        onPick={pickSecTree} label="Secondary Path" />
+        onPick={pickSecTree} label="Secondary Path" recTree={recommended?.secondary} />
 
       {secMeta ? (
         <>
@@ -2614,12 +770,10 @@ useEffect(() => {
                   textAlign: "center", marginBottom: 4 }}>Row {ri + 1}</div>
                 <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
                   {row.map(r => {
-                    const isSel     = secRunes.includes(r);
-                    const lockedOut = !isSel && secRunes.length >= 2;
+                    const isSel = secRunes.includes(r);
                     return (
                       <Rune key={r} name={r} size={40}
                         selected={isSel} treeColor={secMeta.color}
-                        locked={lockedOut}
                         onClick={() => pickSecRune(r, ri)} />
                     );
                   })}
@@ -2662,10 +816,12 @@ useEffect(() => {
             <div style={{ display: "flex", gap: 6 }}>
               {row.options.map(opt => {
                 const isSel    = shards[ri] === opt;
+                const isRec    = recommended?.shards?.[ri] === opt;
                 const shardSrc = shardImg(opt);
                 const ek       = `shard-${opt.replace(/[^a-zA-Z0-9]/g, "")}`;
                 return (
-                  <div key={opt}
+                  <div key={opt} style={{ position: "relative" }}>
+                  <div
                     onClick={() => pickShard(ri, opt)}
                     onMouseEnter={e  => tip(opt, e)}
                     onMouseLeave={()  => setTooltip(null)}
@@ -2688,6 +844,8 @@ useEffect(() => {
                           background: isSel ? "#c89b3c" : "rgba(255,255,255,.3)",
                         }} />
                     }
+                  </div>
+                  {isRec && <div style={{ ...recDotStyle, width: 7, height: 7 }} />}
                   </div>
                 );
               })}
@@ -2716,10 +874,20 @@ useEffect(() => {
         </div>
       )}
 
+      {/* Legend */}
+      <div style={{ display: "flex", alignItems: "center", gap: 6,
+        marginBottom: 10, fontSize: 9, letterSpacing: "1px",
+        color: "rgba(255,255,255,.35)", textTransform: "uppercase" }}>
+        <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
+          background: "#c89b3c", boxShadow: "0 0 5px rgba(200,155,60,.8)",
+          display: "inline-block" }} />
+        Recommended · click the other path's icon to swap primary ↔ secondary
+      </div>
+
       {/* Two columns */}
       <div style={{ display: "flex", gap: 24 }}>
-        <PrimaryColumn />
-        <SecondaryColumn />
+        {PrimaryColumn()}
+        {SecondaryColumn()}
       </div>
 
       {/* Why this page */}
@@ -2883,6 +1051,58 @@ useEffect(() => {
             ) : (
               <div style={{ fontSize:"11px", color:S.textDim }}>{champ.lanes.join(" · ")}</div>
             )}
+          </div>
+
+          {/* ── DRAFT TILES: recommended ban + replacement if banned ── */}
+          <div style={{ display:"flex", gap:"10px", marginLeft:"auto", flexWrap:"wrap" }}>
+            {[
+              { label:"Recommended Ban",
+                names: activeChampRole?.bans         || champ.bans,         accent:"#e74c3c" },
+              { label:"Recommended Replacement",
+                names: activeChampRole?.replacements || champ.replacements, accent:"#27ae60" },
+            ].map(tile => tile.names?.length ? (
+              <div key={tile.label} style={{
+                background:"rgba(255,255,255,.02)",
+                border:`1px solid ${tile.accent}30`,
+                borderRadius:"10px", padding:"7px 10px 6px",
+              }}>
+                <div style={{ fontSize:"9px", letterSpacing:"2px", color:tile.accent,
+                  textTransform:"uppercase", marginBottom:"6px", opacity:.85 }}>
+                  {tile.label}
+                </div>
+                <div style={{ display:"flex", gap:"8px" }}>
+                  {tile.names.map(name => {
+                    const ek     = `draft-${name}`;
+                    const roster = CHAMPS.find(c => c.display === name);
+                    return (
+                      <div key={name}
+                        onClick={roster && roster !== champ ? () => pickChamp(roster) : undefined}
+                        title={roster ? `${name} — in your pool, click to play` : name}
+                        style={{ display:"flex", flexDirection:"column", alignItems:"center",
+                          gap:"3px", width:"46px",
+                          cursor: roster && roster !== champ ? "pointer" : "default" }}>
+                        <div style={{
+                          width:"34px", height:"34px", borderRadius:"6px", overflow:"hidden",
+                          border:`1.5px solid ${tile.accent}50`, background:"#0d1a2a",
+                          boxShadow: roster ? `0 0 6px ${tile.accent}40` : "none",
+                        }}>
+                          {!imgFail(ek)
+                            ? <img src={champImg(name)} alt={name} onError={() => onErr(ek)}
+                                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                            : <div style={{ width:"100%", height:"100%", display:"flex",
+                                alignItems:"center", justifyContent:"center",
+                                fontSize:"12px", color:"#5c6a7a" }}>{name[0]}</div>
+                          }
+                        </div>
+                        <span style={{ fontSize:"9px", color:"#c8a96a", textAlign:"center",
+                          lineHeight:1.15, maxWidth:"46px", overflow:"hidden",
+                          textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null)}
           </div>
 
         </div>
@@ -3108,6 +1328,7 @@ useEffect(() => {
             {coreArrow.map((item, idx) => {
               const col = ic(item);
               const ek  = `core-${item}`;
+              const src = itemImg(item, itemMap);
               return (
                 <div key={idx} style={{ display:"flex", alignItems:"center", gap:"6px" }}>
                   <div style={{
@@ -3116,8 +1337,8 @@ useEffect(() => {
                     display:"flex", alignItems:"center", justifyContent:"center",
                     boxShadow:`0 0 10px ${col}30`, flexShrink:0,
                   }}>
-                    {!imgFail(ek)
-                      ? <img src={itemImg(item)} alt={item} onError={() => onErr(ek)}
+                    {src && !imgFail(ek)
+                      ? <img src={src} alt={item} onError={() => onErr(ek)}
                           style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                       : <div style={{ width:"12px", height:"12px", borderRadius:"50%",
                           background:col, boxShadow:`0 0 6px ${col}` }} />
@@ -3365,6 +1586,7 @@ useEffect(() => {
             {activeChampRole.sideItems.map(name => {
               const col = ic(name);
               const ek  = `side-${name}`;
+              const src = itemImg(name, itemMap);
               return (
                 <div key={name} style={{
                   display:"flex", alignItems:"center", gap:"7px",
@@ -3378,8 +1600,8 @@ useEffect(() => {
                     display:"flex", alignItems:"center", justifyContent:"center",
                     flexShrink:0,
                   }}>
-                    {!imgFail(ek)
-                      ? <img src={itemImg(name)} alt={name} onError={() => onErr(ek)}
+                    {src && !imgFail(ek)
+                      ? <img src={src} alt={name} onError={() => onErr(ek)}
                           style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                       : <div style={{ width:"8px", height:"8px", borderRadius:"50%",
                           background:col }} />
