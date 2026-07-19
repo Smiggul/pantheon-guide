@@ -945,7 +945,7 @@ useEffect(() => {
       }}>
         <div style={{ fontSize:"11px", letterSpacing:"6px", color:S.goldDim,
           textTransform:"uppercase", marginBottom:"6px" }}>
-          Aspectum Martis · Patch 16.9
+          FRGE.GG · Patch 26.14
         </div>
         <h1 style={{
           fontSize:"clamp(18px,3.5vw,30px)", fontWeight:"bold",

@@ -1,7 +1,7 @@
 {
-  "name": "pantheon-guide",
+  "name": "frge-gg",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
@@ -14,8 +14,8 @@
     "dist:win": "vite build && electron-builder --win"
   },
   "build": {
-    "appId": "com.elardo.pantheon-guide",
-    "productName": "Pantheon Guide",
+    "appId": "gg.frge.app",
+    "productName": "FRGE.GG",
     "electronDist": "node_modules/electron/dist",
     "directories": { "output": "release" },
     "files": ["dist/**/*", "electron/**/*", "package.json"],

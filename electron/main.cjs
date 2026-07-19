@@ -1,4 +1,4 @@
-// Pantheon Guide — Electron shell.
+// FRGE.GG — Electron shell.
 // Serves the built Vite app over a custom app:// scheme so the SPA's absolute
 // asset paths (/ddragon/..., /images/...) resolve without a web server.
 // `electron . --dev` loads the Vite dev server instead (run `npm run dev` first).
@@ -22,7 +22,7 @@ function createWindow() {
     minHeight: 640,
     autoHideMenuBar: true,
     backgroundColor: "#060a0f",
-    title: "Pantheon Guide",
+    title: "FRGE.GG",
     webPreferences: { contextIsolation: true, nodeIntegration: false },
   });
   // external links go to the default browser, not a new Electron window
