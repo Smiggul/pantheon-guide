@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const NOCTURNE_JGL_DEFAULT_RUNES = {
-  keystone:       "Lethal Tempo",
+  keystone:       "Conqueror",
   primary:        "Precision",
-  primaryRunes:   ["Absorb Life","Legend: Alacrity","Coup de Grace"],
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
   secondary:      "Domination",
-  secondaryRunes: ["Sudden Impact","Relentless Hunter"],
+  secondaryRunes: ["Grisly Mementos","Ultimate Hunter"],
   shards:         ["Attack Speed","Adaptive Force","Health"],
-  reason:         "Lethal Tempo + passive cleave clears camps at full HP and stacks attack speed for the fear-tether duel. Absorb Life sustains the clear, Coup de Grace finishes what R dives start. Sudden Impact procs off R's dash, Relentless Hunter gets you cross-map before R is even up.",
+  reason:         "Conqueror is now the standard Nocturne keystone, stacking through the auto-heavy fear-tether duel his kit forces. Legend: Alacrity keeps the attack speed ramping. Grisly Mementos stacks damage and slow resist off every takedown, and Ultimate Hunter reduces R cooldown — the whole kill pattern (R from fog, fear, walk out with the shutdown) runs on how often that ultimate is up.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -21,9 +21,9 @@ export default {
     Jungle:{
       bans:["Udyr","Viego","Gragas"], replacements:["Briar","Warwick","Rek'Sai"],
       role:"Diver / Assassin",
-      corePath:"Stridebreaker  ›  Black Cleaver  ›  Death's Dance  ›  Serylda's Grudge",
-      coreNote:"Bruiser Nocturne — Stridebreaker's active slow keeps targets in Q trail + passive cleave range after R lands, and the health makes post-ult survival real. Black Cleaver shreds while you auto through Lethal Tempo stacks. Death's Dance converts their counter-burst into bleed. The kill pattern is always the same: R from fog, W the obvious answer spell, E fear if they run, walk out with the shutdown.",
-      sideItems:["Youmuu's Ghostblade","Edge of Night","Sterak's Gage","Maw of Malmortius","Guardian Angel","Wit's End","Mercury's Treads","Plated Steelcaps"],
+      corePath:"Stridebreaker  ›  Experimental Hexplate  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"Bruiser Nocturne — Stridebreaker's active slow keeps targets in Q trail + passive cleave range after R lands. Experimental Hexplate's move-speed burst on ability use now edges out a straight Serylda's Grudge rush, closing gaps faster for the R-into-fear kill pattern. Black Cleaver shreds while you auto through Conqueror stacks. Death's Dance converts their counter-burst into bleed. The kill pattern is always the same: R from fog, W the obvious answer spell, E fear if they run, walk out with the shutdown.",
+      sideItems:["Youmuu's Ghostblade","Edge of Night","Sterak's Gage","Maw of Malmortius","Guardian Angel","Wit's End","Mercury's Treads","Plated Steelcaps","Serylda's Grudge"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor stack while Tempo ramps."),I("Stridebreaker","Slow so they can't walk away from the duel."),I("Death's Dance","Their damage becomes bleed you out-sustain.")],behind:[I("Sterak's Gage","Shield when the dive goes wrong."),I("Death's Dance","Survive their counter-pressure."),I("Plated Steelcaps","Auto reduction on their walk-down.")],runes:{...NOCTURNE_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stridebreaker","Win the mirror skirmish — slow beats dash."),I("Black Cleaver","Shred + haste for repeat fear tethers."),I("Death's Dance","Out-sustain their burst rotation.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Plated Steelcaps","Irelia/Camille auto chains."),I("Guardian Angel","Trade 1-for-1 and win the reset.")],runes:{...NOCTURNE_JGL_DEFAULT_RUNES}},

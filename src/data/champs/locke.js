@@ -11,15 +11,16 @@ const LOCKE_MID_DEFAULT_RUNES = {
 };
 
 // ══════════════════════════════════════════════════════════════════════════
-//  LOCKE — AP Assassin (patch 26.14 — Q nerfed, adapt build)
+//  LOCKE, THE ASHEN EXORCIST — AP Assassin (released 26.13, Q/W nerfed 26.14)
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
   id:"locke", display:"Locke", dd:"Locke",
-  bans:["Kassadin","Ekko","Talon"], replacements:["Katarina","Akali","Diana"],
   color:"#2c3e50", glow:"#9b59b6",
+  lanes:["Mid"],
   roles:{
     Mid:{
+      bans:["Kassadin","Ekko","Talon"], replacements:["Katarina","Akali","Diana"],
       role:"AP Assassin",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
       coreNote:"Lich Bane first — Sheen proc fires on both nail-mark consumption auto AND on W recast, giving two Sheen procs per combo. Shadowflame third for flat pen vs mid-lane squishies. Zhonya's fourth since melee assassin who takes damage before dealing it. Rabadon's fifth to amplify all accumulated AP.",

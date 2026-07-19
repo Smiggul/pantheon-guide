@@ -933,7 +933,7 @@ useEffect(() => {
       minHeight:"100vh",
       position:"relative",
       background:"radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
-      fontFamily:"'Georgia','Times New Roman',serif",
+      fontFamily:"'Cinzel','Georgia','Times New Roman',serif",
       color:"#e8d5b0",
       }}>
 
@@ -1554,7 +1554,11 @@ useEffect(() => {
 
             {detailTab === "runes" && (
               <div style={{ isolation: "isolate" }}>
+                {/* key forces a remount on role/class change — RunePage's picks
+                    are useState-initialized from runeData and won't otherwise
+                    reset when a different role/class's recommendation loads */}
                 <RunePage
+                  key={`${champ.id}-${currentRole}-${openClass}`}
                   runeData={activeChampRole.data?.[openClass]?.runes ?? null}
                   enemyChamp={""}
                 />

@@ -314,7 +314,7 @@ export const layout = {
   page: {
     minHeight:   "100vh",
     background:  "radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
-    fontFamily:  "'Georgia','Times New Roman',serif",
+    fontFamily:  "'Cinzel','Georgia','Times New Roman',serif",
     color:       colors.textPrimary,
   },
   pageHeader: {

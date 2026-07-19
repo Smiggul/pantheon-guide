@@ -24,10 +24,10 @@ const PANTH_MID_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Transcendence","Scorch"],
+  secondary:      "Domination",
+  secondaryRunes: ["Cheap Shot","Relentless Hunter"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Same core as Top. Mid Pantheon plays nearly identically with more roam priority post-6. Scorch wins poke trades vs most mid-lane mages.",
+  reason:         "Domination secondary maximizes the snowball potential unique to Mid — unlike Top, where Conqueror is the whole identity, Mid Pantheon leans into one-shotting squishies and roaming. Cheap Shot adds true damage on every W-stunned target; Relentless Hunter converts kills into faster roams to the side lanes.",
 };
 
 const PANTH_SUP_DEFAULT_RUNES = {
@@ -55,9 +55,9 @@ export default {
     roles:{
             Top:    {  
               bans:["Jax","Malphite","Fiora"], replacements:["Renekton","Sett","Wukong"],
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
-                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Shojin amplifies Q-poke into extended skirmishes.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Death's Dance","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
+                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Death's Dance",
+                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Death's Dance rounds out the build, letting extended trades convert into a bleed you outlast.",
+                        sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
                         data: {
                                 JUGGERNAUT: {
                                   ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
@@ -431,9 +431,9 @@ export default {
 
             Jungle: {  
               bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
-                corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Spear of Shojin",
-                coreNote: "Jungle Pantheon relies on early tempo and ganks. Eclipse spike enables early kills; Cleaver transitions into mid-game teamfights.",
-                sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Death's Dance","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
+                corePath: "Sundered Sky  ›  Black Cleaver  ›  Eclipse  ›  Death's Dance",
+                coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky's crit-heal now edges out Eclipse as the priority first item in current meta; Black Cleaver transitions into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
+                sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Spear of Shojin","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
 
                 data: {
                   DIVER: {
@@ -460,6 +460,51 @@ export default {
                       primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
                     },
                     },
+                  JUGGERNAUT: {
+                    ahead:  [ I("Black Cleaver","Shred their armor stack across a gank + follow-up."), I("Eclipse","Burst finishes what the gank started."), I("Serylda's Grudge","Slow keeps them from ever reaching you back.") ],
+                    behind: [ I("Plated Steelcaps","Reduces auto damage from a counter-gank."), I("Death's Dance","Delay lethal damage into a bleed."), I("Sterak's Gage","Shield keeps you alive on a bad invade.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  SKIRMISHER: {
+                    ahead:  [ I("Eclipse","Burst them before they can stack defensives."), I("Serylda's Grudge","Slow denies their kite after your gank lands."), I("Youmuu's Ghostblade","Faster rotations catch them between camps.") ],
+                    behind: [ I("Sterak's Gage","Survive their duel-focused all-in."), I("Death's Dance","Extends the fight so your team can collapse."), I("Plated Steelcaps","Auto reduction vs Fiora/Tryndamere.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  BURST_MAGE: {
+                    ahead:  [ I("Youmuu's Ghostblade","Close the gap before they land their full combo."), I("Eclipse","One rotation kills once you're in range."), I("Edge of Night","Spell shield eats their engage CC.") ],
+                    behind: [ I("Maw of Malmortius","Magic shield absorbs their burst on an invade."), I("Mercury's Treads","Shorter CC gives more time to react."), I("Edge of Night","Blocks the spell that opens their combo.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  BATTLEMAGE: {
+                    ahead:  [ I("Eclipse","Short trade window kills before they can sustain back."), I("Death's Dance","Bleed conversion outlasts their drain."), I("Black Cleaver","HP + shred vs their scaling durability.") ],
+                    behind: [ I("Maw of Malmortius","Survive their sustained AP DPS."), I("Death's Dance","Buys time for your team to help."), I("Sterak's Gage","Second window after a bad invade.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  ARTILLERY: {
+                    ahead:  [ I("Youmuu's Ghostblade","Sprint closes the poke gap before they can reposition."), I("Eclipse","One-shot on arrival — no time to kite."), I("Edge of Night","Blocks the poke that punishes your gank path.") ],
+                    behind: [ I("Edge of Night","Blocks one long-range ability on approach."), I("Mercury's Treads","Shorter CC from range."), I("Sterak's Gage","Survive poke accumulated while closing distance.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  ENCHANTER: {
+                    ahead:  [ I("Serpent's Fang","⭐ Strips shields before your gank burst lands."), I("Eclipse","With shields gone, the carry just dies."), I("Youmuu's Ghostblade","No reposition window for the Enchanter.") ],
+                    behind: [ I("Serpent's Fang","Still priority — never skip vs shield comps."), I("Death's Dance","Extends the fight for a follow-up gank."), I("Sterak's Gage","Survive their peel + carry burst.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  CATCHER: {
+                    ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre hooks while ganking."), I("Eclipse","Burst them before they land a second CC."), I("Edge of Night","Blocks the hook entirely.") ],
+                    behind: [ I("Edge of Night","Spell shield vs hook champs on invades."), I("Mercury's Treads","Shorter root/bind when caught."), I("Sterak's Gage","Survive the follow-up after a catch.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  WARDEN: {
+                    ahead:  [ I("Serpent's Fang","Strip Shen/Braum shields on contact."), I("Black Cleaver","Shred through their mitigation over the fight."), I("Serylda's Grudge","Slow denies their body-block positioning.") ],
+                    behind: [ I("Black Cleaver","Gradual shred still opens them up."), I("Sterak's Gage","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shortened.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
+                  SPECIALIST: {
+                    ahead:  [ I("Eclipse","Burst Singed/Shyvana before their scaling matters."), I("Youmuu's Ghostblade","Chase down a kiting Specialist."), I("Serylda's Grudge","Slow denies their disengage tools.") ],
+                    behind: [ I("Death's Dance","Sustain through their poke/regen kit."), I("Mercury's Treads","Teemo blind, Kennen stun — shorten both."), I("Sterak's Gage","Survive the approach on invades.") ],
+                    runes: { ...PANTH_JGL_DEFAULT_RUNES },
+                  },
 
                         },    // closes Jungle data:
                       },      // closes Jungle role
@@ -488,6 +533,51 @@ export default {
                                 ARTILLERY: {
                                   ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
                                   behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                JUGGERNAUT: {
+                                  ahead:  [ I("Black Cleaver","Shred their armor stack while wave-clearing freely."), I("Eclipse","Burst finishes the short trade before they close."), I("Serylda's Grudge","Slow keeps them from ever reaching you.") ],
+                                  behind: [ I("Plated Steelcaps","Reduces auto damage vs Darius/Mordekaiser all-ins."), I("Death's Dance","Delay lethal burst into a bleed."), I("Guardian Angel","Second life to survive their push.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                DIVER: {
+                                  ahead:  [ I("Eclipse","Burst before their engage combo completes."), I("Youmuu's Ghostblade","Faster roams punish their overextension."), I("Death's Dance","Outlast their all-in with bleed sustain.") ],
+                                  behind: [ I("Plated Steelcaps","Auto reduction on Irelia/Camille chains."), I("Death's Dance","Convert their burst to bleed so combo window stays open."), I("Guardian Angel","Second life after a bad dive.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                SKIRMISHER: {
+                                  ahead:  [ I("Eclipse","Burst them before they stack defensives."), I("Serylda's Grudge","Slow stops Yasuo/Yone kiting."), I("Youmuu's Ghostblade","Roam pressure snowballs the lead.") ],
+                                  behind: [ I("Guardian Angel","Trade even against a stronger duelist."), I("Death's Dance","Extends the fight for minion/turret help."), I("Plated Steelcaps","Auto reduction vs Fiora/Tryndamere.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                MARKSMAN: {
+                                  ahead:  [ I("Eclipse","Two-ability proc guarantees a one-rotation kill."), I("Youmuu's Ghostblade","Close before they kite or reposition."), I("Serpent's Fang","Strip shields protecting the carry.") ],
+                                  behind: [ I("Plated Steelcaps","Flat auto reduction vs ranged poke."), I("Guardian Angel","One good Ult and you're back in the game."), I("Death's Dance","Survive long enough to find your window.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                ENCHANTER: {
+                                  ahead:  [ I("Serpent's Fang","⭐ Strips shields so your burst always connects."), I("Eclipse","Overkill burst once shields are gone."), I("Youmuu's Ghostblade","No reposition window before your all-in.") ],
+                                  behind: [ I("Serpent's Fang","Still priority — never skip vs shield comps."), I("Death's Dance","Extends the fight for a follow-up."), I("Guardian Angel","Survive their peel + carry burst.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                CATCHER: {
+                                  ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre hooks and engage first."), I("Eclipse","Kill before they reset the fight."), I("Edge of Night","Blocks hook/CC entirely.") ],
+                                  behind: [ I("Edge of Night","Spell shield vs hook champs."), I("Mercury's Treads","Shorter root/bind when caught."), I("Guardian Angel","Second life if you get picked.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                VANGUARD: {
+                                  ahead:  [ I("Black Cleaver","Shred their armor while your team punishes the engage."), I("Eclipse","Burst before their CC chain finishes."), I("Serylda's Grudge","Slow helps you stick to the backline after their engage.") ],
+                                  behind: [ I("Mercury's Treads","Shorter stuns/roots from their initiation."), I("Guardian Angel","Survive the burst that follows their engage."), I("Black Cleaver","Keep damage relevant vs stacked armor.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                WARDEN: {
+                                  ahead:  [ I("Serpent's Fang","Strip Shen/Braum shields on contact."), I("Black Cleaver","Shred through their mitigation gradually."), I("Serylda's Grudge","Slow denies their body-block angle.") ],
+                                  behind: [ I("Black Cleaver","Gradual shred still opens them up."), I("Guardian Angel","Survive their peel long enough to stack Cleaver."), I("Mercury's Treads","Poppy/Galio CC chains shortened.") ],
+                                  runes: { ...PANTH_MID_DEFAULT_RUNES },
+                                },
+                                SPECIALIST: {
+                                  ahead:  [ I("Eclipse","Burst Singed/Shyvana before scaling matters."), I("Youmuu's Ghostblade","Chase a kiting Specialist."), I("Serylda's Grudge","Slow denies their disengage tools.") ],
+                                  behind: [ I("Death's Dance","Sustain through poke/regen kits."), I("Mercury's Treads","Teemo blind, Kennen stun — both shortened."), I("Guardian Angel","Survive the approach.") ],
                                   runes: { ...PANTH_MID_DEFAULT_RUNES },
                                 },
                               },
@@ -526,6 +616,51 @@ export default {
                             VANGUARD: {
                               ahead:  [ I("Black Cleaver","Help team shred tanks."), I("Eclipse","Still threatens backline."), I("Serpent's Fang","Remove shields from tank supports.") ],
                               behind: [ I("Mercury's Treads","Reduce CC lock duration."), I("Knight's Vow","Shift to peel role."), I("Sterak's Gage","Survive engage burst.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            JUGGERNAUT: {
+                              ahead:  [ I("Black Cleaver","Shred their armor while your lane wins the 2v2."), I("Eclipse","Burst finishes the kill lane your W stun sets up."), I("Zeke's Convergence","Amplify your ADC's follow-up damage.") ],
+                              behind: [ I("Plated Steelcaps","Reduces auto damage vs Darius/Sett walk-downs."), I("Knight's Vow","Protect your ADC while the Juggernaut presses."), I("Death's Dance","Delay lethal burst into a bleed.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            DIVER: {
+                              ahead:  [ I("Eclipse","Burst before their dive combo lands."), I("Youmuu's Ghostblade","Reach the backline before the Diver commits."), I("Zeke's Convergence","Amplify your ADC's damage in the skirmish.") ],
+                              behind: [ I("Knight's Vow","Share damage taken with your protected ADC."), I("Plated Steelcaps","Auto reduction on Irelia/Camille chains."), I("Death's Dance","Sustain through the all-in.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            ASSASSIN: {
+                              ahead:  [ I("Eclipse","Out-burst them before they can reset onto your ADC."), I("Edge of Night","Spell shield blocks their engage opener."), I("Youmuu's Ghostblade","Punish their disengage after a failed dive.") ],
+                              behind: [ I("Edge of Night","Blocks the setup spell of their combo on your carry."), I("Knight's Vow","Share the burst that would otherwise one-shot your ADC."), I("Death's Dance","Survive long enough for peel to matter.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            SKIRMISHER: {
+                              ahead:  [ I("Eclipse","Burst them before they can stick to your ADC."), I("Zeke's Convergence","Amplify damage during 2v2 skirmishes."), I("Youmuu's Ghostblade","Rotate faster to help other lanes.") ],
+                              behind: [ I("Knight's Vow","Share damage so your ADC survives the duel."), I("Death's Dance","Extends the fight for your ADC's DPS to matter."), I("Plated Steelcaps","Auto reduction vs Fiora/Tryndamere.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            BURST_MAGE: {
+                              ahead:  [ I("Youmuu's Ghostblade","Close the gap before their combo completes."), I("Eclipse","One rotation kills once shields are stripped."), I("Edge of Night","Blocks the CC that opens their combo on your ADC.") ],
+                              behind: [ I("Edge of Night","Non-negotiable vs Syndra E / Ahri charm on your carry."), I("Mercury's Treads","Shorter CC gives your ADC more escape time."), I("Maw of Malmortius","Personal survivability if focused.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            BATTLEMAGE: {
+                              ahead:  [ I("Eclipse","Short trade window kills before their sustain ramps."), I("Black Cleaver","HP + shred vs their scaling durability."), I("Zeke's Convergence","Amplify ADC damage in the 2v2.") ],
+                              behind: [ I("Maw of Malmortius","Survive sustained AP damage."), I("Death's Dance","Bleed conversion outlasts their drain."), I("Knight's Vow","Protect your ADC through the drain fight.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            ARTILLERY: {
+                              ahead:  [ I("Youmuu's Ghostblade","Close the poke gap before they reposition."), I("Eclipse","Delete them once you're in range."), I("Edge of Night","Blocks one long-range poke tool.") ],
+                              behind: [ I("Edge of Night","Blocks the ability punishing your bot lane."), I("Mercury's Treads","Reduce CC duration from range."), I("Knight's Vow","Share the poke damage with your ADC.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            WARDEN: {
+                              ahead:  [ I("Serpent's Fang","Strip Shen/Braum shields protecting their carry."), I("Black Cleaver","Shred through their mitigation over the fight."), I("Zeke's Convergence","Amplify ADC damage past the body-block.") ],
+                              behind: [ I("Black Cleaver","Gradual shred still opens them up."), I("Knight's Vow","Protect your ADC through the peel war."), I("Mercury's Treads","Poppy/Galio CC chains shortened.") ],
+                              runes: { ...PANTH_SUP_DEFAULT_RUNES },
+                            },
+                            SPECIALIST: {
+                              ahead:  [ I("Eclipse","Burst a Specialist support before their kit matters."), I("Youmuu's Ghostblade","Rotate to punish their side-lane presence."), I("Zeke's Convergence","Amplify ADC damage in skirmishes.") ],
+                              behind: [ I("Death's Dance","Sustain through poke/regen kits."), I("Mercury's Treads","Teemo blind, Kennen stun — both shortened."), I("Knight's Vow","Protect your ADC while you figure out the matchup.") ],
                               runes: { ...PANTH_SUP_DEFAULT_RUNES },
                             },
                           },

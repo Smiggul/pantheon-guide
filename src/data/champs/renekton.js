@@ -1,6 +1,6 @@
 import { I } from "../runeHelpers.js";
 
-export const RENEKTON_TOP_DEFAULT_RUNES = {
+const RENEKTON_TOP_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
@@ -19,17 +19,17 @@ export const RENEKTON_TOP_DEFAULT_RUNES = {
 
 export default {
     id:      "renekton",
-    bans:         ["Quinn","Dr. Mundo","Cho'Gath"],
-    replacements: ["Sett","Pantheon","Wukong"],
     display:  "Renekton",
     dd:       "Renekton",       // champions/Renekton.png
     role:     "Diver / Bruiser",
     color:    "#e67e22",
     glow:     "#f39c12",
-    lanes:    ["Top"],
+    lanes:    ["Top","Jungle"],
 
     roles:{
           Top:{
+          bans:         ["Quinn","Dr. Mundo","Cho'Gath"],
+          replacements: ["Sett","Pantheon","Wukong"],
           corePath: "Trinity Force  ›  Sundered Sky  ›  Black Cleaver  ›  Death's Dance",
           coreNote: "Trinity Force first — Sheen procs on empowered W stuns are devastating early. Sundered Sky second for healing burst on Q proc. Black Cleaver third stacks armor shred with every E pass. Death's Dance fourth to sustain through extended teamfights.",
           sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Serylda's Grudge","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Frozen Heart","Maw of Malmortius","Randuin's Omen"],
@@ -97,6 +97,82 @@ export default {
             SPECIALIST: {
               ahead:  [ I("Trinity Force","Sprint closes on Singed/Quinn before they disengage; Sheen punishes."), I("Serylda's Grudge","Slow on E means Singed's kite loop finally stops working."), I("Black Cleaver","Close on Gangplank, fast shred, kill before he can orange barrel poke.") ],
               behind: [ I("Plated Steelcaps","Graves/Quinn auto reliance — reduce each hit when behind."), I("Sterak's Gage","Survive Kennen stun + ult or Singed flip when item-deficient."), I("Mortal Reminder","GP Oranges / passive heal — GW 40% on all physical damage.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+          },
+        },
+
+        Jungle:{
+          bans:         ["Nunu & Willump","Warwick","Rammus"],
+          replacements: ["Wukong","Sett","Volibear"],
+          role:"Diver / Bruiser (off-meta)",
+          corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Spirit Visage",
+          coreNote: "Renekton Jungle is a rare, weak pick (D tier, near-zero pick rate) — playable but clearly worse than his top lane identity. Eclipse gives the early gank burst spike; Black Cleaver shreds through skirmishes; Death's Dance and Spirit Visage sustain through the empowered-W all-in pattern that carries over from top lane.",
+          sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Randuin's Omen","Maw of Malmortius","Frozen Heart"],
+          data: {
+            JUGGERNAUT: {
+              ahead:  [ I("Black Cleaver","Shred their armor before they can stack HP."), I("Eclipse","Burst wins the skirmish before they close."), I("Death's Dance","Outlast their sustain in the fight.") ],
+              behind: [ I("Plated Steelcaps","Reduces auto damage from a counter-gank."), I("Sterak's Gage","Shield when their walk-down connects."), I("Spirit Visage","Amplify your own sustain.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            DIVER: {
+              ahead:  [ I("Eclipse","Win the burst race before their combo lands."), I("Black Cleaver","Shred through the mirror dive."), I("Death's Dance","Outlast their engage burst.") ],
+              behind: [ I("Sterak's Gage","Survive their engage before yours."), I("Plated Steelcaps","Irelia/Camille auto chains."), I("Mercury's Treads","Shorter CC on their initiation.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            ASSASSIN: {
+              ahead:  [ I("Eclipse","Out-burst them on the invade."), I("Sterak's Gage","Shield eats their opener."), I("Death's Dance","Bleed conversion after their combo.") ],
+              behind: [ I("Sterak's Gage","Non-negotiable — survive the burst window."), I("Maw of Malmortius","AP assassins — lifeline shield."), I("Mercury's Treads","Shorter CC before the finisher.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            SKIRMISHER: {
+              ahead:  [ I("Eclipse","Burst wins the stat check before they close."), I("Black Cleaver","Shred through the extended skirmish."), I("Death's Dance","Out-sustain the duel.") ],
+              behind: [ I("Randuin's Omen","Crit/AS reduction on Yi/Trynd/Kayn."), I("Sterak's Gage","Survive their all-in spike."), I("Frozen Heart","AS slow shuts down duelists.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            BURST_MAGE: {
+              ahead:  [ I("Eclipse","Close the gap before their combo lands."), I("Maw of Malmortius","Shield absorbs the burst."), I("Mercury's Treads","Reduce the CC in their combo.") ],
+              behind: [ I("Maw of Malmortius","Mandatory vs burst mages."), I("Mercury's Treads","Shorter CC on invades."), I("Sterak's Gage","Survive the full rotation.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            BATTLEMAGE: {
+              ahead:  [ I("Black Cleaver","Shred through their scaling durability."), I("Eclipse","Burst before they can drain back."), I("Death's Dance","Bleed outlasts their sustain.") ],
+              behind: [ I("Maw of Malmortius","Vlad/Swain drain fights."), I("Mercury's Treads","Shorter CC to disengage."), I("Spirit Visage","Amp healing to keep pace.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            ARTILLERY: {
+              ahead:  [ I("Eclipse","Gap-close instantly with the dash."), I("Mercury's Treads","Reduce CC duration on the approach."), I("Sterak's Gage","Survive the poke while closing.") ],
+              behind: [ I("Mercury's Treads","Shorten their key CC from range."), I("Maw of Malmortius","Survive the poke-to-burst combo."), I("Sterak's Gage","Second shield layer.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            MARKSMAN: {
+              ahead:  [ I("Eclipse","Burst kills the ADC on arrival."), I("Black Cleaver","Shred through their armor stack."), I("Death's Dance","Survive their DPS while eating them.") ],
+              behind: [ I("Plated Steelcaps","Non-negotiable auto reduction."), I("Sterak's Gage","Survive the peel + DPS."), I("Randuin's Omen","Crit reduction vs their build.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            ENCHANTER: {
+              ahead:  [ I("Eclipse","Burst through their peel."), I("Black Cleaver","Chew through the shield economy."), I("Death's Dance","Sustain through the combined burst.") ],
+              behind: [ I("Sterak's Gage","Survive the combined burst."), I("Spirit Visage","Out-sustain their heal economy."), I("Mercury's Treads","Reduce their disengage CC.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            CATCHER: {
+              ahead:  [ I("Mercury's Treads","Dodge hooks while ganking."), I("Eclipse","Punish a whiffed hook instantly."), I("Black Cleaver","Kill the Catcher before they reset.") ],
+              behind: [ I("Mercury's Treads","Mandatory — a caught Renekton wastes the gank."), I("Sterak's Gage","Survive the follow-up after a catch."), I("Maw of Malmortius","AP catchers.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            VANGUARD: {
+              ahead:  [ I("Black Cleaver","Shred their frontline for your carries."), I("Eclipse","Burst before their CC chain finishes."), I("Death's Dance","Sustain through the engage.") ],
+              behind: [ I("Randuin's Omen","Crit/AS reduction if paired with a carry."), I("Mercury's Treads","Shorter stuns from their engage."), I("Sterak's Gage","Survive the initiation.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            WARDEN: {
+              ahead:  [ I("Black Cleaver","Gradual shred still opens Wardens up."), I("Eclipse","Burst through their body-block."), I("Death's Dance","Sustain the peel war.") ],
+              behind: [ I("Black Cleaver","Only reliable damage vs stacked resists."), I("Sterak's Gage","Survive their counter-peel."), I("Mercury's Treads","Poppy/Galio CC shortened.") ],
+              runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
+            },
+            SPECIALIST: {
+              ahead:  [ I("Eclipse","Run down a kiting Specialist."), I("Black Cleaver","Shred through their kit's mitigation."), I("Death's Dance","Sustain through their poke pattern.") ],
+              behind: [ I("Mercury's Treads","Teemo blind, Kennen stun — shorten both."), I("Sterak's Gage","Survive burst setups."), I("Maw of Malmortius","AP specialists.") ],
               runes: { ...RENEKTON_TOP_DEFAULT_RUNES },
             },
           },

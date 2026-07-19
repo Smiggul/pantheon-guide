@@ -1,23 +1,23 @@
 import { I } from "../runeHelpers.js";
 
 const VOLIBEAR_TOP_DEFAULT_RUNES = {
-  keystone:       "Grasp of the Undying",
-  primary:        "Resolve",
-  primaryRunes:   ["Demolish","Second Wind","Overgrowth"],
-  secondary:      "Precision",
-  secondaryRunes: ["Triumph","Legend: Alacrity"],
+  keystone:       "Lethal Tempo",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Resolve",
+  secondaryRunes: ["Demolish","Revitalize"],
   shards:         ["Attack Speed","Health","Health (scaling)"],
-  reason:         "Grasp procs constantly off W trades and stacks permanent HP that feeds W's missing-health damage. Demolish converts lane priority into plates under your R tower-disable dives. Second Wind sustains through ranged poke, Overgrowth compounds with Heartsteel. Alacrity accelerates the passive's lightning claws.",
+  reason:         "Lethal Tempo is now the standard Volibear keystone in both lanes — the attack speed compounds with his passive's bonus damage and W healing. Legend: Haste keeps Q/E/R available more often. Demolish converts lane priority into plates under your R tower-disable dives; Revitalize amplifies the W self-heal that anchors his whole trading pattern.",
 };
 
 const VOLIBEAR_JGL_DEFAULT_RUNES = {
   keystone:       "Lethal Tempo",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Conditioning","Overgrowth"],
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Magical Footwear","Jack Of All Trades"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Lethal Tempo stacks with the passive's bonus attack speed — at max stacks your W bites come out twice as often and the second W executes. Triumph heals on gank kills, Last Stand rewards fighting at the HP range where W heals biggest. Conditioning + Overgrowth make the 2-item spike tanky enough to dive.",
+  reason:         "Lethal Tempo stacks with the passive's bonus attack speed — at max stacks your W bites come out twice as often and the second W executes. Triumph heals on gank kills, Last Stand rewards fighting at the HP range where W heals biggest. Magical Footwear saves gold toward the 2-item spike; Jack Of All Trades' flat stat bonus rounds out early skirmish power.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -31,9 +31,9 @@ export default {
     Top:{
       bans:["Teemo","Fiora","Aatrox"], replacements:["Sett","Renekton","Sion"],
       role:"Juggernaut / Tank",
-      corePath:"Heartsteel  ›  Sunfire Aegis  ›  Spirit Visage  ›  Thornmail",
-      coreNote:"Heartsteel first — every stack feeds W's missing-health damage and E's shield. Sunfire adds constant trade damage while you stand on people with Q stun. Spirit Visage amplifies W self-healing (your core sustain mechanic). Thornmail or Force of Nature last depending on their damage profile. Remember: R disables the tower — Demolish + dive is your win condition.",
-      sideItems:["Force of Nature","Dead Man's Plate","Warmog's Armor","Randuin's Omen","Frozen Heart","Abyssal Mask","Mercury's Treads","Plated Steelcaps"],
+      corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
+      coreNote:"Current meta favors Dusk and Dawn's on-hit/crit hybrid stats and Navori Flickerblade's cooldown refund over the older Heartsteel/Sunfire Aegis core — both feed his passive's per-cast bonus damage more directly. Spirit Visage still amplifies W self-healing (his core sustain mechanic); Thornmail or Force of Nature last depending on their damage profile. Heartsteel remains a fine alternate for longer scaling games. Remember: R disables the tower — Demolish + dive is your win condition.",
+      sideItems:["Force of Nature","Dead Man's Plate","Warmog's Armor","Randuin's Omen","Frozen Heart","Abyssal Mask","Mercury's Treads","Plated Steelcaps","Heartsteel","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Sunfire Aegis","Burn stacks while you out-sustain their walk-down with W."),I("Spirit Visage","Amplifies W healing — you win the HP war."),I("Thornmail","GW cuts Darius/Mundo regen while they hit you.")],behind:[I("Thornmail","GW 40% is the equaliser vs their sustain."),I("Spirit Visage","W healing keeps you relevant behind."),I("Warmog's Armor","Regen between waves — never base, never lose tower.")],runes:{...VOLIBEAR_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Sunfire Aegis","Burn while Q stun + E slow field lock their dive."),I("Dead Man's Plate","Counter-charge their engage with Q speed."),I("Spirit Visage","W healing out-lasts their extended dive.")],behind:[I("Plated Steelcaps","Auto reduction on Irelia/Camille chains."),I("Spirit Visage","W sustain wins the second fight."),I("Randuin's Omen","Active slow breaks their re-engage.")],runes:{...VOLIBEAR_TOP_DEFAULT_RUNES}},
@@ -53,9 +53,9 @@ export default {
     Jungle:{
       bans:["Kindred","Rek'Sai","Elise"], replacements:["Udyr","Warwick","Sett"],
       role:"Juggernaut / Bruiser",
-      corePath:"Trinity Force  ›  Sundered Sky  ›  Sterak's Gage  ›  Spirit Visage",
-      coreNote:"Bruiser Volibear — Trinity Sheen procs on every W and the attack speed feeds Lethal Tempo stacking. Sundered Sky crit-heal on the first hit pairs with W execute bites. Sterak's third for dive survivability, Spirit Visage amplifies W + Sundered healing. Gank pattern: E from fog for the slow field, Q stun on arrival, R to break tower dives.",
-      sideItems:["Dead Man's Plate","Force of Nature","Thornmail","Wit's End","Blade of the Ruined King","Titanic Hydra","Mercury's Treads","Plated Steelcaps"],
+      corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
+      coreNote:"Same current-meta core as Top — Dusk and Dawn's on-hit/crit hybrid and Navori Flickerblade's cooldown refund feed his passive's per-cast damage better than the older Trinity Force/Sundered Sky pattern. Spirit Visage amplifies the W healing that anchors every gank. Gank pattern unchanged: E from fog for the slow field, Q stun on arrival, R to break tower dives.",
+      sideItems:["Dead Man's Plate","Force of Nature","Wit's End","Blade of the Ruined King","Mercury's Treads","Plated Steelcaps","Trinity Force","Sundered Sky","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Crit-heal bite wins the bruiser mirror."),I("Blade of the Ruined King","% HP shred on their stacked health."),I("Thornmail","GW on their regen while you DPS.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Thornmail","GW equaliser."),I("Spirit Visage","W healing keeps skirmishes winnable.")],runes:{...VOLIBEAR_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Trinity Force","Sheen W burst wins the 1v1 before their combo cycles."),I("Sundered Sky","Heal-burst mid-skirmish."),I("Dead Man's Plate","Counter-gank arrival speed.")],behind:[I("Sterak's Gage","Survive their engage burst."),I("Plated Steelcaps","Auto-heavy Divers."),I("Spirit Visage","Sustain to farm back into the game.")],runes:{...VOLIBEAR_JGL_DEFAULT_RUNES}},

@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const SETT_TOP_DEFAULT_RUNES = {
-  keystone:       "Grasp of the Undying",
-  primary:        "Resolve",
-  primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
-  secondary:      "Precision",
-  secondaryRunes: ["Triumph","Legend: Alacrity"],
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  secondary:      "Resolve",
+  secondaryRunes: ["Second Wind","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Grasp procs on every W auto and stacks HP permanently. Demolish converts your HP lead into tower plates. Conditioning + Overgrowth makes you progressively harder to kill as the game goes on. Heartsteel first amplifies all HP stacking.",
+  reason:         "Conqueror now edges out Grasp as the standard Sett Top keystone, stacking on every W auto chain. Legend: Alacrity accelerates his attack-speed-reliant trading pattern. Second Wind sustains through poke pre-6; Unflinching's CC resistance keeps him stuck to targets during the Haymaker window.",
 };
 
 const SETT_JGL_DEFAULT_RUNES = {
@@ -31,9 +31,9 @@ export default {
     Top:{
       bans:["Garen","Gnar","Kled"], replacements:["Renekton","Wukong","Pantheon"],
       role:"Juggernaut / Tank",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
-      coreNote:"Heartsteel first for the HP stacking that amplifies every subsequent item. Sterak's third — Grit (W mechanic) stores 8% of damage taken as a grey health bar, and the Haymaker expends it as true damage bonus. The more HP you have, the more Grit stores. Titanic Hydra procs on Q and W autos for massive AoE damage.",
-      sideItems:["Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail"],
+      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Sterak's Gage",
+      coreNote:"Current meta favors Stridebreaker's active slow (sticks targets in Haymaker range) and Overlord's Bloodmail's HP+damage-amp pairing over the older Heartsteel/Titanic Hydra core. Sterak's fourth — Grit (W mechanic) stores 8% of damage taken as a grey health bar, and the Haymaker expends it as true damage bonus. Heartsteel and Titanic Hydra remain fine alternates if the game goes long.",
+      sideItems:["Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail","Heartsteel","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage scales with HP — more HP = bigger Haymaker."),I("Dead Man's Plate","Charge speed into their walk-down with bonus damage."),I("Warmog's Armor","Regen between trades — Grit restores passive HP.")],behind:[I("Sterak's Gage","Grit + Sterak shield = two separate damage-absorbing mechanics."),I("Gargoyle Stoneplate","Activates during their walk-down for massive resistances."),I("Thornmail","GW 40% on Darius/Mundo regen.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE punishes their dive cluster."),I("Dead Man's Plate","Charge speed into their dive approach."),I("Sterak's Gage","Grit stored from their dive = bigger Haymaker.")],behind:[I("Sterak's Gage","Grit + shield — their dive damage becomes your damage."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains."),I("Dead Man's Plate","Move speed to stay in Haymaker range.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
@@ -53,9 +53,9 @@ export default {
     Jungle:{
       bans:["Nocturne","Gragas","Rengar"], replacements:["Warwick","Udyr","Vi"],
       role:"Juggernaut / Bruiser",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Titanic Hydra",
+      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Sterak's Gage",
       coreNote:"Same core as Top. Sett Jungle uses Q suplex to clear camps quickly. Gank with E into W — E pull forces a cluster, W Haymaker expends stored Grit as true damage. The more the enemy jungle trades into you, the more Grit you store.",
-      sideItems:["Thornmail","Dead Man's Plate","Force of Nature","Warmog's Armor","Gargoyle Stoneplate","Mercury's Treads"],
+      sideItems:["Thornmail","Dead Man's Plate","Force of Nature","Warmog's Armor","Gargoyle Stoneplate","Mercury's Treads","Heartsteel","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage + Titanic AoE destroys Juggernaut HP."),I("Thornmail","GW on regen-heavy Juggernauts."),I("Dead Man's Plate","Charge speed on ganks.")],behind:[I("Sterak's Gage","Grit + shield absorbs their walk-down."),I("Thornmail","GW even behind."),I("Plated Steelcaps","Auto reduction.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE on dive cluster."),I("Dead Man's Plate","Counter-charge into their dive approach."),I("Sterak's Gage","Grit from their dive = counter Haymaker.")],behind:[I("Sterak's Gage","Grit + shield."),I("Plated Steelcaps","Auto reduction."),I("Dead Man's Plate","Stay mobile for counter-ganks.")],runes:{...SETT_JGL_DEFAULT_RUNES}},
