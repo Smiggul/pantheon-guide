@@ -137,6 +137,40 @@ import ornn from "./ornn.js";
 import hecarim from "./hecarim.js";
 import evelynn from "./evelynn.js";
 import bard from "./bard.js";
+import kayle from "./kayle.js";
+import kennen from "./kennen.js";
+import rumble from "./rumble.js";
+import lillia from "./lillia.js";
+import nunu from "./nunu.js";
+import xinzhao from "./xinzhao.js";
+import aphelios from "./aphelios.js";
+import milio from "./milio.js";
+import annie from "./annie.js";
+import malzahar from "./malzahar.js";
+import galio from "./galio.js";
+import heimerdinger from "./heimerdinger.js";
+import belveth from "./belveth.js";
+import skarner from "./skarner.js";
+import nilah from "./nilah.js";
+import taric from "./taric.js";
+import anivia from "./anivia.js";
+import qiyana from "./qiyana.js";
+import akshan from "./akshan.js";
+import gangplank from "./gangplank.js";
+import urgot from "./urgot.js";
+import drmundo from "./drmundo.js";
+import rammus from "./rammus.js";
+import yuumi from "./yuumi.js";
+import corki from "./corki.js";
+import kled from "./kled.js";
+import illaoi from "./illaoi.js";
+import singed from "./singed.js";
+import tryndamere from "./tryndamere.js";
+import chogath from "./chogath.js";
+import trundle from "./trundle.js";
+import quinn from "./quinn.js";
+import ivern from "./ivern.js";
+import zilean from "./zilean.js";
 
 export const CHAMPS = [
   pantheon, teemo, renekton, aurelionsol, katarina, xerath, sion,
@@ -160,4 +194,8 @@ export const CHAMPS = [
   brand, taliyah, jayce, tahmkench, sejuani, aurora, smolder, velkoz,
   graves, khazix, jarvaniv, mordekaiser, ksante, hwei, rell, kogmaw,
   cassiopeia, twistedfate, neeko, vex, gwen, nasus, ornn, hecarim, evelynn, bard,
+  kayle, kennen, rumble, lillia, nunu, xinzhao, aphelios, milio,
+  annie, malzahar, galio, heimerdinger, belveth, skarner, nilah, taric,
+  anivia, qiyana, akshan, gangplank, urgot, drmundo, rammus, yuumi,
+  corki, kled, illaoi, singed, tryndamere, chogath, trundle, quinn, ivern, zilean,
 ];
