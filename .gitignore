@@ -23,3 +23,6 @@ release
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright MCP browser artifacts
+.playwright-mcp/
