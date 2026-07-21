@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { CHAMPS } from "./data/champs/index.js";
+import { ITEM_RATIONALE } from "./data/itemRationale.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -448,6 +449,7 @@ useEffect(() => {
     const col = ic(item.name);
     const ek  = `item-${item.name}`;
     const src = itemImg(item.name, itemMap);
+    const rationale = ITEM_RATIONALE[item.name];
     return (
       <div style={{
         background:"rgba(255,255,255,.04)",
@@ -480,6 +482,14 @@ useEffect(() => {
             }}>#{rank}</span>
           </div>
           <p style={{ margin:0, fontSize:"12px", color:"#b0a080", lineHeight:1.6 }}>{item.why}</p>
+          {rationale && (
+            <p style={{
+              margin:"6px 0 0", paddingTop:"6px",
+              borderTop:"1px solid rgba(255,255,255,.06)",
+              fontSize:"11px", color:"rgba(200,180,140,.5)",
+              lineHeight:1.5, fontStyle:"italic",
+            }}>{rationale}</p>
+          )}
         </div>
       </div>
     );
