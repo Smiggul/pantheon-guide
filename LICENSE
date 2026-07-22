@@ -1,0 +1,22 @@
+Copyright (c) 2026 Smiggul. All Rights Reserved.
+
+This repository and all of its contents — including but not limited to source
+code, data files, build tooling, and documentation — are proprietary and
+confidential. The source is made publicly viewable for transparency only.
+
+No permission is granted to any person to copy, modify, merge, publish,
+distribute, sublicense, rebrand, or create derivative works from this
+software or its underlying concept, in whole or in part, for any purpose,
+without prior written permission from the copyright holder.
+
+Compiled application releases (installers/executables published under this
+repository's Releases) may be downloaded and run for personal, non-commercial
+use. This permission does not extend to the source code itself.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
