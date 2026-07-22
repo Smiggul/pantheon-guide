@@ -1,6 +1,7 @@
-/* Self-hosted so the Electron desktop build renders correctly offline —
-   bolder/more legible than the old Georgia stack, still reads as "epic
-   fantasy" in the League of Legends vein. SIL Open Font License. */
+/* Self-hosted so the Electron desktop build renders correctly offline.
+   Cinzel is kept only as a loaded fallback face — the app's primary font
+   is Spartan MB ExtraBold (below), chosen for readability. Both SIL Open
+   Font License. */
 @font-face {
   font-family: "Cinzel";
   src: url("/fonts/Cinzel-Regular.woff2") format("woff2");
@@ -12,6 +13,13 @@
   font-family: "Cinzel";
   src: url("/fonts/Cinzel-Bold.woff2") format("woff2");
   font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Spartan MB";
+  src: url("/fonts/SpartanMB-ExtraBold.otf") format("opentype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }

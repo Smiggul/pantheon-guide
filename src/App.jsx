@@ -5,6 +5,7 @@ import { ALT_BUILDS } from "./data/altBuilds.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
+import { counterCategoryOf } from "./data/itemCounters.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -1109,7 +1110,7 @@ useEffect(() => {
       minHeight:"100vh",
       position:"relative",
       background:"radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
-      fontFamily:"'Cinzel','Georgia','Times New Roman',serif",
+      fontFamily:"'Spartan MB','Cinzel','Arial Black',sans-serif",
       color:"#e8d5b0",
       }}>
 
@@ -1149,7 +1150,7 @@ useEffect(() => {
           padding:"9px 24px",
         }}>
           <div style={{ maxWidth:"1400px", margin:"0 auto", display:"flex",
-            alignItems:"center", gap:"14px", flexWrap:"wrap", fontFamily:"'Georgia',serif" }}>
+            alignItems:"center", gap:"14px", flexWrap:"wrap", fontFamily:"inherit" }}>
 
             {/* status dot + label */}
             <span style={{ display:"flex", alignItems:"center", gap:"7px", flexShrink:0 }}>
@@ -1891,8 +1892,8 @@ useEffect(() => {
             textTransform:"uppercase", marginBottom:"12px" }}>
             Common Situational Items — {champ.display}
           </div>
-          <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
-            {buildSideItems.map(name => {
+          {(() => {
+            const chip = (name) => {
               const col = ic(name);
               const ek  = `side-${name}`;
               const src = itemImg(name, itemMap);
@@ -1919,8 +1920,52 @@ useEffect(() => {
                   <span style={{ fontSize:"12px", color:col, whiteSpace:"nowrap" }}>{name}</span>
                 </div>
               );
-            })}
-          </div>
+            };
+
+            // Group by what each item counters (Anti-Heal, Heavy Shields,
+            // Armor Stacking, ...) — item-level metadata from itemCounters.js,
+            // so this works for every champion without per-champ authoring.
+            const groups = new Map();
+            const leftover = [];
+            for (const name of buildSideItems) {
+              const cat = counterCategoryOf(name);
+              if (cat) {
+                if (!groups.has(cat.label)) groups.set(cat.label, { note: cat.note, items: [] });
+                groups.get(cat.label).items.push(name);
+              } else leftover.push(name);
+            }
+
+            return (
+              <>
+                {[...groups.entries()].map(([label, g]) => (
+                  <div key={label} style={{ marginBottom:"14px" }}>
+                    <div style={{ fontSize:"10px", letterSpacing:"2px", color:"#e08040",
+                      textTransform:"uppercase", marginBottom:"6px" }}>
+                      For {label}
+                    </div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:"8px", marginBottom:"6px" }}>
+                      {g.items.map(chip)}
+                    </div>
+                    {g.note && <p style={{ margin:"0 0 4px", fontSize:"11px",
+                      color:"#a0896a", lineHeight:1.5 }}>{g.note}</p>}
+                  </div>
+                ))}
+                {leftover.length > 0 && (
+                  <div>
+                    {groups.size > 0 && (
+                      <div style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
+                        textTransform:"uppercase", marginBottom:"6px" }}>
+                        General
+                      </div>
+                    )}
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
+                      {leftover.map(chip)}
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       </div>
 
