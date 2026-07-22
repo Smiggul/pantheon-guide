@@ -106,6 +106,50 @@ export const ALT_BUILDS = {
       sideItems: ["Spirit Visage", "Zhonya's Hourglass", "Rylai's Crystal Scepter", "Liandry's Torment", "Kaenic Rookern", "Thornmail"],
     }],
   },
+
+  // Standard Kai'Sa (roster) is the AD/on-hit hybrid (Kraken/Guinsoo's/Nashor's).
+  // This is the pure-AP line — a real, distinct archetype (~47% WR / 3.4k games,
+  // Mobalytics 26.14). Squishier and more burst-oriented.
+  kaisa: {
+    Bot: [{
+      label: "AP (Nashor's)",
+      tag: "off-meta",
+      corePath: "Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote: "Full-AP Kai'Sa, not the AD/on-hit hybrid. Her W (Void Seeker) and the plasma detonation from her passive both scale hard with AP, so you play like a caster-marksman: poke and burst with W, then dash in to finish. Nashor's Tooth is the mandatory first item — its 60 AP + attack speed alone evolves W (the range + double-shot upgrade), which is the whole build's spike. Shadowflame and Rabadon's stack the burst; Sorcerer's Shoes for the magic pen. Riftmaker or Zhonya's for a bruiser/safe lean, Cryptbloom/Void Staff vs MR. Far spikier and squishier than on-hit — you assassinate from range instead of DPS-ing tanks.",
+      runes: {
+        keystone: "Hail of Blades",
+        primary: "Domination",
+        primaryRunes: ["Taste of Blood", "Grisly Mementos", "Treasure Hunter"],
+        secondary: "Sorcery",
+        secondaryRunes: ["Manaflow Band", "Transcendence"],
+        shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
+        reason: "Hail of Blades fires the burst of autos that stack your passive plasma to the AP-scaling detonation almost instantly — the safest way to proc it on a low target. Taste of Blood sustains the poke, Treasure Hunter funds the gold-hungry AP curve, and the Sorcery splash (Manaflow Band, Transcendence) covers Kai'Sa's mana problems and adds the haste to spam W.",
+      },
+      sideItems: ["Riftmaker", "Zhonya's Hourglass", "Cryptbloom", "Void Staff", "Lich Bane", "Banshee's Veil"],
+    }],
+  },
+
+  // Standard Master Yi (roster) is on-hit (Kraken/Guinsoo's). This is the crit
+  // line — actually the higher-WR build on Mobalytics 26.14 (52.8% / 1.5k games),
+  // more burst/one-shot, less sustained tank-shred.
+  masteryi: {
+    Jungle: [{
+      label: "Crit (Collector/IE)",
+      tag: "alt",
+      corePath: "The Collector  ›  Berserker's Greaves  ›  Infinity Edge  ›  Bloodthirster",
+      coreNote: "The crit one-shot line rather than the on-hit DPS build. The Collector opens with lethality + an execute that turns Q-reset chains into instant resets on low targets; Infinity Edge makes every Alpha Strike + auto crit for enormous burst, and Bloodthirster's shield + lifesteal keeps you topped between camps and fights. This build deletes squishies faster than on-hit but shreds tanks slower — pick it into squishy/burstable enemy comps. Lord Dominik's or Death's Dance close it out.",
+      runes: {
+        keystone: "Lethal Tempo",
+        primary: "Precision",
+        primaryRunes: ["Triumph", "Legend: Alacrity", "Coup de Grace"],
+        secondary: "Domination",
+        secondaryRunes: ["Sudden Impact", "Treasure Hunter"],
+        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
+        reason: "Lethal Tempo still gives the attack-speed ramp to weave crit autos between Q resets. Coup de Grace stacks with The Collector to execute low targets, Legend: Alacrity feeds the crit-auto cadence, and the Domination splash (Sudden Impact on every Q/Alpha Strike, Treasure Hunter) funds the gold-hungry crit curve.",
+      },
+      sideItems: ["Lord Dominik's Regards", "Death's Dance", "Guardian Angel", "Blade of The Ruined King", "Mortal Reminder", "Wit's End"],
+    }],
+  },
 };
 
 export default ALT_BUILDS;
