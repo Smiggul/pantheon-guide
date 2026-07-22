@@ -14,6 +14,22 @@
 
 export const ALT_BUILDS = {
   pantheon: {
+    Top: [{
+      label: "Resolve Bruiser",
+      tag: "alt",
+      corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
+      coreNote: "The survivability line — trade the standard Sorcery secondary (Transcendence/Scorch) for a Resolve secondary so you live through the extended brawls instead of relying on winning the burst race. Eclipse over Voltaic first here: its passive shield and %-max-HP proc reward the drawn-out trades this page is built for, Black Cleaver adds the HP + shred, Sundered Sky heals off the guaranteed crit-Q, and Death's Dance turns lethal burst into a bleed you outlast. Sterak's Gage and Spirit Visage are the natural continuations. Tankier and more forgiving than the lethality/snowball lines — you brawl, sustain, and out-stat the lane rather than one-combo it.",
+      runes: {
+        keystone: "Conqueror",
+        primary: "Precision",
+        primaryRunes: ["Presence of Mind", "Legend: Haste", "Last Stand"],
+        secondary: "Resolve",
+        secondaryRunes: ["Bone Plating", "Second Wind"],
+        shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+        reason: "Conqueror + Presence of Mind is the same durable-DPS core, but the Resolve secondary is the survivability trade: Bone Plating blunts the burst opener of the divers/assassins you brawl, and Second Wind sustains you back through poke and after trades. Last Stand still rewards the low-HP Conqueror fights this page wants to be in, and the Health-scaling shard adds to the durability.",
+      },
+      sideItems: ["Sterak's Gage", "Spirit Visage", "Plated Steelcaps", "Mercury's Treads", "Maw of Malmortius", "Randuin's Omen", "Thornmail", "Kaenic Rookern"],
+    }],
     Mid: [{
       label: "Lethality Assassin",
       tag: "off-meta",
