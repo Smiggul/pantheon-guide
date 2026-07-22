@@ -3,11 +3,11 @@ import { I } from "../runeHelpers.js";
 const PANTH_TOP_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  primaryRunes:   ["Presence of Mind","Legend: Haste","Last Stand"],
   secondary:      "Sorcery",
   secondaryRunes: ["Transcendence","Scorch"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast on Q spam. Legend: Haste reduces Q/W/E cooldowns. Transcendence resets non-ult CDs on takedowns. Scorch adds early poke pressure.",
+  reason:         "The live meta page (Mobalytics/u.gg 26.14, ~63% WR on the top build): Conqueror stacks fast on Q spam. Presence of Mind is the key change over Triumph — it refunds mana on every takedown and restores mana as you damage champions, which is what actually lets Pantheon spam Q and W through a lane without recalling. Legend: Haste lowers Q/W/E cooldowns, Last Stand rewards the low-HP Conqueror brawls, and Transcendence + Scorch add CDR and early poke.",
 };
 
 const PANTH_JGL_DEFAULT_RUNES = {
@@ -55,8 +55,8 @@ export default {
     roles:{
             Top:    {  
               bans:["Jax","Malphite","Fiora"], replacements:["Renekton","Sett","Wukong"],
-                        corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Death's Dance",
-                        coreNote: "Eclipse first for the dominant early spike. Sundered Sky second for burst or Black Cleaver for sustained shred — pick based on whether you need one-shot or team-fight presence. Death's Dance rounds out the build, letting extended trades convert into a bleed you outlast.",
+                        corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
+                        coreNote: "The verified 26.14 top build (Mobalytics/u.gg): Eclipse first for the dominant early two-ability spike, then Plated Steelcaps once you know the matchup's damage type (in sideItems). Black Cleaver is now the priority second core — its armor shred + HP + haste is what makes Conqueror trades snowball, and it out-frags Sundered Sky in the current meta. Sundered Sky follows for the guaranteed-crit heal on your Q, and Death's Dance closes the build, converting extended brawls into a bleed you outlast. Swap to Maw of Malmortius / Mercury's Treads vs heavy AP.",
                         sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
                         data: {
                                 JUGGERNAUT: {
