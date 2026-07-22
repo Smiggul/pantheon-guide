@@ -70,24 +70,9 @@ export const ALT_BUILDS = {
     }],
   },
 
-  mordekaiser: {
-    Top: [{
-      label: "AD Bruiser",
-      tag: "off-meta",
-      corePath: "Trinity Force  ›  Plated Steelcaps  ›  Black Cleaver  ›  Sterak's Gage",
-      coreNote: "AD instead of AP: Q (Indestructible) still deals physical damage, so a Trinity Force / Cleaver bruiser build turns Morde into a Spellblade-proccing juggernaut who out-DPSes his AP self in extended brawls. Trinity Force procs off every Q, Black Cleaver shreds the frontline the Death Realm traps, and Sterak's covers the all-in. Death's Dance closes it. Same Realm-of-Death gameplan, just as a sustained-DPS bruiser rather than a burst mage.",
-      runes: {
-        keystone: "Conqueror",
-        primary: "Precision",
-        primaryRunes: ["Triumph", "Legend: Alacrity", "Last Stand"],
-        secondary: "Resolve",
-        secondaryRunes: ["Second Wind", "Unflinching"],
-        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
-        reason: "Conqueror stacks fully inside one Death Realm duel and converts to healing off his passive; Legend: Alacrity feeds the Trinity-proc auto weaving, Last Stand rewards the low-HP realm brawls, and Second Wind + Unflinching survive the trades before the spike.",
-      },
-      sideItems: ["Death's Dance", "Spear of Shojin", "Sundered Sky", "Guardian Angel", "Maw of Malmortius", "Randuin's Omen"],
-    }],
-  },
+  // Mordekaiser: intentionally omitted — AD/bruiser Morde is NOT viable in 26.14
+  // (he's AP-only; the old AD/Nashor's line is abandoned per Mobalytics/METAsrc).
+  // No compelling distinct second build exists right now, so no toggle is shown.
 };
 
 export default ALT_BUILDS;
