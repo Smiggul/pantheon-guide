@@ -150,6 +150,50 @@ export const ALT_BUILDS = {
       sideItems: ["Lord Dominik's Regards", "Death's Dance", "Guardian Angel", "Blade of The Ruined King", "Mortal Reminder", "Wit's End"],
     }],
   },
+
+  // Standard Cho'Gath (roster) is the modern AP Hail of Blades burst mage. This
+  // is the full-tank line — actually the higher-WR build on Mobalytics 26.14
+  // (53.1% / 2.7k games): an unkillable frontline instead of a backline nuker.
+  chogath: {
+    Top: [{
+      label: "Full Tank",
+      tag: "alt",
+      corePath: "Heartsteel  ›  Mercury's Treads  ›  Hollow Radiance  ›  Unending Despair",
+      coreNote: "Full-tank Cho'Gath — you become an HP monster the enemy simply can't kill, and Feast still executes for a flat chunk while your R and Q keep AP-agnostic base damage. Heartsteel snowballs your health bar every trade, Hollow Radiance + Unending Despair make you a burning, damage-reflecting frontline, and Jak'Sho / Thornmail close it. Grasp + Demolish win the lane by attrition and tower pressure. Completely different job from the AP burst build — you soak and peel and eat, rather than one-shotting the backline.",
+      runes: {
+        keystone: "Grasp of the Undying",
+        primary: "Resolve",
+        primaryRunes: ["Demolish", "Second Wind", "Overgrowth"],
+        secondary: "Inspiration",
+        secondaryRunes: ["Biscuit Delivery", "Cosmic Insight"],
+        shards: ["Ability Haste", "Health (scaling)", "Health (scaling)"],
+        reason: "Grasp permanently grows your health each trade — perfectly on-theme for the HP-stacking tank. Demolish converts your lane bully-ing into towers, Second Wind + Overgrowth make you unkillable in lane and scale your HP into the late game, and the Inspiration splash (Biscuit Delivery, Cosmic Insight) sustains mana/health and adds haste. Double Health-scaling shards feed the whole gameplan.",
+      },
+      sideItems: ["Jak'Sho, The Protean", "Thornmail", "Warmog's Armor", "Kaenic Rookern", "Spirit Visage", "Frozen Heart", "Sunfire Aegis"],
+    }],
+  },
+
+  // Standard Varus (roster Bot) is the on-hit DPS build (Statikk/Guinsoo's/
+  // Terminus). This is the lethality poke/siege line — a canonical distinct
+  // Varus build: max-range burst caster instead of an auto-attacking DPS.
+  varus: {
+    Bot: [{
+      label: "Lethality Poke",
+      tag: "off-meta",
+      corePath: "Youmuu's Ghostblade  ›  Berserker's Greaves  ›  The Collector  ›  Serylda's Grudge",
+      coreNote: "Lethality poke Varus — max Q and play a long-range siege caster, not an on-hit DPS. Stack Blight from range with W-empowered autos, then a fully-charged Q chunks (and often one-shots a squishy once The Collector's execute is online). Youmuu's gives the roam/siege speed + lethality, The Collector adds the execute threshold, and Serylda's Grudge pens + slows so the poke always lands. Opportunity or Edge of Night continue it. Trades the on-hit build's sustained tank-shred for burst-from-fog and objective-siege pressure.",
+      runes: {
+        keystone: "Dark Harvest",
+        primary: "Domination",
+        primaryRunes: ["Cheap Shot", "Grisly Mementos", "Treasure Hunter"],
+        secondary: "Precision",
+        secondaryRunes: ["Presence of Mind", "Coup de Grace"],
+        shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
+        reason: "Dark Harvest snowballs the picks this build farms — each charged-Q kill compounds the burst. Cheap Shot punishes your own W-slow/Q for true damage, Treasure Hunter funds the gold-hungry lethality curve, and the Precision splash (Presence of Mind for the mana to spam Q, Coup de Grace to finish) pays for the poke playstyle.",
+      },
+      sideItems: ["Opportunity", "Edge of Night", "Lord Dominik's Regards", "Profane Hydra", "Guardian Angel", "Umbral Glaive"],
+    }],
+  },
 };
 
 export default ALT_BUILDS;
