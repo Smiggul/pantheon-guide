@@ -16,19 +16,19 @@
 // ── Colour tokens ─────────────────────────────────────────────────────────────
 export const colors = {
   // Gold palette
-  gold:         "#f0d060",
-  goldDim:      "#b8860b",
-  goldFaint:    "rgba(180,120,20,.14)",
-  goldBorder:   "rgba(180,120,20,.2)",
+  gold:         "#D4AF37",
+  goldDim:      "#a1852a",
+  goldFaint:    "rgba(212,175,55,.14)",
+  goldBorder:   "rgba(212,175,55,.2)",
 
   // Text
-  textPrimary:  "#e8d5b0",
-  textDim:      "#6a7a5a",
-  textFaint:    "rgba(200,180,140,.38)",
+  textPrimary:  "#F5F5F5",
+  textDim:      "#7a8288",
+  textFaint:    "rgba(200,204,209,.38)",
 
   // Backgrounds
-  bgPage:       "#060a0f",
-  bgPanel:      "rgba(5,12,25,.95)",
+  bgPage:       "#1B1B1E",
+  bgPanel:      "rgba(27,27,30,.95)",
   bgSurface:    "rgba(255,255,255,.04)",
   bgDark:       "rgba(0,0,0,.45)",
 
@@ -37,7 +37,7 @@ export const colors = {
   borderMid:    "rgba(255,255,255,.12)",
 
   // Game-state colours
-  ahead:  { text:"#f0d060", bg:"rgba(184,134,11,.18)",  border:"#b8860b60" },
+  ahead:  { text:"#D4AF37", bg:"rgba(212,175,55,.18)",  border:"#a1852a60" },
   behind: { text:"#7eb8f7", bg:"rgba(74,111,165,.18)",  border:"#4a6fa560" },
 };
 
@@ -52,7 +52,7 @@ export const text = {
     textTransform: "uppercase", color: "rgba(255,255,255,.25)",
   },
   body: {
-    fontSize: "12px", color: "#b0a080", lineHeight: 1.6,
+    fontSize: "12px", color: "#c7ccd1", lineHeight: 1.6,
   },
   small: {
     fontSize: "10px", color: colors.textDim,
@@ -74,16 +74,16 @@ export const surfaces = {
     padding:      "12px 14px",
   },
   overlay: {
-    background:   "rgba(6,12,28,.97)",
-    border:       "1px solid rgba(200,155,60,.35)",
+    background:   "rgba(27,27,30,.97)",
+    border:       "1px solid rgba(212,175,55,.35)",
     borderRadius: "8px",
     boxShadow:    "0 8px 32px rgba(0,0,0,.7)",
   },
   modal: {
-    background:   "rgba(6,12,28,.98)",
-    border:       "1px solid rgba(180,120,20,.35)",
+    background:   "rgba(27,27,30,.98)",
+    border:       "1px solid rgba(212,175,55,.35)",
     borderRadius: "16px",
-    boxShadow:    "0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(180,120,20,.1)",
+    boxShadow:    "0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(212,175,55,.1)",
   },
 };
 
@@ -95,7 +95,7 @@ export const ui = {
     overflow:     "hidden",
     border:       `2.5px solid ${glow}`,
     boxShadow:    `0 0 18px ${glow}60`,
-    background:   "#111",
+    background:   "#1B1B1E",
   }),
 
   // Champion portrait — picker grid (hover effect added via onMouseEnter)
@@ -103,7 +103,7 @@ export const ui = {
     borderRadius: "9px",
     overflow:     "hidden",
     border:       "1.5px solid rgba(255,255,255,.12)",
-    background:   "#111",
+    background:   "#1B1B1E",
     transition:   "all .15s",
   },
 
@@ -177,7 +177,7 @@ export const ui = {
     overflow:    "hidden",
     cursor:      "pointer",
     border:      "1px solid rgba(255,255,255,.15)",
-    background:  "#111",
+    background:  "#1B1B1E",
     opacity:     0.4,
     transition:  "all .15s",
     display:     "flex",
@@ -206,7 +206,7 @@ export const ui = {
     borderRadius:   "20px",
     cursor:         "pointer",
     border:         `1px solid ${colors.goldDim}`,
-    background:     "rgba(184,134,11,.2)",
+    background:     "rgba(212,175,55,.2)",
     color:          colors.gold,
     fontSize:       "11px",
     fontWeight:     "bold",
@@ -224,7 +224,7 @@ export const ui = {
     cursor:         "pointer",
     border:         "1px solid rgba(255,255,255,.1)",
     background:     "rgba(255,255,255,.04)",
-    color:          "#6a7a5a",
+    color:          "#7a8288",
     fontSize:       "11px",
     letterSpacing:  ".5px",
     transition:     "all .15s",
@@ -250,7 +250,7 @@ export const ui = {
     border:        "none",
     cursor:        "pointer",
     background:    "transparent",
-    color:         "#5a6a5a",
+    color:         "#6b7278",
     fontSize:      "12px",
     letterSpacing: ".5px",
     transition:    "all .15s",
@@ -313,14 +313,14 @@ export const ui = {
 export const layout = {
   page: {
     minHeight:   "100vh",
-    background:  "radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
+    background:  "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
     fontFamily:  "'Spartan MB','Cinzel','Arial Black',sans-serif",
     color:       colors.textPrimary,
   },
   pageHeader: {
     textAlign:   "center",
     padding:     "28px 24px 14px",
-    background:  "linear-gradient(180deg,rgba(180,120,20,.14) 0%,transparent 100%)",
+    background:  "linear-gradient(180deg,rgba(212,175,55,.14) 0%,transparent 100%)",
     borderBottom:`1px solid ${colors.goldBorder}`,
   },
   section: {
@@ -417,7 +417,7 @@ export const ITEM_COLORS = {
   "Morellonomicon":           "#b22222",
   "Zhonya's Hourglass":       "#daa520",
   "Rylai's Crystal Scepter":  "#4fc3f7",
-  "Lich Bane":                "#b8860b",
+  "Lich Bane":                "#a1852a",
   "Stormsurge":               "#00bcd4",
   "Cryptbloom":               "#2ecc71",
   "Hextech Rocketbelt":       "#ff6b35",

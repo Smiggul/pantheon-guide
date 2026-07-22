@@ -178,7 +178,7 @@ const CLASSES = {
 // ─────────────────────────────────────────────────────────────────────────────
 const RUNE_TREES = {
   Precision: {
-    color: "#c89b3c", label: "Precision", abbr: "P",
+    color: "#D4AF37", label: "Precision", abbr: "P",
     keystones: ["Conqueror","Lethal Tempo","Press the Attack","Fleet Footwork"],
     rows: [
       ["Absorb Life","Triumph","Presence of Mind"],          // Overheal → Absorb Life
@@ -557,11 +557,12 @@ useEffect(() => {
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   const S = {                       // shared style tokens
-    border:       "rgba(180,120,20,.2)",
-    panelBg:      "rgba(5,12,25,.95)",
-    textDim:      "#6a7a5a",
-    gold:         "#f0d060",
-    goldDim:      "#b8860b",
+    border:       "rgba(212,175,55,.2)",
+    panelBg:      "rgba(27,27,30,.95)",
+    textDim:      "#7a8288",
+    gold:         "#D4AF37",
+    goldDim:      "#a1852a",
+    orange:       "#F97316",        // primary energy accent — CTAs, hero glow
   };
 
   const [detailTab, setDetailTab] = useState("items"); // "items" | "runes"
@@ -574,7 +575,7 @@ useEffect(() => {
         <div style={{
           width:size, height:size, borderRadius:"8px", overflow:"hidden",
           border:`1.5px solid rgba(255,255,255,.14)`,
-          background:"#0d1a2a",
+          background:"#2A2F38",
         }}>
           {!imgFail(ek)
             ? <img src={champImg(name)} alt={name} onError={() => onErr(ek)}
@@ -585,7 +586,7 @@ useEffect(() => {
           }
         </div>
         <span style={{
-          fontSize:"11px", color:"#c8a96a", textAlign:"center",
+          fontSize:"11px", color:"#D4AF37", textAlign:"center",
           maxWidth:size+10, lineHeight:1.2,
           overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
         }}>{name}</span>
@@ -630,12 +631,12 @@ useEffect(() => {
               borderRadius:"4px", padding:"2px 6px", letterSpacing:"1px",
             }}>#{rank}</span>
           </div>
-          <p style={{ margin:0, fontSize:"12px", color:"#b0a080", lineHeight:1.6 }}>{item.why}</p>
+          <p style={{ margin:0, fontSize:"12px", color:"#c7ccd1", lineHeight:1.6 }}>{item.why}</p>
           {rationale && (
             <p style={{
               margin:"6px 0 0", paddingTop:"6px",
               borderTop:"1px solid rgba(255,255,255,.06)",
-              fontSize:"11px", color:"rgba(200,180,140,.5)",
+              fontSize:"11px", color:"rgba(200,204,209,.5)",
               lineHeight:1.5, fontStyle:"italic",
             }}>{rationale}</p>
           )}
@@ -669,9 +670,9 @@ useEffect(() => {
     : []);
   const recDotStyle = {
     position: "absolute", top: -2, right: -2, width: 9, height: 9,
-    borderRadius: "50%", background: "#c89b3c",
-    border: "1.5px solid #0a0d14",
-    boxShadow: "0 0 6px rgba(200,155,60,.9)", zIndex: 3,
+    borderRadius: "50%", background: "#D4AF37",
+    border: "1.5px solid #161618",
+    boxShadow: "0 0 6px rgba(212,175,55,.9)", zIndex: 3,
     pointerEvents: "none",
   };
 
@@ -986,11 +987,11 @@ useEffect(() => {
                     onMouseLeave={()  => setTooltip(null)}
                     style={{
                       width: 24, height: 24, borderRadius: "50%", cursor: "pointer",
-                      background: isSel ? "rgba(200,155,60,.2)" : "rgba(255,255,255,.04)",
-                      border: isSel ? "1.5px solid rgba(200,155,60,.7)"
+                      background: isSel ? "rgba(212,175,55,.2)" : "rgba(255,255,255,.04)",
+                      border: isSel ? "1.5px solid rgba(212,175,55,.7)"
                         : "1px solid rgba(255,255,255,.12)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      boxShadow: isSel ? "0 0 8px rgba(200,155,60,.5)" : "none",
+                      boxShadow: isSel ? "0 0 8px rgba(212,175,55,.5)" : "none",
                       opacity: isSel ? 1 : 0.28,
                       overflow: "hidden", transition: "all .15s",
                     }}>
@@ -1000,7 +1001,7 @@ useEffect(() => {
                       : <div style={{
                           width: 8, height: 8,
                           clipPath: "polygon(50% 0%,100% 50%,50% 100%,0% 50%)",
-                          background: isSel ? "#c89b3c" : "rgba(255,255,255,.3)",
+                          background: isSel ? "#D4AF37" : "rgba(255,255,255,.3)",
                         }} />
                     }
                   </div>
@@ -1025,8 +1026,8 @@ useEffect(() => {
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 6,
           marginBottom: 12, padding: "4px 10px",
-          background: "rgba(200,155,60,.12)",
-          border: "1px solid rgba(200,155,60,.3)",
+          background: "rgba(212,175,55,.12)",
+          border: "1px solid rgba(212,175,55,.3)",
           borderRadius: 20, fontSize: 10, color: S.gold, letterSpacing: "1px",
         }}>
           ✦ CHAMPION-SPECIFIC — {enemyChamp.toUpperCase()}
@@ -1038,7 +1039,7 @@ useEffect(() => {
         marginBottom: 10, fontSize: 9, letterSpacing: "1px",
         color: "rgba(255,255,255,.35)", textTransform: "uppercase" }}>
         <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0,
-          background: "#c89b3c", boxShadow: "0 0 5px rgba(200,155,60,.8)",
+          background: "#D4AF37", boxShadow: "0 0 5px rgba(212,175,55,.8)",
           display: "inline-block" }} />
         Recommended · click the other path's icon to swap primary ↔ secondary
       </div>
@@ -1059,7 +1060,7 @@ useEffect(() => {
         }}>
           <div style={{ fontSize: 9, letterSpacing: "2px", color: primMeta.color,
             textTransform: "uppercase", marginBottom: 4 }}>Recommended page — why</div>
-          <p style={{ margin: 0, fontSize: 11, color: "#b0a080", lineHeight: 1.6 }}>
+          <p style={{ margin: 0, fontSize: 11, color: "#c7ccd1", lineHeight: 1.6 }}>
             {recommended.reason}
           </p>
         </div>
@@ -1070,14 +1071,14 @@ useEffect(() => {
         <div style={{
           position: "fixed", left: tooltip.x + 16, top: tooltip.y - 12,
           zIndex: 9999, pointerEvents: "none", maxWidth: 240,
-          background: "rgba(6,12,28,.97)",
-          border: "1px solid rgba(200,155,60,.35)",
+          background: "rgba(27,27,30,.97)",
+          border: "1px solid rgba(212,175,55,.35)",
           borderRadius: 8, padding: "8px 12px",
           boxShadow: "0 8px 32px rgba(0,0,0,.7)",
         }}>
-          <div style={{ fontSize: 12, fontWeight: "bold", color: "#f0d060",
+          <div style={{ fontSize: 12, fontWeight: "bold", color: "#D4AF37",
             marginBottom: 4, letterSpacing: ".3px" }}>{tooltip.name}</div>
-          <div style={{ fontSize: 11, color: "#b0a080", lineHeight: 1.5 }}>
+          <div style={{ fontSize: 11, color: "#c7ccd1", lineHeight: 1.5 }}>
             {RUNE_DESCRIPTIONS[tooltip.name] || ""}
           </div>
         </div>
@@ -1109,15 +1110,15 @@ useEffect(() => {
     <div style={{
       minHeight:"100vh",
       position:"relative",
-      background:"radial-gradient(ellipse at 15% 5%,#0d1117 0%,#060a0f 55%,#0a0d14 100%)",
+      background:"radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
       fontFamily:"'Spartan MB','Cinzel','Arial Black',sans-serif",
-      color:"#e8d5b0",
+      color:"#F5F5F5",
       }}>
 
       {/* ── PAGE HEADER ── */}
       <div style={{
         textAlign:"center", padding:"28px 24px 14px",
-        background:"linear-gradient(180deg,rgba(180,120,20,.14) 0%,transparent 100%)",
+        background:"linear-gradient(180deg,rgba(249,115,22,.14) 0%,transparent 100%)",
         borderBottom:`1px solid ${S.border}`,
       }}>
         <div style={{ fontSize:"11px", letterSpacing:"6px", color:S.goldDim,
@@ -1126,8 +1127,8 @@ useEffect(() => {
         </div>
         <h1 style={{
           fontSize:"clamp(18px,3.5vw,30px)", fontWeight:"bold",
-          color:S.gold, margin:"0 0 6px",
-          textShadow:"0 0 40px rgba(240,208,96,.45)", letterSpacing:"2px",
+          color:S.orange, margin:"0 0 6px",
+          textShadow:"0 0 40px rgba(249,115,22,.45)", letterSpacing:"2px",
         }}>
           {champ.display} — Situational Itemization
         </h1>
@@ -1146,7 +1147,7 @@ useEffect(() => {
       {isDesktop && (
         <div style={{
           background: csActive ? "rgba(20,40,30,.55)" : "rgba(0,0,0,.5)",
-          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : "rgba(180,120,20,.14)"}`,
+          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : "rgba(212,175,55,.14)"}`,
           padding:"9px 24px",
         }}>
           <div style={{ maxWidth:"1400px", margin:"0 auto", display:"flex",
@@ -1155,7 +1156,7 @@ useEffect(() => {
             {/* status dot + label */}
             <span style={{ display:"flex", alignItems:"center", gap:"7px", flexShrink:0 }}>
               <span style={{ width:"9px", height:"9px", borderRadius:"50%",
-                background: csActive ? "#4caf7d" : csState?.reason === "no-client" ? "#d9564f" : "#c9a24a",
+                background: csActive ? "#4caf7d" : csState?.reason === "no-client" ? "#d9564f" : "#D4AF37",
                 boxShadow:`0 0 8px ${csActive ? "#4caf7d" : "transparent"}` }} />
               <span style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase",
                 color: csActive ? "#8fe0b4" : S.goldDim }}>{csStatus}</span>
@@ -1193,9 +1194,9 @@ useEffect(() => {
                 style={{
                   cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
                   letterSpacing:".5px",
-                  border:`1px solid ${preHoverOn ? "#c9a24a" : "rgba(255,255,255,.15)"}`,
-                  background: preHoverOn ? "rgba(201,162,74,.15)" : "rgba(255,255,255,.03)",
-                  color: preHoverOn ? S.gold : "#9a8a6a",
+                  border:`1px solid ${preHoverOn ? "#D4AF37" : "rgba(255,255,255,.15)"}`,
+                  background: preHoverOn ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.03)",
+                  color: preHoverOn ? S.gold : "#9aa0a6",
                 }}>
                 {preHoverOn ? `⚑ Pre-hover: ${champ.display}` : "⚑ Pre-hover OFF"}
               </button>
@@ -1209,7 +1210,7 @@ useEffect(() => {
                   letterSpacing:".5px",
                   border:`1px solid ${csSync ? "#4caf7d" : "rgba(255,255,255,.15)"}`,
                   background: csSync ? "rgba(76,175,125,.15)" : "rgba(255,255,255,.03)",
-                  color: csSync ? "#6bd6a0" : "#9a8a6a",
+                  color: csSync ? "#6bd6a0" : "#9aa0a6",
                 }}>
                 {csSync ? "⟳ Auto-sync ON" : "⟳ Auto-sync OFF"}
               </button>
@@ -1221,7 +1222,7 @@ useEffect(() => {
       {/* ── CHAMPION SELECTOR BAR ── */}
       <div style={{
         background:"rgba(0,0,0,.45)",
-        borderBottom:`1px solid rgba(180,120,20,.14)`,
+        borderBottom:`1px solid rgba(212,175,55,.14)`,
         padding:"12px 24px",
       }}>
         <div style={{
@@ -1239,7 +1240,7 @@ useEffect(() => {
             style={{
               width:"56px", height:"56px", borderRadius:"9px", overflow:"hidden",
               border:`2.5px solid ${champ.glow}`,
-              boxShadow:`0 0 18px ${champ.glow}60`, background:"#111",
+              boxShadow:`0 0 18px ${champ.glow}60`, background:"#1B1B1E",
               flexShrink:0, cursor:"pointer", position:"relative",
               transition:"all .18s",
             }}
@@ -1284,7 +1285,7 @@ useEffect(() => {
                         width:"30px", height:"30px", borderRadius:"6px", overflow:"hidden",
                         cursor:"pointer",
                         border: isActive ? `2px solid ${champ.glow}` : "1px solid rgba(255,255,255,.15)",
-                        background: isActive ? `${champ.color}30` : "#111",
+                        background: isActive ? `${champ.color}30` : "#1B1B1E",
                         boxShadow: isActive ? `0 0 10px ${champ.glow}60` : "none",
                         opacity: isActive ? 1 : 0.4,
                         transition:"all .15s",
@@ -1336,7 +1337,7 @@ useEffect(() => {
                           cursor: roster && roster !== champ ? "pointer" : "default" }}>
                         <div style={{
                           width:"34px", height:"34px", borderRadius:"6px", overflow:"hidden",
-                          border:`1.5px solid ${tile.accent}50`, background:"#0d1a2a",
+                          border:`1.5px solid ${tile.accent}50`, background:"#2A2F38",
                           boxShadow: roster ? `0 0 6px ${tile.accent}40` : "none",
                         }}>
                           {!imgFail(ek)
@@ -1347,7 +1348,7 @@ useEffect(() => {
                                 fontSize:"12px", color:"#5c6a7a" }}>{name[0]}</div>
                           }
                         </div>
-                        <span style={{ fontSize:"9px", color:"#c8a96a", textAlign:"center",
+                        <span style={{ fontSize:"9px", color:"#D4AF37", textAlign:"center",
                           lineHeight:1.15, maxWidth:"46px", overflow:"hidden",
                           textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{name}</span>
                       </div>
@@ -1381,10 +1382,10 @@ useEffect(() => {
             zIndex:1000,
             width:"min(680px, 92vw)",
             maxHeight:"78vh",
-            background:"rgba(6,12,28,.98)",
-            border:`1px solid rgba(180,120,20,.35)`,
+            background:"rgba(27,27,30,.98)",
+            border:`1px solid rgba(212,175,55,.35)`,
             borderRadius:"16px",
-            boxShadow:"0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(180,120,20,.1)",
+            boxShadow:"0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(212,175,55,.1)",
             display:"flex", flexDirection:"column",
             overflow:"hidden",
           }}>
@@ -1408,7 +1409,7 @@ useEffect(() => {
                   background:"rgba(255,255,255,.06)",
                   border:"1px solid rgba(255,255,255,.12)",
                   borderRadius:"7px", padding:"7px 12px",
-                  color:"#e8d5b0", fontSize:"13px",
+                  color:"#F5F5F5", fontSize:"13px",
                   outline:"none", width:"180px",
                   fontFamily:"inherit",
                 }}
@@ -1440,8 +1441,8 @@ useEffect(() => {
                     display:"flex", alignItems:"center", gap:"5px",
                     padding:"5px 12px", borderRadius:"20px", cursor:"pointer",
                     border: isActive ? `1px solid ${S.goldDim}` : "1px solid rgba(255,255,255,.1)",
-                    background: isActive ? `rgba(184,134,11,.2)` : "rgba(255,255,255,.04)",
-                    color: isActive ? S.gold : "#6a7a5a",
+                    background: isActive ? `rgba(212,175,55,.2)` : "rgba(255,255,255,.04)",
+                    color: isActive ? S.gold : "#7a8288",
                     fontSize:"11px", fontWeight: isActive ? "bold" : "normal",
                     letterSpacing:".5px", transition:"all .15s",
                   }}>
@@ -1489,7 +1490,7 @@ useEffect(() => {
                         border: isCurrent
                           ? `2px solid ${c.glow}`
                           : "1.5px solid rgba(255,255,255,.1)",
-                        background:"#111", margin:"0 auto 6px",
+                        background:"#1B1B1E", margin:"0 auto 6px",
                         transition:"all .15s",
                       }}
                       onMouseEnter={e => {
@@ -1517,7 +1518,7 @@ useEffect(() => {
                         }
                       </div>
                       <div style={{
-                        fontSize:"10px", color: isCurrent ? c.glow : "#9a8a6a",
+                        fontSize:"10px", color: isCurrent ? c.glow : "#9aa0a6",
                         whiteSpace:"nowrap", overflow:"hidden",
                         textOverflow:"ellipsis", maxWidth:"78px", margin:"0 auto",
                       }}>{c.display}</div>
@@ -1580,15 +1581,15 @@ useEffect(() => {
                   border:`1px solid ${
                     applyState && applyState !== "sending"
                       ? (applyState.ok ? "#4caf7d" : "#d9564f")
-                      : `${S.gold}88`}`,
+                      : `${S.orange}aa`}`,
                   background:
                     applyState && applyState !== "sending"
                       ? (applyState.ok ? "rgba(76,175,125,.15)" : "rgba(217,86,79,.15)")
-                      : `${S.gold}18`,
+                      : `${S.orange}22`,
                   color:
                     applyState === "sending" ? S.textDim
                       : applyState ? (applyState.ok ? "#6bd6a0" : "#f08a84")
-                      : S.gold,
+                      : S.orange,
                   transition:"all .15s",
                 }}>
                 {applyState === "sending" ? "Importing…"
@@ -1618,7 +1619,7 @@ useEffect(() => {
                     fontSize:"11px", letterSpacing:".5px", fontWeight: on ? "bold" : "normal",
                     border:`1px solid ${on ? accent : "rgba(255,255,255,.12)"}`,
                     background: on ? `${accent}22` : "rgba(255,255,255,.03)",
-                    color: on ? accent : "#8a7a5a", transition:"all .15s",
+                    color: on ? accent : "#8a9096", transition:"all .15s",
                   }}>
                     {label}
                     {off && <span style={{ opacity:.7, marginLeft:"5px", fontSize:"9px" }}>OFF-META</span>}
@@ -1653,7 +1654,7 @@ useEffect(() => {
                   <span style={{ fontSize:"13px", fontWeight:"600", color:col,
                     whiteSpace:"nowrap" }}>{item}</span>
                   {idx < coreArrow.length - 1 && (
-                    <span style={{ color:"rgba(180,120,20,.45)", fontSize:"18px",
+                    <span style={{ color:"rgba(212,175,55,.45)", fontSize:"18px",
                       margin:"0 2px", fontWeight:"300" }}>›</span>
                   )}
                 </div>
@@ -1662,7 +1663,7 @@ useEffect(() => {
           </div>
 
           {showCore && (
-            <p style={{ margin:0, fontSize:"13px", color:"#a0896a", lineHeight:1.7,
+            <p style={{ margin:0, fontSize:"13px", color:"#b7bcc2", lineHeight:1.7,
               borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
               {buildCoreNote}
             </p>
@@ -1706,7 +1707,7 @@ useEffect(() => {
                     <div key={c} style={{
                       width:"28px", height:"28px", borderRadius:"5px", overflow:"hidden",
                       border:`1px solid rgba(255,255,255,.18)`,
-                      background:"#0d1a2a", flexShrink:0,
+                      background:"#2A2F38", flexShrink:0,
                     }}>
                       {!imgFail(ek)
                         ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
@@ -1721,10 +1722,10 @@ useEffect(() => {
               </div>
 
               <div style={{ fontSize:"11px", fontWeight:"bold", letterSpacing:".8px",
-                color: on ? d.glow : "#c8a96a", textTransform:"uppercase", lineHeight:1.2 }}>
+                color: on ? d.glow : "#D4AF37", textTransform:"uppercase", lineHeight:1.2 }}>
                 {d.label}
               </div>
-              <div style={{ marginTop:"4px", fontSize:"10px", color:"rgba(200,180,140,.38)" }}>
+              <div style={{ marginTop:"4px", fontSize:"10px", color:"rgba(200,204,209,.38)" }}>
                 {d.champions.length} champs
               </div>
             </div>
@@ -1750,7 +1751,7 @@ useEffect(() => {
                   letterSpacing:"2px", textTransform:"uppercase" }}>
                   {champ.display} vs {classEntry.label}
                 </h2>
-                <p style={{ margin:0, fontSize:"12px", color:"#a0896a", fontStyle:"italic" }}>
+                <p style={{ margin:0, fontSize:"12px", color:"#b7bcc2", fontStyle:"italic" }}>
                   {classEntry.desc}
                 </p>
               </div>
@@ -1759,8 +1760,8 @@ useEffect(() => {
                   padding:"16px 22px",
                   cursor:"pointer",
                   border:"1px solid rgba(255,255,255,.1)",
-                  background: mode==="ahead" ? "rgba(184,134,11,.18)" : "rgba(74,111,165,.18)",
-                  color: mode==="ahead" ? "#f0d060" : "#7eb8f7",
+                  background: mode==="ahead" ? "rgba(212,175,55,.18)" : "rgba(74,111,165,.18)",
+                  color: mode==="ahead" ? "#D4AF37" : "#7eb8f7",
                   borderRadius:"7px",
                   fontSize:"18px",
                   transition:"all .15s",                  
@@ -1782,7 +1783,7 @@ useEffect(() => {
                 <button key={t.key} onClick={() => setDetailTab(t.key)} style={{
                   padding:"7px 18px", border:"none", cursor:"pointer",
                   background: detailTab===t.key ? `${classEntry.color}35` : "transparent",
-                  color: detailTab===t.key ? classEntry.glow : "#5a6a5a",
+                  color: detailTab===t.key ? classEntry.glow : "#6b7278",
                   fontSize:"12px", fontWeight: detailTab===t.key ? "bold" : "normal",
                   letterSpacing:".5px", transition:"all .15s",
                   borderRight: t.key==="items" ? "1px solid rgba(255,255,255,.06)" : "none",
@@ -1821,7 +1822,7 @@ useEffect(() => {
                           <div style={{
                             width:"52px", height:"52px", borderRadius:"7px", overflow:"hidden",
                             border:`1.5px solid ${classEntry.glow}45`,
-                            background:"#0d1a2a",
+                            background:"#2A2F38",
                           }}>
                             {!imgFail(ek)
                               ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
@@ -1832,7 +1833,7 @@ useEffect(() => {
                             }
                           </div>
                           <span style={{
-                            fontSize:"10px", color:"#c8a96a", textAlign:"center",
+                            fontSize:"10px", color:"#D4AF37", textAlign:"center",
                             lineHeight:1.2, maxWidth:"68px",
                             overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
                           }}>{c}</span>
@@ -1947,7 +1948,7 @@ useEffect(() => {
                       {g.items.map(chip)}
                     </div>
                     {g.note && <p style={{ margin:"0 0 4px", fontSize:"11px",
-                      color:"#a0896a", lineHeight:1.5 }}>{g.note}</p>}
+                      color:"#b7bcc2", lineHeight:1.5 }}>{g.note}</p>}
                   </div>
                 ))}
                 {leftover.length > 0 && (
@@ -1990,14 +1991,14 @@ useEffect(() => {
           border:"1px solid rgba(255,255,255,.1)",
           borderRadius:"10px",
           background: mode === "ahead"
-            ? "rgba(184,134,11,.25)"
+            ? "rgba(212,175,55,.25)"
             : "rgba(74,111,165,.25)",
-          color: mode === "ahead" ? "#f0d060" : "#7eb8f7",
+          color: mode === "ahead" ? "#D4AF37" : "#7eb8f7",
           fontSize:"24px",
           transition:"all .15s",
           backdropFilter:"blur(6px)",
           boxShadow: mode === "ahead"
-            ? "0 0 12px rgba(184,134,11,.35)"
+            ? "0 0 12px rgba(212,175,55,.35)"
             : "0 0 12px rgba(74,111,165,.35)",
         }}
       >
@@ -2007,7 +2008,7 @@ useEffect(() => {
       {/* TEXT UNDERNEATH */}
       <div style={{
         fontSize:"16px",
-        color:"rgba(200,180,140,.5)",
+        color:"rgba(200,204,209,.5)",
         fontStyle:"italic",
         textAlign:"center",
         lineHeight:1.2,
