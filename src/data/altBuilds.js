@@ -70,9 +70,26 @@ export const ALT_BUILDS = {
     }],
   },
 
-  // Mordekaiser: intentionally omitted — AD/bruiser Morde is NOT viable in 26.14
-  // (he's AP-only; the old AD/Nashor's line is abandoned per Mobalytics/METAsrc).
-  // No compelling distinct second build exists right now, so no toggle is shown.
+  // NOTE: AD/bruiser Morde is NOT viable in 26.14 (AP-only). This alt is the
+  // high-WR aggressive-AP line, distinct from the standard Rylai's/Liandry's path.
+  mordekaiser: {
+    Top: [{
+      label: "Dusk & Dawn AP",
+      tag: "alt",
+      corePath: "Dusk and Dawn  ›  Plated Steelcaps  ›  Riftmaker  ›  Experimental Hexplate",
+      coreNote: "The highest-win-rate Morde line on Mobalytics 26.14 (60.1% over ~1.5k games), more aggressive than the standard Rylai's/Liandry's tank-mage. Dusk and Dawn's alternating on-hit + move speed lets you chase inside the Death Realm, Riftmaker converts the extended duel into omnivamp true damage, and Experimental Hexplate speeds up and empowers Realm of Death itself — so you ult more often and hit harder inside it. Spirit Visage amplifies the whole sustain package. Same Conqueror gameplan, tuned for tempo and ult uptime rather than raw kiting.",
+      runes: {
+        keystone: "Conqueror",
+        primary: "Precision",
+        primaryRunes: ["Triumph", "Legend: Haste", "Last Stand"],
+        secondary: "Resolve",
+        secondaryRunes: ["Bone Plating", "Revitalize"],
+        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
+        reason: "Conqueror stacks fully inside one Death Realm duel and converts to healing off his passive; Legend: Haste feeds the ability spam Experimental Hexplate accelerates, Last Stand rewards the low-HP realm brawls, and Bone Plating + Revitalize survive the trades and amplify the Riftmaker/Spirit Visage sustain.",
+      },
+      sideItems: ["Spirit Visage", "Zhonya's Hourglass", "Rylai's Crystal Scepter", "Liandry's Torment", "Kaenic Rookern", "Thornmail"],
+    }],
+  },
 };
 
 export default ALT_BUILDS;
