@@ -438,6 +438,32 @@ useEffect(() => {
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
   const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
 
+  // ── Live rune page (lifted out of RunePage so it's the single source of truth
+  //    for BOTH the always-visible editable page AND what gets imported) ────────
+  // The recommended page for the current champ/role/class (or alt build); falls
+  // back to the role's first-class page when no enemy class is picked yet.
+  const recommendedRunes = activeAlt
+    ? activeAlt.runes
+    : (activeChampRole.data?.[openClass]?.runes
+       ?? Object.values(activeChampRole.data || {})[0]?.runes
+       ?? null);
+  const EMPTY_RUNES = { primary: "Precision", keystone: "", primaryRunes: [null, null, null],
+    secondary: "", secondaryRunes: [], shards: [null, null, null] };
+  const [runeSel, setRuneSel] = useState(EMPTY_RUNES);
+  // Reset the editable page to the recommendation whenever the matchup changes.
+  useEffect(() => {
+    const r = recommendedRunes;
+    setRuneSel(r ? {
+      primary:        r.primary || "Precision",
+      keystone:       r.keystone || "",
+      primaryRunes:   r.primaryRunes   ? [...r.primaryRunes]   : [null, null, null],
+      secondary:      r.secondary || "",
+      secondaryRunes: r.secondaryRunes ? [...r.secondaryRunes] : [],
+      shards:         r.shards         ? [...r.shards]         : [null, null, null],
+    } : EMPTY_RUNES);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [champ.id, currentRole, openClass, altBuildIdx]);
+
   // ── Desktop-only: apply the current rune page + item set to a running client ─
   const isDesktop = typeof window !== "undefined" && window.frge?.isDesktop;
   const [applyState, setApplyState] = useState(null); // null | "sending" | {ok,msg}
@@ -445,7 +471,7 @@ useEffect(() => {
     if (!isDesktop || applyState === "sending") return;
     setApplyState("sending");
     try {
-      const payload = buildExport(champ, currentRole, openClass, activeAlt);
+      const payload = buildExport(champ, currentRole, openClass, activeAlt, runeSel);
       const res = await window.frge.applyBuild({
         runePage: payload.runePage,
         itemSet: payload.itemSet,
@@ -477,18 +503,20 @@ useEffect(() => {
   const roleRef  = useRef(currentRole);
   const classRef = useRef(openClass);
   const altRef   = useRef(activeAlt);
+  const runeSelRef = useRef(runeSel);
   useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
   useEffect(() => { preHoverOnRef.current = preHoverOn; }, [preHoverOn]);
   useEffect(() => { champRef.current = champ; }, [champ]);
   useEffect(() => { roleRef.current = currentRole; }, [currentRole]);
   useEffect(() => { classRef.current = openClass; }, [openClass]);
   useEffect(() => { altRef.current = activeAlt; }, [activeAlt]);
+  useEffect(() => { runeSelRef.current = runeSel; }, [runeSel]);
   useEffect(() => { if (!csMsg) return; const t = setTimeout(() => setCsMsg(null), 5000); return () => clearTimeout(t); }, [csMsg]);
 
   useEffect(() => {
     if (!isDesktop || !window.frge?.onChampSelect) return;
     const importCurrent = () => {
-      const p = buildExport(champRef.current, roleRef.current, classRef.current, altRef.current);
+      const p = buildExport(champRef.current, roleRef.current, classRef.current, altRef.current, runeSelRef.current);
       return window.frge.applyBuild({ runePage: p.runePage, itemSet: p.itemSet });
     };
     const unsub = window.frge.onChampSelect((data) => {
@@ -583,7 +611,6 @@ useEffect(() => {
     orange:       "#F97316",        // primary energy accent — CTAs, hero glow
   };
 
-  const [detailTab, setDetailTab] = useState("items"); // "items" | "runes"
 
   // ── Reusable: portrait chip ───────────────────────────────────────────────
   const ChampChip = ({ name, size = 56 }) => {
@@ -663,19 +690,19 @@ useEffect(() => {
     );
   };
 
- const RunePage = ({ runeData, enemyChamp }) => {
-  const override    = runeData?.champOverrides?.[enemyChamp];
-  const recommended = runeData
-    ? (override ? mergeRunePage(runeData, override) : runeData)
-    : null;
-
-  const [primTree,  setPrimTree]  = useState(recommended?.primary        || "Precision");
-  const [keystone,  setKeystone]  = useState(recommended?.keystone       || "");
-  const [primRows,  setPrimRows]  = useState(recommended?.primaryRunes   || [null, null, null]);
-  const [secTree,   setSecTree]   = useState(recommended?.secondary      || "");
-  const [secRunes,  setSecRunes]  = useState(recommended?.secondaryRunes || []);
-  const [shards,    setShards]    = useState(recommended?.shards         || [null, null, null]);
-  const [tooltip,   setTooltip]   = useState(null);
+ // Controlled: the selection (`sel`) and its setter live in App, so this page is
+ // always the single source of truth for what gets imported (WYSIWYG), and its
+ // state survives App re-renders (e.g. the 1.5s champ-select poll) instead of
+ // resetting. `recommended` drives the gold "recommended" dots.
+ const RunePage = ({ sel, setSel, recommended, enemyChamp }) => {
+  const primTree = sel.primary;
+  const keystone = sel.keystone;
+  const primRows = sel.primaryRunes;
+  const secTree  = sel.secondary;
+  const secRunes = sel.secondaryRunes;
+  const shards   = sel.shards;
+  const override = recommended?.champOverrides?.[enemyChamp] || null;
+  const [tooltip, setTooltip] = useState(null);
 
   const ALL_TREES = Object.keys(RUNE_TREES);
 
@@ -694,60 +721,55 @@ useEffect(() => {
     pointerEvents: "none",
   };
 
-  // ── Handlers ─────────────────────────────────────────────────────────────
+  // ── Handlers (all operate on the lifted `sel` via setSel) ──────────────────
   // In-game behavior: clicking the other page's tree swaps primary ↔ secondary.
   // Old secondary picks slot into the new primary rows; the first two old
   // primary picks carry over as the new secondary pair. Keystone must be
   // re-picked, like the client.
-  const swapTrees = () => {
-    if (!secTree) return;
-    const newPrim = secTree;
-    setPrimRows(RUNE_TREES[newPrim].rows.map(row => secRunes.find(r => row.includes(r)) || null));
-    setSecRunes(primRows.filter(Boolean).slice(0, 2));
-    setPrimTree(newPrim);
-    setSecTree(primTree);
-    setKeystone("");
+  const swap = (s) => {
+    if (!s.secondary) return s;
+    const newPrim = s.secondary;
+    return {
+      ...s,
+      primary: newPrim,
+      secondary: s.primary,
+      primaryRunes: RUNE_TREES[newPrim].rows.map(row => s.secondaryRunes.find(r => row.includes(r)) || null),
+      secondaryRunes: s.primaryRunes.filter(Boolean).slice(0, 2),
+      keystone: "",
+    };
   };
+  const swapTrees = () => setSel(swap);
 
-  const pickPrimTree = (name) => {
-    if (name === primTree) return;
-    if (name === secTree)  { swapTrees(); return; }
-    setPrimTree(name);
-    setKeystone("");
-    setPrimRows([null, null, null]);
-  };
+  const pickPrimTree = (name) => setSel(s =>
+    name === s.primary ? s
+    : name === s.secondary ? swap(s)
+    : { ...s, primary: name, keystone: "", primaryRunes: [null, null, null] });
 
-  const pickSecTree = (name) => {
-    if (name === primTree) { swapTrees(); return; }
-    if (name === secTree)  { setSecTree(""); setSecRunes([]); return; }
-    setSecTree(name);
-    setSecRunes([]);
-  };
+  const pickSecTree = (name) => setSel(s =>
+    name === s.primary ? swap(s)
+    : name === s.secondary ? { ...s, secondary: "", secondaryRunes: [] }
+    : { ...s, secondary: name, secondaryRunes: [] });
 
-  const pickKeystone = (name) => setKeystone(k => k === name ? "" : name);
+  const pickKeystone = (name) => setSel(s => ({ ...s, keystone: s.keystone === name ? "" : name }));
 
-  const pickPrimRune = (rowIdx, name) => {
-    setPrimRows(prev => {
-      const next = [...prev];
-      next[rowIdx] = next[rowIdx] === name ? null : name;
-      return next;
-    });
-  };
+  const pickPrimRune = (rowIdx, name) => setSel(s => {
+    const next = [...s.primaryRunes];
+    next[rowIdx] = next[rowIdx] === name ? null : name;
+    return { ...s, primaryRunes: next };
+  });
 
-  const pickSecRune = (name, rowIdx) => {
-    setSecRunes(prev => {
-      if (prev.includes(name)) return prev.filter(r => r !== name);
-      const rowRunes   = RUNE_TREES[secTree]?.rows[rowIdx] || [];
-      const withoutRow = prev.filter(r => !rowRunes.includes(r));
-      // page full → deselect the last-picked rune and take the new one
-      if (withoutRow.length >= 2) return [withoutRow[0], name];
-      return [...withoutRow, name];
-    });
-  };
+  const pickSecRune = (name, rowIdx) => setSel(s => {
+    if (s.secondaryRunes.includes(name)) return { ...s, secondaryRunes: s.secondaryRunes.filter(r => r !== name) };
+    const rowRunes   = RUNE_TREES[s.secondary]?.rows[rowIdx] || [];
+    const withoutRow = s.secondaryRunes.filter(r => !rowRunes.includes(r));
+    // page full → deselect the last-picked rune and take the new one
+    const nextSec = withoutRow.length >= 2 ? [withoutRow[0], name] : [...withoutRow, name];
+    return { ...s, secondaryRunes: nextSec };
+  });
 
-  const pickShard = (rowIdx, name) => {
-    setShards(prev => { const n = [...prev]; n[rowIdx] = name; return n; });
-  };
+  const pickShard = (rowIdx, name) => setSel(s => {
+    const n = [...s.shards]; n[rowIdx] = name; return { ...s, shards: n };
+  });
 
   const tip     = (name, e) => setTooltip({ name, x: e.clientX, y: e.clientY });
   const moveTip = (name, e) => setTooltip(t => t ? { ...t, x: e.clientX, y: e.clientY } : null);
@@ -1731,7 +1753,7 @@ useEffect(() => {
             .filter(c => c !== champ.display)
             .slice(0, 3);
           return (
-            <div key={k} onClick={() => { setOpenClass(on ? null : k); setDetailTab("items"); }} style={{
+            <div key={k} onClick={() => setOpenClass(on ? null : k)} style={{
               cursor:"pointer", borderRadius:"12px",
               padding:"14px 10px 12px", textAlign:"center",
               background: on
@@ -1779,154 +1801,132 @@ useEffect(() => {
       </div>
 
       {/* ── DETAIL PANEL ── */}
-      {classEntry && (
-        <div style={{ maxWidth:"1400px", margin:"0 auto 16px", padding:"0 24px" }}>
-          <div style={{
-            background:`linear-gradient(135deg,rgba(12,12,20,.98) 0%,${classEntry.color}18 100%)`,
-            border:`1px solid ${classEntry.glow}55`,
-            borderRadius:"14px", padding:"24px",
-            boxShadow:`0 0 34px ${classEntry.glow}20`,
-          }}>
-            {/* Panel header */}
-            <div style={{ display:"flex", alignItems:"center", gap:"12px",
-              marginBottom:"18px", flexWrap:"wrap" }}>
-              <span style={{ fontSize:"30px" }}>{classEntry.emoji}</span>
-              <div style={{ flex:1 }}>
-                <h2 style={{ margin:"0 0 3px", fontSize:"20px", color:classEntry.glow,
-                  letterSpacing:"2px", textTransform:"uppercase" }}>
-                  {champ.display} vs {classEntry.label}
-                </h2>
-                <p style={{ margin:0, fontSize:"12px", color:"#b7bcc2", fontStyle:"italic" }}>
-                  {classEntry.desc}
-                </p>
-              </div>
-                <button onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")}
-                  style={{
-                  padding:"16px 22px",
-                  cursor:"pointer",
-                  border:"1px solid rgba(255,255,255,.1)",
-                  background: mode==="ahead" ? "rgba(212,175,55,.18)" : "rgba(74,111,165,.18)",
-                  color: mode==="ahead" ? "#D4AF37" : "#7eb8f7",
-                  borderRadius:"7px",
-                  fontSize:"18px",
-                  transition:"all .15s",                  
-                  }}>
-                  {mode === "ahead" ? "⚔ AHEAD" : "🛡 EVEN / BEHIND"}
-                </button>
-              
-            </div>
-            {/* Tab switcher — Items vs Runes */}
-            <div style={{
-              display:"flex", gap:"0", marginBottom:"16px",
-              background:"rgba(0,0,0,.3)", borderRadius:"7px", overflow:"hidden",
-              border:"1px solid rgba(255,255,255,.07)", alignSelf:"flex-start",
-            }}>
-              {[
-                { key:"items", label:"⚔ Items" },
-                { key:"runes", label:"◈ Runes" },
-              ].map(t => (
-                <button key={t.key} onClick={() => setDetailTab(t.key)} style={{
-                  padding:"7px 18px", border:"none", cursor:"pointer",
-                  background: detailTab===t.key ? `${classEntry.color}35` : "transparent",
-                  color: detailTab===t.key ? classEntry.glow : "#6b7278",
-                  fontSize:"12px", fontWeight: detailTab===t.key ? "bold" : "normal",
-                  letterSpacing:".5px", transition:"all .15s",
-                  borderRight: t.key==="items" ? "1px solid rgba(255,255,255,.06)" : "none",
-                  boxShadow: detailTab===t.key ? `inset 0 -2px 0 ${classEntry.glow}` : "none",
-                }}>
-                  {t.label}
-                </button>
-              ))}
-            </div>
+      {/* ── BUILD WORKSPACE — items + runes side by side, always visible ── */}
+      <div style={{ maxWidth:"1400px", margin:"0 auto 16px", padding:"0 24px" }}>
+        <div style={{
+          background: classEntry
+            ? `linear-gradient(135deg,rgba(20,20,26,.98) 0%,${classEntry.color}12 100%)`
+            : "rgba(20,20,26,.92)",
+          border:`1px solid ${classEntry ? `${classEntry.glow}55` : "rgba(212,175,55,.18)"}`,
+          borderRadius:"14px", padding:"22px 24px",
+          boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
+          transition:"border-color .2s, box-shadow .2s",
+        }}>
+          <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,1.05fr)",
+            gap:"28px", alignItems:"start" }}>
 
-            {/* Content swap */}
-            {detailTab === "items" && (
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1.35fr", gap:"20px" }}>
+            {/* ── LEFT: items ── */}
+            <div>
+              {classEntry ? (
+                <>
+                  <div style={{ display:"flex", alignItems:"center", gap:"11px",
+                    marginBottom:"16px", flexWrap:"wrap" }}>
+                    <span style={{ fontSize:"26px" }}>{classEntry.emoji}</span>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <h2 style={{ margin:"0 0 2px", fontSize:"16px", color:classEntry.glow,
+                        letterSpacing:"1.5px", textTransform:"uppercase" }}>
+                        {champ.display} vs {classEntry.label}
+                      </h2>
+                      <p style={{ margin:0, fontSize:"11px", color:"#b7bcc2", fontStyle:"italic" }}>
+                        {classEntry.desc}
+                      </p>
+                    </div>
+                    <button onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")} style={{
+                      padding:"10px 15px", cursor:"pointer", border:"1px solid rgba(255,255,255,.1)",
+                      background: mode==="ahead" ? "rgba(212,175,55,.18)" : "rgba(74,111,165,.18)",
+                      color: mode==="ahead" ? "#D4AF37" : "#7eb8f7",
+                      borderRadius:"7px", fontSize:"13px", fontWeight:"bold",
+                      transition:"all .15s", whiteSpace:"nowrap",
+                    }}>
+                      {mode === "ahead" ? "⚔ AHEAD" : "🛡 EVEN / BEHIND"}
+                    </button>
+                  </div>
 
-                {/* Champions in class */}
-                <div>
                   <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"12px",
+                    textTransform:"uppercase", marginBottom:"10px",
+                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
+                    Items · {mode==="ahead" ? "Ahead" : "Even / Behind"}
+                  </div>
+                  <div style={{ display:"flex", flexDirection:"column", gap:"8px", marginBottom:"20px" }}>
+                    {classItems.map((item, i) => (
+                      <ItemCard key={i} item={item} rank={i+1} glow={classEntry.glow} />
+                    ))}
+                  </div>
+
+                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
+                    textTransform:"uppercase", marginBottom:"10px",
                     borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
                     Champions in class
                   </div>
-                  <div style={{
-                    display:"grid",
-                    gridTemplateColumns:"repeat(auto-fill, minmax(72px, 1fr))",
-                    gap:"10px",
-                  }}>
+                  <div style={{ display:"grid",
+                    gridTemplateColumns:"repeat(auto-fill, minmax(56px, 1fr))", gap:"8px" }}>
                     {classChamps.map(c => {
                       const ek = `cls-${c}`;
                       return (
                         <div key={c} style={{
-                          display:"flex", flexDirection:"column", alignItems:"center", gap:"5px",
+                          display:"flex", flexDirection:"column", alignItems:"center", gap:"4px",
                           background:`${classEntry.color}18`,
                           border:`1px solid ${classEntry.glow}28`,
-                          borderRadius:"8px", padding:"8px 4px 6px",
+                          borderRadius:"7px", padding:"6px 3px 5px",
                         }}>
                           <div style={{
-                            width:"52px", height:"52px", borderRadius:"7px", overflow:"hidden",
-                            border:`1.5px solid ${classEntry.glow}45`,
-                            background:"#2A2F38",
+                            width:"42px", height:"42px", borderRadius:"6px", overflow:"hidden",
+                            border:`1.5px solid ${classEntry.glow}45`, background:"#2A2F38",
                           }}>
                             {!imgFail(ek)
                               ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
                                   style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                               : <div style={{ width:"100%", height:"100%", display:"flex",
                                   alignItems:"center", justifyContent:"center",
-                                  fontSize:"14px", color:"#5c6a7a" }}>{c[0]}</div>
+                                  fontSize:"13px", color:"#5c6a7a" }}>{c[0]}</div>
                             }
                           </div>
-                          <span style={{
-                            fontSize:"10px", color:"#D4AF37", textAlign:"center",
-                            lineHeight:1.2, maxWidth:"68px",
-                            overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
-                          }}>{c}</span>
+                          <span style={{ fontSize:"9px", color:"#D4AF37", textAlign:"center",
+                            lineHeight:1.2, maxWidth:"52px", overflow:"hidden",
+                            textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{c}</span>
                         </div>
                       );
                     })}
                   </div>
-                </div>
-
-                {/* Item recommendations */}
-                <div>
-                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"12px",
-                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
-                    Items · {champ.display} · {mode==="ahead" ? "Ahead" : "Even / Behind"}
-                  </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
-                    {classItems.map((item, i) => (
-                      <ItemCard key={i} item={item} rank={i+1} glow={classEntry.glow} />
-                    ))}
+                </>
+              ) : (
+                <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
+                  justifyContent:"center", textAlign:"center", height:"100%",
+                  minHeight:"320px", padding:"24px",
+                  border:"1px dashed rgba(212,175,55,.2)", borderRadius:"10px",
+                  background:"rgba(255,255,255,.015)" }}>
+                  <div style={{ fontSize:"34px", marginBottom:"12px", opacity:.5 }}>⚔</div>
+                  <div style={{ fontSize:"13px", color:"#b7bcc2", lineHeight:1.6, maxWidth:"280px" }}>
+                    Pick a <b style={{ color:S.gold }}>matchup class</b> above to load {champ.display}'s
+                    ranked item build for that enemy type — the rune page on the right updates to match.
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {detailTab === "runes" && (
-              <div style={{ isolation: "isolate" }}>
-                {/* key forces a remount on role/class change — RunePage's picks
-                    are useState-initialized from runeData and won't otherwise
-                    reset when a different role/class's recommendation loads */}
-                <RunePage
-                  key={`${champ.id}-${currentRole}-${openClass}-${altBuildIdx}`}
-                  runeData={(activeAlt ? activeAlt.runes : activeChampRole.data?.[openClass]?.runes) ?? null}
-                  enemyChamp={""}
-                />
+            {/* ── RIGHT: runes (always visible + editable) ── */}
+            <div style={{ isolation:"isolate" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"12px",
+                paddingBottom:"6px",
+                borderBottom:`1px solid ${classEntry ? `${classEntry.glow}28` : "rgba(212,175,55,.2)"}` }}>
+                <span style={{ fontSize:"10px", letterSpacing:"3px",
+                  color: classEntry ? classEntry.glow : S.gold, textTransform:"uppercase" }}>
+                  ◈ Rune Page{classEntry ? ` · vs ${classEntry.label}` : ""}
+                </span>
+                <span style={{ marginLeft:"auto", fontSize:"9px", color:S.textDim,
+                  letterSpacing:".5px", fontStyle:"italic" }}>
+                  editable — imports exactly as shown
+                </span>
               </div>
-            )}
+              <RunePage
+                sel={runeSel} setSel={setRuneSel}
+                recommended={recommendedRunes}
+                enemyChamp={""}
+              />
+            </div>
           </div>
         </div>
-      )}
-
-      {!classEntry && (
-        <div style={{ textAlign:"center", padding:"16px",
-          color:"rgba(180,150,80,.25)", fontSize:"13px",
-          fontStyle:"italic", letterSpacing:"1px" }}>
-          ↑ Click any class bubble to see {champ.display}'s situational items
-        </div>
-      )}
+      </div>
 
       {/* ── SITUATIONAL ITEMS STRIP ── */}
       <div style={{ maxWidth:"1400px", margin:"0 auto 32px", padding:"0 24px" }}>

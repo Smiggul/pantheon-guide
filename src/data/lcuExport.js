@@ -119,15 +119,19 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
 //  altBuild (optional): a selected ALT_BUILDS entry — when present its corePath,
 //  sideItems and runes override the role's primary build so the export matches
 //  exactly what the UI is showing.
-export function buildExport(champ, roleName, enemyClass, altBuild = null) {
+//  runesOverride (optional): the live, possibly user-edited rune page from the UI.
+//  When present it wins over both the alt build and the data recommendation, so
+//  the export is exactly the (editable) rune page the user sees — WYSIWYG import.
+export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
     ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems }
     : base;
   const data = base?.data || {};
-  const runes = altBuild
-    ? altBuild.runes
-    : (data[enemyClass]?.runes || data[Object.keys(data)[0]]?.runes || {});
+  const runes = runesOverride
+    || (altBuild
+      ? altBuild.runes
+      : (data[enemyClass]?.runes || data[Object.keys(data)[0]]?.runes || {}));
   const label = altBuild ? `${champ.display} ${altBuild.label}` : `${champ.display} ${roleName}`;
   const rune = buildRunePayload(runes, `FRGE ${label}`);
   const itemSet = buildItemSet(champ.dd, roleName, enemyClass, roleData || {});
