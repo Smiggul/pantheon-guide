@@ -6,6 +6,7 @@ import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
+import { spellsFor } from "./data/summonerSpells.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -102,6 +103,13 @@ const itemImg = (name, itemMap) => {
 const runeImg = (name, runeMap) => {
   const path = runeMap?.[name];
   // all rune/perk images in DD are .png — use the icon path exactly as given
+  return path ? `${DD}/img/${path}` : null;
+};
+
+// Summoner spells — resolved at runtime from summonerSpells.json (icon path)
+// spellMap is { "Flash": "spell/SummonerFlash.png", ... }
+const spellImg = (name, spellMap) => {
+  const path = spellMap?.[name];
   return path ? `${DD}/img/${path}` : null;
 };
 
@@ -377,6 +385,7 @@ export default function App() {
 
     const [itemMap, setItemMap] = useState({});   // displayName → numeric id string
     const [runeMap, setRuneMap] = useState({});   // runeName    → icon path string
+    const [spellMap, setSpellMap] = useState({}); // spellName   → icon path string
 
 useEffect(() => {
   // Load item name → ID map
@@ -404,6 +413,12 @@ useEffect(() => {
       setRuneMap(json);
     })
     .catch(e => console.warn("runesReforged.json failed to load", e));
+
+  // Load summoner-spell name → icon path map (flat { name: iconPath })
+  fetch("/ddragon/data/summonerSpells.json")
+    .then(r => r.json())
+    .then(setSpellMap)
+    .catch(e => console.warn("summonerSpells.json failed to load", e));
 }, []);
 
   // If the champion has a roles object (Pantheon), read from that.
@@ -411,6 +426,9 @@ useEffect(() => {
   const activeChampRole = champ.roles
     ? (champ.roles[currentRole] || champ.roles[champ.lanes[0]])
     : champ;
+
+  // Recommended summoner spells for the active champion/role
+  const buildSpells = spellsFor(champ.dd, currentRole);
 
   // ── Alternate / off-meta build overlay ──────────────────────────────────────
   const altList = ALT_BUILDS[champ.id]?.[currentRole] || [];
@@ -1603,6 +1621,33 @@ useEffect(() => {
             }}>
               {showCore ? "▲ Hide" : "▼ Why?"}
             </button>
+          </div>
+
+          {/* Summoner spells for this role */}
+          <div style={{ display:"flex", alignItems:"center", gap:"10px", marginTop:"12px" }}>
+            <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
+              textTransform:"uppercase", flexShrink:0 }}>Summoners</span>
+            {buildSpells.map(spell => {
+              const ek = `spell-${spell}`;
+              const src = spellImg(spell, spellMap);
+              return (
+                <div key={spell} style={{ display:"flex", alignItems:"center", gap:"6px" }}>
+                  <div style={{
+                    width:"28px", height:"28px", borderRadius:"6px", overflow:"hidden",
+                    border:`1px solid ${S.orange}55`, background:`${S.orange}12`,
+                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+                  }}>
+                    {src && !imgFail(ek)
+                      ? <img src={src} alt={spell} onError={() => onErr(ek)}
+                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                      : <div style={{ width:"9px", height:"9px", borderRadius:"50%", background:S.orange }} />
+                    }
+                  </div>
+                  <span style={{ fontSize:"12px", fontWeight:"600", color:"#d7d9dd",
+                    whiteSpace:"nowrap" }}>{spell}</span>
+                </div>
+              );
+            })}
           </div>
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}

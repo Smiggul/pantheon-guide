@@ -1,0 +1,11 @@
+{
+  "Barrier": "spell/SummonerBarrier.png",
+  "Cleanse": "spell/SummonerBoost.png",
+  "Ignite": "spell/SummonerDot.png",
+  "Exhaust": "spell/SummonerExhaust.png",
+  "Flash": "spell/SummonerFlash.png",
+  "Ghost": "spell/SummonerHaste.png",
+  "Heal": "spell/SummonerHeal.png",
+  "Smite": "spell/SummonerSmite.png",
+  "Teleport": "spell/SummonerTeleport.png"
+}
