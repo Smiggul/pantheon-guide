@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
+import { ALT_BUILDS } from "./data/altBuilds.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -334,6 +335,7 @@ export default function App() {
   const [mode,         setMode]         = useState("behind");
   const [imgErr,       setImgErr]       = useState({});
   const [showCore,     setShowCore]     = useState(false);
+  const [altBuildIdx,  setAltBuildIdx]  = useState(-1); // -1 = primary build; 0+ = ALT_BUILDS index
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [showPicker,      setShowPicker]      = useState(false);
   const [champSearch,     setChampSearch]     = useState("");
@@ -380,6 +382,14 @@ useEffect(() => {
     ? (champ.roles[currentRole] || champ.roles[champ.lanes[0]])
     : champ;
 
+  // ── Alternate / off-meta build overlay ──────────────────────────────────────
+  const altList = ALT_BUILDS[champ.id]?.[currentRole] || [];
+  useEffect(() => { setAltBuildIdx(-1); }, [champ.id, currentRole]);
+  const activeAlt = altBuildIdx >= 0 ? altList[altBuildIdx] : null;
+  const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
+  const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
+  const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
+
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
  
@@ -404,7 +414,7 @@ useEffect(() => {
     ? classEntry.champions.filter(c => c !== champ.display)
     : [];
 
-  const coreArrow = activeChampRole.corePath.split("›").map(s => s.trim());
+  const coreArrow = buildCorePath.split("›").map(s => s.trim());
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   const S = {                       // shared style tokens
@@ -1332,6 +1342,30 @@ useEffect(() => {
             </button>
           </div>
 
+          {/* Build toggle — only when an alternate/off-meta build exists for this role */}
+          {altList.length > 0 && (
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"12px" }}>
+              {[{ label: activeChampRole.buildLabel || "Standard", tag:"meta", idx:-1 },
+                ...altList.map((b, i) => ({ label:b.label, tag:b.tag, idx:i }))].map(({ label, tag, idx }) => {
+                const on = altBuildIdx === idx;
+                const off = tag === "off-meta";
+                const accent = off ? "#e08040" : S.gold;
+                return (
+                  <button key={idx} onClick={() => setAltBuildIdx(idx)} style={{
+                    cursor:"pointer", borderRadius:"20px", padding:"4px 12px",
+                    fontSize:"11px", letterSpacing:".5px", fontWeight: on ? "bold" : "normal",
+                    border:`1px solid ${on ? accent : "rgba(255,255,255,.12)"}`,
+                    background: on ? `${accent}22` : "rgba(255,255,255,.03)",
+                    color: on ? accent : "#8a7a5a", transition:"all .15s",
+                  }}>
+                    {label}
+                    {off && <span style={{ opacity:.7, marginLeft:"5px", fontSize:"9px" }}>OFF-META</span>}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {/* Arrow chain */}
           <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:"6px",
             marginTop:"12px", marginBottom: showCore ? "14px" : "0" }}>
@@ -1368,7 +1402,7 @@ useEffect(() => {
           {showCore && (
             <p style={{ margin:0, fontSize:"13px", color:"#a0896a", lineHeight:1.7,
               borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
-              {activeChampRole.coreNote}
+              {buildCoreNote}
             </p>
           )}
         </div>
@@ -1568,8 +1602,8 @@ useEffect(() => {
                     are useState-initialized from runeData and won't otherwise
                     reset when a different role/class's recommendation loads */}
                 <RunePage
-                  key={`${champ.id}-${currentRole}-${openClass}`}
-                  runeData={activeChampRole.data?.[openClass]?.runes ?? null}
+                  key={`${champ.id}-${currentRole}-${openClass}-${altBuildIdx}`}
+                  runeData={(activeAlt ? activeAlt.runes : activeChampRole.data?.[openClass]?.runes) ?? null}
                   enemyChamp={""}
                 />
               </div>
@@ -1597,7 +1631,7 @@ useEffect(() => {
             Common Situational Items — {champ.display}
           </div>
           <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
-            {activeChampRole.sideItems.map(name => {
+            {buildSideItems.map(name => {
               const col = ic(name);
               const ek  = `side-${name}`;
               const src = itemImg(name, itemMap);
