@@ -178,6 +178,10 @@ function summarizeChampSelect(s) {
   const flat = [].concat(...(s.actions || []));
   const me = (s.myTeam || []).find((p) => p.cellId === meId) || {};
   const myPick = flat.find((a) => a.actorCellId === meId && a.type === "pick");
+  const banned = new Set();
+  for (const a of flat) if (a.type === "ban" && a.completed && a.championId) banned.add(a.championId);
+  for (const id of (s.bans?.myTeamBans || [])) banned.add(id);
+  for (const id of (s.bans?.theirTeamBans || [])) banned.add(id);
   const trim = (p) => ({
     cellId: p.cellId,
     championId: p.championId || 0,
@@ -194,6 +198,7 @@ function summarizeChampSelect(s) {
     pickActionId: myPick ? myPick.id : null,
     pickCompleted: myPick ? !!myPick.completed : false,
     isPickInProgress: myPick ? (!!myPick.isInProgress && !myPick.completed) : false,
+    bannedChampionIds: [...banned],
     myTeam: (s.myTeam || []).map(trim),
     theirTeam: (s.theirTeam || []).map(trim),
   };

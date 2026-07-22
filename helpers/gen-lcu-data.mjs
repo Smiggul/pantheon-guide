@@ -24,29 +24,48 @@ const CHAMP = {}; for (const v of Object.values(champs)) CHAMP[v.id] = Number(v.
 
 const idByName = {}; for (const [id, v] of Object.entries(full)) if (!(v.name in idByName)) idByName[v.name] = id;
 
-// gather every build item + first-core item used across the roster
+// gather every build item + first-core item used across the roster (+ alt builds)
 const mod = await import(pathToFileURL("src/data/champs/index.js").href);
+const alt = await import(pathToFileURL("src/data/altBuilds.js").href);
 const used = new Set(), firstCore = new Set();
-for (const c of mod.CHAMPS) for (const r of (c.roles ? Object.values(c.roles) : (c.data ? [c] : []))) {
+const eatRole = (r) => {
   if (typeof r.corePath === "string") { const p = r.corePath.split("›").map((s) => s.trim()); p.forEach((s) => used.add(s)); if (p[0]) firstCore.add(p[0]); }
   if (Array.isArray(r.sideItems)) r.sideItems.forEach((s) => used.add(s));
   for (const cell of Object.values(r.data || {})) for (const side of ["ahead", "behind"]) for (const e of (cell[side] || [])) if (e?.name) used.add(e.name);
-}
+};
+for (const c of mod.CHAMPS) for (const r of (c.roles ? Object.values(c.roles) : (c.data ? [c] : []))) eatRole(r);
+for (const byRole of Object.values(alt.ALT_BUILDS || {})) for (const list of Object.values(byRole)) for (const b of list) eatRole(b);
+
 ["Doran's Blade","Doran's Ring","Doran's Shield","Health Potion","Refillable Potion","Corrupting Potion",
  "Cull","Dark Seal","Tear of the Goddess","Control Ward","Stealth Ward","Farsight Alteration","Oracle Lens",
  "Plated Steelcaps","Mercury's Treads","Sorcerer's Shoes","Berserker's Greaves","Ionian Boots of Lucidity",
- "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles"].forEach((n) => used.add(n));
+ "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles","Boots","Long Sword"].forEach((n) => used.add(n));
+
+// First-back = the ~1000g building block of the first core item. Take the
+// priciest component within budget; if a component is over budget (e.g. The
+// Brutalizer 1337 under Voltaic Cyclosword), descend into it so we land on the
+// real early buy (Serrated Dirk) rather than an unaffordable epic.
+const FB_MAX = 1350;
+function firstBackFor(itemName) {
+  const rootId = idByName[itemName]; if (!rootId || !full[rootId]?.from?.length) return null;
+  let best = null, bestGold = -1;
+  const walk = (id, depth) => {
+    const e = full[id]; if (!e?.from?.length || depth > 3) return;
+    for (const cid of e.from) {
+      const c = full[cid]; if (!c) continue;
+      const g = c.gold?.total ?? 0;
+      if (g <= FB_MAX) { if (g > bestGold) { bestGold = g; best = c.name; } }
+      else walk(cid, depth + 1);
+    }
+  };
+  walk(rootId, 0);
+  return best;
+}
+const FB = {};
+for (const n of firstCore) { const fb = firstBackFor(n); if (fb) { FB[n] = fb; used.add(fb); } }
 
 const ITEM = {}; for (const n of used) { const id = idByName[n]; if (id) ITEM[n.toLowerCase()] = Number(id); }
 if (idByName["Blade of The Ruined King"]) ITEM["blade of the ruined king"] = Number(idByName["Blade of The Ruined King"]);
-
-const FB = {};
-for (const n of firstCore) {
-  const id = idByName[n]; const e = id && full[id]; if (!e?.from?.length) continue;
-  let best = null, g = -1;
-  for (const cid of e.from) { const c = full[cid]; if (c && (c.gold?.total ?? 0) > g) { g = c.gold.total; best = c.name; } }
-  if (best) FB[n] = best;
-}
 
 const lit = (o) => Object.entries(o).sort((a, b) => String(a[0]).localeCompare(String(b[0])))
   .map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},`).join("\n");

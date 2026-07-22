@@ -447,29 +447,64 @@ useEffect(() => {
   // ── Live champ-select sync (desktop) ────────────────────────────────────────
   const [csState, setCsState]   = useState(null);   // last session summary from main
   const [csSync,  setCsSync]    = useState(true);    // auto-follow hovered/locked champ
-  const [preHoverKey, setPreHoverKey] = useState(null); // riot key armed for pre-hover
+  const [preHoverOn, setPreHoverOn] = useState(true); // auto-hover the selected champ, ON by default
   const [csMsg,   setCsMsg]     = useState(null);    // transient hover/status message
+  // Refs so the mount-once champ-select subscription always sees current values.
   const csSyncRef = useRef(csSync);
-  const preHoverRef = useRef(preHoverKey);
-  const preHoverSentRef = useRef(false);
+  const preHoverOnRef = useRef(preHoverOn);
+  const preHoverSentRef = useRef(false);   // hovered once this session
+  const autoImportedRef = useRef(false);   // imported once this session
+  const champRef = useRef(champ);
+  const roleRef  = useRef(currentRole);
+  const classRef = useRef(openClass);
+  const altRef   = useRef(activeAlt);
   useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
-  useEffect(() => { preHoverRef.current = preHoverKey; }, [preHoverKey]);
-  useEffect(() => { if (!csMsg) return; const t = setTimeout(() => setCsMsg(null), 4000); return () => clearTimeout(t); }, [csMsg]);
+  useEffect(() => { preHoverOnRef.current = preHoverOn; }, [preHoverOn]);
+  useEffect(() => { champRef.current = champ; }, [champ]);
+  useEffect(() => { roleRef.current = currentRole; }, [currentRole]);
+  useEffect(() => { classRef.current = openClass; }, [openClass]);
+  useEffect(() => { altRef.current = activeAlt; }, [activeAlt]);
+  useEffect(() => { if (!csMsg) return; const t = setTimeout(() => setCsMsg(null), 5000); return () => clearTimeout(t); }, [csMsg]);
 
   useEffect(() => {
     if (!isDesktop || !window.frge?.onChampSelect) return;
+    const importCurrent = () => {
+      const p = buildExport(champRef.current, roleRef.current, classRef.current, altRef.current);
+      return window.frge.applyBuild({ runePage: p.runePage, itemSet: p.itemSet });
+    };
     const unsub = window.frge.onChampSelect((data) => {
       setCsState(data);
-      if (!data || !data.active) { preHoverSentRef.current = false; return; }
+      if (!data || !data.active) {           // reset per-session guards
+        preHoverSentRef.current = false;
+        autoImportedRef.current = false;
+        return;
+      }
 
-      // Pre-hover: once per session, only while the pick is still empty
-      if (preHoverRef.current && !preHoverSentRef.current &&
+      // Pre-hover the selected champ once, while your pick is still empty,
+      // then auto-import its build — unless the champ is banned.
+      if (preHoverOnRef.current && !preHoverSentRef.current &&
           data.pickActionId != null && !data.pickCompleted &&
           !data.championId && !data.championPickIntent) {
-        preHoverSentRef.current = true;
-        window.frge.hoverChampion({ championId: preHoverRef.current, actionId: data.pickActionId })
-          .then((r) => setCsMsg(r?.ok ? "Pre-hovered your champion" : `Hover failed: ${r?.error || "?"}`))
-          .catch((e) => setCsMsg(`Hover failed: ${e.message}`));
+        const key = CHAMP_KEYS[champRef.current.dd];
+        if (key) {
+          preHoverSentRef.current = true;
+          if ((data.bannedChampionIds || []).includes(key)) {
+            setCsMsg(`${champRef.current.display} is banned — pre-hover skipped`);
+          } else {
+            window.frge.hoverChampion({ championId: key, actionId: data.pickActionId })
+              .then((r) => {
+                if (!r?.ok) { setCsMsg(`Hover failed: ${r?.error || "?"}`); return; }
+                setCsMsg("Pre-hovered — importing build…");
+                if (!autoImportedRef.current) {
+                  autoImportedRef.current = true;
+                  importCurrent()
+                    .then((ir) => setCsMsg(ir?.ok ? "Pre-hovered + build imported" : `Import failed: ${ir?.error || "?"}`))
+                    .catch((e) => setCsMsg(`Import failed: ${e.message}`));
+                }
+              })
+              .catch((e) => setCsMsg(`Hover failed: ${e.message}`));
+          }
+        }
       }
 
       if (!csSyncRef.current) return;
@@ -1061,7 +1096,7 @@ useEffect(() => {
     : null;
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
-  const preHoverChamp = preHoverKey ? champByKey(preHoverKey) : null;
+  const preHoverChamp = preHoverOn ? champ : null;
   const csStatus = !csState ? "Connecting to client…"
     : csState.active ? "In champ select"
     : csState.reason === "no-client" ? "League client not detected"
@@ -1149,27 +1184,20 @@ useEffect(() => {
             <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:"10px" }}>
               {csMsg && <span style={{ fontSize:"11px", color:"#8fe0b4" }}>{csMsg}</span>}
 
-              {/* pre-hover */}
+              {/* pre-hover (auto-hovers the selected champ on entering champ select,
+                  then imports its build — skips if the champ is banned) */}
               <button
-                onClick={() => setPreHoverKey((k) => {
-                  const myKey = CHAMP_KEYS[champ.dd];
-                  return k === myKey ? null : myKey;
-                })}
-                title="Automatically hover this champion the moment you enter champ select"
+                onClick={() => setPreHoverOn((v) => !v)}
+                title="When ON, the champion selected here is auto-hovered the instant champ select opens, then its build is imported (unless it's banned)"
                 style={{
                   cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
                   letterSpacing:".5px",
-                  border:`1px solid ${preHoverChamp ? "#c9a24a" : "rgba(255,255,255,.15)"}`,
-                  background: preHoverChamp ? "rgba(201,162,74,.15)" : "rgba(255,255,255,.03)",
-                  color: preHoverChamp ? S.gold : "#9a8a6a",
+                  border:`1px solid ${preHoverOn ? "#c9a24a" : "rgba(255,255,255,.15)"}`,
+                  background: preHoverOn ? "rgba(201,162,74,.15)" : "rgba(255,255,255,.03)",
+                  color: preHoverOn ? S.gold : "#9a8a6a",
                 }}>
-                {preHoverChamp ? `⚑ Pre-hover: ${preHoverChamp.display}` : "⚑ Pre-hover this champ"}
+                {preHoverOn ? `⚑ Pre-hover: ${champ.display}` : "⚑ Pre-hover OFF"}
               </button>
-              {preHoverChamp && (
-                <button onClick={() => setPreHoverKey(null)} title="Disarm pre-hover"
-                  style={{ cursor:"pointer", background:"none", border:"none",
-                    color:"#9a8a6a", fontSize:"14px", lineHeight:1 }}>✕</button>
-              )}
 
               {/* auto-sync toggle */}
               <button

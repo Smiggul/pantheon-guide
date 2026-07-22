@@ -92,7 +92,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
 
   const blocks = [
     itemBlock("Starting", [start, "Health Potion", "Stealth Ward", "Doran's Blade", "Doran's Ring", "Doran's Shield"]),
-    itemBlock("First back", [firstBack, "Control Ward"]),
+    // First back: assume ~900-1300g. The core item's building block, then a Long
+    // Sword as the affordable filler, boots, and a Control Ward.
+    itemBlock("First back (~1000g)", [firstBack, "Long Sword", "Boots", "Control Ward"]),
     itemBlock(`Core — ${roleName}`, coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
     itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`, [...ahead, ...situational]),
