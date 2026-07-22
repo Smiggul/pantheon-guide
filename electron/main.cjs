@@ -3,8 +3,10 @@
 // asset paths (/ddragon/..., /images/...) resolve without a web server.
 // `electron . --dev` loads the Vite dev server instead (run `npm run dev` first).
 
-const { app, BrowserWindow, protocol, net, shell } = require("electron");
+const { app, BrowserWindow, protocol, net, shell, ipcMain } = require("electron");
 const path = require("path");
+const https = require("https");
+const { execFile } = require("child_process");
 const { pathToFileURL } = require("url");
 
 const DIST = path.join(__dirname, "..", "dist");
@@ -23,7 +25,11 @@ function createWindow() {
     autoHideMenuBar: true,
     backgroundColor: "#060a0f",
     title: "FRGE.GG",
-    webPreferences: { contextIsolation: true, nodeIntegration: false },
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      preload: path.join(__dirname, "preload.cjs"),
+    },
   });
   // external links go to the default browser, not a new Electron window
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -41,6 +47,111 @@ const MIME = {
   ".svg": "image/svg+xml", ".ico": "image/x-icon", ".txt": "text/plain",
   ".woff": "font/woff", ".woff2": "font/woff2",
 };
+
+// ── LCU (League Client) bridge ───────────────────────────────────────────────
+// Discover the running client's port + auth token. The LeagueClientUx process
+// carries them on its command line (--app-port / --remoting-auth-token), which
+// works regardless of where League is installed (no lockfile path guessing).
+function getLcuCreds() {
+  return new Promise((resolve, reject) => {
+    const ps =
+      "Get-CimInstance Win32_Process -Filter \"name='LeagueClientUx.exe'\" " +
+      "| Select-Object -ExpandProperty CommandLine";
+    execFile(
+      "powershell.exe",
+      ["-NoProfile", "-NonInteractive", "-Command", ps],
+      { windowsHide: true, timeout: 8000 },
+      (err, stdout) => {
+        if (err) return reject(new Error("Could not query processes: " + err.message));
+        const cmd = String(stdout || "");
+        const port = cmd.match(/--app-port=(\d+)/)?.[1];
+        const token = cmd.match(/--remoting-auth-token=([\w-]+)/)?.[1];
+        if (!port || !token)
+          return reject(new Error("League client not running (open League first)."));
+        resolve({ port, token });
+      }
+    );
+  });
+}
+
+// One authenticated LCU request over the client's self-signed HTTPS cert.
+function lcu(method, apiPath, { port, token }, body) {
+  return new Promise((resolve, reject) => {
+    const data = body != null ? JSON.stringify(body) : null;
+    const req = https.request(
+      {
+        hostname: "127.0.0.1",
+        port,
+        path: apiPath,
+        method,
+        rejectUnauthorized: false, // client uses a self-signed cert
+        headers: {
+          Authorization: "Basic " + Buffer.from("riot:" + token).toString("base64"),
+          Accept: "application/json",
+          ...(data ? { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(data) } : {}),
+        },
+      },
+      (res) => {
+        let out = "";
+        res.on("data", (c) => (out += c));
+        res.on("end", () => {
+          let parsed = null;
+          try { parsed = out ? JSON.parse(out) : null; } catch { parsed = out; }
+          resolve({ status: res.statusCode, body: parsed });
+        });
+      }
+    );
+    req.on("error", reject);
+    if (data) req.write(data);
+    req.end();
+  });
+}
+
+// Apply a build: replace the current rune page and push the item set.
+// Runes are the reliable, high-value part; the item set is best-effort.
+ipcMain.handle("frge:apply-build", async (_e, payload) => {
+  const { runePage, itemSet } = payload || {};
+  try {
+    const creds = await getLcuCreds();
+
+    // ── Runes: delete the live page, then create ours as current ────────────
+    let runeStatus = null;
+    if (runePage) {
+      const cur = await lcu("GET", "/lol-perks/v1/currentpage", creds);
+      if (cur.status === 200 && cur.body && cur.body.id && cur.body.isDeletable !== false) {
+        await lcu("DELETE", `/lol-perks/v1/pages/${cur.body.id}`, creds);
+      }
+      const made = await lcu("POST", "/lol-perks/v1/pages", creds, runePage);
+      runeStatus = made.status;
+    }
+
+    // ── Item set: fetch summoner id, merge our set into the existing list ────
+    let itemStatus = null;
+    if (itemSet) {
+      const summ = await lcu("GET", "/lol-summoner/v1/current-summoner", creds);
+      const sid = summ.status === 200 ? summ.body?.summonerId : null;
+      if (sid) {
+        const existing = await lcu("GET", `/lol-item-sets/v1/item-sets/${sid}/sets`, creds);
+        const prev = existing.status === 200 && existing.body ? existing.body : {};
+        const kept = Array.isArray(prev.itemSets)
+          ? prev.itemSets.filter((s) => !String(s?.title || "").startsWith("FRGE.GG"))
+          : [];
+        const put = await lcu("PUT", `/lol-item-sets/v1/item-sets/${sid}/sets`, creds, {
+          ...prev,
+          accountId: prev.accountId ?? 0,
+          timestamp: Date.now(),
+          itemSets: [itemSet, ...kept],
+        });
+        itemStatus = put.status;
+      }
+    }
+
+    const ok = runeStatus == null || runeStatus < 300;
+    return { ok, runeStatus, itemStatus };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+});
 
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {

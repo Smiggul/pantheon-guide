@@ -26,3 +26,6 @@ release
 
 # Playwright MCP browser artifacts
 .playwright-mcp/
+
+# local build-export test artifacts
+exports/

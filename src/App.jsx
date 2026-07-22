@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { ALT_BUILDS } from "./data/altBuilds.js";
+import { buildExport } from "./data/lcuExport.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -389,6 +390,31 @@ useEffect(() => {
   const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
   const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
+
+  // ── Desktop-only: apply the current rune page + item set to a running client ─
+  const isDesktop = typeof window !== "undefined" && window.frge?.isDesktop;
+  const [applyState, setApplyState] = useState(null); // null | "sending" | {ok,msg}
+  const sendToLeague = async () => {
+    if (!isDesktop || applyState === "sending") return;
+    setApplyState("sending");
+    try {
+      const payload = buildExport(champ, currentRole, openClass, activeAlt);
+      const res = await window.frge.applyBuild({
+        runePage: payload.runePage,
+        itemSet: payload.itemSet,
+      });
+      if (res?.ok) {
+        const items = res.itemStatus != null && res.itemStatus < 300;
+        setApplyState({ ok: true, msg: items ? "Runes + items imported" : "Runes imported" });
+      } else {
+        setApplyState({ ok: false, msg: res?.error || `Failed (rune ${res?.runeStatus ?? "?"})` });
+      }
+    } catch (e) {
+      setApplyState({ ok: false, msg: e.message });
+    }
+    setTimeout(() => setApplyState((s) => (s === "sending" ? s : null)), 4000);
+  };
+  useEffect(() => { setApplyState(null); }, [champ.id, currentRole, openClass, altBuildIdx]);
 
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
@@ -1334,8 +1360,37 @@ useEffect(() => {
             marginBottom: showCore ? "14px" : "0" }}>
             <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
               textTransform:"uppercase" }}>Core Build Path</span>
+            {isDesktop && (
+              <button
+                onClick={sendToLeague}
+                disabled={applyState === "sending"}
+                title="Import this rune page + item set into the running League client"
+                style={{
+                  marginLeft:"auto",
+                  cursor: applyState === "sending" ? "default" : "pointer",
+                  borderRadius:"20px", padding:"5px 14px", fontSize:"11px",
+                  letterSpacing:".5px", fontWeight:"bold",
+                  border:`1px solid ${
+                    applyState && applyState !== "sending"
+                      ? (applyState.ok ? "#4caf7d" : "#d9564f")
+                      : `${S.gold}88`}`,
+                  background:
+                    applyState && applyState !== "sending"
+                      ? (applyState.ok ? "rgba(76,175,125,.15)" : "rgba(217,86,79,.15)")
+                      : `${S.gold}18`,
+                  color:
+                    applyState === "sending" ? S.textDim
+                      : applyState ? (applyState.ok ? "#6bd6a0" : "#f08a84")
+                      : S.gold,
+                  transition:"all .15s",
+                }}>
+                {applyState === "sending" ? "Importing…"
+                  : applyState ? (applyState.ok ? "✓ " : "✕ ") + applyState.msg
+                  : "⚡ Import to League"}
+              </button>
+            )}
             <button onClick={() => setShowCore(v => !v)} style={{
-              marginLeft:"auto", background:"none", border:"none",
+              marginLeft: isDesktop ? "12px" : "auto", background:"none", border:"none",
               cursor:"pointer", color:S.textDim, fontSize:"11px", letterSpacing:"1px",
             }}>
               {showCore ? "▲ Hide" : "▼ Why?"}
