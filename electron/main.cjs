@@ -16,6 +16,8 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { standard: true, secure: true, supportFetchAPI: true } },
 ]);
 
+let mainWin = null;
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1500,
@@ -37,6 +39,8 @@ function createWindow() {
     return { action: "deny" };
   });
   win.loadURL(DEV ? "http://localhost:5173" : "app://-/");
+  mainWin = win;
+  win.on("closed", () => { if (mainWin === win) mainWin = null; });
 }
 
 // module scripts are blocked without a proper MIME type, so map it explicitly
@@ -72,6 +76,20 @@ function getLcuCreds() {
       }
     );
   });
+}
+
+// Cache creds — querying the process list is ~hundreds of ms, too slow to run
+// on every poll. Refresh is throttled while disconnected; cleared on a dropped
+// connection so a client restart is picked up.
+let lcuCreds = null;
+let lastCredTry = 0;
+async function getCreds({ force = false } = {}) {
+  if (lcuCreds && !force) return lcuCreds;
+  const now = Date.now();
+  if (!force && now - lastCredTry < 4000) return null; // don't spam powershell
+  lastCredTry = now;
+  try { lcuCreds = await getLcuCreds(); } catch { lcuCreds = null; }
+  return lcuCreds;
 }
 
 // One authenticated LCU request over the client's self-signed HTTPS cert.
@@ -112,7 +130,8 @@ function lcu(method, apiPath, { port, token }, body) {
 ipcMain.handle("frge:apply-build", async (_e, payload) => {
   const { runePage, itemSet } = payload || {};
   try {
-    const creds = await getLcuCreds();
+    const creds = (await getCreds()) || (await getCreds({ force: true }));
+    if (!creds) throw new Error("League client not running (open League first).");
 
     // ── Runes: delete the live page, then create ours as current ────────────
     let runeStatus = null;
@@ -153,6 +172,86 @@ ipcMain.handle("frge:apply-build", async (_e, payload) => {
   }
 });
 
+// ── Champ select: poll the session and push a compact summary to the renderer ─
+function summarizeChampSelect(s) {
+  const meId = s.localPlayerCellId;
+  const flat = [].concat(...(s.actions || []));
+  const me = (s.myTeam || []).find((p) => p.cellId === meId) || {};
+  const myPick = flat.find((a) => a.actorCellId === meId && a.type === "pick");
+  const trim = (p) => ({
+    cellId: p.cellId,
+    championId: p.championId || 0,
+    championPickIntent: p.championPickIntent || 0,
+    assignedPosition: p.assignedPosition || "",
+  });
+  return {
+    active: true,
+    phase: s.timer?.phase || null,
+    localCellId: meId,
+    championId: me.championId || 0, // locked in
+    championPickIntent: me.championPickIntent || 0, // hovered
+    assignedPosition: me.assignedPosition || "",
+    pickActionId: myPick ? myPick.id : null,
+    pickCompleted: myPick ? !!myPick.completed : false,
+    isPickInProgress: myPick ? (!!myPick.isInProgress && !myPick.completed) : false,
+    myTeam: (s.myTeam || []).map(trim),
+    theirTeam: (s.theirTeam || []).map(trim),
+  };
+}
+
+function sendChampSelect(data) {
+  if (mainWin && !mainWin.isDestroyed()) mainWin.webContents.send("frge:champ-select", data);
+}
+
+let pollBusy = false;
+async function pollChampSelect() {
+  if (pollBusy || !mainWin || mainWin.isDestroyed()) return;
+  pollBusy = true;
+  try {
+    const creds = await getCreds();
+    if (!creds) { sendChampSelect({ active: false, reason: "no-client" }); return; }
+    let res;
+    try {
+      res = await lcu("GET", "/lol-champ-select/v1/session", creds);
+    } catch {
+      lcuCreds = null; // client closed / connection refused
+      sendChampSelect({ active: false, reason: "no-client" });
+      return;
+    }
+    if (res.status === 404) { sendChampSelect({ active: false, reason: "not-in-select" }); return; }
+    if (res.status !== 200 || !res.body) { sendChampSelect({ active: false, reason: "unavailable" }); return; }
+    sendChampSelect(summarizeChampSelect(res.body));
+  } finally {
+    pollBusy = false;
+  }
+}
+
+// Pre-hover / hover: PATCH the local player's pick action with a champion id.
+ipcMain.handle("frge:hover-champion", async (_e, arg) => {
+  const championId = typeof arg === "object" ? arg.championId : arg;
+  let actionId = typeof arg === "object" ? arg.actionId : undefined;
+  if (!championId) return { ok: false, error: "no-champion" };
+  try {
+    const creds = await getCreds();
+    if (!creds) return { ok: false, error: "client-not-running" };
+    if (actionId == null) {
+      const res = await lcu("GET", "/lol-champ-select/v1/session", creds);
+      if (res.status !== 200 || !res.body) return { ok: false, error: "not-in-champ-select" };
+      const meId = res.body.localPlayerCellId;
+      const flat = [].concat(...(res.body.actions || []));
+      const act = flat.find((a) => a.actorCellId === meId && a.type === "pick" && !a.completed);
+      if (!act) return { ok: false, error: "no-open-pick" };
+      actionId = act.id;
+    }
+    const patch = await lcu(
+      "PATCH", `/lol-champ-select/v1/session/actions/${actionId}`, creds, { championId }
+    );
+    return { ok: patch.status < 300, status: patch.status, body: patch.body };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+});
+
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {
     const { pathname } = new URL(req.url);
@@ -167,6 +266,7 @@ app.whenReady().then(() => {
       : res;
   });
   createWindow();
+  setInterval(pollChampSelect, 1500); // live champ-select sync
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

@@ -8,4 +8,18 @@ contextBridge.exposeInMainWorld("frge", {
   // payload: { runePage, itemSet } from buildExport(). Resolves to a result
   // object { ok, runeStatus, itemStatus, error } — never throws to the renderer.
   applyBuild: (payload) => ipcRenderer.invoke("frge:apply-build", payload),
+
+  // Live champ-select sync. cb receives the summary pushed ~every 1.5s:
+  //   { active, phase, championId, championPickIntent, assignedPosition,
+  //     pickActionId, pickCompleted, myTeam[], theirTeam[] }  (or { active:false }).
+  // Returns an unsubscribe function.
+  onChampSelect: (cb) => {
+    const handler = (_e, data) => cb(data);
+    ipcRenderer.on("frge:champ-select", handler);
+    return () => ipcRenderer.removeListener("frge:champ-select", handler);
+  },
+
+  // Hover (pre-hover / pick-intent) a champion in champ select.
+  //   arg: numeric championId, or { championId, actionId }.
+  hoverChampion: (arg) => ipcRenderer.invoke("frge:hover-champion", arg),
 });

@@ -1,8 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { ALT_BUILDS } from "./data/altBuilds.js";
 import { buildExport } from "./data/lcuExport.js";
+import { CHAMP_KEYS } from "./data/lcuData.js";
+import { classOf } from "./data/champClasses.js";
+
+// ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
+const KEY_TO_DD = {};            // riot numeric key -> DDragon id
+for (const [dd, key] of Object.entries(CHAMP_KEYS)) KEY_TO_DD[key] = dd;
+const DD_TO_CHAMP = {};          // DDragon id -> CHAMPS entry
+for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
+const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
+const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
+
+// Which locked enemy is most likely your lane opponent → returns its DDragon id.
+function opponentDd(theirTeam, myPos, myRole) {
+  const enemies = (theirTeam || []).filter((p) => p.championId > 0);
+  if (!enemies.length) return null;
+  if (myPos) {                                   // 1. exact enemy position, if provided
+    const m = enemies.find((p) => p.assignedPosition && p.assignedPosition === myPos);
+    if (m) return KEY_TO_DD[m.championId];
+  }
+  if (myRole) {                                  // 2. infer via roster lanes matching my role
+    for (const p of enemies) {
+      const c = champByKey(p.championId);
+      const lanes = c ? (c.lanes || (c.roles ? Object.keys(c.roles) : [])) : [];
+      if (lanes.includes(myRole)) return KEY_TO_DD[p.championId];
+    }
+  }
+  return KEY_TO_DD[enemies[0].championId];        // 3. fallback: first locked enemy
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
@@ -415,6 +443,55 @@ useEffect(() => {
     setTimeout(() => setApplyState((s) => (s === "sending" ? s : null)), 4000);
   };
   useEffect(() => { setApplyState(null); }, [champ.id, currentRole, openClass, altBuildIdx]);
+
+  // ── Live champ-select sync (desktop) ────────────────────────────────────────
+  const [csState, setCsState]   = useState(null);   // last session summary from main
+  const [csSync,  setCsSync]    = useState(true);    // auto-follow hovered/locked champ
+  const [preHoverKey, setPreHoverKey] = useState(null); // riot key armed for pre-hover
+  const [csMsg,   setCsMsg]     = useState(null);    // transient hover/status message
+  const csSyncRef = useRef(csSync);
+  const preHoverRef = useRef(preHoverKey);
+  const preHoverSentRef = useRef(false);
+  useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
+  useEffect(() => { preHoverRef.current = preHoverKey; }, [preHoverKey]);
+  useEffect(() => { if (!csMsg) return; const t = setTimeout(() => setCsMsg(null), 4000); return () => clearTimeout(t); }, [csMsg]);
+
+  useEffect(() => {
+    if (!isDesktop || !window.frge?.onChampSelect) return;
+    const unsub = window.frge.onChampSelect((data) => {
+      setCsState(data);
+      if (!data || !data.active) { preHoverSentRef.current = false; return; }
+
+      // Pre-hover: once per session, only while the pick is still empty
+      if (preHoverRef.current && !preHoverSentRef.current &&
+          data.pickActionId != null && !data.pickCompleted &&
+          !data.championId && !data.championPickIntent) {
+        preHoverSentRef.current = true;
+        window.frge.hoverChampion({ championId: preHoverRef.current, actionId: data.pickActionId })
+          .then((r) => setCsMsg(r?.ok ? "Pre-hovered your champion" : `Hover failed: ${r?.error || "?"}`))
+          .catch((e) => setCsMsg(`Hover failed: ${e.message}`));
+      }
+
+      if (!csSyncRef.current) return;
+
+      // Follow the champion you're hovering / have locked
+      const myKey = data.championId || data.championPickIntent;
+      const target = myKey ? champByKey(myKey) : null;
+      if (target) {
+        setChamp((prev) => (prev.id === target.id ? prev : target));
+        const role = POS_ROLE[data.assignedPosition];
+        const resolvedRole = role && (target.roles ? target.roles[role] : true)
+          ? role
+          : (target.roles ? Object.keys(target.roles)[0] : null);
+        setActiveRole(resolvedRole);
+        // Auto-match the lane opponent's class
+        const oppDd = opponentDd(data.theirTeam, data.assignedPosition, resolvedRole);
+        const oc = oppDd ? classOf(oppDd) : null;
+        if (oc) setOpenClass(oc);
+      }
+    });
+    return unsub;
+  }, [isDesktop]);
 
   const onErr   = (k) => setImgErr(p => ({ ...p, [k]: true }));
   const imgFail = (k) => imgErr[k];
@@ -973,6 +1050,24 @@ useEffect(() => {
   );
 };
 
+  // ── Derived champ-select display values ─────────────────────────────────
+  const csActive = !!csState?.active;
+  const detectedKey = csActive ? (csState.championId || csState.championPickIntent) : 0;
+  const detectedChamp = detectedKey ? champByKey(detectedKey) : null;
+  const detectedRole = csActive ? POS_ROLE[csState.assignedPosition] : null;
+  const csOppDd = csActive
+    ? opponentDd(csState.theirTeam, csState.assignedPosition,
+        detectedRole || (detectedChamp?.roles ? Object.keys(detectedChamp.roles)[0] : null))
+    : null;
+  const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
+  const csOppClass = csOppDd ? classOf(csOppDd) : null;
+  const preHoverChamp = preHoverKey ? champByKey(preHoverKey) : null;
+  const csStatus = !csState ? "Connecting to client…"
+    : csState.active ? "In champ select"
+    : csState.reason === "no-client" ? "League client not detected"
+    : csState.reason === "not-in-select" ? "Waiting for champ select…"
+    : "Client idle";
+
   // ────────────────────────────────────────────────────────────────────────
   return (
     <div style={{
@@ -1010,6 +1105,89 @@ useEffect(() => {
       )}
       </p>
       </div>
+
+      {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
+      {isDesktop && (
+        <div style={{
+          background: csActive ? "rgba(20,40,30,.55)" : "rgba(0,0,0,.5)",
+          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : "rgba(180,120,20,.14)"}`,
+          padding:"9px 24px",
+        }}>
+          <div style={{ maxWidth:"1400px", margin:"0 auto", display:"flex",
+            alignItems:"center", gap:"14px", flexWrap:"wrap", fontFamily:"'Georgia',serif" }}>
+
+            {/* status dot + label */}
+            <span style={{ display:"flex", alignItems:"center", gap:"7px", flexShrink:0 }}>
+              <span style={{ width:"9px", height:"9px", borderRadius:"50%",
+                background: csActive ? "#4caf7d" : csState?.reason === "no-client" ? "#d9564f" : "#c9a24a",
+                boxShadow:`0 0 8px ${csActive ? "#4caf7d" : "transparent"}` }} />
+              <span style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase",
+                color: csActive ? "#8fe0b4" : S.goldDim }}>{csStatus}</span>
+            </span>
+
+            {/* live matchup readout */}
+            {csActive && detectedChamp && (
+              <span style={{ fontSize:"13px", color:"#d7e8dd" }}>
+                You: <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
+                {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}> ({detectedRole})</span>}
+                {csOppChamp && (
+                  <>
+                    <span style={{ color:"rgba(255,255,255,.35)", margin:"0 8px" }}>vs</span>
+                    <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
+                    {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}> — {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
+                  </>
+                )}
+              </span>
+            )}
+            {csActive && !detectedChamp && (
+              <span style={{ fontSize:"12px", color:"rgba(255,255,255,.45)" }}>
+                Hover or lock a champion…
+              </span>
+            )}
+
+            {/* controls */}
+            <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:"10px" }}>
+              {csMsg && <span style={{ fontSize:"11px", color:"#8fe0b4" }}>{csMsg}</span>}
+
+              {/* pre-hover */}
+              <button
+                onClick={() => setPreHoverKey((k) => {
+                  const myKey = CHAMP_KEYS[champ.dd];
+                  return k === myKey ? null : myKey;
+                })}
+                title="Automatically hover this champion the moment you enter champ select"
+                style={{
+                  cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
+                  letterSpacing:".5px",
+                  border:`1px solid ${preHoverChamp ? "#c9a24a" : "rgba(255,255,255,.15)"}`,
+                  background: preHoverChamp ? "rgba(201,162,74,.15)" : "rgba(255,255,255,.03)",
+                  color: preHoverChamp ? S.gold : "#9a8a6a",
+                }}>
+                {preHoverChamp ? `⚑ Pre-hover: ${preHoverChamp.display}` : "⚑ Pre-hover this champ"}
+              </button>
+              {preHoverChamp && (
+                <button onClick={() => setPreHoverKey(null)} title="Disarm pre-hover"
+                  style={{ cursor:"pointer", background:"none", border:"none",
+                    color:"#9a8a6a", fontSize:"14px", lineHeight:1 }}>✕</button>
+              )}
+
+              {/* auto-sync toggle */}
+              <button
+                onClick={() => setCsSync((v) => !v)}
+                title="Auto-follow the champion you hover/lock and auto-match the enemy laner"
+                style={{
+                  cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
+                  letterSpacing:".5px",
+                  border:`1px solid ${csSync ? "#4caf7d" : "rgba(255,255,255,.15)"}`,
+                  background: csSync ? "rgba(76,175,125,.15)" : "rgba(255,255,255,.03)",
+                  color: csSync ? "#6bd6a0" : "#9a8a6a",
+                }}>
+                {csSync ? "⟳ Auto-sync ON" : "⟳ Auto-sync OFF"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── CHAMPION SELECTOR BAR ── */}
       <div style={{
