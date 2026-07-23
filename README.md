@@ -16,10 +16,10 @@ You only need **one file** — no other setup, no dependencies.
 
 | You want | File to run |
 |---|---|
-| Normal install (recommended) | `FRGE.GG Setup 0.3.0.exe` |
-| No-install version (USB stick / try-out) | `FRGE.GG 0.3.0.exe` (portable) |
+| Normal install (recommended) | `FRGE.GG Setup 0.3.1.exe` |
+| No-install version (USB stick / try-out) | `FRGE.GG 0.3.1.exe` (portable) |
 
-1. Download the installer (`FRGE.GG Setup 0.3.0.exe`) from the release you were given (or the `release/` folder if you have the repo).
+1. Download the installer (`FRGE.GG Setup 0.3.1.exe`) from the release you were given (or the `release/` folder if you have the repo).
 2. Double-click it. It installs per-user in one click — no admin rights needed — and launches when done.
 3. That's it. Launch **FRGE.GG** from the Start Menu / desktop like any other app.
 
@@ -64,7 +64,7 @@ npm run app          # Electron serving dist/ over app://
 ### Build the Windows installer + portable exe
 
 ```bash
-npm run dist:win     # → release/FRGE.GG Setup 0.3.0.exe  +  release/FRGE.GG 0.3.0.exe
+npm run dist:win     # → release/FRGE.GG Setup 0.3.1.exe  +  release/FRGE.GG 0.3.1.exe
 ```
 
 > **Note (dev environments):** if `ELECTRON_RUN_AS_NODE=1` is set in your shell, clear it before launching Electron (`npm run app` / the built exe from a terminal), or Electron starts as plain Node and exits immediately.
