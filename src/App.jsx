@@ -15,6 +15,23 @@ for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
 const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
 const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
 
+// ── Ad zones ────────────────────────────────────────────────────────────────
+// Reserved, non-intrusive placeholders (top banner, two side rails, collapsible
+// bottom bar). They render nothing when the user is VIP. Sizes are fixed so
+// toggling ads never shifts the layout, and the side rails only appear when
+// there is genuinely empty gutter beside the content — they never overlap it.
+const adSlot = (label, w, h, extra = {}) => (
+  <div style={{
+    width: w, height: h, flexShrink: 0,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    background: "rgba(255,255,255,.02)",
+    border: "1px dashed rgba(212,175,55,.22)",
+    borderRadius: "8px", color: "rgba(200,204,209,.32)",
+    fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase",
+    ...extra,
+  }}>{label}</div>
+);
+
 // Which locked enemy is most likely your lane opponent → returns its DDragon id.
 function opponentDd(theirTeam, myPos, myRole) {
   const enemies = (theirTeam || []).filter((p) => p.championId > 0);
@@ -382,6 +399,17 @@ export default function App() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
   const narrowWorkspace = winW < 1080;
+
+  // ── Ads / VIP ───────────────────────────────────────────────────────────
+  // isVip will come from the account system later (see CLAUDE.md roadmap);
+  // for now it's a local preview toggle. Every ad zone is gated on it.
+  const [isVip, setIsVip] = useState(false);
+  const [adBottomOpen, setAdBottomOpen] = useState(true);
+  // Only show the side rails when the empty gutter beside the centred content
+  // is genuinely wide enough — otherwise they'd cover the app.
+  const contentW = Math.min(winW * 0.96, 1900);
+  const gutter = (winW - contentW) / 2;
+  const showSideAds = !isVip && gutter >= 176;
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [showPicker,      setShowPicker]      = useState(false);
   const [champSearch,     setChampSearch]     = useState("");
@@ -1161,6 +1189,13 @@ useEffect(() => {
       color:"#F5F5F5",
       }}>
 
+      {/* ── AD: top banner (leaderboard) ── */}
+      {!isVip && (
+        <div style={{ display:"flex", justifyContent:"center", padding:"8px 24px 0" }}>
+          {adSlot("Advertisement", "min(970px, 92vw)", "90px")}
+        </div>
+      )}
+
       {/* ── PAGE HEADER ── */}
       <div style={{
         textAlign:"center", padding:"10px 24px 8px",
@@ -1187,6 +1222,16 @@ useEffect(() => {
          <span style={{ fontSize:"11px", color:"rgba(255,255,255,.4)" }}>{currentRole}</span>
       )}
       </p>
+      {/* Preview toggle until the account system exists — VIP hides all ads. */}
+      <button onClick={() => setIsVip(v => !v)} className="frge-pill" style={{
+        marginTop:"6px", cursor:"pointer", borderRadius:"20px", padding:"3px 12px",
+        fontSize:"10px", letterSpacing:".5px",
+        border:`1px solid ${isVip ? S.gold : "rgba(255,255,255,.14)"}`,
+        background: isVip ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.03)",
+        color: isVip ? S.gold : "#7a8288",
+      }}>
+        {isVip ? "★ VIP — ads hidden" : "Preview VIP (hide ads)"}
+      </button>
       </div>
 
       {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
@@ -2080,6 +2125,51 @@ useEffect(() => {
           : "Survive & Scale"}
       </div>
       </div>
+
+      {/* ── AD: side rails (only when the gutter is wide enough to not overlap) ── */}
+      {showSideAds && (
+        <>
+          <div style={{ position:"fixed", left:"12px", top:"50%", transform:"translateY(-50%)", zIndex:5 }}>
+            {adSlot("Ad", "160px", "600px")}
+          </div>
+          <div style={{ position:"fixed", right:"12px", top:"50%", transform:"translateY(-50%)", zIndex:5 }}>
+            {adSlot("Ad", "160px", "600px")}
+          </div>
+        </>
+      )}
+
+      {/* ── AD: collapsible bottom bar ── */}
+      {!isVip && (
+        <div style={{
+          position:"fixed", left:0, right:0, bottom:0, zIndex:20,
+          display:"flex", flexDirection:"column", alignItems:"center",
+          pointerEvents:"none",
+        }}>
+          <button
+            onClick={() => setAdBottomOpen(v => !v)}
+            className="frge-pill"
+            aria-expanded={adBottomOpen}
+            title={adBottomOpen ? "Hide the bottom ad" : "Show the bottom ad"}
+            style={{
+              pointerEvents:"auto", cursor:"pointer",
+              border:"1px solid rgba(212,175,55,.25)", borderBottom:"none",
+              background:"rgba(27,27,30,.92)", color:"rgba(200,204,209,.6)",
+              fontSize:"10px", letterSpacing:"1px", padding:"2px 14px",
+              borderRadius:"7px 7px 0 0",
+            }}>
+            {adBottomOpen ? "▼ Hide ad" : "▲ Show ad"}
+          </button>
+          {adBottomOpen && (
+            <div style={{ pointerEvents:"auto", background:"rgba(27,27,30,.92)",
+              width:"100%", display:"flex", justifyContent:"center", padding:"5px 0 6px" }}>
+              {adSlot("Advertisement", "min(728px, 92vw)", "58px")}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Keeps the fixed bottom ad from covering the last of the page content */}
+      {!isVip && <div style={{ height: adBottomOpen ? "78px" : "22px" }} />}
 
     </div>
   );

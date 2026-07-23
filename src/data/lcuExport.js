@@ -7,6 +7,7 @@
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
 import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
+import { classOf } from "./champClasses.js";
 
 // item name -> canonical id (case-insensitive; unknown -> null)
 export const itemId = (name) =>
@@ -70,14 +71,30 @@ const TANK_MARKERS = new Set(["Sunfire Aegis","Thornmail","Randuin's Omen","Froz
   "Dead Man's Plate","Heartsteel","Unending Despair","Iceborn Gauntlet","Gargoyle Stoneplate",
   "Winter's Approach","Overlord's Bloodmail","Titanic Hydra"].map((s) => s.toLowerCase()));
 
-function inferStart(coreNoBoots) {
+// ── Champion profile ────────────────────────────────────────────────────────
+// Drives which starter and which first-back filler actually make sense. The
+// BUILD wins over the champion's class (AP Kai'Sa is a MARKSMAN by class but
+// must start Doran's Ring), which is why the item markers are checked first.
+function profileOf(champDd, coreNoBoots) {
   const low = coreNoBoots.map((s) => s.toLowerCase());
   const ap = low.filter((n) => AP_MARKERS.has(n)).length;
   const tank = low.filter((n) => TANK_MARKERS.has(n)).length;
-  if (ap >= 1 && ap >= tank) return "Doran's Ring";
-  if (tank >= 2) return "Doran's Shield";
-  return "Doran's Blade";
+  if (ap >= 1 && ap >= tank) return "AP";
+  if (tank >= 2) return "TANK";
+  const cls = classOf(champDd);
+  if (cls === "MARKSMAN") return "AD_RANGED";
+  if (cls === "VANGUARD" || cls === "WARDEN") return "TANK";
+  return "AD_MELEE";
 }
+
+// Per-profile starting kit and the ~350-450g filler that pads the first back to
+// a full purchase. Never hand an AP champion a Long Sword.
+const PROFILE = {
+  AP:        { start: "Doran's Ring",   startLabel: "caster",  filler: "Amplifying Tome", greedy: "Dark Seal" },
+  AD_MELEE:  { start: "Doran's Blade",  startLabel: "melee",   filler: "Long Sword",      greedy: null },
+  AD_RANGED: { start: "Doran's Blade",  startLabel: "ranged",  filler: "Long Sword",      greedy: null },
+  TANK:      { start: "Doran's Shield", startLabel: "durable", filler: "Ruby Crystal",    greedy: null },
+};
 
 // ── Build a full LCU-style item set for a champ/role/enemy-class ─────────────
 export function buildItemSet(champDd, roleName, enemyClass, roleData) {
@@ -86,15 +103,29 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
   const coreNoBoots = core.filter((n) => n !== boots);
   const firstCore = coreNoBoots[0] || core[0];
   const firstBack = firstCore ? FIRST_BACK[firstCore] : null;
-  const start = inferStart(coreNoBoots);
+  const prof = PROFILE[profileOf(champDd, coreNoBoots)];
   const situational = roleData.sideItems || [];
   const ahead = (roleData.data?.[enemyClass]?.ahead || []).map((e) => e?.name).filter(Boolean);
 
   const blocks = [
-    itemBlock("Starting", [start, "Health Potion", "Stealth Ward", "Doran's Blade", "Doran's Ring", "Doran's Shield"]),
-    // First back: assume ~900-1300g. The core item's building block, then a Long
-    // Sword as the affordable filler, boots, and a Control Ward.
-    itemBlock("First back (~1000g)", [firstBack, "Long Sword", "Boots", "Control Ward"]),
+    // Starting kits, each a complete buy. The first is the champion's standard
+    // start; the others are the situational swaps you'd actually make.
+    itemBlock(`Start — standard (${prof.startLabel})`, [prof.start, "Health Potion", "Stealth Ward"]),
+    // (skipped when the standard start is already Doran's Shield)
+    ...(prof.start !== "Doran's Shield"
+      ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
+      : []),
+    itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
+    ...(prof.greedy
+      ? [itemBlock("Start — greedy / snowball", [prof.greedy, "Health Potion", "Stealth Ward"])]
+      : []),
+    ...(profileOf(champDd, coreNoBoots) === "AD_RANGED"
+      ? [itemBlock("Start — attack speed / on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
+      : []),
+    // First back: ~900-1300g. The first core item's real building block, a
+    // damage-type-appropriate filler (never a Long Sword on an AP champ), the
+    // greedy stacking option where it applies, then boots and a ward.
+    itemBlock("First back (~1000g)", [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
     itemBlock(`Core — ${roleName}`, coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
     itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`, [...ahead, ...situational]),

@@ -38,7 +38,8 @@ for (const c of mod.CHAMPS) {
   for (const list of Object.values(c.altBuilds || {})) for (const b of list) eatRole(b);
 }
 
-["Doran's Blade","Doran's Ring","Doran's Shield","Health Potion","Refillable Potion","Corrupting Potion",
+["Doran's Blade","Doran's Ring","Doran's Shield","Doran's Bow","Doran's Helm",
+ "Health Potion","Refillable Potion","Corrupting Potion","Amplifying Tome","Ruby Crystal","Cloth Armor",
  "Cull","Dark Seal","Tear of the Goddess","Control Ward","Stealth Ward","Farsight Alteration","Oracle Lens",
  "Plated Steelcaps","Mercury's Treads","Sorcerer's Shoes","Berserker's Greaves","Ionian Boots of Lucidity",
  "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles","Boots","Long Sword"].forEach((n) => used.add(n));

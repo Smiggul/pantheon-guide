@@ -72,3 +72,10 @@ Electron shell in `electron/main.cjs`. `npm run app` runs against built dist/; `
 - Rule engine: TRAITS + CLASS_RULES for auto-generating item fallbacks
 - Riot API integration for Challenger data
 - LLM-driven builds for all 5 enemy champions simultaneously
+
+### Monetisation / accounts (planned — not built)
+- **Ad slots**: 4 non-intrusive zones are already reserved in the layout (top banner, left + right side rails, collapsible bottom bar). They render as placeholders today; wire a real ad network later. Ads must stay non-intrusive — never overlay the build/rune workspace.
+- **User login + accounts**: track users, sync their saved builds/preferences. Auth belongs in the Electron **main** process; store tokens with Electron `safeStorage` (OS keychain) — never `localStorage`.
+- **VIP subscription**: a paid tier that hides all ads. The UI already gates every ad zone behind an `isVip` flag, so switching it off is a one-line change once auth exists.
+- **Payment gateways to evaluate**: Yoco and Ozow (both South-Africa-first, good local card/EFT support), PayPal (international). Decision deferred — the user plans to prototype this in a separate project first.
+- **Security prerequisite**: before shipping login/ads, run CodeRabbit over the PR and add a Content-Security-Policy + render ad content in a sandboxed iframe (external ad scripts must never run in the main renderer).

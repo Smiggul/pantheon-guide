@@ -33,6 +33,21 @@ _Nothing yet._
   operable controls (Tab to focus, Enter/Space to select, `aria-pressed` state)
   with a visible focus ring, and every animation is disabled automatically for
   users with "reduce motion" enabled.
+- **Labelled starting kits** per champion instead of one generic list: a standard
+  start matched to the champion (Doran's Ring / Blade / Shield), plus situational
+  swaps — *vs poke / ranged harass* (Doran's Shield), *vs heavy damage*
+  (Doran's Helm), *greedy / snowball* (Dark Seal, AP builds), and *attack speed
+  / on-hit* (Doran's Bow, marksmen).
+- **Reserved ad zones** — a top banner, two side rails and a collapsible bottom
+  bar. The side rails only appear when there's genuinely empty space beside the
+  content, so they never cover the build. All four disappear for VIP users.
+
+### Fixed
+- **First-back items now make sense for the champion.** The filler was hardcoded
+  to a Long Sword for everyone, so AP champions (e.g. Mordekaiser's Dusk & Dawn
+  build) were told to buy an AD component. It's now damage-type aware —
+  Amplifying Tome + Dark Seal for AP, Long Sword for AD, Ruby Crystal for tanks —
+  alongside the real first-item component.
 
 ### Changed
 - **New colour theme** — Charcoal / Gunmetal / Molten Orange / Gold / White, for
