@@ -57,20 +57,20 @@ export default {
     // [{ label, tag:"off-meta"|"alt", corePath, coreNote, runes, sideItems }].
     altBuilds:{
       Top: [{
-        label: "Resolve Bruiser",
-        tag: "alt",
-        corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
-        coreNote: "The survivability line — trade the standard Sorcery secondary (Transcendence/Scorch) for a Resolve secondary so you live through the extended brawls instead of relying on winning the burst race. Eclipse over Voltaic first here: its passive shield and %-max-HP proc reward the drawn-out trades this page is built for, Black Cleaver adds the HP + shred, Sundered Sky heals off the guaranteed crit-Q, and Death's Dance turns lethal burst into a bleed you outlast. Sterak's Gage and Spirit Visage are the natural continuations. Tankier and more forgiving than the lethality/snowball lines — you brawl, sustain, and out-stat the lane rather than one-combo it.",
+        label: "Lethality Carry",
+        tag: "off-meta",
+        corePath: "Youmuu's Ghostblade  ›  Voltaic Cyclosword  ›  The Collector  ›  Serylda's Grudge",
+        coreNote: "The greedy glass-cannon line — skip the bruiser durability entirely and build a full-lethality carry that snowballs into a one-shot machine. PTA + a Sorcery secondary trade survivability for raw scaling damage: you farm, roam, and delete squishies, but you fold if you get caught, so play for picks and position. Youmuu's Ghostblade is the roam + lethality spike, Voltaic Cyclosword adds the energized auto-reset burst, The Collector gives the execute threshold that turns a spear + combo into an instant kill, and Serylda's Grudge pens armor + slows so nothing escapes the follow-up. Opportunity, Edge of Night, or Profane Hydra continue it. Play greedy — scale, pick, and carry.",
         runes: {
-          keystone: "Conqueror",
+          keystone: "Press the Attack",
           primary: "Precision",
-          primaryRunes: ["Presence of Mind", "Legend: Haste", "Last Stand"],
-          secondary: "Resolve",
-          secondaryRunes: ["Bone Plating", "Revitalize"],
-          shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
-          reason: "Conqueror + Presence of Mind is the same durable-DPS core, but the Resolve secondary is the survivability trade: Bone Plating blunts the burst opener of the divers/assassins you brawl, and Revitalize amplifies the Sundered Sky / Death's Dance / Spirit Visage healing this line leans on. Last Stand still rewards the low-HP Conqueror fights this page wants to be in, and the Health-scaling shard adds to the durability.",
+          primaryRunes: ["Presence of Mind", "Legend: Haste", "Coup de Grace"],
+          secondary: "Sorcery",
+          secondaryRunes: ["Transcendence", "Gathering Storm"],
+          shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
+          reason: "Press the Attack rewards Pantheon's guaranteed three-hit trade (spear, W-auto, auto) with bonus damage AND a damage-amp on the target, so the combo and item procs that follow hit far harder — the burst engine of a lethality carry. The Sorcery secondary is the greedy scaling half: Transcendence gives the ability haste to keep spamming Q, and Gathering Storm stacks raw AD the longer the game runs, so you out-scale the lane into a hyper-carry. Presence of Mind funds the Q spam, Coup de Grace executes low targets, and double Adaptive Force shards maximise the early damage.",
         },
-        sideItems: ["Sterak's Gage", "Spirit Visage", "Plated Steelcaps", "Mercury's Treads", "Maw of Malmortius", "Randuin's Omen", "Thornmail", "Kaenic Rookern"],
+        sideItems: ["Ionian Boots of Lucidity", "Opportunity", "Edge of Night", "Profane Hydra", "Guardian Angel", "Serpent's Fang"],
       }, {
         label: "PTA Bruiser",
         tag: "alt",
