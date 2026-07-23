@@ -33,10 +33,20 @@ function createWindow() {
       preload: path.join(__dirname, "preload.cjs"),
     },
   });
-  // external links go to the default browser, not a new Electron window
+  // external links go to the default browser, not a new Electron window —
+  // but only http/https, so a compromised/untrusted page (e.g. future ad
+  // content) can't invoke dangerous URI schemes via shell.openExternal.
   win.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
+    try {
+      const proto = new URL(url).protocol;
+      if (proto === "http:" || proto === "https:") shell.openExternal(url);
+    } catch { /* malformed URL — ignore */ }
     return { action: "deny" };
+  });
+  // Never let in-page navigation leave the app bundle / dev server.
+  win.webContents.on("will-navigate", (e, url) => {
+    const ok = DEV ? url.startsWith("http://localhost:5173") : url.startsWith("app://");
+    if (!ok) e.preventDefault();
   });
   win.loadURL(DEV ? "http://localhost:5173" : "app://-/");
   mainWin = win;
@@ -125,6 +135,10 @@ function lcu(method, apiPath, { port, token }, body) {
   });
 }
 
+// Any id interpolated into an LCU request path must be a positive integer, so
+// nothing user- or response-supplied can inject into the path.
+const posInt = (v) => (Number.isInteger(Number(v)) && Number(v) >= 0 ? Number(v) : null);
+
 // Apply a build: replace the current rune page and push the item set.
 // Runes are the reliable, high-value part; the item set is best-effort.
 ipcMain.handle("frge:apply-build", async (_e, payload) => {
@@ -137,8 +151,9 @@ ipcMain.handle("frge:apply-build", async (_e, payload) => {
     let runeStatus = null;
     if (runePage) {
       const cur = await lcu("GET", "/lol-perks/v1/currentpage", creds);
-      if (cur.status === 200 && cur.body && cur.body.id && cur.body.isDeletable !== false) {
-        await lcu("DELETE", `/lol-perks/v1/pages/${cur.body.id}`, creds);
+      const curId = posInt(cur.body?.id);
+      if (cur.status === 200 && curId != null && cur.body.isDeletable !== false) {
+        await lcu("DELETE", `/lol-perks/v1/pages/${curId}`, creds);
       }
       const made = await lcu("POST", "/lol-perks/v1/pages", creds, runePage);
       runeStatus = made.status;
@@ -148,8 +163,8 @@ ipcMain.handle("frge:apply-build", async (_e, payload) => {
     let itemStatus = null;
     if (itemSet) {
       const summ = await lcu("GET", "/lol-summoner/v1/current-summoner", creds);
-      const sid = summ.status === 200 ? summ.body?.summonerId : null;
-      if (sid) {
+      const sid = summ.status === 200 ? posInt(summ.body?.summonerId) : null;
+      if (sid != null) {
         const existing = await lcu("GET", `/lol-item-sets/v1/item-sets/${sid}/sets`, creds);
         const prev = existing.status === 200 && existing.body ? existing.body : {};
         const kept = Array.isArray(prev.itemSets)
@@ -233,9 +248,10 @@ async function pollChampSelect() {
 
 // Pre-hover / hover: PATCH the local player's pick action with a champion id.
 ipcMain.handle("frge:hover-champion", async (_e, arg) => {
-  const championId = typeof arg === "object" ? arg.championId : arg;
-  let actionId = typeof arg === "object" ? arg.actionId : undefined;
-  if (!championId) return { ok: false, error: "no-champion" };
+  const championId = posInt(typeof arg === "object" ? arg?.championId : arg);
+  let actionId = (typeof arg === "object" && arg?.actionId != null) ? posInt(arg.actionId) : undefined;
+  if (championId == null) return { ok: false, error: "bad-champion" };
+  if (actionId === null) return { ok: false, error: "bad-action" };
   try {
     const creds = await getCreds();
     if (!creds) return { ok: false, error: "client-not-running" };
@@ -246,7 +262,8 @@ ipcMain.handle("frge:hover-champion", async (_e, arg) => {
       const flat = [].concat(...(res.body.actions || []));
       const act = flat.find((a) => a.actorCellId === meId && a.type === "pick" && !a.completed);
       if (!act) return { ok: false, error: "no-open-pick" };
-      actionId = act.id;
+      actionId = posInt(act.id);
+      if (actionId == null) return { ok: false, error: "no-open-pick" };
     }
     const patch = await lcu(
       "PATCH", `/lol-champ-select/v1/session/actions/${actionId}`, creds, { championId }
@@ -263,7 +280,11 @@ app.whenReady().then(() => {
     let rel = decodeURIComponent(pathname);
     if (rel === "/" || rel === "") rel = "/index.html";
     const file = path.normalize(path.join(DIST, rel));
-    if (!file.startsWith(DIST)) return new Response("Forbidden", { status: 403 });
+    // Require the resolved path to be DIST itself or strictly inside it (with a
+    // separator boundary) — a bare startsWith would let "dist-evil" slip past.
+    if (file !== DIST && !file.startsWith(DIST + path.sep)) {
+      return new Response("Forbidden", { status: 403 });
+    }
     const res = await net.fetch(pathToFileURL(file).toString());
     const type = MIME[path.extname(file).toLowerCase()];
     return type
