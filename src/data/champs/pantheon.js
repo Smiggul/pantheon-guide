@@ -75,7 +75,7 @@ export default {
         label: "PTA Bruiser",
         tag: "alt",
         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Serylda's Grudge  ›  Death's Dance",
-        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the shred + HP, Serylda's Grudge for the pen + slow to stick the combo, and Death's Dance to outlast. More burst-trade-focused than the Conqueror Resolve Bruiser, but far tankier and more forgiving than the pure-lethality snowball.",
+        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the shred + HP, Serylda's Grudge for the pen + slow to stick the combo, and Death's Dance to outlast. Tankier and more forgiving than the pure-lethality Carry line — you brawl the trades instead of one-shotting from range.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
