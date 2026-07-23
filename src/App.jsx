@@ -654,7 +654,7 @@ useEffect(() => {
     const src = itemImg(item.name, itemMap);
     const rationale = ITEM_RATIONALE[item.name];
     return (
-      <div style={{
+      <div className="frge-card" style={{
         background:"rgba(255,255,255,.04)",
         border:`1px solid rgba(255,255,255,.08)`,
         borderLeft:`4px solid ${col}`,
@@ -1618,6 +1618,7 @@ useEffect(() => {
               <button
                 onClick={sendToLeague}
                 disabled={applyState === "sending"}
+                className="frge-cta"
                 title="Import this rune page + item set into the running League client"
                 style={{
                   marginLeft:"auto",
@@ -1687,7 +1688,8 @@ useEffect(() => {
                 const off = tag === "off-meta";
                 const accent = off ? "#e08040" : S.gold;
                 return (
-                  <button key={idx} onClick={() => setAltBuildIdx(idx)} style={{
+                  <button key={idx} onClick={() => setAltBuildIdx(idx)}
+                    className="frge-pill" aria-pressed={on} style={{
                     cursor:"pointer", borderRadius:"20px", padding:"4px 12px",
                     fontSize:"11px", letterSpacing:".5px", fontWeight: on ? "bold" : "normal",
                     border:`1px solid ${on ? accent : "rgba(255,255,255,.12)"}`,
@@ -1759,16 +1761,21 @@ useEffect(() => {
             .filter(c => c !== champ.display)
             .slice(0, 3);
           return (
-            <div key={k} onClick={() => setOpenClass(on ? null : k)} style={{
+            <div key={k} onClick={() => setOpenClass(on ? null : k)}
+              className={`frge-tile${on ? " frge-tile--on" : ""}`}
+              role="button" tabIndex={0} aria-pressed={on}
+              onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setOpenClass(on ? null : k); } }}
+              // Per-class colours are passed as CSS custom properties so the
+              // hover/active visuals can live in CSS (inline background/border/
+              // box-shadow/transform would otherwise override the :hover rules).
+              style={{
+              "--tile-bg-on": `radial-gradient(circle at 50% 30%,${d.glow}38 0%,${d.color}22 60%,${d.color}12 100%)`,
+              "--tile-border-on": `${d.glow}90`,
+              "--tile-shadow-on": `0 0 18px ${d.glow}45, inset 0 0 16px ${d.glow}10`,
+              "--tile-hover-border": `${d.glow}66`,
+              "--tile-hover-glow": `${d.glow}33`,
               cursor:"pointer", borderRadius:"12px",
               padding:"8px 8px 7px", textAlign:"center",
-              background: on
-                ? `radial-gradient(circle at 50% 30%,${d.glow}38 0%,${d.color}22 60%,${d.color}12 100%)`
-                : "rgba(255,255,255,.04)",
-              border: on ? `1.5px solid ${d.glow}90` : "1.5px solid rgba(255,255,255,.07)",
-              boxShadow: on ? `0 0 18px ${d.glow}45,inset 0 0 16px ${d.glow}10` : "none",
-              transform: on ? "scale(1.04)" : "scale(1)",
-              transition:"all .2s ease",
             }}>
               <div style={{ fontSize:"20px", marginBottom:"2px" }}>{d.emoji}</div>
 
@@ -1818,7 +1825,10 @@ useEffect(() => {
           boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
           transition:"border-color .2s, box-shadow .2s",
         }}>
-          <div style={{ display:"grid",
+          {/* key replays the fade-up whenever the matchup or build changes */}
+          <div key={`${champ.id}-${currentRole}-${openClass}-${altBuildIdx}`}
+            className="frge-enter"
+            style={{ display:"grid",
             gridTemplateColumns: narrowWorkspace ? "1fr" : "minmax(0,1fr) minmax(0,1.05fr)",
             gap: narrowWorkspace ? "18px" : "28px", alignItems:"start" }}>
 

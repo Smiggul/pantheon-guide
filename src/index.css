@@ -70,3 +70,99 @@ body {
 p {
   margin: 0;
 }
+
+/* ── Motion + interaction layer ──────────────────────────────────────────────
+   The app is otherwise 100% inline styles, but inline styles cannot express
+   :hover, :focus-visible, @keyframes or prefers-reduced-motion — so exactly
+   those live here and nothing else. Following UI/UX Pro Max guidance:
+   150–220ms, ease-out on enter, and only transform/opacity/colour is animated
+   (never width/height, which would thrash layout). */
+
+:root {
+  --frge-orange: #F97316;
+  --frge-gold:   #D4AF37;
+  --frge-ease:   cubic-bezier(0.22, 0.61, 0.36, 1); /* ease-out */
+}
+
+/* Selectable class tiles. Their full visual state lives here (not inline) so the
+   :hover rules aren't overridden by inline styles — the per-class colours come
+   in as --tile-* custom properties set on the element. */
+.frge-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+  transform: scale(1);
+  transition: transform 180ms var(--frge-ease),
+              box-shadow 180ms var(--frge-ease),
+              border-color 180ms var(--frge-ease),
+              background 180ms var(--frge-ease);
+}
+.frge-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--tile-hover-border, rgba(249, 115, 22, 0.45));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45),
+              0 0 14px var(--tile-hover-glow, rgba(249, 115, 22, 0.18));
+}
+.frge-tile:active { transform: translateY(0) scale(0.99); }
+
+/* Selected class */
+.frge-tile--on {
+  background: var(--tile-bg-on);
+  border-color: var(--tile-border-on);
+  box-shadow: var(--tile-shadow-on);
+  transform: scale(1.04);
+}
+.frge-tile--on:hover { transform: translateY(-2px) scale(1.04); }
+
+/* Small pills — build toggles, filters */
+.frge-pill {
+  transition: transform 150ms var(--frge-ease),
+              border-color 150ms var(--frge-ease),
+              color 150ms var(--frge-ease);
+}
+.frge-pill:hover { transform: translateY(-1px); border-color: rgba(212, 175, 55, 0.65); }
+.frge-pill:active { transform: translateY(0); }
+
+/* Item / build cards — slide slightly toward the reader on hover */
+.frge-card {
+  transition: transform 180ms var(--frge-ease), box-shadow 180ms var(--frge-ease);
+}
+.frge-card:hover {
+  transform: translateX(3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.42);
+}
+
+/* Primary action — the Import-to-League CTA */
+.frge-cta {
+  transition: transform 150ms var(--frge-ease), box-shadow 150ms var(--frge-ease);
+}
+.frge-cta:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.45);
+}
+.frge-cta:active:not(:disabled) { transform: translateY(0); }
+
+/* Keyboard focus — replace the ring, never just remove it (a11y: High) */
+:where(button, a, input, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--frge-orange);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Content entrance — replays when the matchup/build changes */
+@keyframes frge-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+.frge-enter { animation: frge-fade-up 220ms var(--frge-ease) both; }
+
+/* Respect the user's motion preference (a11y: High) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .frge-tile:hover, .frge-pill:hover, .frge-card:hover, .frge-cta:hover { transform: none; }
+}

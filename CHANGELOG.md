@@ -25,6 +25,14 @@ _Nothing yet._
   Carry — PTA/Sorcery; and PTA Bruiser), AP Kai'Sa (Bot), Crit Master Yi
   (Jungle), Full-tank Cho'Gath (Top), and Lethality Varus (Bot) — alongside the
   existing Pantheon Mid / Wukong / Shyvana / Mordekaiser lines.
+- **Motion & interaction polish** — class tiles and item cards lift on hover,
+  pills give press feedback, and the build panel fades up when you switch
+  matchup or build. Tuned to 150–220ms ease-out, animating only transform and
+  opacity so nothing touches the layout path.
+- **Keyboard access & motion preferences** — the class tiles are now real
+  operable controls (Tab to focus, Enter/Space to select, `aria-pressed` state)
+  with a visible focus ring, and every animation is disabled automatically for
+  users with "reduce motion" enabled.
 
 ### Changed
 - **New colour theme** — Charcoal / Gunmetal / Molten Orange / Gold / White, for
