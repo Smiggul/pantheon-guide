@@ -43,9 +43,16 @@ function createWindow() {
     } catch { /* malformed URL — ignore */ }
     return { action: "deny" };
   });
-  // Never let in-page navigation leave the app bundle / dev server.
+  // Never let in-page navigation leave the app bundle / dev server. Parse and
+  // compare origin/host exactly — startsWith would accept spoofs like
+  // "http://localhost:5173@attacker.example/" or "app://attacker/".
   win.webContents.on("will-navigate", (e, url) => {
-    const ok = DEV ? url.startsWith("http://localhost:5173") : url.startsWith("app://");
+    let ok = false;
+    try {
+      const u = new URL(url);
+      ok = DEV ? u.origin === "http://localhost:5173"
+               : (u.protocol === "app:" && u.host === "-");
+    } catch { /* malformed URL — block */ }
     if (!ok) e.preventDefault();
   });
   win.loadURL(DEV ? "http://localhost:5173" : "app://-/");
@@ -135,9 +142,16 @@ function lcu(method, apiPath, { port, token }, body) {
   });
 }
 
-// Any id interpolated into an LCU request path must be a positive integer, so
-// nothing user- or response-supplied can inject into the path.
-const posInt = (v) => (Number.isInteger(Number(v)) && Number(v) >= 0 ? Number(v) : null);
+// Any id interpolated into an LCU request path must be a real non-negative
+// integer, so nothing user- or response-supplied can inject into the path. The
+// typeof guard is essential: Number(false)/Number(null)/Number("") all coerce to
+// 0 and Number(true) to 1, so without it, junk renderer input becomes a "valid"
+// id. (>= 0 not > 0: LCU champ-select action ids are 0-indexed in blind pick.)
+const posInt = (v) => {
+  if (typeof v !== "number" && typeof v !== "string") return null;
+  const n = Number(v);
+  return Number.isSafeInteger(n) && n >= 0 ? n : null;
+};
 
 // Apply a build: replace the current rune page and push the item set.
 // Runes are the reliable, high-value part; the item set is best-effort.
@@ -250,7 +264,7 @@ async function pollChampSelect() {
 ipcMain.handle("frge:hover-champion", async (_e, arg) => {
   const championId = posInt(typeof arg === "object" ? arg?.championId : arg);
   let actionId = (typeof arg === "object" && arg?.actionId != null) ? posInt(arg.actionId) : undefined;
-  if (championId == null) return { ok: false, error: "bad-champion" };
+  if (championId == null || championId < 1) return { ok: false, error: "bad-champion" };
   if (actionId === null) return { ok: false, error: "bad-action" };
   try {
     const creds = await getCreds();
