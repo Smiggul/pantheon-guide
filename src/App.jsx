@@ -373,6 +373,15 @@ export default function App() {
   const [imgErr,       setImgErr]       = useState({});
   const [showCore,     setShowCore]     = useState(false);
   const [altBuildIdx,  setAltBuildIdx]  = useState(-1); // -1 = primary build; 0+ = ALT_BUILDS index
+  // Track window width so the items|runes workspace can stack to one column on
+  // narrow/half-screen windows (side-by-side squeezes the fixed-size rune page).
+  const [winW, setWinW] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
+  useEffect(() => {
+    const onResize = () => setWinW(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  const narrowWorkspace = winW < 1080;
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [showPicker,      setShowPicker]      = useState(false);
   const [champSearch,     setChampSearch]     = useState("");
@@ -1811,8 +1820,9 @@ useEffect(() => {
           boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
           transition:"border-color .2s, box-shadow .2s",
         }}>
-          <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1fr) minmax(0,1.05fr)",
-            gap:"28px", alignItems:"start" }}>
+          <div style={{ display:"grid",
+            gridTemplateColumns: narrowWorkspace ? "1fr" : "minmax(0,1fr) minmax(0,1.05fr)",
+            gap: narrowWorkspace ? "18px" : "28px", alignItems:"start" }}>
 
             {/* ── LEFT: items ── */}
             <div>
