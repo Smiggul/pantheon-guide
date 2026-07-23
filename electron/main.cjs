@@ -43,18 +43,21 @@ function createWindow() {
     } catch { /* malformed URL — ignore */ }
     return { action: "deny" };
   });
-  // Never let in-page navigation leave the app bundle / dev server. Parse and
-  // compare origin/host exactly — startsWith would accept spoofs like
-  // "http://localhost:5173@attacker.example/" or "app://attacker/".
-  win.webContents.on("will-navigate", (e, url) => {
-    let ok = false;
+  // Never let navigation leave the app bundle / dev server. Parse and compare
+  // origin/host exactly (startsWith would accept spoofs like
+  // "http://localhost:5173@attacker.example/" or "app://attacker/"), and guard
+  // BOTH will-navigate and will-redirect — a server-side 302 bypasses
+  // will-navigate, so it needs the same allowlist.
+  const isInAppUrl = (url) => {
     try {
       const u = new URL(url);
-      ok = DEV ? u.origin === "http://localhost:5173"
-               : (u.protocol === "app:" && u.host === "-");
-    } catch { /* malformed URL — block */ }
-    if (!ok) e.preventDefault();
-  });
+      return DEV ? u.origin === "http://localhost:5173"
+                 : (u.protocol === "app:" && u.host === "-");
+    } catch { return false; }
+  };
+  const blockOffAppNav = (e, url) => { if (!isInAppUrl(url)) e.preventDefault(); };
+  win.webContents.on("will-navigate", blockOffAppNav);
+  win.webContents.on("will-redirect", blockOffAppNav);
   win.loadURL(DEV ? "http://localhost:5173" : "app://-/");
   mainWin = win;
   win.on("closed", () => { if (mainWin === win) mainWin = null; });
