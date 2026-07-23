@@ -74,8 +74,8 @@ export default {
       }, {
         label: "PTA Bruiser",
         tag: "alt",
-        corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Serylda's Grudge  ›  Death's Dance",
-        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the shred + HP, Serylda's Grudge for the pen + slow to stick the combo, and Death's Dance to outlast. Tankier and more forgiving than the pure-lethality Carry line — you brawl the trades instead of one-shotting from range.",
+        corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Spear of Shojin  ›  Death's Dance",
+        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the armor shred + HP, Spear of Shojin for the ability haste + ability-damage amp that supercharges the Q-spam trades, and Death's Dance to outlast. Black Cleaver already handles your armor pen, so Serylda's Grudge is an either/or swap for it (sideItems) — take Serylda's over Cleaver when you need the slow to stick, not both. Tankier and more forgiving than the pure-lethality Carry line — you brawl the trades instead of one-shotting from range.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -85,7 +85,7 @@ export default {
           shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
           reason: "Press the Attack rewards the exact three-hit trade Pantheon forces (spear, W-auto, auto) with a burst of bonus damage AND a damage-amp debuff on the target, so your Q follow-up and Voltaic proc hit for more. Presence of Mind funds the Q spam, Coup de Grace executes after the W-stun, and the Resolve secondary is the survivability the aggressive line needs — Bone Plating survives the burst-back after you commit, Overgrowth scales your HP for the drawn-out brawls.",
         },
-        sideItems: ["Eclipse", "Edge of Night", "Opportunity", "Sterak's Gage", "Youmuu's Ghostblade", "Spear of Shojin", "Maw of Malmortius", "Serpent's Fang"],
+        sideItems: ["Serylda's Grudge", "Eclipse", "Edge of Night", "Opportunity", "Sterak's Gage", "Youmuu's Ghostblade", "Maw of Malmortius", "Serpent's Fang"],
       }],
       Mid: [{
         label: "Lethality Assassin",
