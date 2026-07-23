@@ -1,0 +1,40 @@
+# CodeRabbit configuration — https://docs.coderabbit.ai/guides/configure-coderabbit
+# Security-focused reviews ahead of the login / ad-viewer / hosting work.
+language: "en-US"
+
+reviews:
+  # "assertive" = more thorough/nitpicky than the default "chill".
+  profile: "assertive"
+  # Post a review-requested-changes status when issues are found.
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    # Review PRs targeting either branch (frge-gg is the current default).
+    base_branches:
+      - "frge-gg"
+      - "main"
+  # Extra, path-scoped guidance so reviews focus on the risky surfaces.
+  path_instructions:
+    - path: "electron/**"
+      instructions: >-
+        Electron main/preload process. Flag any IPC handler that trusts renderer
+        input without validation, any command/shell execution, path traversal,
+        SSRF, or exposure of Node/privileged APIs to the renderer. It reads the
+        local League Client credentials and talks to it over HTTPS with a
+        self-signed cert (rejectUnauthorized:false is expected ONLY for
+        127.0.0.1) — flag any broadening of that.
+    - path: "src/**"
+      instructions: >-
+        React SPA (no backend yet). Flag XSS (dangerouslySetInnerHTML, unsanitised
+        HTML), unsafe external URL handling, and any place future user/login/auth
+        or ad-network data is trusted, stored, or rendered without validation.
+    - path: "helpers/**"
+      instructions: >-
+        Build/data scripts. Flag unsafe handling of downloaded/remote data and any
+        command execution built from external input.
+
+chat:
+  auto_reply: true
