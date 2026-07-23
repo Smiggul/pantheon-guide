@@ -1157,17 +1157,17 @@ useEffect(() => {
 
       {/* ── PAGE HEADER ── */}
       <div style={{
-        textAlign:"center", padding:"28px 24px 14px",
+        textAlign:"center", padding:"10px 24px 8px",
         background:"linear-gradient(180deg,rgba(249,115,22,.14) 0%,transparent 100%)",
         borderBottom:`1px solid ${S.border}`,
       }}>
-        <div style={{ fontSize:"11px", letterSpacing:"6px", color:S.goldDim,
-          textTransform:"uppercase", marginBottom:"6px" }}>
+        <div style={{ fontSize:"10px", letterSpacing:"6px", color:S.goldDim,
+          textTransform:"uppercase", marginBottom:"2px" }}>
           FRGE.GG · Patch 26.14
         </div>
         <h1 style={{
-          fontSize:"clamp(18px,3.5vw,30px)", fontWeight:"bold",
-          color:S.orange, margin:"0 0 6px",
+          fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
+          color:S.orange, margin:"0 0 2px",
           textShadow:"0 0 40px rgba(249,115,22,.45)", letterSpacing:"2px",
         }}>
           {champ.display} — Situational Itemization
@@ -1190,7 +1190,7 @@ useEffect(() => {
           borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : "rgba(212,175,55,.14)"}`,
           padding:"9px 24px",
         }}>
-          <div style={{ maxWidth:"1400px", margin:"0 auto", display:"flex",
+          <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", display:"flex",
             alignItems:"center", gap:"14px", flexWrap:"wrap", fontFamily:"inherit" }}>
 
             {/* status dot + label */}
@@ -1263,10 +1263,10 @@ useEffect(() => {
       <div style={{
         background:"rgba(0,0,0,.45)",
         borderBottom:`1px solid rgba(212,175,55,.14)`,
-        padding:"12px 24px",
+        padding:"7px 24px",
       }}>
         <div style={{
-          maxWidth:"1400px", margin:"0 auto",
+          maxWidth:"min(96vw,1900px)", margin:"0 auto",
           display:"flex", alignItems:"center", gap:"16px", flexWrap:"wrap",
         }}>
 
@@ -1598,11 +1598,11 @@ useEffect(() => {
       )}
 
       {/* ── CORE BUILD PATH ── */}
-      <div style={{ maxWidth:"1400px", margin:"8px auto 0", padding:"0 24px" }}>
+      <div style={{ maxWidth:"min(96vw,1900px)", margin:"8px auto 0", padding:"0 24px" }}>
         <div style={{
           background:S.panelBg,
           border:`1px solid ${S.border}`,
-          borderRadius:"12px", padding:"16px 20px",
+          borderRadius:"12px", padding:"11px 18px",
         }}>
           <div style={{ display:"flex", alignItems:"center",
             marginBottom: showCore ? "14px" : "0" }}>
@@ -1741,9 +1741,9 @@ useEffect(() => {
       {/* ── CLASS BUBBLES ── */}
       <div style={{
         display:"grid",
-        gridTemplateColumns:"repeat(auto-fill, minmax(148px, 1fr))",
-        gap:"10px", padding:"14px 24px",
-        maxWidth:"1400px", margin:"0 auto",
+        gridTemplateColumns:"repeat(auto-fill, minmax(116px, 1fr))",
+        gap:"8px", padding:"9px 24px",
+        maxWidth:"min(96vw,1900px)", margin:"0 auto",
       }}>
         {Object.keys(CLASSES).map(k => {
           const d  = CLASSES[k];
@@ -1755,7 +1755,7 @@ useEffect(() => {
           return (
             <div key={k} onClick={() => setOpenClass(on ? null : k)} style={{
               cursor:"pointer", borderRadius:"12px",
-              padding:"14px 10px 12px", textAlign:"center",
+              padding:"8px 8px 7px", textAlign:"center",
               background: on
                 ? `radial-gradient(circle at 50% 30%,${d.glow}38 0%,${d.color}22 60%,${d.color}12 100%)`
                 : "rgba(255,255,255,.04)",
@@ -1764,15 +1764,15 @@ useEffect(() => {
               transform: on ? "scale(1.04)" : "scale(1)",
               transition:"all .2s ease",
             }}>
-              <div style={{ fontSize:"26px", marginBottom:"6px" }}>{d.emoji}</div>
+              <div style={{ fontSize:"20px", marginBottom:"2px" }}>{d.emoji}</div>
 
               {/* 3 champion portrait previews */}
-              <div style={{ display:"flex", justifyContent:"center", gap:"3px", marginBottom:"7px" }}>
+              <div style={{ display:"flex", justifyContent:"center", gap:"3px", marginBottom:"4px" }}>
                 {previewChamps.map(c => {
                   const ek = `bubble-${c}`;
                   return (
                     <div key={c} style={{
-                      width:"28px", height:"28px", borderRadius:"5px", overflow:"hidden",
+                      width:"23px", height:"23px", borderRadius:"5px", overflow:"hidden",
                       border:`1px solid rgba(255,255,255,.18)`,
                       background:"#2A2F38", flexShrink:0,
                     }}>
@@ -1788,11 +1788,11 @@ useEffect(() => {
                 })}
               </div>
 
-              <div style={{ fontSize:"11px", fontWeight:"bold", letterSpacing:".8px",
-                color: on ? d.glow : "#D4AF37", textTransform:"uppercase", lineHeight:1.2 }}>
+              <div style={{ fontSize:"10.5px", fontWeight:"bold", letterSpacing:".6px",
+                color: on ? d.glow : "#D4AF37", textTransform:"uppercase", lineHeight:1.15 }}>
                 {d.label}
               </div>
-              <div style={{ marginTop:"4px", fontSize:"10px", color:"rgba(200,204,209,.38)" }}>
+              <div style={{ marginTop:"2px", fontSize:"9px", color:"rgba(200,204,209,.38)" }}>
                 {d.champions.length} champs
               </div>
             </div>
@@ -1802,13 +1802,13 @@ useEffect(() => {
 
       {/* ── DETAIL PANEL ── */}
       {/* ── BUILD WORKSPACE — items + runes side by side, always visible ── */}
-      <div style={{ maxWidth:"1400px", margin:"0 auto 16px", padding:"0 24px" }}>
+      <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 16px", padding:"0 24px" }}>
         <div style={{
           background: classEntry
             ? `linear-gradient(135deg,rgba(20,20,26,.98) 0%,${classEntry.color}12 100%)`
             : "rgba(20,20,26,.92)",
           border:`1px solid ${classEntry ? `${classEntry.glow}55` : "rgba(212,175,55,.18)"}`,
-          borderRadius:"14px", padding:"22px 24px",
+          borderRadius:"14px", padding:"16px 20px",
           boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
           transition:"border-color .2s, box-shadow .2s",
         }}>
@@ -1929,7 +1929,7 @@ useEffect(() => {
       </div>
 
       {/* ── SITUATIONAL ITEMS STRIP ── */}
-      <div style={{ maxWidth:"1400px", margin:"0 auto 32px", padding:"0 24px" }}>
+      <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 14px", padding:"0 24px" }}>
         <div style={{
           background:"rgba(255,255,255,.02)", border:`1px solid rgba(180,140,60,.13)`,
           borderRadius:"12px", padding:"16px 20px",
