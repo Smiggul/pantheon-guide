@@ -791,6 +791,7 @@ useEffect(() => {
     const isRec = recSet.has(name);
     return (
       <div
+        key={name}
         onClick={!locked ? onClick : undefined}
         onMouseEnter={e  => tip(name, e)}
         onMouseMove={e   => moveTip(name, e)}
@@ -918,11 +919,11 @@ useEffect(() => {
         color: "rgba(255,255,255,.22)", textTransform: "uppercase",
         textAlign: "center", marginBottom: 6 }}>Keystone</div>
       <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 14 }}>
-        {primMeta.keystones.map(k => (
-          <Rune key={k} name={k} size={54} isKeystone
-            selected={keystone === k} treeColor={primMeta.color}
-            onClick={() => pickKeystone(k)} />
-        ))}
+        {primMeta.keystones.map(k => Rune({
+          name: k, size: 54, isKeystone: true,
+          selected: keystone === k, treeColor: primMeta.color,
+          onClick: () => pickKeystone(k),
+        }))}
       </div>
       <div style={{ height: 1, background: "rgba(255,255,255,.07)", margin: "0 0 12px" }} />
 
@@ -933,11 +934,11 @@ useEffect(() => {
             color: "rgba(255,255,255,.16)", textTransform: "uppercase",
             textAlign: "center", marginBottom: 4 }}>Row {ri + 1}</div>
           <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-            {row.map(r => (
-              <Rune key={r} name={r} size={40}
-                selected={primRows[ri] === r} treeColor={primMeta.color}
-                onClick={() => pickPrimRune(ri, r)} />
-            ))}
+            {row.map(r => Rune({
+              name: r, size: 40,
+              selected: primRows[ri] === r, treeColor: primMeta.color,
+              onClick: () => pickPrimRune(ri, r),
+            }))}
           </div>
         </div>
       ))}
@@ -977,14 +978,11 @@ useEffect(() => {
                   color: "rgba(255,255,255,.16)", textTransform: "uppercase",
                   textAlign: "center", marginBottom: 4 }}>Row {ri + 1}</div>
                 <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
-                  {row.map(r => {
-                    const isSel = secRunes.includes(r);
-                    return (
-                      <Rune key={r} name={r} size={40}
-                        selected={isSel} treeColor={secMeta.color}
-                        onClick={() => pickSecRune(r, ri)} />
-                    );
-                  })}
+                  {row.map(r => Rune({
+                    name: r, size: 40,
+                    selected: secRunes.includes(r), treeColor: secMeta.color,
+                    onClick: () => pickSecRune(r, ri),
+                  }))}
                 </div>
               </div>
             );
