@@ -12,7 +12,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Changed
+- Ad zones are now **hidden by default** behind a single `ADS_ENABLED` switch in
+  `src/App.jsx`. The layout, VIP gating and placeholders remain built — flip the
+  flag to `true` once a real ad network is wired up. The "Preview VIP" toggle is
+  hidden while ads are off, since there's nothing to preview.
 
 ## [0.3.0] — 2026-07-23
 

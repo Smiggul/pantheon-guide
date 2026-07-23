@@ -15,6 +15,11 @@ for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
 const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
 const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
 
+// Master switch for the ad zones. Off until a real ad network is wired up —
+// the layout, VIP gating and placeholders below are all built and just need
+// this flipped to true. (See the monetisation roadmap in CLAUDE.md.)
+const ADS_ENABLED = false;
+
 // ── Ad zones ────────────────────────────────────────────────────────────────
 // Reserved, non-intrusive placeholders (top banner, two side rails, collapsible
 // bottom bar). They render nothing when the user is VIP. Sizes are fixed so
@@ -405,11 +410,12 @@ export default function App() {
   // for now it's a local preview toggle. Every ad zone is gated on it.
   const [isVip, setIsVip] = useState(false);
   const [adBottomOpen, setAdBottomOpen] = useState(true);
+  const showAds = ADS_ENABLED && !isVip;
   // Only show the side rails when the empty gutter beside the centred content
   // is genuinely wide enough — otherwise they'd cover the app.
   const contentW = Math.min(winW * 0.96, 1900);
   const gutter = (winW - contentW) / 2;
-  const showSideAds = !isVip && gutter >= 176;
+  const showSideAds = showAds && gutter >= 176;
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [showPicker,      setShowPicker]      = useState(false);
   const [champSearch,     setChampSearch]     = useState("");
@@ -1190,7 +1196,7 @@ useEffect(() => {
       }}>
 
       {/* ── AD: top banner (leaderboard) ── */}
-      {!isVip && (
+      {showAds && (
         <div style={{ display:"flex", justifyContent:"center", padding:"8px 24px 0" }}>
           {adSlot("Advertisement", "min(970px, 92vw)", "90px")}
         </div>
@@ -1222,7 +1228,9 @@ useEffect(() => {
          <span style={{ fontSize:"11px", color:"rgba(255,255,255,.4)" }}>{currentRole}</span>
       )}
       </p>
-      {/* Preview toggle until the account system exists — VIP hides all ads. */}
+      {/* Preview toggle until the account system exists — VIP hides all ads.
+          Hidden entirely while ADS_ENABLED is false (nothing to preview). */}
+      {ADS_ENABLED && (
       <button onClick={() => setIsVip(v => !v)} className="frge-pill" style={{
         marginTop:"6px", cursor:"pointer", borderRadius:"20px", padding:"3px 12px",
         fontSize:"10px", letterSpacing:".5px",
@@ -1232,6 +1240,7 @@ useEffect(() => {
       }}>
         {isVip ? "★ VIP — ads hidden" : "Preview VIP (hide ads)"}
       </button>
+      )}
       </div>
 
       {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
@@ -2139,7 +2148,7 @@ useEffect(() => {
       )}
 
       {/* ── AD: collapsible bottom bar ── */}
-      {!isVip && (
+      {showAds && (
         <div style={{
           position:"fixed", left:0, right:0, bottom:0, zIndex:20,
           display:"flex", flexDirection:"column", alignItems:"center",
@@ -2169,7 +2178,7 @@ useEffect(() => {
       )}
 
       {/* Keeps the fixed bottom ad from covering the last of the page content */}
-      {!isVip && <div style={{ height: adBottomOpen ? "78px" : "22px" }} />}
+      {showAds && <div style={{ height: adBottomOpen ? "78px" : "22px" }} />}
 
     </div>
   );
