@@ -51,7 +51,60 @@ export default {
     color:    "#c0392b",
     glow:     "#e74c3c",
     lanes:    ["Top", "Mid", "Support", "Jungle"],
-  
+
+    // Alternate / off-meta builds (toggleable in the UI). Kept in-file so a
+    // champion's whole build picture lives in one place. Shape per role:
+    // [{ label, tag:"off-meta"|"alt", corePath, coreNote, runes, sideItems }].
+    altBuilds:{
+      Top: [{
+        label: "Resolve Bruiser",
+        tag: "alt",
+        corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
+        coreNote: "The survivability line — trade the standard Sorcery secondary (Transcendence/Scorch) for a Resolve secondary so you live through the extended brawls instead of relying on winning the burst race. Eclipse over Voltaic first here: its passive shield and %-max-HP proc reward the drawn-out trades this page is built for, Black Cleaver adds the HP + shred, Sundered Sky heals off the guaranteed crit-Q, and Death's Dance turns lethal burst into a bleed you outlast. Sterak's Gage and Spirit Visage are the natural continuations. Tankier and more forgiving than the lethality/snowball lines — you brawl, sustain, and out-stat the lane rather than one-combo it.",
+        runes: {
+          keystone: "Conqueror",
+          primary: "Precision",
+          primaryRunes: ["Presence of Mind", "Legend: Haste", "Last Stand"],
+          secondary: "Resolve",
+          secondaryRunes: ["Bone Plating", "Revitalize"],
+          shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+          reason: "Conqueror + Presence of Mind is the same durable-DPS core, but the Resolve secondary is the survivability trade: Bone Plating blunts the burst opener of the divers/assassins you brawl, and Revitalize amplifies the Sundered Sky / Death's Dance / Spirit Visage healing this line leans on. Last Stand still rewards the low-HP Conqueror fights this page wants to be in, and the Health-scaling shard adds to the durability.",
+        },
+        sideItems: ["Sterak's Gage", "Spirit Visage", "Plated Steelcaps", "Mercury's Treads", "Maw of Malmortius", "Randuin's Omen", "Thornmail", "Kaenic Rookern"],
+      }, {
+        label: "PTA Bruiser",
+        tag: "alt",
+        corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Serylda's Grudge  ›  Death's Dance",
+        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the shred + HP, Serylda's Grudge for the pen + slow to stick the combo, and Death's Dance to outlast. More burst-trade-focused than the Conqueror Resolve Bruiser, but far tankier and more forgiving than the pure-lethality snowball.",
+        runes: {
+          keystone: "Press the Attack",
+          primary: "Precision",
+          primaryRunes: ["Presence of Mind", "Legend: Haste", "Coup de Grace"],
+          secondary: "Resolve",
+          secondaryRunes: ["Bone Plating", "Overgrowth"],
+          shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+          reason: "Press the Attack rewards the exact three-hit trade Pantheon forces (spear, W-auto, auto) with a burst of bonus damage AND a damage-amp debuff on the target, so your Q follow-up and Voltaic proc hit for more. Presence of Mind funds the Q spam, Coup de Grace executes after the W-stun, and the Resolve secondary is the survivability the aggressive line needs — Bone Plating survives the burst-back after you commit, Overgrowth scales your HP for the drawn-out brawls.",
+        },
+        sideItems: ["Eclipse", "Edge of Night", "Opportunity", "Sterak's Gage", "Youmuu's Ghostblade", "Spear of Shojin", "Maw of Malmortius", "Serpent's Fang"],
+      }],
+      Mid: [{
+        label: "Lethality Assassin",
+        tag: "off-meta",
+        corePath: "Youmuu's Ghostblade  ›  Ionian Boots of Lucidity  ›  Voltaic Cyclosword  ›  Edge of Night",
+        coreNote: "The one-shot roam build (Mobalytics 26.14, ~11k games), not the Conqueror bruiser: rush lethality, spear-Q from max range, W-stun, and delete the squishy before they react. Youmuu's Ghostblade is the first-item spike — roam speed + lethality — Voltaic Cyclosword adds the energized auto-reset burst, and Edge of Night blanks the peel spell saved for you. Black Cleaver or Serylda's close it. Far spikier and squishier than the standard page — snowball mid, roam side lanes with Grand Starfall.",
+        runes: {
+          keystone: "Electrocute",
+          primary: "Domination",
+          primaryRunes: ["Sudden Impact", "Sixth Sense", "Treasure Hunter"],
+          secondary: "Inspiration",
+          secondaryRunes: ["Biscuit Delivery", "Cosmic Insight"],
+          shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
+          reason: "Electrocute completes in one spear-W-auto combo for the burst window; Sudden Impact procs lethality on every E-stun and leap, Treasure Hunter funds the lethality curve off picks, and the Inspiration splash (Biscuit Delivery, Cosmic Insight) sustains the roam and shortens Grand Starfall's cooldown.",
+        },
+        sideItems: ["Black Cleaver", "Serylda's Grudge", "Opportunity", "Profane Hydra", "The Collector", "Guardian Angel"],
+      }],
+    },
+
     roles:{
             Top:    {  
               bans:["Jax","Malphite","Fiora"], replacements:["Renekton","Sett","Wukong"],

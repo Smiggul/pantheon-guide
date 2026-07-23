@@ -24,17 +24,19 @@ const CHAMP = {}; for (const v of Object.values(champs)) CHAMP[v.id] = Number(v.
 
 const idByName = {}; for (const [id, v] of Object.entries(full)) if (!(v.name in idByName)) idByName[v.name] = id;
 
-// gather every build item + first-core item used across the roster (+ alt builds)
+// gather every build item + first-core item used across the roster (+ each
+// champion's in-file alt builds — champ.altBuilds:{ Role:[{corePath,sideItems}] })
 const mod = await import(pathToFileURL("src/data/champs/index.js").href);
-const alt = await import(pathToFileURL("src/data/altBuilds.js").href);
 const used = new Set(), firstCore = new Set();
 const eatRole = (r) => {
   if (typeof r.corePath === "string") { const p = r.corePath.split("›").map((s) => s.trim()); p.forEach((s) => used.add(s)); if (p[0]) firstCore.add(p[0]); }
   if (Array.isArray(r.sideItems)) r.sideItems.forEach((s) => used.add(s));
   for (const cell of Object.values(r.data || {})) for (const side of ["ahead", "behind"]) for (const e of (cell[side] || [])) if (e?.name) used.add(e.name);
 };
-for (const c of mod.CHAMPS) for (const r of (c.roles ? Object.values(c.roles) : (c.data ? [c] : []))) eatRole(r);
-for (const byRole of Object.values(alt.ALT_BUILDS || {})) for (const list of Object.values(byRole)) for (const b of list) eatRole(b);
+for (const c of mod.CHAMPS) {
+  for (const r of (c.roles ? Object.values(c.roles) : (c.data ? [c] : []))) eatRole(r);
+  for (const list of Object.values(c.altBuilds || {})) for (const b of list) eatRole(b);
+}
 
 ["Doran's Blade","Doran's Ring","Doran's Shield","Health Potion","Refillable Potion","Corrupting Potion",
  "Cull","Dark Seal","Tear of the Goddess","Control Ward","Stealth Ward","Farsight Alteration","Oracle Lens",

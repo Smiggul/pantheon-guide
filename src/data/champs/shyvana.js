@@ -28,6 +28,24 @@ export default {
   id:"shyvana", display:"Shyvana", dd:"Shyvana",
   color:"#c0392b", glow:"#e67e22",
   lanes:["Jungle","Top"],
+  altBuilds:{
+    Jungle: [{
+      label: "AP Dragon",
+      tag: "off-meta",
+      corePath: "Liandry's Torment  ›  Sorcerer's Shoes  ›  Blackfire Torch  ›  Rabadon's Deathcap",
+      coreNote: "The burn-dragon build: max E (Flame Breath) and let AP scaling melt the enemy team in dragon form. Liandry's Torment burns through HP-stackers, Blackfire Torch amplifies every burn tick, and Rabadon's turns the E-detonation into a chunk of anyone's health bar. Void Staff closes vs MR. Weaker duelling than AD Shyvana but a monster AoE teamfight ult and objective burn — dive the fight in dragon form and cook everyone.",
+      runes: {
+        keystone: "Conqueror",
+        primary: "Precision",
+        primaryRunes: ["Triumph", "Legend: Alacrity", "Coup de Grace"],
+        secondary: "Sorcery",
+        secondaryRunes: ["Transcendence", "Gathering Storm"],
+        shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+        reason: "Conqueror stacks off Flame Breath + dragon-form autos and converts to healing for the dive; Transcendence feeds the E cooldown the whole build revolves around, and Gathering Storm backs the AP scaling her burn cashes in late.",
+      },
+      sideItems: ["Nashor's Tooth", "Shadowflame", "Void Staff", "Zhonya's Hourglass", "Riftmaker", "Rylai's Crystal Scepter"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Trundle","Rek'Sai","Lillia"], replacements:["Udyr","Bel'Veth","Karthus"],

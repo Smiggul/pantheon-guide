@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
-import { ALT_BUILDS } from "./data/altBuilds.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
@@ -431,7 +430,7 @@ useEffect(() => {
   const buildSpells = spellsFor(champ.dd, currentRole);
 
   // ── Alternate / off-meta build overlay ──────────────────────────────────────
-  const altList = ALT_BUILDS[champ.id]?.[currentRole] || [];
+  const altList = champ.altBuilds?.[currentRole] || [];
   useEffect(() => { setAltBuildIdx(-1); }, [champ.id, currentRole]);
   const activeAlt = altBuildIdx >= 0 ? altList[altBuildIdx] : null;
   const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
@@ -1741,7 +1740,7 @@ useEffect(() => {
       {/* ── CLASS BUBBLES ── */}
       <div style={{
         display:"grid",
-        gridTemplateColumns:"repeat(auto-fill, minmax(116px, 1fr))",
+        gridTemplateColumns:"repeat(auto-fit, minmax(116px, 1fr))",
         gap:"8px", padding:"9px 24px",
         maxWidth:"min(96vw,1900px)", margin:"0 auto",
       }}>

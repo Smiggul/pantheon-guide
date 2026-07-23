@@ -18,6 +18,26 @@ export default {
   id:"kaisa", display:"Kai'Sa", dd:"Kaisa",
   color:"#5b2c6f", glow:"#e91e8c",
   lanes:["Bot"],
+  // Standard Kai'Sa (below) is the AD/on-hit hybrid. This is the pure-AP line —
+  // a real distinct archetype (~47% WR / 3.4k games, Mobalytics 26.14).
+  altBuilds:{
+    Bot: [{
+      label: "AP (Nashor's)",
+      tag: "off-meta",
+      corePath: "Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote: "Full-AP Kai'Sa, not the AD/on-hit hybrid. Her W (Void Seeker) and the plasma detonation from her passive both scale hard with AP, so you play like a caster-marksman: poke and burst with W, then dash in to finish. Nashor's Tooth is the mandatory first item — its 60 AP + attack speed alone evolves W (the range + double-shot upgrade), which is the whole build's spike. Shadowflame and Rabadon's stack the burst; Sorcerer's Shoes for the magic pen. Riftmaker or Zhonya's for a bruiser/safe lean, Cryptbloom/Void Staff vs MR. Far spikier and squishier than on-hit — you assassinate from range instead of DPS-ing tanks.",
+      runes: {
+        keystone: "Hail of Blades",
+        primary: "Domination",
+        primaryRunes: ["Taste of Blood", "Grisly Mementos", "Treasure Hunter"],
+        secondary: "Sorcery",
+        secondaryRunes: ["Manaflow Band", "Transcendence"],
+        shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
+        reason: "Hail of Blades fires the burst of autos that stack your passive plasma to the AP-scaling detonation almost instantly — the safest way to proc it on a low target. Taste of Blood sustains the poke, Treasure Hunter funds the gold-hungry AP curve, and the Sorcery splash (Manaflow Band, Transcendence) covers Kai'Sa's mana problems and adds the haste to spam W.",
+      },
+      sideItems: ["Riftmaker", "Zhonya's Hourglass", "Cryptbloom", "Void Staff", "Lich Bane", "Banshee's Veil"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Nautilus"], replacements:["Jinx","Yunara","Caitlyn"],

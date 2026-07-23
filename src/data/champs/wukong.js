@@ -27,6 +27,24 @@ const WUKONG_JGL_DEFAULT_RUNES = {
 export default {
   id:"wukong", display:"Wukong", dd:"MonkeyKing",
   color:"#b8860b", glow:"#ffd700",
+  altBuilds:{
+    Top: [{
+      label: "Lethality Burst",
+      tag: "off-meta",
+      corePath: "Youmuu's Ghostblade  ›  Plated Steelcaps  ›  Profane Hydra  ›  Serylda's Grudge",
+      coreNote: "Play Wukong as a burst assassin instead of the Trinity bruiser: clone-fake, Q-armor-shred, then W-stealth into a lethality combo that deletes a squishy. Youmuu's Ghostblade gives roam speed + lethality, Profane Hydra adds the execute active and waveclear, and Serylda's pens + slows for the follow-up. Squishier and all-in — pick your moment, one-shot, and vanish with the clone.",
+      runes: {
+        keystone: "Conqueror",
+        primary: "Precision",
+        primaryRunes: ["Triumph", "Legend: Alacrity", "Coup de Grace"],
+        secondary: "Domination",
+        secondaryRunes: ["Sudden Impact", "Treasure Hunter"],
+        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
+        reason: "Conqueror still stacks fast off the Q-auto-clone flurry but the lethality items convert it to burst; Sudden Impact fires off every W-stealth exit and R knockup, and Treasure Hunter funds the lethality curve for the snowball.",
+      },
+      sideItems: ["The Collector", "Edge of Night", "Black Cleaver", "Death's Dance", "Guardian Angel", "Opportunity"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Swain","Cho'Gath","Trundle"], replacements:["Renekton","Sett","Pantheon"],

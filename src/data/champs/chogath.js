@@ -18,6 +18,26 @@ export default {
   id:"chogath", display:"Cho'Gath", dd:"Chogath",
   color:"#3a2a4a", glow:"#b080e0",
   lanes:["Top"],
+  // Standard Cho'Gath (below) is the modern AP Hail of Blades burst mage. This
+  // is the full-tank line — the higher-WR build on Mobalytics 26.14 (53.1% / 2.7k).
+  altBuilds:{
+    Top: [{
+      label: "Full Tank",
+      tag: "alt",
+      corePath: "Heartsteel  ›  Mercury's Treads  ›  Hollow Radiance  ›  Unending Despair",
+      coreNote: "Full-tank Cho'Gath — you become an HP monster the enemy simply can't kill, and Feast still executes for a flat chunk while your R and Q keep AP-agnostic base damage. Heartsteel snowballs your health bar every trade, Hollow Radiance + Unending Despair make you a burning, damage-reflecting frontline, and Jak'Sho / Thornmail close it. Grasp + Demolish win the lane by attrition and tower pressure. Completely different job from the AP burst build — you soak and peel and eat, rather than one-shotting the backline.",
+      runes: {
+        keystone: "Grasp of the Undying",
+        primary: "Resolve",
+        primaryRunes: ["Demolish", "Second Wind", "Overgrowth"],
+        secondary: "Inspiration",
+        secondaryRunes: ["Biscuit Delivery", "Cosmic Insight"],
+        shards: ["Ability Haste", "Health (scaling)", "Health (scaling)"],
+        reason: "Grasp permanently grows your health each trade — perfectly on-theme for the HP-stacking tank. Demolish converts your lane bully-ing into towers, Second Wind + Overgrowth make you unkillable in lane and scale your HP into the late game, and the Inspiration splash (Biscuit Delivery, Cosmic Insight) sustains mana/health and adds haste. Double Health-scaling shards feed the whole gameplan.",
+      },
+      sideItems: ["Jak'Sho, The Protean", "Thornmail", "Warmog's Armor", "Kaenic Rookern", "Spirit Visage", "Frozen Heart", "Sunfire Aegis"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Fiora","Vayne","Gwen"], replacements:["Sion","Dr. Mundo","Malphite"],
