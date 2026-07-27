@@ -156,6 +156,71 @@ p {
 }
 .frge-enter { animation: frge-fade-up 220ms var(--frge-ease) both; }
 
+/* ── Theme system ────────────────────────────────────────────────────────────
+   Themes are applied via data-frge-theme on <html>. "classic" (default) keeps
+   the base inline look untouched; the others restyle through these classes.
+   Border/radius live here (not inline) so a theme can reshape the panels. */
+.frge-panel {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  position: relative;
+}
+.frge-workspace { border-radius: 14px; position: relative; }
+.frge-empty {
+  border: 1px dashed rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+/* Direction 1 — REFINED DEPTH: layered shadows, glow, a living empty-state. */
+:root[data-frge-theme="depth"] .frge-panel,
+:root[data-frge-theme="depth"] .frge-workspace {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 34px rgba(0, 0, 0, 0.42);
+}
+:root[data-frge-theme="depth"] .frge-tile:hover {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 16px var(--tile-hover-glow, rgba(249, 115, 22, 0.22));
+}
+:root[data-frge-theme="depth"] .frge-empty {
+  border-color: rgba(249, 115, 22, 0.24);
+  background: radial-gradient(circle at 50% 32%, rgba(249, 115, 22, 0.07), transparent 62%);
+}
+:root[data-frge-theme="depth"] .frge-sword {
+  filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.5));
+  animation: frge-sword-pulse 3s ease-in-out infinite;
+}
+@keyframes frge-sword-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.06); }
+}
+
+/* Direction 2 — ESPORTS HUD: notched corners, orange accents, mono stat labels. */
+:root[data-frge-theme="hud"] .frge-panel {
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  border-radius: 0;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+:root[data-frge-theme="hud"] .frge-workspace {
+  border-radius: 0;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+:root[data-frge-theme="hud"] .frge-panel::after {
+  content: ""; position: absolute; left: 0; top: 0; width: 90px; height: 2px;
+  background: #F97316; box-shadow: 0 0 10px #F97316; pointer-events: none;
+}
+:root[data-frge-theme="hud"] .frge-pill {
+  border-radius: 2px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+:root[data-frge-theme="hud"] .frge-item-name {
+  font-family: "Consolas", "Courier New", monospace;
+  letter-spacing: -0.3px;
+}
+:root[data-frge-theme="hud"] .frge-empty {
+  border-radius: 0;
+  border-color: rgba(249, 115, 22, 0.28);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+
 /* Respect the user's motion preference (a11y: High) */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

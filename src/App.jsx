@@ -15,6 +15,21 @@ for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
 const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
 const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
 
+// ── Themes ──────────────────────────────────────────────────────────────────
+// The visual treatment is applied via data-frge-theme on <html>; the CSS in
+// index.css does the rest. `vip: true` will gate a theme behind the account
+// system later — the Settings picker already renders those as locked.
+const THEMES = [
+  { id: "classic", name: "Classic",       desc: "The signature charcoal & gold look.", vip: false },
+  { id: "depth",   name: "Refined Depth",  desc: "Layered shadows, glow, a living empty-state.", vip: false },
+  { id: "hud",     name: "Esports HUD",    desc: "Notched panels, orange accents, HUD feel.", vip: false },
+];
+const THEME_IDS = new Set(THEMES.map((t) => t.id));
+const loadTheme = () => {
+  try { const t = localStorage.getItem("frge-theme"); if (t && THEME_IDS.has(t)) return t; } catch { /* ignore */ }
+  return "classic";
+};
+
 // Master switch for the ad zones. Off until a real ad network is wired up —
 // the layout, VIP gating and placeholders below are all built and just need
 // this flipped to true. (See the monetisation roadmap in CLAUDE.md.)
@@ -410,6 +425,21 @@ export default function App() {
   // for now it's a local preview toggle. Every ad zone is gated on it.
   const [isVip, setIsVip] = useState(false);
   const [adBottomOpen, setAdBottomOpen] = useState(true);
+
+  // ── Theme + Settings ────────────────────────────────────────────────────
+  const [frgeTheme, setFrgeTheme] = useState(loadTheme);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  useEffect(() => {
+    document.documentElement.setAttribute("data-frge-theme", frgeTheme);
+    try { localStorage.setItem("frge-theme", frgeTheme); } catch { /* ignore */ }
+  }, [frgeTheme]);
+  // Close the settings popout on Escape.
+  useEffect(() => {
+    if (!settingsOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setSettingsOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [settingsOpen]);
   const showAds = ADS_ENABLED && !isVip;
   // Only show the side rails when the empty gutter beside the centred content
   // is genuinely wide enough — otherwise they'd cover the app.
@@ -711,7 +741,7 @@ useEffect(() => {
         </div>
         <div style={{ flex:1 }}>
           <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"4px" }}>
-            <span style={{ fontWeight:"bold", fontSize:"14px", color:col }}>{item.name}</span>
+            <span className="frge-item-name" style={{ fontWeight:"bold", fontSize:"14px", color:col }}>{item.name}</span>
             <span style={{
               fontSize:"10px", color:glow, marginLeft:"auto", flexShrink:0,
               background:`${glow}14`, border:`1px solid ${glow}30`,
@@ -1195,6 +1225,72 @@ useEffect(() => {
       color:"#F5F5F5",
       }}>
 
+      {/* ── SETTINGS (gear + theme popout) ── */}
+      <button
+        onClick={() => setSettingsOpen(v => !v)}
+        className="frge-pill" aria-label="Settings" aria-expanded={settingsOpen}
+        title="Settings"
+        style={{
+          position:"fixed", top:"12px", right:"14px", zIndex:60,
+          width:"34px", height:"34px", borderRadius:"50%", cursor:"pointer",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          border:`1px solid ${settingsOpen ? S.gold : "rgba(255,255,255,.15)"}`,
+          background: settingsOpen ? "rgba(212,175,55,.15)" : "rgba(27,27,30,.9)",
+          color: settingsOpen ? S.gold : "#9aa0a6", fontSize:"16px",
+        }}>⚙</button>
+      {settingsOpen && (
+        <>
+          <div onClick={() => setSettingsOpen(false)}
+            style={{ position:"fixed", inset:0, zIndex:59, background:"rgba(0,0,0,.35)" }} />
+          <div role="dialog" aria-label="Settings" style={{
+            position:"fixed", top:"54px", right:"14px", zIndex:61, width:"290px",
+            background:"rgba(24,24,28,.98)", border:`1px solid rgba(212,175,55,.3)`,
+            borderRadius:"12px", padding:"14px 16px 16px",
+            boxShadow:"0 18px 50px rgba(0,0,0,.6)",
+          }}>
+            <div style={{ display:"flex", alignItems:"center", marginBottom:"12px" }}>
+              <span style={{ fontSize:"11px", letterSpacing:"3px", color:S.goldDim,
+                textTransform:"uppercase" }}>Settings · Theme</span>
+              <button onClick={() => setSettingsOpen(false)} aria-label="Close"
+                style={{ marginLeft:"auto", background:"none", border:"none", cursor:"pointer",
+                  color:"#9aa0a6", fontSize:"15px", lineHeight:1 }}>✕</button>
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
+              {THEMES.map(t => {
+                const on = frgeTheme === t.id;
+                const locked = t.vip && !isVip;
+                return (
+                  <button key={t.id}
+                    onClick={() => { if (!locked) setFrgeTheme(t.id); }}
+                    disabled={locked} aria-pressed={on}
+                    className={locked ? "" : "frge-pill"}
+                    style={{
+                      textAlign:"left", cursor: locked ? "not-allowed" : "pointer",
+                      borderRadius:"9px", padding:"9px 11px",
+                      border:`1px solid ${on ? S.gold : "rgba(255,255,255,.1)"}`,
+                      background: on ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)",
+                      opacity: locked ? 0.55 : 1,
+                    }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:"7px" }}>
+                      <span style={{ fontSize:"12.5px", fontWeight:"bold",
+                        color: on ? S.gold : "#e7e2d4" }}>{t.name}</span>
+                      {on && <span style={{ fontSize:"9px", color:S.gold }}>● active</span>}
+                      {locked && <span style={{ marginLeft:"auto", fontSize:"9px",
+                        color:S.goldDim, letterSpacing:".5px" }}>🔒 VIP</span>}
+                    </div>
+                    <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>{t.desc}</div>
+                  </button>
+                );
+              })}
+            </div>
+            <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
+              lineHeight:1.5 }}>
+              More themes — including VIP-exclusive looks — are on the way.
+            </div>
+          </div>
+        </>
+      )}
+
       {/* ── AD: top banner (leaderboard) ── */}
       {showAds && (
         <div style={{ display:"flex", justifyContent:"center", padding:"8px 24px 0" }}>
@@ -1659,10 +1755,9 @@ useEffect(() => {
 
       {/* ── CORE BUILD PATH ── */}
       <div style={{ maxWidth:"min(96vw,1900px)", margin:"8px auto 0", padding:"0 24px" }}>
-        <div style={{
+        <div className="frge-panel" style={{
           background:S.panelBg,
-          border:`1px solid ${S.border}`,
-          borderRadius:"12px", padding:"11px 18px",
+          padding:"11px 18px",
         }}>
           <div style={{ display:"flex", alignItems:"center",
             marginBottom: showCore ? "14px" : "0" }}>
@@ -1780,7 +1875,7 @@ useEffect(() => {
                           background:col, boxShadow:`0 0 6px ${col}` }} />
                     }
                   </div>
-                  <span style={{ fontSize:"13px", fontWeight:"600", color:col,
+                  <span className="frge-item-name" style={{ fontSize:"13px", fontWeight:"600", color:col,
                     whiteSpace:"nowrap" }}>{item}</span>
                   {idx < coreArrow.length - 1 && (
                     <span style={{ color:"rgba(212,175,55,.45)", fontSize:"18px",
@@ -1870,12 +1965,12 @@ useEffect(() => {
       {/* ── DETAIL PANEL ── */}
       {/* ── BUILD WORKSPACE — items + runes side by side, always visible ── */}
       <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 16px", padding:"0 24px" }}>
-        <div style={{
+        <div className="frge-workspace" style={{
           background: classEntry
             ? `linear-gradient(135deg,rgba(20,20,26,.98) 0%,${classEntry.color}12 100%)`
             : "rgba(20,20,26,.92)",
           border:`1px solid ${classEntry ? `${classEntry.glow}55` : "rgba(212,175,55,.18)"}`,
-          borderRadius:"14px", padding:"16px 20px",
+          padding:"16px 20px",
           boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
           transition:"border-color .2s, box-shadow .2s",
         }}>
@@ -1961,12 +2056,10 @@ useEffect(() => {
                   </div>
                 </>
               ) : (
-                <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
+                <div className="frge-empty" style={{ display:"flex", flexDirection:"column", alignItems:"center",
                   justifyContent:"center", textAlign:"center", height:"100%",
-                  minHeight:"320px", padding:"24px",
-                  border:"1px dashed rgba(212,175,55,.2)", borderRadius:"10px",
-                  background:"rgba(255,255,255,.015)" }}>
-                  <div style={{ fontSize:"34px", marginBottom:"12px", opacity:.5 }}>⚔</div>
+                  minHeight:"320px", padding:"24px" }}>
+                  <div className="frge-sword" style={{ fontSize:"34px", marginBottom:"12px", opacity:.5 }}>⚔</div>
                   <div style={{ fontSize:"13px", color:"#b7bcc2", lineHeight:1.6, maxWidth:"280px" }}>
                     Pick a <b style={{ color:S.gold }}>matchup class</b> above to load {champ.display}'s
                     ranked item build for that enemy type — the rune page on the right updates to match.
@@ -2001,9 +2094,8 @@ useEffect(() => {
 
       {/* ── SITUATIONAL ITEMS STRIP ── */}
       <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 14px", padding:"0 24px" }}>
-        <div style={{
-          background:"rgba(255,255,255,.02)", border:`1px solid rgba(180,140,60,.13)`,
-          borderRadius:"12px", padding:"16px 20px",
+        <div className="frge-panel" style={{
+          background:"rgba(255,255,255,.02)", padding:"16px 20px",
         }}>
           <div style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
             textTransform:"uppercase", marginBottom:"12px" }}>

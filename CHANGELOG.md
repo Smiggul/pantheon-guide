@@ -12,7 +12,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Added
+- **Theme switcher** in a new Settings popout (⚙, top-right): **Classic** (the
+  default look), **Refined Depth** (layered shadows, glow, a living empty-state),
+  and **Esports HUD** (notched panels, orange accents, mono stat labels). The
+  choice persists across sessions, and the picker already supports VIP-locked
+  themes for the future account tier.
 
 ## [0.3.1] — 2026-07-23
 
