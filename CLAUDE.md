@@ -75,7 +75,11 @@ Electron shell in `electron/main.cjs`. `npm run app` runs against built dist/; `
 
 ### Monetisation / accounts (planned — not built)
 - **Ad slots**: 4 non-intrusive zones are already reserved in the layout (top banner, left + right side rails, collapsible bottom bar). They render as placeholders today; wire a real ad network later. Ads must stay non-intrusive — never overlay the build/rune workspace.
-- **User login + accounts**: track users, sync their saved builds/preferences. Auth belongs in the Electron **main** process; store tokens with Electron `safeStorage` (OS keychain) — never `localStorage`.
+- **User login + accounts**: track users, sync their saved builds/preferences. Auth belongs in the Electron **main** process; store tokens with Electron `safeStorage` (OS keychain) — never `localStorage`. The Settings popout already has the entry point (an "Account" section with a Sign in / Sign up button that currently only shows a "coming soon" note — no credential capture, on purpose). Real auth is **backend-gated** and needs, roughly:
+  - A small backend service (auth server + DB) — the app is currently a static SPA + Electron shell with **no backend at all**. Nothing real can be built client-only.
+  - **Riot account linking = Riot Sign-On (RSO)**, which is an OAuth2 flow — but RSO access is **granted by Riot per-product and is heavily gated** (not open to hobby apps by default; requires an application/approval). Do NOT assume it's available; confirm approval before building the flow. RSO can return the user's **email** (with the right scope), which is the intended source for the mailing-list opt-in.
+  - **Mailing list**: needs the backend to store the email + an email provider (e.g. a transactional/marketing service). Opt-in must be explicit (a checkbox), never auto-subscribe.
+  - The user plans to prototype accounts/payments in a **separate project first**; treat this as scaffold-only here until that lands.
 - **VIP subscription**: a paid tier that hides all ads. The UI already gates every ad zone behind an `isVip` flag, so switching it off is a one-line change once auth exists.
 - **Payment gateways to evaluate**: Yoco and Ozow (both South-Africa-first, good local card/EFT support), PayPal (international). Decision deferred — the user plans to prototype this in a separate project first.
 - **Security prerequisite**: before shipping login/ads, run CodeRabbit over the PR and add a Content-Security-Policy + render ad content in a sandboxed iframe (external ad scripts must never run in the main renderer).

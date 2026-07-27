@@ -446,6 +446,7 @@ export default function App() {
   // ── Theme + Settings ────────────────────────────────────────────────────
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
   useEffect(() => {
     document.documentElement.setAttribute("data-frge-theme", frgeTheme);
     try { localStorage.setItem("frge-theme", frgeTheme); } catch { /* ignore */ }
@@ -1274,11 +1275,49 @@ useEffect(() => {
           }}>
             <div style={{ display:"flex", alignItems:"center", marginBottom:"12px" }}>
               <span style={{ fontSize:"11px", letterSpacing:"3px", color:S.goldDim,
-                textTransform:"uppercase" }}>Settings · Theme</span>
+                textTransform:"uppercase" }}>Settings</span>
               <button onClick={() => setSettingsOpen(false)} aria-label="Close"
                 style={{ marginLeft:"auto", background:"none", border:"none", cursor:"pointer",
                   color:"#9aa0a6", fontSize:"15px", lineHeight:1 }}>✕</button>
             </div>
+
+            {/* ── Account (entry point — real auth needs the backend + Riot RSO) ── */}
+            <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
+              textTransform:"uppercase", marginBottom:"7px" }}>Account</div>
+            <div style={{ display:"flex", alignItems:"center", gap:"10px",
+              background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
+              borderRadius:"9px", padding:"9px 11px" }}>
+              <div style={{ width:"30px", height:"30px", borderRadius:"50%", flexShrink:0,
+                display:"flex", alignItems:"center", justifyContent:"center",
+                background:"rgba(212,175,55,.12)", border:"1px solid rgba(212,175,55,.25)",
+                fontSize:"15px" }}>👤</div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>Guest</div>
+                <div style={{ fontSize:"10px", color:"#8a9096" }}>Not signed in</div>
+              </div>
+              <button onClick={() => setAcctInfo(v => !v)}
+                className="frge-pill" aria-expanded={acctInfo}
+                style={{ cursor:"pointer", whiteSpace:"nowrap", borderRadius:"20px",
+                  padding:"5px 12px", fontSize:"11px", fontWeight:"bold",
+                  border:`1px solid ${S.orange}aa`, background:`${S.orange}22`, color:S.orange }}>
+                Sign in / Sign up
+              </button>
+            </div>
+            {acctInfo && (
+              <div style={{ marginTop:"8px", padding:"9px 11px", borderRadius:"8px",
+                background:"rgba(249,115,22,.07)", border:"1px solid rgba(249,115,22,.2)",
+                fontSize:"11px", color:"#c7ccd1", lineHeight:1.55 }}>
+                <b style={{ color:S.gold }}>Coming soon.</b> You'll be able to <b>link your Riot
+                account</b>, sync your builds across devices, and opt into update emails — nothing
+                to sign into just yet. This is where it'll live.
+              </div>
+            )}
+
+            <div style={{ height:"1px", background:"rgba(255,255,255,.07)", margin:"14px 0 12px" }} />
+
+            {/* ── Theme ── */}
+            <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
+              textTransform:"uppercase", marginBottom:"8px" }}>Theme</div>
             <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
               {THEMES.map(t => {
                 const on = frgeTheme === t.id;
