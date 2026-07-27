@@ -53,21 +53,38 @@ const adSlot = (label, w, h, extra = {}) => (
 );
 
 // Which locked enemy is most likely your lane opponent → returns its DDragon id.
+const lanesOf = (champId) => {
+  const c = champByKey(champId);
+  return c ? (c.lanes || (c.roles ? Object.keys(c.roles) : [])) : [];
+};
+// Best guess at the enemy laning against `myRole`. Only ever considers locked
+// enemies whose champion actually resolves in the roster, so the returned id is
+// always displayable (an unresolved id used to blank the whole readout).
 function opponentDd(theirTeam, myPos, myRole) {
-  const enemies = (theirTeam || []).filter((p) => p.championId > 0);
+  const enemies = (theirTeam || []).filter(
+    (p) => p.championId > 0 && KEY_TO_DD[p.championId]
+  );
   if (!enemies.length) return null;
-  if (myPos) {                                   // 1. exact enemy position, if provided
+
+  // 1. Exact enemy assigned position, when the client provides it (some queues).
+  if (myPos) {
     const m = enemies.find((p) => p.assignedPosition && p.assignedPosition === myPos);
     if (m) return KEY_TO_DD[m.championId];
   }
-  if (myRole) {                                  // 2. infer via roster lanes matching my role
-    for (const p of enemies) {
-      const c = champByKey(p.championId);
-      const lanes = c ? (c.lanes || (c.roles ? Object.keys(c.roles) : [])) : [];
-      if (lanes.includes(myRole)) return KEY_TO_DD[p.championId];
+
+  // 2. Infer from roster lanes. When several enemies *could* play my role,
+  //    prefer the one whose PRIMARY lane is my role (their real main), then any
+  //    who can play it at all — this is the multiple-possible-Tops case.
+  if (myRole) {
+    const canRole = enemies.filter((p) => lanesOf(p.championId).includes(myRole));
+    if (canRole.length) {
+      const primary = canRole.find((p) => lanesOf(p.championId)[0] === myRole);
+      return KEY_TO_DD[(primary || canRole[0]).championId];
     }
   }
-  return KEY_TO_DD[enemies[0].championId];        // 3. fallback: first locked enemy
+
+  // 3. Fallback: first resolvable locked enemy — a guess beats a blank readout.
+  return KEY_TO_DD[enemies[0].championId];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1202,10 +1219,17 @@ useEffect(() => {
   const detectedKey = csActive ? (csState.championId || csState.championPickIntent) : 0;
   const detectedChamp = detectedKey ? champByKey(detectedKey) : null;
   const detectedRole = csActive ? POS_ROLE[csState.assignedPosition] : null;
+  // Prefer the client's assigned position; fall back to the role the app is
+  // currently showing (what you're playing) so off-role / no-position games
+  // still predict against the right lane.
+  const csMyRole = detectedRole || currentRole
+    || (detectedChamp?.roles ? Object.keys(detectedChamp.roles)[0] : null);
   const csOppDd = csActive
-    ? opponentDd(csState.theirTeam, csState.assignedPosition,
-        detectedRole || (detectedChamp?.roles ? Object.keys(detectedChamp.roles)[0] : null))
+    ? opponentDd(csState.theirTeam, csState.assignedPosition, csMyRole)
     : null;
+  // Are any enemies locked in yet? (distinguishes "no data" from "broke")
+  const csEnemiesLocked = csActive
+    && (csState.theirTeam || []).some((p) => p.championId > 0);
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
   const preHoverChamp = preHoverOn ? champ : null;
@@ -1363,12 +1387,16 @@ useEffect(() => {
               <span style={{ fontSize:"13px", color:"#d7e8dd" }}>
                 You: <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
                 {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}> ({detectedRole})</span>}
-                {csOppChamp && (
+                {csOppChamp ? (
                   <>
                     <span style={{ color:"rgba(255,255,255,.35)", margin:"0 8px" }}>vs</span>
                     <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
                     {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}> — {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
                   </>
+                ) : (
+                  <span style={{ color:"rgba(255,255,255,.35)", margin:"0 8px" }}>
+                    · {csEnemiesLocked ? "no clear lane opponent yet" : "waiting for enemy picks…"}
+                  </span>
                 )}
               </span>
             )}
