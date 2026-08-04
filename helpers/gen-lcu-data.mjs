@@ -11,7 +11,10 @@ const j = async (u) => (await fetch(u)).json();
 
 const perks = await j(`${CD}/perks.json`);
 const styles = (await j(`${CD}/perkstyles.json`)).styles;
-const ver = (await j("https://ddragon.leagueoflegends.com/api/versions.json"))[0];
+// Pin to the ddragon version the project's assets are on (public/ddragon/version.txt),
+// NOT always-latest — otherwise a new patch silently drifts the export ids away
+// from the runtime item.json/images. Bump version.txt via setup_ddragon.py first.
+const ver = fs.readFileSync("public/ddragon/version.txt", "utf8").trim();
 const full = (await j(`https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/item.json`)).data;
 const champs = (await j(`https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/champion.json`)).data;
 
@@ -42,7 +45,8 @@ for (const c of mod.CHAMPS) {
  "Health Potion","Refillable Potion","Corrupting Potion","Amplifying Tome","Ruby Crystal","Cloth Armor",
  "Cull","Dark Seal","Tear of the Goddess","Control Ward","Stealth Ward","Farsight Alteration","Oracle Lens",
  "Plated Steelcaps","Mercury's Treads","Sorcerer's Shoes","Berserker's Greaves","Ionian Boots of Lucidity",
- "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles","Boots","Long Sword"].forEach((n) => used.add(n));
+ "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles","Boots","Long Sword",
+ "Scorchclaw Pup","Gustwalker Hatchling","Mosstomper Seedling"].forEach((n) => used.add(n));
 
 // First-back = the ~1000g building block of the first core item. Take the
 // priciest component within budget; if a component is over budget (e.g. The

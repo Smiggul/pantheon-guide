@@ -8,6 +8,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
 import { classOf } from "./champClasses.js";
+import { petFor } from "./junglePets.js";
 
 // item name -> canonical id (case-insensitive; unknown -> null)
 export const itemId = (name) =>
@@ -107,21 +108,30 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
   const situational = roleData.sideItems || [];
   const ahead = (roleData.data?.[enemyClass]?.ahead || []).map((e) => e?.name).filter(Boolean);
 
+  // Jungle starts with a smite pet, not a Doran's item.
+  const pet = roleName === "Jungle" ? petFor(champDd, roleData, null) : null;
+  const startBlocks = pet
+    ? [
+        itemBlock(`Jungle pet — ${pet}`, [pet, "Refillable Potion", "Stealth Ward"]),
+        itemBlock("Alt pets", ["Scorchclaw Pup", "Gustwalker Hatchling", "Mosstomper Seedling"].filter((p) => p !== pet)),
+      ]
+    : [
+        // Laning starts, each a complete buy — standard, then the situational swaps.
+        itemBlock(`Start — standard (${prof.startLabel})`, [prof.start, "Health Potion", "Stealth Ward"]),
+        ...(prof.start !== "Doran's Shield"
+          ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
+          : []),
+        itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
+        ...(prof.greedy
+          ? [itemBlock("Start — greedy / snowball", [prof.greedy, "Health Potion", "Stealth Ward"])]
+          : []),
+        ...(profileOf(champDd, coreNoBoots) === "AD_RANGED"
+          ? [itemBlock("Start — attack speed / on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
+          : []),
+      ];
+
   const blocks = [
-    // Starting kits, each a complete buy. The first is the champion's standard
-    // start; the others are the situational swaps you'd actually make.
-    itemBlock(`Start — standard (${prof.startLabel})`, [prof.start, "Health Potion", "Stealth Ward"]),
-    // (skipped when the standard start is already Doran's Shield)
-    ...(prof.start !== "Doran's Shield"
-      ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
-      : []),
-    itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
-    ...(prof.greedy
-      ? [itemBlock("Start — greedy / snowball", [prof.greedy, "Health Potion", "Stealth Ward"])]
-      : []),
-    ...(profileOf(champDd, coreNoBoots) === "AD_RANGED"
-      ? [itemBlock("Start — attack speed / on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
-      : []),
+    ...startBlocks,
     // First back: ~900-1300g. The first core item's real building block, a
     // damage-type-appropriate filler (never a Long Sword on an AP champ), the
     // greedy stacking option where it applies, then boots and a ward.
@@ -156,7 +166,8 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
 export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
-    ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems }
+    ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems,
+        pet: altBuild.pet || base?.pet }
     : base;
   const data = base?.data || {};
   const runes = runesOverride

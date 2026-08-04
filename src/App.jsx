@@ -5,6 +5,7 @@ import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
+import { PET_INFO, petFor } from "./data/junglePets.js";
 import { spellsFor } from "./data/summonerSpells.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
@@ -527,6 +528,9 @@ useEffect(() => {
   const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
   const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
+  // Jungle companion (smite pet) for the current build — only in the Jungle role.
+  const buildPet = currentRole === "Jungle"
+    ? petFor(champ.dd, activeChampRole, activeAlt) : null;
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -1893,6 +1897,37 @@ useEffect(() => {
                 </div>
               );
             })}
+
+            {/* Jungle companion (pet) — jungle role only */}
+            {buildPet && (() => {
+              const ek = `pet-${buildPet}`;
+              const src = itemImg(buildPet, itemMap);
+              const info = PET_INFO[buildPet];
+              return (
+                <div style={{ display:"flex", alignItems:"center", gap:"7px",
+                  marginLeft:"6px", paddingLeft:"12px",
+                  borderLeft:"1px solid rgba(255,255,255,.1)" }}
+                  title={info ? `Jungle pet — ${info.tag}: ${info.why}` : `Jungle pet: ${buildPet}`}>
+                  <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
+                    textTransform:"uppercase", flexShrink:0 }}>Pet</span>
+                  <div style={{
+                    width:"28px", height:"28px", borderRadius:"6px", overflow:"hidden",
+                    border:`1px solid ${S.gold}55`, background:`${S.gold}12`,
+                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+                  }}>
+                    {src && !imgFail(ek)
+                      ? <img src={src} alt={buildPet} onError={() => onErr(ek)}
+                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                      : <div style={{ width:"9px", height:"9px", borderRadius:"50%", background:S.gold }} />
+                    }
+                  </div>
+                  <span style={{ fontSize:"12px", fontWeight:"600", color:"#d7d9dd",
+                    whiteSpace:"nowrap" }}>{buildPet}</span>
+                  {info && <span style={{ fontSize:"9px", color:S.goldDim, letterSpacing:".5px",
+                    border:`1px solid ${S.gold}30`, borderRadius:"10px", padding:"1px 6px" }}>{info.tag}</span>}
+                </div>
+              );
+            })()}
           </div>
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}

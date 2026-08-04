@@ -18,6 +18,22 @@ rolled into a numbered version when a build is cut.
   and **Esports HUD** (notched panels, orange accents, mono stat labels). The
   choice persists across sessions, and the picker already supports VIP-locked
   themes for the future account tier.
+- **Account entry point** in Settings — a Sign in / Sign up section (currently a
+  "coming soon" preview: link your Riot account, sync builds, opt into update
+  emails). Deliberately not a working credential form until the backend exists.
+- **Jungle pets** (smite companions) now show in every Jungle build — the
+  recommended pet sits beside the summoner spells, and it's included in the
+  "Import to League" item set (a jungle pet start + alt pets in place of the
+  laning starters). Briar is curated to **Scorchclaw Pup**; other jungle builds
+  get a sensible pet by class until curated individually.
+
+### Fixed
+- **Champion predictor** no longer breaks when several enemies could play your
+  lane: it prefers the enemy whose *primary* role is yours, only considers picks
+  it can resolve (so the "vs …" readout can't silently blank), and shows a
+  "waiting for enemy picks" state instead of nothing.
+- The LCU-id generator now pins to the project's ddragon version instead of
+  always-latest, so regenerating can't drift export ids off the runtime data.
 
 ## [0.3.1] — 2026-07-23
 

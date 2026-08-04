@@ -31,6 +31,9 @@ export default {
     Jungle:{
       bans:["Jax","Amumu","Udyr"], replacements:["Warwick","Nocturne","Rek'Sai"],
       role:"Diver / Skirmisher",
+      // Jungle companion (smite pet). Briar is the textbook aggressive early 1v1
+      // duelist, so Scorchclaw's bonus damage snowballs her invades/ganks/clear.
+      pet:"Scorchclaw Pup",
       corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
       coreNote:"Current meta drops Eclipse entirely — Titanic Hydra first for the HP-scaling AoE proc that fires on every Frenzy auto. Plated Steelcaps second keeps you alive through counter-ganks before your kit online. Black Cleaver shreds while Frenzy autos stack it instantly; Death's Dance (or Spirit Visage / Guardian Angel situationally) rounds out the HP-as-a-resource game plan. A burst variant swapping in The Collector and Lord Dominik's Regards exists for lopsided burst comps, but the bruiser path is the safer default.",
       sideItems:["Spirit Visage","Wit's End","Maw of Malmortius","Randuin's Omen","Serylda's Grudge","Guardian Angel","The Collector","Lord Dominik's Regards"],
