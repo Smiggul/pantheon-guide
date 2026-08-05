@@ -1,0 +1,76 @@
+name: Auto patch update
+
+# Detects a new League (Data Dragon) patch and opens a PR that refreshes the
+# bundled assets + regenerated LCU id tables. League patches land roughly every
+# two weeks; this checks every 3 days so a new patch is picked up within days.
+#
+# Requires (one-time repo setting): Settings → Actions → General → Workflow
+# permissions → "Allow GitHub Actions to create and approve pull requests".
+
+on:
+  schedule:
+    - cron: "17 8 */3 * *" # 08:17 UTC every 3rd day
+  workflow_dispatch: {} # allow a manual run from the Actions tab
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: patch-update
+  cancel-in-progress: false
+
+jobs:
+  patch-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check for a new patch
+        id: check
+        run: node helpers/check-patch.mjs
+
+      - name: Install dependencies
+        if: steps.check.outputs.outdated == 'true'
+        run: npm ci
+
+      - name: Pull new Data Dragon assets
+        if: steps.check.outputs.outdated == 'true'
+        run: python helpers/setup_ddragon.py # no args = latest patch, incremental
+
+      - name: Regenerate LCU id tables
+        if: steps.check.outputs.outdated == 'true'
+        run: node helpers/gen-lcu-data.mjs # pins to the refreshed version.txt
+
+      - name: Build (verify the patch didn't break anything)
+        if: steps.check.outputs.outdated == 'true'
+        run: npm run build
+
+      - name: Open pull request
+        if: steps.check.outputs.outdated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: auto/ddragon-${{ steps.check.outputs.latest }}
+          commit-message: "Update to Data Dragon patch ${{ steps.check.outputs.latest }}"
+          title: "Auto: Data Dragon patch ${{ steps.check.outputs.latest }}"
+          labels: patch-update
+          body: |
+            Automated patch sweep — bumps the bundled Data Dragon assets from
+            `${{ steps.check.outputs.local }}` to **`${{ steps.check.outputs.latest }}`**
+            and regenerates `src/data/lcuData.js`. The build passed in CI.
+
+            **Before merging, review by hand** (the workflow can't judge these):
+            - New champions in the patch that should be added to the roster.
+            - Item / rune renames or reworks that affect build data or the counter
+              logic (`enemyTeam.js`, `lcuExport.js`).
+            - Any champion whose meta build shifted this patch.
+
+            Then add a CHANGELOG entry and merge.

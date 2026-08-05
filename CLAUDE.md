@@ -16,7 +16,8 @@ A League of Legends pre-game itemization and rune guide. Single-page React app (
 - `src/theme.js` — all colour tokens and reusable style objects
 - `electron/main.cjs` — desktop shell; serves dist/ over app:// (MIME map required for module scripts). `npm run dist:win` builds installer + portable exe into release/
 - `public/ddragon/` — Data Dragon assets (populated by helpers/setup_ddragon.py)
-- `helpers/setup_ddragon.py` — run after each patch: `python helpers/setup_ddragon.py` (no args = pulls latest patch from the noxelisdev/LoL_DDragon GitHub mirror, incremental — skips images already on disk; `--force` re-downloads). Passing a dragontail `.tgz` path still works as offline fallback. NEVER `git clone` that mirror — it is ~10 GB.
+- `helpers/setup_ddragon.py` — run after each patch: `python helpers/setup_ddragon.py` (no args = pulls latest patch from the noxelisdev/LoL_DDragon GitHub mirror, incremental — skips images already on disk; `--force` re-downloads). Passing a dragontail `.tgz` path still works as offline fallback. NEVER `git clone` that mirror — it is ~10 GB. After running it, regenerate the LCU id tables: `node helpers/gen-lcu-data.mjs` (it pins to `public/ddragon/version.txt`, NOT always-latest, so the export ids always match the bundled assets).
+- **Auto patch updater** — `helpers/check-patch.mjs` compares the bundled version to the official Data Dragon API; `.github/workflows/patch-update.yml` runs it on a cron (every 3 days) and, on a new patch, runs setup_ddragon + gen-lcu-data + build and opens a PR (branch `auto/ddragon-<ver>`). The PR still needs a human pass for new champions / item reworks / meta shifts before merge. One-time repo setting required: Actions → General → allow GitHub Actions to create PRs.
 
 ## Architecture rules (must follow)
 1. All sub-renderers inside RunePage MUST be called as plain functions `{primaryContent()}` NOT JSX components `<PrimaryColumn />` — the latter causes React to remount on every render, breaking images and state
@@ -72,6 +73,8 @@ Electron shell in `electron/main.cjs`. `npm run app` runs against built dist/; `
 - Rule engine: TRAITS + CLASS_RULES for auto-generating item fallbacks
 - Riot API integration for Challenger data
 - LLM-driven builds for all 5 enemy champions simultaneously
+- **Item "good against" spider/radar graph** (desktop — idea stage): on each build item, a small radar chart pointing at which enemy champions / classes it's strongest into (e.g. Serpent's Fang → shield comps, Thornmail → AD healers). Needs a per-item effectiveness dataset keyed by enemy class (the 13 classes) or champion; can seed from the existing counter logic in `enemyTeam.js` / `itemCounters.js` rather than authoring from scratch.
+- **Ban ordering by real matchup win-rate** (data pass): the Recommended Ban tiles already render worst-first with a priority badge and the click-to-preselect plumbing, but the ordering currently follows each champ's authored ban list (worst-matchup-by-convention). A full 173-champ pass to verify/sort bans by actual matchup win-rate is still owed — a good candidate to source from a stats API (or the auto-patch workflow) rather than by hand. Pantheon Top is done as the worked example (Malphite › Gangplank › Jax).
 
 ### Monetisation / accounts (planned — not built)
 - **Ad slots**: 4 non-intrusive zones are already reserved in the layout (top banner, left + right side rails, collapsible bottom bar). They render as placeholders today; wire a real ad network later. Ads must stay non-intrusive — never overlay the build/rune workspace.

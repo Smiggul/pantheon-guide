@@ -44,6 +44,12 @@ rolled into a numbered version when a build is cut.
   pet — Scorchclaw for aggressive early duelists, Mosstomper for durable/scaling
   frontline, Gustwalker for mobility/kite/roam — with the why shown on hover.
 
+### Internal
+- **Auto patch updater** — a scheduled GitHub Action (`patch-update.yml`, every
+  3 days) detects a new Data Dragon patch and opens a PR that refreshes the
+  bundled assets and regenerated id tables, with the build verified in CI. Keeps
+  FRGE.GG current with League's ~2-week patch cadence with a human review gate.
+
 ### Changed
 - **Updated to Data Dragon patch 16.15.1** — champion/item/rune assets and the
   LCU export id tables refreshed to the live patch. The id generator stays pinned
