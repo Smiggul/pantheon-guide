@@ -210,6 +210,7 @@ function summarizeChampSelect(s) {
   const flat = [].concat(...(s.actions || []));
   const me = (s.myTeam || []).find((p) => p.cellId === meId) || {};
   const myPick = flat.find((a) => a.actorCellId === meId && a.type === "pick");
+  const myBan = flat.find((a) => a.actorCellId === meId && a.type === "ban");
   const banned = new Set();
   for (const a of flat) if (a.type === "ban" && a.completed && a.championId) banned.add(a.championId);
   for (const id of (s.bans?.myTeamBans || [])) banned.add(id);
@@ -230,6 +231,9 @@ function summarizeChampSelect(s) {
     pickActionId: myPick ? myPick.id : null,
     pickCompleted: myPick ? !!myPick.completed : false,
     isPickInProgress: myPick ? (!!myPick.isInProgress && !myPick.completed) : false,
+    banActionId: myBan ? myBan.id : null,
+    banCompleted: myBan ? !!myBan.completed : false,
+    isBanInProgress: myBan ? (!!myBan.isInProgress && !myBan.completed) : false,
     bannedChampionIds: [...banned],
     myTeam: (s.myTeam || []).map(trim),
     theirTeam: (s.theirTeam || []).map(trim),
@@ -263,8 +267,10 @@ async function pollChampSelect() {
   }
 }
 
-// Pre-hover / hover: PATCH the local player's pick action with a champion id.
-ipcMain.handle("frge:hover-champion", async (_e, arg) => {
+// Pre-hover: PATCH the local player's open pick OR ban action with a champion id.
+// `type` is "pick" or "ban" — the ban path pre-selects a champion during the ban
+// phase (it does not lock the ban in; the player still confirms in-client).
+async function hoverAction(arg, type) {
   const championId = posInt(typeof arg === "object" ? arg?.championId : arg);
   let actionId = (typeof arg === "object" && arg?.actionId != null) ? posInt(arg.actionId) : undefined;
   if (championId == null || championId < 1) return { ok: false, error: "bad-champion" };
@@ -277,10 +283,10 @@ ipcMain.handle("frge:hover-champion", async (_e, arg) => {
       if (res.status !== 200 || !res.body) return { ok: false, error: "not-in-champ-select" };
       const meId = res.body.localPlayerCellId;
       const flat = [].concat(...(res.body.actions || []));
-      const act = flat.find((a) => a.actorCellId === meId && a.type === "pick" && !a.completed);
-      if (!act) return { ok: false, error: "no-open-pick" };
+      const act = flat.find((a) => a.actorCellId === meId && a.type === type && !a.completed);
+      if (!act) return { ok: false, error: `no-open-${type}` };
       actionId = posInt(act.id);
-      if (actionId == null) return { ok: false, error: "no-open-pick" };
+      if (actionId == null) return { ok: false, error: `no-open-${type}` };
     }
     const patch = await lcu(
       "PATCH", `/lol-champ-select/v1/session/actions/${actionId}`, creds, { championId }
@@ -289,7 +295,9 @@ ipcMain.handle("frge:hover-champion", async (_e, arg) => {
   } catch (err) {
     return { ok: false, error: err.message };
   }
-});
+}
+ipcMain.handle("frge:hover-champion", (_e, arg) => hoverAction(arg, "pick"));
+ipcMain.handle("frge:hover-ban", (_e, arg) => hoverAction(arg, "ban"));
 
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {

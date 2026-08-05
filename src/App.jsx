@@ -136,15 +136,16 @@ const toDD = (name) => {
 const DD = "/ddragon";
 
 // Champions — uses your existing toDD() key
-const champImg = (name) => {
-  const key = DD_OVERRIDES[name] || name
-    .replace(/'([A-Z])/g, (_, c) => c.toLowerCase())
-    .replace(/\./g,  "")
-    .replace(/ & .*/g, "")
-    .replace(/ /g,   "")
-    .replace(/'/g,   "");
-  return `${DD}/img/champion/${key}.png`;
-};
+// Display name → DDragon id (e.g. "Miss Fortune" → "MissFortune", "Wukong" via
+// DD_OVERRIDES → "MonkeyKing"). Same key used for the champion image AND to look
+// up the Riot numeric championId in CHAMP_KEYS (for ban pre-select).
+const toDDKey = (name) => DD_OVERRIDES[name] || name
+  .replace(/'([A-Z])/g, (_, c) => c.toLowerCase())
+  .replace(/\./g,  "")
+  .replace(/ & .*/g, "")
+  .replace(/ /g,   "")
+  .replace(/'/g,   "");
+const champImg = (name) => `${DD}/img/champion/${toDDKey(name)}.png`;
 
 // Items — resolved at runtime from item.json (numeric ID)
 // itemMap is populated in useEffect below — keys lowercased so champion data
@@ -683,6 +684,19 @@ useEffect(() => {
     setShowPicker(false);       // close the floating picker
     setChampSearch("");         // reset search
     setChampRoleFilter("All");  // reset filter
+  };
+
+  // Click a Recommended-Ban champion → pre-select it in the client's ban phase.
+  const banHover = async (name) => {
+    if (!isDesktop || !window.frge?.hoverBan) return;
+    const key = CHAMP_KEYS[toDDKey(name)];
+    if (!key) { setCsMsg(`Couldn't resolve ${name}`); return; }
+    try {
+      const res = await window.frge.hoverBan({ championId: key, actionId: csState?.banActionId ?? undefined });
+      setCsMsg(res?.ok ? `Ban pre-selected: ${name}`
+        : res?.error === "no-open-ban" ? "Not your ban yet — wait for the ban phase"
+        : `Ban failed: ${res?.error || "?"}`);
+    } catch (e) { setCsMsg(`Ban failed: ${e.message}`); }
   };
 
   const classEntry = openClass ? CLASSES[openClass] : null;
@@ -1700,13 +1714,14 @@ useEffect(() => {
           {/* ── DRAFT TILES: recommended ban + replacement if banned ── */}
           <div style={{ display:"flex", gap:"10px", marginLeft:"auto", flexWrap:"wrap" }}>
             {[
-              { label:"Recommended Ban",
-                names: activeChampRole?.bans         || champ.bans,         accent:"#e74c3c" },
-              { label:"Recommended Replacement",
-                names: activeChampRole?.replacements || champ.replacements, accent:"#27ae60" },
-              { label:"Synergies",
+              // Bans are ordered worst-matchup first — index 0 is the priority ban.
+              { label:"Recommended Ban", kind:"ban", accent:"#e74c3c",
+                names: activeChampRole?.bans         || champ.bans },
+              { label:"Recommended Replacement", kind:"pick", accent:"#27ae60",
+                names: activeChampRole?.replacements || champ.replacements },
+              { label:"Synergies", kind:"none", accent:"#3a9bd4",
                 names: activeChampRole?.synergies || champ.synergies
-                  || synergiesFor(champ.dd, champ.display, currentRole),   accent:"#3a9bd4" },
+                  || synergiesFor(champ.dd, champ.display, currentRole) },
             ].map(tile => tile.names?.length ? (
               <div key={tile.label} style={{
                 background:"rgba(255,255,255,.02)",
@@ -1716,22 +1731,38 @@ useEffect(() => {
                 <div style={{ fontSize:"9px", letterSpacing:"2px", color:tile.accent,
                   textTransform:"uppercase", marginBottom:"6px", opacity:.85 }}>
                   {tile.label}
+                  {tile.kind === "ban" && isDesktop &&
+                    <span style={{ opacity:.6, marginLeft:"6px", letterSpacing:".5px" }}>· click to ban</span>}
                 </div>
                 <div style={{ display:"flex", gap:"8px" }}>
-                  {tile.names.map(name => {
-                    const ek     = `draft-${name}`;
+                  {tile.names.map((name, idx) => {
+                    const ek     = `draft-${tile.kind}-${name}`;
                     const roster = CHAMPS.find(c => c.display === name);
+                    const priority = tile.kind === "ban" && idx === 0;
+                    // Per-tile click: ban → pre-select in ban phase; replacement →
+                    // switch to that champ; synergies → not clickable.
+                    const clickable = tile.kind === "ban" ? isDesktop
+                      : tile.kind === "pick" ? (roster && roster !== champ) : false;
+                    const onClick = tile.kind === "ban" ? () => banHover(name)
+                      : tile.kind === "pick" ? () => pickChamp(roster) : undefined;
+                    const title = tile.kind === "ban"
+                      ? (isDesktop ? `${name} — ${priority ? "priority ban; " : ""}click to pre-select in the ban phase`
+                                   : `${name} — ${priority ? "priority ban" : "recommended ban"}`)
+                      : tile.kind === "pick" ? (roster ? `${name} — in your pool, click to play` : name)
+                      : (roster ? `${name} — synergises with ${champ.display}` : name);
                     return (
                       <div key={name}
-                        onClick={roster && roster !== champ ? () => pickChamp(roster) : undefined}
-                        title={roster ? `${name} — in your pool, click to play` : name}
+                        onClick={clickable ? onClick : undefined}
+                        title={title}
                         style={{ display:"flex", flexDirection:"column", alignItems:"center",
-                          gap:"3px", width:"46px",
-                          cursor: roster && roster !== champ ? "pointer" : "default" }}>
+                          gap:"3px", width:"46px", position:"relative",
+                          cursor: clickable ? "pointer" : "default" }}>
                         <div style={{
                           width:"34px", height:"34px", borderRadius:"6px", overflow:"hidden",
-                          border:`1.5px solid ${tile.accent}50`, background:"#2A2F38",
-                          boxShadow: roster ? `0 0 6px ${tile.accent}40` : "none",
+                          border:`${priority ? 2 : 1.5}px solid ${tile.accent}${priority ? "" : "50"}`,
+                          background:"#2A2F38",
+                          boxShadow: priority ? `0 0 9px ${tile.accent}80`
+                            : (tile.kind !== "none" && roster) ? `0 0 6px ${tile.accent}40` : "none",
                         }}>
                           {!imgFail(ek)
                             ? <img src={champImg(name)} alt={name} onError={() => onErr(ek)}
@@ -1741,6 +1772,14 @@ useEffect(() => {
                                 fontSize:"12px", color:"#5c6a7a" }}>{name[0]}</div>
                           }
                         </div>
+                        {/* rank badge on bans — conveys the ban priority order */}
+                        {tile.kind === "ban" &&
+                          <span style={{ position:"absolute", top:"-4px", left:"-4px",
+                            width:"15px", height:"15px", borderRadius:"50%",
+                            background: priority ? tile.accent : "#3a3f47",
+                            color:"#fff", fontSize:"9px", fontWeight:"700",
+                            display:"flex", alignItems:"center", justifyContent:"center",
+                            boxShadow: priority ? `0 0 6px ${tile.accent}` : "none" }}>{idx + 1}</span>}
                         <span style={{ fontSize:"9px", color:"#D4AF37", textAlign:"center",
                           lineHeight:1.15, maxWidth:"46px", overflow:"hidden",
                           textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{name}</span>

@@ -24,6 +24,11 @@ rolled into a numbered version when a build is cut.
   Replacement, a third tile suggests three teammates whose kit complements yours
   (the bot-lane duo partner, a jungler's gank buddies, a laner's dive jungler).
   Picked by role + class, and overridable per champion like the other draft tiles.
+  Display-only (not clickable) — it's team-planning info, not a champion swap.
+- **Click a Recommended Ban to pre-select it in the client's ban phase** (desktop)
+  — the ban suggestions are now ranked **worst matchup first** with a numbered
+  priority badge (#1 = the must-ban), so it's obvious which pick hurts you most.
+  Clicking one hovers it in your ban slot when it's your turn.
 - **Theme switcher** in a new Settings popout (⚙, top-right): **Classic** (the
   default look), **Refined Depth** (layered shadows, glow, a living empty-state),
   and **Esports HUD** (notched panels, orange accents, mono stat labels). The

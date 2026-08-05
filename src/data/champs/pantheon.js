@@ -107,7 +107,7 @@ export default {
 
     roles:{
             Top:    {  
-              bans:["Jax","Malphite","Fiora"], replacements:["Renekton","Sett","Wukong"],
+              bans:["Malphite","Gangplank","Jax"], replacements:["Renekton","Sett","Wukong"],
                         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
                         coreNote: "Voltaic Cyclosword first — the lead-snowball line. Once you win the early spear trades, Voltaic's energized proc + move speed + ability haste convert that lead into repeated one-combo bursts far better than Eclipse. Eclipse is the safer alternative first item and still shows up below in Situational Items — pick it instead when you're even or behind rather than ahead. Black Cleaver is the standard second core: its shred keeps Conqueror trades snowballing. Sundered Sky adds the guaranteed-crit heal on Q, and Death's Dance turns extended fights into a bleed you outlast. Chempunk Chainsword (below, under Anti-Heal) is Pantheon's best AD scaling swap specifically into sustain lanes — Warwick, Darius, Briar — not a default buy. First back after Voltaic is The Brutalizer (it now builds from Pickaxe, not Serrated Dirk, since its rework — so buy toward Brutalizer, not a dead-end Dirk); swap Plated Steelcaps / Mercury's Treads to the matchup's damage type.",
                         sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],

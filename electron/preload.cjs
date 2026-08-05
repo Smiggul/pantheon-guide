@@ -22,4 +22,7 @@ contextBridge.exposeInMainWorld("frge", {
   // Hover (pre-hover / pick-intent) a champion in champ select.
   //   arg: numeric championId, or { championId, actionId }.
   hoverChampion: (arg) => ipcRenderer.invoke("frge:hover-champion", arg),
+
+  // Pre-select a champion in the ban phase (same arg shape as hoverChampion).
+  hoverBan: (arg) => ipcRenderer.invoke("frge:hover-ban", arg),
 });
