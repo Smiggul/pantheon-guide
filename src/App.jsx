@@ -8,6 +8,7 @@ import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
+import { synergiesFor } from "./data/synergies.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -1535,8 +1536,9 @@ useEffect(() => {
 
             {enemyPanelOpen && (
               <>
-                {/* 5 enemy cards */}
-                <div style={{ display:"flex", gap:"9px", flexWrap:"wrap", marginTop:"9px" }}>
+                {/* 5 enemy cards — stacked in a column */}
+                <div style={{ display:"flex", flexDirection:"column", gap:"6px", marginTop:"9px",
+                  width:"min(340px, 100%)" }}>
                   {members.map((m, i) => {
                     const ek = `enemy-${m.dd}-${i}`;
                     const src = champImg(m.dd);
@@ -1702,6 +1704,9 @@ useEffect(() => {
                 names: activeChampRole?.bans         || champ.bans,         accent:"#e74c3c" },
               { label:"Recommended Replacement",
                 names: activeChampRole?.replacements || champ.replacements, accent:"#27ae60" },
+              { label:"Synergies",
+                names: activeChampRole?.synergies || champ.synergies
+                  || synergiesFor(champ.dd, champ.display, currentRole),   accent:"#3a9bd4" },
             ].map(tile => tile.names?.length ? (
               <div key={tile.label} style={{
                 background:"rgba(255,255,255,.02)",
