@@ -24,8 +24,9 @@ rolled into a numbered version when a build is cut.
 - **Jungle pets** (smite companions) now show in every Jungle build — the
   recommended pet sits beside the summoner spells, and it's included in the
   "Import to League" item set (a jungle pet start + alt pets in place of the
-  laning starters). Briar is curated to **Scorchclaw Pup**; other jungle builds
-  get a sensible pet by class until curated individually.
+  laning starters). **All 61 junglers are individually curated** to their meta
+  pet — Scorchclaw for aggressive early duelists, Mosstomper for durable/scaling
+  frontline, Gustwalker for mobility/kite/roam — with the why shown on hover.
 
 ### Fixed
 - **Champion predictor** no longer breaks when several enemies could play your

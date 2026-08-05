@@ -23,16 +23,44 @@ export const PET_INFO = {
   },
 };
 
-// Fallback pet when a build doesn't name one, by the champion's class.
-const PET_BY_CLASS = {
-  ASSASSIN: "Scorchclaw Pup", SKIRMISHER: "Scorchclaw Pup", DIVER: "Scorchclaw Pup",
-  JUGGERNAUT: "Mosstomper Seedling", VANGUARD: "Mosstomper Seedling", WARDEN: "Mosstomper Seedling",
-  BATTLEMAGE: "Gustwalker Hatchling", BURST_MAGE: "Gustwalker Hatchling", ARTILLERY: "Gustwalker Hatchling",
-  MARKSMAN: "Gustwalker Hatchling", ENCHANTER: "Gustwalker Hatchling", CATCHER: "Gustwalker Hatchling",
-  SPECIALIST: "Gustwalker Hatchling",
+const SCORCH = "Scorchclaw Pup";     // aggressive early — duelists, gankers, assassins
+const MOSS   = "Mosstomper Seedling"; // durability — tanks, juggernauts, weak-early scalers
+const GUST   = "Gustwalker Hatchling"; // mobility — kite/roam AP, tempo gankers
+
+// Curated pet per jungle champion (DDragon id). Pet choice is playstyle-driven —
+// stats sites don't publish granular pet pick rates, so this is grounded in the
+// meta framework (patch 26.14–26.15): Scorchclaw for aggressive early 1v1s,
+// Mosstomper for durability/scaling frontline, Gustwalker for mobility/kite/roam.
+// A champ file's own `pet` still overrides this (e.g. Briar). Keep the DD keys
+// exact — Wukong is "MonkeyKing", Kha'Zix "Khazix", Bel'Veth "Belveth", etc.
+const PET_BY_CHAMP = {
+  // ── Scorchclaw — aggressive early damage / duel / assassinate ──
+  Pantheon: SCORCH, Renekton: SCORCH, MonkeyKing: SCORCH, RekSai: SCORCH, Warwick: SCORCH,
+  Udyr: SCORCH, Sett: SCORCH, Nocturne: SCORCH, Briar: SCORCH, LeeSin: SCORCH, Zaahen: SCORCH,
+  Ambessa: SCORCH, Olaf: SCORCH, Jax: SCORCH, Kindred: SCORCH, Vi: SCORCH, Naafiri: SCORCH,
+  Fizz: SCORCH, Kayn: SCORCH, Elise: SCORCH, Viego: SCORCH, Aatrox: SCORCH, Sylas: SCORCH,
+  Ekko: SCORCH, Talon: SCORCH, Diana: SCORCH, Rengar: SCORCH, Shaco: SCORCH, Nidalee: SCORCH,
+  Graves: SCORCH, Khazix: SCORCH, JarvanIV: SCORCH, XinZhao: SCORCH, Belveth: SCORCH, Trundle: SCORCH,
+  // ── Mosstomper — tank / juggernaut / weak-early scaler ──
+  Sion: MOSS, Volibear: MOSS, Zac: MOSS, Yorick: MOSS, Fiddlesticks: MOSS, MasterYi: MOSS,
+  Karthus: MOSS, Maokai: MOSS, Malphite: MOSS, Amumu: MOSS, Sejuani: MOSS, Mordekaiser: MOSS,
+  Nasus: MOSS, Evelynn: MOSS, Skarner: MOSS, DrMundo: MOSS, Rammus: MOSS,
+  // ── Gustwalker — mobility / kite / roam / clear tempo ──
+  Teemo: GUST, Shyvana: GUST, Gragas: GUST, Zyra: GUST, Taliyah: GUST, Hecarim: GUST,
+  Lillia: GUST, Nunu: GUST, Ivern: GUST,
 };
 
-// champDd: DDragon id (for the class fallback); roleData: the Jungle role block;
-// alt: the selected alt build (its pet overrides the role's).
+// Class fallback for any jungler not in the curated map (new champs, off-meta jg).
+const PET_BY_CLASS = {
+  ASSASSIN: SCORCH, SKIRMISHER: SCORCH, DIVER: SCORCH,
+  JUGGERNAUT: MOSS, VANGUARD: MOSS, WARDEN: MOSS,
+  BATTLEMAGE: GUST, BURST_MAGE: GUST, ARTILLERY: GUST,
+  MARKSMAN: GUST, ENCHANTER: GUST, CATCHER: GUST, SPECIALIST: GUST,
+};
+
+// champDd: DDragon id; roleData: the Jungle role block; alt: the selected alt
+// build. Precedence: alt build's pet › role's own pet › curated per-champ pick ›
+// class fallback › Gustwalker.
 export const petFor = (champDd, roleData, alt) =>
-  (alt && alt.pet) || (roleData && roleData.pet) || PET_BY_CLASS[classOf(champDd)] || "Gustwalker Hatchling";
+  (alt && alt.pet) || (roleData && roleData.pet) ||
+  PET_BY_CHAMP[champDd] || PET_BY_CLASS[classOf(champDd)] || GUST;
