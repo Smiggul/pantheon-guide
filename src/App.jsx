@@ -7,6 +7,7 @@ import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
 import { spellsFor } from "./data/summonerSpells.js";
+import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -588,6 +589,7 @@ useEffect(() => {
   const [csSync,  setCsSync]    = useState(true);    // auto-follow hovered/locked champ
   const [preHoverOn, setPreHoverOn] = useState(true); // auto-hover the selected champ, ON by default
   const [csMsg,   setCsMsg]     = useState(null);    // transient hover/status message
+  const [enemyPanelOpen, setEnemyPanelOpen] = useState(true); // versus-team panel
   // Refs so the mount-once champ-select subscription always sees current values.
   const csSyncRef = useRef(csSync);
   const preHoverOnRef = useRef(preHoverOn);
@@ -1237,6 +1239,12 @@ useEffect(() => {
     && (csState.theirTeam || []).some((p) => p.championId > 0);
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
+  // Full enemy-team readout: damage split, threat flags, counters vs MY champ
+  // (the one hovered/locked in client, else the one selected in the app).
+  const csEnemyAnalysis = csActive && csEnemiesLocked
+    ? analyzeEnemyTeam(csState.theirTeam, KEY_TO_DD, POS_ROLE,
+        detectedChamp?.dd || champ.dd, csOppDd)
+    : null;
   const preHoverChamp = preHoverOn ? champ : null;
   const csStatus = !csState ? "Connecting to client…"
     : csState.active ? "In champ select"
@@ -1485,6 +1493,119 @@ useEffect(() => {
           </div>
         </div>
       )}
+
+      {/* ── VERSUS TEAM PANEL (desktop, once enemies lock in) ── */}
+      {isDesktop && csEnemyAnalysis && (() => {
+        const { members, split, flags, counters } = csEnemyAnalysis;
+        const AD_C = "#e8935c", AP_C = "#6db4e6";
+        const flagColor = { cc:"#c9a3e0", dive:"#e88a8a", shield:"#6db4e6", heal:"#7fd6a2", poke:"#e0c56b" };
+        return (
+        <div style={{
+          background:"rgba(0,0,0,.42)",
+          borderBottom:`1px solid rgba(212,175,55,.14)`,
+          padding:"8px 24px",
+        }}>
+          <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", fontFamily:"inherit" }}>
+
+            {/* header: toggle + damage split + threat flags */}
+            <div style={{ display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap" }}>
+              <button
+                onClick={() => setEnemyPanelOpen((v) => !v)}
+                style={{ cursor:"pointer", background:"none", border:"none", padding:0,
+                  display:"flex", alignItems:"center", gap:"6px", fontSize:"10px",
+                  letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim }}>
+                <span style={{ fontSize:"9px" }}>{enemyPanelOpen ? "▾" : "▸"}</span>
+                Enemy team
+              </button>
+              <span style={{ display:"flex", alignItems:"center", gap:"9px", fontSize:"12px" }}>
+                <span style={{ color:"rgba(255,255,255,.4)" }}>⚔</span>
+                {split.ad > 0 && <b style={{ color:AD_C }}>{split.ad} AD</b>}
+                {split.ap > 0 && <><span style={{ color:"rgba(255,255,255,.25)" }}>·</span><b style={{ color:AP_C }}>{split.ap} AP</b></>}
+                {split.mixed > 0 && <><span style={{ color:"rgba(255,255,255,.25)" }}>·</span><b style={{ color:S.gold }}>{split.mixed} hybrid</b></>}
+                {split.tank > 0 && <span style={{ color:"rgba(255,255,255,.4)" }}>· {split.tank} tank</span>}
+              </span>
+              {flags.map((f) => (
+                <span key={f.key} style={{ fontSize:"10.5px", letterSpacing:".5px",
+                  color: flagColor[f.key] || S.gold, border:`1px solid ${(flagColor[f.key] || S.gold)}44`,
+                  borderRadius:"10px", padding:"1px 8px", textTransform:"capitalize" }}>
+                  {f.label}
+                </span>
+              ))}
+            </div>
+
+            {enemyPanelOpen && (
+              <>
+                {/* 5 enemy cards */}
+                <div style={{ display:"flex", gap:"9px", flexWrap:"wrap", marginTop:"9px" }}>
+                  {members.map((m, i) => {
+                    const ek = `enemy-${m.dd}-${i}`;
+                    const src = champImg(m.dd);
+                    const dc = m.dmg === "AP" ? AP_C : m.dmg === "Mixed" ? S.gold : AD_C;
+                    return (
+                      <div key={ek} title={m.isOpp ? "Your lane opponent" : undefined}
+                        style={{ display:"flex", alignItems:"center", gap:"8px",
+                          padding:"5px 10px 5px 6px", borderRadius:"9px",
+                          border:`1px solid ${m.isOpp ? S.orange : "rgba(255,255,255,.1)"}`,
+                          background: m.isOpp ? "rgba(249,115,22,.1)" : "rgba(255,255,255,.03)",
+                          boxShadow: m.isOpp ? `0 0 12px ${S.orange}33` : "none" }}>
+                        <div style={{ width:"34px", height:"34px", borderRadius:"7px", overflow:"hidden",
+                          border:`1.5px solid ${dc}66`, background:"#1B1B1E", flexShrink:0,
+                          display:"flex", alignItems:"center", justifyContent:"center" }}>
+                          {src && !imgFail(ek)
+                            ? <img src={src} alt={m.dd} onError={() => onErr(ek)}
+                                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                            : <span style={{ fontSize:"9px", color:"#666" }}>?</span>}
+                        </div>
+                        <div style={{ display:"flex", flexDirection:"column", gap:"1px", lineHeight:1.2 }}>
+                          <span style={{ fontSize:"12.5px", fontWeight:"700", color:"#e9ebee",
+                            display:"flex", alignItems:"center", gap:"5px" }}>
+                            {(DD_TO_CHAMP[m.dd]?.display) || m.dd}
+                            {m.role && <img src={roleIcon(m.role)} alt={m.role} title={m.role}
+                              style={{ width:"13px", height:"13px", opacity:.65, filter:"invert(.85)" }} />}
+                          </span>
+                          <span style={{ fontSize:"9.5px", letterSpacing:".3px", color:dc }}>
+                            {(m.cls || "").replace(/_/g," ").toLowerCase()}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* counter items vs this comp */}
+                {counters.length > 0 && (
+                  <div style={{ display:"flex", alignItems:"center", gap:"9px", flexWrap:"wrap", marginTop:"9px" }}>
+                    <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
+                      color:S.goldDim, flexShrink:0 }}>Consider</span>
+                    {counters.map((c) => {
+                      const ek = `counter-${c.name}`;
+                      const src = itemImg(c.name, itemMap);
+                      return (
+                        <span key={ek} title={c.why} style={{ display:"flex", alignItems:"center", gap:"7px",
+                          padding:"3px 10px 3px 4px", borderRadius:"18px",
+                          border:`1px solid ${S.gold}33`, background:"rgba(212,175,55,.06)" }}>
+                          <span style={{ width:"24px", height:"24px", borderRadius:"5px", overflow:"hidden",
+                            background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                            {src && !imgFail(ek)
+                              ? <img src={src} alt={c.name} onError={() => onErr(ek)}
+                                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                              : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
+                          </span>
+                          <span style={{ display:"flex", flexDirection:"column", lineHeight:1.15 }}>
+                            <span style={{ fontSize:"11.5px", fontWeight:"600", color:"#e9ebee" }}>{c.name}</span>
+                            <span style={{ fontSize:"9px", color:"rgba(255,255,255,.45)" }}>{c.why}</span>
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+        );
+      })()}
 
       {/* ── CHAMPION SELECTOR BAR ── */}
       <div style={{

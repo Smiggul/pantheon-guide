@@ -13,6 +13,13 @@ rolled into a numbered version when a build is cut.
 ## [Unreleased]
 
 ### Added
+- **Versus-team view** (desktop, live champ select) — once enemies lock in, a new
+  panel shows all five: portrait, role, class and damage type, with your lane
+  opponent highlighted. A header sums up the team's **damage split** (AD / AP /
+  hybrid / tank) and flags **threats** (heavy CC, dive, enemy shielding, healing,
+  poke), and a **Consider** row recommends up to four counter-items tailored to
+  your champion — anti-heal, the right boots + resist for the dominant damage
+  type, shield-shred, and anti-dive.
 - **Theme switcher** in a new Settings popout (⚙, top-right): **Classic** (the
   default look), **Refined Depth** (layered shadows, glow, a living empty-state),
   and **Esports HUD** (notched panels, orange accents, mono stat labels). The
