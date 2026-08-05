@@ -39,6 +39,11 @@ rolled into a numbered version when a build is cut.
   pet — Scorchclaw for aggressive early duelists, Mosstomper for durable/scaling
   frontline, Gustwalker for mobility/kite/roam — with the why shown on hover.
 
+### Changed
+- **Updated to Data Dragon patch 16.15.1** — champion/item/rune assets and the
+  LCU export id tables refreshed to the live patch. The id generator stays pinned
+  to the bundled asset version, so the export always matches what's on disk.
+
 ### Fixed
 - **Champion predictor** no longer breaks when several enemies could play your
   lane: it prefers the enemy whose *primary* role is yours, only considers picks
