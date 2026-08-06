@@ -28,6 +28,14 @@ const THEMES = [
   { id: "hud",     name: "Esports HUD",    desc: "Notched panels, orange accents, HUD feel.", vip: false },
 ];
 const THEME_IDS = new Set(THEMES.map((t) => t.id));
+// Settings popout tabs (kept intentionally simple — see the roadmap for the
+// deeper vision). Order matches the top tab bar.
+const SETTINGS_TABS = [
+  { id: "display",      label: "Display" },
+  { id: "general",      label: "General" },
+  { id: "integrations", label: "Integrations" },
+  { id: "account",      label: "Account" },
+];
 const loadTheme = () => {
   try { const t = localStorage.getItem("frge-theme"); if (t && THEME_IDS.has(t)) return t; } catch { /* ignore */ }
   return "classic";
@@ -468,6 +476,7 @@ export default function App() {
     if (typeof window === "undefined" || !window.frge?.getStartup) return;
     window.frge.getStartup().then((v) => setStartupOn(!!v)).catch(() => {});
   }, []);
+  const [settingsTab, setSettingsTab] = useState("display");
   const toggleStartup = async () => {
     if (!window.frge?.setStartup) return;
     const next = !startupOn;
@@ -475,6 +484,24 @@ export default function App() {
     try { setStartupOn(!!(await window.frge.setStartup(next))); }
     catch { setStartupOn(!next); }
   };
+  // Reusable on/off row for the Settings tabs.
+  const settingToggle = ({ label, desc, on, onClick }) => (
+    <button onClick={onClick} aria-pressed={on} className="frge-pill"
+      style={{ width:"100%", textAlign:"left", cursor:"pointer", borderRadius:"9px",
+        padding:"9px 11px", display:"flex", alignItems:"center", gap:"10px", marginBottom:"8px",
+        border:`1px solid ${on ? S.gold : "rgba(255,255,255,.1)"}`,
+        background: on ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)" }}>
+      <div style={{ flex:1, minWidth:0 }}>
+        <div style={{ fontSize:"12.5px", fontWeight:"bold", color: on ? S.gold : "#e7e2d4" }}>{label}</div>
+        <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px", lineHeight:1.4 }}>{desc}</div>
+      </div>
+      <span style={{ flexShrink:0, width:"34px", height:"19px", borderRadius:"10px",
+        background: on ? S.gold : "rgba(255,255,255,.16)", position:"relative", transition:"background .15s" }}>
+        <span style={{ position:"absolute", top:"2px", left: on ? "17px" : "2px",
+          width:"15px", height:"15px", borderRadius:"50%", background:"#1a1a1d", transition:"left .15s" }} />
+      </span>
+    </button>
+  );
   // Close the settings popout on Escape.
   useEffect(() => {
     if (!settingsOpen) return;
@@ -1315,12 +1342,13 @@ useEffect(() => {
           <div onClick={() => setSettingsOpen(false)}
             style={{ position:"fixed", inset:0, zIndex:59, background:"rgba(0,0,0,.35)" }} />
           <div role="dialog" aria-label="Settings" style={{
-            position:"fixed", top:"54px", right:"14px", zIndex:61, width:"290px",
+            position:"fixed", top:"54px", right:"14px", zIndex:61, width:"324px",
+            maxHeight:"min(82vh, 660px)", display:"flex", flexDirection:"column",
             background:"rgba(24,24,28,.98)", border:`1px solid rgba(212,175,55,.3)`,
-            borderRadius:"12px", padding:"14px 16px 16px",
-            boxShadow:"0 18px 50px rgba(0,0,0,.6)",
+            borderRadius:"12px", boxShadow:"0 18px 50px rgba(0,0,0,.6)", overflow:"hidden",
           }}>
-            <div style={{ display:"flex", alignItems:"center", marginBottom:"12px" }}>
+            {/* header */}
+            <div style={{ display:"flex", alignItems:"center", padding:"14px 16px 10px" }}>
               <span style={{ fontSize:"11px", letterSpacing:"3px", color:S.goldDim,
                 textTransform:"uppercase" }}>Settings</span>
               <button onClick={() => setSettingsOpen(false)} aria-label="Close"
@@ -1328,104 +1356,164 @@ useEffect(() => {
                   color:"#9aa0a6", fontSize:"15px", lineHeight:1 }}>✕</button>
             </div>
 
-            {/* ── Account (entry point — real auth needs the backend + Riot RSO) ── */}
-            <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
-              textTransform:"uppercase", marginBottom:"7px" }}>Account</div>
-            <div style={{ display:"flex", alignItems:"center", gap:"10px",
-              background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
-              borderRadius:"9px", padding:"9px 11px" }}>
-              <div style={{ width:"30px", height:"30px", borderRadius:"50%", flexShrink:0,
-                display:"flex", alignItems:"center", justifyContent:"center",
-                background:"rgba(212,175,55,.12)", border:"1px solid rgba(212,175,55,.25)",
-                fontSize:"15px" }}>👤</div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>Guest</div>
-                <div style={{ fontSize:"10px", color:"#8a9096" }}>Not signed in</div>
-              </div>
-              <button onClick={() => setAcctInfo(v => !v)}
-                className="frge-pill" aria-expanded={acctInfo}
-                style={{ cursor:"pointer", whiteSpace:"nowrap", borderRadius:"20px",
-                  padding:"5px 12px", fontSize:"11px", fontWeight:"bold",
-                  border:`1px solid ${S.orange}aa`, background:`${S.orange}22`, color:S.orange }}>
-                Sign in / Sign up
-              </button>
-            </div>
-            {acctInfo && (
-              <div style={{ marginTop:"8px", padding:"9px 11px", borderRadius:"8px",
-                background:"rgba(249,115,22,.07)", border:"1px solid rgba(249,115,22,.2)",
-                fontSize:"11px", color:"#c7ccd1", lineHeight:1.55 }}>
-                <b style={{ color:S.gold }}>Coming soon.</b> You'll be able to <b>link your Riot
-                account</b>, sync your builds across devices, and opt into update emails — nothing
-                to sign into just yet. This is where it'll live.
-              </div>
-            )}
-
-            {/* ── Desktop (companion behaviour) — desktop app only ── */}
-            {isDesktop && (
-              <>
-                <div style={{ height:"1px", background:"rgba(255,255,255,.07)", margin:"14px 0 12px" }} />
-                <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
-                  textTransform:"uppercase", marginBottom:"8px" }}>Startup</div>
-                <button onClick={toggleStartup} aria-pressed={startupOn} className="frge-pill"
-                  style={{ width:"100%", textAlign:"left", cursor:"pointer", borderRadius:"9px",
-                    padding:"9px 11px", display:"flex", alignItems:"center", gap:"10px",
-                    border:`1px solid ${startupOn ? S.gold : "rgba(255,255,255,.1)"}`,
-                    background: startupOn ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)" }}>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontSize:"12.5px", fontWeight:"bold",
-                      color: startupOn ? S.gold : "#e7e2d4" }}>Launch on startup</div>
-                    <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>
-                      Start with Windows, minimised to the tray. Opens beside League when it launches.
-                    </div>
-                  </div>
-                  {/* switch */}
-                  <span style={{ flexShrink:0, width:"34px", height:"19px", borderRadius:"10px",
-                    background: startupOn ? S.gold : "rgba(255,255,255,.16)", position:"relative",
-                    transition:"background .15s" }}>
-                    <span style={{ position:"absolute", top:"2px", left: startupOn ? "17px" : "2px",
-                      width:"15px", height:"15px", borderRadius:"50%", background:"#1a1a1d",
-                      transition:"left .15s" }} />
-                  </span>
-                </button>
-              </>
-            )}
-
-            <div style={{ height:"1px", background:"rgba(255,255,255,.07)", margin:"14px 0 12px" }} />
-
-            {/* ── Theme ── */}
-            <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
-              textTransform:"uppercase", marginBottom:"8px" }}>Theme</div>
-            <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
-              {THEMES.map(t => {
-                const on = frgeTheme === t.id;
-                const locked = t.vip && !isVip;
+            {/* tab bar */}
+            <div style={{ display:"flex", gap:"2px", padding:"0 10px",
+              borderBottom:"1px solid rgba(255,255,255,.07)" }}>
+              {SETTINGS_TABS.map(t => {
+                const on = settingsTab === t.id;
                 return (
-                  <button key={t.id}
-                    onClick={() => { if (!locked) setFrgeTheme(t.id); }}
-                    disabled={locked} aria-pressed={on}
-                    className={locked ? "" : "frge-pill"}
-                    style={{
-                      textAlign:"left", cursor: locked ? "not-allowed" : "pointer",
-                      borderRadius:"9px", padding:"9px 11px",
-                      border:`1px solid ${on ? S.gold : "rgba(255,255,255,.1)"}`,
-                      background: on ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)",
-                      opacity: locked ? 0.55 : 1,
-                    }}>
-                    <div style={{ display:"flex", alignItems:"center", gap:"7px" }}>
-                      <span style={{ fontSize:"12.5px", fontWeight:"bold",
-                        color: on ? S.gold : "#e7e2d4" }}>{t.name}</span>
-                      {on && <span style={{ fontSize:"9px", color:S.gold }}>● active</span>}
-                      {locked && <span style={{ marginLeft:"auto", fontSize:"9px",
-                        color:S.goldDim, letterSpacing:".5px" }}>🔒 VIP</span>}
-                    </div>
-                    <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>{t.desc}</div>
+                  <button key={t.id} onClick={() => setSettingsTab(t.id)} aria-pressed={on}
+                    className="frge-pill"
+                    style={{ flex:1, cursor:"pointer", background:"none", border:"none",
+                      borderBottom:`2px solid ${on ? S.orange : "transparent"}`,
+                      color: on ? "#e7e2d4" : "#8a9096", fontSize:"10.5px",
+                      fontWeight: on ? "bold" : "normal", padding:"7px 2px 8px",
+                      letterSpacing:".2px" }}>
+                    {t.label}
                   </button>
                 );
               })}
             </div>
-            <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
-              lineHeight:1.5 }}>
-              More themes — including VIP-exclusive looks — are on the way.
+
+            {/* tab content */}
+            <div style={{ padding:"14px 16px 16px", overflowY:"auto" }}>
+
+              {/* ── DISPLAY / THEMES ── */}
+              {settingsTab === "display" && (
+                <>
+                  <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
+                    {THEMES.map(t => {
+                      const on = frgeTheme === t.id;
+                      const locked = t.vip && !isVip;
+                      return (
+                        <button key={t.id}
+                          onClick={() => { if (!locked) setFrgeTheme(t.id); }}
+                          disabled={locked} aria-pressed={on}
+                          className={locked ? "" : "frge-pill"}
+                          style={{
+                            textAlign:"left", cursor: locked ? "not-allowed" : "pointer",
+                            borderRadius:"9px", padding:"9px 11px",
+                            border:`1px solid ${on ? S.gold : "rgba(255,255,255,.1)"}`,
+                            background: on ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)",
+                            opacity: locked ? 0.55 : 1,
+                          }}>
+                          <div style={{ display:"flex", alignItems:"center", gap:"7px" }}>
+                            <span style={{ fontSize:"12.5px", fontWeight:"bold",
+                              color: on ? S.gold : "#e7e2d4" }}>{t.name}</span>
+                            {on && <span style={{ fontSize:"9px", color:S.gold }}>● active</span>}
+                            {locked && <span style={{ marginLeft:"auto", fontSize:"9px",
+                              color:S.goldDim, letterSpacing:".5px" }}>🔒 VIP</span>}
+                          </div>
+                          <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>{t.desc}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
+                    lineHeight:1.5 }}>
+                    More themes — including VIP-exclusive looks — are on the way.
+                  </div>
+                </>
+              )}
+
+              {/* ── GENERAL ── */}
+              {settingsTab === "general" && (
+                isDesktop ? (
+                  <>
+                    {settingToggle({ label:"Launch on startup", on:startupOn, onClick:toggleStartup,
+                      desc:"Start with Windows, minimised to the tray. Opens beside League when it launches." })}
+                    <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
+                      textTransform:"uppercase", margin:"14px 0 8px" }}>Champ select</div>
+                    {settingToggle({ label:"Auto-sync", on:csSync, onClick:() => setCsSync(v => !v),
+                      desc:"Follow the champion you hover / lock and auto-match the enemy laner." })}
+                    {settingToggle({ label:"Pre-hover", on:preHoverOn, onClick:() => setPreHoverOn(v => !v),
+                      desc:"Auto-hover your selected champion when champ select opens, then import its build." })}
+                  </>
+                ) : (
+                  <div style={{ fontSize:"11px", color:"#8a9096", lineHeight:1.6, padding:"6px 2px" }}>
+                    Startup, tray and champ-select options live in the{" "}
+                    <b style={{ color:"#c7ccd1" }}>desktop app</b> — it syncs builds straight into the
+                    League client.
+                  </div>
+                )
+              )}
+
+              {/* ── INTEGRATIONS ── */}
+              {settingsTab === "integrations" && (
+                <>
+                  {/* League Client — live connection status */}
+                  <div style={{ display:"flex", alignItems:"center", gap:"10px",
+                    background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
+                    borderRadius:"9px", padding:"9px 11px", marginBottom:"8px" }}>
+                    <span style={{ width:"9px", height:"9px", borderRadius:"50%", flexShrink:0,
+                      background: csActive ? "#4caf7d" : isDesktop ? "#D4AF37" : "#5c6a7a" }} />
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>League Client</div>
+                      <div style={{ fontSize:"10px", color:"#8a9096" }}>
+                        {isDesktop ? csStatus : "Desktop app only"}
+                      </div>
+                    </div>
+                  </div>
+                  {/* Discord — planned */}
+                  <div style={{ background:"rgba(88,101,242,.06)", border:"1px solid rgba(88,101,242,.25)",
+                    borderRadius:"9px", padding:"9px 11px" }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+                      <span style={{ fontSize:"14px" }}>🎮</span>
+                      <span style={{ fontSize:"12px", fontWeight:"bold", color:"#c7ccd1" }}>Discord</span>
+                      <span style={{ marginLeft:"auto", fontSize:"9px", color:"#8a9096",
+                        letterSpacing:".5px" }}>PLANNED</span>
+                    </div>
+                    <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"5px", lineHeight:1.5 }}>
+                      Rich-presence status while you play, party-invite tools, and custom LoL quotes as your
+                      status — under design.
+                    </div>
+                  </div>
+                  <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
+                    lineHeight:1.5 }}>
+                    Riot-account linking lives in the{" "}
+                    <b style={{ color:"rgba(200,204,209,.5)" }}>Account</b> tab.
+                  </div>
+                </>
+              )}
+
+              {/* ── ACCOUNT ── */}
+              {settingsTab === "account" && (
+                <>
+                  <div style={{ display:"flex", alignItems:"center", gap:"10px",
+                    background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
+                    borderRadius:"9px", padding:"9px 11px" }}>
+                    <div style={{ width:"30px", height:"30px", borderRadius:"50%", flexShrink:0,
+                      display:"flex", alignItems:"center", justifyContent:"center",
+                      background:"rgba(212,175,55,.12)", border:"1px solid rgba(212,175,55,.25)",
+                      fontSize:"15px" }}>👤</div>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>Guest</div>
+                      <div style={{ fontSize:"10px", color:"#8a9096" }}>Not signed in</div>
+                    </div>
+                    <button onClick={() => setAcctInfo(v => !v)}
+                      className="frge-pill" aria-expanded={acctInfo}
+                      style={{ cursor:"pointer", whiteSpace:"nowrap", borderRadius:"20px",
+                        padding:"5px 12px", fontSize:"11px", fontWeight:"bold",
+                        border:`1px solid ${S.orange}aa`, background:`${S.orange}22`, color:S.orange }}>
+                      Sign in / Sign up
+                    </button>
+                  </div>
+                  {acctInfo && (
+                    <div style={{ marginTop:"8px", padding:"9px 11px", borderRadius:"8px",
+                      background:"rgba(249,115,22,.07)", border:"1px solid rgba(249,115,22,.2)",
+                      fontSize:"11px", color:"#c7ccd1", lineHeight:1.55 }}>
+                      <b style={{ color:S.gold }}>Coming soon.</b> You'll be able to <b>link your Riot
+                      account</b>, sync your builds across devices, and opt into update emails — nothing
+                      to sign into just yet. This is where it'll live.
+                    </div>
+                  )}
+                  <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
+                    lineHeight:1.5 }}>
+                    Real sign-in needs the FRGE backend + Riot Sign-On — see the roadmap.
+                  </div>
+                </>
+              )}
+
             </div>
           </div>
         </>
