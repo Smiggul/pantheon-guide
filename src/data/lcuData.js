@@ -3,6 +3,7 @@
 // Rune/style/shard ids are Riot perk ids; item ids and champ keys are CANONICAL
 // Riot ids (the project's own item.json uses non-canonical ids, unusable for the
 // LCU). ITEM_IDS keys are lowercased for case-insensitive lookup.
+export const DDRAGON_VERSION = "16.15.1";
 export const STYLE_IDS = {
   "Domination": 8100,
   "Inspiration": 8300,

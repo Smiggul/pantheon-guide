@@ -83,6 +83,7 @@ fs.writeFileSync("src/data/lcuData.js",
 // Rune/style/shard ids are Riot perk ids; item ids and champ keys are CANONICAL
 // Riot ids (the project's own item.json uses non-canonical ids, unusable for the
 // LCU). ITEM_IDS keys are lowercased for case-insensitive lookup.
+export const DDRAGON_VERSION = ${JSON.stringify(ver)};
 export const STYLE_IDS = {
 ${lit(STYLE)}
 };

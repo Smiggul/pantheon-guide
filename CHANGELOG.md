@@ -56,6 +56,10 @@ rolled into a numbered version when a build is cut.
   to the bundled asset version, so the export always matches what's on disk.
 
 ### Fixed
+- **Patch label in the header no longer goes stale** — it's now derived from the
+  bundled Data Dragon version (exported as `DDRAGON_VERSION`) instead of a
+  hardcoded string, so it tracks every patch update automatically. Now reads
+  "Patch 26.15".
 - **Champion predictor** no longer breaks when several enemies could play your
   lane: it prefers the enemy whose *primary* role is yours, only considers picks
   it can resolve (so the "vs …" readout can't silently blank), and shows a

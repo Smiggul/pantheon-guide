@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { buildExport } from "./data/lcuExport.js";
-import { CHAMP_KEYS } from "./data/lcuData.js";
+import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
@@ -134,6 +134,13 @@ const toDD = (name) => {
 
 // ── Data Dragon base (populated by setup_ddragon.py) ─────────────────────────
 const DD = "/ddragon";
+// Game patch label, derived from the bundled Data Dragon version so it can never
+// go stale (the auto-patch pipeline keeps DDRAGON_VERSION fresh). Riot's client
+// patch major runs 10 ahead of Data Dragon's (ddragon 16.15.x ⇒ game 26.15).
+const GAME_PATCH = (() => {
+  const [maj, min] = String(DDRAGON_VERSION).split(".");
+  return maj && min ? `${Number(maj) + 10}.${min}` : DDRAGON_VERSION;
+})();
 
 // Champions — uses your existing toDD() key
 // Display name → DDragon id (e.g. "Miss Fortune" → "MissFortune", "Wukong" via
@@ -1396,7 +1403,7 @@ useEffect(() => {
       }}>
         <div style={{ fontSize:"10px", letterSpacing:"6px", color:S.goldDim,
           textTransform:"uppercase", marginBottom:"2px" }}>
-          FRGE.GG · Patch 26.14
+          FRGE.GG · Patch {GAME_PATCH}
         </div>
         <h1 style={{
           fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
