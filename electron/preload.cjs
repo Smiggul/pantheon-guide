@@ -25,4 +25,8 @@ contextBridge.exposeInMainWorld("frge", {
 
   // Pre-select a champion in the ban phase (same arg shape as hoverChampion).
   hoverBan: (arg) => ipcRenderer.invoke("frge:hover-ban", arg),
+
+  // Launch-on-startup (minimised to tray) — read/write the OS login item.
+  getStartup: () => ipcRenderer.invoke("frge:get-startup"),
+  setStartup: (enabled) => ipcRenderer.invoke("frge:set-startup", enabled),
 });

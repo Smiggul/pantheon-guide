@@ -12,7 +12,17 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Added
+- **Tray companion mode** (desktop) — FRGE.GG now lives in the Windows system
+  tray (hidden-icons area). Closing the window minimises it there instead of
+  quitting; the tray menu has Open, Launch-on-startup, and Quit.
+- **Auto-reveal when League launches** — while it sits in the tray, FRGE watches
+  for the League client and, the moment it starts, brings itself forward **on a
+  second monitor if you have one**, otherwise **docked beside League** on a single
+  screen.
+- **Launch on startup** setting (Settings → Startup) — start FRGE with Windows,
+  minimised to the tray, so it's ready to pop up when you load into League.
+  Toggles the OS login item; also available from the tray menu.
 
 ## [0.4.0] — 2026-08-06
 

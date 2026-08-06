@@ -3,7 +3,8 @@
 // asset paths (/ddragon/..., /images/...) resolve without a web server.
 // `electron . --dev` loads the Vite dev server instead (run `npm run dev` first).
 
-const { app, BrowserWindow, protocol, net, shell, ipcMain } = require("electron");
+const { app, BrowserWindow, protocol, net, shell, ipcMain,
+        Tray, Menu, screen, nativeImage } = require("electron");
 const path = require("path");
 const https = require("https");
 const { execFile } = require("child_process");
@@ -17,6 +18,12 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 let mainWin = null;
+let tray = null;
+let isQuiting = false;      // true only when the user actually quits (tray → Quit)
+let leagueWasUp = false;    // last-poll client presence, to fire once on launch
+// Start hidden in the tray when auto-launched at login (the login item passes
+// --hidden). A manual double-click has no such flag, so the window shows.
+const START_HIDDEN = process.argv.includes("--hidden");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -24,14 +31,23 @@ function createWindow() {
     height: 950,
     minWidth: 1000,
     minHeight: 640,
+    show: false,             // shown on ready-to-show (unless starting hidden)
     autoHideMenuBar: true,
     backgroundColor: "#060a0f",
     title: "FRGE.GG",
+    icon: path.join(__dirname, "tray-icon.png"),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.cjs"),
     },
+  });
+  win.once("ready-to-show", () => { if (!START_HIDDEN) win.show(); });
+  // Closing the window (X) minimises to the tray instead of quitting — the app
+  // keeps running in the background to watch for League. Real quit is via the
+  // tray menu, which sets isQuiting first.
+  win.on("close", (e) => {
+    if (!isQuiting) { e.preventDefault(); win.hide(); }
   });
   // external links go to the default browser, not a new Electron window —
   // but only http/https, so a compromised/untrusted page (e.g. future ad
@@ -61,6 +77,82 @@ function createWindow() {
   win.loadURL(DEV ? "http://localhost:5173" : "app://-/");
   mainWin = win;
   win.on("closed", () => { if (mainWin === win) mainWin = null; });
+}
+
+// Place the window for playing alongside League: on a second monitor if there is
+// one (League usually lives on the primary), otherwise docked to the right edge
+// of the single screen so it sits beside the client.
+function positionWindow(win) {
+  const displays = screen.getAllDisplays();
+  const primary = screen.getPrimaryDisplay();
+  if (displays.length > 1) {
+    const secondary = displays.find((d) => d.id !== primary.id) || primary;
+    const wa = secondary.workArea;
+    const w = Math.min(1500, wa.width);
+    const h = Math.min(950, wa.height);
+    win.setBounds({
+      x: Math.round(wa.x + (wa.width - w) / 2),
+      y: Math.round(wa.y + (wa.height - h) / 2),
+      width: w, height: h,
+    });
+  } else {
+    const wa = primary.workArea;
+    const w = Math.max(560, Math.round(wa.width * 0.42));
+    win.setBounds({ x: wa.x + wa.width - w, y: wa.y, width: w, height: wa.height });
+  }
+}
+
+// League just launched — bring FRGE forward and position it beside the client.
+function revealForLeague() {
+  if (!mainWin || mainWin.isDestroyed()) createWindow();
+  positionWindow(mainWin);
+  if (mainWin.isMinimized()) mainWin.restore();
+  mainWin.show();
+  mainWin.focus();
+}
+
+function showWindow() {
+  if (!mainWin || mainWin.isDestroyed()) createWindow();
+  if (mainWin.isMinimized()) mainWin.restore();
+  mainWin.show();
+  mainWin.focus();
+}
+
+function createTray() {
+  if (tray) return;
+  const icon = nativeImage.createFromPath(path.join(__dirname, "tray-icon.png"));
+  tray = new Tray(icon);
+  tray.setToolTip("FRGE.GG — League companion");
+  const rebuildMenu = () => {
+    const atLogin = app.getLoginItemSettings().openAtLogin;
+    tray.setContextMenu(Menu.buildFromTemplate([
+      { label: "Open FRGE.GG", click: showWindow },
+      { type: "separator" },
+      {
+        label: "Launch on startup", type: "checkbox", checked: atLogin,
+        click: (item) => { setStartup(item.checked); },
+      },
+      { type: "separator" },
+      { label: "Quit FRGE.GG", click: () => { isQuiting = true; app.quit(); } },
+    ]));
+  };
+  rebuildMenu();
+  tray.on("click", showWindow);          // left-click opens (Windows convention)
+  tray.on("double-click", showWindow);
+  tray._rebuildMenu = rebuildMenu;       // so the startup toggle can refresh the tick
+}
+
+// Register/'unregister the login item (Windows). Only meaningful in the packaged
+// app; in dev it would point at the electron binary, so we skip the actual write.
+function setStartup(enabled) {
+  if (app.isPackaged) {
+    app.setLoginItemSettings({
+      openAtLogin: !!enabled,
+      args: ["--hidden"], // so the login launch starts minimised to the tray
+    });
+  }
+  if (tray && tray._rebuildMenu) tray._rebuildMenu();
+  return app.getLoginItemSettings().openAtLogin;
 }
 
 // module scripts are blocked without a proper MIME type, so map it explicitly
@@ -250,6 +342,11 @@ async function pollChampSelect() {
   pollBusy = true;
   try {
     const creds = await getCreds();
+    // League just came up (client detected after being absent) → bring FRGE
+    // forward beside it. Fires once per launch; hiding it again won't re-trigger.
+    const up = !!creds;
+    if (up && !leagueWasUp) revealForLeague();
+    leagueWasUp = up;
     if (!creds) { sendChampSelect({ active: false, reason: "no-client" }); return; }
     let res;
     try {
@@ -299,6 +396,10 @@ async function hoverAction(arg, type) {
 ipcMain.handle("frge:hover-champion", (_e, arg) => hoverAction(arg, "pick"));
 ipcMain.handle("frge:hover-ban", (_e, arg) => hoverAction(arg, "ban"));
 
+// Launch-on-startup (minimised to tray) — read/write the OS login item.
+ipcMain.handle("frge:get-startup", () => app.getLoginItemSettings().openAtLogin);
+ipcMain.handle("frge:set-startup", (_e, enabled) => setStartup(enabled));
+
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {
     const { pathname } = new URL(req.url);
@@ -317,10 +418,15 @@ app.whenReady().then(() => {
       : res;
   });
   createWindow();
-  setInterval(pollChampSelect, 1500); // live champ-select sync
+  createTray();               // system-tray (hidden-icons) presence
+  setInterval(pollChampSelect, 1500); // live champ-select sync + League-launch watch
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    else showWindow();
   });
 });
 
-app.on("window-all-closed", () => app.quit());
+app.on("before-quit", () => { isQuiting = true; });
+// The window closing minimises to the tray, so the app intentionally keeps
+// running with no window — do NOT quit here. Quit is via the tray menu.
+app.on("window-all-closed", () => { /* stay alive in the tray */ });

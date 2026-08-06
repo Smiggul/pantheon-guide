@@ -458,10 +458,23 @@ export default function App() {
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
+  const [startupOn, setStartupOn] = useState(false); // launch-on-startup (desktop)
   useEffect(() => {
     document.documentElement.setAttribute("data-frge-theme", frgeTheme);
     try { localStorage.setItem("frge-theme", frgeTheme); } catch { /* ignore */ }
   }, [frgeTheme]);
+  // Reflect the actual OS login-item state (desktop only).
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.frge?.getStartup) return;
+    window.frge.getStartup().then((v) => setStartupOn(!!v)).catch(() => {});
+  }, []);
+  const toggleStartup = async () => {
+    if (!window.frge?.setStartup) return;
+    const next = !startupOn;
+    setStartupOn(next); // optimistic
+    try { setStartupOn(!!(await window.frge.setStartup(next))); }
+    catch { setStartupOn(!next); }
+  };
   // Close the settings popout on Escape.
   useEffect(() => {
     if (!settingsOpen) return;
@@ -1345,6 +1358,36 @@ useEffect(() => {
                 account</b>, sync your builds across devices, and opt into update emails — nothing
                 to sign into just yet. This is where it'll live.
               </div>
+            )}
+
+            {/* ── Desktop (companion behaviour) — desktop app only ── */}
+            {isDesktop && (
+              <>
+                <div style={{ height:"1px", background:"rgba(255,255,255,.07)", margin:"14px 0 12px" }} />
+                <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
+                  textTransform:"uppercase", marginBottom:"8px" }}>Startup</div>
+                <button onClick={toggleStartup} aria-pressed={startupOn} className="frge-pill"
+                  style={{ width:"100%", textAlign:"left", cursor:"pointer", borderRadius:"9px",
+                    padding:"9px 11px", display:"flex", alignItems:"center", gap:"10px",
+                    border:`1px solid ${startupOn ? S.gold : "rgba(255,255,255,.1)"}`,
+                    background: startupOn ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)" }}>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:"12.5px", fontWeight:"bold",
+                      color: startupOn ? S.gold : "#e7e2d4" }}>Launch on startup</div>
+                    <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>
+                      Start with Windows, minimised to the tray. Opens beside League when it launches.
+                    </div>
+                  </div>
+                  {/* switch */}
+                  <span style={{ flexShrink:0, width:"34px", height:"19px", borderRadius:"10px",
+                    background: startupOn ? S.gold : "rgba(255,255,255,.16)", position:"relative",
+                    transition:"background .15s" }}>
+                    <span style={{ position:"absolute", top:"2px", left: startupOn ? "17px" : "2px",
+                      width:"15px", height:"15px", borderRadius:"50%", background:"#1a1a1d",
+                      transition:"left .15s" }} />
+                  </span>
+                </button>
+              </>
             )}
 
             <div style={{ height:"1px", background:"rgba(255,255,255,.07)", margin:"14px 0 12px" }} />
