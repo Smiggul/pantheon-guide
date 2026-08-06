@@ -12,6 +12,10 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [0.4.0] — 2026-08-06
+
 ### Added
 - **Versus-team view** (desktop, live champ select) — once enemies lock in, a new
   panel lists all five in a column: portrait, role, class and damage type, with
