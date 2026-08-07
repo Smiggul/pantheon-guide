@@ -29,4 +29,16 @@ contextBridge.exposeInMainWorld("frge", {
   // Launch-on-startup (minimised to tray) — read/write the OS login item.
   getStartup: () => ipcRenderer.invoke("frge:get-startup"),
   setStartup: (enabled) => ipcRenderer.invoke("frge:set-startup", enabled),
+
+  // Auto-update — subscribe to status, and drive check / download / install.
+  onUpdate: (cb) => {
+    const h = (_e, data) => cb(data);
+    ipcRenderer.on("frge:update", h);
+    return () => ipcRenderer.removeListener("frge:update", h);
+  },
+  getVersion: () => ipcRenderer.invoke("frge:version"),
+  getUpdateState: () => ipcRenderer.invoke("frge:update-state"),
+  checkUpdate: () => ipcRenderer.invoke("frge:update-check"),
+  downloadUpdate: () => ipcRenderer.invoke("frge:update-download"),
+  installUpdate: () => ipcRenderer.invoke("frge:update-install"),
 });

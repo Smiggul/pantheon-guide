@@ -5,6 +5,8 @@
 
 const { app, BrowserWindow, protocol, net, shell, ipcMain,
         Tray, Menu, screen, nativeImage } = require("electron");
+const { autoUpdater } = require("electron-updater");
+const log = require("electron-log");
 const path = require("path");
 const https = require("https");
 const { execFile } = require("child_process");
@@ -403,6 +405,36 @@ ipcMain.handle("frge:hover-ban", (_e, arg) => hoverAction(arg, "ban"));
 ipcMain.handle("frge:get-startup", () => isStartupOn());
 ipcMain.handle("frge:set-startup", (_e, enabled) => setStartup(enabled));
 
+// ── Auto-update (electron-updater → GitHub Releases) ─────────────────────────
+// The user drives it: a button appears when an update is available, downloads on
+// click, then offers a restart. autoDownload is off so nothing happens silently.
+autoUpdater.logger = log;
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
+let latestUpdate = { state: "idle" }; // remembered so a late-opening window can ask
+function sendUpdate(payload) {
+  latestUpdate = payload;
+  if (mainWin && !mainWin.isDestroyed()) mainWin.webContents.send("frge:update", payload);
+}
+autoUpdater.on("checking-for-update", () => sendUpdate({ state: "checking" }));
+autoUpdater.on("update-available", (info) => sendUpdate({ state: "available", version: info?.version }));
+autoUpdater.on("update-not-available", () => sendUpdate({ state: "none" }));
+autoUpdater.on("download-progress", (p) => sendUpdate({ state: "downloading", percent: Math.round(p?.percent || 0) }));
+autoUpdater.on("update-downloaded", (info) => sendUpdate({ state: "downloaded", version: info?.version }));
+autoUpdater.on("error", (err) => sendUpdate({ state: "error", message: String(err?.message || err) }));
+
+function checkForUpdates() {
+  if (!app.isPackaged) return; // no updater metadata in dev
+  autoUpdater.checkForUpdates().catch((e) => sendUpdate({ state: "error", message: String(e?.message || e) }));
+}
+ipcMain.handle("frge:version", () => app.getVersion());
+ipcMain.handle("frge:update-state", () => latestUpdate);
+ipcMain.handle("frge:update-check", () => { checkForUpdates(); });
+ipcMain.handle("frge:update-download", () => {
+  autoUpdater.downloadUpdate().catch((e) => sendUpdate({ state: "error", message: String(e?.message || e) }));
+});
+ipcMain.handle("frge:update-install", () => { isQuiting = true; autoUpdater.quitAndInstall(); });
+
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {
     const { pathname } = new URL(req.url);
@@ -423,6 +455,8 @@ app.whenReady().then(() => {
   createWindow();
   createTray();               // system-tray (hidden-icons) presence
   setInterval(pollChampSelect, 1500); // live champ-select sync + League-launch watch
+  setTimeout(checkForUpdates, 4000);  // check for updates shortly after launch
+  setInterval(checkForUpdates, 6 * 60 * 60 * 1000); // and every 6 hours
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
     else showWindow();

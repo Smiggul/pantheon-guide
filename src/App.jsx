@@ -489,6 +489,28 @@ export default function App() {
     window.frge.getStartup().then((v) => setStartupOn(!!v)).catch(() => {});
   }, []);
   const [settingsTab, setSettingsTab] = useState("display");
+  // ── Auto-update status (desktop) ──
+  const [update, setUpdate] = useState(null); // { state, version, percent, message }
+  const [appVersion, setAppVersion] = useState(null);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.frge?.onUpdate) return;
+    window.frge.getVersion?.().then((v) => v && setAppVersion(v)).catch(() => {});
+    window.frge.getUpdateState?.().then((s) => { if (s) setUpdate(s); }).catch(() => {});
+    return window.frge.onUpdate((d) => setUpdate(d));
+  }, []);
+  const onUpdateAction = () => {
+    if (!window.frge) return;
+    if (update?.state === "available") window.frge.downloadUpdate();
+    else if (update?.state === "downloaded") window.frge.installUpdate();
+    else window.frge.checkUpdate();
+  };
+  const updateStatusText =
+    update?.state === "checking"    ? "Checking for updates…"
+    : update?.state === "available"  ? `Update available — v${update.version || "?"}`
+    : update?.state === "downloading" ? `Downloading… ${update.percent ?? 0}%`
+    : update?.state === "downloaded" ? "Downloaded — restart to apply"
+    : update?.state === "error"      ? "Update check failed"
+    : "Up to date";
   const toggleStartup = async () => {
     if (!window.frge?.setStartup) return;
     const next = !startupOn;
@@ -1336,6 +1358,29 @@ useEffect(() => {
       color:"#F5F5F5",
       }}>
 
+      {/* ── UPDATE BUTTON — appears only when there's an update (desktop) ── */}
+      {isDesktop && update && ["available","downloading","downloaded"].includes(update.state) && (
+        <button
+          onClick={onUpdateAction}
+          disabled={update.state === "downloading"}
+          className="frge-pill frge-cta frge-enter"
+          title={update.state === "available" ? "Download the update"
+            : update.state === "downloading" ? "Downloading…" : "Restart to finish updating"}
+          style={{
+            position:"fixed", top:"12px", right:"56px", zIndex:60, height:"34px",
+            borderRadius:"18px", padding:"0 14px",
+            cursor: update.state === "downloading" ? "default" : "pointer",
+            display:"flex", alignItems:"center", gap:"7px", fontSize:"12px", fontWeight:"bold",
+            border:`1px solid ${S.orange}`, whiteSpace:"nowrap",
+            background: update.state === "downloaded" ? S.orange : "rgba(249,115,22,.16)",
+            color: update.state === "downloaded" ? "#151517" : S.orange,
+          }}>
+          {update.state === "available" && <>⬇ Update{update.version ? ` v${update.version}` : ""}</>}
+          {update.state === "downloading" && <>Downloading {update.percent ?? 0}%</>}
+          {update.state === "downloaded" && <>↻ Restart &amp; update</>}
+        </button>
+      )}
+
       {/* ── SETTINGS (gear + theme popout) ── */}
       <button
         onClick={() => setSettingsOpen(v => !v)}
@@ -1440,6 +1485,40 @@ useEffect(() => {
                       desc:"Follow the champion you hover / lock and auto-match the enemy laner." })}
                     {settingToggle({ label:"Pre-hover", on:preHoverOn, onClick:() => setPreHoverOn(v => !v),
                       desc:"Auto-hover your selected champion when champ select opens, then import its build." })}
+
+                    <div style={{ fontSize:"9px", letterSpacing:"2px", color:S.goldDim,
+                      textTransform:"uppercase", margin:"14px 0 8px" }}>Updates</div>
+                    <div style={{ display:"flex", alignItems:"center", gap:"10px",
+                      background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
+                      borderRadius:"9px", padding:"9px 11px" }}>
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>
+                          FRGE.GG{appVersion ? ` v${appVersion}` : ""}
+                        </div>
+                        <div style={{ fontSize:"10px", color:"#8a9096" }}>{updateStatusText}</div>
+                      </div>
+                      {update?.state === "downloaded" ? (
+                        <button onClick={() => window.frge?.installUpdate?.()} className="frge-pill"
+                          style={{ cursor:"pointer", whiteSpace:"nowrap", borderRadius:"20px",
+                            padding:"5px 12px", fontSize:"11px", fontWeight:"bold",
+                            border:`1px solid ${S.orange}`, background:S.orange, color:"#151517" }}>
+                          Restart
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => update?.state === "available" ? window.frge?.downloadUpdate?.() : window.frge?.checkUpdate?.()}
+                          disabled={update?.state === "checking" || update?.state === "downloading"}
+                          className="frge-pill"
+                          style={{ cursor:"pointer", whiteSpace:"nowrap", borderRadius:"20px",
+                            padding:"5px 12px", fontSize:"11px", fontWeight:"bold",
+                            border:`1px solid ${update?.state === "available" ? S.orange : "rgba(255,255,255,.18)"}`,
+                            background: update?.state === "available" ? "rgba(249,115,22,.16)" : "rgba(255,255,255,.04)",
+                            color: update?.state === "available" ? S.orange : "#c7ccd1",
+                            opacity: (update?.state === "checking" || update?.state === "downloading") ? 0.6 : 1 }}>
+                          {update?.state === "available" ? "Download" : "Check"}
+                        </button>
+                      )}
+                    </div>
                   </>
                 ) : (
                   <div style={{ fontSize:"11px", color:"#8a9096", lineHeight:1.6, padding:"6px 2px" }}>

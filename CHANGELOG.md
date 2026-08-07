@@ -14,6 +14,18 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.0] — 2026-08-07
+
+### Added
+- **In-app auto-update** (desktop) — FRGE checks GitHub for new releases on launch
+  (and every few hours). When one's available, an **Update** button appears top-
+  right: click to download (with progress), then it turns into **Restart & update**
+  to install. Nothing downloads or installs without you clicking. There's also an
+  **Updates** section in Settings → General showing your version and a manual
+  Check button. Built on `electron-updater` against the public releases.
+  _Note: auto-update works from this version forward — v0.7.0 is the first build
+  that ships the updater, so earlier installs need a one-time manual update._
+
 ## [0.6.0] — 2026-08-07
 
 ### Added
