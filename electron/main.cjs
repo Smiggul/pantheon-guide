@@ -24,6 +24,12 @@ let leagueWasUp = false;    // last-poll client presence, to fire once on launch
 // Start hidden in the tray when auto-launched at login (the login item passes
 // --hidden). A manual double-click has no such flag, so the window shows.
 const START_HIDDEN = process.argv.includes("--hidden");
+// Login-item identity. BOTH get and set must use the same path + args, or
+// getLoginItemSettings() reports openAtLogin:false even when the entry exists
+// (Windows matches on the exact command line) — which made the toggle never
+// "stick". process.execPath is the installed exe in a packaged build.
+const LOGIN_ITEM_OPTS = { path: process.execPath, args: ["--hidden"] };
+const isStartupOn = () => app.getLoginItemSettings(LOGIN_ITEM_OPTS).openAtLogin;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -124,7 +130,7 @@ function createTray() {
   tray = new Tray(icon);
   tray.setToolTip("FRGE.GG — League companion");
   const rebuildMenu = () => {
-    const atLogin = app.getLoginItemSettings().openAtLogin;
+    const atLogin = isStartupOn();
     tray.setContextMenu(Menu.buildFromTemplate([
       { label: "Open FRGE.GG", click: showWindow },
       { type: "separator" },
@@ -145,14 +151,11 @@ function createTray() {
 // Register/'unregister the login item (Windows). Only meaningful in the packaged
 // app; in dev it would point at the electron binary, so we skip the actual write.
 function setStartup(enabled) {
-  if (app.isPackaged) {
-    app.setLoginItemSettings({
-      openAtLogin: !!enabled,
-      args: ["--hidden"], // so the login launch starts minimised to the tray
-    });
-  }
+  // Only write a login item from the packaged app — in dev process.execPath is
+  // the Electron binary, which we don't want auto-starting.
+  if (app.isPackaged) app.setLoginItemSettings({ openAtLogin: !!enabled, ...LOGIN_ITEM_OPTS });
   if (tray && tray._rebuildMenu) tray._rebuildMenu();
-  return app.getLoginItemSettings().openAtLogin;
+  return isStartupOn();
 }
 
 // module scripts are blocked without a proper MIME type, so map it explicitly
@@ -397,7 +400,7 @@ ipcMain.handle("frge:hover-champion", (_e, arg) => hoverAction(arg, "pick"));
 ipcMain.handle("frge:hover-ban", (_e, arg) => hoverAction(arg, "ban"));
 
 // Launch-on-startup (minimised to tray) — read/write the OS login item.
-ipcMain.handle("frge:get-startup", () => app.getLoginItemSettings().openAtLogin);
+ipcMain.handle("frge:get-startup", () => isStartupOn());
 ipcMain.handle("frge:set-startup", (_e, enabled) => setStartup(enabled));
 
 app.whenReady().then(() => {

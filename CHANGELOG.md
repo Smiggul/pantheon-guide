@@ -14,6 +14,19 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.6.0] — 2026-08-07
+
+### Added
+- **Favourite champion** — hit the ☆ next to your champion in the "Playing as"
+  bar to make it your favourite, and FRGE opens straight to it every launch with
+  the build ready.
+
+### Fixed
+- **Launch on startup now actually sticks.** The login item was written with a
+  `--hidden` argument but read back without it, so Windows always reported it as
+  off and the toggle never held (and the tray checkmark stayed empty). Both the
+  read and the write now use the same command line.
+
 ## [0.5.0] — 2026-08-06
 
 ### Added

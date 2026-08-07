@@ -439,7 +439,19 @@ const LANES = [
 //  APP
 // ─────────────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [champ,        setChamp]        = useState(CHAMPS[0]);
+  // Favourite champion — the app boots straight to it so your main is ready.
+  const loadFav = () => { try { return localStorage.getItem("frge-fav") || null; } catch { return null; } };
+  const [favId, setFavId] = useState(loadFav);
+  const [champ,        setChamp]        = useState(
+    () => CHAMPS.find((c) => c.id === loadFav()) || CHAMPS[0]);
+  const toggleFav = (c) => {
+    setFavId((prev) => {
+      const next = prev === c.id ? null : c.id;
+      try { next ? localStorage.setItem("frge-fav", next) : localStorage.removeItem("frge-fav"); }
+      catch { /* ignore */ }
+      return next;
+    });
+  };
   const [activeRole,   setActiveRole]   = useState(null); 
   const [openClass,    setOpenClass]    = useState(null);
   const [mode,         setMode]         = useState("behind");
@@ -1810,6 +1822,21 @@ useEffect(() => {
               padding:"1px 3px", fontSize:"9px", lineHeight:1,
             }}>⇄</div>
           </div>
+
+          {/* Favourite star — sets this champ as the app's startup champion */}
+          <button
+            onClick={() => toggleFav(champ)}
+            aria-pressed={favId === champ.id}
+            title={favId === champ.id
+              ? `${champ.display} is your startup favourite — click to unset`
+              : `Favourite ${champ.display} — the app will open to it`}
+            className="frge-pill"
+            style={{ flexShrink:0, cursor:"pointer", background:"none", border:"none",
+              padding:"2px 3px", fontSize:"22px", lineHeight:1, alignSelf:"center",
+              color: favId === champ.id ? S.gold : "rgba(255,255,255,.28)",
+              filter: favId === champ.id ? `drop-shadow(0 0 6px ${S.gold}88)` : "none" }}>
+            {favId === champ.id ? "★" : "☆"}
+          </button>
 
           {/* Name + role icons */}
           <div>
