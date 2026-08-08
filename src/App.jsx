@@ -6,6 +6,7 @@ import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
+import { skillOrderOf } from "./data/skillOrders.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -630,6 +631,8 @@ useEffect(() => {
   // Jungle companion (smite pet) for the current build — only in the Jungle role.
   const buildPet = currentRole === "Jungle"
     ? petFor(champ.dd, activeChampRole, activeAlt) : null;
+  // Ability max-priority order (R implied at 6/11/16). null → hide the row.
+  const buildSkillOrder = skillOrderOf(champ.dd, activeChampRole, activeAlt);
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -2376,6 +2379,36 @@ useEffect(() => {
               );
             })()}
           </div>
+
+          {/* Ability level order — R at 6/11/16, then basics in max-priority order */}
+          {buildSkillOrder && (
+            <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"12px", flexWrap:"wrap" }}>
+              <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
+                textTransform:"uppercase", flexShrink:0 }}>Skill order</span>
+              {/* ultimate first */}
+              <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
+                <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
+                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
+                  border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
+                <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
+              </span>
+              <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
+              {buildSkillOrder.map((ab, i) => (
+                <span key={ab} style={{ display:"inline-flex", alignItems:"center", gap:"8px" }}>
+                  <span style={{ position:"relative", width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
+                    display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
+                    border:`1px solid ${S.orange}66`, background:`${S.orange}14`, color:"#f0b070" }}>
+                    {ab}
+                    <span style={{ position:"absolute", top:"-5px", right:"-5px", width:"13px", height:"13px",
+                      borderRadius:"50%", background:"#2a2f38", color:"#c7ccd1", fontSize:"8px", fontWeight:"700",
+                      display:"flex", alignItems:"center", justifyContent:"center" }}>{i + 1}</span>
+                  </span>
+                  {i < buildSkillOrder.length - 1 && <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>}
+                </span>
+              ))}
+              <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>max order</span>
+            </div>
+          )}
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}
           {altList.length > 0 && (
