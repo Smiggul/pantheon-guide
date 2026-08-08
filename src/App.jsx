@@ -784,6 +784,22 @@ useEffect(() => {
     setShowPicker(false);       // close the floating picker
     setChampSearch("");         // reset search
     setChampRoleFilter("All");  // reset filter
+    // In champ select, picking a champ in FRGE also hovers it in the client
+    // (main resolves your open pick action; a no-op once you've locked in).
+    if (isDesktop && csState?.active && window.frge?.hoverChampion) {
+      const key = CHAMP_KEYS[c.dd];
+      if (!key) return;
+      if ((csState.bannedChampionIds || []).includes(key)) {
+        setCsMsg(`${c.display} is banned — can't hover`);
+        return;
+      }
+      window.frge.hoverChampion({ championId: key })
+        .then((r) => {
+          if (r?.ok) setCsMsg(`Hovering ${c.display} in the client`);
+          else if (r?.error && r.error !== "no-open-pick") setCsMsg(`Hover failed: ${r.error}`);
+        })
+        .catch(() => {});
+    }
   };
 
   // Click a Recommended-Ban champion → pre-select it in the client's ban phase.

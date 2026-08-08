@@ -14,6 +14,19 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.2] — 2026-08-09
+
+### Fixed
+- **Auto-update download now works** (it was failing with "Update check failed").
+  The installer/portable filenames contained spaces, which GitHub and
+  electron-updater normalise differently (dots vs hyphens) — so the download URL
+  pointed at a file that didn't exist and 404'd. Artifacts are now named without
+  spaces (`FRGE.GG-Setup-x.y.z.exe`) so both agree. Auto-update works for anyone
+  who reaches v0.7.2.
+- **Picking a champion in FRGE now hovers it in the League client** during champ
+  select. Previously only the one-shot pre-hover (at champ-select open) pushed to
+  the client; changing your pick in FRGE afterwards did nothing.
+
 ## [0.7.1] — 2026-08-09
 
 ### Added

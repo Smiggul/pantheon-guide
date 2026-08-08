@@ -1,7 +1,7 @@
 {
   "name": "frge-gg",
   "private": true,
-  "version": "0.7.1",
+  "version": "0.7.2",
   "license": "UNLICENSED",
   "type": "module",
   "main": "electron/main.cjs",
@@ -44,7 +44,11 @@
     "nsis": {
       "oneClick": true,
       "perMachine": false,
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
     }
   },
   "dependencies": {
