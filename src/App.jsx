@@ -511,6 +511,21 @@ export default function App() {
     : update?.state === "downloaded" ? "Downloaded — restart to apply"
     : update?.state === "error"      ? "Update check failed"
     : "Up to date";
+  // Small champion portrait for the live matchup readout.
+  const csChampIcon = (dd, ring) => {
+    const ek = `csico-${dd}`;
+    const src = champImg(dd);
+    return (
+      <span style={{ width:"22px", height:"22px", borderRadius:"5px", overflow:"hidden",
+        border:`1.5px solid ${ring}66`, background:"#1B1B1E", flexShrink:0,
+        display:"inline-flex", alignItems:"center", justifyContent:"center", verticalAlign:"middle" }}>
+        {src && !imgFail(ek)
+          ? <img src={src} alt="" onError={() => onErr(ek)}
+              style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+          : null}
+      </span>
+    );
+  };
   const toggleStartup = async () => {
     if (!window.frge?.setStartup) return;
     const next = !startupOn;
@@ -669,6 +684,7 @@ useEffect(() => {
 
   // ── Live champ-select sync (desktop) ────────────────────────────────────────
   const [csState, setCsState]   = useState(null);   // last session summary from main
+  const [csFrozen, setCsFrozen] = useState(null);   // last locked matchup, kept on screen in-game
   const [csSync,  setCsSync]    = useState(true);    // auto-follow hovered/locked champ
   const [preHoverOn, setPreHoverOn] = useState(true); // auto-hover the selected champ, ON by default
   const [csMsg,   setCsMsg]     = useState(null);    // transient hover/status message
@@ -1317,33 +1333,51 @@ useEffect(() => {
   );
 };
 
+  // Freeze the last live champ-select snapshot (with a real champion) so the
+  // matchup + build stay on screen once the game starts. Cleared only when
+  // League fully closes; a new champ select overwrites it.
+  useEffect(() => {
+    if (!csState) return;
+    if (csState.active) {
+      const k = csState.championId || csState.championPickIntent;
+      if (k && champByKey(k)) setCsFrozen(csState);
+    } else if (csState.reason === "no-client") {
+      setCsFrozen(null);
+    }
+  }, [csState]);
+
   // ── Derived champ-select display values ─────────────────────────────────
-  const csActive = !!csState?.active;
-  const detectedKey = csActive ? (csState.championId || csState.championPickIntent) : 0;
+  const csActive = !!csState?.active;   // LIVE — gates hover / auto-import actions
+  // We keep showing the frozen matchup after champ select ends (game in
+  // progress), until League closes.
+  const csInGame = !csActive && !!csFrozen && csState?.reason !== "no-client";
+  const dispCs = csActive ? csState : (csInGame ? csFrozen : null); // what we display
+  const detectedKey = dispCs ? (dispCs.championId || dispCs.championPickIntent) : 0;
   const detectedChamp = detectedKey ? champByKey(detectedKey) : null;
-  const detectedRole = csActive ? POS_ROLE[csState.assignedPosition] : null;
+  const detectedRole = dispCs ? POS_ROLE[dispCs.assignedPosition] : null;
   // Prefer the client's assigned position; fall back to the role the app is
   // currently showing (what you're playing) so off-role / no-position games
   // still predict against the right lane.
   const csMyRole = detectedRole || currentRole
     || (detectedChamp?.roles ? Object.keys(detectedChamp.roles)[0] : null);
-  const csOppDd = csActive
-    ? opponentDd(csState.theirTeam, csState.assignedPosition, csMyRole)
+  const csOppDd = dispCs
+    ? opponentDd(dispCs.theirTeam, dispCs.assignedPosition, csMyRole)
     : null;
   // Are any enemies locked in yet? (distinguishes "no data" from "broke")
-  const csEnemiesLocked = csActive
-    && (csState.theirTeam || []).some((p) => p.championId > 0);
+  const csEnemiesLocked = !!dispCs
+    && (dispCs.theirTeam || []).some((p) => p.championId > 0);
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
   // Full enemy-team readout: damage split, threat flags, counters vs MY champ
   // (the one hovered/locked in client, else the one selected in the app).
-  const csEnemyAnalysis = csActive && csEnemiesLocked
-    ? analyzeEnemyTeam(csState.theirTeam, KEY_TO_DD, POS_ROLE,
+  const csEnemyAnalysis = dispCs && csEnemiesLocked
+    ? analyzeEnemyTeam(dispCs.theirTeam, KEY_TO_DD, POS_ROLE,
         detectedChamp?.dd || champ.dd, csOppDd)
     : null;
   const preHoverChamp = preHoverOn ? champ : null;
   const csStatus = !csState ? "Connecting to client…"
     : csState.active ? "In champ select"
+    : csInGame ? "In game — build reference"
     : csState.reason === "no-client" ? "League client not detected"
     : csState.reason === "not-in-select" ? "Waiting for champ select…"
     : "Client idle";
@@ -1661,8 +1695,8 @@ useEffect(() => {
       {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
       {isDesktop && (
         <div style={{
-          background: csActive ? "rgba(20,40,30,.55)" : "rgba(0,0,0,.5)",
-          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : "rgba(212,175,55,.14)"}`,
+          background: csActive ? "rgba(20,40,30,.55)" : csInGame ? "rgba(28,30,46,.6)" : "rgba(0,0,0,.5)",
+          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : csInGame ? "rgba(120,140,220,.32)" : "rgba(212,175,55,.14)"}`,
           padding:"9px 24px",
         }}>
           <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", display:"flex",
@@ -1671,25 +1705,29 @@ useEffect(() => {
             {/* status dot + label */}
             <span style={{ display:"flex", alignItems:"center", gap:"7px", flexShrink:0 }}>
               <span style={{ width:"9px", height:"9px", borderRadius:"50%",
-                background: csActive ? "#4caf7d" : csState?.reason === "no-client" ? "#d9564f" : "#D4AF37",
-                boxShadow:`0 0 8px ${csActive ? "#4caf7d" : "transparent"}` }} />
+                background: csActive ? "#4caf7d" : csInGame ? "#7f8fe0" : csState?.reason === "no-client" ? "#d9564f" : "#D4AF37",
+                boxShadow:`0 0 8px ${csActive ? "#4caf7d" : csInGame ? "#7f8fe0" : "transparent"}` }} />
               <span style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase",
-                color: csActive ? "#8fe0b4" : S.goldDim }}>{csStatus}</span>
+                color: csActive ? "#8fe0b4" : csInGame ? "#aeb6ea" : S.goldDim }}>{csStatus}</span>
             </span>
 
-            {/* live matchup readout */}
-            {csActive && detectedChamp && (
-              <span style={{ fontSize:"13px", color:"#d7e8dd" }}>
-                You: <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
-                {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}> ({detectedRole})</span>}
+            {/* live matchup readout (persists in-game) */}
+            {detectedChamp && (
+              <span style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap",
+                fontSize:"13px", color:"#d7e8dd" }}>
+                <span style={{ color:"rgba(255,255,255,.5)" }}>You:</span>
+                {csChampIcon(detectedChamp.dd, "#ffffff")}
+                <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
+                {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}>({detectedRole})</span>}
                 {csOppChamp ? (
                   <>
-                    <span style={{ color:"rgba(255,255,255,.35)", margin:"0 8px" }}>vs</span>
+                    <span style={{ color:"rgba(255,255,255,.35)", margin:"0 2px" }}>vs</span>
+                    {csChampIcon(csOppChamp.dd, "#f0b8b0")}
                     <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
-                    {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}> — {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
+                    {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}>— {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
                   </>
                 ) : (
-                  <span style={{ color:"rgba(255,255,255,.35)", margin:"0 8px" }}>
+                  <span style={{ color:"rgba(255,255,255,.35)" }}>
                     · {csEnemiesLocked ? "no clear lane opponent yet" : "waiting for enemy picks…"}
                   </span>
                 )}
