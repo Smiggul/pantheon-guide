@@ -14,6 +14,19 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.8.0] — 2026-08-09
+
+### Added
+- **The build stays on screen after the game starts.** The matchup readout and the
+  enemy-team panel (damage split, threats, counter-items) no longer disappear when
+  champ select ends — they stay pinned as an in-game build reference (status shows
+  "In game — build reference") until League closes.
+- **Champion icons** in the live "You: _champ_ vs _enemy_" matchup readout.
+- **Skill order** on the build — a row in the Core Build Path shows the ultimate
+  (leveled at 6 / 11 / 16) then the basic abilities in max-priority order as
+  Q / W / E badges with rank numbers. Curated for ~40 champions so far and growing;
+  it's hidden for champions not yet covered.
+
 ## [0.7.0] — 2026-08-07
 
 ### Added
