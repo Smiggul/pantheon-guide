@@ -14,7 +14,7 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
-## [0.8.0] — 2026-08-09
+## [0.7.1] — 2026-08-09
 
 ### Added
 - **The build stays on screen after the game starts.** The matchup readout and the
