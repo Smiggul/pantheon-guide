@@ -12,7 +12,17 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+- **Enemy damage-type classification is now per-champion, not per-class.** Morgana
+  (and other AP catchers like Zyra) were being counted as AD and as tanks; AP
+  skirmishers (Gwen, Lillia), the AP juggernaut Mordekaiser, and AD tanks (Sion,
+  Poppy) were also mis-typed. All 173 champions are now hand-classified, so the
+  AD/AP split and counter recommendations are accurate.
+
+### Changed
+- **More champions now show a skill order** (89 of 173, including Viego). Coverage
+  is being expanded champion by champion; the ones not yet covered stay hidden
+  rather than show a guess.
 
 ## [0.7.2] — 2026-08-09
 
