@@ -10,27 +10,14 @@
 //  who shields, who heals) so the recommendation is honest, not just class-shaped.
 // ─────────────────────────────────────────────────────────────────────────────
 import { classOf } from "./champClasses.js";
+import { damageTypeOf } from "./damageTypes.js";
 
-// Damage type ── classes that are cleanly one type, then per-champ overrides for
-// the classes that split (assassins, specialists) and the few true hybrids.
-const AD_CLASSES = new Set(["MARKSMAN", "SKIRMISHER", "DIVER", "JUGGERNAUT"]);
-const AP_CLASSES = new Set(["BURST_MAGE", "BATTLEMAGE", "ARTILLERY", "ENCHANTER"]);
-const TANK_CLASSES = new Set(["VANGUARD", "WARDEN", "CATCHER"]);
-// AP champs whose class (ASSASSIN / SPECIALIST) doesn't imply magic damage.
-const AP_OVERRIDE = new Set([
-  "Akali", "Ekko", "Evelynn", "Fizz", "Kassadin", "Katarina", "Leblanc", "Locke", // AP assassins
-  "Teemo", "Kennen", "Nidalee", "Heimerdinger", "Azir", "Singed", "TwistedFate", "Fiddlesticks", // AP specialists
-]);
-const MIXED_OVERRIDE = new Set(["Kaisa", "Jax", "Corki", "Kayle"]); // meaningful hybrid AD+AP
-
-export function damageOf(dd) {
-  if (MIXED_OVERRIDE.has(dd)) return "Mixed";
-  const cls = classOf(dd);
-  if (AP_OVERRIDE.has(dd)) return "AP";
-  if (AP_CLASSES.has(cls)) return "AP";
-  if (AD_CLASSES.has(cls)) return "AD";
-  return "AD"; // tanks/catchers deal little; bucketed as physical for the split
-}
+// Damage type is now an explicit per-champion map (damageTypes.js) — class is a
+// poor proxy (AP catchers, AP skirmishers, AD tanks…), so we classify each champ
+// directly there and just re-export it here.
+export const damageOf = (dd) => damageTypeOf(dd);
+// Only true frontline tanks are counted as "tank" — catchers are mages/playmakers.
+const TANK_CLASSES = new Set(["VANGUARD", "WARDEN"]);
 
 // Curated fact sets (DDragon ids) ────────────────────────────────────────────
 const SHIELD_CHAMPS = new Set([ // grant shields → Serpent's Fang shreds them
