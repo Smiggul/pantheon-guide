@@ -3,11 +3,11 @@ import { I } from "../runeHelpers.js";
 const YASUO_MID_DEFAULT_RUNES = {
   keystone:       "Lethal Tempo",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Domination",
-  secondaryRunes: ["Sudden Impact","Grisly Mementos"],
+  primaryRunes:   ["Absorb Life","Legend: Alacrity","Last Stand"],
+  secondary:      "Resolve",
+  secondaryRunes: ["Overgrowth","Second Wind"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Lethal Tempo's stacking attack speed compounds with Yasuo's passive double-crit shield uptime. Legend: Alacrity accelerates the ramp further. Sudden Impact procs bonus true damage off the Sweeping Blade dash-reset. Grisly Mementos stacks damage and slow resist on every takedown, and Yasuo resets his dash onto kills constantly.",
+  reason:         "Lethal Tempo's stacking attack speed compounds with Yasuo's passive double-crit shield uptime; Legend: Alacrity accelerates the ramp and Absorb Life keeps him healthy through the lane's poke war. The Resolve secondary is the current standard — Second Wind regenerates HP after eating harass and Overgrowth stacks permanent HP toward his tanky-crit late game, replacing the old Domination snowball pairing.",
 };
 
 const YASUO_TOP_DEFAULT_RUNES = {

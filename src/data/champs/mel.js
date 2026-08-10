@@ -22,7 +22,7 @@ export default {
     Mid:{
       bans:["Zed","Akali","Fizz"], replacements:["Katarina","Ahri","Xerath"],
       role:"Artillery Mage / Overwhelm Execute",
-      corePath:"Luden's Echo  ›  Hextech Rocketbelt  ›  Shadowflame  ›  Rabadon's Deathcap",
+      corePath:"Luden's Echo  ›  Shadowflame  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
       coreNote:"Mel plays for extended poke combos that build Overwhelm stacks toward the Golden Eclipse execute, punctuated by Rebuttal's projectile reflect to punish overextension. Luden's Echo procs off her passive bonus projectiles for wave clear and poke damage; Hextech Rocketbelt adds mobility and burst to close out a fight; Shadowflame and Rabadon's scale the execute into a real teamfight threat.",
       sideItems:["Ionian Boots of Lucidity","Sorcerer's Shoes","Zhonya's Hourglass","Void Staff","Morellonomicon","Banshee's Veil"],
       data:{

@@ -3,7 +3,7 @@ import { I } from "../runeHelpers.js";
 const YONE_MID_DEFAULT_RUNES = {
   keystone:       "Lethal Tempo",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  primaryRunes:   ["Absorb Life","Legend: Alacrity","Last Stand"],
   secondary:      "Resolve",
   secondaryRunes: ["Second Wind","Overgrowth"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
@@ -13,7 +13,7 @@ const YONE_MID_DEFAULT_RUNES = {
 const YONE_TOP_DEFAULT_RUNES = {
   keystone:       "Lethal Tempo",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  primaryRunes:   ["Absorb Life","Legend: Alacrity","Last Stand"],
   secondary:      "Resolve",
   secondaryRunes: ["Second Wind","Overgrowth"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
@@ -32,7 +32,7 @@ export default {
     Mid:{
       bans:["Malzahar","Riven","Ekko"], replacements:["Yasuo","Ahri","Katarina"],
       role:"Skirmisher / Hybrid Duelist",
-      corePath:"Immortal Shieldbow  ›  Infinity Edge  ›  Blade of the Ruined King  ›  Death's Dance",
+      corePath:"Blade of the Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
       coreNote:"Yone deals hybrid physical and magic damage through Soul Unbound. Immortal Shieldbow's shield covers his early all-in weakness; Infinity Edge doubles his passive crit chance toward the cap; Blade of the Ruined King now leads over Wit's End for the current build, adding %-HP damage and a slow to shore up his lack of a hard engage tool.",
       sideItems:["Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{
@@ -54,7 +54,7 @@ export default {
     Top:{
       bans:["Jax","Vex","Ekko"], replacements:["Renekton","Sett","Darius"],
       role:"Skirmisher / Hybrid Duelist",
-      corePath:"Immortal Shieldbow  ›  Infinity Edge  ›  Blade of the Ruined King  ›  Death's Dance",
+      corePath:"Blade of the Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
       coreNote:"Top Yone plays as a mobile bruiser duelist rather than the Mid poke-into-all-in pattern — same hybrid crit core led by Blade of the Ruined King's %-HP damage, but prioritize Sterak's Gage or Death's Dance earlier for lane sustain against top-lane bullies.",
       sideItems:["Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{

@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const ZED_MID_DEFAULT_RUNES = {
-  keystone:       "First Strike",
-  primary:        "Inspiration",
-  primaryRunes:   ["Cash Back","Triple Tonic","Jack Of All Trades"],
-  secondary:      "Precision",
-  secondaryRunes: ["Cut Down","Legend: Haste"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "First Strike rewards Zed's poke-first playstyle — entering combat before the enemy earns bonus gold and damage on the opening trade, and he can reliably proc it against most ranged mids with Shuriken poke. Cash Back accelerates his lethality item spike; Triple Tonic and Jack Of All Trades round out early sustain and item-stat scaling. Cut Down punishes tankier targets who'd otherwise out-scale his burst; Legend: Haste keeps Death Mark and Living Shadow available more often.",
+  keystone:       "Electrocute",
+  primary:        "Domination",
+  primaryRunes:   ["Taste of Blood","Grisly Mementos","Ultimate Hunter"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Transcendence","Scorch"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Electrocute is Zed's burst engine — the Q → E → auto combo (and the Death Mark reactivation) procs it for a chunk of instant damage that turns a trade into a kill. Taste of Blood sustains the poke war, Grisly Mementos adds damage + ability haste, and Ultimate Hunter shortens Death Mark's cooldown for more pick threat across the map. Sorcery secondary — Transcendence funds the ability haste and Scorch adds free poke to chunk squishies before the all-in.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -22,7 +22,7 @@ export default {
     Mid:{
       bans:["Malzahar","Diana","Lissandra"], replacements:["Katarina","Ahri","Locke"],
       role:"Assassin / Isolation Burst",
-      corePath:"Voltaic Cyclosword  ›  Axiom Arc  ›  Serylda's Grudge  ›  Edge of Night",
+      corePath:"Eclipse  ›  Voltaic Cyclosword  ›  Serylda's Grudge  ›  Edge of Night",
       coreNote:"Zed plays for isolated burst windows — walk a wave, land Shuriken into Death Mark, reset with Living Shadow. Voltaic Cyclosword's proc doubles his combo burst early; Axiom Arc and Serylda's Grudge add lethality and a slow to stick the kill; Edge of Night blocks the single CC that would otherwise stop Death Mark's execute from landing.",
       sideItems:["Ionian Boots of Lucidity","Duskblade of Draktharr","Youmuu's Ghostblade","Umbral Glaive","Maw of Malmortius","Guardian Angel"],
       data:{

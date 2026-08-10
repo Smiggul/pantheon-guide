@@ -14,6 +14,19 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.5] — 2026-08-09
+
+### Changed
+- **Build/rune verification sweep — batch 1** (verified against live build sites,
+  patch 26.15): corrected **Zed** (Electrocute page + Eclipse core, was First
+  Strike), **Yasuo Mid** (Resolve secondary + Absorb Life), **Yone** (Absorb Life
+  + Blade-of-the-Ruined-King-first core), **Wukong Top** (Resolve secondary +
+  Death's Dance core), **Pantheon Jungle** (Conqueror + Inspiration — the real
+  meta page; core Guardian Angel), and **Mel** (Zhonya's in core). Verified
+  already-correct and left untouched: Volibear, Viego, Akali, Fiddlesticks,
+  Naafiri, Zoe, Locke.
+- **Skill order now covers all 173 champions** — Mel added (Q › E › W).
+
 ## [0.7.4] — 2026-08-09
 
 ### Fixed

@@ -13,11 +13,11 @@ const PANTH_TOP_DEFAULT_RUNES = {
 const PANTH_JGL_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Domination",
-  secondaryRunes: ["Sudden Impact","Relentless Hunter"],
+  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
   shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Domination secondary is the aggressive ganking half. Sudden Impact procs bonus lethality + magic pen every time you dash with E or leap with W onto a target — a big burst spike on the exact motions Pantheon's engage already uses. Relentless Hunter stacks out-of-combat move speed off takedowns for faster clears, pathing and cross-map ganks. Double Adaptive maximises early gank damage.",
+  reason:         "The live meta page (u.gg / mobalytics 26.15): Conqueror for the sustained bruiser fight, Triumph + Legend: Alacrity + Coup de Grace to fund the clear and execute low targets on a gank. Inspiration secondary — Magical Footwear saves 300g toward the Sundered Sky spike, and Cosmic Insight shaves cooldowns off Smite, summoners and items for more gank/objective uptime.",
 };
 
 const PANTH_MID_DEFAULT_RUNES = {
@@ -484,7 +484,7 @@ export default {
 
             Jungle: {  
               bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
-                corePath: "Sundered Sky  ›  Black Cleaver  ›  Eclipse  ›  Death's Dance",
+                corePath: "Sundered Sky  ›  Black Cleaver  ›  Guardian Angel  ›  Death's Dance",
                 coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky's crit-heal now edges out Eclipse as the priority first item in current meta; Black Cleaver transitions into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
                 sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Spear of Shojin","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
 

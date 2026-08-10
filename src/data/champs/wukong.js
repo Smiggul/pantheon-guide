@@ -4,10 +4,10 @@ const WUKONG_TOP_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
+  secondary:      "Resolve",
+  secondaryRunes: ["Bone Plating","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks on Q resets and R spin. Magical Footwear saves 300g for Trinity Force rush. Cosmic Insight reduces E and R cooldowns. Legend: Alacrity accelerates Q reset proc rate.",
+  reason:         "Conqueror stacks on Q resets and R spin for the sustained bruiser fight. Top lane runs Resolve over Jungle's Inspiration — Bone Plating blunts the burst of a trading top laner, and Unflinching gives tenacity + resists to stick on your target through the spin. Legend: Alacrity accelerates the Q reset proc rate.",
 };
 
 const WUKONG_JGL_DEFAULT_RUNES = {
@@ -49,9 +49,9 @@ export default {
     Top:{
       bans:["Swain","Cho'Gath","Trundle"], replacements:["Renekton","Sett","Pantheon"],
       role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Trinity Force for Sheen proc on Q reset. Sundered Sky second for healing burst on Q empowered hit. Black Cleaver third stacks on R spin and Q autos. Build into Death's Dance or Sterak's based on burst threat.",
-      sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Mercury's Treads"],
+      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"Trinity Force for the Sheen proc on Q reset. Black Cleaver second stacks armor shred instantly off the R spin + Q autos. Death's Dance for the AD + bleed-delay so you outlast extended top-lane brawls. Sundered Sky, Sterak's or Maw round it out based on the threat.",
+      sideItems:["Sundered Sky","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen while ahead into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver instantly — 6 hits in one rotation."),I("Serylda's Grudge","Slow on Q/R stops Juggernauts walking you down.")],behind:[I("Death's Dance","Delay Darius/Mundo burst into bleed while W clone baits their combo."),I("Sterak's Gage","Shield when they walk you down at low HP."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Sundered Sky","Healing burst wins mirror dives."),I("Trinity Force","Sheen proc outdamages their burst window."),I("Black Cleaver","Shred before they defensive item.")],behind:[I("Sterak's Gage","Shield when their dive survives your clone bait."),I("Death's Dance","Delay burst while W clone absorbs their attention."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains.")],runes:{...WUKONG_TOP_DEFAULT_RUNES}},
