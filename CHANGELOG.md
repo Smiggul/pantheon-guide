@@ -12,7 +12,18 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Fixed
+- **Auto-import now uses the role you're actually assigned**, not the champion's
+  first role. Being assigned jungle on Pantheon/Wukong used to import the Top
+  build; it now resolves the build role from the client's assigned position.
+- **Pantheon Jungle runes** corrected — the gimmick Inspiration secondary
+  (Hextech Flashtraption) is replaced with the standard aggressive Domination
+  page (Sudden Impact + Relentless Hunter).
+
+### Changed
+- **Skill-order coverage expanded to 161 of 173** champions (best-effort; a
+  verified pass and the special-kit champs — Udyr, Jayce, Elise, Nidalee,
+  Aphelios — are still to come).
 
 ## [0.7.3] — 2026-08-09
 

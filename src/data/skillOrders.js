@@ -46,6 +46,39 @@ export const SKILL_MAX = {
   Pyke: ["Q", "E", "W"], Velkoz: ["Q", "W", "E"], Sona: ["Q", "W", "E"],
   Zilean: ["Q", "E", "W"], Xerath: ["Q", "W", "E"], Yuumi: ["Q", "E", "W"],
   Taric: ["Q", "E", "W"],
+
+  // ── Wave 2: broader coverage (best-effort inherited knowledge — max-first is
+  //    reliable; 2nd/3rd priority + role/build splits still owed a verified pass) ──
+  // Top
+  AurelionSol: ["Q", "W", "E"], Sion: ["Q", "W", "E"], MonkeyKing: ["Q", "E", "W"],
+  Shyvana: ["W", "E", "Q"], Volibear: ["Q", "W", "E"], Yorick: ["Q", "E", "W"],
+  Jax: ["Q", "W", "E"], Irelia: ["Q", "W", "E"], Riven: ["Q", "E", "W"],
+  Camille: ["Q", "W", "E"], Poppy: ["Q", "W", "E"], Malphite: ["Q", "E", "W"],
+  Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "E", "W"],
+  Mordekaiser: ["Q", "E", "W"], Gwen: ["Q", "E", "W"], Ornn: ["W", "Q", "E"],
+  Kayle: ["E", "Q", "W"], Kennen: ["Q", "W", "E"], Rumble: ["Q", "E", "W"],
+  Urgot: ["W", "Q", "E"], DrMundo: ["Q", "E", "W"], Kled: ["Q", "E", "W"],
+  Illaoi: ["Q", "E", "W"], Tryndamere: ["E", "Q", "W"], Chogath: ["Q", "E", "W"],
+  Trundle: ["Q", "W", "E"], Quinn: ["Q", "E", "W"], Heimerdinger: ["W", "Q", "E"],
+  TahmKench: ["Q", "E", "W"],
+  // Jungle
+  RekSai: ["Q", "E", "W"], Zac: ["Q", "E", "W"], Kayn: ["Q", "W", "E"],
+  Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["Q", "E", "W"],
+  Sejuani: ["W", "E", "Q"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
+  Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "E", "Q"], Lillia: ["W", "Q", "E"],
+  Nunu: ["W", "Q", "E"], Ivern: ["Q", "W", "E"],
+  // Mid
+  Azir: ["Q", "W", "E"], Sylas: ["Q", "W", "E"], Taliyah: ["Q", "E", "W"],
+  Cassiopeia: ["Q", "E", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
+  Vex: ["Q", "E", "W"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "E", "W"],
+  // Bot
+  Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "E", "W"],
+  // Support
+  Thresh: ["E", "Q", "W"], Lulu: ["E", "W", "Q"], Leona: ["W", "E", "Q"],
+  Seraphine: ["E", "Q", "W"], Blitzcrank: ["W", "E", "Q"], Nami: ["W", "E", "Q"],
+  Nautilus: ["W", "Q", "E"], Renata: ["E", "Q", "W"], Rakan: ["W", "E", "Q"],
+  Alistar: ["W", "Q", "E"], Janna: ["W", "E", "Q"], Milio: ["Q", "E", "W"],
+  Bard: ["Q", "W", "E"], Rell: ["W", "Q", "E"],
 };
 
 // Champions the "R at 6/11/16" model doesn't fit — no traditional ultimate
