@@ -14,10 +14,10 @@ const PANTH_JGL_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Hextech Flashtraption replaces Flash while on CD with a wall-traversing version — surprise W stuns from unexpected jungle angles. Cosmic Insight reduces Summoner Spell CDs for more Smite and Hexflash uptime.",
+  secondary:      "Domination",
+  secondaryRunes: ["Sudden Impact","Relentless Hunter"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Domination secondary is the aggressive ganking half. Sudden Impact procs bonus lethality + magic pen every time you dash with E or leap with W onto a target — a big burst spike on the exact motions Pantheon's engage already uses. Relentless Hunter stacks out-of-combat move speed off takedowns for faster clears, pathing and cross-map ganks. Double Adaptive maximises early gank damage.",
 };
 
 const PANTH_MID_DEFAULT_RUNES = {

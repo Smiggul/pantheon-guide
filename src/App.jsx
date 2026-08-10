@@ -18,6 +18,16 @@ const DD_TO_CHAMP = {};          // DDragon id -> CHAMPS entry
 for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
 const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
 const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
+// Which of a champ's roles matches the client's assigned position (top/jungle/…).
+// Falls back to `fallback`, then the champ's first role — so an off-role / blind
+// pick still resolves to something sensible.
+function roleForPosition(champObj, assignedPosition, fallback) {
+  if (!champObj) return fallback || null;
+  const role = POS_ROLE[assignedPosition];
+  const has = role && (champObj.roles ? !!champObj.roles[role] : (champObj.lanes || []).includes(role));
+  if (has) return role;
+  return fallback || (champObj.roles ? Object.keys(champObj.roles)[0] : champObj.lanes?.[0]) || null;
+}
 
 // ── Themes ──────────────────────────────────────────────────────────────────
 // The visual treatment is applied via data-frge-theme on <html>; the CSS in
@@ -713,8 +723,13 @@ useEffect(() => {
 
   useEffect(() => {
     if (!isDesktop || !window.frge?.onChampSelect) return;
-    const importCurrent = () => {
-      const p = buildExport(champRef.current, roleRef.current, classRef.current, altRef.current, runeSelRef.current);
+    // Import the build for the role that matches the client's ASSIGNED position,
+    // not just whatever role the app is currently showing (which defaulted to the
+    // champ's first role — e.g. importing Pantheon/Wukong TOP while assigned JG).
+    const importCurrent = (assignedPosition) => {
+      const champObj = champRef.current;
+      const role = roleForPosition(champObj, assignedPosition, roleRef.current);
+      const p = buildExport(champObj, role, classRef.current, altRef.current, runeSelRef.current);
       return window.frge.applyBuild({ runePage: p.runePage, itemSet: p.itemSet });
     };
     const unsub = window.frge.onChampSelect((data) => {
@@ -742,7 +757,7 @@ useEffect(() => {
                 setCsMsg("Pre-hovered — importing build…");
                 if (!autoImportedRef.current) {
                   autoImportedRef.current = true;
-                  importCurrent()
+                  importCurrent(data.assignedPosition)
                     .then((ir) => setCsMsg(ir?.ok ? "Pre-hovered + build imported" : `Import failed: ${ir?.error || "?"}`))
                     .catch((e) => setCsMsg(`Import failed: ${e.message}`));
                 }
@@ -759,10 +774,7 @@ useEffect(() => {
       const target = myKey ? champByKey(myKey) : null;
       if (target) {
         setChamp((prev) => (prev.id === target.id ? prev : target));
-        const role = POS_ROLE[data.assignedPosition];
-        const resolvedRole = role && (target.roles ? target.roles[role] : true)
-          ? role
-          : (target.roles ? Object.keys(target.roles)[0] : null);
+        const resolvedRole = roleForPosition(target, data.assignedPosition);
         setActiveRole(resolvedRole);
         // Auto-match the lane opponent's class
         const oppDd = opponentDd(data.theirTeam, data.assignedPosition, resolvedRole);
