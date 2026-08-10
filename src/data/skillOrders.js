@@ -85,7 +85,7 @@ export const SKILL_MAX = {
   Udyr: ["Q", "E", "W"], Aphelios: ["Q", "E", "W"], Nidalee: ["Q", "E", "W"],
   Jayce: ["Q", "E", "W"], Elise: ["Q", "W", "E"], Aurora: ["Q", "E", "W"],
   Ambessa: ["Q", "E", "W"], Hwei: ["Q", "E", "W"], Zaahen: ["Q", "E", "W"],
-  Yunara: ["Q", "W", "E"], Locke: ["Q", "E", "W"],
+  Yunara: ["Q", "W", "E"], Locke: ["Q", "E", "W"], Mel: ["Q", "E", "W"],
 };
 
 // Udyr has no ultimate — his kit is 4 stances (Q/W/E/R), so the "R at 6/11/16"
