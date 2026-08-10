@@ -79,12 +79,19 @@ export const SKILL_MAX = {
   Nautilus: ["W", "Q", "E"], Renata: ["E", "Q", "W"], Rakan: ["W", "E", "Q"],
   Alistar: ["W", "Q", "E"], Janna: ["W", "E", "Q"], Milio: ["Q", "E", "W"],
   Bard: ["Q", "W", "E"], Rell: ["W", "Q", "E"],
+
+  // ── Wave 3: verified against build sites (u.gg / lolstats / mobalytics /
+  //    escorenews), incl. the special-kit champs. Only Mel lacks reliable data. ──
+  Udyr: ["Q", "E", "W"], Aphelios: ["Q", "E", "W"], Nidalee: ["Q", "E", "W"],
+  Jayce: ["Q", "E", "W"], Elise: ["Q", "W", "E"], Aurora: ["Q", "E", "W"],
+  Ambessa: ["Q", "E", "W"], Hwei: ["Q", "E", "W"], Zaahen: ["Q", "E", "W"],
+  Yunara: ["Q", "W", "E"], Locke: ["Q", "E", "W"],
 };
 
-// Champions the "R at 6/11/16" model doesn't fit — no traditional ultimate
-// (Udyr's 4 stances) or transform kits (two ability sets). These need a richer
-// display before their skill order can be shown correctly, so they're excluded.
-export const NON_STANDARD_ULT = new Set(["Udyr", "Jayce", "Elise", "Nidalee", "Aphelios"]);
+// Udyr has no ultimate — his kit is 4 stances (Q/W/E/R), so the "R at 6/11/16"
+// framing doesn't apply; the display omits that chip for him. The transform
+// champs (Jayce/Elise/Nidalee) and Aphelios have real ults and display normally.
+export const NO_ULT = new Set(["Udyr"]);
 
 // dd: DDragon id; roleData: the role block; alt: selected alt build (both may
 // carry their own `skillOrder` override).

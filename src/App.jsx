@@ -6,7 +6,7 @@ import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
-import { skillOrderOf } from "./data/skillOrders.js";
+import { skillOrderOf, NO_ULT } from "./data/skillOrders.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -643,6 +643,7 @@ useEffect(() => {
     ? petFor(champ.dd, activeChampRole, activeAlt) : null;
   // Ability max-priority order (R implied at 6/11/16). null → hide the row.
   const buildSkillOrder = skillOrderOf(champ.dd, activeChampRole, activeAlt);
+  const buildNoUlt = NO_ULT.has(champ.dd); // Udyr — 4 stances, no 6/11/16 ult
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -2413,14 +2414,18 @@ useEffect(() => {
             <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"12px", flexWrap:"wrap" }}>
               <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
                 textTransform:"uppercase", flexShrink:0 }}>Skill order</span>
-              {/* ultimate first */}
-              <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
-                <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
-                  display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
-                  border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
-                <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
-              </span>
-              <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
+              {/* ultimate first — hidden for no-ult champs (Udyr's 4 stances) */}
+              {!buildNoUlt && (
+                <>
+                  <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
+                    <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
+                      display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
+                      border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
+                    <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
+                  </span>
+                  <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
+                </>
+              )}
               {buildSkillOrder.map((ab, i) => (
                 <span key={ab} style={{ display:"inline-flex", alignItems:"center", gap:"8px" }}>
                   <span style={{ position:"relative", width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
@@ -2434,7 +2439,9 @@ useEffect(() => {
                   {i < buildSkillOrder.length - 1 && <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>}
                 </span>
               ))}
-              <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>max order</span>
+              <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>
+                {buildNoUlt ? "stance priority (no ultimate)" : "max order"}
+              </span>
             </div>
           )}
 
