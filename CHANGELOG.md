@@ -12,6 +12,10 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## [0.7.4] — 2026-08-09
+
 ### Fixed
 - **Auto-import now uses the role you're actually assigned**, not the champion's
   first role. Being assigned jungle on Pantheon/Wukong used to import the Top
@@ -21,9 +25,10 @@ rolled into a numbered version when a build is cut.
   page (Sudden Impact + Relentless Hunter).
 
 ### Changed
-- **Skill-order coverage expanded to 161 of 173** champions (best-effort; a
-  verified pass and the special-kit champs — Udyr, Jayce, Elise, Nidalee,
-  Aphelios — are still to come).
+- **Skill order now covers 172 of 173 champions**, verified against build sites.
+  The special-kit champs are handled too — Udyr shows a "stance priority (no
+  ultimate)" order instead of a wrong "R at 6/11/16". (Only the newest champion,
+  Mel, is still pending reliable data.)
 
 ## [0.7.3] — 2026-08-09
 
