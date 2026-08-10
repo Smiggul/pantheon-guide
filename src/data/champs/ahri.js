@@ -3,11 +3,11 @@ import { I } from "../runeHelpers.js";
 const AHRI_MID_DEFAULT_RUNES = {
   keystone:       "Electrocute",
   primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
+  primaryRunes:   ["Taste of Blood","Grisly Mementos","Ultimate Hunter"],
   secondary:      "Sorcery",
   secondaryRunes: ["Manaflow Band","Transcendence"],
   shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute detonates off Charm into Orb of Deception into an auto for guaranteed burst on any all-in. Cheap Shot adds true damage to a charmed (impaired) target. Grisly Mementos stacks AP and slow resist on every takedown. Ultimate Hunter reduces Spirit Rush cooldown for more reset windows. Manaflow Band solves the early mana strain from constant Q poke.",
+  reason:         "Electrocute detonates off Charm into Orb of Deception into an auto for guaranteed burst on any all-in. Taste of Blood is the live pick in row 1 — it heals on every poke trade so Ahri wins the extended lane, then Grisly Mementos stacks AP + slow resist on takedowns and Ultimate Hunter cuts Spirit Rush's cooldown for more reset windows. Manaflow Band solves the early mana strain from constant Q poke.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

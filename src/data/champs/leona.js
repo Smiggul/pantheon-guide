@@ -3,11 +3,11 @@ import { I } from "../runeHelpers.js";
 const LEONA_SUP_DEFAULT_RUNES = {
   keystone:       "Aftershock",
   primary:        "Resolve",
-  primaryRunes:   ["Font of Life","Conditioning","Overgrowth"],
+  primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
-  secondaryRunes: ["Approach Velocity","Cosmic Insight"],
+  secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
   shards:         ["Ability Haste","Health","Health (scaling)"],
-  reason:         "Leona scales the best with Aftershock out of any engage support — it triggers the instant Shield of Daybreak or Solar Flare lands, giving immediate burst resistance as you become the fight's focus. Font of Life heals your ADC for a share of the target's max HP whenever your CC connects. Approach Velocity chases down targets after the Zenith Blade dash-engage; Cosmic Insight reduces Solar Flare cooldown for more engage windows.",
+  reason:         "Leona scales the best with Aftershock out of any engage support — it triggers the instant Shield of Daybreak or Solar Flare lands, giving immediate burst resistance as you become the fight's focus. Font of Life heals your ADC when your CC connects; Bone Plating survives the return trade after an all-in engage and Unflinching keeps tenacity/resists up while you're locking down their carry. Inspiration secondary — Biscuit Delivery for lane sustain and Cosmic Insight for lower Solar Flare + summoner cooldowns (more engage windows).",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -22,7 +22,7 @@ export default {
     Support:{
       bans:["Taric","Nami","Milio"], replacements:["Nautilus","Braum","Rakan"],
       role:"Vanguard / Hard Engage",
-      corePath:"Locket of the Iron Solari  ›  Zeke's Convergence  ›  Frozen Heart  ›  Thornmail",
+      corePath:"Locket of the Iron Solari  ›  Knight's Vow  ›  Zeke's Convergence  ›  Frozen Heart",
       coreNote:"Leona plays for chain-CC engages. Locket adds early shielding to survive lane aggression; Zeke's amplifies your ADC's damage the instant your stun chain lands; Frozen Heart and Thornmail round out durability and GW for diving repeatedly.",
       sideItems:["Mercury's Treads","Plated Steelcaps","Knight's Vow","Randuin's Omen","Abyssal Mask","Redemption","Force of Nature"],
       data:{

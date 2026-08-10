@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const DARIUS_TOP_DEFAULT_RUNES = {
-  keystone:       "Grasp of the Undying",
-  primary:        "Resolve",
-  primaryRunes:   ["Demolish","Bone Plating","Overgrowth"],
-  secondary:      "Precision",
-  secondaryRunes: ["Triumph","Legend: Alacrity"],
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Axiom Arcanist","Celerity"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Grasp procs on every auto in Darius's spin-to-win trading pattern and stacks permanent HP that scales with Black Cleaver. Demolish converts lane dominance into plates. Bone Plating survives the all-in openers he invites by staying in Apprehend range. Triumph heals off every takedown, chaining Noxian Guillotine resets into the next fight.",
+  reason:         "The live meta page (u.gg / mobalytics 26.15, ~54% WR): Conqueror stacks fast in Darius's spin-to-win trades for the AD + omnivamp to snowball a lead. Triumph heals off takedowns to chain Noxian Guillotine resets, Legend: Alacrity speeds the trade cadence, Last Stand rewards the low-HP brawls he lives on. Sorcery secondary — Axiom Arcanist amps his ability burst and Celerity adds move speed to stick with Apprehend on the tempo/lethality build.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -22,7 +22,7 @@ export default {
     Top:{
       bans:["Cho'Gath","Teemo","Malphite"], replacements:["Renekton","Sett","Wukong"],
       role:"Juggernaut / Lane Bully",
-      corePath:"Stridebreaker  ›  Black Cleaver  ›  Sterak's Gage  ›  Death's Dance",
+      corePath:"Youmuu's Ghostblade  ›  Plated Steelcaps  ›  Dead Man's Plate  ›  Death's Dance",
       coreNote:"Darius wants to end the game before scaling comps take over. Stridebreaker's slow keeps targets in Decimate/Apprehend range for the stack-execute pattern; Black Cleaver shreds while Q stacks Hemorrhage bleed; Sterak's and Death's Dance keep him alive to land the Guillotine reset chain.",
       sideItems:["Plated Steelcaps","Mercury's Treads","Randuin's Omen","Frozen Heart","Maw of Malmortius","Guardian Angel"],
       data:{

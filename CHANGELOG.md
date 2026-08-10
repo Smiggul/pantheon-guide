@@ -14,6 +14,16 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.6] — 2026-08-09
+
+### Changed
+- **Build/rune verification sweep — batch 2** (13 more champions, checked against
+  live build sites): corrected **Thresh** & **Leona** (Bone Plating/Unflinching +
+  Inspiration secondary), **Ahri** (Taste of Blood), and **Darius** (Conqueror +
+  Sorcery, Youmuu's-first tempo core — was on Grasp). Verified already-correct and
+  left untouched: **Jinx, Caitlyn, Kai'Sa, Ezreal, Lux, Morgana, Katarina, Master
+  Yi, Garen**.
+
 ## [0.7.5] — 2026-08-09
 
 ### Changed
