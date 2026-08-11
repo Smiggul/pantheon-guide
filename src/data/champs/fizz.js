@@ -53,6 +53,7 @@ export default {
     },
     Jungle:{
       bans:["Kayn","Nocturne","Elise"], replacements:["Warwick","Wukong","Sett"],
+      skillOrder:["W","E","Q"], // Jungle Fizz maxes W (Seastone) first; Mid maxes E first (global E>W>Q)
       role:"Off-Meta On-Hit Skirmisher",
       corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Nashor's Tooth  ›  Zhonya's Hourglass",
       coreNote:"Jungle Fizz leans on sustained auto-attack damage instead of Mid's burst-combo pattern — hop in and out with Playful/Trickster resets, stacking on-hit damage from Seastone Trident with every auto. Dusk and Dawn and Nashor's Tooth both reward the attack-speed-heavy, ability-haste-hungry playstyle; Zhonya's Hourglass buys time through counter-ganks.",

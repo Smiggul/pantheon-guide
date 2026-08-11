@@ -53,6 +53,7 @@ export default {
     },
     Support:{
       bans:["Morgana","Xerath","Ziggs"], replacements:["Thresh","Leona","Nautilus"],
+      skillOrder:["Q","W","E"], // Support maxes W (Twisted Advance) second for engage; Jungle maxes E (global Q>E>W)
       role:"Pull-and-Peel Engage",
       corePath:"Solstice Sleigh  ›  Boots of Swiftness  ›  Locket of the Iron Solari  ›  Bandlepipes",
       coreNote:"Support Maokai plays for a pull-and-peel pattern — Twisted Advance drags a priority target in, Sapling Toss zones the lane, and Vengeful Maelstrom shields the whole team while reflecting damage back. Solstice Sleigh adds team-wide utility and tankiness right out the gate; Locket adds burst mitigation right as the pull lands; Bandlepipes rounds out team-wide utility for a peel-heavy support.",

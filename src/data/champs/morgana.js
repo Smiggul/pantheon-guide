@@ -43,6 +43,7 @@ export default {
     },
     Mid:{
       bans:["Viktor","Syndra","Yone"], replacements:["Katarina","Ahri","Xerath"],
+      skillOrder:["W","Q","E"], // Mid maxes W (Tormented Shadow) first; Support maxes Q (global Q>W>E)
       role:"Off-Meta Zone-Control Mage",
       corePath:"Blackfire Torch  ›  Ionian Boots of Lucidity  ›  Liandry's Torment  ›  Zhonya's Hourglass",
       coreNote:"Mid Morgana plays the same zone-control poke pattern as Support but as a solo-lane mage instead of an enabler — Dark Binding picks, Tormented Shadow burns, and Black Shield protects her own combo instead of a carry's. Blackfire Torch and Liandry's Torment both compound with the DoT-heavy kit for real lane damage; Zhonya's Hourglass covers her lack of a hard escape besides Black Shield.",

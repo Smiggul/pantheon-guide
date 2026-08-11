@@ -14,8 +14,8 @@ export const SKILL_MAX = {
   Ahri: ["Q", "W", "E"], Syndra: ["Q", "W", "E"], Orianna: ["Q", "W", "E"],
   Lux: ["E", "Q", "W"], Katarina: ["Q", "E", "W"], Zed: ["Q", "E", "W"],
   Yasuo: ["Q", "E", "W"], Yone: ["Q", "E", "W"], Viktor: ["Q", "E", "W"],
-  Akali: ["Q", "E", "W"], Fizz: ["Q", "E", "W"], Vladimir: ["Q", "E", "W"],
-  Ryze: ["Q", "E", "W"], Veigar: ["Q", "E", "W"], Annie: ["Q", "W", "E"],
+  Akali: ["Q", "E", "W"], Fizz: ["E", "W", "Q"], Vladimir: ["Q", "E", "W"],
+  Ryze: ["Q", "E", "W"], Veigar: ["Q", "W", "E"], Annie: ["Q", "W", "E"],
   Anivia: ["Q", "E", "W"], Lissandra: ["Q", "W", "E"], Zoe: ["Q", "E", "W"],
   Leblanc: ["Q", "W", "E"], Kassadin: ["Q", "E", "W"], Malzahar: ["E", "Q", "W"],
   Talon: ["W", "Q", "E"], Naafiri: ["Q", "E", "W"], Swain: ["Q", "W", "E"],
@@ -41,7 +41,7 @@ export const SKILL_MAX = {
   KogMaw: ["W", "Q", "E"], Varus: ["Q", "W", "E"], Senna: ["Q", "W", "E"],
   Corki: ["Q", "E", "W"], Twitch: ["E", "Q", "W"], Akshan: ["Q", "E", "W"],
   // ── Support ──
-  Morgana: ["W", "Q", "E"], Soraka: ["Q", "W", "E"], Brand: ["W", "Q", "E"],
+  Morgana: ["Q", "W", "E"], Soraka: ["Q", "W", "E"], Brand: ["W", "Q", "E"],
   Karma: ["Q", "E", "W"], Braum: ["Q", "E", "W"], Zyra: ["Q", "E", "W"],
   Pyke: ["Q", "E", "W"], Velkoz: ["Q", "W", "E"], Sona: ["Q", "W", "E"],
   Zilean: ["Q", "E", "W"], Xerath: ["Q", "W", "E"], Yuumi: ["Q", "E", "W"],
@@ -65,7 +65,7 @@ export const SKILL_MAX = {
   RekSai: ["Q", "E", "W"], Zac: ["E", "W", "Q"], Kayn: ["Q", "W", "E"],
   Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["Q", "E", "W"],
   Sejuani: ["W", "E", "Q"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
-  Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "E", "Q"], Lillia: ["W", "Q", "E"],
+  Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "Q", "E"], Lillia: ["W", "Q", "E"],
   Nunu: ["W", "Q", "E"], Ivern: ["Q", "W", "E"],
   // Mid
   Azir: ["Q", "W", "E"], Sylas: ["Q", "W", "E"], Taliyah: ["Q", "E", "W"],

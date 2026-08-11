@@ -73,6 +73,7 @@ export default {
     },
     Top:{
       bans:["Olaf","Aatrox","Jayce"], replacements:["Teemo","Vayne","Gnar"],
+      skillOrder:["W","Q","E"], // Top/bruiser Varus maxes W (Blighted Quiver on-hit) first; ADC maxes Q (global Q>W>E)
       role:"Off-Meta Ranged Bruiser Bully",
       corePath:"Experimental Hexplate  ›  Plated Steelcaps  ›  Dusk and Dawn  ›  Riftmaker",
       coreNote:"Top Varus abandons the crit build entirely: Experimental Hexplate feeds the W on-hit pattern while adding the HP a solo lane demands, Dusk and Dawn brings speed and damage for the ranged-kite game, and Riftmaker's omnivamp turns his blight detonations into sustain. Zhonya's Hourglass closes as the anti-dive insurance no ADC item offers. Play it like Teemo with an execute ult: deny melees CS at range, R the ganker, and out-scale the lane you starved.",
