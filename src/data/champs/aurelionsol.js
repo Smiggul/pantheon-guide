@@ -26,8 +26,8 @@ export default {
 
     roles: {
       Mid: {
-        corePath: "Rod of Ages  ›  Rylai's Crystal Scepter  ›  Liandry's Torment  ›  Rabadon's Deathcap",
-        coreNote: "Stack scaling safely. Rod gives survivability + mana; Rylai's enables perma-slow on Q/E; Liandry's amplifies burn in extended fights.",
+        corePath: "Blackfire Torch  ›  Rylai's Crystal Scepter  ›  Liandry's Torment  ›  Rabadon's Deathcap",
+        coreNote: "Blackfire Torch is the current first-item spike — its burn + amp stacks with ASol's constant Q/E DoT. Rylai's enables perma-slow on Q/E; Liandry's amplifies burn in extended fights; Rabadon's is the scaling payoff.",
 
         sideItems: ["Sorcerer's Shoes","Mercury's Treads","Void Staff","Zhonya's Hourglass","Banshee's Veil","Shadowflame","Cosmic Drive"],
 
