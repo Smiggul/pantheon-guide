@@ -22,7 +22,7 @@ export default {
     Top:{
       bans:["Riven","Vladimir","Gragas"], replacements:["Fiora","Camille","Irelia"],
       role:"Mist-Walk True-Damage Duelist",
-      corePath:"Dusk and Dawn  ›  Plated Steelcaps  ›  Shadowflame  ›  Rabadon's Deathcap",
+      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
       coreNote:"Gwen scales AP into true damage — her Q center snips ignore resists entirely, which is why tanks fear her more than any assassin. Dusk and Dawn is the current first item: speed plus damage feeds her stutter-scissor pattern, Shadowflame turns chunked duel targets into executes, and Rabadon's Deathcap multiplies everything her kit touches. Zhonya's covers the dives her Hallowed Mist can't. W blocks everything from outside the Mist — time it against their engage spell and most matchups become free.",
       sideItems:["Zhonya's Hourglass","Riftmaker","Nashor's Tooth","Void Staff","Banshee's Veil","Spirit Visage"],
       data:{

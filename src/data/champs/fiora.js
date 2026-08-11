@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const FIORA_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
+  keystone:       "Press the Attack",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Unflinching"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Biscuit Delivery","Jack Of All Trades"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast off Fiora's Vitals-seeking auto-and-lunge pattern, and the omnivamp funds the extended duel her whole kit is built around. Legend: Alacrity speeds up the attack-speed ramp toward the next Vital procs; Last Stand rewards the low-HP duels she's forced into by her own aggression. Bone Plating and Unflinching cover the all-in weakness she has before Riposte comes off cooldown.",
+  reason:         "Live meta (26.15) runs Press the Attack over Conqueror — Fiora's three-hit Vital-and-auto pattern procs it fast, and the target-wide damage amp makes her Riposte-into-Vital burst spike far harder for the pick. Legend: Alacrity ramps her attack speed toward the next Vital, Last Stand rewards the low-HP duels she forces. Inspiration secondary — Biscuit Delivery solves the early sustain of a melee lane and Jack Of All Trades turns her varied item stats into extra Adaptive Force + haste. (Conqueror remains a strong sustain-duelist alternative.)",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

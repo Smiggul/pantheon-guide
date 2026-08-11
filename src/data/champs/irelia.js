@@ -5,9 +5,9 @@ const IRELIA_TOP_DEFAULT_RUNES = {
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
   secondary:      "Inspiration",
-  secondaryRunes: ["Biscuit Delivery","Jack Of All Trades"],
+  secondaryRunes: ["Jack Of All Trades","Triple Tonic"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast off Irelia's blade-dance auto-and-ability weaving, and the omnivamp keeps her topped up through the extended all-in her passive rewards. Legend: Alacrity and Last Stand round out the DPS/all-in identity. Biscuit Delivery solves her early mana strain from constant Bladesurge resets; Jack Of All Trades converts her varied item stats into more Adaptive Force and bonus haste at 10 stacks.",
+  reason:         "Conqueror stacks fast off Irelia's blade-dance auto-and-ability weaving, and the omnivamp keeps her topped up through the extended all-in her passive rewards. Legend: Alacrity and Last Stand round out the DPS/all-in identity. Inspiration secondary (live meta): Jack Of All Trades converts her varied item stats into extra Adaptive Force + haste, and Triple Tonic gives an early stat/potion tempo boost for the Bladesurge-reset trades.",
 };
 
 const IRELIA_MID_DEFAULT_RUNES = {

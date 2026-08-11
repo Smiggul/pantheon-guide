@@ -22,7 +22,7 @@ export default {
     Support:{
       bans:["Blitzcrank","Pyke","Nautilus"], replacements:["Lulu","Leona","Thresh"],
       role:"Enchanter / Poke-and-Peel",
-      corePath:"Imperial Mandate  ›  Ionian Boots of Lucidity  ›  Moonstone Renewer  ›  Ardent Censer",
+      corePath:"Echoes of Helia  ›  Ionian Boots of Lucidity  ›  Moonstone Renewer  ›  Ardent Censer",
       coreNote:"Nami plays for poke-and-peel — Aqua Prison lands the engage or the save, Tidecaller's Blessing empowers an ally's next auto, Ebb and Flow bounces heal/damage between herself and allies. Imperial Mandate detonates on her frequent CC landings for team-wide poke; Moonstone Renewer and Ardent Censer both amplify her already-strong heal/shield output onto the whole team.",
       sideItems:["Mercury's Treads","Staff of Flowing Water","Redemption","Zeke's Convergence","Chemtech Putrifier","Mikael's Blessing"],
       data:{

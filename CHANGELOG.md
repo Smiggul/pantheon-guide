@@ -14,6 +14,16 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.7] — 2026-08-09
+
+### Changed
+- **Build/rune verification sweep — batch 3 + 4** (39 more champions checked
+  against live build sites). Batch 3 (jungle-heavy) was **all correct**. Batch 4
+  fixes: **Fiora** (Press the Attack over Conqueror), **Renekton** (Eclipse-first
+  core), **Irelia** (Triple Tonic), **Gwen** (Sorcerer's Shoes), **Nautilus**
+  (Knight's Vow), **Nami** (Echoes of Helia). ~40 champion-roles now verified
+  against sources across four batches; the rest are on the roadmap.
+
 ## [0.7.6] — 2026-08-09
 
 ### Changed

@@ -22,7 +22,7 @@ export default {
     Support:{
       bans:["Morgana","Blitzcrank","Pyke"], replacements:["Thresh","Leona","Zac"],
       role:"Vanguard / Guaranteed Pick",
-      corePath:"Locket of the Iron Solari  ›  Zeke's Convergence  ›  Frozen Heart  ›  Force of Nature",
+      corePath:"Locket of the Iron Solari  ›  Knight's Vow  ›  Zeke's Convergence  ›  Frozen Heart",
       coreNote:"Nautilus plays for a single guaranteed pick — Dredge Line hooks from max range, Riptide knocks up everyone nearby, and Depth Charge chases down anyone who tries to escape. Locket adds team-wide burst mitigation right as the hook lands; Zeke's Convergence amplifies the follow-up damage; Frozen Heart and Force of Nature round out the tank stats a durability-focused engage support needs.",
       sideItems:["Mercury's Treads","Plated Steelcaps","Knight's Vow","Randuin's Omen","Thornmail","Redemption"],
       data:{
