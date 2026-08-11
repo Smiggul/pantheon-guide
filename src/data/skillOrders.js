@@ -110,43 +110,51 @@ export const skillOrderOf = (dd, roleData, alt) =>
 // array here (or as a role/alt `skillSequence`) only where the derivation is
 // notably off (unusual first-skill, transform ults, etc.). Keyed by DDragon id.
 export const SKILL_SEQUENCE = {
-  // Pantheon players open W (Aegis) at level 1 before maxing Q — the empirical
-  // sequence u.gg shows, which the pure Q-first derivation doesn't capture.
-  Pantheon: ["W","Q","E","Q","Q","R","Q","W","Q","W","R","W","W","E","E","R","E","E"],
+  // Per-champ exact sequences go here only when they're role-agnostic. Multi-role
+  // champs whose sequence differs by role (e.g. Pantheon Top Q>E>W vs Support's
+  // W-first) MUST pin per-role via a role `skillSequence`, never here — a global
+  // pin leaks the wrong order onto every other role.
 };
 
-// Textbook derivation: ultimate at 6/11/16; each basic gets one early unlock
-// point (levels 1-3 in priority order), then every remaining point goes to the
-// highest-priority non-maxed basic whose next rank is unlocked (rank r needs
-// champ level ≥ 2r-1). Matches guide-site sequences closely for standard kits.
-const deriveSequence = (order) => {
-  if (!order || order.length < 3) return null;
-  const basics = order.slice(0, 3);
-  const rank = { R: 0 };
-  basics.forEach((k) => { rank[k] = 0; });
+// Textbook derivation. `ability` at slots 6/11/16 (the ultimate for normal kits;
+// for no-ult champs it's the 4th-priority stance — see skillSequenceOf). The
+// three `basics` each get one early unlock point (levels 1-3 in priority order),
+// then every remaining point goes to the highest-priority non-maxed basic whose
+// next rank is unlocked (rank r needs champ level ≥ 2r-1). Matches guide-site
+// sequences closely for standard kits.
+const deriveSequence = (basics, ultKey) => {
+  if (!basics || basics.length < 3) return null;
+  const b = basics.slice(0, 3);
+  const rank = { [ultKey]: 0 };
+  b.forEach((k) => { rank[k] = 0; });
   const ULT = new Set([6, 11, 16]);
   const seq = [];
   for (let lvl = 1; lvl <= 18; lvl++) {
-    if (ULT.has(lvl)) { rank.R++; seq.push("R"); continue; }
-    if (lvl <= 3) { const k = basics[lvl - 1]; rank[k]++; seq.push(k); continue; }
+    if (ULT.has(lvl)) { rank[ultKey]++; seq.push(ultKey); continue; }
+    if (lvl <= 3) { const k = b[lvl - 1]; rank[k]++; seq.push(k); continue; }
     const pick =
-      basics.find((k) => rank[k] < 5 && lvl >= 2 * (rank[k] + 1) - 1) ||
-      basics.find((k) => rank[k] < 5) || basics[0];
+      b.find((k) => rank[k] < 5 && lvl >= 2 * (rank[k] + 1) - 1) ||
+      b.find((k) => rank[k] < 5) || b[0];
     rank[pick]++; seq.push(pick);
   }
   return seq;
 };
 
-// 18-entry array of ability keys ("Q"/"W"/"E"/"R"), or null when no grid should
-// render. No-ult champs (Udyr) return null unless an exact sequence is pinned —
-// their four stances level matchup-fluidly and are unreliable to derive, so they
-// keep the compact stance-priority row instead.
+// 18-entry array of ability keys ("Q"/"W"/"E"/"R"), or null when no order exists.
+// No-ult champs (Udyr): the four stances all level, so the lowest-priority stance
+// (order[3]) fills the 6/11/16 slots while the top three max as basics — this
+// reproduces the real lines (AD Q>E>W with R dipped for the awaken CC; AP R>E>W
+// maxed with Q barely touched) without pretending R is a 6/11/16 ultimate.
 export const skillSequenceOf = (dd, roleData, alt) => {
   const explicit =
     (alt && alt.skillSequence) || (roleData && roleData.skillSequence) || SKILL_SEQUENCE[dd];
   if (explicit) return explicit;
-  if (NO_ULT.has(dd)) return null;
-  return deriveSequence(skillOrderOf(dd, roleData, alt));
+  const order = skillOrderOf(dd, roleData, alt);
+  if (!order || order.length < 3) return null;
+  if (NO_ULT.has(dd)) {
+    return order.length >= 4 ? deriveSequence(order.slice(0, 3), order[3]) : null;
+  }
+  return deriveSequence(order.slice(0, 3), "R");
 };
 
 export default skillOrderOf;

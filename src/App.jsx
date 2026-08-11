@@ -2512,7 +2512,7 @@ useEffect(() => {
                 <div style={{ marginTop:"10px", overflowX:"auto", paddingBottom:"2px" }}>
                   <div style={{ display:"inline-flex", gap:"3px" }}>
                     {buildSkillSeq.map((lv, i) => {
-                      const isUlt = lv === "R";
+                      const isUlt = !buildNoUlt && lv === "R"; // no-ult champs (Udyr) have no ult to highlight
                       const accent = isUlt ? S.gold : S.orange;
                       return (
                         <span key={i} style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", gap:"2px" }}>

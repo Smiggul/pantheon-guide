@@ -108,6 +108,7 @@ export default {
     roles:{
             Top:    {  
               bans:["Malphite","Gangplank","Jax"], replacements:["Renekton","Sett","Wukong"],
+              skillOrder:["Q","E","W"], // Top maxes Aegis (E) second, not W
                         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
                         coreNote: "Voltaic Cyclosword first — the lead-snowball line. Once you win the early spear trades, Voltaic's energized proc + move speed + ability haste convert that lead into repeated one-combo bursts far better than Eclipse. Eclipse is the safer alternative first item and still shows up below in Situational Items — pick it instead when you're even or behind rather than ahead. Black Cleaver is the standard second core: its shred keeps Conqueror trades snowballing. Sundered Sky adds the guaranteed-crit heal on Q, and Death's Dance turns extended fights into a bleed you outlast. Chempunk Chainsword (below, under Anti-Heal) is Pantheon's best AD scaling swap specifically into sustain lanes — Warwick, Darius, Briar — not a default buy. First back after Voltaic is The Brutalizer (it now builds from Pickaxe, not Serrated Dirk, since its rework — so buy toward Brutalizer, not a dead-end Dirk); swap Plated Steelcaps / Mercury's Treads to the matchup's damage type.",
                         sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
@@ -484,6 +485,7 @@ export default {
 
             Jungle: {  
               bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
+              skillOrder:["Q","W","E"], // Q@1,4,5,7,9 · W@2,8,10,12,13 · E@3,14,15,17,18
                 corePath: "Sundered Sky  ›  Black Cleaver  ›  Guardian Angel  ›  Death's Dance",
                 coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky's crit-heal now edges out Eclipse as the priority first item in current meta; Black Cleaver transitions into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
                 sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Spear of Shojin","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
@@ -564,6 +566,7 @@ export default {
 
             Mid:    {  
               bans:["Ahri","Ziggs","Akali"], replacements:["Locke","Katarina","Talon"],
+              skillOrder:["Q","W","E"], // Mid maxes Q, then W, then E
                         corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Spear of Shojin",
                         coreNote: "Mid Pantheon is a counterpick into assassins. Eclipse gives kill pressure on short trades; transition into bruiser for mid-game roams and skirmishes.",
                         sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Serpent's Fang","Maw of Malmortius","Death's Dance","Serylda's Grudge","Guardian Angel","Black Cleaver"],
@@ -638,6 +641,8 @@ export default {
 
             Support:{  
               bans:["Janna","Braum","Zyra"], replacements:["Pyke","Xerath","Teemo"],
+              skillOrder:["Q","W","E"], // Support opens W (Aegis-Vault poke/roam) then maxes Q
+              skillSequence:["W","Q","E","Q","Q","R","Q","W","Q","W","R","W","W","E","E","R","E","E"],
                           corePath: "Umbral Glaive  ›  Eclipse  ›  Black Cleaver  ›  Sundered Sky",
                           coreNote: "Support Pantheon focuses on vision denial + early kill lanes. Umbral Glaive spike is mandatory for map control; then transition into bruiser.",
                           sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Serpent's Fang","Maw of Malmortius","Death's Dance","Knight's Vow","Zeke's Convergence","Edge of Night"],
