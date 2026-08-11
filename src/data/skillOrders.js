@@ -26,7 +26,7 @@ export const SKILL_MAX = {
   Gangplank: ["Q", "E", "W"], Singed: ["Q", "E", "W"],
   // ── Jungle ──
   MasterYi: ["Q", "E", "W"], Warwick: ["Q", "E", "W"], Hecarim: ["Q", "E", "W"],
-  LeeSin: ["Q", "E", "W"], Vi: ["Q", "E", "W"], Briar: ["Q", "W", "E"],
+  LeeSin: ["Q", "E", "W"], Vi: ["Q", "E", "W"], Briar: ["W", "Q", "E"],
   Viego: ["Q", "E", "W"], Khazix: ["Q", "E", "W"], Graves: ["Q", "E", "W"],
   Kindred: ["Q", "W", "E"], Nocturne: ["Q", "W", "E"], XinZhao: ["Q", "E", "W"],
   JarvanIV: ["Q", "E", "W"], Olaf: ["Q", "E", "W"], Rengar: ["Q", "W", "E"],
@@ -51,8 +51,8 @@ export const SKILL_MAX = {
   //    reliable; 2nd/3rd priority + role/build splits still owed a verified pass) ──
   // Top
   AurelionSol: ["Q", "W", "E"], Sion: ["Q", "W", "E"], MonkeyKing: ["Q", "E", "W"],
-  Shyvana: ["W", "E", "Q"], Volibear: ["Q", "W", "E"], Yorick: ["Q", "E", "W"],
-  Jax: ["Q", "W", "E"], Irelia: ["Q", "W", "E"], Riven: ["Q", "E", "W"],
+  Shyvana: ["W", "E", "Q"], Volibear: ["W", "Q", "E"], Yorick: ["Q", "E", "W"],
+  Jax: ["W", "E", "Q"], Irelia: ["Q", "W", "E"], Riven: ["Q", "E", "W"],
   Camille: ["Q", "E", "W"], Poppy: ["Q", "E", "W"], Malphite: ["Q", "E", "W"],
   Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "E", "W"],
   Mordekaiser: ["Q", "E", "W"], Gwen: ["Q", "E", "W"], Ornn: ["W", "Q", "E"],
