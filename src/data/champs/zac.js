@@ -85,6 +85,7 @@ export default {
     },
     Top:{
       bans:["Vayne","Fiora","Quinn"], replacements:["Sion","Wukong","Volibear"],
+      skillOrder:["W","E","Q"], // Top Zac maxes W first; Jungle/Support max E first (global E>W>Q)
       role:"Off-Meta Split-Push Tank",
       corePath:"Sunfire Aegis  ›  Plated Steelcaps  ›  Spirit Visage  ›  Thornmail",
       coreNote:"Top Zac is a rare, low-pick-rate off-meta split-push tank — same HP-sacrifice identity as Jungle, but built for sustained top-lane trades instead of gank tempo. Sunfire Aegis adds constant burn to punish trades; Plated Steelcaps and Spirit Visage round out survivability and self-heal amp; Thornmail cuts through healing/lifesteal top laners.",

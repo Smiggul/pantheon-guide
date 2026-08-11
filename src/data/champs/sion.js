@@ -253,6 +253,7 @@ export default {
 
       Mid:{
         bans:["Akali","Fizz","Yasuo"], replacements:["Galio","Malphite","Aurelion Sol"],
+        skillOrder:["W","Q","E"], // AP Mid Sion maxes the shield (W) first, unlike tank Top/Jungle Q>W>E
         corePath: "Heartsteel  ›  Hollow Radiance  ›  Titanic Hydra  ›  Unending Despair",
         coreNote: "Mid Sion is a wave-control disruptor. You don't win lane — you neutralize it, then impact side lanes with R and shove priority. Hollow Radiance and Unending Despair are the current AoE burn + anti-heal core, ahead of the older Sunfire Aegis/Force of Nature pattern.",
 

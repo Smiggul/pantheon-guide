@@ -21,8 +21,8 @@ export const SKILL_MAX = {
   Talon: ["W", "Q", "E"], Naafiri: ["Q", "E", "W"], Swain: ["Q", "W", "E"],
   // ── Top ──
   Darius: ["Q", "W", "E"], Garen: ["E", "Q", "W"], Nasus: ["Q", "E", "W"],
-  Pantheon: ["Q", "W", "E"], Renekton: ["Q", "W", "E"], Aatrox: ["Q", "E", "W"],
-  Fiora: ["Q", "E", "W"], Sett: ["Q", "E", "W"], Teemo: ["E", "Q", "W"],
+  Pantheon: ["Q", "W", "E"], Renekton: ["Q", "E", "W"], Aatrox: ["Q", "E", "W"],
+  Fiora: ["Q", "E", "W"], Sett: ["Q", "W", "E"], Teemo: ["E", "Q", "W"],
   Gangplank: ["Q", "E", "W"], Singed: ["Q", "E", "W"],
   // ── Jungle ──
   MasterYi: ["Q", "E", "W"], Warwick: ["Q", "E", "W"], Hecarim: ["Q", "E", "W"],
@@ -53,7 +53,7 @@ export const SKILL_MAX = {
   AurelionSol: ["Q", "W", "E"], Sion: ["Q", "W", "E"], MonkeyKing: ["Q", "E", "W"],
   Shyvana: ["W", "E", "Q"], Volibear: ["Q", "W", "E"], Yorick: ["Q", "E", "W"],
   Jax: ["Q", "W", "E"], Irelia: ["Q", "W", "E"], Riven: ["Q", "E", "W"],
-  Camille: ["Q", "W", "E"], Poppy: ["Q", "W", "E"], Malphite: ["Q", "E", "W"],
+  Camille: ["Q", "E", "W"], Poppy: ["Q", "E", "W"], Malphite: ["Q", "E", "W"],
   Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "E", "W"],
   Mordekaiser: ["Q", "E", "W"], Gwen: ["Q", "E", "W"], Ornn: ["W", "Q", "E"],
   Kayle: ["E", "Q", "W"], Kennen: ["Q", "W", "E"], Rumble: ["Q", "E", "W"],
@@ -62,7 +62,7 @@ export const SKILL_MAX = {
   Trundle: ["Q", "W", "E"], Quinn: ["Q", "E", "W"], Heimerdinger: ["W", "Q", "E"],
   TahmKench: ["Q", "E", "W"],
   // Jungle
-  RekSai: ["Q", "E", "W"], Zac: ["Q", "E", "W"], Kayn: ["Q", "W", "E"],
+  RekSai: ["Q", "E", "W"], Zac: ["E", "W", "Q"], Kayn: ["Q", "W", "E"],
   Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["Q", "E", "W"],
   Sejuani: ["W", "E", "Q"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
   Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "E", "Q"], Lillia: ["W", "Q", "E"],
