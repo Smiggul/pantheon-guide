@@ -54,6 +54,7 @@ export default {
     Top:{
       bans:["Jax","Cho'Gath","Dr. Mundo"], replacements:["Renekton","Sett","Volibear"],
       role:"AP Stance-Dancer (off-meta)",
+      skillOrder:["R","W","E","Q"],
       corePath:"Boots of Swiftness  ›  Malignance  ›  Liandry's Torment  ›  Riftmaker",
       coreNote:"Top Udyr swaps the AD Shojin/Hexplate bruiser build for an AP stance-dancer — Malignance and Liandry's Torment turn Phoenix stance procs and E stuns into real magic damage, and Riftmaker's omnivamp keeps him healthy through extended trades. This is the weaker of his two lanes (currently D tier); it's viable but Jungle remains the stronger seat.",
       sideItems:["Rylai's Crystal Scepter","Zhonya's Hourglass","Banshee's Veil","Void Staff","Spirit Visage","Mercury's Treads"],

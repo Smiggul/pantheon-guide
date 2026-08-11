@@ -82,15 +82,21 @@ export const SKILL_MAX = {
 
   // ── Wave 3: verified against build sites (u.gg / lolstats / mobalytics /
   //    escorenews), incl. the special-kit champs. Only Mel lacks reliable data. ──
-  Udyr: ["Q", "E", "W"], Aphelios: ["Q", "E", "W"], Nidalee: ["Q", "E", "W"],
+  Udyr: ["Q", "E", "W", "R"], Aphelios: ["Q", "E", "W"], Nidalee: ["Q", "E", "W"],
   Jayce: ["Q", "E", "W"], Elise: ["Q", "W", "E"], Aurora: ["Q", "E", "W"],
   Ambessa: ["Q", "E", "W"], Hwei: ["Q", "E", "W"], Zaahen: ["Q", "E", "W"],
   Yunara: ["Q", "W", "E"], Locke: ["Q", "E", "W"], Mel: ["Q", "E", "W"],
 };
 
-// Udyr has no ultimate — his kit is 4 stances (Q/W/E/R), so the "R at 6/11/16"
-// framing doesn't apply; the display omits that chip for him. The transform
-// champs (Jayce/Elise/Nidalee) and Aphelios have real ults and display normally.
+// Udyr has no ultimate — his kit is 4 stances (Q/W/E/R) that ALL level on the
+// basic-ability schedule (rank-ups at 3/5/7/9/…), so the "R at 6/11/16" framing
+// doesn't apply and R belongs IN the max-priority array, not as a separate chip.
+// R's position adapts to the build: AD-Q jungle maxes Q first with R last
+// (SKILL_MAX.Udyr = Q>E>W>R); the AP Top page overrides to R>W>E>Q since
+// Wingborne Storm is its main damage stance (see udyr.js Top.skillOrder). The
+// display hides the 6/11/16 chip for NO_ULT champs and renders all four stances
+// as one numbered priority. Transform champs (Jayce/Elise/Nidalee) and Aphelios
+// have real ults and display normally.
 export const NO_ULT = new Set(["Udyr"]);
 
 // dd: DDragon id; roleData: the role block; alt: selected alt build (both may
