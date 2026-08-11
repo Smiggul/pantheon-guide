@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const HWEI_MID_DEFAULT_RUNES = {
-  keystone:       "Deathfire Touch",
+  keystone:       "Arcane Comet",
   primary:        "Sorcery",
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Precision",
   secondaryRunes: ["Presence of Mind","Legend: Haste"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Hwei paints damage in layers, and Deathfire Touch adds a burn to every brushstroke — with ten spells cycling, the DoT uptime is near-permanent. Manaflow Band and Presence of Mind together feed the heaviest mana appetite in the game, Transcendence and Legend: Haste accelerate the subject-swapping cooldown loop his kit revolves around, and Scorch wins the early poke exchanges before Blackfire Torch takes over the job.",
+  reason:         "Arcane Comet is the current-meta keystone on Hwei mid — his QE disengage and EE root practically guarantee the comet lands, turning every poke rotation into free chip that his layered kit already sets up. Manaflow Band and Presence of Mind together feed the heaviest mana appetite in the game, Transcendence and Legend: Haste accelerate the subject-swapping cooldown loop his kit revolves around, and Scorch wins the early exchanges before Blackfire Torch takes over the poke job.",
 };
 
 const HWEI_SUP_DEFAULT_RUNES = {
@@ -17,7 +17,7 @@ const HWEI_SUP_DEFAULT_RUNES = {
   secondary:      "Precision",
   secondaryRunes: ["Presence of Mind","Legend: Haste"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Support Hwei swaps Deathfire Touch for Arcane Comet — his QE and EE setups practically guarantee the comet lands, and without solo-lane gold the reliable poke proc out-values the DoT scaling. The rest of the page stays: Manaflow Band + Presence of Mind fund the double-spell rotations, and Transcendence + Legend: Haste keep the paint flowing through the support item economy.",
+  reason:         "Support Hwei keeps Arcane Comet — his QE and EE setups practically guarantee the comet lands, and without solo-lane gold the reliable poke proc is the whole gameplan. Manaflow Band + Presence of Mind fund the double-spell rotations, and Transcendence + Legend: Haste keep the paint flowing through the support item economy.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

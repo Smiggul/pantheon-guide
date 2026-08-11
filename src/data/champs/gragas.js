@@ -32,8 +32,8 @@ export default {
     Jungle:{
       bans:["Ivern","Amumu","Zac"], replacements:["Warwick","Wukong","Sett"],
       role:"Bruiser / Skirmisher-Tank",
-      corePath:"Sorcerer's Shoes  ›  Lich Bane  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Current-meta Gragas Jungle plays as an AP burst mage rather than a bruiser-tank. Sorcerer's Shoes gets pen online fast; Lich Bane amplifies the ability-into-auto pattern his Body Slam engage creates; Shadowflame adds extra burst on targets his E/R combo has already chunked; Rabadon's Deathcap scales the whole kit for a real one-rotation kill threat.",
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"Current-meta Gragas Jungle plays as an AP burst mage rather than a bruiser-tank. Stormsurge is the first-item spike — its Stormsurge proc detonates on the burst his E/R combo already sets up; Sorcerer's Shoes gets pen online; Shadowflame adds extra burst on chunked targets; Rabadon's Deathcap scales the whole kit for a real one-rotation kill threat.",
       sideItems:["Riftmaker","Sunfire Aegis","Thornmail","Zhonya's Hourglass","Mercury's Treads","Void Staff","Rylai's Crystal Scepter"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","Omnivamp wins the extended skirmish."),I("Sunfire Aegis","Burn while they can't punish your clear."),I("Thornmail","GW cuts their sustain.")],behind:[I("Plated Steelcaps","Reduces auto damage from a counter-gank."),I("Randuin's Omen","Crit/AS reduction if they build offense."),I("Spirit Visage","Amplify your own sustain.")],runes:{...GRAGAS_JGL_DEFAULT_RUNES}},
