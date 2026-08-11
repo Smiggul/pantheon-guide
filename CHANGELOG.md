@@ -14,6 +14,31 @@ rolled into a numbered version when a build is cut.
 
 _Nothing yet._
 
+## [0.7.8] — 2026-08-11
+
+### Added
+- **Skill-order grid & strip views.** The build panel now shows the full
+  18-level skill sequence beneath the max-order header, in two switchable
+  layouts: a u.gg-style **grid** (abilities × 18 level columns) or a
+  Pantheon-style **strip** (one row of level pills, ultimate highlighted). A
+  `grid / strip` toggle sits in the skill-order header and your choice is saved.
+  Sequences are derived from the max-priority order, with exact per-champ pins
+  where reality differs (Pantheon ships pinned to its real W-first order).
+- **AP Udyr (Jungle).** A new "AP Bruiser" build toggle on Udyr's jungle page —
+  Conqueror, Malignance › Boots of Swiftness › Liandry's › Riftmaker, R-max —
+  alongside the existing AD bruiser build.
+
+### Changed
+- **Build/rune verification sweep — batches 5 & 6: the roster is now 100%
+  verified.** Every one of the 173 champions × each role has been checked
+  against live build sites (patch 26.15) across six batches. Batch 5 (52 champs)
+  fixed **Aurelion Sol** (Blackfire Torch-first). Batch 6 (the final 52) fixed
+  **Gragas Jungle** (Stormsurge-first) and **Hwei Mid** (Arcane Comet).
+  Everything else matched current meta.
+- **Udyr skill order now includes his R** (Wingborne Storm) and adapts to the
+  build instead of hiding it — AD Jungle maxes Q with R last (`Q › E › W › R`),
+  the AP pages max R (`R › E › W › Q`).
+
 ## [0.7.7] — 2026-08-09
 
 ### Changed
