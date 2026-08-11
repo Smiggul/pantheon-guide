@@ -20,6 +20,19 @@ const UDYR_TOP_DEFAULT_RUNES = {
   reason:         "Top Udyr trades the AD Shojin bruiser build for an AP stance-dancer, and Grasp fits the sustained-trade lane pattern better than Press the Attack does here. Shield Bash converts W's shield into bonus damage. Second Wind and Revitalize keep him healthy through lane poke. Approach Velocity chases targets after an E stun the same way Jungle's kit does.",
 };
 
+// AP Jungle alt — the "AP Bruiser" toggle on the Jungle page. Same seat as the
+// AD build but a Liandry's/Wingborne DoT bruiser: Conqueror over Press the
+// Attack (ramps in the extended fights his burn creates), and R maxed first.
+const UDYR_JGL_AP_RUNES = {
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Transcendence","Gathering Storm"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "AP Udyr is a sustained-damage bruiser, and Conqueror ramps through the extended fights his Wingborne Storm (R) + Liandry's burn are built to create — at full stacks every stance-attack lands real magic damage. Legend: Haste and Transcendence stack ability haste for faster Awaken cycling; Last Stand rewards the low-HP brawls he lives in; Gathering Storm scales the AP DoT into the late game. Max R first (it is the whole damage profile), then E — though vs heavy poke/burst an early extra W point for the shield is a standard matchup adjustment.",
+};
+
 // ══════════════════════════════════════════════════════════════════════════
 //  UDYR — Skirmisher / Bruiser (AD Build, patch 26.14)
 // ══════════════════════════════════════════════════════════════════════════
@@ -28,10 +41,24 @@ export default {
   id:"udyr", display:"Udyr", dd:"Udyr",
   color:"#1a5276", glow:"#2980b9",
   lanes:["Jungle","Top"],
+  // AP jungle is a real, distinct build (its own runes + R-max skill order), so it
+  // rides as a toggle on the Jungle page rather than as a whole extra role.
+  altBuilds:{
+    Jungle:[{
+      label:"AP Bruiser",
+      tag:"alt",
+      skillOrder:["R","E","W","Q"],
+      corePath:"Malignance  ›  Boots of Swiftness  ›  Liandry's Torment  ›  Riftmaker",
+      coreNote:"Swaps the AD Shojin bruiser for an AP stance-dancer that still frontlines. Malignance leads — its haste and Solstice passive both proc off Wingborne Storm (R counts as Udyr's ultimate); Liandry's Torment turns the storm into a %-HP burn that melts tanks; Riftmaker's omnivamp + true-damage ramp keep him alive in the extended fights he wants. Boots of Swiftness for permanent kite resist. R is maxed first as the entire damage profile and E second for the Blazing Stampede stun — the last two stances are near-filler on AP, so W (peel/sustain) vs Q flexes by matchup.",
+      runes:{...UDYR_JGL_AP_RUNES},
+      sideItems:["Rylai's Crystal Scepter","Dead Man's Plate","Spirit Visage","Zhonya's Hourglass","Void Staff","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Rek'Sai","Karthus","Trundle"], replacements:["Warwick","Volibear","Shyvana"],
       role:"Skirmisher / Bruiser",
+      buildLabel:"AD Bruiser",
       corePath:"Spear of Shojin  ›  Boots of Swiftness  ›  Experimental Hexplate  ›  Death's Dance",
       coreNote:"Spear of Shojin first — ability haste converts directly to more Awaken uses per fight and faster form swap cycling. Boots of Swiftness for permanent kite resist (Udyr needs to stick to targets with E stun). Experimental Hexplate third for the on-ability-use move speed burst that lets you chase between E stuns. Death's Dance fourth for sustained survivability.",
       sideItems:["Spirit Visage","Sterak's Gage","Thornmail","Black Cleaver","Plated Steelcaps","Guardian Angel"],
@@ -54,7 +81,7 @@ export default {
     Top:{
       bans:["Jax","Cho'Gath","Dr. Mundo"], replacements:["Renekton","Sett","Volibear"],
       role:"AP Stance-Dancer (off-meta)",
-      skillOrder:["R","W","E","Q"],
+      skillOrder:["R","E","W","Q"],
       corePath:"Boots of Swiftness  ›  Malignance  ›  Liandry's Torment  ›  Riftmaker",
       coreNote:"Top Udyr swaps the AD Shojin/Hexplate bruiser build for an AP stance-dancer — Malignance and Liandry's Torment turn Phoenix stance procs and E stuns into real magic damage, and Riftmaker's omnivamp keeps him healthy through extended trades. This is the weaker of his two lanes (currently D tier); it's viable but Jungle remains the stronger seat.",
       sideItems:["Rylai's Crystal Scepter","Zhonya's Hourglass","Banshee's Veil","Void Staff","Spirit Visage","Mercury's Treads"],
