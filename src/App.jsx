@@ -6,7 +6,7 @@ import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
-import { skillOrderOf, NO_ULT } from "./data/skillOrders.js";
+import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -50,6 +50,12 @@ const SETTINGS_TABS = [
 const loadTheme = () => {
   try { const t = localStorage.getItem("frge-theme"); if (t && THEME_IDS.has(t)) return t; } catch { /* ignore */ }
   return "classic";
+};
+// Skill-order layout preference: "grid" (u.gg ability × level matrix) or
+// "strip" (single Pantheon-style level row). Persisted like the theme.
+const loadSkillView = () => {
+  try { const v = localStorage.getItem("frge-skillview"); if (v === "grid" || v === "strip") return v; } catch { /* ignore */ }
+  return "grid";
 };
 
 // Master switch for the ad zones. Off until a real ad network is wired up —
@@ -487,6 +493,7 @@ export default function App() {
 
   // ── Theme + Settings ────────────────────────────────────────────────────
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
+  const [skillView, setSkillView] = useState(loadSkillView); // "grid" | "strip"
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
   const [startupOn, setStartupOn] = useState(false); // launch-on-startup (desktop)
@@ -494,6 +501,9 @@ export default function App() {
     document.documentElement.setAttribute("data-frge-theme", frgeTheme);
     try { localStorage.setItem("frge-theme", frgeTheme); } catch { /* ignore */ }
   }, [frgeTheme]);
+  useEffect(() => {
+    try { localStorage.setItem("frge-skillview", skillView); } catch { /* ignore */ }
+  }, [skillView]);
   // Reflect the actual OS login-item state (desktop only).
   useEffect(() => {
     if (typeof window === "undefined" || !window.frge?.getStartup) return;
@@ -644,6 +654,7 @@ useEffect(() => {
   // Ability max-priority order (R implied at 6/11/16). null → hide the row.
   const buildSkillOrder = skillOrderOf(champ.dd, activeChampRole, activeAlt);
   const buildNoUlt = NO_ULT.has(champ.dd); // Udyr — 4 stances, no 6/11/16 ult
+  const buildSkillSeq = skillSequenceOf(champ.dd, activeChampRole, activeAlt); // 18-level grid/strip, or null
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -2409,39 +2420,115 @@ useEffect(() => {
             })()}
           </div>
 
-          {/* Ability level order — R at 6/11/16, then basics in max-priority order */}
+          {/* Ability level order — max-priority header row + optional 18-level grid/strip */}
           {buildSkillOrder && (
-            <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"12px", flexWrap:"wrap" }}>
-              <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
-                textTransform:"uppercase", flexShrink:0 }}>Skill order</span>
-              {/* ultimate first — hidden for no-ult champs (Udyr's 4 stances) */}
-              {!buildNoUlt && (
-                <>
-                  <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
-                    <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
+            <div style={{ marginTop:"12px" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
+                <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
+                  textTransform:"uppercase", flexShrink:0 }}>Skill order</span>
+                {/* ultimate first — hidden for no-ult champs (Udyr's 4 stances) */}
+                {!buildNoUlt && (
+                  <>
+                    <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
+                      <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
+                        display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
+                        border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
+                      <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
+                    </span>
+                    <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
+                  </>
+                )}
+                {buildSkillOrder.map((ab, i) => (
+                  <span key={ab} style={{ display:"inline-flex", alignItems:"center", gap:"8px" }}>
+                    <span style={{ position:"relative", width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
                       display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
-                      border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
-                    <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
+                      border:`1px solid ${S.orange}66`, background:`${S.orange}14`, color:"#f0b070" }}>
+                      {ab}
+                      <span style={{ position:"absolute", top:"-5px", right:"-5px", width:"13px", height:"13px",
+                        borderRadius:"50%", background:"#2a2f38", color:"#c7ccd1", fontSize:"8px", fontWeight:"700",
+                        display:"flex", alignItems:"center", justifyContent:"center" }}>{i + 1}</span>
+                    </span>
+                    {i < buildSkillOrder.length - 1 && <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>}
                   </span>
-                  <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
-                </>
-              )}
-              {buildSkillOrder.map((ab, i) => (
-                <span key={ab} style={{ display:"inline-flex", alignItems:"center", gap:"8px" }}>
-                  <span style={{ position:"relative", width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
-                    display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
-                    border:`1px solid ${S.orange}66`, background:`${S.orange}14`, color:"#f0b070" }}>
-                    {ab}
-                    <span style={{ position:"absolute", top:"-5px", right:"-5px", width:"13px", height:"13px",
-                      borderRadius:"50%", background:"#2a2f38", color:"#c7ccd1", fontSize:"8px", fontWeight:"700",
-                      display:"flex", alignItems:"center", justifyContent:"center" }}>{i + 1}</span>
-                  </span>
-                  {i < buildSkillOrder.length - 1 && <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>}
+                ))}
+                <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>
+                  {buildNoUlt ? "stance priority (no ultimate)" : "max order"}
                 </span>
-              ))}
-              <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>
-                {buildNoUlt ? "stance priority (no ultimate)" : "max order"}
-              </span>
+                {/* grid ↔ strip layout toggle — only when a level sequence exists */}
+                {buildSkillSeq && (
+                  <div style={{ marginLeft:"auto", display:"inline-flex", borderRadius:"6px",
+                    overflow:"hidden", border:`1px solid ${S.gold}25` }}>
+                    {["grid", "strip"].map((v) => {
+                      const on = skillView === v;
+                      return (
+                        <button key={v} onClick={() => setSkillView(v)} title={`Show skill order as a ${v}`}
+                          style={{ padding:"3px 9px", fontSize:"9px", fontWeight:"700", letterSpacing:".5px",
+                            textTransform:"uppercase", cursor:"pointer", border:"none",
+                            background: on ? `${S.gold}22` : "transparent",
+                            color: on ? S.gold : "rgba(255,255,255,.4)" }}>{v}</button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* GRID — abilities (Q/W/E/R) × 18 level columns */}
+              {buildSkillSeq && skillView === "grid" && (
+                <div style={{ marginTop:"10px", overflowX:"auto", paddingBottom:"2px" }}>
+                  <div style={{ display:"inline-block", minWidth:"min-content" }}>
+                    <div style={{ display:"flex", gap:"3px", marginBottom:"4px", paddingLeft:"25px" }}>
+                      {buildSkillSeq.map((_, i) => (
+                        <span key={"ln" + i} style={{ width:"20px", textAlign:"center", fontSize:"8px",
+                          color:"rgba(255,255,255,.38)" }}>{i + 1}</span>
+                      ))}
+                    </div>
+                    {["Q", "W", "E", "R"].map((ab) => {
+                      const isUlt = ab === "R";
+                      const accent = isUlt ? S.gold : S.orange;
+                      return (
+                        <div key={ab} style={{ display:"flex", gap:"3px", alignItems:"center", marginBottom:"3px" }}>
+                          <span style={{ width:"22px", height:"20px", flexShrink:0, borderRadius:"5px",
+                            display:"flex", alignItems:"center", justifyContent:"center", fontSize:"10px", fontWeight:"800",
+                            border:`1px solid ${accent}66`, background:`${accent}14`, color: isUlt ? S.gold : "#f0b070" }}>{ab}</span>
+                          {buildSkillSeq.map((lv, i) => {
+                            const on = lv === ab;
+                            return (
+                              <span key={ab + i} style={{ width:"20px", height:"20px", flexShrink:0, borderRadius:"4px",
+                                display:"flex", alignItems:"center", justifyContent:"center", fontSize:"9px", fontWeight:"800",
+                                background: on ? accent : "rgba(255,255,255,.035)",
+                                color: on ? "#15181d" : "transparent",
+                                border: on ? "none" : "1px solid rgba(255,255,255,.05)" }}>{on ? i + 1 : ""}</span>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* STRIP — single Pantheon-style row of 18 level pills */}
+              {buildSkillSeq && skillView === "strip" && (
+                <div style={{ marginTop:"10px", overflowX:"auto", paddingBottom:"2px" }}>
+                  <div style={{ display:"inline-flex", gap:"3px" }}>
+                    {buildSkillSeq.map((lv, i) => {
+                      const isUlt = lv === "R";
+                      const accent = isUlt ? S.gold : S.orange;
+                      return (
+                        <span key={i} style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", gap:"2px" }}>
+                          <span style={{ width:"22px", height:"22px", borderRadius:"5px", flexShrink:0,
+                            display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", fontWeight:"800",
+                            border:`1px solid ${isUlt ? S.gold : accent + "66"}`,
+                            background: isUlt ? `${S.gold}22` : `${accent}12`,
+                            color: isUlt ? S.gold : "#f0b070",
+                            boxShadow: isUlt ? `0 0 6px ${S.gold}55` : "none" }}>{lv}</span>
+                          <span style={{ fontSize:"8px", color:"rgba(255,255,255,.3)" }}>{i + 1}</span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

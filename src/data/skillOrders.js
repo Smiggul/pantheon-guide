@@ -104,4 +104,49 @@ export const NO_ULT = new Set(["Udyr"]);
 export const skillOrderOf = (dd, roleData, alt) =>
   (alt && alt.skillOrder) || (roleData && roleData.skillOrder) || SKILL_MAX[dd] || null;
 
+// ── Level-by-level sequence (18 entries) for the skill-order grid ────────────
+// Most champs don't need hand-authored per-level data: the sequence is derived
+// from the max-priority order by standard leveling rules. Pin an exact 18-entry
+// array here (or as a role/alt `skillSequence`) only where the derivation is
+// notably off (unusual first-skill, transform ults, etc.). Keyed by DDragon id.
+export const SKILL_SEQUENCE = {
+  // Pantheon players open W (Aegis) at level 1 before maxing Q — the empirical
+  // sequence u.gg shows, which the pure Q-first derivation doesn't capture.
+  Pantheon: ["W","Q","E","Q","Q","R","Q","W","Q","W","R","W","W","E","E","R","E","E"],
+};
+
+// Textbook derivation: ultimate at 6/11/16; each basic gets one early unlock
+// point (levels 1-3 in priority order), then every remaining point goes to the
+// highest-priority non-maxed basic whose next rank is unlocked (rank r needs
+// champ level ≥ 2r-1). Matches guide-site sequences closely for standard kits.
+const deriveSequence = (order) => {
+  if (!order || order.length < 3) return null;
+  const basics = order.slice(0, 3);
+  const rank = { R: 0 };
+  basics.forEach((k) => { rank[k] = 0; });
+  const ULT = new Set([6, 11, 16]);
+  const seq = [];
+  for (let lvl = 1; lvl <= 18; lvl++) {
+    if (ULT.has(lvl)) { rank.R++; seq.push("R"); continue; }
+    if (lvl <= 3) { const k = basics[lvl - 1]; rank[k]++; seq.push(k); continue; }
+    const pick =
+      basics.find((k) => rank[k] < 5 && lvl >= 2 * (rank[k] + 1) - 1) ||
+      basics.find((k) => rank[k] < 5) || basics[0];
+    rank[pick]++; seq.push(pick);
+  }
+  return seq;
+};
+
+// 18-entry array of ability keys ("Q"/"W"/"E"/"R"), or null when no grid should
+// render. No-ult champs (Udyr) return null unless an exact sequence is pinned —
+// their four stances level matchup-fluidly and are unreliable to derive, so they
+// keep the compact stance-priority row instead.
+export const skillSequenceOf = (dd, roleData, alt) => {
+  const explicit =
+    (alt && alt.skillSequence) || (roleData && roleData.skillSequence) || SKILL_SEQUENCE[dd];
+  if (explicit) return explicit;
+  if (NO_ULT.has(dd)) return null;
+  return deriveSequence(skillOrderOf(dd, roleData, alt));
+};
+
 export default skillOrderOf;
