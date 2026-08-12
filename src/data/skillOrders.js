@@ -17,7 +17,7 @@ export const SKILL_MAX = {
   Akali: ["Q", "E", "W"], Fizz: ["E", "W", "Q"], Vladimir: ["Q", "E", "W"],
   Ryze: ["Q", "E", "W"], Veigar: ["Q", "W", "E"], Annie: ["Q", "W", "E"],
   Anivia: ["E", "Q", "W"], Lissandra: ["Q", "W", "E"], Zoe: ["Q", "E", "W"],
-  Leblanc: ["Q", "W", "E"], Kassadin: ["E", "W", "Q"], Malzahar: ["E", "Q", "W"],
+  Leblanc: ["W", "Q", "E"], Kassadin: ["E", "W", "Q"], Malzahar: ["E", "Q", "W"],
   Talon: ["W", "Q", "E"], Naafiri: ["Q", "E", "W"], Swain: ["Q", "W", "E"],
   // ── Top ──
   Darius: ["Q", "E", "W"], Garen: ["E", "Q", "W"], Nasus: ["Q", "E", "W"],
@@ -57,9 +57,9 @@ export const SKILL_MAX = {
   Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "W", "E"],
   Mordekaiser: ["Q", "E", "W"], Gwen: ["Q", "E", "W"], Ornn: ["W", "Q", "E"],
   Kayle: ["E", "Q", "W"], Kennen: ["Q", "W", "E"], Rumble: ["Q", "E", "W"],
-  Urgot: ["W", "Q", "E"], DrMundo: ["Q", "E", "W"], Kled: ["Q", "E", "W"],
-  Illaoi: ["Q", "E", "W"], Tryndamere: ["E", "Q", "W"], Chogath: ["Q", "E", "W"],
-  Trundle: ["Q", "W", "E"], Quinn: ["Q", "E", "W"], Heimerdinger: ["W", "Q", "E"],
+  Urgot: ["W", "E", "Q"], DrMundo: ["Q", "E", "W"], Kled: ["Q", "W", "E"],
+  Illaoi: ["E", "Q", "W"], Tryndamere: ["Q", "E", "W"], Chogath: ["E", "Q", "W"],
+  Trundle: ["Q", "W", "E"], Quinn: ["Q", "W", "E"], Heimerdinger: ["Q", "W", "E"],
   TahmKench: ["Q", "W", "E"],
   // Jungle
   RekSai: ["Q", "E", "W"], Zac: ["E", "W", "Q"], Kayn: ["Q", "W", "E"],
