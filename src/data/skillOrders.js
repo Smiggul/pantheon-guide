@@ -20,7 +20,7 @@ export const SKILL_MAX = {
   Leblanc: ["Q", "W", "E"], Kassadin: ["E", "W", "Q"], Malzahar: ["E", "Q", "W"],
   Talon: ["W", "Q", "E"], Naafiri: ["Q", "E", "W"], Swain: ["Q", "W", "E"],
   // ── Top ──
-  Darius: ["Q", "W", "E"], Garen: ["E", "Q", "W"], Nasus: ["Q", "E", "W"],
+  Darius: ["Q", "E", "W"], Garen: ["E", "Q", "W"], Nasus: ["Q", "E", "W"],
   Pantheon: ["Q", "W", "E"], Renekton: ["Q", "E", "W"], Aatrox: ["Q", "E", "W"],
   Fiora: ["Q", "E", "W"], Sett: ["Q", "W", "E"], Teemo: ["E", "Q", "W"],
   Gangplank: ["Q", "E", "W"], Singed: ["Q", "E", "W"],
@@ -50,11 +50,11 @@ export const SKILL_MAX = {
   // ── Wave 2: broader coverage (best-effort inherited knowledge — max-first is
   //    reliable; 2nd/3rd priority + role/build splits still owed a verified pass) ──
   // Top
-  AurelionSol: ["Q", "W", "E"], Sion: ["Q", "W", "E"], MonkeyKing: ["Q", "E", "W"],
+  AurelionSol: ["Q", "E", "W"], Sion: ["Q", "W", "E"], MonkeyKing: ["Q", "E", "W"],
   Shyvana: ["W", "E", "Q"], Volibear: ["W", "Q", "E"], Yorick: ["Q", "E", "W"],
   Jax: ["W", "E", "Q"], Irelia: ["Q", "W", "E"], Riven: ["Q", "E", "W"],
   Camille: ["Q", "E", "W"], Poppy: ["Q", "E", "W"], Malphite: ["Q", "E", "W"],
-  Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "E", "W"],
+  Shen: ["Q", "E", "W"], KSante: ["Q", "W", "E"], Gnar: ["Q", "W", "E"],
   Mordekaiser: ["Q", "E", "W"], Gwen: ["Q", "E", "W"], Ornn: ["W", "Q", "E"],
   Kayle: ["E", "Q", "W"], Kennen: ["Q", "W", "E"], Rumble: ["Q", "E", "W"],
   Urgot: ["W", "Q", "E"], DrMundo: ["Q", "E", "W"], Kled: ["Q", "E", "W"],
