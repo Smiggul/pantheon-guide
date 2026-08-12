@@ -53,6 +53,7 @@ export default {
     },
     Mid:{
       bans:["Zed","Fizz","Katarina"], replacements:["Viktor","Ziggs","Xerath"],
+      skillOrder:["W","E","Q"], // Mid Brand maxes W then E (AoE); Support maxes W then Q (global W>Q>E)
       role:"DoT Teamfight Mage",
       corePath:"Blackfire Torch  ›  Sorcerer's Shoes  ›  Rylai's Crystal Scepter  ›  Liandry's Torment",
       coreNote:"Mid Brand gets what support Brand only dreams of: solo-lane gold into Blackfire Torch, whose burn amplification stacks multiplicatively with Blaze and Liandry's for a triple-DoT engine nothing out-sustains. Rylai's Crystal Scepter keeps targets inside the burn radius, and Zhonya's Hourglass covers the mid-range positioning his combo forces. In teamfights his R bounce plus three DoT sources produces the highest sustained AoE damage of any mage in the game.",

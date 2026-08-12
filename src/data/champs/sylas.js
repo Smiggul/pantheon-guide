@@ -53,6 +53,7 @@ export default {
     },
     Jungle:{
       bans:["Lillia","Briar","Kha'Zix"], replacements:["Ekko","Diana","Zac"],
+      skillOrder:["W","E","Q"], // Jungle Sylas maxes W (Kingslayer) first for sustain/dueling; Mid maxes Q (global Q>E>W)
       role:"Ult-Thief Skirmish Jungler",
       corePath:"Hextech Rocketbelt  ›  Sorcerer's Shoes  ›  Riftmaker  ›  Zhonya's Hourglass",
       coreNote:"Jungle Sylas is the #1 jungler on current data — his W heals through camps, his E clears from range, and every gank arrives with a stolen ultimate in the back pocket. Hextech Rocketbelt guarantees the chain-stun engage on ganks, Riftmaker fuels the extended counter-jungle brawls he wins by default, and Zhonya's Hourglass covers the deep dives his tempo demands. Draft note: his jungle power scales with how good the enemy team's ultimates are — check what Hijack buys before locking.",

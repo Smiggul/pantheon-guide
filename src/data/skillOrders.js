@@ -42,7 +42,7 @@ export const SKILL_MAX = {
   Corki: ["Q", "E", "W"], Twitch: ["E", "Q", "W"], Akshan: ["Q", "E", "W"],
   // ── Support ──
   Morgana: ["Q", "W", "E"], Soraka: ["Q", "W", "E"], Brand: ["W", "Q", "E"],
-  Karma: ["Q", "E", "W"], Braum: ["Q", "E", "W"], Zyra: ["Q", "E", "W"],
+  Karma: ["Q", "E", "W"], Braum: ["Q", "E", "W"], Zyra: ["E", "Q", "W"],
   Pyke: ["Q", "E", "W"], Velkoz: ["Q", "W", "E"], Sona: ["Q", "W", "E"],
   Zilean: ["Q", "E", "W"], Xerath: ["Q", "W", "E"], Yuumi: ["Q", "E", "W"],
   Taric: ["Q", "E", "W"],
@@ -60,15 +60,15 @@ export const SKILL_MAX = {
   Urgot: ["W", "Q", "E"], DrMundo: ["Q", "E", "W"], Kled: ["Q", "E", "W"],
   Illaoi: ["Q", "E", "W"], Tryndamere: ["E", "Q", "W"], Chogath: ["Q", "E", "W"],
   Trundle: ["Q", "W", "E"], Quinn: ["Q", "E", "W"], Heimerdinger: ["W", "Q", "E"],
-  TahmKench: ["Q", "E", "W"],
+  TahmKench: ["Q", "W", "E"],
   // Jungle
   RekSai: ["Q", "E", "W"], Zac: ["E", "W", "Q"], Kayn: ["Q", "W", "E"],
   Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["Q", "E", "W"],
-  Sejuani: ["W", "E", "Q"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
+  Sejuani: ["W", "Q", "E"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
   Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "Q", "E"], Lillia: ["W", "Q", "E"],
   Nunu: ["W", "Q", "E"], Ivern: ["Q", "W", "E"],
   // Mid
-  Azir: ["Q", "W", "E"], Sylas: ["Q", "W", "E"], Taliyah: ["Q", "E", "W"],
+  Azir: ["Q", "W", "E"], Sylas: ["Q", "E", "W"], Taliyah: ["Q", "E", "W"],
   Cassiopeia: ["Q", "E", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
   Vex: ["Q", "E", "W"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "E", "W"],
   // Bot

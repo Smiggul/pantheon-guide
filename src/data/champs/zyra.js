@@ -53,6 +53,7 @@ export default {
     },
     Jungle:{
       bans:["Wukong","Briar","Nocturne"], replacements:["Karthus","Elise","Fiddlesticks"],
+      skillOrder:["Q","E","W"], // Jungle Zyra maxes Q (Deadly Spines) for clear; Support maxes E first (global E>Q>W)
       role:"AP Plant-Clear Jungler",
       corePath:"Liandry's Torment  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
       coreNote:"Jungle Zyra clears camps with plants doing the work from range and converts jungle income into a full mage build no support budget allows. Liandry's Torment burns through camps and tanks alike, Shadowflame turns rooted gank targets into executes, and Zhonya's Hourglass covers the squishiest clear in the game when invades land. Her ganks are lane-quality — E from fog is a Morgana binding with a damage garden attached — and Rabadon's Deathcap closes her into a second mid-laner.",
