@@ -63,6 +63,7 @@ export default {
     },
     Jungle:{
       bans:["Sylas","Nasus","Nocturne"], replacements:["Wukong","Sett","Shyvana"],
+      skillOrder:["W","E","Q"], // Jungle Malphite maxes W (AP auto-attacks) first; Top/Support max Q (global Q>E>W)
       role:"Off-Meta Bruiser-Tank Jungler",
       corePath:"Dusk and Dawn  ›  Plated Steelcaps  ›  Zeke's Convergence  ›  Sunfire Aegis",
       coreNote:"Jungle Malphite plays a bruiser-tank pattern rather than the pure-tank identity his lane counterpart runs — auto-trade through the jungle, gank with Seismic Shard's slow, and knock up a whole team with Unstoppable Force. Dusk and Dawn adds early damage and haste; Zeke's Convergence amplifies the follow-up the instant his ultimate lands; Sunfire Aegis rounds out clear speed and durability.",

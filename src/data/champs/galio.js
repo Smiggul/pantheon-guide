@@ -53,6 +53,7 @@ export default {
     },
     Support:{
       bans:["Zyra","Lux","Xerath"], replacements:["Alistar","Rell","Nautilus"],
+      skillOrder:["W","E","Q"], // Support Galio maxes W (shield) first; Mid maxes Q (global Q>W>E)
       role:"Taunt Engage Support",
       corePath:"Celestial Opposition  ›  Plated Steelcaps  ›  Locket of the Iron Solari  ›  Imperial Mandate",
       coreNote:"Support Galio is the engage-tank version of the colossus: E knockup into W taunt is a two-man wombo, and Hero's Entrance means his bot lane never fights alone. Celestial Opposition blunts the counter-burst his dives absorb, Locket shields the team through the follow-up, Imperial Mandate converts every taunt into team damage, and Thornmail closes against lifesteal carries. His passive shield plus Aftershock makes him absurdly durable for a support — engage like it's free, because for him it nearly is.",

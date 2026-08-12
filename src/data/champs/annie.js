@@ -53,6 +53,7 @@ export default {
     },
     Support:{
       bans:["Blitzcrank","Leona","Pyke"], replacements:["Lux","Zyra","Brand"],
+      skillOrder:["E","Q","W"], // Support Annie maxes E (Molten Shield) first for utility; Mid maxes Q (global Q>W>E)
       role:"Stun-Bot Damage Support",
       corePath:"Zaz'Zak's Realmspike  ›  Sorcerer's Shoes  ›  Malignance  ›  Stormsurge",
       coreNote:"Support Annie is the same champion on a budget: hold the stun, W poke procs Zaz'Zak's Realmspike, and every enemy engage answers to a point-click Tibbers counter-engage. Malignance still amplifies the bear, Stormsurge converts the Electrocute combo into extra burst, and Shadowflame arrives a cycle later than Mid's but hits just as hard. Her lane threat is binary and terrifying: three stacks up means the enemy ADC cannot step forward. Zone with the resource they can see.",

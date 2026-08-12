@@ -53,6 +53,7 @@ export default {
     },
     Jungle:{
       bans:["Udyr","Briar","Kha'Zix"], replacements:["Amumu","Volibear","Malphite"],
+      skillOrder:["Q","W","E"], // Jungle Nasus maxes W (Wither slow) before E; Top maxes E (global Q>E>W)
       role:"Uncontested Stack Farmer",
       corePath:"Protoplasm Harness  ›  Boots of Swiftness  ›  Iceborn Gauntlet  ›  Spirit Visage",
       coreNote:"Jungle Nasus solves his own biggest weakness — no lane bully exists in the jungle, so the Q stacks come free. Protoplasm Harness is the current jungle-item core, Iceborn Gauntlet's spellblade slow chains with Wither so gank targets simply stop moving, and Spirit Visage plus Jak'Sho tune him into an unkillable mid-game. His ganks look slow until you notice the target is Withered, Iceborn-slowed, and dead. Farm to 300 stacks by 20 minutes and side-lane the map apart.",

@@ -25,7 +25,7 @@ export const SKILL_MAX = {
   Fiora: ["Q", "E", "W"], Sett: ["Q", "W", "E"], Teemo: ["E", "Q", "W"],
   Gangplank: ["Q", "E", "W"], Singed: ["Q", "E", "W"],
   // ── Jungle ──
-  MasterYi: ["Q", "E", "W"], Warwick: ["Q", "E", "W"], Hecarim: ["Q", "E", "W"],
+  MasterYi: ["Q", "E", "W"], Warwick: ["W", "Q", "E"], Hecarim: ["Q", "E", "W"],
   LeeSin: ["Q", "E", "W"], Vi: ["Q", "E", "W"], Briar: ["W", "Q", "E"],
   Viego: ["Q", "E", "W"], Khazix: ["Q", "E", "W"], Graves: ["Q", "E", "W"],
   Kindred: ["Q", "W", "E"], Nocturne: ["Q", "W", "E"], XinZhao: ["Q", "E", "W"],
@@ -69,8 +69,8 @@ export const SKILL_MAX = {
   Nunu: ["W", "Q", "E"], Ivern: ["Q", "W", "E"],
   // Mid
   Azir: ["Q", "W", "E"], Sylas: ["Q", "E", "W"], Taliyah: ["Q", "E", "W"],
-  Cassiopeia: ["Q", "E", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
-  Vex: ["Q", "E", "W"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "E", "W"],
+  Cassiopeia: ["E", "Q", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
+  Vex: ["Q", "E", "W"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "W", "E"],
   // Bot
   Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "E", "W"],
   // Support
