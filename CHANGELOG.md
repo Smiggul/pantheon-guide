@@ -12,7 +12,33 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Nothing yet._
+_Single-role skill-order validation continues (0.8.x)._
+
+## [0.8.0] — 2026-08-12
+
+### Added
+- **Patch 26.16.** Updated to Data Dragon **16.16.1** — the retuned AD-fighter
+  items (Sundered Sky nerf, Eclipse/Sunfire/Tiamat/Sterak's buffs), jungle-
+  companion buffs, and champion changes (Azir/Gwen/Kennen up, Bel'Veth down,
+  Camille/Nasus/Poppy power-curve reworks) — and regenerated the in-client
+  rune/item id tables. Existing build data carries forward as 26.15-verified;
+  a 26.16 meta re-sweep follows once the new-patch data settles on the build
+  sites (they were still serving 26.15 on release day).
+
+### Changed
+- **Per-role skill-order sweep — all 67 multi-role champions.** Validated every
+  multi-role champion's ability max order against live build sites and split it
+  per-role wherever the roles diverge (~26 champs were wrong). Base-order fixes:
+  **Zac, Jax, Volibear, Briar, Fizz, Cassiopeia, Warwick, Sett, Renekton,
+  Camille, Poppy, Veigar, Fiddlesticks, TahmKench, Sejuani, Sylas, Zyra, Morgana,
+  Galio** and more were maxing the wrong ability. Per-role splits added for
+  **Pantheon** (Top Q›E›W vs Mid/Jungle/Support Q›W›E), **Sion** (Mid),
+  **Nasus/Malphite/Fizz/Zyra** (Jungle), **Varus/Zac** (Top),
+  **Annie/Maokai/Galio** (Support), **Brand/Morgana** (Mid).
+- **Udyr now renders the skill-order grid** for all three builds — the AP pages
+  max R first, the AD jungle maxes Q with R dipped at 6/11/16 for the awaken CC.
+- **Pantheon per-role skill orders fixed** — a Support-only sequence had leaked
+  onto all four roles; each role now shows its own validated order.
 
 ## [0.7.8] — 2026-08-11
 
