@@ -8,6 +8,7 @@ import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
 import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
+import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -685,8 +686,16 @@ useEffect(() => {
   const EMPTY_RUNES = { primary: "Precision", keystone: "", primaryRunes: [null, null, null],
     secondary: "", secondaryRunes: [], shards: [null, null, null] };
   const [runeSel, setRuneSel] = useState(EMPTY_RUNES);
+  // Holds runes from an imported build code so they survive the reset effect
+  // that fires when importBuild() switches champ/role/class.
+  const pendingRunesRef = useRef(null);
   // Reset the editable page to the recommendation whenever the matchup changes.
   useEffect(() => {
+    if (pendingRunesRef.current) {           // an import just navigated us here
+      setRuneSel(pendingRunesRef.current);
+      pendingRunesRef.current = null;
+      return;
+    }
     const r = recommendedRunes;
     setRuneSel(r ? {
       primary:        r.primary || "Precision",
@@ -698,6 +707,32 @@ useEffect(() => {
     } : EMPTY_RUNES);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [champ.id, currentRole, openClass, altBuildIdx]);
+
+  // ── Shareable build codes (export / import) ──────────────────────────────
+  const [importCode, setImportCode] = useState("");
+  const [shareMsg,   setShareMsg]   = useState(null);
+  const [importMsg,  setImportMsg]  = useState(null);
+  const shareBuild = async () => {
+    const code = encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel });
+    if (!code) return;
+    try { await navigator.clipboard.writeText(code); setShareMsg("✓ Copied to clipboard"); }
+    catch { setShareMsg(code); }              // fallback: surface it to copy manually
+    setTimeout(() => setShareMsg(null), 2500);
+  };
+  const importBuild = (raw) => {
+    const b = decodeBuild(raw);
+    if (!b) { setImportMsg("✕ Invalid code"); setTimeout(() => setImportMsg(null), 2500); return; }
+    const target = CHAMPS.find(c => c.id === b.champ || c.dd === b.champ);
+    if (!target) { setImportMsg("✕ Unknown champion"); setTimeout(() => setImportMsg(null), 2500); return; }
+    if (b.runes) pendingRunesRef.current = b.runes;   // applied by the reset effect after the switch
+    pickChamp(target);
+    setActiveRole((b.role && target.roles?.[b.role]) ? b.role
+      : (target.roles ? Object.keys(target.roles)[0] : null));
+    setOpenClass(b.enemyClass || null);
+    setImportCode("");
+    setImportMsg(`✓ Loaded ${target.display}${b.role ? " · " + b.role : ""}`);
+    setTimeout(() => setImportMsg(null), 3000);
+  };
 
   // ── Desktop-only: apply the current rune page + item set to a running client ─
   const isDesktop = typeof window !== "undefined" && window.frge?.isDesktop;
@@ -2578,6 +2613,34 @@ useEffect(() => {
             </div>,
             document.body
           )}
+
+          {/* Shareable build code — copy this champ/role/rune page, or paste a friend's */}
+          <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"14px", flexWrap:"wrap" }}>
+            <button onClick={shareBuild} title="Copy a shareable code for this champ, role and rune page"
+              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
+                borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
+              🔗 Share build
+            </button>
+            <input value={importCode} onChange={e => setImportCode(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") importBuild(importCode); }}
+              placeholder="Paste a FRGE1-… code"
+              style={{ flex:"1 1 150px", minWidth:"130px", padding:"5px 10px", fontSize:"11px",
+                borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.04)",
+                color:"#e8e8ea", outline:"none" }} />
+            <button onClick={() => importBuild(importCode)} disabled={!importCode.trim()}
+              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", borderRadius:"7px",
+                cursor: importCode.trim() ? "pointer" : "default",
+                border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)",
+                color: importCode.trim() ? "#e8e8ea" : "rgba(255,255,255,.3)" }}>
+              Import
+            </button>
+            {(shareMsg || importMsg) && (
+              <span style={{ fontSize:"10.5px", fontWeight:"600",
+                color: (importMsg && importMsg.startsWith("✕")) ? "#f08a84" : "#6bd6a0" }}>
+                {shareMsg || importMsg}
+              </span>
+            )}
+          </div>
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}
           {altList.length > 0 && (
