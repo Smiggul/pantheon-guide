@@ -19,8 +19,10 @@ Two modes, run from anywhere:
 """
 
 import json
+import re
 import sys
 import tarfile
+import threading
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -82,6 +84,63 @@ def write_json(path: Path, data) -> None:
         json.dumps(data, ensure_ascii=False, separators=(",", ":")),
         encoding="utf-8",
     )
+
+
+_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def strip_html(s: str) -> str:
+    """Data Dragon ability descriptions are HTML — flatten to clean tooltip text."""
+    s = _TAG_RE.sub("", s or "")
+    return (s.replace("&nbsp;", " ").replace("&lt;", "<").replace("&gt;", ">")
+             .replace("&amp;", "&").strip())
+
+
+def sync_abilities(champ_raw: dict, force: bool) -> None:
+    """Fetch per-champion ability data (Q/W/E/R + passive) → data/abilities.json,
+    and download their spell + passive icons. Keyed by DDragon champion id."""
+    ids = list(champ_raw["data"].keys())
+    print(f"  → Fetching ability data for {len(ids)} champions ...")
+    abilities: dict = {}
+    img_jobs: list = []
+    lock = threading.Lock()
+
+    def one(cid: str) -> None:
+        try:
+            raw = json.loads(fetch(f"{RAW}/latest/data/en_US/champion/{cid}.json"))
+        except Exception:
+            return
+        d = raw["data"].get(cid)
+        if not d:
+            return
+        passive = d.get("passive") or {}
+        p_img = (passive.get("image") or {}).get("full", "")
+        entry = {
+            "passive": {"name": passive.get("name", ""),
+                        "description": strip_html(passive.get("description", "")),
+                        "image": p_img},
+            # spells are ordered Q, W, E, R
+            "spells": [{"name": s.get("name", ""),
+                        "description": strip_html(s.get("description", "")),
+                        "image": s["image"]["full"]}
+                       for s in d.get("spells", [])],
+        }
+        with lock:
+            abilities[cid] = entry
+            if p_img:
+                img_jobs.append((f"{RAW}/latest/img/passive/{p_img}",
+                                 PUBLIC_DIR / "img" / "passive" / p_img))
+            for s in entry["spells"]:
+                img_jobs.append((f"{RAW}/latest/img/spell/{s['image']}",
+                                 PUBLIC_DIR / "img" / "spell" / s["image"]))
+
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        for fut in as_completed([pool.submit(one, cid) for cid in ids]):
+            fut.exception()  # swallow; a missing champ just omits its abilities
+
+    write_json(PUBLIC_DIR / "data" / "abilities.json", abilities)
+    print(f"  ✓ abilities.json: {len(abilities)} champions indexed")
+    download_many(img_jobs, force, "Ability imgs:")
 
 
 # ── GitHub mode ────────────────────────────────────────────────────────────────
@@ -169,6 +228,9 @@ def sync_from_github(force: bool) -> str:
     download_many(champ_jobs, force, "Champions:")
     download_many(item_jobs, force, "Item images:")
     download_many(rune_jobs, force, "Rune images:")
+
+    # Per-champion ability data + Q/W/E/R + passive icons (skill-order pills)
+    sync_abilities(champ_raw, force)
 
     return version
 

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { buildExport } from "./data/lcuExport.js";
@@ -597,6 +598,8 @@ export default function App() {
     const [itemMap, setItemMap] = useState({});   // displayName → numeric id string
     const [runeMap, setRuneMap] = useState({});   // runeName    → icon path string
     const [spellMap, setSpellMap] = useState({}); // spellName   → icon path string
+    const [abilityMap, setAbilityMap] = useState({}); // ddKey → {passive, spells:[Q,W,E,R]}
+    const [pillTip, setPillTip] = useState(null);     // ability hover tooltip (skill order)
 
 useEffect(() => {
   // Load item name → ID map
@@ -630,6 +633,12 @@ useEffect(() => {
     .then(r => r.json())
     .then(setSpellMap)
     .catch(e => console.warn("summonerSpells.json failed to load", e));
+
+  // Champion ability data (Q/W/E/R + passive names, descriptions, icons)
+  fetch("/ddragon/data/abilities.json")
+    .then(r => r.json())
+    .then(setAbilityMap)
+    .catch(e => console.warn("abilities.json failed to load", e));
 }, []);
 
   // If the champion has a roles object (Pantheon), read from that.
@@ -655,6 +664,14 @@ useEffect(() => {
   const buildSkillOrder = skillOrderOf(champ.dd, activeChampRole, activeAlt);
   const buildNoUlt = NO_ULT.has(champ.dd); // Udyr — 4 stances, no 6/11/16 ult
   const buildSkillSeq = skillSequenceOf(champ.dd, activeChampRole, activeAlt); // 18-level grid/strip, or null
+  // Ability icons + hover descriptions for the skill-order pills (spells ordered Q,W,E,R)
+  const champAbil = abilityMap[champ.dd] || null;
+  const spellFor = (letter) => champAbil?.spells?.[{ Q: 0, W: 1, E: 2, R: 3 }[letter]] || null;
+  const abilEnter = (letter, e) => {
+    const s = spellFor(letter);
+    if (s) setPillTip({ name: `${letter} · ${s.name}`, desc: s.description, x: e.clientX, y: e.clientY });
+  };
+  const abilMove = (e) => setPillTip(t => (t ? { ...t, x: e.clientX, y: e.clientY } : null));
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -1355,8 +1372,9 @@ useEffect(() => {
         </div>
       )}
 
-      {/* Cursor tooltip */}
-      {tooltip && (
+      {/* Cursor tooltip — portalled to <body> so a transformed ancestor can't
+          offset position:fixed (that was the "down-and-left of cursor" bug). */}
+      {tooltip && typeof document !== "undefined" && createPortal(
         <div style={{
           position: "fixed", left: tooltip.x + 16, top: tooltip.y - 12,
           zIndex: 9999, pointerEvents: "none", maxWidth: 240,
@@ -1370,7 +1388,8 @@ useEffect(() => {
           <div style={{ fontSize: 11, color: "#c7ccd1", lineHeight: 1.5 }}>
             {RUNE_DESCRIPTIONS[tooltip.name] || ""}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -2487,9 +2506,16 @@ useEffect(() => {
                       const accent = isUlt ? S.gold : S.orange;
                       return (
                         <div key={ab} style={{ display:"flex", gap:"3px", alignItems:"center", marginBottom:"3px" }}>
-                          <span style={{ width:"22px", height:"20px", flexShrink:0, borderRadius:"5px",
+                          <span onMouseEnter={e => abilEnter(ab, e)} onMouseMove={abilMove} onMouseLeave={() => setPillTip(null)}
+                            style={{ position:"relative", width:"22px", height:"20px", flexShrink:0, borderRadius:"5px", overflow:"hidden",
                             display:"flex", alignItems:"center", justifyContent:"center", fontSize:"10px", fontWeight:"800",
-                            border:`1px solid ${accent}66`, background:`${accent}14`, color: isUlt ? S.gold : "#f0b070" }}>{ab}</span>
+                            border:`1px solid ${accent}66`, background:`${accent}14`, color: isUlt ? S.gold : "#f0b070",
+                            cursor: spellFor(ab) ? "help" : "default" }}>
+                            {spellFor(ab)
+                              ? <img src={`/ddragon/img/spell/${spellFor(ab).image}`} alt={ab} draggable={false}
+                                  style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                              : ab}
+                          </span>
                           {buildSkillSeq.map((lv, i) => {
                             const on = lv === ab;
                             return (
@@ -2516,12 +2542,21 @@ useEffect(() => {
                       const accent = isUlt ? S.gold : S.orange;
                       return (
                         <span key={i} style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", gap:"2px" }}>
-                          <span style={{ width:"22px", height:"22px", borderRadius:"5px", flexShrink:0,
+                          <span onMouseEnter={e => abilEnter(lv, e)} onMouseMove={abilMove} onMouseLeave={() => setPillTip(null)}
+                            style={{ position:"relative", width:"22px", height:"22px", borderRadius:"5px", flexShrink:0, overflow:"hidden",
                             display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", fontWeight:"800",
                             border:`1px solid ${isUlt ? S.gold : accent + "66"}`,
                             background: isUlt ? `${S.gold}22` : `${accent}12`,
                             color: isUlt ? S.gold : "#f0b070",
-                            boxShadow: isUlt ? `0 0 6px ${S.gold}55` : "none" }}>{lv}</span>
+                            boxShadow: isUlt ? `0 0 6px ${S.gold}55` : "none",
+                            cursor: spellFor(lv) ? "help" : "default" }}>
+                            {spellFor(lv)
+                              ? <img src={`/ddragon/img/spell/${spellFor(lv).image}`} alt={lv} draggable={false}
+                                  style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                              : lv}
+                            <span style={{ position:"absolute", bottom:0, right:1, fontSize:"7px", fontWeight:"800",
+                              color: isUlt ? S.gold : "#f0b070", textShadow:"0 0 3px #000,0 0 3px #000", pointerEvents:"none" }}>{lv}</span>
+                          </span>
                           <span style={{ fontSize:"8px", color:"rgba(255,255,255,.3)" }}>{i + 1}</span>
                         </span>
                       );
@@ -2530,6 +2565,18 @@ useEffect(() => {
                 </div>
               )}
             </div>
+          )}
+
+          {/* Ability hover tooltip for the skill-order pills — portalled to <body> */}
+          {pillTip && typeof document !== "undefined" && createPortal(
+            <div style={{ position:"fixed", left:pillTip.x + 16, top:pillTip.y - 12, zIndex:9999,
+              pointerEvents:"none", maxWidth:280, background:"rgba(27,27,30,.97)",
+              border:"1px solid rgba(212,175,55,.35)", borderRadius:8, padding:"8px 12px",
+              boxShadow:"0 8px 32px rgba(0,0,0,.7)" }}>
+              <div style={{ fontSize:12, fontWeight:"bold", color:"#D4AF37", marginBottom:4, letterSpacing:".3px" }}>{pillTip.name}</div>
+              <div style={{ fontSize:11, color:"#c7ccd1", lineHeight:1.5 }}>{pillTip.desc}</div>
+            </div>,
+            document.body
           )}
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}
