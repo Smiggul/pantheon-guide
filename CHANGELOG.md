@@ -12,9 +12,13 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Single-role skill-order validation continues (0.8.x)._
+_Single-role skill-order validation continues; Custom Build import/export next._
 
-## [0.8.0] — 2026-08-12
+## [0.8.1] — 2026-08-12
+
+> Ships as 0.8.1 because the 0.8.0 tag got stuck in GitHub's immutable-release
+> state on a failed first publish; 0.8.1 is the same content plus the first
+> single-role skill fixes (Viktor/Anivia/Kassadin/Vex/Aurelion Sol/Darius/Gnar).
 
 ### Added
 - **Patch 26.16.** Updated to Data Dragon **16.16.1** — the retuned AD-fighter
