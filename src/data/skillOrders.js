@@ -13,11 +13,11 @@ export const SKILL_MAX = {
   // ── Mid ──
   Ahri: ["Q", "W", "E"], Syndra: ["Q", "W", "E"], Orianna: ["Q", "W", "E"],
   Lux: ["E", "Q", "W"], Katarina: ["Q", "E", "W"], Zed: ["Q", "E", "W"],
-  Yasuo: ["Q", "E", "W"], Yone: ["Q", "E", "W"], Viktor: ["Q", "E", "W"],
+  Yasuo: ["Q", "E", "W"], Yone: ["Q", "E", "W"], Viktor: ["E", "Q", "W"],
   Akali: ["Q", "E", "W"], Fizz: ["E", "W", "Q"], Vladimir: ["Q", "E", "W"],
   Ryze: ["Q", "E", "W"], Veigar: ["Q", "W", "E"], Annie: ["Q", "W", "E"],
-  Anivia: ["Q", "E", "W"], Lissandra: ["Q", "W", "E"], Zoe: ["Q", "E", "W"],
-  Leblanc: ["Q", "W", "E"], Kassadin: ["Q", "E", "W"], Malzahar: ["E", "Q", "W"],
+  Anivia: ["E", "Q", "W"], Lissandra: ["Q", "W", "E"], Zoe: ["Q", "E", "W"],
+  Leblanc: ["Q", "W", "E"], Kassadin: ["E", "W", "Q"], Malzahar: ["E", "Q", "W"],
   Talon: ["W", "Q", "E"], Naafiri: ["Q", "E", "W"], Swain: ["Q", "W", "E"],
   // ── Top ──
   Darius: ["Q", "W", "E"], Garen: ["E", "Q", "W"], Nasus: ["Q", "E", "W"],
@@ -70,7 +70,7 @@ export const SKILL_MAX = {
   // Mid
   Azir: ["Q", "W", "E"], Sylas: ["Q", "E", "W"], Taliyah: ["Q", "E", "W"],
   Cassiopeia: ["E", "Q", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
-  Vex: ["Q", "E", "W"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "W", "E"],
+  Vex: ["Q", "W", "E"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "W", "E"],
   // Bot
   Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "E", "W"],
   // Support
