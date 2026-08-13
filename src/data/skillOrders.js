@@ -25,11 +25,11 @@ export const SKILL_MAX = {
   Fiora: ["Q", "E", "W"], Sett: ["Q", "W", "E"], Teemo: ["E", "Q", "W"],
   Gangplank: ["Q", "E", "W"], Singed: ["Q", "E", "W"],
   // ── Jungle ──
-  MasterYi: ["Q", "E", "W"], Warwick: ["W", "Q", "E"], Hecarim: ["Q", "E", "W"],
-  LeeSin: ["Q", "E", "W"], Vi: ["Q", "E", "W"], Briar: ["W", "Q", "E"],
-  Viego: ["Q", "E", "W"], Khazix: ["Q", "E", "W"], Graves: ["Q", "E", "W"],
-  Kindred: ["Q", "W", "E"], Nocturne: ["Q", "W", "E"], XinZhao: ["Q", "E", "W"],
-  JarvanIV: ["Q", "E", "W"], Olaf: ["Q", "E", "W"], Rengar: ["Q", "W", "E"],
+  MasterYi: ["Q", "E", "W"], Warwick: ["W", "Q", "E"], Hecarim: ["Q", "W", "E"],
+  LeeSin: ["Q", "W", "E"], Vi: ["Q", "E", "W"], Briar: ["W", "Q", "E"],
+  Viego: ["Q", "E", "W"], Khazix: ["Q", "W", "E"], Graves: ["Q", "E", "W"],
+  Kindred: ["Q", "W", "E"], Nocturne: ["Q", "W", "E"], XinZhao: ["W", "E", "Q"],
+  JarvanIV: ["Q", "E", "W"], Olaf: ["Q", "E", "W"], Rengar: ["Q", "E", "W"],
   Evelynn: ["Q", "E", "W"], Karthus: ["Q", "E", "W"], Diana: ["Q", "W", "E"],
   Ekko: ["Q", "E", "W"], Gragas: ["Q", "E", "W"],
   // ── Bot ──
