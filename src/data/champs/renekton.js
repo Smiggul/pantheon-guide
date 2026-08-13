@@ -30,7 +30,7 @@ export default {
           Top:{
           bans:         ["Quinn","Dr. Mundo","Cho'Gath"],
           replacements: ["Sett","Pantheon","Wukong"],
-          corePath: "Eclipse  ›  Sundered Sky  ›  Black Cleaver  ›  Death's Dance",
+          corePath: "Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
           coreNote: "Trinity Force first — Sheen procs on empowered W stuns are devastating early. Sundered Sky second for healing burst on Q proc. Black Cleaver third stacks armor shred with every E pass. Death's Dance fourth to sustain through extended teamfights.",
           sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Serylda's Grudge","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Frozen Heart","Maw of Malmortius","Randuin's Omen"],
           data: {

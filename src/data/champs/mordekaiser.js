@@ -24,7 +24,7 @@ export default {
     Top: [{
       label: "Dusk & Dawn AP",
       tag: "alt",
-      corePath: "Dusk and Dawn  ›  Plated Steelcaps  ›  Riftmaker  ›  Experimental Hexplate",
+      corePath: "Rylai's Crystal Scepter  ›  Plated Steelcaps  ›  Riftmaker  ›  Liandry's Torment",
       coreNote: "The highest-win-rate Morde line on Mobalytics 26.14 (60.1% over ~1.5k games), more aggressive than the standard Rylai's/Liandry's tank-mage. Dusk and Dawn's alternating on-hit + move speed lets you chase inside the Death Realm, Riftmaker converts the extended duel into omnivamp true damage, and Experimental Hexplate speeds up and empowers Realm of Death itself — so you ult more often and hit harder inside it. Spirit Visage amplifies the whole sustain package. Same Conqueror gameplan, tuned for tempo and ult uptime rather than raw kiting.",
       runes: {
         keystone: "Conqueror",

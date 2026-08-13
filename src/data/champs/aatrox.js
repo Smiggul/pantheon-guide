@@ -32,8 +32,8 @@ export default {
     Top:{
       bans:["Vayne","Quinn","Fiora"], replacements:["Darius","Sett","Volibear"],
       role:"Juggernaut / Sword-Sweep Bruiser",
-      corePath:"Spear of Shojin  ›  Plated Steelcaps  ›  Sundered Sky  ›  Death's Dance",
-      coreNote:"Aatrox plays for a repeated Q sword-sweep combo — each cast heals off ability damage, Umbral Dash repositions between casts, and World Ender turns a losing fight into a takeover. Spear of Shojin's haste and true damage scale directly with the passive heal; Sundered Sky's healing compounds further; Death's Dance lets him commit fully to the all-in without fearing the counter-hit.",
+      corePath:"Eclipse  ›  Plated Steelcaps  ›  Sundered Sky  ›  Death's Dance",
+      coreNote:"Aatrox plays for a repeated Q sword-sweep combo — each cast heals off ability damage, Umbral Dash repositions between casts, and World Ender turns a losing fight into a takeover. Patch 26.16 shifted him to Eclipse first (its buff + the Sundered Sky nerf) for the early %-HP burst and shield that snowballs his lead; Sundered Sky's guaranteed-crit heal still compounds second; Death's Dance lets him commit fully to the all-in without fearing the counter-hit.",
       sideItems:["Sterak's Gage","Guardian Angel","Black Cleaver","Serylda's Grudge","Mercury's Treads","Thornmail"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Healing wins the sustained trade war."),I("Spear of Shojin","Haste + true damage adds up over the fight."),I("Death's Dance","Outlast their sustain with your own.")],behind:[I("Sterak's Gage","Shield when the walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Plated Steelcaps","Reduces auto damage from their press.")],runes:{...AATROX_TOP_DEFAULT_RUNES}},
