@@ -597,6 +597,7 @@ export default function App() {
     : champ.lanes?.[0];
 
     const [itemMap, setItemMap] = useState({});   // displayName → numeric id string
+    const [itemList, setItemList] = useState([]); // [{name,id}] for the Build Forge picker
     const [runeMap, setRuneMap] = useState({});   // runeName    → icon path string
     const [spellMap, setSpellMap] = useState({}); // spellName   → icon path string
     const [abilityMap, setAbilityMap] = useState({}); // ddKey → {passive, spells:[Q,W,E,R]}
@@ -608,14 +609,16 @@ useEffect(() => {
     .then(r => r.json())
     .then(json => {
       const map = {};
+      const list = [];
       Object.values(json.data).forEach(item => {
         // item.image is "3071.png" — strip extension for the id
         // keep the first (lowest-id = base) item when Ornn Masterwork
         // upgrades share the same name
         const key = item.name.toLowerCase();
-        if (!(key in map)) map[key] = item.image.replace(".png", "");
+        if (!(key in map)) { map[key] = item.image.replace(".png", ""); list.push({ name: item.name, id: map[key] }); }
       });
       setItemMap(map);
+      setItemList(list.sort((a, b) => a.name.localeCompare(b.name)));
     })
     .catch(e => console.warn("item.json failed to load", e));
 
@@ -712,8 +715,35 @@ useEffect(() => {
   const [importCode, setImportCode] = useState("");
   const [shareMsg,   setShareMsg]   = useState(null);
   const [importMsg,  setImportMsg]  = useState(null);
+
+  // ── Build Forge — author a custom item set (starter / core / situational) ───
+  const FORGE_SLOTS = [
+    { key: "starter",     label: "Starter" },
+    { key: "core",        label: "Core" },
+    { key: "situational", label: "Situational" },
+  ];
+  const [forgeOpen,  setForgeOpen]  = useState(false);
+  const [forgeItems, setForgeItems] = useState({ starter: [], core: [], situational: [] });
+  const [forgeSlot,  setForgeSlot]  = useState(null);   // which slot's item picker is open
+  const [forgeQuery, setForgeQuery] = useState("");
+  const forgeHasItems = forgeItems.starter.length + forgeItems.core.length + forgeItems.situational.length > 0;
+  const addForgeItem = (slot, name) => {
+    setForgeItems(f => (f[slot].includes(name) ? f : { ...f, [slot]: [...f[slot], name] }));
+    setForgeQuery(""); setForgeSlot(null);
+  };
+  const removeForgeItem = (slot, name) =>
+    setForgeItems(f => ({ ...f, [slot]: f[slot].filter(n => n !== name) }));
+  const clearForge = () => { setForgeItems({ starter: [], core: [], situational: [] }); setForgeSlot(null); };
+  // Prefill the forge from the current role's recommended build (a starting point to tweak).
+  const seedForgeFromBuild = () => {
+    const core = (buildCorePath || "").split("›").map(s => s.trim()).filter(Boolean);
+    setForgeItems({ starter: [], core, situational: [...(buildSideItems || [])] });
+    setForgeOpen(true);
+  };
+
   const codeForCurrent = () =>
-    encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel });
+    encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel,
+      items: forgeHasItems ? forgeItems : null });
   const shareBuild = async () => {
     const code = codeForCurrent();
     if (!code) return;
@@ -731,6 +761,10 @@ useEffect(() => {
     setActiveRole((b.role && target.roles?.[b.role]) ? b.role
       : (target.roles ? Object.keys(target.roles)[0] : null));
     setOpenClass(b.enemyClass || null);
+    if (b.items && typeof b.items === "object") {
+      setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], situational: b.items.situational || [] });
+      setForgeOpen(true);
+    }
     return target;
   };
   const importBuild = (raw) => {
@@ -2650,6 +2684,79 @@ useEffect(() => {
             </div>,
             document.body
           )}
+
+          {/* Build Forge — author a custom item set (starter / core / situational) */}
+          <div style={{ marginTop:"14px", border:`1px solid ${S.gold}22`, borderRadius:"10px",
+            background:"rgba(212,175,55,.03)" }}>
+            <button onClick={() => setForgeOpen(o => !o)} style={{ width:"100%", display:"flex",
+              alignItems:"center", justifyContent:"space-between", padding:"9px 12px", background:"none",
+              border:"none", cursor:"pointer", color:S.gold, fontSize:"12px", fontWeight:"800", letterSpacing:".5px" }}>
+              <span>🔨 BUILD FORGE{forgeHasItems ? <span style={{ color:S.goldDim, fontWeight:600, fontSize:"10px", marginLeft:"6px" }}>
+                · {forgeItems.starter.length + forgeItems.core.length + forgeItems.situational.length} items</span> : ""}</span>
+              <span style={{ fontSize:"10px", color:S.goldDim }}>{forgeOpen ? "▲ collapse" : "▼ customise"}</span>
+            </button>
+            {forgeOpen && (
+              <div style={{ padding:"0 12px 12px" }}>
+                <div style={{ fontSize:"10px", color:"rgba(255,255,255,.4)", marginBottom:"9px" }}>
+                  Assemble your own item set (runes are edited on the page above), then Save or Share below.{" "}
+                  <button onClick={seedForgeFromBuild} style={{ background:"none", border:"none", color:S.gold,
+                    cursor:"pointer", padding:0, fontSize:"10px", textDecoration:"underline" }}>Start from the recommended build</button>
+                  {forgeHasItems && <>{" · "}<button onClick={clearForge} style={{ background:"none", border:"none",
+                    color:"rgba(255,255,255,.45)", cursor:"pointer", padding:0, fontSize:"10px", textDecoration:"underline" }}>Clear</button></>}
+                </div>
+                {FORGE_SLOTS.map(({ key, label }) => (
+                  <div key={key} style={{ marginBottom:"10px" }}>
+                    <div style={{ fontSize:"9.5px", letterSpacing:"1px", color:S.goldDim,
+                      textTransform:"uppercase", marginBottom:"5px" }}>{label}</div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", alignItems:"center" }}>
+                      {forgeItems[key].map((name) => {
+                        const src = itemImg(name, itemMap);
+                        return (
+                          <span key={name} style={{ display:"inline-flex", alignItems:"center", gap:"5px",
+                            padding:"2px 5px 2px 3px", borderRadius:"7px", border:"1px solid rgba(255,255,255,.12)",
+                            background:"rgba(255,255,255,.05)" }}>
+                            {src && <img src={src} alt="" draggable={false} style={{ width:"22px", height:"22px", borderRadius:"4px" }} />}
+                            <span style={{ fontSize:"10.5px", color:"#e8e8ea" }}>{name}</span>
+                            <button onClick={() => removeForgeItem(key, name)} title="Remove"
+                              style={{ background:"none", border:"none", color:"rgba(255,255,255,.4)", cursor:"pointer", fontSize:"13px", padding:"0 2px", lineHeight:1 }}>×</button>
+                          </span>
+                        );
+                      })}
+                      <button onClick={() => { setForgeSlot(forgeSlot === key ? null : key); setForgeQuery(""); }}
+                        style={{ padding:"3px 9px", fontSize:"10.5px", fontWeight:"700", cursor:"pointer", borderRadius:"7px",
+                          border:`1px dashed ${forgeSlot === key ? S.gold : "rgba(255,255,255,.2)"}`,
+                          background:"transparent", color: forgeSlot === key ? S.gold : "rgba(255,255,255,.55)" }}>
+                        {forgeSlot === key ? "× close" : "+ add"}
+                      </button>
+                    </div>
+                    {forgeSlot === key && (
+                      <div style={{ marginTop:"6px" }}>
+                        <input autoFocus value={forgeQuery} onChange={(e) => setForgeQuery(e.target.value)}
+                          placeholder="Search items… (type 2+ letters)"
+                          style={{ width:"100%", maxWidth:"280px", padding:"5px 10px", fontSize:"11px", borderRadius:"7px",
+                            border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.04)", color:"#e8e8ea", outline:"none" }} />
+                        {forgeQuery.trim().length >= 2 && (
+                          <div style={{ maxWidth:"280px", maxHeight:"180px", overflowY:"auto", marginTop:"4px",
+                            border:"1px solid rgba(255,255,255,.12)", borderRadius:"7px", background:"rgba(18,18,22,.98)" }}>
+                            {itemList.filter((it) => it.name.toLowerCase().includes(forgeQuery.toLowerCase()))
+                              .slice(0, 40).map((it) => (
+                              <div key={it.id} onClick={() => addForgeItem(key, it.name)}
+                                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,.07)")}
+                                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                                style={{ display:"flex", alignItems:"center", gap:"8px", padding:"4px 8px", cursor:"pointer" }}>
+                                <img src={itemImg(it.name, itemMap)} alt="" draggable={false} style={{ width:"22px", height:"22px", borderRadius:"4px" }} />
+                                <span style={{ fontSize:"11px", color:"#e8e8ea" }}>{it.name}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Shareable build code — copy this champ/role/rune page, save it, or paste a friend's */}
           <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"14px", flexWrap:"wrap" }}>
