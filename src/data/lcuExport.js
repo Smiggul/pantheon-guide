@@ -98,7 +98,27 @@ const PROFILE = {
 };
 
 // ── Build a full LCU-style item set for a champ/role/enemy-class ─────────────
-export function buildItemSet(champDd, roleName, enemyClass, roleData) {
+//  customItems (optional): a Build Forge set { starter, core, situational } —
+//  when present it replaces the recommended item blocks so the exported/imported
+//  set is exactly what the user forged (runes still come from the rune page).
+export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null) {
+  const hasCustom = customItems &&
+    ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.situational?.length || 0) > 0);
+  if (hasCustom) {
+    const key = CHAMP_KEYS[champDd];
+    const blocks = [
+      itemBlock("Starter", [...(customItems.starter || []), "Stealth Ward"]),
+      itemBlock("Core", customItems.core || []),
+      itemBlock("Situational", customItems.situational || []),
+      itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
+    ].filter((b) => b.items.length > 0);
+    return {
+      title: `FRGE.GG — ${champDd} ${roleName} (forged)`,
+      type: "custom", map: "any", mode: "any", sortrank: 1, startedFrom: "blank",
+      associatedMaps: [11, 12], associatedChampions: key ? [key] : [], blocks,
+    };
+  }
+
   const core = String(roleData.corePath || "").split("›").map((s) => s.trim()).filter(Boolean);
   const boots = core.find((n) => BOOTS_LOWER.has(n.toLowerCase()));
   const coreNoBoots = core.filter((n) => n !== boots);
@@ -165,7 +185,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
 //  runesOverride (optional): the live, possibly user-edited rune page from the UI.
 //  When present it wins over both the alt build and the data recommendation, so
 //  the export is exactly the (editable) rune page the user sees — WYSIWYG import.
-export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null) {
+export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
     ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems,
@@ -178,7 +198,7 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
       : (data[enemyClass]?.runes || data[Object.keys(data)[0]]?.runes || {}));
   const label = altBuild ? `${champ.display} ${altBuild.label}` : `${champ.display} ${roleName}`;
   const rune = buildRunePayload(runes, `FRGE ${label}`);
-  const itemSet = buildItemSet(champ.dd, roleName, enemyClass, roleData || {});
+  const itemSet = buildItemSet(champ.dd, roleName, enemyClass, roleData || {}, customItems);
   return {
     champion: champ.display,
     role: roleName,

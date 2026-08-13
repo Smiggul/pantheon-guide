@@ -812,7 +812,9 @@ useEffect(() => {
     if (!isDesktop || applyState === "sending") return;
     setApplyState("sending");
     try {
-      const payload = buildExport(champ, currentRole, openClass, activeAlt, runeSel);
+      // If the user forged a custom item set, apply that instead of the recommended one.
+      const payload = buildExport(champ, currentRole, openClass, activeAlt, runeSel,
+        forgeHasItems ? forgeItems : null);
       const res = await window.frge.applyBuild({
         runePage: payload.runePage,
         itemSet: payload.itemSet,
