@@ -72,7 +72,7 @@ export const SKILL_MAX = {
   Cassiopeia: ["E", "Q", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
   Vex: ["Q", "W", "E"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "W", "E"], Galio: ["Q", "W", "E"],
   // Bot
-  Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "E", "W"],
+  Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "W", "E"],
   // Support
   Thresh: ["E", "Q", "W"], Lulu: ["E", "W", "Q"], Leona: ["W", "E", "Q"],
   Seraphine: ["E", "Q", "W"], Blitzcrank: ["W", "E", "Q"], Nami: ["W", "E", "Q"],
@@ -85,7 +85,7 @@ export const SKILL_MAX = {
   Udyr: ["Q", "E", "W", "R"], Aphelios: ["Q", "E", "W"], Nidalee: ["Q", "E", "W"],
   Jayce: ["Q", "E", "W"], Elise: ["Q", "W", "E"], Aurora: ["Q", "E", "W"],
   Ambessa: ["Q", "E", "W"], Hwei: ["Q", "E", "W"], Zaahen: ["Q", "E", "W"],
-  Yunara: ["Q", "W", "E"], Locke: ["Q", "E", "W"], Mel: ["Q", "E", "W"],
+  Yunara: ["Q", "E", "W"], Locke: ["Q", "E", "W"], Mel: ["Q", "E", "W"],
 };
 
 // Udyr has no ultimate — his kit is 4 stances (Q/W/E/R) that ALL level on the
