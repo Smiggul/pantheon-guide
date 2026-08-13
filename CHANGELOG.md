@@ -12,7 +12,36 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Single-role skill-order validation continues; Custom Build import/export next._
+_Build Forge editor block + Tier List section next._
+
+## [0.9.0] — 2026-08-13
+
+### Added
+- **Build share codes.** A 🔗 Share build button copies a compact `FRGE1-…`
+  code for the current champ, role and rune page — paste it into Discord/chat
+  and a friend's app loads the exact build. A paste field imports codes back.
+- **Saved Builds.** 💾 Save stores the current build to a local library; each
+  saved entry loads, copies its share code, or deletes. First tier of the
+  Build Studio.
+- **Ability icons + hover on the skill order.** The grid/strip pills now show
+  each champion's real Q/W/E/R icons, and hovering any pill shows the in-game
+  ability name + description (pulled fresh from Data Dragon).
+
+### Changed
+- **Skill-order sweep finished — all 173 champions source-validated.** After the
+  67 multi-role champs, the ~106 single-role champs were swept too (~30 more
+  base-order fixes across every lane; Udyr/Pantheon handled earlier).
+- **26.16 build re-sweep** (data has now settled): Aatrox → Eclipse-first,
+  Renekton dropped Sundered Sky for Black Cleaver, Mordekaiser off Dusk-and-Dawn
+  onto Rylai's/Riftmaker. Most Sundered-Sky bruisers (Xin Zhao/Vi/Jarvan/Wukong/
+  Poppy) kept it — the nerf shifted less than intended.
+
+### Fixed
+- **Cursor tooltip offset** — rune/ability tooltips now sit on the cursor
+  instead of down-and-left of it (a transformed ancestor was breaking
+  `position:fixed`; the tooltip is now portalled to `<body>`).
+- **Jungle starting items** — was pet + Refillable Potion (600g, unaffordable at
+  the 500g start); now pet + Health Potion = exactly 500g.
 
 ## [0.8.1] — 2026-08-12
 
