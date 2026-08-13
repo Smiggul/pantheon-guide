@@ -63,14 +63,14 @@ export const SKILL_MAX = {
   TahmKench: ["Q", "W", "E"],
   // Jungle
   RekSai: ["Q", "E", "W"], Zac: ["E", "W", "Q"], Kayn: ["Q", "W", "E"],
-  Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["Q", "E", "W"],
-  Sejuani: ["W", "Q", "E"], Belveth: ["Q", "W", "E"], Skarner: ["Q", "E", "W"],
-  Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "Q", "E"], Lillia: ["W", "Q", "E"],
-  Nunu: ["W", "Q", "E"], Ivern: ["Q", "W", "E"],
+  Maokai: ["Q", "E", "W"], Amumu: ["E", "Q", "W"], Shaco: ["E", "Q", "W"],
+  Sejuani: ["W", "Q", "E"], Belveth: ["Q", "E", "W"], Skarner: ["Q", "W", "E"],
+  Rammus: ["Q", "E", "W"], Fiddlesticks: ["W", "Q", "E"], Lillia: ["Q", "W", "E"],
+  Nunu: ["Q", "E", "W"], Ivern: ["E", "Q", "W"],
   // Mid
-  Azir: ["Q", "W", "E"], Sylas: ["Q", "E", "W"], Taliyah: ["Q", "E", "W"],
+  Azir: ["W", "Q", "E"], Sylas: ["Q", "E", "W"], Taliyah: ["Q", "E", "W"],
   Cassiopeia: ["E", "Q", "W"], TwistedFate: ["W", "Q", "E"], Neeko: ["Q", "E", "W"],
-  Vex: ["Q", "W", "E"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "E", "W"], Galio: ["Q", "W", "E"],
+  Vex: ["Q", "W", "E"], Ziggs: ["Q", "W", "E"], Qiyana: ["Q", "W", "E"], Galio: ["Q", "W", "E"],
   // Bot
   Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "E", "W"],
   // Support
