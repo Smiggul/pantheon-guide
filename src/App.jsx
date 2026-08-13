@@ -712,26 +712,63 @@ useEffect(() => {
   const [importCode, setImportCode] = useState("");
   const [shareMsg,   setShareMsg]   = useState(null);
   const [importMsg,  setImportMsg]  = useState(null);
+  const codeForCurrent = () =>
+    encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel });
   const shareBuild = async () => {
-    const code = encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel });
+    const code = codeForCurrent();
     if (!code) return;
     try { await navigator.clipboard.writeText(code); setShareMsg("✓ Copied to clipboard"); }
     catch { setShareMsg(code); }              // fallback: surface it to copy manually
     setTimeout(() => setShareMsg(null), 2500);
   };
-  const importBuild = (raw) => {
-    const b = decodeBuild(raw);
-    if (!b) { setImportMsg("✕ Invalid code"); setTimeout(() => setImportMsg(null), 2500); return; }
+  // Navigate the app to a decoded build (champ/role/class + runes). Returns the
+  // champ object or null. Shared by code-import and saved-build loading.
+  const applyBuild = (b) => {
     const target = CHAMPS.find(c => c.id === b.champ || c.dd === b.champ);
-    if (!target) { setImportMsg("✕ Unknown champion"); setTimeout(() => setImportMsg(null), 2500); return; }
-    if (b.runes) pendingRunesRef.current = b.runes;   // applied by the reset effect after the switch
+    if (!target) return null;
+    if (b.runes) pendingRunesRef.current = b.runes;  // applied by the reset effect after the switch
     pickChamp(target);
     setActiveRole((b.role && target.roles?.[b.role]) ? b.role
       : (target.roles ? Object.keys(target.roles)[0] : null));
     setOpenClass(b.enemyClass || null);
+    return target;
+  };
+  const importBuild = (raw) => {
+    const b = decodeBuild(raw);
+    if (!b) { setImportMsg("✕ Invalid code"); setTimeout(() => setImportMsg(null), 2500); return; }
+    const target = applyBuild(b);
+    if (!target) { setImportMsg("✕ Unknown champion"); setTimeout(() => setImportMsg(null), 2500); return; }
     setImportCode("");
     setImportMsg(`✓ Loaded ${target.display}${b.role ? " · " + b.role : ""}`);
     setTimeout(() => setImportMsg(null), 3000);
+  };
+
+  // ── Saved builds (local, per-browser; the Build Studio's first storage tier) ─
+  const loadSavedBuilds = () => {
+    try { const v = JSON.parse(localStorage.getItem("frge-builds") || "[]"); return Array.isArray(v) ? v : []; }
+    catch { return []; }
+  };
+  const [savedBuilds, setSavedBuilds] = useState(loadSavedBuilds);
+  useEffect(() => {
+    try { localStorage.setItem("frge-builds", JSON.stringify(savedBuilds)); } catch { /* ignore */ }
+  }, [savedBuilds]);
+  const saveCurrentBuild = () => {
+    const code = codeForCurrent();
+    if (!code) return;
+    const entry = {
+      id: Date.now().toString(36),
+      name: `${champ.display}${currentRole ? " · " + currentRole : ""}`,
+      code, champ: champ.id, role: currentRole || null, savedAt: Date.now(),
+    };
+    setSavedBuilds(prev => [entry, ...prev].slice(0, 60));  // newest first, capped
+    setShareMsg("✓ Saved to your builds"); setTimeout(() => setShareMsg(null), 2000);
+  };
+  const deleteSavedBuild = (id) => setSavedBuilds(prev => prev.filter(b => b.id !== id));
+  const loadSavedBuild = (sb) => { const b = decodeBuild(sb.code); if (b) applyBuild(b); };
+  const copySavedCode = async (sb) => {
+    try { await navigator.clipboard.writeText(sb.code); setShareMsg("✓ Code copied"); }
+    catch { setShareMsg(sb.code); }
+    setTimeout(() => setShareMsg(null), 2000);
   };
 
   // ── Desktop-only: apply the current rune page + item set to a running client ─
@@ -2614,12 +2651,17 @@ useEffect(() => {
             document.body
           )}
 
-          {/* Shareable build code — copy this champ/role/rune page, or paste a friend's */}
+          {/* Shareable build code — copy this champ/role/rune page, save it, or paste a friend's */}
           <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"14px", flexWrap:"wrap" }}>
             <button onClick={shareBuild} title="Copy a shareable code for this champ, role and rune page"
               style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
                 borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
               🔗 Share build
+            </button>
+            <button onClick={saveCurrentBuild} title="Save this build to your local builds"
+              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
+                borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
+              💾 Save
             </button>
             <input value={importCode} onChange={e => setImportCode(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") importBuild(importCode); }}
@@ -2641,6 +2683,29 @@ useEffect(() => {
               </span>
             )}
           </div>
+
+          {/* Saved builds — your local library (load / copy code / delete) */}
+          {savedBuilds.length > 0 && (
+            <div style={{ marginTop:"10px" }}>
+              <div style={{ fontSize:"9.5px", letterSpacing:"1.5px", color:S.goldDim,
+                textTransform:"uppercase", marginBottom:"6px" }}>Saved builds ({savedBuilds.length})</div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:"6px" }}>
+                {savedBuilds.map((sb) => (
+                  <span key={sb.id} style={{ display:"inline-flex", alignItems:"center", gap:"6px",
+                    padding:"3px 4px 3px 10px", borderRadius:"7px", fontSize:"11px",
+                    border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.04)" }}>
+                    <button onClick={() => loadSavedBuild(sb)} title="Load this build"
+                      style={{ background:"none", border:"none", color:"#e8e8ea", cursor:"pointer",
+                        fontSize:"11px", fontWeight:"600", padding:0 }}>{sb.name}</button>
+                    <button onClick={() => copySavedCode(sb)} title="Copy share code"
+                      style={{ background:"none", border:"none", color:S.goldDim, cursor:"pointer", fontSize:"11px", padding:"0 2px" }}>🔗</button>
+                    <button onClick={() => deleteSavedBuild(sb.id)} title="Delete"
+                      style={{ background:"none", border:"none", color:"rgba(255,255,255,.35)", cursor:"pointer", fontSize:"12px", padding:"0 2px" }}>×</button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}
           {altList.length > 0 && (

@@ -112,7 +112,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData) {
   const pet = roleName === "Jungle" ? petFor(champDd, roleData, null) : null;
   const startBlocks = pet
     ? [
-        itemBlock(`Jungle pet — ${pet}`, [pet, "Refillable Potion", "Stealth Ward"]),
+        // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
+        // Potion (150g) would push it to 600g, which isn't affordable at level 1.
+        itemBlock(`Jungle pet — ${pet}`, [pet, "Health Potion", "Stealth Ward"]),
         itemBlock("Alt pets", ["Scorchclaw Pup", "Gustwalker Hatchling", "Mosstomper Seedling"].filter((p) => p !== pet)),
       ]
     : [
