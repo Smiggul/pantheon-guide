@@ -75,10 +75,10 @@ export const SKILL_MAX = {
   Kalista: ["Q", "E", "W"], Nilah: ["Q", "E", "W"], Smolder: ["Q", "W", "E"],
   // Support
   Thresh: ["E", "Q", "W"], Lulu: ["E", "W", "Q"], Leona: ["W", "E", "Q"],
-  Seraphine: ["E", "Q", "W"], Blitzcrank: ["W", "E", "Q"], Nami: ["W", "E", "Q"],
+  Seraphine: ["E", "Q", "W"], Blitzcrank: ["Q", "E", "W"], Nami: ["W", "E", "Q"],
   Nautilus: ["W", "Q", "E"], Renata: ["E", "W", "Q"], Rakan: ["W", "E", "Q"],
   Alistar: ["Q", "W", "E"], Janna: ["W", "E", "Q"], Milio: ["E", "W", "Q"],
-  Bard: ["Q", "W", "E"], Rell: ["W", "Q", "E"],
+  Bard: ["Q", "W", "E"], Rell: ["W", "E", "Q"],
 
   // ── Wave 3: verified against build sites (u.gg / lolstats / mobalytics /
   //    escorenews), incl. the special-kit champs. Only Mel lacks reliable data. ──
