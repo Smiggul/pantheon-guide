@@ -44,7 +44,7 @@ export const SKILL_MAX = {
   Morgana: ["Q", "W", "E"], Soraka: ["Q", "W", "E"], Brand: ["W", "Q", "E"],
   Karma: ["Q", "E", "W"], Braum: ["Q", "E", "W"], Zyra: ["E", "Q", "W"],
   Pyke: ["Q", "E", "W"], Velkoz: ["Q", "W", "E"], Sona: ["Q", "W", "E"],
-  Zilean: ["Q", "E", "W"], Xerath: ["Q", "W", "E"], Yuumi: ["Q", "E", "W"],
+  Zilean: ["Q", "W", "E"], Xerath: ["Q", "W", "E"], Yuumi: ["Q", "E", "W"],
   Taric: ["Q", "E", "W"],
 
   // ── Wave 2: broader coverage (best-effort inherited knowledge — max-first is
@@ -76,8 +76,8 @@ export const SKILL_MAX = {
   // Support
   Thresh: ["E", "Q", "W"], Lulu: ["E", "W", "Q"], Leona: ["W", "E", "Q"],
   Seraphine: ["E", "Q", "W"], Blitzcrank: ["W", "E", "Q"], Nami: ["W", "E", "Q"],
-  Nautilus: ["W", "Q", "E"], Renata: ["E", "Q", "W"], Rakan: ["W", "E", "Q"],
-  Alistar: ["W", "Q", "E"], Janna: ["W", "E", "Q"], Milio: ["Q", "E", "W"],
+  Nautilus: ["W", "Q", "E"], Renata: ["E", "W", "Q"], Rakan: ["W", "E", "Q"],
+  Alistar: ["Q", "W", "E"], Janna: ["W", "E", "Q"], Milio: ["E", "W", "Q"],
   Bard: ["Q", "W", "E"], Rell: ["W", "Q", "E"],
 
   // ── Wave 3: verified against build sites (u.gg / lolstats / mobalytics /
