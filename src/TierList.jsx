@@ -1,0 +1,206 @@
+import { useState, useEffect, useRef } from "react";
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  TierList — a full-page champion tier list. Deliberately not a generic
+//  S/A/B row list: each tier is a premium "band" with a glowing tier glyph and
+//  a flowing grid of champion tiles that stagger in on load / role switch.
+//
+//  Data is fetched at runtime from tiers.json so it can refresh on a cron
+//  independent of app releases: try the live raw-GitHub copy first (always the
+//  latest the workflow committed), fall back to the bundled copy when offline.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const ROLES = ["Top", "Jungle", "Mid", "Bot", "Support"];
+const ROLE_ICON = {
+  Top: "/images/roles/position-top.svg", Jungle: "/images/roles/position-jungle.svg",
+  Mid: "/images/roles/position-middle.svg", Bot: "/images/roles/position-bottom.svg",
+  Support: "/images/roles/position-utility.svg",
+};
+
+// Tier identity on FRGE's brand: S = gold, A = orange, then cooling gunmetal.
+const TIERS = [
+  { key: "S", accent: "#e9c25c", glow: "rgba(233,194,92,.55)",  sub: "God tier" },
+  { key: "A", accent: "#e8934a", glow: "rgba(232,147,74,.45)",  sub: "Strong" },
+  { key: "B", accent: "#9aa7b4", glow: "rgba(154,167,180,.30)", sub: "Balanced" },
+  { key: "C", accent: "#6b7682", glow: "rgba(107,118,130,.22)", sub: "Situational" },
+];
+
+const REMOTE = "https://raw.githubusercontent.com/Smiggul/pantheon-guide/frge-gg/public/tiers.json";
+const LOCAL = "/tiers.json";
+
+export default function TierList({ S, champImg, onPick, onClose }) {
+  const [role, setRole] = useState("Top");
+  const [data, setData] = useState(null);
+  const [state, setState] = useState("loading"); // loading | ready | error
+  const [shown, setShown] = useState(false);      // drives the staggered reveal
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    const done = (j) => { if (!cancelled) { setData(j); setState("ready"); } };
+    fetch(REMOTE, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .catch(() => fetch(LOCAL).then((r) => r.json()))
+      .then(done)
+      .catch(() => { if (!cancelled) setState("error"); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Re-run the stagger on role change.
+  useEffect(() => {
+    setShown(false);
+    const t = requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
+    return () => cancelAnimationFrame(t);
+  }, [role, state]);
+
+  const roleData = data?.roles?.[role] || {};
+  const query = q.trim().toLowerCase();
+  const matches = (name) => !query || name.toLowerCase().includes(query);
+
+  // Flat index so the stagger delay is continuous across tiers.
+  let flatIdx = 0;
+
+  const tile = (name) => {
+    const i = flatIdx++;
+    const src = champImg(name);
+    return (
+      <button key={name} onClick={() => onPick(name)} title={`Open ${name}'s build`}
+        style={{
+          display: "flex", flexDirection: "column", alignItems: "center", gap: "6px",
+          width: "72px", padding: "6px 4px 8px", borderRadius: "12px", cursor: "pointer",
+          background: "transparent", border: "1px solid transparent",
+          opacity: shown ? 1 : 0,
+          transform: shown ? "translateY(0) scale(1)" : "translateY(14px) scale(.92)",
+          transition: "opacity .42s cubic-bezier(.34,1.4,.5,1), transform .42s cubic-bezier(.34,1.4,.5,1), background .16s, border-color .16s",
+          transitionDelay: `${Math.min(i, 40) * 22}ms`,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "rgba(255,255,255,.05)";
+          e.currentTarget.style.borderColor = "rgba(255,255,255,.10)";
+          const img = e.currentTarget.firstChild;
+          img.style.transform = "scale(1.09) translateY(-2px)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "transparent";
+          e.currentTarget.style.borderColor = "transparent";
+          const img = e.currentTarget.firstChild;
+          img.style.transform = "none";
+        }}>
+        <span style={{
+          position: "relative", width: "54px", height: "54px", borderRadius: "50%",
+          display: "block", transition: "transform .18s cubic-bezier(.34,1.5,.6,1)",
+        }}>
+          {src
+            ? <img src={src} alt={name} draggable={false}
+                style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover",
+                  border: "2px solid rgba(0,0,0,.5)" }} />
+            : <span style={{ width: "100%", height: "100%", borderRadius: "50%", display: "block",
+                background: "rgba(255,255,255,.06)" }} />}
+        </span>
+        <span style={{ fontSize: "9.5px", color: "rgba(255,255,255,.62)", textAlign: "center",
+          lineHeight: 1.15, maxWidth: "70px", overflow: "hidden", textOverflow: "ellipsis",
+          whiteSpace: "nowrap", width: "100%" }}>{name}</span>
+      </button>
+    );
+  };
+
+  return (
+    <div style={{ minHeight: "100%", position: "relative",
+      background: "radial-gradient(1200px 600px at 15% -10%, rgba(233,194,92,.06), transparent 60%), radial-gradient(900px 500px at 100% 0%, rgba(232,147,74,.05), transparent 55%)",
+      padding: "22px clamp(16px,4vw,48px) 60px" }}>
+
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between",
+        flexWrap: "wrap", gap: "14px", marginBottom: "20px" }}>
+        <div>
+          <button onClick={onClose} style={{ display: "inline-flex", alignItems: "center", gap: "6px",
+            background: "none", border: "none", color: S.goldDim, cursor: "pointer", fontSize: "12px",
+            fontWeight: 700, padding: 0, marginBottom: "8px" }}>← Back to builds</button>
+          <h1 style={{ margin: 0, fontSize: "clamp(26px,4vw,40px)", fontWeight: 900, letterSpacing: "-.5px",
+            lineHeight: 1, color: "#fff", textTransform: "uppercase" }}>
+            Champion <span style={{
+              background: `linear-gradient(100deg, ${S.gold}, ${S.orange})`,
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>Tier List</span>
+          </h1>
+          <div style={{ marginTop: "8px", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "1px", color: "#15181d",
+              background: `linear-gradient(100deg, ${S.gold}, ${S.orange})`, padding: "3px 9px",
+              borderRadius: "20px", textTransform: "uppercase" }}>Patch {data?.patch || "—"}</span>
+            <span style={{ fontSize: "10.5px", color: "rgba(255,255,255,.35)" }}>
+              {state === "ready" && data?.updated ? `Live · updated ${data.updated}` : state === "loading" ? "Loading live data…" : "Offline"}
+            </span>
+          </div>
+        </div>
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter champions…"
+          style={{ width: "min(220px,42vw)", padding: "8px 12px", fontSize: "12px", borderRadius: "9px",
+            border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.04)", color: "#e8e8ea", outline: "none" }} />
+      </div>
+
+      {/* Role selector — premium segmented pills */}
+      <div style={{ display: "inline-flex", gap: "4px", padding: "4px", borderRadius: "12px", marginBottom: "22px",
+        background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.07)" }}>
+        {ROLES.map((r) => {
+          const on = role === r;
+          return (
+            <button key={r} onClick={() => setRole(r)} style={{
+              display: "inline-flex", alignItems: "center", gap: "6px", padding: "7px 14px", borderRadius: "9px",
+              fontSize: "12px", fontWeight: 800, letterSpacing: ".3px", cursor: "pointer", border: "none",
+              textTransform: "uppercase", transition: "all .18s",
+              background: on ? `linear-gradient(100deg, ${S.gold}, ${S.orange})` : "transparent",
+              color: on ? "#15181d" : "rgba(255,255,255,.55)",
+              boxShadow: on ? `0 4px 16px ${S.gold}44` : "none" }}>
+              <img src={ROLE_ICON[r]} alt="" style={{ width: "15px", height: "15px",
+                filter: on ? "brightness(0) saturate(100%)" : "invert(72%) sepia(6%) saturate(200%) brightness(95%)" }} />
+              {r}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Tier bands */}
+      {state === "error" && (
+        <div style={{ color: "rgba(255,255,255,.5)", fontSize: "13px", padding: "40px 0" }}>
+          Couldn't load tier data. It refreshes from live sites on a schedule — try again shortly.
+        </div>
+      )}
+      {state !== "error" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          {TIERS.map((t) => {
+            const champs = (roleData[t.key] || []).filter(matches);
+            return (
+              <div key={t.key} style={{ display: "flex", alignItems: "stretch", gap: "0",
+                borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(255,255,255,.06)",
+                background: "linear-gradient(180deg, rgba(255,255,255,.022), rgba(255,255,255,.005))",
+                minHeight: "96px" }}>
+                {/* Tier glyph */}
+                <div style={{ position: "relative", flexShrink: 0, width: "88px",
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2px",
+                  background: `linear-gradient(160deg, ${t.accent}2a, ${t.accent}0d)`,
+                  borderRight: `1px solid ${t.accent}33`,
+                  boxShadow: `inset 3px 0 0 ${t.accent}` }}>
+                  <span style={{ fontSize: "40px", fontWeight: 900, lineHeight: 1, color: t.accent,
+                    textShadow: `0 0 22px ${t.glow}`, fontStyle: "italic" }}>{t.key}</span>
+                  <span style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "1px",
+                    textTransform: "uppercase", color: `${t.accent}cc` }}>{t.sub}</span>
+                </div>
+                {/* Champion tiles */}
+                <div style={{ flex: 1, display: "flex", flexWrap: "wrap", gap: "2px", alignItems: "flex-start",
+                  padding: "10px 8px" }}>
+                  {champs.length
+                    ? champs.map(tile)
+                    : <span style={{ alignSelf: "center", padding: "0 10px", fontSize: "11px",
+                        color: "rgba(255,255,255,.28)" }}>{query ? "No matches in this tier" : "—"}</span>}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div style={{ marginTop: "26px", fontSize: "10px", color: "rgba(255,255,255,.28)" }}>
+        Tiers reflect current-patch win rate + presence across Emerald+ and refresh automatically.
+        Click any champion to open their FRGE build. {data?.source ? `· ${data.source}` : ""}
+      </div>
+    </div>
+  );
+}

@@ -9,6 +9,7 @@ import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
 import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
 import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
+import TierList from "./TierList.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -495,6 +496,7 @@ export default function App() {
 
   // ── Theme + Settings ────────────────────────────────────────────────────
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
+  const [view, setView] = useState("build");                 // "build" | "tiers"
   const [skillView, setSkillView] = useState(loadSkillView); // "grid" | "strip"
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
@@ -1566,6 +1568,27 @@ useEffect(() => {
       fontFamily:"'Spartan MB','Cinzel','Arial Black',sans-serif",
       color:"#F5F5F5",
       }}>
+
+      {/* ── TIER LIST — full-page overlay + the button that opens it ── */}
+      <button onClick={() => setView("tiers")} className="frge-pill" title="Champion tier list"
+        style={{ position:"fixed", top:"12px", left:"14px", zIndex:60, height:"34px", borderRadius:"18px",
+          padding:"0 15px", cursor:"pointer", display:"flex", alignItems:"center", gap:"7px",
+          fontSize:"12px", fontWeight:"bold", whiteSpace:"nowrap",
+          border:`1px solid ${S.gold}`, background:"rgba(212,175,55,.14)", color:S.gold }}>
+        🏆 Tier List
+      </button>
+      {view === "tiers" && (
+        <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
+          background:"radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          <TierList S={S} champImg={champImg} onClose={() => setView("build")}
+            onPick={(name) => {
+              const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, "");
+              const c = CHAMPS.find(x => x.display === name || x.dd === toDDKey(name) || norm(x.display) === norm(name));
+              if (c) pickChamp(c);
+              setView("build");
+            }} />
+        </div>
+      )}
 
       {/* ── UPDATE BUTTON — appears only when there's an update (desktop) ── */}
       {isDesktop && update && ["available","downloading","downloaded"].includes(update.state) && (
