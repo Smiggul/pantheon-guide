@@ -1,34 +1,39 @@
 {
   "patch": "26.16",
-  "updated": "2026-08-13",
+  "updated": "2026-08-14",
   "source": "seed — refreshed on a cron from live build sites",
   "roles": {
     "Top": {
-      "S": ["Mordekaiser", "Sett", "Garen", "Darius", "Gangplank"],
+      "OP": ["Mordekaiser", "Sett"],
+      "S": ["Garen", "Darius", "Gangplank"],
       "A": ["Aatrox", "Renekton", "Jax", "Camille", "Illaoi", "Quinn", "Kled", "Singed", "Nasus"],
       "B": ["Fiora", "Riven", "Ornn", "Shen", "Gwen", "K'Sante", "Yorick", "Dr. Mundo", "Cho'Gath", "Kennen"],
       "C": ["Teemo", "Malphite", "Poppy", "Sion", "Urgot", "Tryndamere", "Volibear", "Gnar", "Yone"]
     },
     "Jungle": {
-      "S": ["Viego", "Wukong", "Shyvana", "Graves", "Bel'Veth"],
+      "OP": ["Viego", "Wukong"],
+      "S": ["Shyvana", "Graves", "Bel'Veth"],
       "A": ["Lee Sin", "Nocturne", "Kayn", "Rammus", "Jarvan IV", "Sejuani", "Zac", "Ivern", "Nunu & Willump"],
       "B": ["Vi", "Xin Zhao", "Kha'Zix", "Diana", "Ekko", "Hecarim", "Warwick", "Rek'Sai", "Karthus", "Skarner"],
       "C": ["Elise", "Rengar", "Nidalee", "Amumu", "Maokai", "Lillia", "Shaco", "Trundle", "Gragas", "Olaf"]
     },
     "Mid": {
-      "S": ["Yasuo", "Malzahar", "Viktor", "Ahri", "Lissandra"],
+      "OP": ["Yasuo", "Malzahar"],
+      "S": ["Viktor", "Ahri", "Lissandra"],
       "A": ["Zed", "Akali", "Syndra", "Orianna", "Aurelion Sol", "Vex", "Anivia", "Taliyah", "Naafiri"],
       "B": ["Katarina", "Talon", "Fizz", "Vladimir", "Kassadin", "Hwei", "Ziggs", "Xerath", "Twisted Fate", "Mel"],
       "C": ["Ryze", "Corki", "Galio", "Qiyana", "Cassiopeia", "Zoe", "Veigar", "LeBlanc", "Locke"]
     },
     "Bot": {
-      "S": ["Caitlyn", "Jinx", "Kai'Sa", "Ezreal", "Xayah"],
+      "OP": ["Caitlyn", "Jinx"],
+      "S": ["Kai'Sa", "Ezreal", "Xayah"],
       "A": ["Jhin", "Lucian", "Ashe", "Miss Fortune", "Tristana", "Sivir", "Nilah", "Aphelios"],
       "B": ["Draven", "Vayne", "Twitch", "Samira", "Zeri", "Varus", "Kog'Maw", "Smolder", "Yunara"],
       "C": ["Kalista", "Senna", "Cassiopeia", "Corki"]
     },
     "Support": {
-      "S": ["Lux", "Leona", "Rell", "Milio", "Braum"],
+      "OP": ["Lux", "Leona"],
+      "S": ["Rell", "Milio", "Braum"],
       "A": ["Nautilus", "Thresh", "Rakan", "Alistar", "Renata Glasc", "Bard", "Zilean", "Taric"],
       "B": ["Blitzcrank", "Pyke", "Nami", "Janna", "Soraka", "Seraphine", "Karma", "Zyra", "Vel'Koz"],
       "C": ["Morgana", "Sona", "Yuumi", "Xerath", "Brand", "Neeko", "Maokai", "Swain"]

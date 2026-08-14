@@ -17,12 +17,17 @@ const ROLE_ICON = {
   Support: "/images/roles/position-utility.svg",
 };
 
-// Tier identity on FRGE's brand: S = gold, A = orange, then cooling gunmetal.
+// ┌──────────────────────────────────────────────────────────────────────────┐
+// │  EDIT TIER HEADINGS HERE.  `key` is the big glyph, `sub` is the line under │
+// │  it, `accent`/`glow` are the colour. Order top→bottom is display order.    │
+// │  The `key` must match the tier names used in tiers.json (OP, S, A, B, C).  │
+// └──────────────────────────────────────────────────────────────────────────┘
 const TIERS = [
-  { key: "S", accent: "#e9c25c", glow: "rgba(233,194,92,.55)",  sub: "God tier" },
-  { key: "A", accent: "#e8934a", glow: "rgba(232,147,74,.45)",  sub: "Strong" },
-  { key: "B", accent: "#9aa7b4", glow: "rgba(154,167,180,.30)", sub: "Balanced" },
-  { key: "C", accent: "#6b7682", glow: "rgba(107,118,130,.22)", sub: "Situational" },
+  { key: "OP", accent: "#ef4d5a", glow: "rgba(239,77,90,.55)",  sub: "balanced" },     // the meme ;)
+  { key: "S",  accent: "#e9c25c", glow: "rgba(233,194,92,.55)", sub: "Elite" },
+  { key: "A",  accent: "#e8934a", glow: "rgba(232,147,74,.45)", sub: "Strong" },
+  { key: "B",  accent: "#9aa7b4", glow: "rgba(154,167,180,.30)", sub: "Balanced" },
+  { key: "C",  accent: "#6b7682", glow: "rgba(107,118,130,.22)", sub: "Situational" },
 ];
 
 const REMOTE = "https://raw.githubusercontent.com/Smiggul/pantheon-guide/frge-gg/public/tiers.json";
@@ -178,8 +183,8 @@ export default function TierList({ S, champImg, onPick, onClose }) {
                   background: `linear-gradient(160deg, ${t.accent}2a, ${t.accent}0d)`,
                   borderRight: `1px solid ${t.accent}33`,
                   boxShadow: `inset 3px 0 0 ${t.accent}` }}>
-                  <span style={{ fontSize: "40px", fontWeight: 900, lineHeight: 1, color: t.accent,
-                    textShadow: `0 0 22px ${t.glow}`, fontStyle: "italic" }}>{t.key}</span>
+                  <span style={{ fontSize: t.key.length > 1 ? "27px" : "40px", fontWeight: 900,
+                    lineHeight: 1, color: t.accent, textShadow: `0 0 22px ${t.glow}`, fontStyle: "italic" }}>{t.key}</span>
                   <span style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "1px",
                     textTransform: "uppercase", color: `${t.accent}cc` }}>{t.sub}</span>
                 </div>
