@@ -783,18 +783,23 @@ useEffect(() => {
     catch { return []; }
   };
   const [savedBuilds, setSavedBuilds] = useState(loadSavedBuilds);
+  const [nameDraft, setNameDraft] = useState(null);   // null = not naming; "" = naming, empty
   useEffect(() => {
     try { localStorage.setItem("frge-builds", JSON.stringify(savedBuilds)); } catch { /* ignore */ }
   }, [savedBuilds]);
-  const saveCurrentBuild = () => {
+  // User names their build; we prefix "FRGED <Champ>-" so saved builds read like
+  // "FRGED Kai'Sa-Crit Lethality". Falls back to the role when left blank.
+  const saveCurrentBuild = (customName) => {
     const code = codeForCurrent();
     if (!code) return;
+    const suffix = (customName && customName.trim()) || currentRole || "Build";
     const entry = {
       id: Date.now().toString(36),
-      name: `${champ.display}${currentRole ? " · " + currentRole : ""}`,
+      name: `FRGED ${champ.display}-${suffix}`,
       code, champ: champ.id, role: currentRole || null, savedAt: Date.now(),
     };
     setSavedBuilds(prev => [entry, ...prev].slice(0, 60));  // newest first, capped
+    setNameDraft(null);
     setShareMsg("✓ Saved to your builds"); setTimeout(() => setShareMsg(null), 2000);
   };
   const deleteSavedBuild = (id) => setSavedBuilds(prev => prev.filter(b => b.id !== id));
@@ -2767,11 +2772,30 @@ useEffect(() => {
                 borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
               🔗 Share build
             </button>
-            <button onClick={saveCurrentBuild} title="Save this build to your local builds"
-              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
-                borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
-              💾 Save
-            </button>
+            {nameDraft === null ? (
+              <button onClick={() => setNameDraft("")} title="Name and save this build to your local builds"
+                style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
+                  borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
+                💾 Save
+              </button>
+            ) : (
+              <span style={{ display:"inline-flex", alignItems:"center", gap:"0", borderRadius:"7px",
+                border:`1px solid ${S.gold}55`, overflow:"hidden", background:"rgba(255,255,255,.04)" }}>
+                <span style={{ fontSize:"11px", fontWeight:"700", color:S.goldDim, padding:"5px 4px 5px 9px", whiteSpace:"nowrap" }}>
+                  FRGED {champ.display}-</span>
+                <input autoFocus value={nameDraft} onChange={e => setNameDraft(e.target.value)}
+                  onKeyDown={e => { if (e.key === "Enter") saveCurrentBuild(nameDraft); if (e.key === "Escape") setNameDraft(null); }}
+                  placeholder={currentRole || "name"}
+                  style={{ width:"110px", padding:"5px 4px", fontSize:"11px", border:"none", outline:"none",
+                    background:"transparent", color:"#e8e8ea" }} />
+                <button onClick={() => saveCurrentBuild(nameDraft)} title="Save"
+                  style={{ padding:"5px 8px", fontSize:"11px", border:"none", cursor:"pointer",
+                    background:`${S.gold}22`, color:S.gold, fontWeight:"800" }}>✓</button>
+                <button onClick={() => setNameDraft(null)} title="Cancel"
+                  style={{ padding:"5px 8px", fontSize:"12px", border:"none", cursor:"pointer",
+                    background:"transparent", color:"rgba(255,255,255,.4)" }}>×</button>
+              </span>
+            )}
             <input value={importCode} onChange={e => setImportCode(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") importBuild(importCode); }}
               placeholder="Paste a FRGE1-… code"
