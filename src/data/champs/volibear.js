@@ -27,6 +27,15 @@ const VOLIBEAR_JGL_DEFAULT_RUNES = {
 export default {
   id:"volibear", display:"Volibear", dd:"Volibear",
   color:"#2e5f8a", glow:"#5dade2",
+  altBuilds:{
+    Top:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Hextech Rocketbelt  ›  Sorcerer's Shoes  ›  Duskblade of Draktharr  ›  Zhonya's Hourglass",
+      coreNote:"Skill-Capped 26.16 burst-catch Volibear: Rocketbelt rush — its active dash closes the gap to land Q's stun — then Duskblade, then Zhonya's. Crucially you take Press the Attack over Lethal Tempo, playing for upfront burst instead of extended-fight DPS. Best when the enemy team is majority squishy (catch someone out of position and delete them); keep the standard Lethal Tempo attack-speed build into tanky/bruiser comps.",
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Ability Haste","Adaptive Force","Health (scaling)"], reason:"Press the Attack front-loads the burst this catch build wants — the Q-empowered auto + W chain procs it fast so Rocketbelt and Duskblade can finish the target. Sorcery (Transcendence + Gathering Storm) fuels the ability haste and scaling for repeated Rocketbelt dives." },
+      sideItems:["Shadowflame","Cosmic Drive","Rylai's Crystal Scepter","Riftmaker","Mercury's Treads"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Teemo","Fiora","Aatrox"], replacements:["Sett","Renekton","Sion"],

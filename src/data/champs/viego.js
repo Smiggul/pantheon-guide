@@ -18,6 +18,15 @@ export default {
   id:"viego", display:"Viego", dd:"Viego",
   color:"#1a2a5a", glow:"#4a6ac0",
   lanes:["Jungle"],
+  altBuilds:{
+    Jungle:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Bastionbreaker  ›  Ionian Boots of Lucidity  ›  The Collector  ›  Lord Dominik's Regards",
+      coreNote:"Skill-Capped 26.16 snowball Viego: Bastionbreaker rush (buffed last patch) over the usual Kraken Slayer, into The Collector → Lord Dominik's. You get 22 lethality plus Bastionbreaker's true-damage proc, so a W-stun into a one-shot on a squishy is brutal. Best when you're snowballing hard early or the enemy team is majority squishy — Kraken rush stays better into tankier teams for the extended skirmish.",
+      runes:{...VIEGO_JGL_DEFAULT_RUNES},
+      sideItems:["Kraken Slayer","Edge of Night","Serylda's Grudge","Death's Dance","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],

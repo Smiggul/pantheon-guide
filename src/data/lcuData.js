@@ -118,8 +118,10 @@ export const SHARD_IDS = {
   "Tenacity": 5013,
 };
 export const FIRST_BACK = {
+  "Abyssal Mask": "Negatron Cloak",
   "Archangel's Staff": "Lost Chapter",
   "Axiom Arc": "The Brutalizer",
+  "Bastionbreaker": "The Brutalizer",
   "Black Cleaver": "Phage",
   "Blackfire Torch": "Lost Chapter",
   "Blade of The Ruined King": "Vampiric Scepter",
@@ -361,6 +363,7 @@ export const ITEM_IDS = {
   "bandleglass mirror": 4642,
   "bandlepipes": 2524,
   "banshee's veil": 3102,
+  "bastionbreaker": 2520,
   "berserker's greaves": 3006,
   "black cleaver": 3071,
   "blackfire torch": 2503,
@@ -456,6 +459,7 @@ export const ITEM_IDS = {
   "mosstomper seedling": 1103,
   "nashor's tooth": 3115,
   "navori flickerblade": 6675,
+  "negatron cloak": 1057,
   "noonquiver": 6670,
   "oblivion orb": 3916,
   "opportunity": 6701,

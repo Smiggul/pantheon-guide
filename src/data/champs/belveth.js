@@ -18,6 +18,15 @@ export default {
   id:"belveth", display:"Bel'Veth", dd:"Belveth",
   color:"#4a2a4a", glow:"#d080d0",
   lanes:["Jungle"],
+  altBuilds:{
+    Jungle:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Guinsoo's Rageblade  ›  Terminus",
+      coreNote:"Skill-Capped 26.16 on-hit Bel'Veth — the core dominating solo queue after her mini-rework: Kraken Slayer → Guinsoo's Rageblade → Terminus with Lethal Tempo, since attack-speed/on-hit scaling is far more efficient on her now. Best into bruiser/tank comps. Alt crit line into squishy comps: Guinsoo's → Infinity Edge → Shieldbow or Lord Dominik's with Press the Attack for more upfront burst.",
+      runes:{...BELVETH_JGL_DEFAULT_RUNES},
+      sideItems:["Guinsoo's Rageblade","Wit's End","Blade of the Ruined King","Infinity Edge","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Talon","Udyr","Evelynn"], replacements:["Master Yi","Viego","Kayn"],

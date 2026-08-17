@@ -18,6 +18,15 @@ export default {
   id:"yunara", display:"Yunara", dd:"Yunara",
   color:"#7fd4c1", glow:"#e0fff5",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
+      coreNote:"Skill-Capped 26.16 Yunara: swap Fiendhunter Bolts for Runaan's Hurricane as the second item. Hurricane is buffed this patch (movement speed +1%, passive AD ratio +10%) and already had the highest win-probability of any Yunara 2nd item beforehand. She lacks a wave-clear tool, so Hurricane's AoE bolts are worth more on her than on most ADCs — strongest into majority-melee, tankier comps, but with the buffs it's close to the best pick every game.",
+      runes:{...YUNARA_BOT_DEFAULT_RUNES},
+      sideItems:["Fiendhunter Bolts","Infinity Edge","Lord Dominik's Regards","Bloodthirster","Phantom Dancer"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Yasuo","Ziggs"],
