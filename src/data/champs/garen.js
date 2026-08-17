@@ -18,6 +18,15 @@ export default {
   id:"garen", display:"Garen", dd:"Garen",
   color:"#2c3e6b", glow:"#d4af37",
   lanes:["Top"],
+  altBuilds:{
+    Top:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Stridebreaker  ›  Swiftmarch  ›  Youmuu's Ghostblade  ›  Serylda's Grudge",
+      coreNote:"Skill-Capped 26.16 solo-carry fork: still rush Stridebreaker, but into squishy comps take Youmuu's Ghostblade second for lethality instead of the Phantom Dancer crit line — the lethality is better value for bursting carries (keep the standard Phantom Dancer build into tankier teams). Garen is buffed indirectly this patch by Berserker's Greaves and the Tiamat AD increase feeding Stridebreaker. Ban Teemo (blind) / avoid Kayle.",
+      runes:{...GAREN_TOP_DEFAULT_RUNES},
+      sideItems:["Phantom Dancer","Death's Dance","Sterak's Gage","Serylda's Grudge","Mercury's Treads"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Vayne","Teemo","Jayce"], replacements:["Darius","Sett","Volibear"],

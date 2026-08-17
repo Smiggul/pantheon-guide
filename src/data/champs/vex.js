@@ -18,6 +18,15 @@ export default {
   id:"vex", display:"Vex", dd:"Vex",
   color:"#3a3a5a", glow:"#9080d0",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Rabadon's Deathcap",
+      coreNote:"Skill-Capped 26.16 burst line: Luden's Echo rush → Stormsurge second → Shadowflame or Rabadon's third, Electrocute. Stormsurge's Stormraider proc rewards Vex's fear-into-burst pattern and the extra magic pen helps delete squishies on her R reset chain — a more all-in burst variant of her standard Shadowflame build. Buffed indirectly by the Spellslinger's Shoes pen buff + Chain-Laced Crushers nerf. Blind-pick her; ban long-range mids (Xerath) that out-poke her.",
+      runes:{...VEX_MID_DEFAULT_RUNES},
+      sideItems:["Shadowflame","Zhonya's Hourglass","Void Staff","Cosmic Drive","Rabadon's Deathcap"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Taliyah","Hwei","Vladimir"], replacements:["Lux","Syndra","Lissandra"],
