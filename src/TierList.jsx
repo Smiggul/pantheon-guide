@@ -17,6 +17,13 @@ const ROLE_ICON = {
   Support: "/images/roles/position-utility.svg",
 };
 
+// Elo brackets, OP.GG-style. `key` must match the bracket keys in tiers.json.
+const BRACKETS = [
+  { key: "all",  label: "Overall" },
+  { key: "high", label: "High Elo" },
+  { key: "low",  label: "Low Elo" },
+];
+
 // ┌──────────────────────────────────────────────────────────────────────────┐
 // │  EDIT TIER HEADINGS HERE.  `key` is the big glyph, `sub` is the line under │
 // │  it, `accent`/`glow` are the colour. Order top→bottom is display order.    │
@@ -39,6 +46,7 @@ export default function TierList({ S, champImg, onPick, onClose }) {
   const [state, setState] = useState("loading"); // loading | ready | error
   const [shown, setShown] = useState(false);      // drives the staggered reveal
   const [q, setQ] = useState("");
+  const [bracket, setBracket] = useState("all");  // all | high | low (elo)
 
   useEffect(() => {
     let cancelled = false;
@@ -51,14 +59,17 @@ export default function TierList({ S, champImg, onPick, onClose }) {
     return () => { cancelled = true; };
   }, []);
 
-  // Re-run the stagger on role change.
+  // Re-run the stagger on role / bracket change.
   useEffect(() => {
     setShown(false);
     const t = requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
     return () => cancelAnimationFrame(t);
-  }, [role, state]);
+  }, [role, state, bracket]);
 
-  const roleData = data?.roles?.[role] || {};
+  // New format nests roles under brackets:{all,high,low}; fall back to the old
+  // flat {roles} shape (treated as "Overall") so older tiers.json still renders.
+  const bracketData = data?.brackets?.[bracket] || data?.brackets?.all || data?.roles || {};
+  const roleData = bracketData?.[role] || {};
   const query = q.trim().toLowerCase();
   const matches = (name) => !query || name.toLowerCase().includes(query);
 
@@ -144,6 +155,9 @@ export default function TierList({ S, champImg, onPick, onClose }) {
             <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "1px", color: "#15181d",
               background: `linear-gradient(100deg, ${S.gold}, ${S.orange})`, padding: "3px 9px",
               borderRadius: "20px", textTransform: "uppercase" }}>Patch {data?.patch || "—"}</span>
+            <span style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "1px", color: "rgba(255,255,255,.72)",
+              background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.12)", padding: "3px 9px",
+              borderRadius: "20px", textTransform: "uppercase" }}>{data?.region || "EUW"}</span>
             <span style={{ fontSize: "10.5px", color: "rgba(255,255,255,.35)" }}>
               {state === "ready" && data?.updated
                 ? `${/seed/i.test(data?.source || "") ? "Seed" : "Live"} · updated ${data.updated}`
@@ -156,25 +170,47 @@ export default function TierList({ S, champImg, onPick, onClose }) {
             border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.04)", color: "#e8e8ea", outline: "none" }} />
       </div>
 
-      {/* Role selector — premium segmented pills */}
-      <div style={{ display: "inline-flex", gap: "4px", padding: "4px", borderRadius: "12px", marginBottom: "22px",
-        background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.07)" }}>
-        {ROLES.map((r) => {
-          const on = role === r;
-          return (
-            <button key={r} onClick={() => setRole(r)} style={{
-              display: "inline-flex", alignItems: "center", gap: "6px", padding: "7px 14px", borderRadius: "9px",
-              fontSize: "12px", fontWeight: 800, letterSpacing: ".3px", cursor: "pointer", border: "none",
-              textTransform: "uppercase", transition: "all .18s",
-              background: on ? `linear-gradient(100deg, ${S.gold}, ${S.orange})` : "transparent",
-              color: on ? "#15181d" : "rgba(255,255,255,.55)",
-              boxShadow: on ? `0 4px 16px ${S.gold}44` : "none" }}>
-              <img src={ROLE_ICON[r]} alt="" style={{ width: "15px", height: "15px",
-                filter: on ? "brightness(0) saturate(100%)" : "invert(72%) sepia(6%) saturate(200%) brightness(95%)" }} />
-              {r}
-            </button>
-          );
-        })}
+      {/* Selectors — roles on the left, elo bracket on the right (OP.GG-style) */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
+        gap: "12px", flexWrap: "wrap", marginBottom: "22px" }}>
+        {/* Role selector — premium segmented pills */}
+        <div style={{ display: "inline-flex", gap: "4px", padding: "4px", borderRadius: "12px",
+          background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.07)" }}>
+          {ROLES.map((r) => {
+            const on = role === r;
+            return (
+              <button key={r} onClick={() => setRole(r)} style={{
+                display: "inline-flex", alignItems: "center", gap: "6px", padding: "7px 14px", borderRadius: "9px",
+                fontSize: "12px", fontWeight: 800, letterSpacing: ".3px", cursor: "pointer", border: "none",
+                textTransform: "uppercase", transition: "all .18s",
+                background: on ? `linear-gradient(100deg, ${S.gold}, ${S.orange})` : "transparent",
+                color: on ? "#15181d" : "rgba(255,255,255,.55)",
+                boxShadow: on ? `0 4px 16px ${S.gold}44` : "none" }}>
+                <img src={ROLE_ICON[r]} alt="" style={{ width: "15px", height: "15px",
+                  filter: on ? "brightness(0) saturate(100%)" : "invert(72%) sepia(6%) saturate(200%) brightness(95%)" }} />
+                {r}
+              </button>
+            );
+          })}
+        </div>
+        {/* Elo bracket selector */}
+        <div style={{ display: "inline-flex", gap: "4px", padding: "4px", borderRadius: "12px",
+          background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.07)" }}>
+          {BRACKETS.map((b) => {
+            const on = bracket === b.key;
+            return (
+              <button key={b.key} onClick={() => setBracket(b.key)} style={{
+                padding: "7px 14px", borderRadius: "9px", fontSize: "12px", fontWeight: 800,
+                letterSpacing: ".3px", cursor: "pointer", border: "none", textTransform: "uppercase",
+                transition: "all .18s", whiteSpace: "nowrap",
+                background: on ? `linear-gradient(100deg, ${S.gold}, ${S.orange})` : "transparent",
+                color: on ? "#15181d" : "rgba(255,255,255,.55)",
+                boxShadow: on ? `0 4px 16px ${S.gold}44` : "none" }}>
+                {b.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Tier bands */}
@@ -218,8 +254,9 @@ export default function TierList({ S, champImg, onPick, onClose }) {
       )}
 
       <div style={{ marginTop: "26px", fontSize: "10px", color: "rgba(255,255,255,.28)" }}>
-        Tiers reflect current-patch win rate + presence across Emerald+ and refresh automatically.
-        Click any champion to open their FRGE build. {data?.source ? `· ${data.source}` : ""}
+        {bracket === "all" ? "Overall" : bracket === "high" ? "High Elo (Master+)" : "Low Elo (Emerald & below)"}
+        {" · "}{data?.region || "EUW"} · win rate + presence, refreshed independently of app releases.
+        Click any champion to open their FRGE build.{data?.source ? ` · ${data.source}` : ""}
       </div>
     </div>
   );

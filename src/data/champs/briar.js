@@ -27,6 +27,22 @@ const BRIAR_TOP_DEFAULT_RUNES = {
 export default {
   id:"briar", display:"Briar", dd:"Briar",
   color:"#7a1f2b", glow:"#e0566a",
+  altBuilds:{
+    Top:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Endless Hunger",
+      coreNote:"26.16 Eclipse short-trade Briar (Eclipse's proc buff makes it real again) — a third identity beside her health-stacker and teamfight builds: Eclipse plays for repeated short trades. Rush Eclipse → Black Cleaver, then flex the third item to the enemy: Endless Hunger for near-zero cooldowns (it scales with bonus AD, and Eclipse+Cleaver give a lot of it), or Death's Dance vs burst/physical. Q→auto is a guaranteed short trade on a ~5-6s cooldown, and the shield makes her own health less relevant so freezing is fine. D-Shield start; grab a Refillable Potion into ranged matchups.",
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Coup de Grace"], secondary:"Resolve", secondaryRunes:["Second Wind","Unflinching"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Press the Attack front-loads Briar's short-trade pattern — the Q→auto lands the third hit fast for the amp, and Eclipse's proc lands in the same window. Legend: Haste keeps her spells and Eclipse's 6s proc up; Coup de Grace executes. Resolve's Second Wind + Unflinching sustain the ranged-matchup laning this build is built to survive." },
+      sideItems:["Death's Dance","Sterak's Gage","Spirit Visage","Serylda's Grudge","Mercury's Treads"],
+    }],
+    Jungle:[{
+      label:"OP 26.16 ALT", tag:"alt",
+      corePath:"Hubris  ›  Ionian Boots of Lucidity  ›  Axiom Arc  ›  The Collector",
+      coreNote:"26.16 Hail-of-Blades lethality Briar — an ult-focused one-shot build. Reworked Hail of Blades trades attack speed for much higher bonus-AD scaling on its true damage, and Briar's Q adds a proc (up to 5 hits), so it hits like a truck once you have AD. Rush Hubris (most AD of the lethality items — huge on an ult fly-in) → Axiom Arc (refunds ult cooldown for more R-oneshot chances) → The Collector → Edge of Night → Lord Dominik's. Take Legend: Haste over the Axiom Arc rune (it's bad). Modern Briar jungle also ganks more than the old disciplined full-clear.",
+      runes:{ keystone:"Hail of Blades", primary:"Domination", primaryRunes:["Sudden Impact","Grisly Mementos","Ultimate Hunter"], secondary:"Precision", secondaryRunes:["Legend: Haste","Coup de Grace"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Hail of Blades' reworked bonus-AD true-damage scaling turns Briar's Q-buffed auto chain into a one-combo delete once Hubris/Collector land. Sudden Impact fires off every W/R dash for lethality; Ultimate Hunter stacks R uptime (the whole point of the build); Legend: Haste over the Axiom Arc rune adds the cooldowns that actually get you another ult." },
+      sideItems:["Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Guardian Angel","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Jax","Amumu","Udyr"], replacements:["Warwick","Nocturne","Rek'Sai"],
