@@ -1570,12 +1570,22 @@ useEffect(() => {
       }}>
 
       {/* ── TIER LIST — full-page overlay + the button that opens it ── */}
-      <button onClick={() => setView("tiers")} className="frge-pill" title="Champion tier list"
-        style={{ position:"fixed", top:"12px", left:"14px", zIndex:60, height:"34px", borderRadius:"18px",
-          padding:"0 15px", cursor:"pointer", display:"flex", alignItems:"center", gap:"7px",
-          fontSize:"12px", fontWeight:"bold", whiteSpace:"nowrap",
-          border:`1px solid ${S.gold}`, background:"rgba(212,175,55,.14)", color:S.gold }}>
-        🏆 Tier List
+      <button onClick={() => setView("tiers")} title="Champion tier list"
+        onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)";
+          e.currentTarget.style.boxShadow = `0 9px 26px ${S.orange}55, inset 0 1px 0 rgba(255,255,255,.4)`; }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = "none";
+          e.currentTarget.style.boxShadow = `0 6px 18px ${S.orange}3d, inset 0 1px 0 rgba(255,255,255,.35)`; }}
+        style={{ position:"fixed", top:"14px", left:"16px", zIndex:60, height:"38px", borderRadius:"11px",
+          padding:"0 16px 0 13px", cursor:"pointer", display:"inline-flex", alignItems:"center", gap:"9px",
+          fontSize:"12.5px", fontWeight:800, letterSpacing:".6px", textTransform:"uppercase", whiteSpace:"nowrap",
+          color:"#15181d", background:`linear-gradient(100deg, ${S.gold}, ${S.orange})`,
+          border:"1px solid rgba(255,255,255,.18)",
+          boxShadow:`0 6px 18px ${S.orange}3d, inset 0 1px 0 rgba(255,255,255,.35)`,
+          transition:"transform .16s ease, box-shadow .16s ease" }}>
+        <span style={{ display:"inline-flex", width:"22px", height:"22px", borderRadius:"7px",
+          alignItems:"center", justifyContent:"center", fontSize:"13px",
+          background:"rgba(21,24,29,.16)", boxShadow:"inset 0 0 0 1px rgba(21,24,29,.12)" }}>🏆</span>
+        Tier List
       </button>
       {view === "tiers" && (
         <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",

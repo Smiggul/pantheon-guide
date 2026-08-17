@@ -23,11 +23,11 @@ const ROLE_ICON = {
 // │  The `key` must match the tier names used in tiers.json (OP, S, A, B, C).  │
 // └──────────────────────────────────────────────────────────────────────────┘
 const TIERS = [
-  { key: "OP", accent: "#ef4d5a", glow: "rgba(239,77,90,.55)",  sub: "balanced" },     // the meme ;)
+  { key: "OP", accent: "#ef4d5a", glow: "rgba(239,77,90,.55)",  sub: '"balanced"' },     // the meme ;)
   { key: "S",  accent: "#e9c25c", glow: "rgba(233,194,92,.55)", sub: "Elite" },
   { key: "A",  accent: "#e8934a", glow: "rgba(232,147,74,.45)", sub: "Strong" },
-  { key: "B",  accent: "#9aa7b4", glow: "rgba(154,167,180,.30)", sub: "Balanced" },
-  { key: "C",  accent: "#6b7682", glow: "rgba(107,118,130,.22)", sub: "Situational" },
+  { key: "B",  accent: "#9aa7b4", glow: "rgba(154,167,180,.30)", sub: "Okay" },
+  { key: "C",  accent: "#6b7682", glow: "rgba(107,118,130,.22)", sub: "Not Great" },
 ];
 
 const REMOTE = "https://raw.githubusercontent.com/Smiggul/pantheon-guide/frge-gg/public/tiers.json";
@@ -65,13 +65,18 @@ export default function TierList({ S, champImg, onPick, onClose }) {
   // Flat index so the stagger delay is continuous across tiers.
   let flatIdx = 0;
 
+  // Win-rate → colour band. Green = winning, gold = even, red = losing.
+  const wrColor = (wr) =>
+    wr >= 51 ? "#4fd18a" : wr >= 49.5 ? "#e9c25c" : "#e8776f";
+
   const tile = (name) => {
     const i = flatIdx++;
     const src = champImg(name);
+    const wr = roleData.wr?.[name];
     return (
       <button key={name} onClick={() => onPick(name)} title={`Open ${name}'s build`}
         style={{
-          display: "flex", flexDirection: "column", alignItems: "center", gap: "6px",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: "9px",
           width: "72px", padding: "6px 4px 8px", borderRadius: "12px", cursor: "pointer",
           background: "transparent", border: "1px solid transparent",
           opacity: shown ? 1 : 0,
@@ -101,6 +106,14 @@ export default function TierList({ S, champImg, onPick, onClose }) {
                   border: "2px solid rgba(0,0,0,.5)" }} />
             : <span style={{ width: "100%", height: "100%", borderRadius: "50%", display: "block",
                 background: "rgba(255,255,255,.06)" }} />}
+          {wr != null && (
+            <span title={`${wr}% win rate`} style={{
+              position: "absolute", bottom: "-5px", left: "50%", transform: "translateX(-50%)",
+              padding: "1px 5px", borderRadius: "7px", fontSize: "9px", fontWeight: 800,
+              lineHeight: 1.4, whiteSpace: "nowrap", color: "#12151a",
+              background: wrColor(wr), boxShadow: "0 2px 6px rgba(0,0,0,.45)",
+              border: "1.5px solid rgba(18,21,26,.9)" }}>{wr}%</span>
+          )}
         </span>
         <span style={{ fontSize: "9.5px", color: "rgba(255,255,255,.62)", textAlign: "center",
           lineHeight: 1.15, maxWidth: "70px", overflow: "hidden", textOverflow: "ellipsis",
@@ -132,7 +145,9 @@ export default function TierList({ S, champImg, onPick, onClose }) {
               background: `linear-gradient(100deg, ${S.gold}, ${S.orange})`, padding: "3px 9px",
               borderRadius: "20px", textTransform: "uppercase" }}>Patch {data?.patch || "—"}</span>
             <span style={{ fontSize: "10.5px", color: "rgba(255,255,255,.35)" }}>
-              {state === "ready" && data?.updated ? `Live · updated ${data.updated}` : state === "loading" ? "Loading live data…" : "Offline"}
+              {state === "ready" && data?.updated
+                ? `${/seed/i.test(data?.source || "") ? "Seed" : "Live"} · updated ${data.updated}`
+                : state === "loading" ? "Loading live data…" : "Offline"}
             </span>
           </div>
         </div>
