@@ -12,6 +12,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.10.1] — 2026-08-17
+
+### Fixed
+- **Auto-update "app is still running" error.** Installing an update from the in-app Update button closed FRGE's window but left the process alive in the system tray, so the installer refused to replace a "running" app. The update-install flow now tears down the tray and forces the process to exit before handing off to the installer. *(Note: the update **into** this build still hits the old behaviour once — quit FRGE from the tray, then run the installer. Every update after this one installs cleanly.)*
+
 ## [0.10.0] — 2026-08-17
 
 ### Added

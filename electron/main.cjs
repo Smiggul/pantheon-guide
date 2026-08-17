@@ -433,7 +433,16 @@ ipcMain.handle("frge:update-check", () => { checkForUpdates(); });
 ipcMain.handle("frge:update-download", () => {
   autoUpdater.downloadUpdate().catch((e) => sendUpdate({ state: "error", message: String(e?.message || e) }));
 });
-ipcMain.handle("frge:update-install", () => { isQuiting = true; autoUpdater.quitAndInstall(); });
+ipcMain.handle("frge:update-install", () => {
+  isQuiting = true;
+  // Destroy the tray so nothing keeps the process alive once the window closes,
+  // then hand off to the installer (relaunch after install). A short force-exit
+  // fallback guarantees FRGE.GG.exe is actually gone, so the NSIS installer never
+  // reports "app is still running" when replacing the files.
+  if (tray) { try { tray.destroy(); } catch { /* already gone */ } tray = null; }
+  autoUpdater.quitAndInstall(false, true);
+  setTimeout(() => app.exit(0), 1200);
+});
 
 app.whenReady().then(() => {
   protocol.handle("app", async (req) => {
@@ -465,5 +474,8 @@ app.whenReady().then(() => {
 
 app.on("before-quit", () => { isQuiting = true; });
 // The window closing minimises to the tray, so the app intentionally keeps
-// running with no window — do NOT quit here. Quit is via the tray menu.
-app.on("window-all-closed", () => { /* stay alive in the tray */ });
+// running with no window. But when we're actually quitting (tray → Quit, or an
+// update install), the last window closing must let the process exit — otherwise
+// the tray keeps FRGE.GG.exe alive and the update installer reports "app is still
+// running". So only stay alive while NOT quitting.
+app.on("window-all-closed", () => { if (isQuiting) app.quit(); });
