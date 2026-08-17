@@ -22,8 +22,8 @@ export default {
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Feather-Root Carry",
-      corePath:"Essence Reaver  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Xayah plays for a feather-carpeted zone that roots anyone standing on 3+ blades — Bladecaller confirms the root, and Featherstorm both dodges and recalls every feather thrown. Essence Reaver's mana return keeps her attack speed abilities spamming; Navori Flickerblade lowers her ultimate's cooldown for more untargetable windows; Infinity Edge and Lord Dominik's Regards scale the crit into a real DPS threat.",
+      corePath:"Guinsoo's Rageblade  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Xayah plays for a feather-carpeted zone that roots anyone standing on 3+ blades — Bladecaller confirms the root, and Featherstorm both dodges and recalls every feather thrown. Guinsoo's Rageblade is now her best-value first item, outperforming Essence Reaver by ~3% after the on-hit buffs (take Essence Reaver only when an early lead wants immediate power). Navori Flickerblade and Infinity Edge are interchangeable 2nd/3rd — IE second into squishy comps, Flickerblade second into tanks or awkward base timers; Lord Dominik's Regards shreds the enemy front line.",
       sideItems:["Berserker's Greaves","Guardian Angel","Mercury's Treads","Bloodthirster","Rapid Firecannon","Wit's End"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Navori Flickerblade","Haste means more root windows."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...XAYAH_BOT_DEFAULT_RUNES}},

@@ -12,7 +12,18 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
-_Build Forge editor block + Tier List section next._
+## [0.9.1] — 2026-08-17
+
+### Added
+- **Build Forge.** Assemble your own item set (start / core / situational) beside the rune page, then apply the *forged* set to the League client — not just the recommended one.
+- **Custom build names.** 💾 Save now lets you name a build; it's stored under a fixed `FRGED <Champ>-` prefix.
+- **Full-page Tier List.** A 🏆 button opens a dedicated tier-list page — premium tier "bands", staggered reveal, per-role filtering, a new **OP** tier above S, **win-rate badges** on every champion, and click-a-champ-to-open-their-build. Tiers refresh live from a hosted `tiers.json`, independent of app releases.
+- **10 "OP 26.16 ALT" builds** — spicy source-verified alternates that toggle alongside the meta build: Illaoi, Yorick, Volibear, Viego, Talon, Bel'Veth, Galio, Azir, Yunara, Jinx.
+
+### Changed
+- **Tier List data rebuilt to patch 26.16** from the current live tier list (Garen OP top, Renekton/Nasus S top, Wukong/Zac/Lillia/Talon S jungle, Vex/Fizz OP mid, Xayah/Viktor/Seraphine OP bot, Poppy/Camille dropped support, and more).
+- **Ahri** → Blackfire Torch → Lich Bane core (ability-haste / spellblade build). **Xayah** → Guinsoo's Rageblade first item over Essence Reaver.
+- Regenerated the LCU item table (174 → 176 items) so new items (Bastionbreaker, Dusk and Dawn) resolve for client export.
 
 ## [0.9.0] — 2026-08-13
 

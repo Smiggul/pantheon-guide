@@ -22,8 +22,8 @@ export default {
     Mid:{
       bans:["Hwei","Qiyana","Annie"], replacements:["Katarina","Locke","Xerath"],
       role:"Burst Mage / Mobile Assassin",
-      corePath:"Malignance  ›  Shadowflame  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-      coreNote:"Ahri plays for poke-into-burst combos. Malignance now edges out Luden's Echo as the rush item — the ability haste means more Charm/Orb casts per fight. Shadowflame amplifies the killing blow on low-HP targets; Zhonya's protects the all-in dive, and Rabadon's caps off a pure burst mage spike.",
+      corePath:"Blackfire Torch  ›  Lich Bane  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
+      coreNote:"Ahri plays for poke-into-burst combos. The current high-success build (26.16) rushes Blackfire Torch over Malignance for the extra ability haste, then Lich Bane second over Shadowflame — the haste feeds Lich Bane's spellblade proc so she weaves an empowered auto between every spell, making her skirmish damage far more reliable even when Charm or Orb miss. Zhonya's protects the all-in dive; Rabadon's caps off the burst.",
       sideItems:["Sorcerer's Shoes","Mercury's Treads","Banshee's Veil","Cosmic Drive","Morellonomicon","Void Staff","Luden's Echo"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade outright."),I("Luden's Echo","Poke wears them down before the fight starts.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...AHRI_MID_DEFAULT_RUNES}},
