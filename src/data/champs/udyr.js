@@ -53,6 +53,13 @@ export default {
       runes:{...UDYR_JGL_AP_RUNES},
       sideItems:["Rylai's Crystal Scepter","Dead Man's Plate","Spirit Visage","Zhonya's Hourglass","Void Staff","Mercury's Treads"],
     }],
+    Top:[{
+      label:"AP DPS", tag:"alt",
+      corePath:"Nashor's Tooth  ›  Sorcerer's Shoes  ›  Lich Bane  ›  Rabadon's Deathcap",
+      coreNote:"A higher-damage answer to the bruiser stance-dancer — trade the Liandry's/Riftmaker durability for on-hit AP burst. Nashor's Tooth turns every Q-Awaken empowered auto into big on-hit magic damage (and its attack speed means more Awaken autos + faster stance cycling); Lich Bane procs a spellblade on each stance swap, so Wingborne Storm (R) into stance-dancing genuinely shreds. Rabadon's multiplies it all. Take Lethal Tempo for the attack-speed on-hit ramp (Conqueror is the more forgiving, self-healing option into hard lanes). Much squishier than the bruiser build — play it ahead or into a lane you can bully, and pull Zhonya's / Banshee's from the side list vs burst.",
+      runes:{ keystone:"Lethal Tempo", primary:"Precision", primaryRunes:["Triumph","Legend: Alacrity","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Lethal Tempo maximises the on-hit core — every stack is more Nashor's/Lich Bane damage per Q-Awaken auto, and the attack speed lets you weave more autos between stance swaps. Legend: Alacrity + the attack-speed shard push that further; Transcendence and Gathering Storm scale the AP that R and Lich Bane burst with." },
+      sideItems:["Shadowflame","Void Staff","Zhonya's Hourglass","Cosmic Drive","Banshee's Veil"],
+    }],
   },
   roles:{
     Jungle:{
