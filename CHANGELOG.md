@@ -12,6 +12,15 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.10.0] — 2026-08-17
+
+### Added
+- **Tier List elo brackets.** An OP.GG-style selector — **Overall / High Elo / Low Elo** — plus a region chip (**EUW**). *Overall* is the current Skill-Capped 26.16 list; *High Elo* pushes mechanically-demanding champs up (Azir, Lee Sin, Thresh…), *Low Elo* rewards the stat-checkers (Garen, Katarina…). Reads live `tiers.json`, so bracket data can update without an app release.
+- **5 more "OP 26.16 ALT" builds** — spicy source-verified alternates read from patch videos: **Briar** (Top Eclipse short-trade; Jungle Hail-of-Blades lethality one-shot), **Garen** (Ghostblade lethality fork), **Vex** (Stormsurge burst), **Seraphine Bot** (Archangel's scaling APC).
+
+### Changed
+- Champion win-rate badges + tier placements refreshed against the live 26.16 tier list.
+
 ## [0.9.1] — 2026-08-17
 
 ### Added
