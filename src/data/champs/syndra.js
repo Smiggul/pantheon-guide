@@ -18,6 +18,15 @@ export default {
   id:"syndra", display:"Syndra", dd:"Syndra",
   color:"#3a1a5a", glow:"#a040e0",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Mandate Burst", tag:"alt",
+      corePath:"Imperial Mandate  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Shadowflame",
+      coreNote:"Challenger Syndra tech (Strompist): she gets enough mana from runes + passive, so skip the mana item and rush Imperial Mandate — a super-cheap item packing 35 ability haste that lets you spam her E stun through the early-mid game. Then stack heavy magic pen (Stormsurge → Shadowflame) so you one-shot any squishy who walks onto your screen. Runes flex: Arcane Comet standard, First Strike vs Galio / Yasuo / Yone, Electrocute vs melee assassins. Fizz is her hardest matchup — ban him.",
+      runes:{ keystone:"Arcane Comet", primary:"Sorcery", primaryRunes:["Manaflow Band","Transcendence","Scorch"], secondary:"Domination", secondaryRunes:["Cheap Shot","Ultimate Hunter"], shards:["Ability Haste","Adaptive Force","Health (scaling)"], reason:"Arcane Comet punishes Syndra's point-and-click Q/E poke and is the standard into ranged lanes (First Strike vs Galio/Yasuo/Yone, Electrocute vs assassins). Manaflow Band + Transcendence stack the ability haste her Mandate rush wants; Cheap Shot + Ultimate Hunter push the pick potential her E-stun sets up." },
+      sideItems:["Rabadon's Deathcap","Void Staff","Zhonya's Hourglass","Cryptbloom","Horizon Focus"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Zed","Katarina","Yone"], replacements:["Ahri","Xerath","Locke"],
