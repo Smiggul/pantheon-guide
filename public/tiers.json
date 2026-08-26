@@ -2,20 +2,20 @@
   "patch": "26.16",
   "updated": "2026-08-17",
   "region": "EUW",
-  "source": "Skill-Capped 26.16 tier list; High/Low-Elo brackets are reasoned seeds pending live data",
+  "source": "Skill-Capped 26.16 UPDATED (mid-patch) tier list; High/Low-Elo brackets are reasoned seeds",
   "brackets": {
     "all": {
       "Top": {
         "OP": [
           "Mordekaiser",
           "Sett",
-          "Garen"
+          "Garen",
+          "Nasus"
         ],
         "S": [
           "Darius",
           "Gangplank",
           "Renekton",
-          "Nasus",
           "Urgot"
         ],
         "A": [
@@ -142,12 +142,10 @@
         "S": [
           "Shyvana",
           "Graves",
-          "Bel'Veth",
           "Wukong",
           "Zac",
           "Lillia",
           "Talon",
-          "Nasus",
           "Sylas"
         ],
         "A": [
@@ -162,7 +160,9 @@
           "Aatrox",
           "Evelynn",
           "Kindred",
-          "Master Yi"
+          "Master Yi",
+          "Nasus",
+          "Bel'Veth"
         ],
         "B": [
           "Vi",
@@ -281,12 +281,14 @@
           "Ahri",
           "Lissandra",
           "Yasuo",
-          "Malzahar"
+          "Malzahar",
+          "Xerath",
+          "Qiyana",
+          "Syndra"
         ],
         "A": [
           "Zed",
           "Akali",
-          "Syndra",
           "Orianna",
           "Aurelion Sol",
           "Anivia",
@@ -305,7 +307,6 @@
           "Kassadin",
           "Hwei",
           "Ziggs",
-          "Xerath",
           "Twisted Fate",
           "Mel",
           "Azir",
@@ -321,13 +322,12 @@
           "Pantheon",
           "Riven",
           "Swain",
-          "Vel'Koz"
+          "Vel'Koz",
+          "Galio"
         ],
         "C": [
           "Ryze",
           "Corki",
-          "Galio",
-          "Qiyana",
           "Cassiopeia",
           "Zoe",
           "Veigar",
@@ -349,7 +349,7 @@
           "Malzahar": 50.4,
           "Zed": 50,
           "Akali": 51,
-          "Syndra": 50.5,
+          "Syndra": 51.6,
           "Orianna": 50.5,
           "Aurelion Sol": 50,
           "Anivia": 50.1,
@@ -368,7 +368,7 @@
           "Ryze": 49,
           "Corki": 44.9,
           "Galio": 50.5,
-          "Qiyana": 50,
+          "Qiyana": 51.6,
           "Cassiopeia": 50.5,
           "Zoe": 50,
           "Veigar": 51,
@@ -403,11 +403,11 @@
         "OP": [
           "Xayah",
           "Seraphine",
-          "Viktor"
+          "Viktor",
+          "Jinx"
         ],
         "S": [
           "Caitlyn",
-          "Jinx",
           "Kai'Sa",
           "Ezreal",
           "Zeri"
@@ -420,7 +420,8 @@
           "Tristana",
           "Sivir",
           "Nilah",
-          "Aphelios"
+          "Aphelios",
+          "Yunara"
         ],
         "B": [
           "Draven",
@@ -430,7 +431,6 @@
           "Varus",
           "Kog'Maw",
           "Smolder",
-          "Yunara",
           "Yasuo",
           "Ziggs"
         ],
@@ -445,7 +445,7 @@
           "Seraphine": 51.0,
           "Viktor": 51.5,
           "Caitlyn": 51,
-          "Jinx": 51,
+          "Jinx": 52.8,
           "Kai'Sa": 50,
           "Ezreal": 50,
           "Zeri": 51.1,
@@ -464,7 +464,7 @@
           "Varus": 47.4,
           "Kog'Maw": 51,
           "Smolder": 51.9,
-          "Yunara": 49.5,
+          "Yunara": 50.6,
           "Kalista": 50.1,
           "Senna": 51.2,
           "Cassiopeia": 50.5,
@@ -481,7 +481,8 @@
         "S": [
           "Rell",
           "Milio",
-          "Braum"
+          "Braum",
+          "Sona"
         ],
         "A": [
           "Nautilus",
@@ -492,7 +493,8 @@
           "Zilean",
           "Taric",
           "Lulu",
-          "Senna"
+          "Senna",
+          "Poppy"
         ],
         "B": [
           "Blitzcrank",
@@ -505,7 +507,6 @@
           "Zyra",
           "Vel'Koz",
           "Bard",
-          "Poppy",
           "Amumu",
           "Annie",
           "Ashe",
@@ -521,7 +522,6 @@
         ],
         "C": [
           "Morgana",
-          "Sona",
           "Yuumi",
           "Xerath",
           "Brand",
@@ -556,7 +556,7 @@
           "Zyra": 49.6,
           "Vel'Koz": 49.9,
           "Bard": 50,
-          "Poppy": 50.0,
+          "Poppy": 50.6,
           "Morgana": 50,
           "Sona": 51.9,
           "Yuumi": 50,
@@ -593,6 +593,7 @@
           "Mordekaiser",
           "Sett",
           "Garen",
+          "Nasus",
           "Gangplank",
           "Renekton",
           "Urgot",
@@ -601,7 +602,6 @@
         ],
         "A": [
           "Darius",
-          "Nasus",
           "Aatrox",
           "Jax",
           "Illaoi",
@@ -724,7 +724,6 @@
         "S": [
           "Shyvana",
           "Graves",
-          "Bel'Veth",
           "Zac",
           "Lillia",
           "Talon",
@@ -736,17 +735,18 @@
         ],
         "A": [
           "Wukong",
-          "Nasus",
           "Kayn",
           "Rammus",
           "Sejuani",
           "Nunu & Willump",
           "Aatrox",
           "Evelynn",
+          "Bel'Veth",
           "Taliyah"
         ],
         "B": [
           "Master Yi",
+          "Nasus",
           "Vi",
           "Xin Zhao",
           "Kha'Zix",
@@ -854,7 +854,8 @@
       },
       "Mid": {
         "OP": [
-          "Vex"
+          "Vex",
+          "Qiyana"
         ],
         "S": [
           "Fizz",
@@ -862,6 +863,8 @@
           "Ahri",
           "Lissandra",
           "Malzahar",
+          "Xerath",
+          "Syndra",
           "Akali",
           "Taliyah",
           "Sylas"
@@ -869,7 +872,6 @@
         "A": [
           "Yasuo",
           "Zed",
-          "Syndra",
           "Orianna",
           "Aurelion Sol",
           "Anivia",
@@ -888,7 +890,6 @@
           "Kassadin",
           "Hwei",
           "Ziggs",
-          "Xerath",
           "Twisted Fate",
           "Mel",
           "Karma",
@@ -899,16 +900,15 @@
           "Riven",
           "Swain",
           "Vel'Koz",
+          "Galio",
           "Ryze",
-          "Corki",
-          "Qiyana"
+          "Corki"
         ],
         "C": [
           "Katarina",
           "Annie",
           "Brand",
           "Morgana",
-          "Galio",
           "Cassiopeia",
           "Zoe",
           "Veigar",
@@ -930,7 +930,7 @@
           "Malzahar": 50.4,
           "Zed": 50,
           "Akali": 51.4,
-          "Syndra": 50.5,
+          "Syndra": 51.6,
           "Orianna": 50.5,
           "Aurelion Sol": 50,
           "Anivia": 50.1,
@@ -949,7 +949,7 @@
           "Ryze": 49.4,
           "Corki": 45.3,
           "Galio": 50.5,
-          "Qiyana": 50.4,
+          "Qiyana": 52.0,
           "Cassiopeia": 50.5,
           "Zoe": 50,
           "Veigar": 50.6,
@@ -984,12 +984,12 @@
         "OP": [
           "Xayah",
           "Viktor",
+          "Jinx",
           "Zeri"
         ],
         "S": [
           "Seraphine",
           "Caitlyn",
-          "Jinx",
           "Kai'Sa",
           "Ezreal",
           "Aphelios"
@@ -1000,7 +1000,8 @@
           "Ashe",
           "Tristana",
           "Sivir",
-          "Nilah"
+          "Nilah",
+          "Yunara"
         ],
         "B": [
           "Miss Fortune",
@@ -1010,7 +1011,6 @@
           "Varus",
           "Kog'Maw",
           "Smolder",
-          "Yunara",
           "Ziggs",
           "Kalista",
           "Corki"
@@ -1026,7 +1026,7 @@
           "Seraphine": 50.6,
           "Viktor": 51.5,
           "Caitlyn": 51,
-          "Jinx": 51,
+          "Jinx": 52.8,
           "Kai'Sa": 50,
           "Ezreal": 50,
           "Zeri": 51.5,
@@ -1045,7 +1045,7 @@
           "Varus": 47.4,
           "Kog'Maw": 51,
           "Smolder": 51.9,
-          "Yunara": 49.5,
+          "Yunara": 50.6,
           "Kalista": 50.5,
           "Senna": 51.2,
           "Cassiopeia": 50.5,
@@ -1068,12 +1068,14 @@
           "Rakan"
         ],
         "A": [
+          "Sona",
           "Alistar",
           "Renata Glasc",
           "Zilean",
           "Taric",
           "Lulu",
           "Senna",
+          "Poppy",
           "Bard",
           "Elise"
         ],
@@ -1086,7 +1088,6 @@
           "Karma",
           "Zyra",
           "Vel'Koz",
-          "Poppy",
           "Ashe",
           "Fiddlesticks",
           "Galio",
@@ -1103,7 +1104,6 @@
           "Malphite",
           "Veigar",
           "Morgana",
-          "Sona",
           "Yuumi",
           "Xerath",
           "Brand",
@@ -1137,7 +1137,7 @@
           "Zyra": 49.6,
           "Vel'Koz": 49.9,
           "Bard": 50.4,
-          "Poppy": 50.0,
+          "Poppy": 50.6,
           "Morgana": 49.6,
           "Sona": 51.5,
           "Yuumi": 50,
@@ -1173,8 +1173,8 @@
           "Mordekaiser",
           "Sett",
           "Garen",
-          "Darius",
-          "Nasus"
+          "Nasus",
+          "Darius"
         ],
         "S": [
           "Gangplank",
@@ -1301,18 +1301,17 @@
       "Jungle": {
         "OP": [
           "Viego",
-          "Wukong",
-          "Nasus"
+          "Wukong"
         ],
         "S": [
           "Shyvana",
           "Graves",
-          "Bel'Veth",
           "Zac",
           "Lillia",
           "Talon",
           "Sylas",
-          "Master Yi"
+          "Master Yi",
+          "Nasus"
         ],
         "A": [
           "Nocturne",
@@ -1324,6 +1323,7 @@
           "Aatrox",
           "Evelynn",
           "Kindred",
+          "Bel'Veth",
           "Warwick",
           "Mordekaiser",
           "Sett",
@@ -1445,12 +1445,14 @@
           "Ahri",
           "Lissandra",
           "Malzahar",
+          "Xerath",
+          "Syndra",
           "Yone"
         ],
         "A": [
+          "Qiyana",
           "Zed",
           "Akali",
-          "Syndra",
           "Orianna",
           "Aurelion Sol",
           "Anivia",
@@ -1471,7 +1473,6 @@
           "Kassadin",
           "Hwei",
           "Ziggs",
-          "Xerath",
           "Twisted Fate",
           "Mel",
           "Irelia",
@@ -1483,6 +1484,7 @@
           "Riven",
           "Swain",
           "Vel'Koz",
+          "Galio",
           "Veigar",
           "Sion",
           "Teemo"
@@ -1492,8 +1494,6 @@
           "Akshan",
           "Ryze",
           "Corki",
-          "Galio",
-          "Qiyana",
           "Cassiopeia",
           "Zoe",
           "LeBlanc",
@@ -1512,7 +1512,7 @@
           "Malzahar": 50.4,
           "Zed": 50,
           "Akali": 51,
-          "Syndra": 50.5,
+          "Syndra": 51.6,
           "Orianna": 50.5,
           "Aurelion Sol": 50,
           "Anivia": 50.1,
@@ -1531,7 +1531,7 @@
           "Ryze": 48.6,
           "Corki": 44.5,
           "Galio": 50.5,
-          "Qiyana": 49.6,
+          "Qiyana": 51.2,
           "Cassiopeia": 50.5,
           "Zoe": 50,
           "Veigar": 51.4,
@@ -1566,11 +1566,11 @@
         "OP": [
           "Xayah",
           "Seraphine",
-          "Viktor"
+          "Viktor",
+          "Jinx"
         ],
         "S": [
           "Caitlyn",
-          "Jinx",
           "Kai'Sa",
           "Ezreal",
           "Miss Fortune"
@@ -1583,6 +1583,7 @@
           "Tristana",
           "Sivir",
           "Nilah",
+          "Yunara",
           "Twitch",
           "Yasuo"
         ],
@@ -1594,7 +1595,6 @@
           "Varus",
           "Kog'Maw",
           "Smolder",
-          "Yunara",
           "Ziggs"
         ],
         "C": [
@@ -1608,7 +1608,7 @@
           "Seraphine": 51.4,
           "Viktor": 51.5,
           "Caitlyn": 51,
-          "Jinx": 51,
+          "Jinx": 52.8,
           "Kai'Sa": 50,
           "Ezreal": 50,
           "Zeri": 50.7,
@@ -1627,7 +1627,7 @@
           "Varus": 47.4,
           "Kog'Maw": 51,
           "Smolder": 51.9,
-          "Yunara": 49.5,
+          "Yunara": 50.6,
           "Kalista": 49.7,
           "Senna": 51.2,
           "Cassiopeia": 50.5,
@@ -1639,7 +1639,8 @@
       "Support": {
         "OP": [
           "Lux",
-          "Leona"
+          "Leona",
+          "Sona"
         ],
         "S": [
           "Milio",
@@ -1653,6 +1654,7 @@
           "Taric",
           "Lulu",
           "Senna",
+          "Poppy",
           "Seraphine",
           "Amumu",
           "Annie",
@@ -1671,7 +1673,6 @@
           "Karma",
           "Zyra",
           "Vel'Koz",
-          "Poppy",
           "Ashe",
           "Fiddlesticks",
           "Galio",
@@ -1680,7 +1681,6 @@
           "Tahm Kench",
           "Zac",
           "Morgana",
-          "Sona",
           "Brand",
           "Sion",
           "Teemo"
@@ -1719,7 +1719,7 @@
           "Zyra": 49.6,
           "Vel'Koz": 49.9,
           "Bard": 49.6,
-          "Poppy": 50.0,
+          "Poppy": 50.6,
           "Morgana": 50.4,
           "Sona": 52.3,
           "Yuumi": 50,
