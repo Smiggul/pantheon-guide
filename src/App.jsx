@@ -713,7 +713,11 @@ useEffect(() => {
   const forgeHasItems = forgeCount > 0;
   const forgeBootsMissing = forgeHasItems && forgeItems.boots.length === 0; // mandatory slot unfilled
   const addForgeItem = (slot, name) => {
-    setForgeItems(f => (f[slot].includes(name) ? f : { ...f, [slot]: [...f[slot], name] }));
+    setForgeItems(f => {
+      // Boots is a single-choice slot — picking a pair replaces any previous one.
+      if (slot === "boots") return { ...f, boots: [name] };
+      return f[slot].includes(name) ? f : { ...f, [slot]: [...f[slot], name] };
+    });
     setForgeQuery(""); setForgeSlot(null);
   };
   const removeForgeItem = (slot, name) =>
@@ -990,7 +994,18 @@ useEffect(() => {
     if (di <= 1) return items;                 // already an early defensive buy
     const out = [...items]; const [d] = out.splice(di, 1); out.splice(1, 0, d); return out;
   };
-  const coreArrow = orderCore(buildCorePath.split("›").map(s => s.trim()));
+  // Once the Build Forge holds core/boots items it IS the core build path — it
+  // replaces the recommended path and takes precedence over the Ahead/Behind
+  // reorder, so the toggle can never override the user's authored build.
+  const forgeCore = (() => {
+    const core = [...(forgeItems.core || [])];
+    if (forgeItems.boots?.length) core.splice(Math.min(1, core.length), 0, forgeItems.boots[0]);
+    return core;
+  })();
+  const buildLocked = forgeCore.length > 0;                 // user's forge drives the core
+  const coreArrow = buildLocked
+    ? forgeCore
+    : orderCore(buildCorePath.split("›").map(s => s.trim()));
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   const S = {                       // shared style tokens
@@ -3377,27 +3392,29 @@ useEffect(() => {
         gap: "12px",
       }}>
       
-      {/* SINGLE TOGGLE BUTTON */}
+      {/* SINGLE TOGGLE BUTTON — disabled while a custom Build Forge drives the
+          core, so it can't reorder / override the user's authored build. */}
       <button
-        onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")}
+        onClick={() => { if (!buildLocked) setMode(mode === "ahead" ? "behind" : "ahead"); }}
+        disabled={buildLocked}
+        title={buildLocked ? "Clear the Build Forge to use Ahead / Survive & Scale" : undefined}
         style={{
           padding:"16px 22px",
-          cursor:"pointer",
+          cursor: buildLocked ? "not-allowed" : "pointer",
+          opacity: buildLocked ? 0.4 : 1,
           border:"1px solid rgba(255,255,255,.1)",
           borderRadius:"10px",
-          background: mode === "ahead"
-            ? "rgba(212,175,55,.25)"
-            : "rgba(74,111,165,.25)",
-          color: mode === "ahead" ? "#D4AF37" : "#7eb8f7",
+          background: buildLocked ? "rgba(255,255,255,.06)"
+            : mode === "ahead" ? "rgba(212,175,55,.25)" : "rgba(74,111,165,.25)",
+          color: buildLocked ? "#9aa0a6" : mode === "ahead" ? "#D4AF37" : "#7eb8f7",
           fontSize:"24px",
           transition:"all .15s",
           backdropFilter:"blur(6px)",
-          boxShadow: mode === "ahead"
-            ? "0 0 12px rgba(212,175,55,.35)"
-            : "0 0 12px rgba(74,111,165,.35)",
+          boxShadow: buildLocked ? "none"
+            : mode === "ahead" ? "0 0 12px rgba(212,175,55,.35)" : "0 0 12px rgba(74,111,165,.35)",
         }}
       >
-        {mode === "ahead" ? "⚔" : "🛡"}
+        {buildLocked ? "🔨" : mode === "ahead" ? "⚔" : "🛡"}
       </button>
 
       {/* TEXT UNDERNEATH */}
@@ -3408,7 +3425,9 @@ useEffect(() => {
         textAlign:"center",
         lineHeight:1.2,
       }}>
-        {mode === "ahead"
+        {buildLocked
+          ? "Build Forge active"
+          : mode === "ahead"
           ? "Snowball your lead"
           : "Survive & Scale"}
       </div>
