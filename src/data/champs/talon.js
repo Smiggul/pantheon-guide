@@ -30,9 +30,9 @@ export default {
   lanes:["Mid","Jungle"],
   altBuilds:{
     Jungle:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Umbral Glaive  ›  Ionian Boots of Lucidity  ›  Bastionbreaker  ›  Voltaic Cyclosword",
-      coreNote:"Skill-Capped 26.16 one-shot Talon JG: still rush Umbral Glaive (its vision-denial passive is massive on him), then the three-item combo Umbral → Bastionbreaker → Voltaic Cyclosword. Every one of those has a burst passive, and the true damage from Umbral + Bastionbreaker lets you delete a squishy on the two-item spike. Fleet Footwork (buffed 26.16) keeps him a top-tier snowball jungler; use Bastionbreaker's tower shred to close games fast.",
+      coreNote:"Skill-Capped one-shot Talon JG: still rush Umbral Glaive (its vision-denial passive is massive on him), then the three-item combo Umbral → Bastionbreaker → Voltaic Cyclosword. Every one of those has a burst passive, and the true damage from Umbral + Bastionbreaker lets you delete a squishy on the two-item spike. Fleet Footwork (buffed 26.16) keeps him a top-tier snowball jungler; use Bastionbreaker's tower shred to close games fast.",
       runes:{...TALON_JGL_DEFAULT_RUNES},
       sideItems:["Youmuu's Ghostblade","Serylda's Grudge","Edge of Night","Axiom Arc","Mercury's Treads"],
     }],

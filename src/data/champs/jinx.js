@@ -20,9 +20,9 @@ export default {
   lanes:["Bot"],
   altBuilds:{
     Bot:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
-      coreNote:"Skill-Capped 26.16 Jinx: run Runaan's Hurricane as the second item (buffed this patch) when you need to shred an enemy front line — its AoE bolts scale off her Infinity Edge (75 AD) and Hextech Optics, adding real cleave. Flex it against Phantom Dancer: go PD into rangy comps with no real front line; prioritize Hurricane when they have a tank top + jungle you must shred through to win fights.",
+      coreNote:"Skill-Capped Jinx: run Runaan's Hurricane as the second item (buffed this patch) when you need to shred an enemy front line — its AoE bolts scale off her Infinity Edge (75 AD) and Hextech Optics, adding real cleave. Flex it against Phantom Dancer: go PD into rangy comps with no real front line; prioritize Hurricane when they have a tank top + jungle you must shred through to win fights.",
       runes:{...JINX_BOT_DEFAULT_RUNES},
       sideItems:["Phantom Dancer","Infinity Edge","Lord Dominik's Regards","Bloodthirster","Berserker's Greaves"],
     }],

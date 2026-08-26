@@ -30,9 +30,9 @@ export default {
   lanes:["Support","Bot"],
   altBuilds:{
     Bot:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Archangel's Staff  ›  Sorcerer's Shoes  ›  Demonic Embrace  ›  Rylai's Crystal Scepter",
-      coreNote:"Skill-Capped 26.16 solo-carry bot Seraphine: a cheap, effective scaling core — Archangel's Staff → Demonic Embrace → Rylai's — that she completes fast off the ADC role-quest gold (versus the 3,000g+ items traditional ADCs rush). Tankier and more consistent than the Malignance burst line; her kit does the skirmish work, so she stays impactful no matter how lane goes. The only real threat is a hook support, so ban Blitzcrank or Pyke.",
+      coreNote:"Skill-Capped solo-carry bot Seraphine: a cheap, effective scaling core — Archangel's Staff → Demonic Embrace → Rylai's — that she completes fast off the ADC role-quest gold (versus the 3,000g+ items traditional ADCs rush). Tankier and more consistent than the Malignance burst line; her kit does the skirmish work, so she stays impactful no matter how lane goes. The only real threat is a hook support, so ban Blitzcrank or Pyke.",
       runes:{...SERAPHINE_ADC_DEFAULT_RUNES},
       sideItems:["Malignance","Liandry's Torment","Cosmic Drive","Zhonya's Hourglass","Void Staff"],
     }],

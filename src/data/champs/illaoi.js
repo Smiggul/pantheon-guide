@@ -20,9 +20,9 @@ export default {
   lanes:["Top"],
   altBuilds:{
     Top:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Spirit Visage",
-      coreNote:"Skill-Capped 26.16 OP line: rush Black Cleaver, then slot Sterak's Gage SECOND (most Illaoi go Iceborn 2nd). After the 26.16 Black Cleaver +5 AD and Sterak's buffs, Cleaver→Sterak's is the higher win-probability spike — and even before the buffs Sterak's was already Illaoi's best win-rate second item over Iceborn. Best when the enemy team isn't stacking physical damage. Runes: Grasp in melee matchups (its health scaling loves the two big HP items), Conqueror into ranged or tankier comps.",
+      coreNote:"Skill-Capped OP line: rush Black Cleaver, then slot Sterak's Gage SECOND (most Illaoi go Iceborn 2nd). After the 26.16 Black Cleaver +5 AD and Sterak's buffs, Cleaver→Sterak's is the higher win-probability spike — and even before the buffs Sterak's was already Illaoi's best win-rate second item over Iceborn. Best when the enemy team isn't stacking physical damage. Runes: Grasp in melee matchups (its health scaling loves the two big HP items), Conqueror into ranged or tankier comps.",
       runes:{...ILLAOI_TOP_DEFAULT_RUNES},
       sideItems:["Iceborn Gauntlet","Spirit Visage","Dead Man's Plate","Thornmail","Force of Nature"],
     }],

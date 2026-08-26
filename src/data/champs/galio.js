@@ -30,9 +30,9 @@ export default {
   lanes:["Mid","Support"],
   altBuilds:{
     Mid:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Abyssal Mask  ›  Sorcerer's Shoes  ›  Imperial Mandate  ›  Cosmic Drive",
-      coreNote:"Skill-Capped 26.16 enabler Galio: take Abyssal Mask over Hollow Radiance as the core, paired with Imperial Mandate. Abyssal amps ALL magic damage on the target by 12% and Mandate adds 7%, so your team follows up far harder on whoever you ult/taunt onto. Its rush data beats both Hollow Radiance and Rocketbelt on win rate AND win-probability. Only take it when teammates deal magic damage (ideal: a mage bot plus an AP top or jungle); if your team is all physical, stick with Hollow Radiance for the MR.",
+      coreNote:"Skill-Capped enabler Galio: take Abyssal Mask over Hollow Radiance as the core, paired with Imperial Mandate. Abyssal amps ALL magic damage on the target by 12% and Mandate adds 7%, so your team follows up far harder on whoever you ult/taunt onto. Its rush data beats both Hollow Radiance and Rocketbelt on win rate AND win-probability. Only take it when teammates deal magic damage (ideal: a mage bot plus an AP top or jungle); if your team is all physical, stick with Hollow Radiance for the MR.",
       runes:{...GALIO_MID_DEFAULT_RUNES},
       sideItems:["Hollow Radiance","Rylai's Crystal Scepter","Kaenic Rookern","Riftmaker","Mercury's Treads"],
     }],

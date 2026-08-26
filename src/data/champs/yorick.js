@@ -20,9 +20,9 @@ export default {
   lanes:["Top","Jungle"],
   altBuilds:{
     Top:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
-      coreNote:"Skill-Capped 26.16 OP line: Black Cleaver rush (his best-performing rush item in recent patches, now buffed) → Spear of Shojin → Sterak's Gage. Yorick benefits from BOTH the Cleaver and Sterak's 26.16 buffs, so his power spikes hard. Best into comps stacking armor — Cleaver's % armor shred scales with their stacking. Conqueror keystone into tank tops. Into squishier comps you can still rush Trinity Force instead (both are now good rushes).",
+      coreNote:"Skill-Capped OP line: Black Cleaver rush (his best-performing rush item in recent patches, now buffed) → Spear of Shojin → Sterak's Gage. Yorick benefits from BOTH the Cleaver and Sterak's 26.16 buffs, so his power spikes hard. Best into comps stacking armor — Cleaver's % armor shred scales with their stacking. Conqueror keystone into tank tops. Into squishier comps you can still rush Trinity Force instead (both are now good rushes).",
       runes:{...YORICK_TOP_DEFAULT_RUNES},
       sideItems:["Trinity Force","Death's Dance","Thornmail","Plated Steelcaps","Spirit Visage"],
     }],

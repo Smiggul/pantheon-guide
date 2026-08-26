@@ -20,9 +20,9 @@ export default {
   lanes:["Mid"],
   altBuilds:{
     Mid:[{
-      label:"OP 26.16 ALT", tag:"alt",
+      label:"OP 26.17 ALT", tag:"alt",
       corePath:"Dusk and Dawn  ›  Berserker's Greaves  ›  Nashor's Tooth  ›  Rabadon's Deathcap",
-      coreNote:"Skill-Capped 26.16 Azir: Press the Attack over Lethal Tempo — PTA is winning ~3% more (Lethal Tempo is actually negative win-probability on him right now) and it's already run by 34% of Azir players. Rush Dusk and Dawn so you proc PTA in TWO autos instead of three for huge upfront trades; with Azir's Q damage buffed for 26.16, the Q → PTA-proc threat makes his laning much stronger.",
+      coreNote:"Skill-Capped Azir: Press the Attack over Lethal Tempo — PTA is winning ~3% more (Lethal Tempo is actually negative win-probability on him right now) and it's already run by 34% of Azir players. Rush Dusk and Dawn so you proc PTA in TWO autos instead of three for huge upfront trades; with Azir's Q damage buffed for 26.16, the Q → PTA-proc threat makes his laning much stronger.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack rewards Azir's soldier-auto rhythm and, with Dusk and Dawn, procs in two autos for a burst trade — it out-wins Lethal Tempo by ~3% right now. Presence of Mind + Manaflow Band fix his mana; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight." },
       sideItems:["Nashor's Tooth","Rabadon's Deathcap","Void Staff","Zhonya's Hourglass","Rylai's Crystal Scepter"],
     }],
