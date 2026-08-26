@@ -205,7 +205,8 @@
           "Teemo",
           "Udyr",
           "Yorick",
-          "Zaahen"
+          "Zaahen",
+          "Shen"
         ],
         "wr": {
           "Viego": 51.2,
@@ -268,7 +269,8 @@
           "Volibear": 49.3,
           "Yorick": 48.3,
           "Zaahen": 48.3,
-          "Zyra": 49.2
+          "Zyra": 49.2,
+          "Shen": 48.4
         }
       },
       "Mid": {
@@ -790,7 +792,8 @@
           "Teemo",
           "Udyr",
           "Yorick",
-          "Zaahen"
+          "Zaahen",
+          "Shen"
         ],
         "wr": {
           "Viego": 51.2,
@@ -853,7 +856,8 @@
           "Volibear": 48.9,
           "Yorick": 48.3,
           "Zaahen": 48.3,
-          "Zyra": 49.2
+          "Zyra": 49.2,
+          "Shen": 48.4
         }
       },
       "Mid": {
@@ -1376,7 +1380,8 @@
           "Briar",
           "Udyr",
           "Yorick",
-          "Zaahen"
+          "Zaahen",
+          "Shen"
         ],
         "wr": {
           "Viego": 51.2,
@@ -1439,7 +1444,8 @@
           "Volibear": 49.7,
           "Yorick": 48.3,
           "Zaahen": 48.3,
-          "Zyra": 49.2
+          "Zyra": 49.2,
+          "Shen": 48.4
         }
       },
       "Mid": {

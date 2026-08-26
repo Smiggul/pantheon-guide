@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
+import { DD_OVERRIDES, toDD, toDDKey } from "./data/ddOverrides.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
@@ -123,43 +124,7 @@ function opponentDd(theirTeam, myPos, myRole) {
 //  IMAGE HELPERS  (local paths — put PNGs in public/images/)
 // ─────────────────────────────────────────────────────────────────────────────
 const IMG      = "./images";
-// Converts any display name to the Data Dragon filename format.
-// Examples: "Vel'Koz" → "Velkoz",  "Dr. Mundo" → "DrMundo",
-//           "Nunu & Willump" → "Nunu",  "Wukong" → "MonkeyKing"
-const DD_OVERRIDES = {
-  "Wukong":          "MonkeyKing",
-  "Nunu & Willump":  "Nunu",
-  "Jarvan IV":       "JarvanIV",
-  "K'Sante":         "KSante",
-  "Renata Glasc":    "Renata",
-  "Aurelion Sol":    "AurelionSol",
-  "Bel'Veth":        "Belveth",
-  "Kog'Maw":         "KogMaw",
-  "Cho'Gath":        "Chogath",
-  "Kha'Zix":         "Khazix",
-  "Kai'Sa":          "Kaisa",
-  "Rek'Sai":         "RekSai",
-  "LeBlanc":         "Leblanc",
-  "Lee Sin":         "LeeSin",
-  "Master Yi":       "MasterYi",
-  "Miss Fortune":    "MissFortune",
-  "Tahm Kench":      "TahmKench",
-  "Twisted Fate":    "TwistedFate",
-  "Dr. Mundo":       "DrMundo",
-  "Vel'Koz":         "Velkoz",
-  "Xin Zhao":        "XinZhao",
-
-};
-
-const toDD = (name) => {
-  if (DD_OVERRIDES[name]) return DD_OVERRIDES[name];
-  return name
-    .replace(/'([A-Z])/g, (_, c) => c.toLowerCase()) // 'K → k  (Vel'Koz → Velkoz)
-    .replace(/\./g,  "")   // remove dots  (Dr. → Dr)
-    .replace(/ & .*/g, "") // drop & Willump etc
-    .replace(/ /g,   "")   // remove spaces
-    .replace(/'/g,   "");  // any leftover apostrophes
-};
+// DD_OVERRIDES + toDD/toDDKey now live in ./data/ddOverrides.js (imported above).
 
 // ── Data Dragon base (populated by setup_ddragon.py) ─────────────────────────
 const DD = "/ddragon";
@@ -171,16 +136,7 @@ const GAME_PATCH = (() => {
   return maj && min ? `${Number(maj) + 10}.${min}` : DDRAGON_VERSION;
 })();
 
-// Champions — uses your existing toDD() key
-// Display name → DDragon id (e.g. "Miss Fortune" → "MissFortune", "Wukong" via
-// DD_OVERRIDES → "MonkeyKing"). Same key used for the champion image AND to look
-// up the Riot numeric championId in CHAMP_KEYS (for ban pre-select).
-const toDDKey = (name) => DD_OVERRIDES[name] || name
-  .replace(/'([A-Z])/g, (_, c) => c.toLowerCase())
-  .replace(/\./g,  "")
-  .replace(/ & .*/g, "")
-  .replace(/ /g,   "")
-  .replace(/'/g,   "");
+// Champion image path — toDDKey (from ddOverrides.js) resolves the DDragon id.
 const champImg = (name) => `${DD}/img/champion/${toDDKey(name)}.png`;
 
 // Items — resolved at runtime from item.json (numeric ID)
