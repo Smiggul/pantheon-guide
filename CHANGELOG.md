@@ -12,6 +12,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.13.1] — 2026-08-26
+
+### Changed
+- **Forge skin backdrop is now full-screen.** The champion splash is a fixed, full-viewport layer behind the whole app — visible throughout as you scroll, not just the hero band — and a touch more visible.
+- **Randomized skin per champion.** Each champion now shows a random one of its skins (re-rolled when you switch champions), loaded from Data Dragon; offline it falls back to the bundled base splash.
+
 ## [0.13.0] — 2026-08-26
 
 ### Added
