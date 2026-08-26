@@ -1616,9 +1616,9 @@ useEffect(() => {
           <img src={`${DD_SKINS}/${activeSkin.splash}.jpg`} alt=""
             style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%",
               objectFit:"cover", objectPosition:"top center",
-              opacity:0.22, filter:"saturate(1.08)" }}/>
+              opacity:0.34, filter:"saturate(1.12)" }}/>
           <div style={{ position:"absolute", inset:0, background:
-            "linear-gradient(180deg, rgba(18,16,19,.42) 0%, rgba(18,16,19,.7) 52%, rgba(18,16,19,.94) 82%, #121013 100%)" }}/>
+            "linear-gradient(180deg, rgba(18,16,19,.3) 0%, rgba(18,16,19,.6) 52%, rgba(18,16,19,.9) 82%, #121013 100%)" }}/>
           <div style={{ position:"absolute", inset:0, background:
             `radial-gradient(1100px 380px at 50% -12%, ${skinP}2e 0%, transparent 60%)` }}/>
         </div>
