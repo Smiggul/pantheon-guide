@@ -746,7 +746,7 @@ useEffect(() => {
   // to tweak) — split the boots out of the core into the mandatory Boots slot.
   const seedForgeFromBuild = () => {
     const all = (buildCorePath || "").split("›").map(s => s.trim()).filter(Boolean);
-    setForgeItems({ starter: [], boots: all.filter(n => BOOTS_SET.has(n.toLowerCase())),
+    setForgeItems({ starter: [], boots: all.filter(n => BOOTS_SET.has(n.toLowerCase())).slice(0, 1),
       core: all.filter(n => !BOOTS_SET.has(n.toLowerCase())), situational: [...(buildSideItems || [])] });
     setForgeOpen(true);
   };
@@ -781,7 +781,7 @@ useEffect(() => {
       : (target.roles ? Object.keys(target.roles)[0] : null));
     setOpenClass(b.enemyClass || null);
     if (b.items && typeof b.items === "object") {
-      setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], boots: b.items.boots || [], situational: b.items.situational || [] });
+      setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], boots: (b.items.boots || []).slice(0, 1), situational: b.items.situational || [] });
       setForgeOpen(true);
     }
     return target;
@@ -2990,12 +2990,22 @@ useEffect(() => {
                           </span>
                         );
                       })}
-                      <button onClick={() => { setForgeSlot(forgeSlot === key ? null : key); setForgeQuery(""); }}
-                        style={{ padding:"3px 9px", fontSize:"10.5px", fontWeight:"700", cursor:"pointer", borderRadius:"7px",
-                          border:`1px dashed ${forgeSlot === key ? S.gold : "rgba(255,255,255,.2)"}`,
-                          background:"transparent", color: forgeSlot === key ? S.gold : "rgba(255,255,255,.55)" }}>
-                        {forgeSlot === key ? "× close" : "+ add"}
-                      </button>
+                      {/* Boots is single-choice: once one is picked, offer "change"
+                          (which replaces it) instead of "+ add". */}
+                      {!(key === "boots" && forgeItems.boots.length > 0 && forgeSlot !== key) ? (
+                        <button onClick={() => { setForgeSlot(forgeSlot === key ? null : key); setForgeQuery(""); }}
+                          style={{ padding:"3px 9px", fontSize:"10.5px", fontWeight:"700", cursor:"pointer", borderRadius:"7px",
+                            border:`1px dashed ${forgeSlot === key ? S.gold : "rgba(255,255,255,.2)"}`,
+                            background:"transparent", color: forgeSlot === key ? S.gold : "rgba(255,255,255,.55)" }}>
+                          {forgeSlot === key ? "× close" : "+ add"}
+                        </button>
+                      ) : (
+                        <button onClick={() => { setForgeSlot(key); setForgeQuery(""); }}
+                          style={{ padding:"3px 9px", fontSize:"10.5px", fontWeight:"700", cursor:"pointer", borderRadius:"7px",
+                            border:"1px dashed rgba(255,255,255,.2)", background:"transparent", color:"rgba(255,255,255,.55)" }}>
+                          ⇄ change
+                        </button>
+                      )}
                     </div>
                     {forgeSlot === key && (
                       <div style={{ marginTop:"6px" }}>

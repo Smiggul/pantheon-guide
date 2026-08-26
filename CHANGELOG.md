@@ -12,6 +12,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.14.1] — 2026-08-26
+
+### Fixed
+- **Build Forge boots are truly single-choice.** Once a pair is picked the slot shows **⇄ change** (which replaces it) instead of **+ add**, and the seed-from-build / imported-code paths can no longer inject more than one pair.
+
 ## [0.14.0] — 2026-08-26
 
 ### Added
