@@ -12,6 +12,17 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.10.2] — 2026-08-17
+
+### Added
+- **Build Forge — Summoner's Rift items only.** The item picker now offers just the ~222 items actually purchasable on the Rift; Arena-only, champion-locked (Ornn masterworks), and non-Rift items no longer appear.
+- **Build Forge — mandatory Boots slot.** Every planned build now has a required Boots slot with a boots-only picker, so you itemise properly in champ select.
+- **"When to build" for every situational item.** Each situational item now answers *"in what situation do I need this?"* — 34 new item explanations (125/125 covered), shown under a **When to build** label on the item card.
+- **Udyr Top build options.** Udyr Top now carries three toggles: AP stance-dancer, **AP DPS** (Nashor's → Lich Bane), and **AD Bruiser** (Trinity → Spear of Shojin).
+
+### Fixed
+- **Support item sets.** Applied/exported builds for supports now start the **World Atlas** support quest and suggest the finished support items (Bloodsong / Solstice Sleigh / Celestial Opposition / Dream Maker / Zaz'Zak's) instead of a Doran's Blade + Long Sword. Fixes every support at once.
+
 ## [0.10.1] — 2026-08-17
 
 ### Fixed
