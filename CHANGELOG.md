@@ -12,6 +12,16 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.11.0] — 2026-08-26
+
+### Added
+- **🌲 Jungle Coach.** On the Jungle role, a tab on the far-right edge slides out a drawer with the champion's **optimal first-clear + gank plan** (48 junglers seeded) and **7 evergreen jungle fundamentals** (skip-camp rules, quadrant rule, base timers, objectives-vs-kills, counting numbers).
+- **Patch 26.17.** Data Dragon bumped to 16.17.1; tier list updated to the 26.17 meta (Nasus OP top, Trundle/Rammus rising jungle, Jinx/Zeri OP bot, Sona/Thresh/Leona/Poppy support shifts, and more).
+- **New builds** — Volibear (Statikk Waveclear, Full Tank), Wukong (Full HP "Exodia"), **Shen** (Full AP; **+ a new Jungle role**), Malphite (Full AP), Syndra (Mandate Burst), Poppy support → Aftershock, plus the Briar/Garen/Vex/Seraphine alts.
+
+### Changed
+- Extracted the canonical name→Data-Dragon map into `src/data/ddOverrides.js` (shared resolver, no behaviour change).
+
 ## [0.10.2] — 2026-08-17
 
 ### Added
