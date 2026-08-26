@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { DD_OVERRIDES, toDD, toDDKey } from "./data/ddOverrides.js";
-import { matchup, bestCountersVs, THREAT_LABEL } from "./data/counterPicker.js";
+import { matchup, bestCountersVs, bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
@@ -2154,6 +2154,43 @@ useEffect(() => {
                           })}
                         </div>
                       )}
+                    </div>
+                  );
+                })()}
+
+                {/* Best pick vs the WHOLE enemy comp — counters the most of the team */}
+                {csMyRole && members.length >= 2 && (() => {
+                  const enemyDds = members.map((m) => m.dd);
+                  const cand = CHAMPS.filter((c) => (c.roles ? Object.keys(c.roles) : (c.lanes || [])).includes(csMyRole)).map((c) => c.dd);
+                  const recs = bestCountersVsComp(enemyDds, cand).filter((r) => r.score > 0).slice(0, 5);
+                  if (!recs.length) return null;
+                  const fmt = (h) => Object.entries(h).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t, n]) => `${n}× ${THREAT_LABEL[t]}`).join(", ");
+                  return (
+                    <div style={{ marginTop:"10px", paddingTop:"9px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
+                      <div style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim, marginBottom:"7px" }}>
+                        Best {csMyRole} vs their comp
+                      </div>
+                      <div style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap" }}>
+                        {recs.map((r) => {
+                          const rc = DD_TO_CHAMP[r.dd]; if (!rc) return null;
+                          const ek = `cc-${r.dd}`; const src = champImg(rc.display);
+                          return (
+                            <button key={r.dd} onClick={() => pickChamp(rc)}
+                              title={`${rc.display} handles ${fmt(r.handles) || "their kit"} — click to pick`}
+                              style={{ display:"flex", alignItems:"center", gap:"5px", padding:"2px 9px 2px 3px", borderRadius:"16px",
+                                cursor:"pointer", border:`1px solid ${S.gold}40`, background:"rgba(212,175,55,.07)", color:"#e9ebee" }}>
+                              <span style={{ width:"22px", height:"22px", borderRadius:"50%", overflow:"hidden", background:"#1B1B1E", flexShrink:0,
+                                display:"flex", alignItems:"center", justifyContent:"center" }}>
+                                {src && !imgFail(ek)
+                                  ? <img src={src} alt="" onError={() => onErr(ek)} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                                  : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
+                              </span>
+                              <span style={{ fontSize:"11px", fontWeight:600 }}>{rc.display}</span>
+                              <span style={{ fontSize:"9px", color:"#7fd6a2", fontWeight:700 }}>+{r.score}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })()}

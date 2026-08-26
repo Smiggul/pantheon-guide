@@ -147,3 +147,26 @@ export function bestCountersVs(foeDd, candidateDds) {
     .map((dd) => ({ dd, ...matchup(dd, foeDd) }))
     .sort((a, b) => b.score - a.score);
 }
+
+// Aggregate matchup vs a WHOLE enemy comp: the net score summed over every
+// enemy, plus how many enemies each of your counters answers (`handles`) and how
+// many punish you (`punished`) — so "handles 3× dashes" falls out naturally.
+export function scoreVsComp(meDd, foeDds) {
+  let score = 0; const handles = {}, punished = {};
+  for (const f of foeDds) {
+    const mu = matchup(meDd, f);
+    score += mu.score;
+    for (const t of mu.youCounter) handles[t] = (handles[t] || 0) + 1;
+    for (const t of mu.theyCounter) punished[t] = (punished[t] || 0) + 1;
+  }
+  return { score, handles, punished };
+}
+
+// Rank candidates as the best pick against the whole enemy comp. Sorted desc.
+export function bestCountersVsComp(foeDds, candidateDds) {
+  const foes = new Set(foeDds);
+  return candidateDds
+    .filter((dd) => !foes.has(dd))
+    .map((dd) => ({ dd, ...scoreVsComp(dd, foeDds) }))
+    .sort((a, b) => b.score - a.score);
+}
