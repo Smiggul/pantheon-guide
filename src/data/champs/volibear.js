@@ -34,6 +34,18 @@ export default {
       coreNote:"Skill-Capped 26.16 burst-catch Volibear: Rocketbelt rush — its active dash closes the gap to land Q's stun — then Duskblade, then Zhonya's. Crucially you take Press the Attack over Lethal Tempo, playing for upfront burst instead of extended-fight DPS. Best when the enemy team is majority squishy (catch someone out of position and delete them); keep the standard Lethal Tempo attack-speed build into tanky/bruiser comps.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Ability Haste","Adaptive Force","Health (scaling)"], reason:"Press the Attack front-loads the burst this catch build wants — the Q-empowered auto + W chain procs it fast so Rocketbelt and Duskblade can finish the target. Sorcery (Transcendence + Gathering Storm) fuels the ability haste and scaling for repeated Rocketbelt dives." },
       sideItems:["Shadowflame","Cosmic Drive","Rylai's Crystal Scepter","Riftmaker","Mercury's Treads"],
+    },{
+      label:"Statikk Waveclear", tag:"alt",
+      corePath:"Dusk and Dawn  ›  Statikk Shiv  ›  Berserker's Greaves  ›  Spirit Visage",
+      coreNote:"A waveclear-first spin on his on-hit build: keep Dusk and Dawn first for the fast Lethal-Tempo/on-hit proc, but take Statikk Shiv over Navori Flickerblade. Statikk's energized bolts give Volibear the AoE waveclear + teamfight chip his kit otherwise lacks (and clear waves fast enough to freely roam or dive with R). You trade some of Flickerblade's single-target sustained DPS for shove pressure and poke — best when you keep getting shoved in or want to force objective tempo. Lethal Tempo keystone as normal.",
+      runes:{...VOLIBEAR_TOP_DEFAULT_RUNES},
+      sideItems:["Navori Flickerblade","Wit's End","Thornmail","Kaenic Rookern","Sterak's Gage","Mercury's Treads"],
+    },{
+      label:"Full Tank", tag:"alt",
+      corePath:"Sunfire Aegis  ›  Jak'Sho, The Protean  ›  Spirit Visage  ›  Thornmail",
+      coreNote:"The frontline-engage identity: give up the on-hit DPS for pure durability. Volibear's kit carries this well — R disables a tower and its shield + AoE keep you diving, W still heals a chunk off every bite, and the passive does %-max-HP magic damage so you stay relevant without damage items. Sunfire → Jak'Sho → Spirit Visage → Thornmail, with Aftershock to punish your own engage. Best into heavy-damage enemy comps or when your team just needs a rock-solid frontline — much less solo-carry threat than the DPS builds, but far harder to kill. Swap Kaenic Rookern in vs AP, Randuin's/Frozen Heart vs crit.",
+      runes:{ keystone:"Aftershock", primary:"Resolve", primaryRunes:["Font of Life","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Aftershock turns Volibear's guaranteed E/R engage into a burst of resistances + a damage pop, exactly when he dives in — the tank keystone that rewards his all-in pattern. Font of Life and Conditioning scale his frontline durability, Overgrowth compounds it in longer games; Triumph + Legend: Haste keep him healthy and spamming his kit through the fight." },
+      sideItems:["Warmog's Armor","Kaenic Rookern","Frozen Heart","Randuin's Omen","Unending Despair","Mercury's Treads"],
     }],
   },
   roles:{
