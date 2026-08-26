@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { DD_OVERRIDES, toDD, toDDKey } from "./data/ddOverrides.js";
+import { matchup, bestCountersVs, THREAT_LABEL } from "./data/counterPicker.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
@@ -2098,6 +2099,50 @@ useEffect(() => {
                     })}
                   </div>
                 )}
+
+                {/* Lane counter — how you fare vs the enemy laner + best picks into them */}
+                {csOppDd && csMyRole && (() => {
+                  const myDd = detectedChamp?.dd || champ.dd;
+                  const foe = (DD_TO_CHAMP[csOppDd]?.display) || csOppDd;
+                  const mu = matchup(myDd, csOppDd);
+                  const cand = CHAMPS.filter((c) => (c.roles ? Object.keys(c.roles) : (c.lanes || [])).includes(csMyRole)).map((c) => c.dd);
+                  const recs = bestCountersVs(csOppDd, cand).filter((r) => r.score > 0).slice(0, 5);
+                  return (
+                    <div style={{ marginTop:"10px", paddingTop:"9px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
+                      <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap", marginBottom:"6px" }}>
+                        <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim }}>Lane counter</span>
+                        <span style={{ fontSize:"11px", color:"rgba(255,255,255,.5)" }}>vs {foe}</span>
+                      </div>
+                      <div style={{ display:"flex", gap:"18px", flexWrap:"wrap", fontSize:"11px", marginBottom:recs.length ? "8px" : 0, lineHeight:1.5 }}>
+                        <span><b style={{ color:"#7fd6a2" }}>You handle:</b> <span style={{ color:"rgba(255,255,255,.75)" }}>{mu.youCounter.length ? mu.youCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
+                        <span><b style={{ color:"#e88a8a" }}>They punish:</b> <span style={{ color:"rgba(255,255,255,.75)" }}>{mu.theyCounter.length ? mu.theyCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
+                      </div>
+                      {recs.length > 0 && (
+                        <div style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap" }}>
+                          <span style={{ fontSize:"10px", color:S.goldDim, letterSpacing:".5px", flexShrink:0 }}>Best picks</span>
+                          {recs.map((r) => {
+                            const rc = DD_TO_CHAMP[r.dd]; if (!rc) return null;
+                            const ek = `lc-${r.dd}`; const src = champImg(rc.display);
+                            return (
+                              <button key={r.dd} onClick={() => pickChamp(rc)}
+                                title={`${rc.display} handles their ${r.youCounter.map((t) => THREAT_LABEL[t]).join(", ") || "kit"} — click to pick`}
+                                style={{ display:"flex", alignItems:"center", gap:"5px", padding:"2px 9px 2px 3px", borderRadius:"16px",
+                                  cursor:"pointer", border:`1px solid ${S.gold}40`, background:"rgba(212,175,55,.07)", color:"#e9ebee" }}>
+                                <span style={{ width:"22px", height:"22px", borderRadius:"50%", overflow:"hidden", background:"#1B1B1E", flexShrink:0,
+                                  display:"flex", alignItems:"center", justifyContent:"center" }}>
+                                  {src && !imgFail(ek)
+                                    ? <img src={src} alt="" onError={() => onErr(ek)} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                                    : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
+                                </span>
+                                <span style={{ fontSize:"11px", fontWeight:600 }}>{rc.display}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
               </>
             )}
           </div>
