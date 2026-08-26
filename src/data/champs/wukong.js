@@ -43,6 +43,21 @@ export default {
         reason: "Conqueror still stacks fast off the Q-auto-clone flurry but the lethality items convert it to burst; Sudden Impact fires off every W-stealth exit and R knockup, and Treasure Hunter funds the lethality curve for the snowball.",
       },
       sideItems: ["The Collector", "Edge of Night", "Black Cleaver", "Death's Dance", "Guardian Angel", "Opportunity"],
+    },{
+      label: "Full HP (Exodia)",
+      tag: "off-meta",
+      corePath: "Heartsteel  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Riftmaker",
+      coreNote: "The 'Exodia' full-HP build — Wukong's passive and his 100%-AP-ratio E both love stacked health, so you snowball HP into damage: Heartsteel to stack, Overlord's Bloodmail (AD off max HP), then Riftmaker (huge AP off the E ratio + omnivamp + ramping true damage after 4s in a fight). Round it out with Titanic Hydra or Unending Despair. A slow-scaling late-game monster that becomes nearly unkillable and still hits like a truck at three items — much tankier than the Trinity bruiser but weaker early, so grab Tiamat first into shove matchups (Singed). Conqueror + Resolve for the extended brawls it's built to win.",
+      runes: {
+        keystone: "Conqueror",
+        primary: "Precision",
+        primaryRunes: ["Triumph", "Legend: Haste", "Last Stand"],
+        secondary: "Resolve",
+        secondaryRunes: ["Second Wind", "Overgrowth"],
+        shards: ["Ability Haste", "Health", "Health (scaling)"],
+        reason: "Conqueror + Last Stand reward the drawn-out fights Riftmaker's omnivamp keeps you alive in, and the double Health shard + Overgrowth compound the HP-stacking identity that Heartsteel/Overlord's/passive all scale off. Legend: Haste keeps Q and R flowing through the brawl.",
+      },
+      sideItems: ["Titanic Hydra", "Unending Despair", "Trinity Force", "Spirit Visage", "Sterak's Gage", "Mercury's Treads"],
     }],
   },
   roles:{

@@ -28,6 +28,15 @@ export default {
   id:"shen", display:"Shen", dd:"Shen",
   color:"#1a2a3a", glow:"#5a9ac0",
   lanes:["Top","Support"],
+  altBuilds:{
+    Top:[{
+      label:"Full AP", tag:"off-meta",
+      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Cosmic Drive  ›  Cryptbloom",
+      coreNote:"Full-AP Shen — the ability-haste tech build (popularised in the jungle by boss FFS, but it works in lane too). Dusk and Dawn is mandatory: its double on-hit burns Q stacks faster and lets you replicate the last Q stack for ~33% more Q value, so this build scales with ability haste more than raw AP. Rush Dusk and Dawn → Cosmic Drive → Cryptbloom (haste + magic pen), and your Q starts nuking (his %-max-HP Q + Dusk and Dawn ≈ 20-30% max HP per cast). A carry Shen, not a tank — much squishier, so lean on R for global presence and pick your fights. Rocketbelt/Zhonya's from the side.",
+      runes:{ keystone:"Fleet Footwork", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Haste","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Ability Haste","Adaptive Force","Health (scaling)"], reason:"Fleet Footwork gives the constant sustain Shen wants and everything else stacks ability haste — Legend: Haste + Transcendence + the haste shard — because Dusk and Dawn makes him burn Q stacks fast, so haste (not AP) is what scales this build. Gathering Storm carries the AP into the late game." },
+      sideItems:["Hextech Rocketbelt","Zhonya's Hourglass","Void Staff","Riftmaker","Mercury's Treads"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Vayne","Fiora","Camille"], replacements:["Sett","Volibear","Jax"],
