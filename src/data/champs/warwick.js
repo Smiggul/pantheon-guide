@@ -33,7 +33,7 @@ export default {
       bans:["Kindred","Amumu","Lillia"], replacements:["Udyr","Rek'Sai","Shyvana"],
       role:"Diver / Tank",
       corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Blade of the Ruined King  ›  Thornmail",
-      coreNote:"Stridebreaker first for the AoE slow on Infinite Duress — they cannot escape your ult suppression. Blade of the Ruined King second for % HP drain that synergises with Blood Hunt passive. Thornmail third for GW against healing targets. Spirit Visage fourth amplifies your W passive healing.",
+      coreNote:"Stridebreaker first for the AoE slow on Infinite Duress — they cannot escape your ult suppression. Plated Steelcaps second blunts the auto-attack damage you dive into. Blade of the Ruined King third for the % HP drain that synergises with Blood Hunt passive. Thornmail fourth for GW against healing targets — swap to Spirit Visage when you'd rather amplify your own W passive healing.",
       sideItems:["Spirit Visage","Sterak's Gage","Dead Man's Plate","Force of Nature","Mercury's Treads","Warmog's Armor"],
       data:{
         JUGGERNAUT:{ahead:[I("Thornmail","GW 40% on Warwick vs Darius/Mundo regen — mirror sustain fight, yours wins."),I("Blade of the Ruined King","% current HP drain beats their HP stacking model."),I("Spirit Visage","W passive healing amplified — sustains through their walk-down.")],behind:[I("Spirit Visage","W healing amp is your lifeline when behind."),I("Thornmail","GW cuts their regen even when behind."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WARWICK_JGL_DEFAULT_RUNES}},

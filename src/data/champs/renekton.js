@@ -31,7 +31,7 @@ export default {
           bans:         ["Quinn","Dr. Mundo","Cho'Gath"],
           replacements: ["Sett","Pantheon","Wukong"],
           corePath: "Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-          coreNote: "Trinity Force first — Sheen procs on empowered W stuns are devastating early. Sundered Sky second for healing burst on Q proc. Black Cleaver third stacks armor shred with every E pass. Death's Dance fourth to sustain through extended teamfights.",
+          coreNote: "Eclipse first — the two-hit proc plus its shield and move-speed turn an empowered-W stun into a burst-and-stick pattern that snowballs the early skirmish window. Plated Steelcaps second blunts the auto-attack harass his lane bullies rely on. Black Cleaver third stacks armor shred with every E pass, and its haste keeps the empowered-ability cadence flowing. Death's Dance fourth converts their counter-burst into bleed so you survive extended teamfights.",
           sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Serylda's Grudge","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Frozen Heart","Maw of Malmortius","Randuin's Omen"],
           data: {
             JUGGERNAUT: {

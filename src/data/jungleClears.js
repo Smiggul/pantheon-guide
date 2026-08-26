@@ -58,7 +58,7 @@ export const JUNGLE_CLEARS = {
   XinZhao:    { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 3 (E-Q)", note:"E-dash + knockup is a strong level-3 gank; Sundered Sky duelist wins early skirmishes, so contest scuttle and dive." },
   Nidalee:    { start:"Red",  route:FARM_RED, gank:"Cheese / spears", note:"Fast, healthy clear + long-range spear poke — pressure lanes with spears and cougar-dive low targets; scales via clear speed." },
   Khazix:     { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 3 (isolation)", note:"First Strike economy assassin — gank isolated targets for the Q bonus; evolve for picks and skip fights you can't isolate." },
-  Pantheon:   { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 3 (Q-W stun)", note:"Point-and-click W stun makes level-3 ganks near-guaranteed; Eclipse spikes hard, so snowball the early game." },
+  Pantheon:   { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 3 (Q-W stun)", note:"Point-and-click W stun makes level-3 ganks near-guaranteed; Sundered Sky spikes hard, so snowball the early game." },
   Vi:         { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 6 (R lock)", note:"Q-engage ganks early, but her real gank spike is R at 6 — a point-and-click lockdown; Sundered Sky keeps her sticky." },
   JarvanIV:   { start:"Red",  route:"Red → Krugs → Raptors → gank", gank:"Lvl 3 (E-Q)", note:"Flag-drag knockup ganks at 3; strong objective setup with R cage — path toward a lane you can E-Q flash." },
   Rengar:     { start:"Red",  route:FARM_RED, gank:"Lvl 6 (R roam)", note:"Bush-leap picks — path bush to bush and use R to roam for isolated kills; snowball or he falls off." },
