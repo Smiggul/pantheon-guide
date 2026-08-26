@@ -59,6 +59,12 @@ export default {
       coreNote:"A higher-damage answer to the bruiser stance-dancer — trade the Liandry's/Riftmaker durability for on-hit AP burst. Nashor's Tooth turns every Q-Awaken empowered auto into big on-hit magic damage (and its attack speed means more Awaken autos + faster stance cycling); Lich Bane procs a spellblade on each stance swap, so Wingborne Storm (R) into stance-dancing genuinely shreds. Rabadon's multiplies it all. Take Lethal Tempo for the attack-speed on-hit ramp (Conqueror is the more forgiving, self-healing option into hard lanes). Much squishier than the bruiser build — play it ahead or into a lane you can bully, and pull Zhonya's / Banshee's from the side list vs burst.",
       runes:{ keystone:"Lethal Tempo", primary:"Precision", primaryRunes:["Triumph","Legend: Alacrity","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Lethal Tempo maximises the on-hit core — every stack is more Nashor's/Lich Bane damage per Q-Awaken auto, and the attack speed lets you weave more autos between stance swaps. Legend: Alacrity + the attack-speed shard push that further; Transcendence and Gathering Storm scale the AP that R and Lich Bane burst with." },
       sideItems:["Shadowflame","Void Staff","Zhonya's Hourglass","Cosmic Drive","Banshee's Veil"],
+    },{
+      label:"AD Bruiser", tag:"alt",
+      corePath:"Trinity Force  ›  Boots of Swiftness  ›  Spear of Shojin  ›  Death's Dance",
+      coreNote:"The AD lane-bully alternative to the two AP builds — a Trinity Force stance-dancer that walks people down with Q-Awaken empowered autos. Trinity's Spellblade procs on every stance activation, Spear of Shojin ramps ability haste for more Awaken uses + faster form swaps, and Death's Dance smooths the sustained trades. Tankier and more forgiving than AP DPS but with less waveclear and burst — a stat-check duelist best into melee bruiser lanes you can out-sustain. Grasp fits the sustained-trade lane pattern; stance priority follows the standard (R for the storm, E for the stun).",
+      runes:{...UDYR_TOP_DEFAULT_RUNES},
+      sideItems:["Sterak's Gage","Spirit Visage","Black Cleaver","Experimental Hexplate","Thornmail","Plated Steelcaps"],
     }],
   },
   roles:{

@@ -97,6 +97,21 @@ const PROFILE = {
   TANK:      { start: "Doran's Shield", startLabel: "durable", filler: "Ruby Crystal",    greedy: null },
 };
 
+// Support quest line (World Atlas → Runic Compass) finishes into one of these.
+// Pick the one that matches the build, but list them all so the player can swap.
+const SUPPORT_FINISHERS = ["Bloodsong", "Solstice Sleigh", "Celestial Opposition", "Dream Maker", "Zaz'Zak's Realmspike"];
+function supportFinishers(coreNoBoots) {
+  const low = coreNoBoots.map((s) => s.toLowerCase());
+  const has = (arr) => arr.some((x) => low.includes(x));
+  let rec;
+  if (has(["hextech rocketbelt", "luden's echo", "liandry's torment", "zaz'zak's realmspike", "blackfire torch", "horizon focus", "malignance"])) rec = "Zaz'Zak's Realmspike";
+  else if (has(["umbral glaive", "youmuu's ghostblade", "profane hydra", "serpent's fang", "voltaic cyclosword", "edge of night"])) rec = "Bloodsong";
+  else if (has(["dream maker", "moonstone renewer", "echoes of helia", "ardent censer", "staff of flowing water", "mikael's blessing", "redemption"])) rec = "Dream Maker";
+  else if (has(["knight's vow", "sunfire aegis", "frozen heart", "zeke's convergence", "iceborn gauntlet", "jak'sho, the protean", "locket of the iron solari"])) rec = "Solstice Sleigh";
+  else rec = "Celestial Opposition";
+  return [rec, ...SUPPORT_FINISHERS.filter((x) => x !== rec)];
+}
+
 // ── Build a full LCU-style item set for a champ/role/enemy-class ─────────────
 //  customItems (optional): a Build Forge set { starter, core, situational } —
 //  when present it replaces the recommended item blocks so the exported/imported
@@ -128,14 +143,24 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const situational = roleData.sideItems || [];
   const ahead = (roleData.data?.[enemyClass]?.ahead || []).map((e) => e?.name).filter(Boolean);
 
-  // Jungle starts with a smite pet, not a Doran's item.
+  // Jungle starts with a smite pet; support starts with the World Atlas quest
+  // item and finishes into a support item — never a Doran's/laning start.
   const pet = roleName === "Jungle" ? petFor(champDd, roleData, null) : null;
+  const isSupport = roleName === "Support" && !pet;
+  const supFin = isSupport ? supportFinishers(coreNoBoots) : null;
   const startBlocks = pet
     ? [
         // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
         // Potion (150g) would push it to 600g, which isn't affordable at level 1.
         itemBlock(`Jungle pet — ${pet}`, [pet, "Health Potion", "Stealth Ward"]),
         itemBlock("Alt pets", ["Scorchclaw Pup", "Gustwalker Hatchling", "Mosstomper Seedling"].filter((p) => p !== pet)),
+      ]
+    : isSupport
+    ? [
+        // Support quest item (World Atlas → Runic Compass) + the finished support
+        // items it upgrades into — recommended finisher first, then the rest.
+        itemBlock("Start — support quest", ["World Atlas", "Health Potion", "Stealth Ward"]),
+        itemBlock("Support item — finish (pick one)", supFin),
       ]
     : [
         // Laning starts, each a complete buy — standard, then the situational swaps.
@@ -157,7 +182,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     // First back: ~900-1300g. The first core item's real building block, a
     // damage-type-appropriate filler (never a Long Sword on an AP champ), the
     // greedy stacking option where it applies, then boots and a ward.
-    itemBlock("First back (~1000g)", [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
+    itemBlock("First back (~1000g)", isSupport
+      ? [supFin[0], "Boots", "Control Ward"]
+      : [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
     itemBlock(`Core — ${roleName}`, coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
     itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`, [...ahead, ...situational]),

@@ -46,7 +46,11 @@ for (const c of mod.CHAMPS) {
  "Cull","Dark Seal","Tear of the Goddess","Control Ward","Stealth Ward","Farsight Alteration","Oracle Lens",
  "Plated Steelcaps","Mercury's Treads","Sorcerer's Shoes","Berserker's Greaves","Ionian Boots of Lucidity",
  "Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles","Boots","Long Sword",
- "Scorchclaw Pup","Gustwalker Hatchling","Mosstomper Seedling"].forEach((n) => used.add(n));
+ "Scorchclaw Pup","Gustwalker Hatchling","Mosstomper Seedling",
+ // Support quest line + finished support items — buildItemSet emits these for
+ // every Support role even though no corePath lists the World Atlas start.
+ "World Atlas","Runic Compass","Bloodsong","Solstice Sleigh","Celestial Opposition",
+ "Dream Maker","Zaz'Zak's Realmspike"].forEach((n) => used.add(n));
 
 // First-back = the ~1000g building block of the first core item. Take the
 // priciest component within budget; if a component is over budget (e.g. The
