@@ -10,6 +10,7 @@ import { PET_INFO, petFor } from "./data/junglePets.js";
 import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
 import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
 import TierList from "./TierList.jsx";
+import JunglePanel from "./JunglePanel.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -497,6 +498,7 @@ export default function App() {
   // ── Theme + Settings ────────────────────────────────────────────────────
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
   const [view, setView] = useState("build");                 // "build" | "tiers"
+  const [jungleOpen, setJungleOpen] = useState(false);        // right-side Jungle Coach drawer
   const [skillView, setSkillView] = useState(loadSkillView); // "grid" | "strip"
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
@@ -669,6 +671,7 @@ useEffect(() => {
   // ── Alternate / off-meta build overlay ──────────────────────────────────────
   const altList = champ.altBuilds?.[currentRole] || [];
   useEffect(() => { setAltBuildIdx(-1); }, [champ.id, currentRole]);
+  useEffect(() => { if (currentRole !== "Jungle") setJungleOpen(false); }, [currentRole]);
   const activeAlt = altBuildIdx >= 0 ? altList[altBuildIdx] : null;
   const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
@@ -1628,6 +1631,24 @@ useEffect(() => {
               setView("build");
             }} />
         </div>
+      )}
+
+      {/* ── JUNGLE COACH — right-edge tab that slides out a drawer ── */}
+      {view === "build" && currentRole === "Jungle" && !jungleOpen && (
+        <button onClick={() => setJungleOpen(true)} title="Jungle coach — clear route + macro tips"
+          style={{ position:"fixed", right:0, top:"50%", transform:"translateY(-50%)", zIndex:60,
+            padding:"14px 7px", borderRadius:"11px 0 0 11px", cursor:"pointer",
+            writingMode:"vertical-rl", textOrientation:"mixed",
+            fontSize:"11.5px", fontWeight:800, letterSpacing:".9px", textTransform:"uppercase",
+            color:"#15181d", background:`linear-gradient(180deg, ${S.gold}, ${S.orange})`,
+            border:"1px solid rgba(255,255,255,.18)", borderRight:"none",
+            boxShadow:`-4px 0 16px ${S.orange}3d` }}>
+          🌲 Jungle
+        </button>
+      )}
+      {view === "build" && (
+        <JunglePanel S={S} champDd={champ.dd} champName={champ.display}
+          open={jungleOpen} onClose={() => setJungleOpen(false)} />
       )}
 
       {/* ── UPDATE BUTTON — appears only when there's an update (desktop) ── */}
