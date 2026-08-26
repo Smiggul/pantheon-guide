@@ -972,7 +972,21 @@ useEffect(() => {
     ? classEntry.champions.filter(c => c !== champ.display)
     : [];
 
-  const coreArrow = buildCorePath.split("›").map(s => s.trim());
+  // "Survive & Scale" (behind) mode reorders the core so a defensive item is
+  // rushed earlier — i.e. the order reflects what you'd build when behind vs
+  // ahead. Ahead mode keeps the authored (damage-forward) order.
+  const DEFENSIVE_ITEMS = new Set(["sterak's gage","spirit visage","death's dance","thornmail",
+    "randuin's omen","frozen heart","zhonya's hourglass","kaenic rookern","force of nature",
+    "warmog's armor","jak'sho, the protean","gargoyle stoneplate","guardian angel",
+    "maw of malmortius","banshee's veil","unending despair","iceborn gauntlet","sunfire aegis",
+    "abyssal mask","spirit visage"]);
+  const orderCore = (items) => {
+    if (mode !== "behind" || items.length < 3) return items;
+    const di = items.findIndex((n, i) => i > 0 && DEFENSIVE_ITEMS.has(n.toLowerCase()) && !BOOTS_SET.has(n.toLowerCase()));
+    if (di <= 1) return items;                 // already an early defensive buy
+    const out = [...items]; const [d] = out.splice(di, 1); out.splice(1, 0, d); return out;
+  };
+  const coreArrow = orderCore(buildCorePath.split("›").map(s => s.trim()));
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   const S = {                       // shared style tokens
@@ -2960,7 +2974,7 @@ useEffect(() => {
               const ek  = `core-${item}`;
               const src = itemImg(item, itemMap);
               return (
-                <div key={idx} style={{ display:"flex", alignItems:"center", gap:"6px" }}>
+                <div key={idx} title={ITEM_RATIONALE[item] || item} style={{ display:"flex", alignItems:"center", gap:"6px", cursor:"help" }}>
                   <div style={{
                     width:"44px", height:"44px", borderRadius:"8px", overflow:"hidden",
                     border:`2px solid ${col}55`, background:`${col}15`,
@@ -3206,11 +3220,11 @@ useEffect(() => {
               const ek  = `side-${name}`;
               const src = itemImg(name, itemMap);
               return (
-                <div key={name} style={{
+                <div key={name} title={ITEM_RATIONALE[name] || `${name} — situational pickup`} style={{
                   display:"flex", alignItems:"center", gap:"7px",
                   background:"rgba(255,255,255,.03)",
                   border:`1px solid ${col}30`, borderRadius:"7px",
-                  padding:"6px 10px",
+                  padding:"6px 10px", cursor:"help",
                 }}>
                   <div style={{
                     width:"26px", height:"26px", borderRadius:"4px", overflow:"hidden",
@@ -3277,13 +3291,13 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* ── FLOATING GAME STATE TOGGLE ── */}
+      {/* ── FLOATING GAME STATE TOGGLE ── (hidden behind the Jungle/Tier overlays) */}
       <div style={{
         position: "fixed",
         bottom: "30px",
         right: "25px",
         zIndex: 9999,
-        display: "flex",
+        display: (jungleOpen || view === "tiers") ? "none" : "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "12px",

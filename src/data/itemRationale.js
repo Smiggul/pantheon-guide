@@ -51,7 +51,7 @@ export const ITEM_RATIONALE = {
   // ── Tank cores ──────────────────────────────────────────────────────────
   "Sunfire Aegis":          "HP + armor + an immolate burn that ramps in fights — frontline damage and waveclear for engage tanks.",
   "Thornmail":              "Armor + HP; reflects damage and applies Grievous Wounds on the attacker — the answer to auto-attackers and heavy lifesteal.",
-  "Randuin's Omen":         "Armor + HP; the active AoE-slows and it cuts incoming crit damage — the anti-crit-ADC peel item.",
+  "Randuin's Omen":         "Armor + HP; the active AoE-slows and its passive cuts incoming crit damage — build it vs crit ADCs, and the raw armor also blunts AD divers and lethality harass.",
   "Frozen Heart":           "Armor + haste + mana; auras down nearby attack speed — shuts off auto-attack DPS (ADCs, on-hit bruisers).",
   "Spirit Visage":          "HP + MR + haste; amplifies ALL your healing and shielding — the multiplier on any self-sustain (drain tanks, lifesteal bruisers).",
   "Force of Nature":        "HP + MR + move speed; stacks more MR as you take magic hits and gives chase/escape speed — the anti-heavy-AP wall.",
