@@ -717,9 +717,20 @@ useEffect(() => {
   const [forgeItems, setForgeItems] = useState(EMPTY_FORGE);
   const [forgeSlot,  setForgeSlot]  = useState(null);   // which slot's item picker is open
   const [forgeQuery, setForgeQuery] = useState("");
+  const [forgeRole,  setForgeRole]  = useState(null);   // custom role for the forged build (falls back to the active role)
+  useEffect(() => { setForgeRole(null); }, [champ.id]);  // reset the custom role when the champion changes
+  useEffect(() => {                                      // Esc closes the Build Forge modal
+    if (!forgeOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setForgeOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [forgeOpen]);
   const forgeCount = forgeItems.starter.length + forgeItems.core.length + forgeItems.boots.length + forgeItems.situational.length;
   const forgeHasItems = forgeCount > 0;
   const forgeBootsMissing = forgeHasItems && forgeItems.boots.length === 0; // mandatory slot unfilled
+  // The role a forged build is saved / shared / exported under — the custom role
+  // when one is picked, otherwise the active role.
+  const forgeRoleEff = forgeRole || currentRole;
   const addForgeItem = (slot, name) => {
     setForgeItems(f => {
       // Boots is a single-choice slot — picking a pair replaces any previous one.
@@ -750,7 +761,7 @@ useEffect(() => {
   };
 
   const codeForCurrent = () =>
-    encodeBuild({ champ: champ.id, role: currentRole, enemyClass: openClass, runes: runeSel,
+    encodeBuild({ champ: champ.id, role: forgeHasItems ? forgeRoleEff : currentRole, enemyClass: openClass, runes: runeSel,
       items: forgeHasItems ? forgeItems : null });
   const shareBuild = async () => {
     const code = codeForCurrent();
@@ -800,11 +811,12 @@ useEffect(() => {
   const saveCurrentBuild = (customName) => {
     const code = codeForCurrent();
     if (!code) return;
-    const suffix = (customName && customName.trim()) || currentRole || "Build";
+    const roleForBuild = forgeHasItems ? forgeRoleEff : currentRole;
+    const suffix = (customName && customName.trim()) || roleForBuild || "Build";
     const entry = {
       id: Date.now().toString(36),
       name: `FRGED ${champ.display}-${suffix}`,
-      code, champ: champ.id, role: currentRole || null, savedAt: Date.now(),
+      code, champ: champ.id, role: roleForBuild || null, savedAt: Date.now(),
     };
     setSavedBuilds(prev => [entry, ...prev].slice(0, 60));  // newest first, capped
     setNameDraft(null);
@@ -826,7 +838,7 @@ useEffect(() => {
     setApplyState("sending");
     try {
       // If the user forged a custom item set, apply that instead of the recommended one.
-      const payload = buildExport(champ, currentRole, openClass, activeAlt, runeSel,
+      const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt, runeSel,
         forgeHasItems ? forgeItems : null);
       const res = await window.frge.applyBuild({
         runePage: payload.runePage,
@@ -2896,25 +2908,67 @@ useEffect(() => {
             document.body
           )}
 
-          {/* Build Forge — author a custom item set (starter / core / situational) */}
-          <div style={{ marginTop:"14px", border:`1px solid ${S.gold}22`, borderRadius:"10px",
-            background:"rgba(212,175,55,.03)" }}>
-            <button onClick={() => setForgeOpen(o => !o)} style={{ width:"100%", display:"flex",
-              alignItems:"center", justifyContent:"space-between", padding:"9px 12px", background:"none",
-              border:"none", cursor:"pointer", color:S.gold, fontSize:"12px", fontWeight:"800", letterSpacing:".5px" }}>
-              <span>🔨 BUILD FORGE{forgeHasItems ? <span style={{ color: forgeBootsMissing ? "#e8934a" : S.goldDim, fontWeight:600, fontSize:"10px", marginLeft:"6px" }}>
-                · {forgeCount} items{forgeBootsMissing ? " · ⚠ pick boots" : ""}</span> : ""}</span>
-              <span style={{ fontSize:"10px", color:S.goldDim }}>{forgeOpen ? "▲ collapse" : "▼ customise"}</span>
-            </button>
-            {forgeOpen && (
-              <div style={{ padding:"0 12px 12px" }}>
-                <div style={{ fontSize:"10px", color:"rgba(255,255,255,.4)", marginBottom:"9px" }}>
-                  Assemble your own item set (runes are edited on the page above), then Save or Share below.{" "}
-                  <button onClick={seedForgeFromBuild} style={{ background:"none", border:"none", color:S.gold,
-                    cursor:"pointer", padding:0, fontSize:"10px", textDecoration:"underline" }}>Start from the recommended build</button>
-                  {forgeHasItems && <>{" · "}<button onClick={clearForge} style={{ background:"none", border:"none",
-                    color:"rgba(255,255,255,.45)", cursor:"pointer", padding:0, fontSize:"10px", textDecoration:"underline" }}>Clear</button></>}
+          {/* Build Forge — a compact trigger that opens the focused authoring modal */}
+          <button onClick={() => setForgeOpen(true)} className="frge-cta"
+            style={{ marginTop:"14px", width:"100%", display:"flex", alignItems:"center", justifyContent:"center",
+              gap:"10px", padding:"12px 16px", borderRadius:"11px", cursor:"pointer",
+              border:`1px solid ${S.gold}66`, background:`linear-gradient(180deg, ${S.gold}22, ${S.orange}18)`,
+              color:S.gold, fontSize:"12.5px", fontWeight:"800", letterSpacing:".6px" }}>
+            <span style={{ fontSize:"16px" }}>🔨</span>
+            <span>BUILD FORGE — CRAFT YOUR OWN</span>
+            {forgeHasItems && (
+              <span style={{ fontSize:"10px", fontWeight:700, color: forgeBootsMissing ? "#e8934a" : "#4fd18a" }}>
+                · {forgeCount} items{forgeBootsMissing ? " · ⚠ boots" : " ✓"}</span>
+            )}
+          </button>
+
+          {forgeOpen && typeof document !== "undefined" && createPortal(
+            <div onClick={() => setForgeOpen(false)}
+              style={{ position:"fixed", inset:0, zIndex:200, display:"flex", alignItems:"center",
+                justifyContent:"center", padding:"20px", background:"rgba(6,6,8,.66)", backdropFilter:"blur(4px)" }}>
+              <div onClick={(e) => e.stopPropagation()}
+                style={{ width:"min(600px,95vw)", maxHeight:"88vh", overflowY:"auto", position:"relative",
+                  background:"rgba(20,19,22,.98)", border:`1px solid ${S.gold}55`, borderRadius:"16px",
+                  boxShadow:"0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(212,175,55,.08)", padding:"22px 24px" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"3px" }}>
+                  <span style={{ fontSize:"20px" }}>🔨</span>
+                  <div className="frge-display" style={{ fontSize:"19px", fontWeight:"800", color:S.gold, letterSpacing:".5px" }}>Build Forge</div>
+                  <div style={{ flex:1 }} />
+                  <button onClick={() => setForgeOpen(false)} title="Close"
+                    style={{ background:"none", border:"none", color:"rgba(255,255,255,.5)", cursor:"pointer", fontSize:"22px", lineHeight:1 }}>×</button>
                 </div>
+                <div style={{ fontSize:"11px", color:"rgba(255,255,255,.45)", marginBottom:"16px" }}>
+                  Craft your own item set for {champ.display}. Runes are edited on the page; save or share it from the bar below.
+                </div>
+
+                {/* Custom role for the forged build */}
+                <div style={{ marginBottom:"16px" }}>
+                  <div style={{ fontSize:"9.5px", letterSpacing:"1px", color:S.goldDim, textTransform:"uppercase", marginBottom:"7px" }}>Build role</div>
+                  <div style={{ display:"flex", gap:"7px", flexWrap:"wrap" }}>
+                    {["Top","Jungle","Mid","Bot","Support"].map((r) => {
+                      const on = forgeRoleEff === r;
+                      return (
+                        <button key={r} onClick={() => setForgeRole(r)}
+                          style={{ display:"flex", alignItems:"center", gap:"6px", padding:"6px 12px", borderRadius:"8px",
+                            cursor:"pointer", fontSize:"11.5px", fontWeight:"700", letterSpacing:".3px",
+                            border:`1px solid ${on ? S.gold : "rgba(255,255,255,.14)"}`,
+                            background: on ? `${S.gold}20` : "rgba(255,255,255,.04)",
+                            color: on ? S.gold : "rgba(255,255,255,.6)" }}>
+                          <img src={roleIcon(r)} alt="" draggable={false} style={{ width:"15px", height:"15px", opacity: on ? 1 : .5 }} />
+                          {r}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div style={{ fontSize:"10.5px", color:"rgba(255,255,255,.5)", marginBottom:"14px" }}>
+                  <button onClick={seedForgeFromBuild} style={{ background:"none", border:"none", color:S.gold,
+                    cursor:"pointer", padding:0, fontSize:"10.5px", textDecoration:"underline" }}>Start from the recommended build</button>
+                  {forgeHasItems && <>{" · "}<button onClick={clearForge} style={{ background:"none", border:"none",
+                    color:"rgba(255,255,255,.45)", cursor:"pointer", padding:0, fontSize:"10.5px", textDecoration:"underline" }}>Clear all</button></>}
+                </div>
+
                 {FORGE_SLOTS.map(({ key, label, required }) => (
                   <div key={key} style={{ marginBottom:"10px" }}>
                     <div style={{ fontSize:"9.5px", letterSpacing:"1px",
@@ -2967,9 +3021,15 @@ useEffect(() => {
                     )}
                   </div>
                 ))}
+                <div style={{ display:"flex", justifyContent:"flex-end", marginTop:"8px" }}>
+                  <button onClick={() => setForgeOpen(false)} className="frge-cta"
+                    style={{ padding:"9px 24px", borderRadius:"9px", cursor:"pointer", border:`1px solid ${S.gold}66`,
+                      background:`${S.gold}22`, color:S.gold, fontSize:"12px", fontWeight:"800", letterSpacing:".5px" }}>Done</button>
+                </div>
               </div>
-            )}
-          </div>
+            </div>,
+            document.body
+          )}
 
           {/* Shareable build code — copy this champ/role/rune page, save it, or paste a friend's */}
           <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"14px", flexWrap:"wrap" }}>
