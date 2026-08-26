@@ -118,12 +118,13 @@ function supportFinishers(coreNoBoots) {
 //  set is exactly what the user forged (runes still come from the rune page).
 export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null) {
   const hasCustom = customItems &&
-    ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.situational?.length || 0) > 0);
+    ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.boots?.length || 0) + (customItems.situational?.length || 0) > 0);
   if (hasCustom) {
     const key = CHAMP_KEYS[champDd];
     const blocks = [
       itemBlock("Starter", [...(customItems.starter || []), "Stealth Ward"]),
       itemBlock("Core", customItems.core || []),
+      itemBlock("Boots", customItems.boots || []),
       itemBlock("Situational", customItems.situational || []),
       itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
     ].filter((b) => b.items.length > 0);

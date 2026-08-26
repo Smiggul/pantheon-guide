@@ -729,28 +729,48 @@ useEffect(() => {
   const [importMsg,  setImportMsg]  = useState(null);
 
   // ── Build Forge — author a custom item set (starter / core / situational) ───
+  // Boots is a MANDATORY slot — every planned build needs boots. Its picker shows
+  // the boots directly rather than the free-text search the other slots use.
+  const BOOTS_OPTIONS = ["Boots","Plated Steelcaps","Mercury's Treads","Sorcerer's Shoes",
+    "Berserker's Greaves","Ionian Boots of Lucidity","Boots of Swiftness","Gluttonous Greaves","Symbiotic Soles"];
+  const BOOTS_SET = new Set(BOOTS_OPTIONS.map(b => b.toLowerCase()));
   const FORGE_SLOTS = [
     { key: "starter",     label: "Starter" },
     { key: "core",        label: "Core" },
+    { key: "boots",       label: "Boots", required: true },
     { key: "situational", label: "Situational" },
   ];
+  const EMPTY_FORGE = { starter: [], core: [], boots: [], situational: [] };
   const [forgeOpen,  setForgeOpen]  = useState(false);
-  const [forgeItems, setForgeItems] = useState({ starter: [], core: [], situational: [] });
+  const [forgeItems, setForgeItems] = useState(EMPTY_FORGE);
   const [forgeSlot,  setForgeSlot]  = useState(null);   // which slot's item picker is open
   const [forgeQuery, setForgeQuery] = useState("");
-  const forgeHasItems = forgeItems.starter.length + forgeItems.core.length + forgeItems.situational.length > 0;
+  const forgeCount = forgeItems.starter.length + forgeItems.core.length + forgeItems.boots.length + forgeItems.situational.length;
+  const forgeHasItems = forgeCount > 0;
+  const forgeBootsMissing = forgeHasItems && forgeItems.boots.length === 0; // mandatory slot unfilled
   const addForgeItem = (slot, name) => {
     setForgeItems(f => (f[slot].includes(name) ? f : { ...f, [slot]: [...f[slot], name] }));
     setForgeQuery(""); setForgeSlot(null);
   };
   const removeForgeItem = (slot, name) =>
     setForgeItems(f => ({ ...f, [slot]: f[slot].filter(n => n !== name) }));
-  const clearForge = () => { setForgeItems({ starter: [], core: [], situational: [] }); setForgeSlot(null); };
-  // Prefill the forge from the current role's recommended build (a starting point to tweak).
+  const clearForge = () => { setForgeItems(EMPTY_FORGE); setForgeSlot(null); };
+  // Prefill the forge from the current role's recommended build (a starting point
+  // to tweak) — split the boots out of the core into the mandatory Boots slot.
   const seedForgeFromBuild = () => {
-    const core = (buildCorePath || "").split("›").map(s => s.trim()).filter(Boolean);
-    setForgeItems({ starter: [], core, situational: [...(buildSideItems || [])] });
+    const all = (buildCorePath || "").split("›").map(s => s.trim()).filter(Boolean);
+    setForgeItems({ starter: [], boots: all.filter(n => BOOTS_SET.has(n.toLowerCase())),
+      core: all.filter(n => !BOOTS_SET.has(n.toLowerCase())), situational: [...(buildSideItems || [])] });
     setForgeOpen(true);
+  };
+  // Boots slot shows the boots list directly; other slots free-text search (2+ letters).
+  const forgePickerResults = (key, query) => {
+    const q = query.trim().toLowerCase();
+    if (key === "boots") {
+      const boots = BOOTS_OPTIONS.map(n => itemList.find(it => it.name === n)).filter(Boolean);
+      return q ? boots.filter(it => it.name.toLowerCase().includes(q)) : boots;
+    }
+    return q.length >= 2 ? itemList.filter(it => it.name.toLowerCase().includes(q)).slice(0, 40) : [];
   };
 
   const codeForCurrent = () =>
@@ -774,7 +794,7 @@ useEffect(() => {
       : (target.roles ? Object.keys(target.roles)[0] : null));
     setOpenClass(b.enemyClass || null);
     if (b.items && typeof b.items === "object") {
-      setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], situational: b.items.situational || [] });
+      setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], boots: b.items.boots || [], situational: b.items.situational || [] });
       setForgeOpen(true);
     }
     return target;
@@ -1071,12 +1091,12 @@ useEffect(() => {
           </div>
           <p style={{ margin:0, fontSize:"12px", color:"#c7ccd1", lineHeight:1.6 }}>{item.why}</p>
           {rationale && (
-            <p style={{
-              margin:"6px 0 0", paddingTop:"6px",
-              borderTop:"1px solid rgba(255,255,255,.06)",
-              fontSize:"11px", color:"rgba(200,204,209,.5)",
-              lineHeight:1.5, fontStyle:"italic",
-            }}>{rationale}</p>
+            <div style={{ margin:"6px 0 0", paddingTop:"6px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
+              <span style={{ fontSize:"8.5px", fontWeight:800, letterSpacing:"1px",
+                textTransform:"uppercase", color:S.goldDim }}>When to build</span>
+              <p style={{ margin:"2px 0 0", fontSize:"11px", color:"rgba(200,204,209,.55)",
+                lineHeight:1.5, fontStyle:"italic" }}>{rationale}</p>
+            </div>
           )}
         </div>
       </div>
@@ -2741,8 +2761,8 @@ useEffect(() => {
             <button onClick={() => setForgeOpen(o => !o)} style={{ width:"100%", display:"flex",
               alignItems:"center", justifyContent:"space-between", padding:"9px 12px", background:"none",
               border:"none", cursor:"pointer", color:S.gold, fontSize:"12px", fontWeight:"800", letterSpacing:".5px" }}>
-              <span>🔨 BUILD FORGE{forgeHasItems ? <span style={{ color:S.goldDim, fontWeight:600, fontSize:"10px", marginLeft:"6px" }}>
-                · {forgeItems.starter.length + forgeItems.core.length + forgeItems.situational.length} items</span> : ""}</span>
+              <span>🔨 BUILD FORGE{forgeHasItems ? <span style={{ color: forgeBootsMissing ? "#e8934a" : S.goldDim, fontWeight:600, fontSize:"10px", marginLeft:"6px" }}>
+                · {forgeCount} items{forgeBootsMissing ? " · ⚠ pick boots" : ""}</span> : ""}</span>
               <span style={{ fontSize:"10px", color:S.goldDim }}>{forgeOpen ? "▲ collapse" : "▼ customise"}</span>
             </button>
             {forgeOpen && (
@@ -2754,10 +2774,13 @@ useEffect(() => {
                   {forgeHasItems && <>{" · "}<button onClick={clearForge} style={{ background:"none", border:"none",
                     color:"rgba(255,255,255,.45)", cursor:"pointer", padding:0, fontSize:"10px", textDecoration:"underline" }}>Clear</button></>}
                 </div>
-                {FORGE_SLOTS.map(({ key, label }) => (
+                {FORGE_SLOTS.map(({ key, label, required }) => (
                   <div key={key} style={{ marginBottom:"10px" }}>
-                    <div style={{ fontSize:"9.5px", letterSpacing:"1px", color:S.goldDim,
-                      textTransform:"uppercase", marginBottom:"5px" }}>{label}</div>
+                    <div style={{ fontSize:"9.5px", letterSpacing:"1px",
+                      color: (required && forgeItems[key].length === 0 && forgeHasItems) ? "#e8934a" : S.goldDim,
+                      textTransform:"uppercase", marginBottom:"5px" }}>
+                      {label}{required && <span style={{ color: forgeItems[key].length ? "#4fd18a" : "#e8934a", marginLeft:"5px", fontSize:"8.5px" }}>
+                        {forgeItems[key].length ? "✓" : "• required"}</span>}</div>
                     <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", alignItems:"center" }}>
                       {forgeItems[key].map((name) => {
                         const src = itemImg(name, itemMap);
@@ -2782,14 +2805,13 @@ useEffect(() => {
                     {forgeSlot === key && (
                       <div style={{ marginTop:"6px" }}>
                         <input autoFocus value={forgeQuery} onChange={(e) => setForgeQuery(e.target.value)}
-                          placeholder="Search items… (type 2+ letters)"
+                          placeholder={key === "boots" ? "Filter boots…" : "Search items… (type 2+ letters)"}
                           style={{ width:"100%", maxWidth:"280px", padding:"5px 10px", fontSize:"11px", borderRadius:"7px",
                             border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.04)", color:"#e8e8ea", outline:"none" }} />
-                        {forgeQuery.trim().length >= 2 && (
+                        {forgePickerResults(key, forgeQuery).length > 0 && (
                           <div style={{ maxWidth:"280px", maxHeight:"180px", overflowY:"auto", marginTop:"4px",
                             border:"1px solid rgba(255,255,255,.12)", borderRadius:"7px", background:"rgba(18,18,22,.98)" }}>
-                            {itemList.filter((it) => it.name.toLowerCase().includes(forgeQuery.toLowerCase()))
-                              .slice(0, 40).map((it) => (
+                            {forgePickerResults(key, forgeQuery).map((it) => (
                               <div key={it.id} onClick={() => addForgeItem(key, it.name)}
                                 onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,.07)")}
                                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
