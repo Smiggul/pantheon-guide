@@ -12,6 +12,16 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.12.0] — 2026-08-26
+
+### Added
+- **🛡️ Counter Picker (champ-select).** When enemies lock in, the enemy panel now shows **how you fare vs your lane opponent** ("you handle / they punish") and two clickable recommendation rows — **best picks vs your laner** and **best [role] vs their whole comp** (aggregates all 5 enemies, e.g. surfaces Poppy vs a dash comp). Backed by a full 173-champ threat/counter trait model.
+- **"When to build" on every item.** Hover any core or situational item for a concise, **verified** note (checked against live 16.17.1 item data); the ahead/behind cards show it inline. 134 items covered.
+
+### Changed
+- **"Survive & Scale" mode now reorders the core** — behind mode rushes a defensive item earlier; ahead mode keeps the damage-forward order. The floating toggle also hides behind the Jungle/Tier overlays.
+- Renamed the carry-forward **"OP 26.16 ALT" builds → "OP 26.17 ALT"** (none used the nerfed Sundered Sky).
+
 ## [0.11.0] — 2026-08-26
 
 ### Added
