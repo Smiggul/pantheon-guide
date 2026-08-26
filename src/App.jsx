@@ -17,6 +17,7 @@ import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
+import { randomSkinNum } from "./data/champSkins.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -131,8 +132,11 @@ const IMG      = "./images";
 
 // ── Data Dragon base (populated by setup_ddragon.py) ─────────────────────────
 const DD = "/ddragon";
-// Bundled per-champion skin splashes for the Forge theme (public/skins/*.jpg).
+// Bundled per-champion skin splashes for the Forge theme (public/skins/*.jpg,
+// base skin — the offline fallback). Online, a random skin is pulled from the
+// Data Dragon splash CDN for variety.
 const DD_SKINS = "/skins";
+const SPLASH_CDN = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash";
 // Game patch label, derived from the bundled Data Dragon version so it can never
 // go stale (the auto-patch pipeline keeps DDRAGON_VERSION fresh). Riot's client
 // patch major runs 10 ahead of Data Dragon's (ddragon 16.15.x ⇒ game 26.15).
@@ -458,6 +462,10 @@ export default function App() {
 
   // ── Theme + Settings ────────────────────────────────────────────────────
   const [frgeTheme, setFrgeTheme] = useState(loadTheme);
+  // Forge skin backdrop: pick a random splash-bearing skin per champion, re-rolled
+  // whenever the selected champion changes.
+  const [skinRoll, setSkinRoll] = useState(() => randomSkinNum(champ.dd));
+  useEffect(() => { setSkinRoll(randomSkinNum(champ.dd)); }, [champ.dd]);
   const [view, setView] = useState("build");                 // "build" | "tiers"
   const [jungleOpen, setJungleOpen] = useState(false);        // right-side Jungle Coach drawer
   const [skillView, setSkillView] = useState(loadSkillView); // "grid" | "strip"
@@ -1606,21 +1614,29 @@ useEffect(() => {
       color:"#F5F5F5",
       }}>
 
-      {/* Per-champion skin splash — sits behind the hero (z-index:-1, absolute),
-          dimmed + scrimmed to full obsidian so it never obscures the build/rune
-          content. Forge theme + a sampled champion only. */}
+      {/* Per-champion skin splash — a FIXED, full-screen backdrop that stays put
+          as the app scrolls (visible throughout, not just the hero). A random
+          splash-bearing skin is pulled from the CDN for variety; on error it
+          falls back to the bundled base splash (offline-safe). Scrimmed so it
+          never obscures the build/rune content. Forge theme only. */}
       {activeSkin && (
         <div aria-hidden="true" style={{
-          position:"absolute", top:0, left:0, width:"100%", height:"620px",
-          zIndex:-1, pointerEvents:"none", overflow:"hidden" }}>
-          <img src={`${DD_SKINS}/${activeSkin.splash}.jpg`} alt=""
-            style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%",
-              objectFit:"cover", objectPosition:"top center",
-              opacity:0.34, filter:"saturate(1.12)" }}/>
+          position:"fixed", inset:0, zIndex:-1, pointerEvents:"none", overflow:"hidden" }}>
+          <img
+            key={`${champ.dd}-${skinRoll}`}
+            src={`${SPLASH_CDN}/${champ.dd}_${skinRoll}.jpg`}
+            onError={(e) => {
+              const fb = `${DD_SKINS}/${activeSkin.splash}.jpg`;
+              if (!e.currentTarget.src.endsWith(`${activeSkin.splash}.jpg`)) e.currentTarget.src = fb;
+            }}
+            alt=""
+            style={{ position:"absolute", inset:0, width:"100%", height:"100%",
+              objectFit:"cover", objectPosition:"center 20%",
+              opacity:0.32, filter:"saturate(1.12)" }}/>
           <div style={{ position:"absolute", inset:0, background:
-            "linear-gradient(180deg, rgba(18,16,19,.3) 0%, rgba(18,16,19,.6) 52%, rgba(18,16,19,.9) 82%, #121013 100%)" }}/>
+            "linear-gradient(180deg, rgba(16,15,17,.56) 0%, rgba(16,15,17,.7) 55%, rgba(16,15,17,.82) 100%)" }}/>
           <div style={{ position:"absolute", inset:0, background:
-            `radial-gradient(1100px 380px at 50% -12%, ${skinP}2e 0%, transparent 60%)` }}/>
+            `radial-gradient(1200px 700px at 50% 0%, ${skinP}22 0%, transparent 60%)` }}/>
         </div>
       )}
 
