@@ -16,6 +16,7 @@ import JunglePanel from "./JunglePanel.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
+import { skinThemeOf } from "./data/skinThemes.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -130,6 +131,8 @@ const IMG      = "./images";
 
 // ── Data Dragon base (populated by setup_ddragon.py) ─────────────────────────
 const DD = "/ddragon";
+// Bundled per-champion skin splashes for the Forge theme (public/skins/*.jpg).
+const DD_SKINS = "/skins";
 // Game patch label, derived from the bundled Data Dragon version so it can never
 // go stale (the auto-patch pipeline keeps DDRAGON_VERSION fresh). Riot's client
 // patch major runs 10 ahead of Data Dragon's (ddragon 16.15.x ⇒ game 26.15).
@@ -1564,19 +1567,47 @@ useEffect(() => {
     : csState.reason === "not-in-select" ? "Waiting for champ select…"
     : "Client idle";
 
+  // ── Forge per-champion skin theme (palette sampled from the skin splash) ──
+  const activeSkin = frgeTheme === "forge" ? skinThemeOf(champ.dd) : null;
+  const skinP = activeSkin?.m || "#FF6B35";   // primary
+  const skinH = activeSkin?.h || "#FFB347";   // highlight
+  const skinA = activeSkin?.a || "#D4AF37";   // accent
+
   // ────────────────────────────────────────────────────────────────────────
   return (
     <div style={{
       minHeight:"100vh",
       position:"relative",
+      isolation:"isolate",
+      "--skin-primary": skinP,
+      "--skin-hi": skinH,
+      "--skin-accent": skinA,
       background: frgeTheme === "forge"
-        ? "radial-gradient(1100px 520px at 50% -6%, rgba(255,107,53,.15) 0%, rgba(255,107,53,0) 58%), radial-gradient(900px 700px at 12% 0%, #241f1b 0%, rgba(36,31,27,0) 55%), linear-gradient(180deg,#1B1B1E 0%,#141416 62%,#0F0F11 100%)"
+        ? `radial-gradient(1100px 520px at 50% -6%, ${skinP}26 0%, ${skinP}00 58%), radial-gradient(900px 700px at 12% 0%, #241f1b 0%, rgba(36,31,27,0) 55%), linear-gradient(180deg,#1B1B1E 0%,#141416 62%,#0F0F11 100%)`
         : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
       fontFamily: frgeTheme === "forge"
         ? "'Chakra Petch','Spartan MB','Arial Black',sans-serif"
         : "'Spartan MB','Cinzel','Arial Black',sans-serif",
       color:"#F5F5F5",
       }}>
+
+      {/* Per-champion skin splash — sits behind the hero (z-index:-1, absolute),
+          dimmed + scrimmed to full obsidian so it never obscures the build/rune
+          content. Forge theme + a sampled champion only. */}
+      {activeSkin && (
+        <div aria-hidden="true" style={{
+          position:"absolute", top:0, left:0, width:"100%", height:"620px",
+          zIndex:-1, pointerEvents:"none", overflow:"hidden" }}>
+          <img src={`${DD_SKINS}/${activeSkin.splash}.jpg`} alt=""
+            style={{ position:"absolute", top:0, left:0, width:"100%", height:"100%",
+              objectFit:"cover", objectPosition:"top center",
+              opacity:0.22, filter:"saturate(1.08)" }}/>
+          <div style={{ position:"absolute", inset:0, background:
+            "linear-gradient(180deg, rgba(18,16,19,.42) 0%, rgba(18,16,19,.7) 52%, rgba(18,16,19,.94) 82%, #121013 100%)" }}/>
+          <div style={{ position:"absolute", inset:0, background:
+            `radial-gradient(1100px 380px at 50% -12%, ${skinP}2e 0%, transparent 60%)` }}/>
+        </div>
+      )}
 
       {/* ── TIER LIST — full-page overlay + the button that opens it ── */}
       <button onClick={() => setView("tiers")} title="Champion tier list"
@@ -1898,8 +1929,9 @@ useEffect(() => {
         </div>
         <h1 className="frge-display" style={{
           fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
-          color:S.orange, margin:"0 0 2px",
-          textShadow:"0 0 40px rgba(249,115,22,.45)", letterSpacing:"2px",
+          color: frgeTheme === "forge" ? skinH : S.orange, margin:"0 0 2px",
+          textShadow: frgeTheme === "forge" ? `0 0 42px ${skinP}66` : "0 0 40px rgba(249,115,22,.45)",
+          letterSpacing:"2px",
         }}>
           {champ.display} — Situational Itemization
         </h1>
@@ -2273,7 +2305,7 @@ useEffect(() => {
 
           {/* Name + role icons */}
           <div>
-            <div className="frge-display" style={{ fontSize:"16px", fontWeight:"bold", color:champ.glow, marginBottom:"6px" }}>
+            <div className="frge-display" style={{ fontSize:"16px", fontWeight:"bold", color: activeSkin ? skinH : champ.glow, marginBottom:"6px" }}>
               {champ.display}
             </div>
             {champ.roles ? (
