@@ -24,6 +24,34 @@
   font-display: swap;
 }
 
+/* Forge theme faces — Russo One (display) + Chakra Petch (UI/body). Self-hosted
+   latin subsets so the desktop build renders them offline. SIL Open Font License. */
+@font-face {
+  font-family: "Russo One";
+  src: url("/fonts/RussoOne-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("/fonts/ChakraPetch-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("/fonts/ChakraPetch-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("/fonts/ChakraPetch-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Chakra Petch";
+  src: url("/fonts/ChakraPetch-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
 /* The app paints its own full-viewport gradient and lays content out in
    max-width:1400px centred containers. This file only needs to give a full-
    width, dark, on-theme canvas — the previous Vite-template rules capped #root
@@ -219,6 +247,55 @@ p {
   border-radius: 0;
   border-color: rgba(249, 115, 22, 0.28);
   clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+
+/* Direction 3 — FORGE: molten obsidian, Ornn's forge. Warmer accents, lava-crack
+   panel headers, ember glow. Display headings in Russo One via .frge-display;
+   the root background + Chakra Petch body font are switched in App.jsx (inline,
+   so CSS can't reach them). */
+:root[data-frge-theme="forge"] {
+  --forge-molten: #FF6B35;
+  --forge-hot:    #FFB347;
+  --forge-gold:   #D4AF37;
+  --frge-orange:  #FF6B35;               /* re-point focus ring + tile fallbacks warm */
+}
+:root[data-frge-theme="forge"] body { background: #121013; }
+
+:root[data-frge-theme="forge"] .frge-display {
+  font-family: "Russo One", "Arial Black", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+:root[data-frge-theme="forge"] .frge-panel {
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 13px;
+  background: linear-gradient(180deg, rgba(255, 107, 53, 0.028), rgba(255, 255, 255, 0.012));
+}
+:root[data-frge-theme="forge"] .frge-panel::before {
+  content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--forge-molten), var(--forge-gold), transparent);
+  opacity: 0.65; border-radius: 2px; pointer-events: none;
+}
+:root[data-frge-theme="forge"] .frge-workspace {
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+:root[data-frge-theme="forge"] .frge-tile:hover {
+  border-color: rgba(255, 107, 53, 0.5);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 18px var(--tile-hover-glow, rgba(255, 107, 53, 0.3));
+}
+:root[data-frge-theme="forge"] .frge-pill:hover { border-color: rgba(255, 107, 53, 0.7); }
+:root[data-frge-theme="forge"] .frge-cta:hover:not(:disabled) {
+  box-shadow: 0 0 22px rgba(255, 107, 53, 0.55);
+}
+:root[data-frge-theme="forge"] .frge-empty {
+  border-color: rgba(255, 107, 53, 0.24);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 107, 53, 0.08), transparent 62%);
+}
+:root[data-frge-theme="forge"] .frge-sword {
+  filter: drop-shadow(0 0 14px rgba(255, 107, 53, 0.6));
+  animation: frge-sword-pulse 3.2s ease-in-out infinite;
 }
 
 /* Respect the user's motion preference (a11y: High) */

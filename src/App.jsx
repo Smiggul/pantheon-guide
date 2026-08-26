@@ -40,6 +40,7 @@ function roleForPosition(champObj, assignedPosition, fallback) {
 // index.css does the rest. `vip: true` will gate a theme behind the account
 // system later — the Settings picker already renders those as locked.
 const THEMES = [
+  { id: "forge",   name: "Forge",          desc: "Molten obsidian — Ornn's forge. Russo One + Chakra Petch.", vip: false },
   { id: "classic", name: "Classic",       desc: "The signature charcoal & gold look.", vip: false },
   { id: "depth",   name: "Refined Depth",  desc: "Layered shadows, glow, a living empty-state.", vip: false },
   { id: "hud",     name: "Esports HUD",    desc: "Notched panels, orange accents, HUD feel.", vip: false },
@@ -55,7 +56,7 @@ const SETTINGS_TABS = [
 ];
 const loadTheme = () => {
   try { const t = localStorage.getItem("frge-theme"); if (t && THEME_IDS.has(t)) return t; } catch { /* ignore */ }
-  return "classic";
+  return "forge";
 };
 // Skill-order layout preference: "grid" (u.gg ability × level matrix) or
 // "strip" (single Pantheon-style level row). Persisted like the theme.
@@ -1568,8 +1569,12 @@ useEffect(() => {
     <div style={{
       minHeight:"100vh",
       position:"relative",
-      background:"radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
-      fontFamily:"'Spartan MB','Cinzel','Arial Black',sans-serif",
+      background: frgeTheme === "forge"
+        ? "radial-gradient(1100px 520px at 50% -6%, rgba(255,107,53,.15) 0%, rgba(255,107,53,0) 58%), radial-gradient(900px 700px at 12% 0%, #241f1b 0%, rgba(36,31,27,0) 55%), linear-gradient(180deg,#1B1B1E 0%,#141416 62%,#0F0F11 100%)"
+        : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
+      fontFamily: frgeTheme === "forge"
+        ? "'Chakra Petch','Spartan MB','Arial Black',sans-serif"
+        : "'Spartan MB','Cinzel','Arial Black',sans-serif",
       color:"#F5F5F5",
       }}>
 
@@ -1891,7 +1896,7 @@ useEffect(() => {
           textTransform:"uppercase", marginBottom:"2px" }}>
           FRGE.GG · Patch {GAME_PATCH}
         </div>
-        <h1 style={{
+        <h1 className="frge-display" style={{
           fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
           color:S.orange, margin:"0 0 2px",
           textShadow:"0 0 40px rgba(249,115,22,.45)", letterSpacing:"2px",
@@ -2268,7 +2273,7 @@ useEffect(() => {
 
           {/* Name + role icons */}
           <div>
-            <div style={{ fontSize:"16px", fontWeight:"bold", color:champ.glow, marginBottom:"6px" }}>
+            <div className="frge-display" style={{ fontSize:"16px", fontWeight:"bold", color:champ.glow, marginBottom:"6px" }}>
               {champ.display}
             </div>
             {champ.roles ? (
