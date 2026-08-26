@@ -12,6 +12,18 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.13.0] — 2026-08-26
+
+### Added
+- **🌋 Forge theme (new default).** A molten-obsidian rework — warm forge glow, lava-crack panel headers, ember accents, self-hosted **Russo One + Chakra Petch** fonts. Switchable under **Settings → Display** (Classic / Refined Depth / Esports HUD still there).
+- **Per-champion skin themes.** In the Forge theme every champion re-skins the app to **its own palette** and drops **its own splash art** behind the hero — dimmed and scrimmed so it never obscures the build. 10 champions (Ornn, Volibear, Pantheon, Aatrox, Lillia, Teemo, Yasuo, Jinx, Kai'Sa, Zed) use colours hand-sampled from a specific skin's art; the rest derive from each champion's tuned colours over their base splash.
+
+### Changed
+- **Build Forge now drives the Core Build Path.** A build you author in the Forge replaces the recommended core arrow and takes precedence over Ahead/Behind — the **Survive & Scale toggle disables** while a custom build is active so it can't override your work. The **boots slot is single-choice** (a new pair replaces the last).
+
+### Fixed
+- Build-note drift caught by a note-vs-corePath audit: **Pantheon Jungle** coach note (cited Eclipse → Sundered Sky), **Renekton Top** (Trinity/Sundered Sky text → Eclipse-first core), **Warwick Jungle** item order.
+
 ## [0.12.0] — 2026-08-26
 
 ### Added
