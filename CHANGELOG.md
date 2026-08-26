@@ -12,6 +12,14 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.14.0] — 2026-08-26
+
+### Added
+- **Custom role in the Build Forge.** A Build role selector (Top / Jungle / Mid / Bot / Support) inside the Forge — the build you author is saved, shared (build code), and exported to the client under that role, free of the champion's listed roles.
+
+### Changed
+- **Build Forge is now a focused modal.** Opens from a compact "🔨 Build Forge" button into a centered, gold-framed card over a blurred backdrop (close via ×, Done, Esc, or backdrop) — a more exclusive home than the old inline collapsible.
+
 ## [0.13.1] — 2026-08-26
 
 ### Changed
