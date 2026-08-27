@@ -301,6 +301,108 @@ export const OTP_GUIDES = {
     itemNotes: "HP-stacking bruiser (Heartsteel / Riftmaker) makes his grey health and shields enormous; a warden line (Sunfire/Jak'Sho) is the tankier alternative. Grasp + HP shards fuel the sustain identity.",
     matchups: "Out-sustains melee bruisers and eats squishy divers with R. Struggles into %HP / true-damage tops and ranged lanes that deny his stacking.",
   },
+
+  MasterYi: {
+    otp: "Cowsep", role: "Jungle",
+    identity: "The definitive hyper-carry. Master Yi does nothing until he has items — then Alpha Strike resets on kills, Highlander refreshes his cooldowns and immunises him to slows, and he single-handedly runs a fed enemy team down. The whole game is farming safely to your spike and then picking the fight where you get resets.",
+    combos: [
+      { name: "Duel", steps: "E (Wuju Style, true damage) on → Q (Alpha Strike) INTO the target to dodge an incoming ability (you're untargetable mid-Q) → auto → Q resets on any kill." },
+      { name: "Reset run", steps: "R (Highlander) for move speed + slow immunity → auto a low target → its death refreshes Q and R → dash to the next. In a won fight you chain kills across the whole team." },
+      { name: "Meditate dodge", steps: "W (Meditate) channels damage reduction + heal — use it to survive a burst combo or Ignite, then continue." },
+    ],
+    spikes: [
+      "First attack-speed / on-hit item (Kraken / BORK): your Q-resets start snowballing kills.",
+      "Level 6 + 2 items: Highlander turns any pick into a team wipe.",
+    ],
+    watchOut: [
+      "Hard CC and exhaust are death — you can't Q out of a stun and a single exhaust deletes your damage. Fight where the enemy CC is already used.",
+      "You are useless early — DON'T force fights before items. Farm, take objectives with your team, and scale.",
+      "You need a frontline and resets — dive the squishy that gives you a Q reset, not the tank.",
+    ],
+    itemNotes: "On-hit (Blade of the Ruined King / Kraken Slayer / Guinsoo's) or crit — both convert your uptime into DPS. Attack speed and lifesteal are what make the reset pattern unstoppable; prioritise the first-item spike above all.",
+    matchups: "Farms squishy, low-CC comps into oblivion. Hard-countered by chain CC, exhaust and heavy peel that never let him reset.",
+  },
+
+  Yasuo: {
+    otp: "Yassuo", role: "Mid",
+    identity: "A mobile crit skirmisher with the highest outplay ceiling in the game. Yasuo stacks Q into a tornado, dashes through units with E to kite and reposition, blocks key projectiles with Wind Wall, and turns any knock-up — his own tornado or an ally's CC — into a full-screen R. Double crit chance means he spikes hard on two items.",
+    combos: [
+      { name: "Weave", steps: "E (Sweeping Blade) through a minion to dash + deal damage → Q during the dash to keep stacking → repeat to kite. Q on cooldown builds toward the tornado." },
+      { name: "Knock-up → R", steps: "Land Q3 (Steel Tempest tornado) to knock up → R (Last Breath) to teleport above them for the airborne burst + armor shred. Or R off any ally knock-up." },
+      { name: "Wind Wall", steps: "W blocks the enemy's key projectile — a hook, an ult, an ADC's autos in a fight. Blocking the RIGHT ability is the whole skill." },
+    ],
+    spikes: [
+      "Two crit items (Immortal Shieldbow / IE + crit): your passive double-crit makes your combo delete squishies.",
+      "Level 6 with a knock-up source: R becomes a reliable pick + teamfight tool.",
+    ],
+    watchOut: [
+      "Wind Wall has a long cooldown — panic-walling the wrong spell loses the fight. Hold it for the ability that matters.",
+      "E shares a cooldown per target — you can't dash through the same unit twice, so plan your escape path.",
+      "Squishy and weak early into all-in tops/mids (Malphite, Renekton, Pantheon) and point-and-click CC — respect levels 1–3 and scale.",
+    ],
+    itemNotes: "Immortal Shieldbow or Infinity Edge into crit is the core, with Blade of the Ruined King for the %HP + steroid into tanks. Berserker's Greaves and the first crit item are the real power spike.",
+    matchups: "Beats immobile pokers whose projectiles he can wall and dodge. Struggles into hard engage, point-and-click CC and early lane bullies.",
+  },
+
+  Renekton: {
+    otp: "SoloRenektonOnly", role: "Top",
+    identity: "The archetypal early lane bully. Renekton builds Fury to empower his abilities, and his whole game is dominating the level 1–6 window with a point-and-click stun all-in, snowballing a lead, and closing the game before he falls off. A behind Renekton is a liability; an ahead one ends games by 15 minutes.",
+    combos: [
+      { name: "All-in (lvl 3+)", steps: "E (Slice) through a minion to gap-close → W (Ruthless Predator) — empowered with 50+ Fury for the longer stun → auto → Q (Cull the Meek) for the AoE heal → E (Dice) out." },
+      { name: "Fury management", steps: "Poke with a low-Fury Q/W to build to 50, then unload the empowered combo. An empowered W is a much longer stun — save it for the all-in, not a poke." },
+    ],
+    spikes: [
+      "Level 3: your E-W-E all-in wins almost every melee lane — look for first blood.",
+      "First item (Eclipse) + level 6: your burst and R's tankiness let you dive and snowball.",
+    ],
+    watchOut: [
+      "You fall off hard — every game is a race to convert your early lead into towers, roams and objectives before you're outscaled.",
+      "Don't waste an empowered (50-Fury) ability on a bad trade — the empowered W stun is your kill button.",
+      "Ranged tops (Vayne, Quinn, Kennen) and scaling tanks (Malphite, Cho'Gath) beat you after the early game — force it while you're strong.",
+    ],
+    itemNotes: "Eclipse-first is the current identity (two-hit proc + shield fuels the all-in); Black Cleaver → Death's Dance is the durable follow-up into heavy AD. Boots + the first item are what make your combo start killing.",
+    matchups: "Bullies melee scalers and immobile laners in the early game. Struggles into ranged tops, parry/peel (Fiora, Poppy) and anything that survives to out-scale him.",
+  },
+
+  Shaco: {
+    otp: "Pink Ward", role: "Jungle",
+    identity: "A deception-based early ganker and invader. Shaco cheeses lanes with boxes and a stealth-crit opener, splits attention with his clone, and — on the AD-crit build — simply one-shots a squishy from stealth. His power is entirely front-loaded: snowball the early map or become a nuisance that never quite closes.",
+    combos: [
+      { name: "Burst", steps: "Q (Deceive) to stealth and appear BEHIND the target for the backstab crit → auto → E (Two-Shiv Poison) → a second Q if it resets. R (Hallucinate) clone to bait, split damage, or apply a second explosion." },
+      { name: "Box cheese", steps: "Pre-place W (Jack in the Box) in a bush or over a wall → engage → the boxes fear and burst the target. Classic level-2/3 box gank." },
+    ],
+    spikes: [
+      "Level 2–3: a box + Q gank one-shots an over-extended laner.",
+      "First lethality/crit item: your stealth opener deletes squishies outright.",
+    ],
+    watchOut: [
+      "You fall off if you don't snowball — convert your early cheese into a real lead fast.",
+      "Boxes need setup time and telegraph the play; pink wards and sweepers hard-counter your whole kit.",
+      "Squishy and useless in a straight fight — you're a picker and a splitter, not a front-to-back teamfighter.",
+    ],
+    itemNotes: "AD crit (Youmuu's / Collector / Infinity Edge) for the one-shot backstab identity; the AP box build is the alternative for zone control. Lethality first makes your Q opener lethal.",
+    matchups: "Cheeses greedy junglers and squishy, wardless lanes. Struggles into vision-heavy, tanky comps that shrug off the burst and clear his boxes.",
+  },
+
+  Udyr: {
+    otp: "Trick2g & Federals1", role: "Jungle",
+    identity: "A stance-dancing bruiser with a lightning-fast clear. Udyr has no auto-attack downtime — he weaves his four stances (Bear speed/stun, Tiger burst, Turtle sustain, Phoenix AoE), and awakening a stance a second time empowers it. The game is clearing fast, running lanes down with Bear, and snowballing on-hit/bruiser stats.",
+    combos: [
+      { name: "Gank", steps: "E (Bear Stance) for ramping move speed to close, then the second Bear cast stuns → Q (Tiger) for the on-hit burst → W (Turtle) shields you through the counter." },
+      { name: "Stance weave", steps: "Awaken the stance you need twice for the empowered effect — Phoenix (R) for AoE clear/teamfights, Tiger for single-target, Turtle to survive. Keep an ability on cooldown at all times." },
+    ],
+    spikes: [
+      "First item: your fast clear and Bear ganks start snowballing tempo.",
+      "Level 6 / empowered stances online: your dueling and teamfight presence spike.",
+    ],
+    watchOut: [
+      "Your only hard CC is the second Bear cast — if you get kited off it you do nothing. Itemise and path to stick to targets.",
+      "Manage stance cooldowns — being caught mid-swap with everything down is when Udyr dies.",
+      "Disengage and kite comps (blinks, long slows, ranged pokers) beat him; he wants to get on top and stay there.",
+    ],
+    itemNotes: "Bruiser on-hit (per the meta jungle build) keeps his clear fast and his duels winning; move speed helps Bear stick. Trick2g's classic identity is the run-you-down bruiser — build to reach targets and out-sustain the trade.",
+    matchups: "Runs down immobile carries and out-clears most junglers. Struggles into heavy kite/disengage and long-range CC that never lets him connect.",
+  },
 };
 
 export const otpGuideOf = (dd) => OTP_GUIDES[dd] || null;
