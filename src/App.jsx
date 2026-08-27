@@ -1610,6 +1610,18 @@ useEffect(() => {
   const skinH = activeSkin?.h || "#FFB347";   // highlight
   const skinA = activeSkin?.a || "#D4AF37";   // accent
   const clientLive = isDesktop && !!csState && (csState.active || csInGame); // League client connected
+  // Fixed skin-splash backdrop for the champion-specific full-page tabs (How to
+  // Play / Counter Picker), so the champion's art shows behind them too. Stays
+  // put while the tab scrolls; scrimmed for readability. Forge theme only.
+  const skinFixedLayer = (opacity = 0.28) => activeSkin ? (
+    <div aria-hidden="true" style={{ position:"fixed", inset:0, zIndex:0, pointerEvents:"none", overflow:"hidden" }}>
+      <img key={`${champ.dd}-${skinRoll}`} src={`${SPLASH_CDN}/${champ.dd}_${skinRoll}.jpg`}
+        onError={(e) => { const fb = `${DD_SKINS}/${activeSkin.splash}.jpg`; if (!e.currentTarget.src.endsWith(`${activeSkin.splash}.jpg`)) e.currentTarget.src = fb; }}
+        alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"center 18%", opacity, filter:"saturate(1.12)" }}/>
+      <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(16,15,17,.6) 0%, rgba(16,15,17,.76) 55%, rgba(16,15,17,.88) 100%)" }}/>
+      <div style={{ position:"absolute", inset:0, background:`radial-gradient(1200px 700px at 50% 0%, ${skinP}22 0%, transparent 60%)` }}/>
+    </div>
+  ) : null;
 
   // ────────────────────────────────────────────────────────────────────────
   return (
@@ -1755,21 +1767,27 @@ useEffect(() => {
       {/* ── COUNTER PICKER — full-page matchup spread ── */}
       {view === "counter" && (
         <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
-          background: frgeTheme === "forge" ? "linear-gradient(180deg,#181619,#121013)" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
-          <CounterPicker champ={champ} role={currentRole} champImg={champImg} S={S}
-            onClose={() => setView("build")}
-            onPick={(c) => { pickChamp(c); setView("build"); }} />
+          background: frgeTheme === "forge" ? "#121013" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          {frgeTheme === "forge" && skinFixedLayer(0.24)}
+          <div style={{ position:"relative", zIndex:1 }}>
+            <CounterPicker champ={champ} role={currentRole} champImg={champImg} S={S}
+              onClose={() => setView("build")}
+              onPick={(c) => { pickChamp(c); setView("build"); }} />
+          </div>
         </div>
       )}
 
       {/* ── HOW TO PLAY — deep champion guide ── */}
       {view === "howto" && (
         <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
-          background: frgeTheme === "forge" ? "linear-gradient(180deg,#181619,#121013)" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
-          <HowToPlay champ={champ} role={currentRole} activeChampRole={activeChampRole}
-            buildCorePath={buildCorePath} buildCoreNote={buildCoreNote} buildSideItems={buildSideItems}
-            runeInfo={recommendedRunes} champImg={champImg} itemImg={itemImg} itemMap={itemMap} S={S}
-            onClose={() => setView("build")} />
+          background: frgeTheme === "forge" ? "#121013" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          {frgeTheme === "forge" && skinFixedLayer(0.24)}
+          <div style={{ position:"relative", zIndex:1 }}>
+            <HowToPlay champ={champ} role={currentRole} activeChampRole={activeChampRole}
+              buildCorePath={buildCorePath} buildCoreNote={buildCoreNote} buildSideItems={buildSideItems}
+              runeInfo={recommendedRunes} champImg={champImg} itemImg={itemImg} itemMap={itemMap} S={S}
+              onClose={() => setView("build")} />
+          </div>
         </div>
       )}
 
@@ -1777,13 +1795,15 @@ useEffect(() => {
       {view === "build" && currentRole === "Jungle" && !jungleOpen && (
         <button onClick={() => setJungleOpen(true)} title="Jungle coach — clear route + macro tips"
           style={{ position:"fixed", right:0, top:"50%", transform:"translateY(-50%)", zIndex:60,
-            padding:"14px 7px", borderRadius:"11px 0 0 11px", cursor:"pointer",
-            writingMode:"vertical-rl", textOrientation:"mixed",
-            fontSize:"11.5px", fontWeight:800, letterSpacing:".9px", textTransform:"uppercase",
+            padding:"14px 8px", borderRadius:"11px 0 0 11px", cursor:"pointer",
+            display:"flex", flexDirection:"column", alignItems:"center", gap:"8px",
             color:"#15181d", background:`linear-gradient(180deg, ${S.gold}, ${S.orange})`,
             border:"1px solid rgba(255,255,255,.18)", borderRight:"none",
             boxShadow:`-4px 0 16px ${S.orange}3d` }}>
-          🌲 Jungle
+          <img src={roleIcon("Jungle")} alt="" draggable={false}
+            style={{ width:"22px", height:"22px", filter:"brightness(0)", opacity:.82 }} />
+          <span style={{ writingMode:"vertical-rl", textOrientation:"mixed",
+            fontSize:"11.5px", fontWeight:800, letterSpacing:".9px", textTransform:"uppercase" }}>Jungle</span>
         </button>
       )}
       {view === "build" && (
@@ -2931,7 +2951,8 @@ useEffect(() => {
           {forgeOpen && typeof document !== "undefined" && createPortal(
             <div onClick={() => setForgeOpen(false)}
               style={{ position:"fixed", inset:0, zIndex:200, display:"flex", alignItems:"center",
-                justifyContent:"center", padding:"20px", background:"rgba(6,6,8,.66)", backdropFilter:"blur(4px)" }}>
+                justifyContent:"center", padding:"20px", background:"rgba(6,6,8,.5)", backdropFilter:"blur(3px)" }}>
+              {frgeTheme === "forge" && skinFixedLayer(0.2)}
               <div onClick={(e) => e.stopPropagation()}
                 style={{ width:"min(600px,95vw)", maxHeight:"88vh", overflowY:"auto", position:"relative",
                   background:"rgba(20,19,22,.98)", border:`1px solid ${S.gold}55`, borderRadius:"16px",

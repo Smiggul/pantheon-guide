@@ -29,7 +29,8 @@ export default function JunglePanel({ S, champDd, champName, open, onClose }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "15px 18px", borderBottom: "1px solid rgba(255,255,255,.07)" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-            <span style={{ fontSize: "17px" }}>🌲</span>
+            <img src="/images/roles/position-jungle.svg" alt="" draggable={false}
+              style={{ width: "18px", height: "18px", opacity: .9 }} />
             <span style={{ fontSize: "14px", fontWeight: 900, letterSpacing: ".5px", color: "#fff", textTransform: "uppercase" }}>Jungle Coach</span>
           </span>
           <button onClick={onClose} title="Close" style={{ background: "none", border: "none",

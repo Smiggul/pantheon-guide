@@ -221,25 +221,24 @@ export const OTP_GUIDES = {
     matchups: "Proxy sidesteps lane bullies entirely and starves immobile laners. Struggles into champions with the waveclear + mobility to punish the proxy and end you before the zombie pays off.",
   },
 
-  RekSai: {
-    otp: "Azzapp", role: "Jungle",
-    identity: "A tremor-sense early-game ganker with the fastest, healthiest clear in the game. Rek'Sai burrows to see enemies through walls and heal, tunnels around the map for absurd mobility, and ganks with a point-and-click knock-up into a true-damage execute. Her whole game is snowballing an early lead before she tapers off.",
+  Velkoz: {
+    otp: "Azzapp", role: "Support",
+    identity: "Long-range artillery that deletes targets with true damage. Every third hit from a different Vel'Koz ability procs Organic Deconstruction for a burst of true damage, so his whole game is landing his poke combo to research a target, then finishing with a channelled laser that ignores resistances. Azzapp plays him as a pure skill-shot poke machine — chip the lane, then convert.",
     combos: [
-      { name: "Gank", steps: "Burrowed Q (Prey Seeker) or a tunnel to arrive → W (Unburrow) knock-up → auto → E (Furious Bite, true-damage execute when Fury is full)." },
-      { name: "Tunnel play", steps: "Burrowed E lays a tunnel — use two tunnels for map mobility, escapes, or to reposition a gank. Burrow to heal off Fury between camps." },
-      { name: "Global pick", steps: "R (Void Rush) marks a target with your autos, then dashes to them anywhere on the map — pick a low target across the fight or secure a kill." },
+      { name: "Poke combo", steps: "E (Tectonic Disruption) to knock up → Q (Plasma Fission — recast to split it around a corner) → W (Void Rift) on the immobilised target. Each different ability adds a passive stack; the 3rd procs true damage." },
+      { name: "Execute", steps: "R (Life Form Disintegration Ray) — the channelled laser 'researches' anyone it hits, and researched targets take true damage from it. Open with the combo, then R the low target to finish through their MR." },
     ],
     spikes: [
-      "Levels 2–3: your knock-up gank into a no-dash lane is a near-guaranteed kill.",
-      "First bruiser item: your E execute + clear speed let you snowball tempo across the map.",
+      "First AP item (Liandry's / Malignance / Luden's): your poke starts chunking half a health bar per combo.",
+      "Level 6: R turns your poke lead into kills and zones objectives from a screen away.",
     ],
     watchOut: [
-      "You fall off mid-game — press your early lead hard; a slow game is a lost game.",
-      "Manage Fury: the burrowed heal and the empowered E execute both depend on it. Don't waste it clearing.",
-      "Tunnels have cooldowns — getting caught with them down and no escape is how Rek'Sai dies.",
+      "Everything is a skill-shot — if you can't land Q/W/E you do nothing. Aim the Q split around walls and lead your E.",
+      "You're immobile and squishy — positioning is your only defence; one gap-close onto you and you're dead.",
+      "R is a long channel that roots you — only cast it with vision and peel, or you'll get collapsed on mid-laser.",
     ],
-    itemNotes: "Bruiser lethality (Eclipse → Black Cleaver / Sundered Sky) keeps her ganks lethal while surviving skirmishes. Prioritise the early spike and boots so your level-3 ganks convert.",
-    matchups: "Dominates the early game against farming junglers and any lane she can knock-up gank. Struggles into scaling junglers and disengage-heavy comps once she's past her prime.",
+    itemNotes: "Liandry's / Malignance for the burn + haste; on the support build, Zaz'Zak's Realmspike scales your poke and the World Atlas quest funds it. Sorcerer's Shoes + a first AP item is the real poke spike.",
+    matchups: "Out-ranges and pokes down immobile lanes and objective setups. Struggles into hard engage, assassins and any dive that closes his range before he can combo.",
   },
 
   Hecarim: {
