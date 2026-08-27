@@ -58,7 +58,7 @@ export const OTP_GUIDES = {
   },
 
   Riven: {
-    otp: "Adrian Riven", role: "Top",
+    otp: "Adrian Riven & AloisNL", role: "Top",
     identity: "A mechanical snowball skirmisher who lives and dies by animation-cancelling. Riven wants short, repeatable trades that stack Runic Blade, a level-2/3 lead, and then a mid-game where her all-in one-shots squishies. She is entirely tempo — a lead is a snowball, a deficit is a corpse.",
     combos: [
       { name: "Weave (BnB)", steps: "Q → auto (cancel the Q wind-down) → Q → auto → Q → auto — every ability empowers the next auto via passive. This is the trade you repeat all game." },
@@ -243,7 +243,7 @@ export const OTP_GUIDES = {
   },
 
   Hecarim: {
-    otp: "Dantes & AloisNL", role: "Jungle",
+    otp: "Dantes", role: "Jungle",
     identity: "A movement-speed snowball ganker. Hecarim converts move speed into attack damage (Warpath), so the whole build and playstyle is about being faster than everyone — E-charging out of fog to knock a lane into a wall, ramping around the map, and using R to fear-engage a grouped team. Stack speed, gank relentlessly, snowball.",
     combos: [
       { name: "Charge gank", steps: "E (Devastating Charge) ramps move speed the longer you run — approach from fog, then knock the target into a wall/your team for a stun-length, and Q (Rampage) on repeat." },
@@ -258,28 +258,28 @@ export const OTP_GUIDES = {
       "Once you E-commit you can't turn around — pick fights you can finish, not coin-flips.",
       "A telegraphed charge is a dodged charge; approach from unwarded fog and vary your angles.",
     ],
-    itemNotes: "Stack movement speed — Dead Man's Plate is core, and the AloisNL flavour leans hard into a speed-stacking build. Stormsurge / Trinity Force provide the burst on top of the Warpath AD.",
+    itemNotes: "Stack movement speed — Dead Man's Plate is core to the speed-stacking build. Stormsurge / Trinity Force provide the burst on top of the Warpath AD.",
     matchups: "Runs down immobile carries and punishes grouped, slow comps. Struggles into heavy slows/roots and disengage that kills his momentum before he connects.",
   },
 
-  Kindred: {
-    otp: "Tenshi", role: "Jungle",
-    identity: "A marksman-jungler that literally scales with map knowledge. Every mark (Mark of the Kindred) you claim off a camp or champion is permanent attack damage and range — so Tenshi's Kindred is about pathing to your marks, kiting skirmishes with Q, and holding R (a no-death zone) for the single most impactful moment of a fight.",
+  Chogath: {
+    otp: "Tenshi", role: "Top",
+    identity: "A scaling monster who becomes literally un-killable. Every champion Feast (R) is a true-damage execute AND a permanent stack of health — so Tenshi's Cho'Gath is about surviving the early lane, farming R stacks off big minions and champions, and snowballing into a giant that Q-W-locks a target and eats them whole.",
     combos: [
-      { name: "Kite fight", steps: "E (Mounting Dread) — after 3 autos it detonates for a slow + execute-scaling burst → Q (Dance of Arrows) to reposition and gain attack speed → W (Wolf's Frenzy) to zone and heal." },
-      { name: "R clutch", steps: "R (Lamb's Respite) drops a zone where nothing can die and everyone heals at the end — use it to bait an all-in, deny an execute, or turn a lost fight. Timing R is the whole champion." },
+      { name: "Lockdown", steps: "Q (Rupture) knock-up → W (Feral Scream) silence → E (Vorpal Spikes) AoE autos → R (Feast) to true-damage execute for a permanent HP stack." },
+      { name: "Stack up", steps: "Use R on the biggest minions / cannon waves and any low champion — every kill Feast is +permanent HP. A fully stacked Cho'Gath is a raid boss." },
     ],
     spikes: [
-      "Mark stacks (4+): each one is permanent AD + range — a stacked Kindred out-ranges and out-damages every ADC.",
-      "First item (Kraken Slayer / on-hit): your kite pattern starts shredding.",
+      "R stacks: each Feast is permanent size and health — the more you land, the harder you are to kill.",
+      "First item (Rocketbelt / Riftmaker for AP, or an HP-tank item): your Q-W combo starts bursting or your body becomes a wall.",
     ],
     watchOut: [
-      "Contest and path to your marks — a Kindred denied her marks is a weak, short-range jungler.",
-      "R is your identity: wasting it early or holding it too long both lose fights. Learn the exact timing.",
-      "You're squishy and get run down if caught out of position — kite, don't brawl.",
+      "You're weak and slow early — play safe, farm, and survive to your scaling. Dying early denies your stacks.",
+      "R is a true-damage execute — greeding for a champion Feast and missing it wastes your whole tempo. Take guaranteed stacks off minions.",
+      "%max-HP damage and true damage counter your HP stacking — a giant health bar isn't invincible into those.",
     ],
-    itemNotes: "Build like a scaling ADC — Kraken Slayer / on-hit into crit, attack speed, and lifesteal. Your marks already give you the AD lead, so items buy the DPS to convert it.",
-    matchups: "Out-scales the game with marks and kites immobile divers. Struggles when invaded early and denied marks, or into all-in junglers who catch her before she stacks.",
+    itemNotes: "AP Hail-of-Blades (Rocketbelt → Riftmaker) turns the Q-W combo into burst; the full-tank Grasp / Heartsteel line turns your R stacks into an immovable frontline. Pick the build to the game.",
+    matchups: "Out-scales almost every lane into an unkillable giant and locks down immobile targets. Struggles into early aggression and %HP / true-damage champions who ignore his health.",
   },
 
   TahmKench: {
