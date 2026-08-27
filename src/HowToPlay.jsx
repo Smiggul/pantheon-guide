@@ -1,13 +1,16 @@
 import { abilitiesOf } from "./data/abilities.js";
 import { otpGuideOf } from "./data/otpGuides.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
-import { SKILL_MAX } from "./data/skillOrders.js";
+import { SKILL_MAX, NO_ULT } from "./data/skillOrders.js";
 import { matchup, THREAT_LABEL } from "./data/counterPicker.js";
 import { synergiesFor } from "./data/synergies.js";
 import { CHAMPS } from "./data/champs/index.js";
 
 const DD = "/ddragon";
 const KEYS = ["Q", "W", "E", "R"];
+// Champions whose R is available/levels from level 1 like a basic ability
+// (transform ultimates) rather than at 6/11/16.
+const EARLY_ULT = new Set(["Elise", "Nidalee", "Jayce", "Karma"]);
 const champByDisplay = (name) => CHAMPS.find((c) => c.display === name);
 
 // A deep, first-timer "How to Play" guide for the selected champion: identity,
@@ -105,7 +108,13 @@ export default function HowToPlay({ champ, role, activeChampRole, buildCorePath,
                     {i < maxOrder.length - 1 && <span style={{ color:goldDim }}>›</span>}
                   </span>
                 ))}
-                <span style={{ fontSize:"11px", color:dim }}>· ult at 6 / 11 / 16</span>
+                <span style={{ fontSize:"11px", color:dim }}>
+                  {NO_ULT.has(champ.dd)
+                    ? "· no ultimate — four stances (awaken a stance twice to empower it)"
+                    : EARLY_ULT.has(champ.dd)
+                    ? "· R is a transform, levelled from level 1 like a basic ability (not at 6/11/16)"
+                    : "· ult at 6 / 11 / 16"}
+                </span>
               </div>
             )}
           </Card>

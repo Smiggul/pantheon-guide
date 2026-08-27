@@ -19,7 +19,7 @@ export const OTP_GUIDES = {
     otp: "Spear Shot", role: "Top",
     identity: "An early-game lane bully and roaming assassin. Pantheon wins levels 1–6 with his point-and-click stun and passive crits, then uses Grand Starfall to decide side lanes before 20 minutes. He falls off late, so every early lead has to be converted into roams, plates and objectives.",
     combos: [
-      { name: "Poke / stack", steps: "Tap Q (Comet Spear) on cooldown to chip the enemy and build Mortal Will — the 5th stack empowers your next ability." },
+      { name: "Poke / stack", steps: "You gain a Mortal Will stack on every spell cast and basic attack (Q gives 2 when it hits a champion); at 5 stacks your NEXT basic ability is empowered — empowered Q hits far harder and refunds, empowered W is a longer point-and-click stun, empowered E is a full-duration invulnerable block. Tap Q on cooldown to stay topped up and poke for free." },
       { name: "All-in (lvl 3+)", steps: "W (Shield Vault) point-and-click stun → empowered Q → E (Aegis Assault) to block their counter-damage → weave autos. Save W's stun to lock a dash or a channel." },
       { name: "Roam kill", steps: "Once W→E is online, R (Grand Starfall) into a side lane for a global gank — land on top of the target, W-stun, empowered Q, E." },
     ],
