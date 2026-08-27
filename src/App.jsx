@@ -1607,6 +1607,7 @@ useEffect(() => {
   const skinP = activeSkin?.m || "#FF6B35";   // primary
   const skinH = activeSkin?.h || "#FFB347";   // highlight
   const skinA = activeSkin?.a || "#D4AF37";   // accent
+  const clientLive = isDesktop && !!csState && (csState.active || csInGame); // League client connected
 
   // ────────────────────────────────────────────────────────────────────────
   return (
@@ -1652,24 +1653,89 @@ useEffect(() => {
         </div>
       )}
 
-      {/* ── TIER LIST — full-page overlay + the button that opens it ── */}
-      <button onClick={() => setView("tiers")} title="Champion tier list"
-        onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-1px)";
-          e.currentTarget.style.boxShadow = `0 9px 26px ${S.orange}55, inset 0 1px 0 rgba(255,255,255,.4)`; }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = "none";
-          e.currentTarget.style.boxShadow = `0 6px 18px ${S.orange}3d, inset 0 1px 0 rgba(255,255,255,.35)`; }}
-        style={{ position:"fixed", top:"14px", left:"16px", zIndex:60, height:"38px", borderRadius:"11px",
-          padding:"0 16px 0 13px", cursor:"pointer", display:"inline-flex", alignItems:"center", gap:"9px",
-          fontSize:"12.5px", fontWeight:800, letterSpacing:".6px", textTransform:"uppercase", whiteSpace:"nowrap",
-          color:"#15181d", background:`linear-gradient(100deg, ${S.gold}, ${S.orange})`,
-          border:"1px solid rgba(255,255,255,.18)",
-          boxShadow:`0 6px 18px ${S.orange}3d, inset 0 1px 0 rgba(255,255,255,.35)`,
-          transition:"transform .16s ease, box-shadow .16s ease" }}>
-        <span style={{ display:"inline-flex", width:"22px", height:"22px", borderRadius:"7px",
-          alignItems:"center", justifyContent:"center", fontSize:"13px",
-          background:"rgba(21,24,29,.16)", boxShadow:"inset 0 0 0 1px rgba(21,24,29,.12)" }}>🏆</span>
-        Tier List
-      </button>
+      {/* ── TOP NAV BAR — wordmark · sections · search · client · settings ── */}
+      <div style={{ position:"sticky", top:0, zIndex:70,
+        background: frgeTheme === "forge" ? "rgba(16,15,17,.82)" : "rgba(20,20,23,.82)",
+        backdropFilter:"blur(10px)",
+        borderBottom:`1px solid ${frgeTheme === "forge" ? "rgba(255,107,53,.16)" : S.border}` }}>
+        <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", padding:"10px 24px",
+          display:"flex", alignItems:"center", gap:"18px", flexWrap:"wrap" }}>
+          {/* wordmark */}
+          <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
+            <div style={{ width:"32px", height:"32px", borderRadius:"9px", flexShrink:0,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              background:"linear-gradient(145deg,#26201b,#141215)", border:`1px solid ${S.orange}66`,
+              boxShadow:`0 0 14px ${S.orange}40` }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={skinH} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2l2.4 5.2L20 8l-4 3.7L17 18l-5-3-5 3 1-6.3L4 8l5.6-.8z"/></svg>
+            </div>
+            <div className="frge-display" style={{ fontSize:"18px", letterSpacing:".02em", color:"#F5F1EA" }}>
+              FRGE<span style={{ color:S.orange }}>.GG</span></div>
+          </div>
+          {/* section links */}
+          <div style={{ display:"flex", gap:"2px", marginLeft:"4px" }}>
+            {[
+              { id:"forge",   label:"Build Forge",    on:forgeOpen,       act:() => setForgeOpen(true) },
+              { id:"tiers",   label:"Tier List",      on:view === "tiers", act:() => setView("tiers") },
+              { id:"jungle",  label:"Jungle Coach",   on:jungleOpen,       act:() => { setView("build"); setJungleOpen(true); } },
+              { id:"counter", label:"Counter Picker", on:false,            act:() => {}, title:"Live recommendations appear in champ select (League open)" },
+            ].map(n => (
+              <button key={n.id} onClick={n.act} title={n.title || n.label}
+                style={{ background:"none", border:"none", cursor:"pointer", padding:"8px 12px",
+                  fontFamily:"inherit", fontSize:"12.5px", fontWeight:700, letterSpacing:".02em", whiteSpace:"nowrap",
+                  color: n.on ? "#F5F1EA" : "#8A8078", position:"relative",
+                  borderBottom: n.on ? `2px solid ${S.orange}` : "2px solid transparent",
+                  transition:"color .15s" }}
+                onMouseEnter={(e) => { if (!n.on) e.currentTarget.style.color = "#c7c0b6"; }}
+                onMouseLeave={(e) => { if (!n.on) e.currentTarget.style.color = "#8A8078"; }}>
+                {n.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ flex:1, minWidth:"12px" }} />
+          {/* search */}
+          <button onClick={() => setShowPicker(true)} title="Search champions"
+            className="frge-pill"
+            style={{ display:"flex", alignItems:"center", gap:"8px", cursor:"pointer", fontFamily:"inherit",
+              border:`1px solid ${S.border}`, background:"rgba(255,255,255,.04)", borderRadius:"9px",
+              padding:"7px 12px", color:"#8A8078" }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <span style={{ fontSize:"12px" }}>Search champion…</span>
+          </button>
+          {/* client-live */}
+          <div title={csStatus} style={{ display:"flex", alignItems:"center", gap:"7px", borderRadius:"9px", padding:"7px 11px",
+            border:`1px solid ${clientLive ? "rgba(87,217,119,.4)" : S.border}`,
+            background: clientLive ? "rgba(87,217,119,.1)" : "rgba(255,255,255,.03)" }}>
+            <span style={{ width:"7px", height:"7px", borderRadius:"50%",
+              background: clientLive ? "#57d977" : "#7a8288", boxShadow: clientLive ? "0 0 8px #57d977" : "none" }} />
+            <span style={{ fontSize:"11px", fontWeight:700, letterSpacing:".04em", color: clientLive ? "#8fe6a8" : "#8A8078" }}>
+              {clientLive ? "CLIENT LIVE" : "CLIENT"}</span>
+          </div>
+          {/* update pill (desktop, only when an update exists) */}
+          {isDesktop && update && ["available","downloading","downloaded"].includes(update.state) && (
+            <button onClick={onUpdateAction} disabled={update.state === "downloading"} className="frge-cta"
+              title={update.state === "available" ? "Download the update" : update.state === "downloading" ? "Downloading…" : "Restart to finish updating"}
+              style={{ height:"34px", borderRadius:"9px", padding:"0 13px", cursor: update.state === "downloading" ? "default" : "pointer",
+                display:"flex", alignItems:"center", gap:"7px", fontSize:"12px", fontWeight:"bold", fontFamily:"inherit",
+                border:`1px solid ${S.orange}`, whiteSpace:"nowrap",
+                background: update.state === "downloaded" ? S.orange : "rgba(249,115,22,.16)",
+                color: update.state === "downloaded" ? "#151517" : S.orange }}>
+              {update.state === "available" && <>⬇ Update{update.version ? ` v${update.version}` : ""}</>}
+              {update.state === "downloading" && <>Downloading {update.percent ?? 0}%</>}
+              {update.state === "downloaded" && <>↻ Restart &amp; update</>}
+            </button>
+          )}
+          {/* settings gear */}
+          <button onClick={() => setSettingsOpen(v => !v)} className="frge-pill" aria-label="Settings" aria-expanded={settingsOpen} title="Settings"
+            style={{ width:"34px", height:"34px", borderRadius:"9px", cursor:"pointer", flexShrink:0,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              border:`1px solid ${settingsOpen ? S.gold : "rgba(255,255,255,.15)"}`,
+              background: settingsOpen ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.04)",
+              color: settingsOpen ? S.gold : "#9aa0a6", fontSize:"16px" }}>⚙</button>
+        </div>
+      </div>
+
+      {/* ── TIER LIST — full-page overlay ── */}
       {view === "tiers" && (
         <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
           background:"radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
@@ -1701,42 +1767,7 @@ useEffect(() => {
           open={jungleOpen} onClose={() => setJungleOpen(false)} />
       )}
 
-      {/* ── UPDATE BUTTON — appears only when there's an update (desktop) ── */}
-      {isDesktop && update && ["available","downloading","downloaded"].includes(update.state) && (
-        <button
-          onClick={onUpdateAction}
-          disabled={update.state === "downloading"}
-          className="frge-pill frge-cta frge-enter"
-          title={update.state === "available" ? "Download the update"
-            : update.state === "downloading" ? "Downloading…" : "Restart to finish updating"}
-          style={{
-            position:"fixed", top:"12px", right:"56px", zIndex:60, height:"34px",
-            borderRadius:"18px", padding:"0 14px",
-            cursor: update.state === "downloading" ? "default" : "pointer",
-            display:"flex", alignItems:"center", gap:"7px", fontSize:"12px", fontWeight:"bold",
-            border:`1px solid ${S.orange}`, whiteSpace:"nowrap",
-            background: update.state === "downloaded" ? S.orange : "rgba(249,115,22,.16)",
-            color: update.state === "downloaded" ? "#151517" : S.orange,
-          }}>
-          {update.state === "available" && <>⬇ Update{update.version ? ` v${update.version}` : ""}</>}
-          {update.state === "downloading" && <>Downloading {update.percent ?? 0}%</>}
-          {update.state === "downloaded" && <>↻ Restart &amp; update</>}
-        </button>
-      )}
-
-      {/* ── SETTINGS (gear + theme popout) ── */}
-      <button
-        onClick={() => setSettingsOpen(v => !v)}
-        className="frge-pill" aria-label="Settings" aria-expanded={settingsOpen}
-        title="Settings"
-        style={{
-          position:"fixed", top:"12px", right:"14px", zIndex:60,
-          width:"34px", height:"34px", borderRadius:"50%", cursor:"pointer",
-          display:"flex", alignItems:"center", justifyContent:"center",
-          border:`1px solid ${settingsOpen ? S.gold : "rgba(255,255,255,.15)"}`,
-          background: settingsOpen ? "rgba(212,175,55,.15)" : "rgba(27,27,30,.9)",
-          color: settingsOpen ? S.gold : "#9aa0a6", fontSize:"16px",
-        }}>⚙</button>
+      {/* ── SETTINGS popout (the gear + update pill now live in the top nav) ── */}
       {settingsOpen && (
         <>
           <div onClick={() => setSettingsOpen(false)}
@@ -1968,7 +1999,7 @@ useEffect(() => {
       }}>
         <div style={{ fontSize:"10px", letterSpacing:"6px", color:S.goldDim,
           textTransform:"uppercase", marginBottom:"2px" }}>
-          FRGE.GG · Patch {GAME_PATCH}
+          Patch {GAME_PATCH}
         </div>
         <h1 className="frge-display" style={{
           fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
@@ -2908,19 +2939,7 @@ useEffect(() => {
             document.body
           )}
 
-          {/* Build Forge — a compact trigger that opens the focused authoring modal */}
-          <button onClick={() => setForgeOpen(true)} className="frge-cta"
-            style={{ marginTop:"14px", width:"100%", display:"flex", alignItems:"center", justifyContent:"center",
-              gap:"10px", padding:"12px 16px", borderRadius:"11px", cursor:"pointer",
-              border:`1px solid ${S.gold}66`, background:`linear-gradient(180deg, ${S.gold}22, ${S.orange}18)`,
-              color:S.gold, fontSize:"12.5px", fontWeight:"800", letterSpacing:".6px" }}>
-            <span style={{ fontSize:"16px" }}>🔨</span>
-            <span>BUILD FORGE — CRAFT YOUR OWN</span>
-            {forgeHasItems && (
-              <span style={{ fontSize:"10px", fontWeight:700, color: forgeBootsMissing ? "#e8934a" : "#4fd18a" }}>
-                · {forgeCount} items{forgeBootsMissing ? " · ⚠ boots" : " ✓"}</span>
-            )}
-          </button>
+          {/* Build Forge now opens from the top nav; the authoring modal renders below. */}
 
           {forgeOpen && typeof document !== "undefined" && createPortal(
             <div onClick={() => setForgeOpen(false)}
