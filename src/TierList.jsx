@@ -47,7 +47,7 @@ export default function TierList({ S, champImg, onPick, onClose }) {
   const [shown, setShown] = useState(false);      // drives the staggered reveal
   const [q, setQ] = useState("");
   const [bracket, setBracket] = useState("all");  // all | high | low (elo)
-  const [backdrop, setBackdrop] = useState("heat"); // "heat" (molten ladder) | "forge" (forge-scape) — preview toggle
+  const backdrop = "heat";                         // chosen tier-list treatment: the molten Heat Ladder
 
   useEffect(() => {
     let cancelled = false;
@@ -135,39 +135,9 @@ export default function TierList({ S, champImg, onPick, onClose }) {
   };
 
   return (
-    <div style={{ minHeight: "100%", position: "relative", isolation: "isolate",
-      background: backdrop === "forge"
-        ? "linear-gradient(180deg,#1a1613 0%,#141013 55%,#0f0d0f 100%)"
-        : "linear-gradient(180deg, rgba(239,77,90,.10) 0%, rgba(232,147,74,.06) 22%, rgba(233,194,92,.03) 44%, transparent 62%), radial-gradient(1000px 500px at 50% -10%, rgba(255,107,53,.10), transparent 60%)",
+    <div style={{ minHeight: "100%", position: "relative",
+      background: "linear-gradient(180deg, rgba(239,77,90,.10) 0%, rgba(232,147,74,.06) 22%, rgba(233,194,92,.03) 44%, transparent 62%), radial-gradient(1000px 500px at 50% -10%, rgba(255,107,53,.10), transparent 60%)",
       padding: "22px clamp(16px,4vw,48px) 60px" }}>
-
-      {/* Forge-scape backdrop (variant C) — volcano + ember atmosphere behind the board */}
-      {backdrop === "forge" && (
-        <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none", overflow: "hidden" }}>
-          <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMin slice" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "640px", opacity: .92 }}>
-            <defs>
-              <radialGradient id="tlCrater" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#FFD9A0" stopOpacity=".85" />
-                <stop offset="35%" stopColor="#FFB347" stopOpacity=".6" />
-                <stop offset="70%" stopColor="#FF6B35" stopOpacity=".2" />
-                <stop offset="100%" stopColor="#FF6B35" stopOpacity="0" />
-              </radialGradient>
-              <linearGradient id="tlRidge1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2a2622" /><stop offset="100%" stopColor="#121013" /></linearGradient>
-              <linearGradient id="tlRidge2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#201d1a" /><stop offset="100%" stopColor="#0e0d0f" /></linearGradient>
-              <linearGradient id="tlLava" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FFB347" /><stop offset="100%" stopColor="#C2410C" /></linearGradient>
-              <filter id="tlSoft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="12" /></filter>
-            </defs>
-            <ellipse cx="720" cy="150" rx="470" ry="190" fill="url(#tlCrater)" filter="url(#tlSoft)" />
-            <path d="M0,500 L120,380 L280,450 L470,320 L620,430 L720,270 L860,420 L1010,320 L1180,440 L1320,370 L1440,480 L1440,600 L0,600 Z" fill="url(#tlRidge2)" opacity=".85" />
-            <path d="M0,600 L0,520 L360,520 L560,350 L640,380 L720,255 L820,382 L900,356 L1120,520 L1440,520 L1440,600 Z" fill="url(#tlRidge1)" />
-            <path d="M700,278 L720,255 L742,278 L730,290 L710,290 Z" fill="url(#tlLava)" opacity=".95" />
-            <path d="M718,282 C716,320 708,360 700,412" stroke="url(#tlLava)" strokeWidth="3" fill="none" opacity=".7" filter="url(#tlSoft)" />
-            <path d="M724,282 C730,330 742,380 756,450" stroke="url(#tlLava)" strokeWidth="2" fill="none" opacity=".55" />
-          </svg>
-          <div style={{ position: "absolute", left: 0, right: 0, top: "360px", height: "360px",
-            background: "linear-gradient(180deg, transparent, #131013)" }} />
-        </div>
-      )}
 
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between",
@@ -196,25 +166,9 @@ export default function TierList({ S, champImg, onPick, onClose }) {
             </span>
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "8px" }}>
-          <div style={{ display: "inline-flex", gap: "3px", padding: "3px", borderRadius: "9px",
-            background: "rgba(0,0,0,.28)", border: "1px solid rgba(255,255,255,.07)" }}
-            title="Preview backdrop — pick the one you like">
-            {[{ k: "heat", l: "Heat Ladder" }, { k: "forge", l: "Forge-scape" }].map((o) => {
-              const on = backdrop === o.k;
-              return (
-                <button key={o.k} onClick={() => setBackdrop(o.k)} style={{
-                  padding: "5px 11px", borderRadius: "7px", fontSize: "11px", fontWeight: 800, letterSpacing: ".3px",
-                  cursor: "pointer", border: "none", textTransform: "uppercase", transition: "all .18s",
-                  background: on ? `linear-gradient(100deg, ${S.gold}, ${S.orange})` : "transparent",
-                  color: on ? "#15181d" : "rgba(255,255,255,.55)" }}>{o.l}</button>
-              );
-            })}
-          </div>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter champions…"
-            style={{ width: "min(220px,42vw)", padding: "8px 12px", fontSize: "12px", borderRadius: "9px",
-              border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.04)", color: "#e8e8ea", outline: "none" }} />
-        </div>
+        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter champions…"
+          style={{ width: "min(220px,42vw)", padding: "8px 12px", fontSize: "12px", borderRadius: "9px",
+            border: "1px solid rgba(255,255,255,.14)", background: "rgba(255,255,255,.04)", color: "#e8e8ea", outline: "none" }} />
       </div>
 
       {/* Selectors — roles on the left, elo bracket on the right (OP.GG-style) */}

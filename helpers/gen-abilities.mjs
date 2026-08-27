@@ -1,9 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  helpers/gen-abilities.mjs
-//  Generates src/data/abilities.js — passive + Q/W/E/R for every champion
-//  (name, cleaned description, icon file, cooldown, cost), pulled from the
-//  champion detail JSONs and pinned to public/ddragon/version.txt.
-//  Icons resolve to public/ddragon/img/spell/<file> and img/passive/<file>.
+//  Generates src/data/abilities.js — passive + Q/W/E/R for every champion with
+//  DEEP, RESOLVED ability text (real numbers). Descriptions come from Meraki
+//  Analytics (which resolves Riot's tooltip formulas — Data Dragon only ships
+//  {{ placeholders }}); icons, cooldown and cost come from Data Dragon (pinned
+//  to public/ddragon/version.txt). If Meraki is unreachable for a champion we
+//  fall back to a cleaned Data Dragon tooltip so the entry is never blank.
 //  Run after a patch:  node helpers/gen-abilities.mjs
 // ─────────────────────────────────────────────────────────────────────────────
 import fs from "fs";
@@ -16,56 +18,94 @@ const themes = fs.readFileSync(path.join(root, "src/data/skinThemes.js"), "utf8"
 const dds = [...themes.matchAll(/^\s*"([A-Za-z0-9]+)"\s*:/gm)].map((m) => m[1]);
 console.log(`patch ${ver} — ${dds.length} champions`);
 
-// Data Dragon descriptions are HTML with <br>, <font>, <li>… — flatten to prose.
-const clean = (s) => (s || "")
-  .replace(/<br\s*\/?>/gi, " ")
-  .replace(/<[^>]+>/g, "")
-  .replace(/&nbsp;/g, " ")
-  .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
-  .replace(/\s+/g, " ")
-  .trim();
+const DD = (dd) => `https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/champion/${dd}.json`;
+const MERAKI = (dd) => `https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/champions/${dd}.json`;
+
+// Tidy Meraki prose: turn its "min : max" scaling notation into "min–max",
+// fix "non- turret" splits, collapse whitespace.
+const cleanMeraki = (s) => (s || "")
+  .replace(/(\d[\d.,%]*)\s*:\s*(\d)/g, "$1–$2")
+  .replace(/non-\s+/g, "non-")
+  .replace(/\s+/g, " ").replace(/\s([.,;:])/g, "$1").trim();
+
+// Join an ability's effect descriptions into one rich-but-bounded paragraph.
+const merakiDesc = (arr) => {
+  const a = arr?.[0];
+  if (!a) return null;
+  const parts = (a.effects || []).map((e) => (e.description || "").trim()).filter(Boolean);
+  let out = "";
+  for (const p of parts) {
+    if (out.length && out.length + p.length > 440) break;
+    out += (out ? " " : "") + p;
+  }
+  return cleanMeraki(out) || null;
+};
+
+// Fallback only: flatten a Data Dragon tooltip (strip HTML + drop unresolved
+// {{ }} placeholders) when Meraki has no entry for a champion.
+const ddClean = (s) => (s || "")
+  .replace(/<br\s*\/?>/gi, " ").replace(/<[^>]+>/g, "")
+  .replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+  .replace(/\bfor\s+\{\{[^}]*\}\}\s*seconds?/gi, " for a short time")
+  .replace(/\{\{[^}]*\}\}\s*%/g, " ").replace(/\{\{[^}]*\}\}/g, "")
+  .replace(/\bsome\b/g, "").replace(/\(\s*\)/g, "")
+  .replace(/\s+/g, " ").replace(/\s([.,;:])/g, "$1").trim();
+
+const KEYS = ["Q", "W", "E", "R"];
+
+async function fetchJson(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${r.status}`);
+  return r.json();
+}
 
 async function fetchChamp(dd) {
-  const url = `https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/champion/${dd}.json`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${dd} ${r.status}`);
-  const d = await r.json();
-  const c = d.data[Object.keys(d.data)[0]];
-  const keys = ["Q", "W", "E", "R"];
+  const [ddR, mkR] = await Promise.allSettled([fetchJson(DD(dd)), fetchJson(MERAKI(dd))]);
+  if (ddR.status !== "fulfilled") throw new Error(`DD ${dd}: ${ddR.reason?.message}`);
+  const c = ddR.value.data[Object.keys(ddR.value.data)[0]];
+  const m = mkR.status === "fulfilled" ? mkR.value : null;
   const out = {
     title: c.title,
-    passive: { name: c.passive.name, desc: clean(c.passive.description), img: c.passive.image.full },
+    passive: {
+      name: c.passive.name,
+      desc: merakiDesc(m?.abilities?.P) || ddClean(c.passive.description),
+      img: c.passive.image.full,
+    },
   };
   c.spells.forEach((s, i) => {
     if (i > 3) return;
-    out[keys[i]] = {
-      name: s.name, desc: clean(s.description), img: s.image.full,
+    out[KEYS[i]] = {
+      name: s.name,
+      desc: merakiDesc(m?.abilities?.[KEYS[i]]) || ddClean(s.tooltip) || ddClean(s.description),
+      img: s.image.full,
       cd: s.cooldownBurn, cost: s.costBurn, range: s.rangeBurn,
     };
   });
-  return out;
+  return { out, meraki: !!m };
 }
 
 const map = {};
-const batch = 12;
+let noMeraki = [];
+const batch = 8;
 for (let i = 0; i < dds.length; i += batch) {
   const slice = dds.slice(i, i + batch);
   const res = await Promise.allSettled(slice.map(fetchChamp));
   slice.forEach((dd, j) => {
-    if (res[j].status === "fulfilled") map[dd] = res[j].value;
+    if (res[j].status === "fulfilled") { map[dd] = res[j].value.out; if (!res[j].value.meraki) noMeraki.push(dd); }
     else console.error("!!", dd, res[j].reason?.message);
   });
 }
 
-const keys = Object.keys(map).sort();
 const body = `// ─────────────────────────────────────────────────────────────────────────────
 //  abilities.js — GENERATED by helpers/gen-abilities.mjs. Do not edit by hand.
-//  Passive + Q/W/E/R per champion (name, description, icon file, cd/cost/range),
-//  keyed by champ.dd. Icons live in public/ddragon/img/{spell,passive}/<file>.
+//  Passive + Q/W/E/R per champion with resolved, numeric ability text (from
+//  Meraki Analytics) plus icon file, cooldown, cost and range (from Data
+//  Dragon), keyed by champ.dd. Icons live in public/ddragon/img/{spell,passive}.
 // ─────────────────────────────────────────────────────────────────────────────
 export const ABILITIES = ${JSON.stringify(map, null, 0)};
 
 export const abilitiesOf = (dd) => ABILITIES[dd] || null;
 `;
 fs.writeFileSync(path.join(root, "src/data/abilities.js"), body);
-console.log(`wrote src/data/abilities.js — ${keys.length} champions (${(Buffer.byteLength(body) / 1024).toFixed(0)} KB)`);
+console.log(`wrote src/data/abilities.js — ${Object.keys(map).length} champions (${(Buffer.byteLength(body) / 1024).toFixed(0)} KB)`);
+if (noMeraki.length) console.log(`fell back to DD tooltips for ${noMeraki.length}: ${noMeraki.join(", ")}`);

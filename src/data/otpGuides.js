@@ -402,6 +402,66 @@ export const OTP_GUIDES = {
     itemNotes: "Bruiser on-hit (per the meta jungle build) keeps his clear fast and his duels winning; move speed helps Bear stick. Trick2g's classic identity is the run-you-down bruiser — build to reach targets and out-sustain the trade.",
     matchups: "Runs down immobile carries and out-clears most junglers. Struggles into heavy kite/disengage and long-range CC that never lets him connect.",
   },
+
+  Graves: {
+    otp: "Kirei", role: "Jungle",
+    identity: "A short-range auto-attack juggernaut in a marksman's body. Graves reloads two shells and does enormous burst when both land point-blank, gaining armour by dashing and standing near enemies. Kirei's Graves is a fast-clearing, skirmish-first jungler — manage your shells, dash to angle your cone, and win every early 1v1.",
+    combos: [
+      { name: "Burst", steps: "E (Quickdraw) dash toward the target to close and stack True Grit armour → Q (End of the Line) at point-blank so the ricochet re-hits → both shells auto → R (Collateral Damage) cone to execute." },
+      { name: "Reload discipline", steps: "You have only two shells and a reload window — never start a fight mid-reload. E resets partially on hit, so weave it to keep your dashes and armour up." },
+    ],
+    spikes: [
+      "First item (Eclipse / lethality or crit): your two-shell burst starts one-shotting squishies.",
+      "Level 6: Collateral Damage adds a huge execute and a second escape.",
+    ],
+    watchOut: [
+      "Getting caught with no shells / mid-reload is death — track your ammo before committing.",
+      "You're short-range for a marksman — W (Smoke Screen) is your disengage and blind; use it to break line of sight.",
+      "Heavy CC and peel that stops you from auto-attacking shut your damage down.",
+    ],
+    itemNotes: "Lethality (Eclipse → Youmuu's → Serylda's) is the snowball skirmish build; a crit line scales harder into longer games. Attack speed / reload haste keeps your shells flowing.",
+    matchups: "Wins early skirmishes and out-duels most junglers 1v1. Struggles into hard CC, disengage and tanks that outlast his shell windows.",
+  },
+
+  Belveth: {
+    otp: "Kirei", role: "Jungle",
+    identity: "An attack-speed skirmisher who scales infinitely. Bel'Veth stacks attack speed off takedowns, dashes in four directions with Q to weave and reposition, and — after consuming a Void coral from an epic monster — transforms into her true form for a teamfight and objective-control power spike. Kirei plays her as a fast-clearing, coral-hunting duellist.",
+    combos: [
+      { name: "Duel", steps: "W (Above and Below) knock-up → E (Royal Maelstrom) channel on the target for lifesteal + damage-reduction while it hammers the lowest-HP enemy → Q (Void Surge) dashes to stay on top / dodge." },
+      { name: "True form", steps: "R (Endless Banquet) — consume the Void remains a big monster or an epic objective drops to transform: bonus attack speed, out-of-combat move speed, and the ranged form that dominates teamfights and Baron/Dragon." },
+    ],
+    spikes: [
+      "On-hit item (Kraken Slayer / Terminus): your attack-speed identity comes online.",
+      "First true-form transformation: a huge, spike in dueling, objective and teamfight power.",
+    ],
+    watchOut: [
+      "Q dashes are per-direction and go on cooldown — don't blow all four and get stranded.",
+      "E is a committal channel — start it on a target you can finish, with vision.",
+      "Before stacks/items she's weak and easily kited; hard CC locks her out of the fight.",
+    ],
+    itemNotes: "On-hit (Kraken Slayer / Guinsoo's / Terminus) plus attack speed and a bruiser item for survivability. Her Q dashes and E want raw attack speed to snowball the stacks.",
+    matchups: "Shreds tanks and objectives and out-scales the game. Struggles into burst assassins and hard-CC comps that stop her from stacking.",
+  },
+
+  MonkeyKing: {
+    otp: "Kirei", role: "Jungle",
+    identity: "A snowball bruiser-diver built around deception. Wukong dashes in, shreds armour, then drops a clone and stealths to bait skillshots, dodge, or reset the fight before spinning up a game-winning AoE knock-up. Kirei's Wukong is a fast-clearing skirmisher that dives the backline and turns fights with the clone + ult.",
+    combos: [
+      { name: "Dive", steps: "E (Nimbus Strike) dash to the target for attack speed → Q (Crushing Blow) armour shred + extended range → auto → W (Warrior Trickster) clone to dodge their answer or fake a retreat." },
+      { name: "Teamfight", steps: "Flash or E in → R (Cyclone) winds up and knocks up everyone nearby while ramping — combo the clone's damage and Q shred into it for a full team-knockup." },
+    ],
+    spikes: [
+      "First item (Trinity Force / Black Cleaver): your dive burst and Q shred start deleting targets.",
+      "Level 6: Cyclone is a fight-winning AoE knock-up on a short-ish cooldown.",
+    ],
+    watchOut: [
+      "The clone (W) is your whole outplay tool — throw it to bait a key skillshot or break line of sight, not on cooldown.",
+      "Your dives are committal; go in when you can knock up multiple targets or finish the carry.",
+      "Disengage and kite comps that never let you connect blunt his all-in.",
+    ],
+    itemNotes: "Bruiser (Trinity Force / Black Cleaver → Death's Dance, Steelcaps) so you survive the dive and keep shredding. Kirei leans on the reliable snowball skirmish build over glass-cannon lethality.",
+    matchups: "Dives squishies and wins scrappy skirmishes with the clone + ult. Struggles into disengage, kite and heavy peel that deny the all-in.",
+  },
 };
 
 export const otpGuideOf = (dd) => OTP_GUIDES[dd] || null;
