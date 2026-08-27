@@ -2284,9 +2284,6 @@ useEffect(() => {
           display:"flex", alignItems:"center", gap:"16px", flexWrap:"wrap",
         }}>
 
-          <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-            textTransform:"uppercase", flexShrink:0 }}>Playing as · Patch {GAME_PATCH}</span>
-
           {/* Active portrait — clicking opens the picker */}
           <div
             onClick={() => setShowPicker(true)}
@@ -3016,7 +3013,84 @@ useEffect(() => {
                     )}
                   </div>
                 ))}
-                <div style={{ display:"flex", justifyContent:"flex-end", marginTop:"8px" }}>
+
+                {/* Share / Save / Import — moved here from the Core Build Path */}
+                <div style={{ height:"1px", background:"rgba(255,255,255,.08)", margin:"18px 0 14px" }} />
+                <div style={{ fontSize:"9.5px", letterSpacing:"1px", color:S.goldDim, textTransform:"uppercase", marginBottom:"10px" }}>Share · Save · Import</div>
+                <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
+                  <button onClick={shareBuild} title="Copy a shareable code for this champ, role and rune page"
+                    style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
+                      borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
+                    🔗 Share build
+                  </button>
+                  {nameDraft === null ? (
+                    <button onClick={() => setNameDraft("")} title="Name and save this build to your local builds"
+                      style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
+                        borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
+                      💾 Save
+                    </button>
+                  ) : (
+                    <span style={{ display:"inline-flex", alignItems:"center", gap:"0", borderRadius:"7px",
+                      border:`1px solid ${S.gold}55`, overflow:"hidden", background:"rgba(255,255,255,.04)" }}>
+                      <span style={{ fontSize:"11px", fontWeight:"700", color:S.goldDim, padding:"5px 4px 5px 9px", whiteSpace:"nowrap" }}>
+                        FRGED {champ.display}-</span>
+                      <input autoFocus value={nameDraft} onChange={e => setNameDraft(e.target.value)}
+                        onKeyDown={e => { if (e.key === "Enter") saveCurrentBuild(nameDraft); if (e.key === "Escape") setNameDraft(null); }}
+                        placeholder={currentRole || "name"}
+                        style={{ width:"110px", padding:"5px 4px", fontSize:"11px", border:"none", outline:"none",
+                          background:"transparent", color:"#e8e8ea" }} />
+                      <button onClick={() => saveCurrentBuild(nameDraft)} title="Save"
+                        style={{ padding:"5px 8px", fontSize:"11px", border:"none", cursor:"pointer",
+                          background:`${S.gold}22`, color:S.gold, fontWeight:"800" }}>✓</button>
+                      <button onClick={() => setNameDraft(null)} title="Cancel"
+                        style={{ padding:"5px 8px", fontSize:"12px", border:"none", cursor:"pointer",
+                          background:"transparent", color:"rgba(255,255,255,.4)" }}>×</button>
+                    </span>
+                  )}
+                  <input value={importCode} onChange={e => setImportCode(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") importBuild(importCode); }}
+                    placeholder="Paste a FRGE1-… code"
+                    style={{ flex:"1 1 150px", minWidth:"130px", padding:"5px 10px", fontSize:"11px",
+                      borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.04)",
+                      color:"#e8e8ea", outline:"none" }} />
+                  <button onClick={() => importBuild(importCode)} disabled={!importCode.trim()}
+                    style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", borderRadius:"7px",
+                      cursor: importCode.trim() ? "pointer" : "default",
+                      border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)",
+                      color: importCode.trim() ? "#e8e8ea" : "rgba(255,255,255,.3)" }}>
+                    Import
+                  </button>
+                  {(shareMsg || importMsg) && (
+                    <span style={{ fontSize:"10.5px", fontWeight:"600",
+                      color: (importMsg && importMsg.startsWith("✕")) ? "#f08a84" : "#6bd6a0" }}>
+                      {shareMsg || importMsg}
+                    </span>
+                  )}
+                </div>
+
+                {savedBuilds.length > 0 && (
+                  <div style={{ marginTop:"12px" }}>
+                    <div style={{ fontSize:"9.5px", letterSpacing:"1.5px", color:S.goldDim,
+                      textTransform:"uppercase", marginBottom:"6px" }}>Saved builds ({savedBuilds.length})</div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:"6px" }}>
+                      {savedBuilds.map((sb) => (
+                        <span key={sb.id} style={{ display:"inline-flex", alignItems:"center", gap:"6px",
+                          padding:"3px 4px 3px 10px", borderRadius:"7px", fontSize:"11px",
+                          border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.04)" }}>
+                          <button onClick={() => loadSavedBuild(sb)} title="Load this build"
+                            style={{ background:"none", border:"none", color:"#e8e8ea", cursor:"pointer",
+                              fontSize:"11px", fontWeight:"600", padding:0 }}>{sb.name}</button>
+                          <button onClick={() => copySavedCode(sb)} title="Copy share code"
+                            style={{ background:"none", border:"none", color:S.goldDim, cursor:"pointer", fontSize:"11px", padding:"0 2px" }}>🔗</button>
+                          <button onClick={() => deleteSavedBuild(sb.id)} title="Delete"
+                            style={{ background:"none", border:"none", color:"rgba(255,255,255,.35)", cursor:"pointer", fontSize:"12px", padding:"0 2px" }}>×</button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div style={{ display:"flex", justifyContent:"flex-end", marginTop:"16px" }}>
                   <button onClick={() => setForgeOpen(false)} className="frge-cta"
                     style={{ padding:"9px 24px", borderRadius:"9px", cursor:"pointer", border:`1px solid ${S.gold}66`,
                       background:`${S.gold}22`, color:S.gold, fontSize:"12px", fontWeight:"800", letterSpacing:".5px" }}>Done</button>
@@ -3026,80 +3100,7 @@ useEffect(() => {
             document.body
           )}
 
-          {/* Shareable build code — copy this champ/role/rune page, save it, or paste a friend's */}
-          <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"14px", flexWrap:"wrap" }}>
-            <button onClick={shareBuild} title="Copy a shareable code for this champ, role and rune page"
-              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
-                borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
-              🔗 Share build
-            </button>
-            {nameDraft === null ? (
-              <button onClick={() => setNameDraft("")} title="Name and save this build to your local builds"
-                style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
-                  borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
-                💾 Save
-              </button>
-            ) : (
-              <span style={{ display:"inline-flex", alignItems:"center", gap:"0", borderRadius:"7px",
-                border:`1px solid ${S.gold}55`, overflow:"hidden", background:"rgba(255,255,255,.04)" }}>
-                <span style={{ fontSize:"11px", fontWeight:"700", color:S.goldDim, padding:"5px 4px 5px 9px", whiteSpace:"nowrap" }}>
-                  FRGED {champ.display}-</span>
-                <input autoFocus value={nameDraft} onChange={e => setNameDraft(e.target.value)}
-                  onKeyDown={e => { if (e.key === "Enter") saveCurrentBuild(nameDraft); if (e.key === "Escape") setNameDraft(null); }}
-                  placeholder={currentRole || "name"}
-                  style={{ width:"110px", padding:"5px 4px", fontSize:"11px", border:"none", outline:"none",
-                    background:"transparent", color:"#e8e8ea" }} />
-                <button onClick={() => saveCurrentBuild(nameDraft)} title="Save"
-                  style={{ padding:"5px 8px", fontSize:"11px", border:"none", cursor:"pointer",
-                    background:`${S.gold}22`, color:S.gold, fontWeight:"800" }}>✓</button>
-                <button onClick={() => setNameDraft(null)} title="Cancel"
-                  style={{ padding:"5px 8px", fontSize:"12px", border:"none", cursor:"pointer",
-                    background:"transparent", color:"rgba(255,255,255,.4)" }}>×</button>
-              </span>
-            )}
-            <input value={importCode} onChange={e => setImportCode(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter") importBuild(importCode); }}
-              placeholder="Paste a FRGE1-… code"
-              style={{ flex:"1 1 150px", minWidth:"130px", padding:"5px 10px", fontSize:"11px",
-                borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.04)",
-                color:"#e8e8ea", outline:"none" }} />
-            <button onClick={() => importBuild(importCode)} disabled={!importCode.trim()}
-              style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", borderRadius:"7px",
-                cursor: importCode.trim() ? "pointer" : "default",
-                border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)",
-                color: importCode.trim() ? "#e8e8ea" : "rgba(255,255,255,.3)" }}>
-              Import
-            </button>
-            {(shareMsg || importMsg) && (
-              <span style={{ fontSize:"10.5px", fontWeight:"600",
-                color: (importMsg && importMsg.startsWith("✕")) ? "#f08a84" : "#6bd6a0" }}>
-                {shareMsg || importMsg}
-              </span>
-            )}
-          </div>
-
-          {/* Saved builds — your local library (load / copy code / delete) */}
-          {savedBuilds.length > 0 && (
-            <div style={{ marginTop:"10px" }}>
-              <div style={{ fontSize:"9.5px", letterSpacing:"1.5px", color:S.goldDim,
-                textTransform:"uppercase", marginBottom:"6px" }}>Saved builds ({savedBuilds.length})</div>
-              <div style={{ display:"flex", flexWrap:"wrap", gap:"6px" }}>
-                {savedBuilds.map((sb) => (
-                  <span key={sb.id} style={{ display:"inline-flex", alignItems:"center", gap:"6px",
-                    padding:"3px 4px 3px 10px", borderRadius:"7px", fontSize:"11px",
-                    border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.04)" }}>
-                    <button onClick={() => loadSavedBuild(sb)} title="Load this build"
-                      style={{ background:"none", border:"none", color:"#e8e8ea", cursor:"pointer",
-                        fontSize:"11px", fontWeight:"600", padding:0 }}>{sb.name}</button>
-                    <button onClick={() => copySavedCode(sb)} title="Copy share code"
-                      style={{ background:"none", border:"none", color:S.goldDim, cursor:"pointer", fontSize:"11px", padding:"0 2px" }}>🔗</button>
-                    <button onClick={() => deleteSavedBuild(sb.id)} title="Delete"
-                      style={{ background:"none", border:"none", color:"rgba(255,255,255,.35)", cursor:"pointer", fontSize:"12px", padding:"0 2px" }}>×</button>
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Share / Save / Import + Saved builds moved into the Build Forge modal (top nav). */}
 
           {/* Build toggle — only when an alternate/off-meta build exists for this role */}
           {altList.length > 0 && (
