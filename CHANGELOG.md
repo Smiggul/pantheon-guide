@@ -12,6 +12,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.15.3] — 2026-08-27
+
+### Added
+- OTP How-to-Play guides for **Singed (6pek)** and **Shen (xPetu)** — 24 champions now curated.
+
 ## [0.15.2] — 2026-08-27
 
 ### Changed
