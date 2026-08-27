@@ -13,6 +13,8 @@ import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
 import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
 import TierList from "./TierList.jsx";
 import JunglePanel from "./JunglePanel.jsx";
+import CounterPicker from "./CounterPicker.jsx";
+import HowToPlay from "./HowToPlay.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -1675,10 +1677,11 @@ useEffect(() => {
           {/* section links */}
           <div style={{ display:"flex", gap:"2px", marginLeft:"4px" }}>
             {[
-              { id:"forge",   label:"Build Forge",    on:forgeOpen,       act:() => setForgeOpen(true) },
-              { id:"tiers",   label:"Tier List",      on:view === "tiers", act:() => setView("tiers") },
-              { id:"jungle",  label:"Jungle Coach",   on:jungleOpen,       act:() => { setView("build"); setJungleOpen(true); } },
-              { id:"counter", label:"Counter Picker", on:false,            act:() => {}, title:"Live recommendations appear in champ select (League open)" },
+              { id:"forge",   label:"Build Forge",    on:forgeOpen,          act:() => setForgeOpen(true) },
+              { id:"howto",   label:"How to Play",    on:view === "howto",   act:() => setView("howto") },
+              { id:"counter", label:"Counter Picker", on:view === "counter", act:() => setView("counter") },
+              { id:"tiers",   label:"Tier List",      on:view === "tiers",   act:() => setView("tiers") },
+              { id:"jungle",  label:"Jungle Coach",   on:jungleOpen,         act:() => { setView("build"); setJungleOpen(true); } },
             ].map(n => (
               <button key={n.id} onClick={n.act} title={n.title || n.label}
                 style={{ background:"none", border:"none", cursor:"pointer", padding:"8px 12px",
@@ -1746,6 +1749,27 @@ useEffect(() => {
               if (c) pickChamp(c);
               setView("build");
             }} />
+        </div>
+      )}
+
+      {/* ── COUNTER PICKER — full-page matchup spread ── */}
+      {view === "counter" && (
+        <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
+          background: frgeTheme === "forge" ? "linear-gradient(180deg,#181619,#121013)" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          <CounterPicker champ={champ} role={currentRole} champImg={champImg} S={S}
+            onClose={() => setView("build")}
+            onPick={(c) => { pickChamp(c); setView("build"); }} />
+        </div>
+      )}
+
+      {/* ── HOW TO PLAY — deep champion guide ── */}
+      {view === "howto" && (
+        <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
+          background: frgeTheme === "forge" ? "linear-gradient(180deg,#181619,#121013)" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          <HowToPlay champ={champ} role={currentRole} activeChampRole={activeChampRole}
+            buildCorePath={buildCorePath} buildCoreNote={buildCoreNote} buildSideItems={buildSideItems}
+            runeInfo={recommendedRunes} champImg={champImg} itemImg={itemImg} itemMap={itemMap} S={S}
+            onClose={() => setView("build")} />
         </div>
       )}
 
@@ -3458,7 +3482,7 @@ useEffect(() => {
         bottom: "30px",
         right: "25px",
         zIndex: 9999,
-        display: (jungleOpen || view === "tiers") ? "none" : "flex",
+        display: (jungleOpen || view !== "build") ? "none" : "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "12px",
