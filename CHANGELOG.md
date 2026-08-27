@@ -12,6 +12,16 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.15.0] — 2026-08-27
+
+### Added
+- **📖 How to Play tab.** A deep, first-timer guide per champion — win condition, full ability breakdown (passive + Q/W/E/R with icons, cooldowns, costs), max order, combos, power spikes, core build & why, runes & why, situational items, what-to-look-out-for + hardest matchups, and synergies. Where a champion has a curated **OTP guide**, its tips are surfaced and the creator credited — **19 champions** seeded so far (Pantheon, Briar, Riven, Zed, Katarina, Lee Sin, Irelia, Kayn, Kassadin, Sion, Rek'Sai, Hecarim, Cho'Gath, Tahm Kench, Master Yi, Yasuo, Renekton, Shaco, Udyr); every other champion renders a full guide from the app's own data.
+- **⚔️ Counter Picker tab.** The selected champion's full role matchup spread — who you can play against, hard counters, and even lanes — each with a trait score and what both sides shut down, with recommended bans flagged. Click any champion to switch to it.
+
+### Changed
+- **Reworked layout to match the Forge redesign.** A sticky **top nav bar** (FRGE.GG wordmark + Build Forge / How to Play / Counter Picker / Tier List / Jungle Coach + search + CLIENT-LIVE + settings) replaces the floating buttons; the Playing-as bar is now a proper **hero** (big champion name + role beside an enlarged portrait); the redundant centered header and the "Playing as" label are gone.
+- **Build Forge lives in the top nav**, not a button inside the Core Build Path — and the **Share / Save / Import bar + Saved-builds library moved into the Forge modal**, so the Core path shows only the build itself.
+
 ## [0.14.1] — 2026-08-26
 
 ### Fixed
