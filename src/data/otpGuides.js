@@ -199,6 +199,108 @@ export const OTP_GUIDES = {
     itemNotes: "Rod of Ages first for the HP/mana/scaling, then Zhonya's or Archangel's. Everything is about reaching the late game intact — sacrifice lane pressure for safety.",
     matchups: "Destroys immobile mages and any comp once he scales. Struggles brutally into early-game assassins and roamers who deny his level 1–6.",
   },
+
+  Sion: {
+    otp: "TheBausffs", role: "Top",
+    identity: "The proxy split-pusher. Baus's Sion doesn't lane — he walks PAST the enemy wave to farm it from behind (proxy), denying the enemy top laner XP and gold while pressuring their tower. Built AD/lethality rather than tank, his charged Q one-shots waves and squishies, and his passive zombie form means a well-timed death is free damage or a free objective — the famous \"good death\".",
+    combos: [
+      { name: "Proxy loop", steps: "Walk past the wave into the enemy jungle/behind their tower, clear the incoming wave with Q, deny their laner, then shove and repeat. Ward your escape routes." },
+      { name: "Full Q", steps: "Hold Q (Decimating Smash) to full charge for the long knock-up — flash or E-slow to land it, then auto + passive damage." },
+      { name: "Good death", steps: "When you die, Glory in Death revives you as a zombie — use it to Q the whole team, take an objective, or trade your death for a teamfight win. Never die with the zombie unused." },
+    ],
+    spikes: [
+      "Proxy tempo from level 1: you're generating a gold/XP lead just by denying the enemy laner.",
+      "First lethality item (Youmuu's / Eclipse): your Q starts deleting waves and squishies instantly.",
+    ],
+    watchOut: [
+      "Proxy is high-risk — dying with your passive already on cooldown (a \"bad death\") just feeds. Track the enemy jungler.",
+      "You have almost no early combat presence pre-6 outside the zombie — it's a macro playstyle, not a lane-kill one.",
+      "Hard waveclear and ranged pokers who can catch you proxying (or a camping jungler) shut the strategy down.",
+    ],
+    itemNotes: "Baus builds AD/lethality-crit (Youmuu's, Eclipse, Black Cleaver, crit) — NOT tank — so his one-shot Q and zombie do real damage. The point of the build is that even your death threatens the enemy.",
+    matchups: "Proxy sidesteps lane bullies entirely and starves immobile laners. Struggles into champions with the waveclear + mobility to punish the proxy and end you before the zombie pays off.",
+  },
+
+  RekSai: {
+    otp: "Azzapp", role: "Jungle",
+    identity: "A tremor-sense early-game ganker with the fastest, healthiest clear in the game. Rek'Sai burrows to see enemies through walls and heal, tunnels around the map for absurd mobility, and ganks with a point-and-click knock-up into a true-damage execute. Her whole game is snowballing an early lead before she tapers off.",
+    combos: [
+      { name: "Gank", steps: "Burrowed Q (Prey Seeker) or a tunnel to arrive → W (Unburrow) knock-up → auto → E (Furious Bite, true-damage execute when Fury is full)." },
+      { name: "Tunnel play", steps: "Burrowed E lays a tunnel — use two tunnels for map mobility, escapes, or to reposition a gank. Burrow to heal off Fury between camps." },
+      { name: "Global pick", steps: "R (Void Rush) marks a target with your autos, then dashes to them anywhere on the map — pick a low target across the fight or secure a kill." },
+    ],
+    spikes: [
+      "Levels 2–3: your knock-up gank into a no-dash lane is a near-guaranteed kill.",
+      "First bruiser item: your E execute + clear speed let you snowball tempo across the map.",
+    ],
+    watchOut: [
+      "You fall off mid-game — press your early lead hard; a slow game is a lost game.",
+      "Manage Fury: the burrowed heal and the empowered E execute both depend on it. Don't waste it clearing.",
+      "Tunnels have cooldowns — getting caught with them down and no escape is how Rek'Sai dies.",
+    ],
+    itemNotes: "Bruiser lethality (Eclipse → Black Cleaver / Sundered Sky) keeps her ganks lethal while surviving skirmishes. Prioritise the early spike and boots so your level-3 ganks convert.",
+    matchups: "Dominates the early game against farming junglers and any lane she can knock-up gank. Struggles into scaling junglers and disengage-heavy comps once she's past her prime.",
+  },
+
+  Hecarim: {
+    otp: "Dantes & AloisNL", role: "Jungle",
+    identity: "A movement-speed snowball ganker. Hecarim converts move speed into attack damage (Warpath), so the whole build and playstyle is about being faster than everyone — E-charging out of fog to knock a lane into a wall, ramping around the map, and using R to fear-engage a grouped team. Stack speed, gank relentlessly, snowball.",
+    combos: [
+      { name: "Charge gank", steps: "E (Devastating Charge) ramps move speed the longer you run — approach from fog, then knock the target into a wall/your team for a stun-length, and Q (Rampage) on repeat." },
+      { name: "R engage", steps: "R (Onslaught of Shadows) sends spectral riders that fear, then ghost-charges you in — flash-R or fog-R onto a grouped enemy team, W (Spirit of Dread) for the fight heal." },
+    ],
+    spikes: [
+      "Move-speed item spike (Dead Man's Plate / boots): your E ganks become unavoidable and your Warpath AD ramps.",
+      "Level 6: R turns a gank into a teamfight-winning fear engage.",
+    ],
+    watchOut: [
+      "Your damage comes FROM your speed — anything that slows or roots you (Frozen Heart auras, cripples) neuters you. Itemise around it.",
+      "Once you E-commit you can't turn around — pick fights you can finish, not coin-flips.",
+      "A telegraphed charge is a dodged charge; approach from unwarded fog and vary your angles.",
+    ],
+    itemNotes: "Stack movement speed — Dead Man's Plate is core, and the AloisNL flavour leans hard into a speed-stacking build. Stormsurge / Trinity Force provide the burst on top of the Warpath AD.",
+    matchups: "Runs down immobile carries and punishes grouped, slow comps. Struggles into heavy slows/roots and disengage that kills his momentum before he connects.",
+  },
+
+  Kindred: {
+    otp: "Tenshi", role: "Jungle",
+    identity: "A marksman-jungler that literally scales with map knowledge. Every mark (Mark of the Kindred) you claim off a camp or champion is permanent attack damage and range — so Tenshi's Kindred is about pathing to your marks, kiting skirmishes with Q, and holding R (a no-death zone) for the single most impactful moment of a fight.",
+    combos: [
+      { name: "Kite fight", steps: "E (Mounting Dread) — after 3 autos it detonates for a slow + execute-scaling burst → Q (Dance of Arrows) to reposition and gain attack speed → W (Wolf's Frenzy) to zone and heal." },
+      { name: "R clutch", steps: "R (Lamb's Respite) drops a zone where nothing can die and everyone heals at the end — use it to bait an all-in, deny an execute, or turn a lost fight. Timing R is the whole champion." },
+    ],
+    spikes: [
+      "Mark stacks (4+): each one is permanent AD + range — a stacked Kindred out-ranges and out-damages every ADC.",
+      "First item (Kraken Slayer / on-hit): your kite pattern starts shredding.",
+    ],
+    watchOut: [
+      "Contest and path to your marks — a Kindred denied her marks is a weak, short-range jungler.",
+      "R is your identity: wasting it early or holding it too long both lose fights. Learn the exact timing.",
+      "You're squishy and get run down if caught out of position — kite, don't brawl.",
+    ],
+    itemNotes: "Build like a scaling ADC — Kraken Slayer / on-hit into crit, attack speed, and lifesteal. Your marks already give you the AD lead, so items buy the DPS to convert it.",
+    matchups: "Out-scales the game with marks and kites immobile divers. Struggles when invaded early and denied marks, or into all-in junglers who catch her before she stacks.",
+  },
+
+  TahmKench: {
+    otp: "NoArmWhatley", role: "Top",
+    identity: "An unkillable grey-health bruiser. Whatley's Tahm Kench top out-sustains every trade with Thick Skin, stacks his tongue passive for a stun, and carries the single highest-value save/pick button in the game (R Devour). He wins by refusing to die — soaking damage into grey health, then converting it into a shield and walking the enemy down.",
+    combos: [
+      { name: "Trade", steps: "Q (Tongue Lash) to poke and apply a stack → auto to keep stacking → at 3 stacks Q stuns; E (Thick Skin) turns the grey health you took into a shield mid-fight." },
+      { name: "Engage / save", steps: "W (Abyssal Dive) to dive + knock up, or R (Devour) to eat an enemy (remove them from the fight / isolate) — or eat an ALLY to pull them out of danger and spit them to safety." },
+    ],
+    spikes: [
+      "Grasp + first HP item: your grey-health sustain makes short trades free.",
+      "Level 6: Devour is a game-warping save or pick on a long cooldown — every cast should matter.",
+    ],
+    watchOut: [
+      "E (Thick Skin) is your sustain — spending grey health as a shield at the wrong time wastes the whole trade. Bank it, then convert.",
+      "R is a huge cooldown; a wasted Devour leaves you without your best tool for 2+ minutes.",
+      "Low mobility — %max-HP damage, true damage and ranged pokers who never let you stack chip you down.",
+    ],
+    itemNotes: "HP-stacking bruiser (Heartsteel / Riftmaker) makes his grey health and shields enormous; a warden line (Sunfire/Jak'Sho) is the tankier alternative. Grasp + HP shards fuel the sustain identity.",
+    matchups: "Out-sustains melee bruisers and eats squishy divers with R. Struggles into %HP / true-damage tops and ranged lanes that deny his stacking.",
+  },
 };
 
 export const otpGuideOf = (dd) => OTP_GUIDES[dd] || null;
