@@ -12,6 +12,19 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.15.1] — 2026-08-27
+
+### Added
+- Champion skin art now shows **behind the How to Play and Counter Picker tabs and the Build Forge modal** (dimmed + scrimmed), matching the main build screen.
+
+### Fixed
+- **Ability level display** — Udyr shows "no ultimate (four stances)" and Elise / Nidalee / Jayce / Karma show "R is a transform, levelled from level 1" instead of a wrong "ult at 6/11/16".
+- **Pantheon passive** detail made specific (Mortal Will stacks, empowered at 5, per-ability effects).
+- Corrected the **Azzapp** guide to **Vel'Koz** (his 6.6M-mastery main); Rek'Sai reverts to a derived guide.
+
+### Changed
+- Began the **no-emoji pass** — the Jungle Coach tab and drawer now use the official jungle role icon instead of an emoji.
+
 ## [0.15.0] — 2026-08-27
 
 ### Added
