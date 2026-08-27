@@ -12,6 +12,15 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.15.2] — 2026-08-27
+
+### Changed
+- **Ability descriptions are now deep and accurate, with real numbers** for all 173 champions — sourced from Meraki Analytics (which resolves Riot's tooltip formulas that Data Dragon only ships as placeholders). Pantheon's passive now reads "stacking up to 5 times," Q "slowed by 10% for up to 4 seconds," etc. The 3 newest champions fall back to a cleaned Data Dragon tooltip until Meraki adds them.
+- **Tier list keeps the Heat Ladder backdrop** (OP red-hot → cooling down) as the chosen look.
+
+### Added
+- OTP How-to-Play guides for **Vel'Koz (Azzapp)** and **Graves / Bel'Veth / Wukong (Kirei)** — 22 champions now curated.
+
 ## [0.15.1] — 2026-08-27
 
 ### Added
