@@ -462,6 +462,46 @@ export const OTP_GUIDES = {
     itemNotes: "Bruiser (Trinity Force / Black Cleaver → Death's Dance, Steelcaps) so you survive the dive and keep shredding. Kirei leans on the reliable snowball skirmish build over glass-cannon lethality.",
     matchups: "Dives squishies and wins scrappy skirmishes with the clone + ult. Struggles into disengage, kite and heavy peel that deny the all-in.",
   },
+
+  Singed: {
+    otp: "6pek", role: "Top",
+    identity: "A proxy-and-kite juggernaut who wins by \"mind control\" — making the enemy chase him to their doom. Singed runs a permanent poison trail, flings key targets, and proxies waves behind the enemy tower to starve his laner. 6pek's Singed doesn't fight fair; he loops the map trailing poison, baiting the whole enemy team into chasing him into their own tower and his team.",
+    combos: [
+      { name: "Fling combo", steps: "E (Fling) an enemy backward — onto W (Mega Adhesive) to ground and root them in your Q (Poison Trail). Fling a diver away from your carry, or an over-eager enemy into your team." },
+      { name: "Proxy", steps: "Run past the enemy wave (Noxious Slipstream move speed through units) and clear their incoming wave behind their tower with Q, denying the enemy laner XP and gold while you kite anyone who follows." },
+    ],
+    spikes: [
+      "Rylai's / Liandry's: your poison trail chunks and permaslows anyone chasing you.",
+      "Level 6 (Insanity Potion): the stat + tenacity buff makes you nearly impossible to catch or kill in a chase.",
+    ],
+    watchOut: [
+      "Proxying is high-risk — track the enemy jungler; getting collapsed on with no escape feeds.",
+      "Fling is your only real cast that matters — a mistimed flip (throwing the wrong target, or the right one the wrong way) loses the fight.",
+      "You have no burst — you win by outlasting and repositioning enemies, not by killing them outright. Ranged poke and %HP damage are your bane.",
+    ],
+    itemNotes: "AP-tank: Rod of Ages / Riftmaker / Rylai's / Liandry's — HP + AP so your poison hurts and you never die in the chase. Boots of Swiftness or Force of Nature keep you slippery.",
+    matchups: "Kites melee and immobile laners and turns teamfights into chase-throws. Struggles into ranged pokers and hard CC / %max-HP damage that punish him for running at them.",
+  },
+
+  Shen: {
+    otp: "xPetu", role: "Top",
+    identity: "A global-presence tank who wins the MAP, not the 1v1. Shen pressures a sidelane, then uses Stand United to shield and teleport to a fighting ally anywhere on the Rift — turning every skirmish into a 5v4. xPetu's Shen is pure macro: apply pressure, watch the map, and R to the fight that decides the game while peeling the carry with a taunt.",
+    combos: [
+      { name: "Fight", steps: "E (Shadow Dash) taunts the enemy into you → Q (Twilight Assault) for empowered, ramping autos → W (Spirit's Refuge) to block all their auto-attack damage while you and your carry keep hitting." },
+      { name: "Global", steps: "R (Stand United) shields an ally anywhere and channels a teleport to them — use it to win a 2nd location, save a diving ally, or turn a cross-map fight. Every ability also procs Ki Barrier for a small shield." },
+    ],
+    spikes: [
+      "Level 6: Stand United gives you map-wide impact — a well-timed R wins fights two lanes away.",
+      "First tank item: your taunt + shields make you an immovable peel/engage frontline.",
+    ],
+    watchOut: [
+      "R is your whole champion — its value is timing and target, not spamming it. Waste it and you're a weak-damage tank for 3 minutes.",
+      "E is your only gap-close and peel — hold it to lock the enemy carry or catch a diver, not to poke.",
+      "You do little solo damage; if the game has no fights to swing into, your map pressure is your only win-con — keep a sidelane pushing.",
+    ],
+    itemNotes: "Tank (Sunfire Aegis / Iceborn Gauntlet / Thornmail) with Grasp — HP and resists so your taunt-and-peel keeps your carry alive. Build the resist your lane/comp demands.",
+    matchups: "Pressures the map and peels carries into oblivion with global R + taunt. Struggles into %max-HP and true damage and poke comps that shred through his shields before a fight starts.",
+  },
 };
 
 export const otpGuideOf = (dd) => OTP_GUIDES[dd] || null;
