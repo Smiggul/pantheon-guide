@@ -1991,47 +1991,8 @@ useEffect(() => {
         </div>
       )}
 
-      {/* ── PAGE HEADER ── */}
-      <div style={{
-        textAlign:"center", padding:"10px 24px 8px",
-        background:"linear-gradient(180deg,rgba(249,115,22,.14) 0%,transparent 100%)",
-        borderBottom:`1px solid ${S.border}`,
-      }}>
-        <div style={{ fontSize:"10px", letterSpacing:"6px", color:S.goldDim,
-          textTransform:"uppercase", marginBottom:"2px" }}>
-          Patch {GAME_PATCH}
-        </div>
-        <h1 className="frge-display" style={{
-          fontSize:"clamp(18px,2.6vw,24px)", fontWeight:"bold",
-          color: frgeTheme === "forge" ? skinH : S.orange, margin:"0 0 2px",
-          textShadow: frgeTheme === "forge" ? `0 0 42px ${skinP}66` : "0 0 40px rgba(249,115,22,.45)",
-          letterSpacing:"2px",
-        }}>
-          {champ.display} — Situational Itemization
-        </h1>
-      <p style={{ margin:0, fontSize:"12px", color:champ.glow, letterSpacing:"1px" }}>
-        {activeChampRole.role}
-        {champ.roles && (
-         <span style={{ color:"rgba(255,255,255,.3)", margin:"0 8px" }}>·</span>
-      )}
-      {champ.roles && (
-         <span style={{ fontSize:"11px", color:"rgba(255,255,255,.4)" }}>{currentRole}</span>
-      )}
-      </p>
-      {/* Preview toggle until the account system exists — VIP hides all ads.
-          Hidden entirely while ADS_ENABLED is false (nothing to preview). */}
-      {ADS_ENABLED && (
-      <button onClick={() => setIsVip(v => !v)} className="frge-pill" style={{
-        marginTop:"6px", cursor:"pointer", borderRadius:"20px", padding:"3px 12px",
-        fontSize:"10px", letterSpacing:".5px",
-        border:`1px solid ${isVip ? S.gold : "rgba(255,255,255,.14)"}`,
-        background: isVip ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.03)",
-        color: isVip ? S.gold : "#7a8288",
-      }}>
-        {isVip ? "★ VIP — ads hidden" : "Preview VIP (hide ads)"}
-      </button>
-      )}
-      </div>
+      {/* Page header removed — the hero (Playing-as bar) now carries the champion
+          name + role. VIP ad-preview toggle (ADS_ENABLED only) lives in Settings. */}
 
       {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
       {isDesktop && (
@@ -2324,16 +2285,16 @@ useEffect(() => {
         }}>
 
           <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-            textTransform:"uppercase", flexShrink:0 }}>Playing as</span>
+            textTransform:"uppercase", flexShrink:0 }}>Playing as · Patch {GAME_PATCH}</span>
 
           {/* Active portrait — clicking opens the picker */}
           <div
             onClick={() => setShowPicker(true)}
             title="Click to change champion"
             style={{
-              width:"56px", height:"56px", borderRadius:"9px", overflow:"hidden",
-              border:`2.5px solid ${champ.glow}`,
-              boxShadow:`0 0 18px ${champ.glow}60`, background:"#1B1B1E",
+              width:"84px", height:"84px", borderRadius:"12px", overflow:"hidden",
+              border:`2.5px solid ${activeSkin ? skinP : champ.glow}`,
+              boxShadow:`0 0 20px ${activeSkin ? skinP : champ.glow}60`, background:"#1B1B1E",
               flexShrink:0, cursor:"pointer", position:"relative",
               transition:"all .18s",
             }}
@@ -2377,10 +2338,15 @@ useEffect(() => {
             {favId === champ.id ? "★" : "☆"}
           </button>
 
-          {/* Name + role icons */}
+          {/* Name + role subtitle + role icons */}
           <div>
-            <div className="frge-display" style={{ fontSize:"16px", fontWeight:"bold", color: activeSkin ? skinH : champ.glow, marginBottom:"6px" }}>
+            <div className="frge-display" style={{ fontSize:"30px", lineHeight:1, letterSpacing:".01em",
+              color: activeSkin ? skinH : champ.glow, marginBottom:"3px",
+              textShadow: activeSkin ? `0 0 30px ${skinP}55` : "none" }}>
               {champ.display}
+            </div>
+            <div style={{ fontSize:"11px", color:"rgba(245,241,234,.5)", letterSpacing:".4px", marginBottom:"9px" }}>
+              {activeChampRole.role}
             </div>
             {champ.roles ? (
               <div style={{ display:"flex", gap:"6px" }}>
