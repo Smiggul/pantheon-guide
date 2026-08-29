@@ -585,7 +585,7 @@ export const OTP_GUIDES = {
   },
 
   Qiyana: {
-    otp: "Kaitiana", role: "Mid",
+    otp: "Kaitania", role: "Mid",
     identity: "A terrain-based element assassin with one of the highest one-shot ceilings in the game. Qiyana grabs an element to change her Q and her identity — wall for burst, river for the R stun-combo, brush for camo/speed — then dashes in and deletes a carry. Kaitiana's Qiyana is all about element management and the R-into-wall teamfight.",
     combos: [
       { name: "Assassinate", steps: "W (Terrashape) grab wall element → E (Audacity) dash to the target → Q (Edge of Ixtal) → auto (Royal Privilege empowered hit) to one-shot a squishy." },
@@ -742,6 +742,286 @@ export const OTP_GUIDES = {
     ],
     itemNotes: "Bruiser (Stridebreaker / Trinity Force → Sterak's Gage / Death's Dance, Plated Steelcaps). HP and sustain make your Grit shield and true-damage punch enormous.",
     matchups: "Wins extended brawls and picks carries with R. Struggles into ranged poke, kite and %max-HP damage that never let him get his hands on the enemy.",
+  },
+
+  Darius: {
+    otp: "RaiderGO", role: "Top",
+    identity: "The definitive lane bully. Darius stacks Hemorrhage bleed with every hit, and at 5 stacks his passive gives him Noxian Might — a huge AD spike that turns a won trade into a kill. Noxian Guillotine executes and RESETS on a kill, so one pick in a teamfight can cascade into a quadra. Your whole game is dominating the lane, then split-pushing a lead into towers.",
+    combos: [
+      { name: "Trade", steps: "Q (Decimate) at max range so the OUTER blade hits (inner handle deals less and applies no bleed) and heals you per champion hit → auto to add a bleed stack → walk away. Repeat until 5 stacks pop Noxian Might." },
+      { name: "All-in", steps: "E (Apprehend) pulls them in + knocks up → auto (bleed) → Q for the heal + stack → auto → R (Noxian Guillotine) once their bleed stacks make the execute lethal. R resets on takedown — look for the next target." },
+    ],
+    spikes: [
+      "5 bleed stacks (Noxian Might): a massive AD buff — this is when you kill, so bait it out and all-in.",
+      "Level 6: Guillotine executes anyone whose bleed you've stacked; the reset makes teamfights snowball.",
+    ],
+    watchOut: [
+      "Hitting only Q's inner handle is the classic beginner mistake — it does far less and no bleed. Space for the blade.",
+      "You have one gap-close (E) and no escape — burning it to engage a losing fight is death.",
+      "Ranged tops (Quinn, Vayne, Kennen) and kite/disengage counter you hard; so does Grievous Wounds on your Q heal.",
+    ],
+    itemNotes: "The lethality-tempo (Youmuu's Ghostblade-first) line is the current snowball build; Black Cleaver → Sterak's / Death's Dance is the durable bruiser alternative. Prioritise the first item + boots so your all-in kills before they scale.",
+    matchups: "Crushes melee scalers and immobile laners in the early game. Struggles into ranged pokers, kiting bruisers, and anything that survives to out-scale him.",
+  },
+
+  Ahri: {
+    otp: "Locus", role: "Mid",
+    identity: "A mobile burst mage with the safest assassination pattern in the game. Ahri poke-clears with Q, chunks with W, and lands Charm to guarantee her whole combo — then triple-dashes out with Spirit Rush (which recasts on takedown). She's a roaming pick-machine: low risk, high reward, and almost impossible to punish when played patiently.",
+    combos: [
+      { name: "Poke", steps: "Q (Orb of Deception) — it deals magic damage out and TRUE damage on the way back, so aim so the return line clips them → W (Fox-Fire) to finish the trade." },
+      { name: "Kill combo", steps: "E (Charm) is your whole combo starter — land it → Q through them → W → auto → R (Spirit Rush) to dash in and finish. Each takedown refreshes R, so a kill lets you dash again to the next." },
+    ],
+    spikes: [
+      "Level 6 + first AP item (Malignance / Luden's): Charm into full combo one-shots a squishy.",
+      "Two items: your roams reliably kill — leave lane and take over the side lanes.",
+    ],
+    watchOut: [
+      "Everything hinges on Charm — miss E and your combo does chip damage. Cast it after they commit a dash, not on cooldown.",
+      "Save at least one R dash for the escape; using all three to chase is how Ahri dies.",
+      "Weak into hard-CC and long-range control mages who poke her out before she can engage.",
+    ],
+    itemNotes: "Malignance / Luden's for the burst spike, then Shadowflame / Rabadon's; Zhonya's if they have an assassin. Sorcerer's Shoes + first item is your roam power spike.",
+    matchups: "Deletes immobile squishies and out-roams most mids. Struggles into hard CC, spell shields and long-range pokers.",
+  },
+
+  Ekko: {
+    otp: "V222", role: "Mid",
+    identity: "An AP assassin with a built-in undo button. Ekko stacks Z-Drive Resonance for a burst-and-speed proc, stuns with a returning W, and — the trick — Chronobreak rewinds him to where he was 4 seconds ago, healing him. That means he can dive a target, take lethal damage, and simply leave. Fearless diving is the identity.",
+    combos: [
+      { name: "Assassinate", steps: "W (Parallel Convergence) placed BEHIND the target so it stuns as they retreat → E (Phase Dive) dash in → Q (Timewinder) so the boomerang's return hits them → auto for the third Z-Drive proc." },
+      { name: "Rewind escape", steps: "Dive with everything, then R (Chronobreak) — you teleport back along your trail, healing off the damage taken, and the arrival deals AoE damage. Dive first, decide later." },
+    ],
+    spikes: [
+      "Level 6: Chronobreak makes every dive nearly risk-free — this is when you start assassinating.",
+      "First AP item (Hextech Rocketbelt / Malignance): your W-E-Q combo one-shots squishies.",
+    ],
+    watchOut: [
+      "R rewinds you to your position ~4s ago — check where that actually is before casting, or you'll teleport into their team.",
+      "W's stun is delayed and telegraphed — place it behind or where they're going, never on top of them.",
+      "Weak early before 6; play safe, farm, and don't force trades into ranged mids.",
+    ],
+    itemNotes: "AP burst (Hextech Rocketbelt / Malignance → Shadowflame / Lich Bane) with Zhonya's as a safety pick. In the jungle the same burst line applies with a Dark Harvest page.",
+    matchups: "Dives squishy immobile mids and escapes punishment with R. Struggles into ranged poke pre-6 and point-and-click CC that catches him mid-dive.",
+  },
+
+  Evelynn: {
+    otp: "HOPE", role: "Jungle",
+    identity: "The purest pick assassin. From level 6 Evelynn is permanently camouflaged out of combat — she doesn't gank, she stalks. Charm marks a target for bonus damage, and her ultimate executes and repositions her out. The skill is patience: farm to 6, then hunt isolated carries and delete them before their team can react.",
+    combos: [
+      { name: "Execute", steps: "Charm (E is Whiplash — her charm is W, Allure): W (Allure) on the target and let it fully charge for the MR shred + slow → E (Whiplash) dash in → Q (Hate Spike) spam → R (Last Caress) to execute and blink backward out of danger." },
+      { name: "Stalk", steps: "Out of combat after 6 you're camouflaged — sit in the enemy jungle or a flank, wait for a carry to walk alone, then W from stealth for the full charm." },
+    ],
+    spikes: [
+      "Level 6 (camouflage + R): you become a true assassin — start hunting.",
+      "First AP item (Lich Bane / Rocketbelt): your charm-combo one-shots a squishy outright.",
+    ],
+    watchOut: [
+      "Pre-6 she is one of the weakest junglers alive — farm, avoid skirmishes, and do NOT force early ganks.",
+      "Let W fully charge before engaging; an early-popped charm loses the MR shred and the kill.",
+      "Control wards and sweepers beat camouflage — check for pinks before you commit to a flank.",
+    ],
+    itemNotes: "AP assassin (Lich Bane / Hextech Rocketbelt → Shadowflame / Zhonya's). Everything is about the burst window — build to one-shot, not to fight.",
+    matchups: "Deletes squishy, isolated carries and punishes bad warding. Struggles into vision-heavy comps, tanks, and early-aggression junglers who invade her weak start.",
+  },
+
+  Nasus: {
+    otp: "filip88sesak", role: "Top",
+    identity: "The ultimate scaling juggernaut. Every last-hit with Siphoning Strike permanently increases its damage, so a farmed Nasus one-shots minions, towers and eventually champions. He survives a miserable early lane with W's massive slow and R's health/resist swell, then takes over the side lane. Stack Q, don't die, win late.",
+    combos: [
+      { name: "Stack", steps: "Q (Siphoning Strike) resets your auto — last-hit EVERY minion with it. Q on cooldown into minions is literally your win condition; nothing else matters as much in the first 15 minutes." },
+      { name: "Duel", steps: "W (Wither) — a huge slow that cripples any auto-attacker or dasher → E (Spirit Fire) armour shred underneath them → Q for the stacked hit. R (Fury of the Sands) for the HP + resists + AoE burn when you commit." },
+    ],
+    spikes: [
+      "~200+ Q stacks: your Q one-shots waves and hurts champions.",
+      "Level 6 + first item: R turns you into an unkillable brick that can duel and dive.",
+    ],
+    watchOut: [
+      "You are extremely weak levels 1–5 — play under tower, take the free Q stacks, and accept the lane loss.",
+      "Wither (W) is your only defensive tool; hold it for the enemy's dash or their carry, not to chase.",
+      "Ranged pokers, %HP damage and Grievous Wounds slow your scaling — and being perma-camped denies the stacks entirely.",
+    ],
+    itemNotes: "Bruiser/tank (Trinity Force or Iceborn Gauntlet → Spirit Visage / Sunfire) with Fleet or Grasp. The jungle build differs (Protoplasm Harness / Iceborn line) — HP and resists so you live to reach the stacks.",
+    matchups: "Out-scales nearly every top laner and shreds towers. Struggles into ranged bullies and lane-dominant early aggression that denies his Q stacking.",
+  },
+
+  Sylas: {
+    otp: "Petricite", role: "Mid",
+    identity: "A drain-tank skirmisher who steals your win condition. Sylas chains for damage and a shield, whips for a slow + heal, and his ultimate HIJACKS an enemy ultimate — turning their engage or teamfight tool against them. Petricite's Sylas is about laning patiently, then choosing the perfect ult to steal.",
+    combos: [
+      { name: "All-in", steps: "E (Abscond/Abduct) dash in and recast to chain-pull them → Q (Chain Lash) so the delayed explosion lands on the pulled target → W (Kingmaker) for the damage + big heal → auto." },
+      { name: "Ult steal", steps: "R (Hijack) copies an enemy champion's ultimate — pick the one that wins the fight (a Malphite/Amumu engage, a Lux laser, a Yasuo knock-up follow-up). Steal it BEFORE the fight, not mid-panic." },
+    ],
+    spikes: [
+      "Level 6: whichever ult you can steal is your power spike — the enemy team decides how strong you are.",
+      "First AP item (Riftmaker / Rocketbelt): your W heal and combo damage make you a real drain-tank.",
+    ],
+    watchOut: [
+      "Choose the RIGHT ult — stealing a low-value ultimate wastes your whole cooldown.",
+      "E's dash is your only escape and your engage; committing it wrong strands you in their team.",
+      "Poke mages and long-range control who never let you get in range are his worst matchups.",
+    ],
+    itemNotes: "AP bruiser (Riftmaker / Hextech Rocketbelt → Zhonya's / Cosmic Drive) so his W heal scales and he survives the dive. The jungle page runs Conqueror with the same drain-fight identity.",
+    matchups: "Out-sustains melee mids and punishes comps with strong ults to steal. Struggles into long-range poke and comps whose ultimates are useless to him.",
+  },
+
+  Warwick: {
+    otp: "Krun", role: "Jungle",
+    identity: "A lifesteal diver with a built-in tracker. Warwick heals on every attack, senses low-HP enemies through walls (Blood Hunt) and gains huge move speed chasing them, and his ultimate is a point-and-click suppression that guarantees a kill. Krun's tanky build makes him an unkillable gank machine that runs people down all game.",
+    combos: [
+      { name: "Gank", steps: "Q (Jaws of the Beast) to leap-bite and heal (hold it for the full-damage version) → W's Blood Hunt speed to stick → E (Primal Howl) if you need to tank their burst → R (Infinite Duress) to suppress and finish." },
+      { name: "Hunt", steps: "W (Blood Hunt) marks anyone below 50% HP — you see them through fog and get a big speed boost. Path toward a lane that just traded and dive the low target." },
+    ],
+    spikes: [
+      "Level 2–3: any lane whose enemy is below half HP is a free gank — Blood Hunt makes you unavoidable.",
+      "Level 6: Infinite Duress is a point-and-click suppression — an almost guaranteed kill on any low target.",
+    ],
+    watchOut: [
+      "R is a channelled suppression that can be interrupted or cleansed (QSS/Mercurial) — ult the target who can't answer it.",
+      "You're weak into hard CC before items; E (Primal Howl) is your only mitigation, so save it for their burst.",
+      "Grievous Wounds guts your entire sustain identity — expect it and build durability.",
+    ],
+    itemNotes: "The tanky jungle line (Stridebreaker → Blade of the Ruined King → Thornmail/Spirit Visage, Steelcaps) — HP and resists so your lifesteal keeps you alive through dives, per Krun's build.",
+    matchups: "Snowballs any lane that takes early damage and out-sustains skirmishes. Struggles into Grievous Wounds, hard CC and comps that kite his short range.",
+  },
+
+  Garen: {
+    otp: "JimmyNeutron007", role: "Top",
+    identity: "A durable, simple-to-pilot juggernaut with a true-damage execute. Garen silences with Q, spins for AoE damage, gains resists with W, and Demacian Justice executes low targets outright. Perseverance regenerates huge health out of combat, so he wins lanes by trading, backing off to heal, and coming back full.",
+    combos: [
+      { name: "Trade", steps: "Q (Decisive Strike) — silences and empowers your next auto with a big hit + move speed → auto → E (Judgment) spin → walk away and let Perseverance heal you back." },
+      { name: "Execute", steps: "R (Demacian Justice) deals true damage that scales with their MISSING health — E-spin them low, then R to finish. Villain (passive R mark) makes your damage on that target far higher." },
+    ],
+    spikes: [
+      "Level 6: Demacian Justice turns any half-health enemy into a kill.",
+      "First item + boots: your Q-E burst and W resists let you win almost every melee trade.",
+    ],
+    watchOut: [
+      "Q's silence is your only lock — use it to cut a channel or stop a caster, not just for the auto.",
+      "W (Courage) is a short damage-reduction window; timing it into their burst is the skill.",
+      "Ranged pokers and kite comps beat him; he has no gap-close beyond Q's speed.",
+    ],
+    itemNotes: "Bruiser (Stridebreaker / Trinity Force → Sterak's / Dead Man's Plate; Swiftmarch boots are a valid variant). HP and resists so his spin uptime wins the fight.",
+    matchups: "Bullies melee laners and executes squishies. Struggles into ranged tops, kite and %max-HP damage.",
+  },
+
+  MissFortune: {
+    otp: "RedAstrals", role: "Bot",
+    identity: "A lane-bully ADC with the best teamfight ultimate in the class. Miss Fortune's passive gives her huge move speed out of combat for roams and repositioning, Double Up bounces off a minion to chunk the enemy laner, and Bullet Time carpets a chokepoint for enormous AoE damage. Win lane with Q poke, then win fights with R.",
+    combos: [
+      { name: "Poke", steps: "Q (Double Up) aimed at a MINION so the bounce hits the champion behind it — that's the whole laning pattern; it also refunds/kills for a reset. Add E (Make it Rain) to slow and chunk." },
+      { name: "Teamfight", steps: "E (Make it Rain) to slow them in place → R (Bullet Time) channelled from safety, ideally down a choke or over an engaged fight. Land R through your frontline, never in the open." },
+    ],
+    spikes: [
+      "First item (The Collector / Essence Reaver): your Q bounce starts halving squishies.",
+      "Level 6: Bullet Time wins any grouped fight — look for choke points and objective fights.",
+    ],
+    watchOut: [
+      "R is a stationary channel — cast it with peel or from behind terrain, or you'll be dove mid-ult.",
+      "Aim Q at the minion, not the champion; hitting the champion directly wastes most of your poke damage.",
+      "She's immobile — hard engage and dive comps punish her positioning hard.",
+    ],
+    itemNotes: "Lethality-crit hybrid (The Collector / Youmuu's) or standard crit — she's built around burst poke and the R spike. First-item + boots is the lane-dominance point.",
+    matchups: "Bullies immobile lanes with Q poke and dominates grouped fights. Struggles into dive, hard engage and mobile ADCs who dodge her channel.",
+  },
+
+  Vayne: {
+    otp: "ATUMOWY", role: "Bot",
+    identity: "A late-game monster that shreds tanks with true damage. Every third consecutive hit on a target detonates Silver Bolts for %max-HP TRUE damage, Tumble repositions and empowers her next auto, and Final Hour grants stealth on Tumble — so a fed Vayne kites entire teams. Weak early, unstoppable late.",
+    combos: [
+      { name: "Kite", steps: "Auto → Q (Tumble) to reposition + empower the next auto → auto — repeat. Every third hit on the same target procs Silver Bolts' true damage, so stay on ONE target." },
+      { name: "Condemn play", steps: "E (Condemn) knocks the target back — into a WALL it stuns them. Use it to peel a diver or to pin an assassin against terrain, not as poke." },
+    ],
+    spikes: [
+      "Two crit/on-hit items: your Silver Bolts shred any tank and your kite becomes lethal.",
+      "Level 6 (Final Hour): the invisibility on Tumble makes you nearly impossible to catch in a fight.",
+    ],
+    watchOut: [
+      "Extremely weak early — farm safely, take the CS, and don't force lane trades before items.",
+      "Condemn is your only escape and peel; missing the wall-stun on a diver usually means death.",
+      "Short range and squishy — hard CC, poke and dive comps punish every mistake.",
+    ],
+    itemNotes: "On-hit / crit (Blade of the Ruined King → Guinsoo's or Kraken; Berserker's Greaves) — %HP damage and attack speed. Her top-lane page builds the same core for the 1v1 kite.",
+    matchups: "Melts tanks and out-scales nearly every ADC. Struggles into poke, hard engage and anything that ends the game before she scales.",
+  },
+
+  Yone: {
+    otp: "Saitamaro", role: "Mid",
+    identity: "A dual-form skirmisher with two health bars' worth of outplay. Yone alternates crit-scaling autos (his passive doubles crit chance), stacks Q into a knock-up whirlwind, and uses Soul Unbound to dash out, deal damage, then RETURN to his body — letting him commit fully with an escape built in.",
+    combos: [
+      { name: "Engage", steps: "E (Soul Unbound) — you leave your body and gain speed; everything you damage is partly re-dealt when you snap back → Q3 (Spirit Cleave whirlwind) knock-up → auto → E returns you to safety." },
+      { name: "Teamfight", steps: "R (Fate Sealed) hits everyone in a line and pulls them together for a knock-up — use it after your team's CC, then W (Spirit Cleave) shield to survive the counter-hit." },
+    ],
+    spikes: [
+      "Two crit items (Immortal Shieldbow / IE): your combo deletes squishies and E lets you commit safely.",
+      "Level 6: Fate Sealed turns any won skirmish into an ace.",
+    ],
+    watchOut: [
+      "E has a return timer — mistime it and you snap back into their team, or lose the escape entirely.",
+      "You're squishy and get burst before your W shield matters; respect assassins and hard CC.",
+      "Weak levels 1–3 against ranged bullies — farm and scale to your first item.",
+    ],
+    itemNotes: "Crit (Immortal Shieldbow / Infinity Edge → Blade of the Ruined King into tanks). The Absorb Life / BOTRK-first line is the current core; boots + first item is the spike.",
+    matchups: "Out-skirmishes melee mids and dives squishies with E safety. Struggles into hard CC, poke and early lane bullies.",
+  },
+
+  Fiora: {
+    otp: "beronelol", role: "Top",
+    identity: "The duellist who beats anyone — if you hit the Vitals. Fiora's passive spawns rotating weak points; striking one deals %max-HP damage and heals her. Her parry (W) can block ANY ability including ultimates, and her ultimate spawns four Vitals for a huge burst of true damage. Pure mechanics: parry the key spell, hit the Vitals, win the duel.",
+    combos: [
+      { name: "Duel", steps: "Q (Lunge) toward the Vital (the passive weak point) → auto → Q again on the next Vital — Q refunds most of its cooldown when it procs a Vital, so chained Vitals mean chained dashes." },
+      { name: "Parry", steps: "W (Riposte) blocks all damage AND stuns if it catches an incoming immobilising ability. Parrying the enemy's key spell (Malphite R, Renekton W, Darius E) flips the entire matchup." },
+    ],
+    spikes: [
+      "Level 6: Grand Challenge's four Vitals + the healing zone win almost any 1v1.",
+      "First item (Blade of the Ruined King / Hullbreaker line): your Vital procs start deleting bruisers and tanks.",
+    ],
+    watchOut: [
+      "Riposte is the whole champion — wasting it means losing the duel. Learn the enemy's key cooldown and hold W for it.",
+      "Chase the Vitals, not the target — walking around them for the weak point is how you out-damage bigger champions.",
+      "Weak into ranged pokers and teamfight comps; she's a split-pusher, not a front-liner.",
+    ],
+    itemNotes: "Duelist bruiser (Blade of the Ruined King → Death's Dance / Sterak's; Press the Attack is the current keystone). %HP damage + sustain so the Vital procs win extended fights.",
+    matchups: "Beats melee bruisers and tanks 1v1 with parry + Vitals. Struggles into ranged tops, kite and teamfight-heavy comps where a split-pusher can't carry.",
+  },
+
+  Gwen: {
+    otp: "Blikna", role: "Top",
+    identity: "An AP bruiser who shreds tanks with true damage inside her own safe zone. Snip Snip's centre line deals %max-HP true damage, Hallowed Mist (W) makes her untargetable to enemies outside it, and her passive adds magic damage on hit. Gwen wants extended fights inside the mist where she simply cannot be touched.",
+    combos: [
+      { name: "Shred", steps: "Q (Snip Snip!) — line the CENTRE snip on the target for the %max-HP true damage (the final snip is the big one) → auto with passive → E (Skip 'n Slash) dash for the attack-speed reset and range." },
+      { name: "Safe fight", steps: "W (Hallowed Mist) at your feet — enemies outside it cannot target you with autos or single-target spells. Fight inside the mist, and reposition it as it follows you." },
+    ],
+    spikes: [
+      "First AP item (Riftmaker / Nashor's Tooth): your Q true damage and on-hit start melting bruisers and tanks.",
+      "Level 6: Needlework's three-throw ultimate adds ranged burst and a slow to chase.",
+    ],
+    watchOut: [
+      "The mist protects from OUTSIDE attackers only — anyone standing inside it can hit you freely.",
+      "Q's centre line is where the true damage lives; a lazy Q does a fraction of the damage.",
+      "Weak levels 1–3 and vulnerable to hard CC that drags her out of the mist.",
+    ],
+    itemNotes: "AP bruiser (Riftmaker / Nashor's Tooth → Shadowflame; Sorcerer's Shoes is the current boots pick). True damage + sustain makes her the anti-tank pick.",
+    matchups: "Shreds tanks and bruisers in extended fights. Struggles into ranged poke, burst assassins and hard CC that removes her mist safety.",
+  },
+
+  Draven: {
+    otp: "EOWIDE", role: "Bot",
+    identity: "The highest-damage early ADC in the game, gated entirely by axe-catching. Spinning Axes rebound after each auto — catching them keeps your damage enormous, dropping them makes you a normal ADC. Add Adoration stacks (bonus gold per kill) and Draven snowballs a lane lead into an unstoppable item advantage.",
+    combos: [
+      { name: "Axe juggling", steps: "Q (Spinning Axe) — activate twice to hold two axes, then auto and MOVE to where the axe lands to catch it. Your whole laning pattern is catching axes while walking at the enemy." },
+      { name: "All-in", steps: "W (Blood Rush) for the move + attack speed (it refreshes on axe catch) → E (Stand Aside) knock-aside + slow → autos with both axes → R (Whirling Death) to finish or snipe a fleeing target across the map." },
+    ],
+    spikes: [
+      "Level 1–2: with axes up you out-damage every ADC in the game — look for the early all-in.",
+      "First item + Adoration gold: the bonus gold from a kill snowballs you a full item ahead.",
+    ],
+    watchOut: [
+      "Chasing axes out of position is the #1 Draven death — sometimes you drop the axe and stay safe.",
+      "You lose your identity if you can't catch: heavy poke and zone control ruin the pattern.",
+      "You fall off relative to hypercarries — convert the early lead into towers and objectives fast.",
+    ],
+    itemNotes: "Crit (The Collector / Essence Reaver → Infinity Edge; Berserker's Greaves). Attack speed and crit convert axe uptime into damage; the Adoration gold accelerates every spike.",
+    matchups: "Bullies every ADC in the early game with axe damage. Struggles into poke that denies axe-catching, hard engage supports, and late-game hypercarries.",
   },
 };
 
