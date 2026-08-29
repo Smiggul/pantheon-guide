@@ -29,10 +29,3 @@ release
 
 # local build-export test artifacts
 exports/
-
-# Data Dragon image assets — bundled at build time (populated by
-# helpers/setup_ddragon.py), not meant to live in the repo. Prevents new
-# spell/passive/champion/item icons from being accidentally staged.
-# (Some were tracked before this rule; run `git rm -r --cached public/ddragon/img`
-#  to untrack the rest when desired.)
-public/ddragon/img/
