@@ -12,6 +12,14 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.16.0] — 2026-08-29
+
+### Added
+- **14 more OTP How-to-Play guides**, sourced by scouring onetricks.gg (community Guides tab first, top streamer as fallback): Darius (RaiderGO), Ahri (Locus), Ekko (V222), Evelynn (HOPE), Nasus (filip88sesak), Sylas (Petricite), Warwick (Krun), Garen (JimmyNeutron007), Miss Fortune (RedAstrals), Vayne (ATUMOWY), Yone (Saitamaro), Fiora (beronelol), Gwen (Blikna), Draven (EOWIDE). **50 of 173** champions now curated.
+
+### Fixed
+- Corrected Qiyana's guide author spelling to **Kaitania**.
+
 ## [0.15.4] — 2026-08-28
 
 ### Added
