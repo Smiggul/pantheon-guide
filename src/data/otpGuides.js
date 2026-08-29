@@ -502,6 +502,247 @@ export const OTP_GUIDES = {
     itemNotes: "Tank (Sunfire Aegis / Iceborn Gauntlet / Thornmail) with Grasp — HP and resists so your taunt-and-peel keeps your carry alive. Build the resist your lane/comp demands.",
     matchups: "Pressures the map and peels carries into oblivion with global R + taunt. Struggles into %max-HP and true damage and poke comps that shred through his shields before a fight starts.",
   },
+
+  Kindred: {
+    otp: "CastFM & chiv", role: "Jungle",
+    identity: "A marksman-jungler that scales with map knowledge. Every Mark of the Kindred you claim off a camp or champion is permanent attack damage and range, so the game is pathing to your marks, kiting skirmishes with Q, and holding R — a no-death zone — for the single most impactful moment of a fight.",
+    combos: [
+      { name: "Kite fight", steps: "E (Mounting Dread) — after 3 autos it detonates for a slow + execute-scaling burst → Q (Dance of Arrows) to reposition and gain attack speed → W (Wolf's Frenzy) to zone and heal." },
+      { name: "R clutch", steps: "R (Lamb's Respite) drops a zone where nothing can die and everyone heals at the end — bait an all-in, deny an execute, or turn a lost fight. Timing R is the whole champion." },
+    ],
+    spikes: [
+      "Mark stacks (4+): each is permanent AD + range — a stacked Kindred out-ranges every ADC.",
+      "First item (Kraken Slayer / on-hit): your kite pattern starts shredding.",
+    ],
+    watchOut: [
+      "Contest and path to your marks — a Kindred denied her marks is a weak, short-range jungler.",
+      "R is your identity: waste it early or hold it too long and you lose the fight. Learn the exact timing.",
+      "You're squishy and get run down if caught out of position — kite, don't brawl.",
+    ],
+    itemNotes: "Build like a scaling ADC — Kraken Slayer / on-hit into crit, attack speed and lifesteal. Your marks already give the AD lead; items buy the DPS to convert it.",
+    matchups: "Out-scales with marks and kites immobile divers. Struggles when invaded early and denied marks, or into all-in junglers who catch her before she stacks.",
+  },
+
+  Lucian: {
+    otp: "LLTrigger", role: "Bot",
+    identity: "An aggressive, mobile lane bully. Lucian pairs every ability with a double-shot from Lightslinger, dashes to reposition mid-fight, and wants to snowball the early game before scaling hypercarries out-range him. LLTrigger's Lucian is all tempo — weave abilities and autos, dash-cancel, and all-in the second the enemy mis-steps.",
+    combos: [
+      { name: "Lightslinger weave", steps: "Q (Piercing Light) or W (Ardent Blaze) → immediately auto to fire the double-shot passive → E (Relentless Pursuit) to dash + reset spacing → auto again. Never cast without an auto behind it." },
+      { name: "All-in", steps: "W to mark → auto (double-shot) → Q → E through them → R (The Culling) barrage to finish. Hitting W's mark refunds E, so you can dash twice in an extended fight." },
+    ],
+    spikes: [
+      "First item (Essence Reaver / Navori): your double-shot combo starts bursting supports and squishies.",
+      "Level 6: The Culling adds a huge finishing barrage to your all-in.",
+    ],
+    watchOut: [
+      "E resets on hitting W's mark and passive procs — mismanaging your dash leaves you with no escape.",
+      "You out-damage everyone early but fall off — force your lead before enemy ADCs scale past your range.",
+      "Disengage and long-range poke keep you from getting your combo off; play around your support's engage.",
+    ],
+    itemNotes: "Crit + ability-haste (Essence Reaver → Navori Flickerblade / Infinity Edge) so your double-shots and dashes stay online. Berserker's Greaves and the first item are the tempo spike.",
+    matchups: "Bullies immobile supports and short-range ADCs in the early game. Struggles into poke, disengage and hypercarries that out-scale and out-range him.",
+  },
+
+  Naafiri: {
+    otp: "Raveydemon", role: "Mid",
+    identity: "A pack-dog assassin who's forgiving to pilot but lethal when she commits. Naafiri fights alongside her packmates — chip with daggers, then dash in with the whole pack to burst a squishy, and use her ultimate to hunt a fleeing target across the map. Raveydemon plays her as a point-and-click-ish diver that snowballs mid and roams.",
+    combos: [
+      { name: "All-in", steps: "Q (Darkin Daggers) to poke and leave daggers → W (The Call of the Pack) dash in so you and the hounds all bite → auto → E (Eviscerate) lunge for the finish + heal. Recast Q while on top for the pickup damage." },
+      { name: "Hunt", steps: "R (Hounds' Pursuit) to gain move speed, vision and extra packmates — run a low target down across the map, then W + E to execute." },
+    ],
+    spikes: [
+      "Level 6 + first lethality item: your pack all-in one-shots a squishy.",
+      "Any early kill: the hounds and lethality snowball you into an unkillable diver.",
+    ],
+    watchOut: [
+      "The hounds are a big chunk of your damage — AoE waveclear kills them, so don't all-in right after they've been cleared.",
+      "W and E are committal dashes — dive when you can finish, not into a wall of peel.",
+      "You want a squishy lane you can all-in; disengage and heavy AoE blunt the pack.",
+    ],
+    itemNotes: "Lethality (Eclipse / Youmuu's / Profane Hydra / Serylda's) for the burst-and-stick pattern. The dogs scale with your AD, so more lethality = a stronger pack.",
+    matchups: "Deletes immobile squishy mids and roams to snowball side lanes. Struggles into AoE waveclear that clears her pack and comps that peel her off the target.",
+  },
+
+  Kalista: {
+    otp: "Mirrai", role: "Bot",
+    identity: "The highest-skill kite ADC in the game. Kalista hops with every attack (Martial Poise), stacking spears into targets that E rips out for an execute, while her R binds her to her support for a game-swinging launch. Mirrai's Kalista is relentless orb-walking — never stop moving, stack spears, and Rend for the kill.",
+    combos: [
+      { name: "Hop-kite", steps: "Attack → immediately move (Martial Poise hops you) → attack → repeat, stacking Pierce (Q) spears in the target. You can kite through terrain and never stand still." },
+      { name: "Rend", steps: "Once spears are stacked, E (Rend) rips them out for heavy damage + a slow — it also executes and refreshes, so a low target dies and you keep pressure." },
+      { name: "R play", steps: "R (Fate's Call) — your bound support dashes into you and is launched forward as an engage, or you pull yourself out of a gank. Coordinate it with your duo." },
+    ],
+    spikes: [
+      "On-hit / attack-speed item: your spear stacking and Rend detonations ramp hard.",
+      "A fed support with a good R engage turns Fate's Call into a fight-starting nuke.",
+    ],
+    watchOut: [
+      "She is mechanically brutal — orb-walk hops and spear management take real practice.",
+      "Rend is mana-hungry and single-use per cast — don't waste the stacks; time the execute.",
+      "Squishy with a fixed hop distance; hard engage that ignores the kite ends her, and she falls off late.",
+    ],
+    itemNotes: "On-hit (Blade of the Ruined King → Runaan's / Guinsoo's) maximises spear stacking, or a crit line for burst Rends. Attack speed is what fuels the whole pattern.",
+    matchups: "Kites and executes immobile targets and out-DPSes early. Struggles into hard engage, heavy CC and the late game where crit hypercarries overtake her.",
+  },
+
+  Qiyana: {
+    otp: "Kaitiana", role: "Mid",
+    identity: "A terrain-based element assassin with one of the highest one-shot ceilings in the game. Qiyana grabs an element to change her Q and her identity — wall for burst, river for the R stun-combo, brush for camo/speed — then dashes in and deletes a carry. Kaitiana's Qiyana is all about element management and the R-into-wall teamfight.",
+    combos: [
+      { name: "Assassinate", steps: "W (Terrashape) grab wall element → E (Audacity) dash to the target → Q (Edge of Ixtal) → auto (Royal Privilege empowered hit) to one-shot a squishy." },
+      { name: "R combo", steps: "Grab river with W → R (Supreme Display of Talent) into a wall — the shockwave ripples off terrain to root and burst a whole team. This is your teamfight winner." },
+    ],
+    spikes: [
+      "Level 6 + first lethality item: your E-Q-auto combo one-shots squishies.",
+      "Any terrain nearby: with a wall or river you have burst or a team-wide root ready.",
+    ],
+    watchOut: [
+      "Element management is everything — grab the wrong element and your combo does nothing. Pre-grab before you engage.",
+      "R needs terrain to shine; in open areas it's just a single-target knock-up.",
+      "Very squishy — a whiffed engage or getting CC'd first means you die. Buy Zhonya's, respect their pick.",
+    ],
+    itemNotes: "Lethality (Profane Hydra / Youmuu's / Eclipse → Serylda's) for the one-shot, with Zhonya's as the safety pick. Boots + first item is your kill spike.",
+    matchups: "One-shots squishies and roots teams off terrain. Struggles into tanks, point-and-click CC and open-area fights with no walls to combo off.",
+  },
+
+  Poppy: {
+    otp: "Relise", role: "Top",
+    identity: "The anti-mobility bruiser-tank. Poppy hard-counters dashes and engage — W stops enemy dashes dead, E pins a target to a wall for a long stun, and R zones or displaces whole teams. Relise's Poppy is a durable, disruptive front-line that turns the enemy's mobility into their weakness while pressuring the map.",
+    combos: [
+      { name: "Wall stun", steps: "E (Heroic Charge) carries the target — line it up into a wall for the long stun → Q (Hammer Shock) slam for the delayed burst → auto. Iron Ambassador (passive) shield toss adds poke." },
+      { name: "Deny + zone", steps: "W (Steadfast Presence) grounds and blocks all enemy dashes while giving you resists — pop it as they engage. R (Keeper's Verdict): tap for an AoE knock-back, or charge for a long single-target displacement to remove a diver." },
+    ],
+    spikes: [
+      "First item: your E-into-wall combo becomes a reliable pick.",
+      "Level 6: R is a fight-defining zone/displacement on demand.",
+    ],
+    watchOut: [
+      "E only stuns if you hit a wall — in open lanes it's just a reposition. Know your angles.",
+      "R has two modes — a mistimed full-charge that flings the enemy carry to SAFETY is a throw. Usually tap it.",
+      "Low burst — you win by disrupting, not deleting. Ranged pokers and immobile scalers you can't pin are awkward.",
+    ],
+    itemNotes: "Bruiser/tank (Iceborn Gauntlet / Sunfire → Plated Steelcaps / Jak'Sho) with Grasp — HP and resists so your CC lands and sticks. Build the resist the lane demands.",
+    matchups: "Shuts down dash- and engage-heavy comps and peels carries. Struggles into ranged poke and immobile scalers who out-range her disruption.",
+  },
+
+  Viego: {
+    otp: "Mino", role: "Jungle",
+    identity: "A reset skirmisher who chains kills by wearing his enemies' corpses. Kill a target and Sovereign's Domination lets Viego possess it — full heal, their abilities, and a reset on his own kit — so a won fight cascades into a team wipe. Mino's Viego is about winning the first pick, then snowballing the possession chain.",
+    combos: [
+      { name: "All-in", steps: "W (Spectral Maw) charge a stun → Q (Blade of the Ruined King) for the empowered every-3rd on-hit → auto → E (Harrowed Path) mist for camo/speed → R (Heartbreaker) to dash-execute the low target." },
+      { name: "Possess chain", steps: "The instant an enemy dies near you, possess the corpse: you get their abilities, a big heal and a Q reset. Use the possessed ultimate, then burst out and repeat on the next target." },
+    ],
+    spikes: [
+      "First on-hit item (Blade of the Ruined King / Kraken): your Q melts targets and fuels the reset chain.",
+      "Any pick in a teamfight: one possession can snowball into three.",
+    ],
+    watchOut: [
+      "Possession is timing — grab the RIGHT corpse (a bruiser to survive, a mage for burst) and use its ult before it expires.",
+      "W is a chargeable stun — over-charging telegraphs it; tap for a quick lock.",
+      "Between resets he's squishy; single-target peel and denying the first kill shut the whole engine down.",
+    ],
+    itemNotes: "On-hit (Blade of the Ruined King → Kraken Slayer / Hexdrinker) so your Q shreds and your heals scale. Attack speed keeps the empowered-Q cadence up.",
+    matchups: "Snowballs fights with resets and out-duels most junglers. Struggles into single-target peel, disengage, and any comp that denies him the first kill.",
+  },
+
+  Tryndamere: {
+    otp: "Hurra", role: "Top",
+    identity: "An unkillable split-push crit duelist. Tryndamere stacks Fury into guaranteed crits, and his ultimate makes him literally unable to die for a few seconds — so he all-ins, survives the burst, and heals back up. Hurra's Trynd is a macro split-pusher: pressure a sidelane, force the map, and duel anyone who answers.",
+    combos: [
+      { name: "Duel", steps: "E (Spinning Slash) dash in → auto (Battle Fury crits) → W (Mocking Shout) to slow them and cut their AD → Q (Bloodlust) to heal off your Fury when low." },
+      { name: "Guaranteed kill", steps: "When you'd die, R (Undying Rage) — you can't drop below 1 HP for 5 seconds. Pop it, keep attacking, and Q-heal back to full as it ends." },
+    ],
+    spikes: [
+      "First crit item (Immortal Shieldbow / Infinity Edge): your Fury crits start bursting.",
+      "Level 6: Undying Rage turns every all-in into a coin flip you win.",
+    ],
+    watchOut: [
+      "R is a timer, not immunity — use it BEFORE you die, then Q-heal; popping it late wastes it.",
+      "You have no gap-close beyond E and get kited/CC'd hard — W's slow is your only stick.",
+      "Grievous Wounds, heavy CC and %max-HP damage counter your heal-and-crit pattern.",
+    ],
+    itemNotes: "Crit (Immortal Shieldbow / Infinity Edge → Phantom Dancer) for the Fury payoff and the Shieldbow lifeline. Split-push items and boots to pressure the map.",
+    matchups: "Out-duels melee and split-pushes relentlessly. Struggles into ranged kite, hard CC and Grievous Wounds that stop the heal.",
+  },
+
+  Ambessa: {
+    otp: "Voxtrik", role: "Top",
+    identity: "A chain-dash combo skirmisher. Ambessa strings her mobility together — Drakehound's Step, Lacerate and her Q recast let her weave in and out repeatedly — to land a burst combo and reset onto the next target. Voxtrik's Ambessa is a high-tempo bruiser that snowballs skirmishes with relentless dashes.",
+    combos: [
+      { name: "Combo", steps: "E (Lacerate) dash to engage → Q (Cunning Sweep, then recast Sundering Slam) for the cleave + backstep → weave a Drakehound's Step dash → auto. Chaining the dashes is what lets you commit and still get out." },
+      { name: "Pick", steps: "R (Public Execution) locks onto a target and dashes to them for a heavy finisher — open with it on a caught target or use it to close the gap for the full combo." },
+    ],
+    spikes: [
+      "First bruiser item: your combo starts killing squishies while you survive the trade.",
+      "Level 6: Public Execution gives you a reliable pick / gap-close.",
+    ],
+    watchOut: [
+      "Her power is chaining dashes — burn them all with no follow-up and you're stranded mid-fight.",
+      "W (Repudiation) is a defensive window — use it to eat a key spell, not on cooldown.",
+      "Committal by nature; disengage and hard CC that interrupt the chain punish an over-eager engage.",
+    ],
+    itemNotes: "Bruiser (Eclipse / Black Cleaver → Sterak's / Death's Dance, Steelcaps) so the dive survives and the combo keeps shredding. Build to stick and out-trade.",
+    matchups: "Runs down immobile carries and wins scrappy skirmishes with her mobility. Struggles into disengage, kite and CC that break the dash chain.",
+  },
+
+  Fizz: {
+    otp: "Esruc", role: "Mid",
+    identity: "An AP burst assassin with the safest all-in tool in the game — a moment of untargetability. Fizz dashes in, dodges the enemy's answer with Playful/Trickster, and lands a delayed shark for a game-ending pick. Esruc's Fizz is about baiting cooldowns with E, then one-shotting a squishy from stealth-hop range.",
+    combos: [
+      { name: "Assassinate", steps: "R (Chum the Waters) sticks a fish to the target → Q (Urchin Strike) dash through them for on-hit → W (Seastone Trident) empowered hit → E (Playful/Trickster) to hop untargetable over their CC as the shark lands and knocks up + bursts." },
+      { name: "Bait", steps: "E first to dodge their key spell / go untargetable, then all-in once their answer is on cooldown." },
+    ],
+    spikes: [
+      "Level 6 + first AP item (Hextech Rocketbelt / Malignance): your R-combo one-shots squishies.",
+      "Lich Bane / Shadowflame online: even a partial combo deletes a carry.",
+    ],
+    watchOut: [
+      "E's untargetable window is your survival — time it to dodge the burst or CC, not just to poke.",
+      "R can be side-stepped before the shark surfaces; lead it or use it after a Q gap-close.",
+      "Squishy — point-and-click CC that catches you as E ends, and heavy armor stacking, shut you down.",
+    ],
+    itemNotes: "AP burst (Hextech Rocketbelt / Malignance → Shadowflame / Lich Bane) with Zhonya's as the safety buy. Boots + first item is your one-shot spike.",
+    matchups: "Dives squishies and dodges skillshots with E. Struggles into point-and-click CC, tanks and enchanter-heavy peel.",
+  },
+
+  Zaahen: {
+    otp: "SHIHAN0", role: "Top",
+    identity: "A Darkin skirmish-bruiser built to weave abilities and dashes into a sustained, snowballing combo. Zaahen wants to get on top of a target, chain his glaive and rush together, and out-trade through the fight. ozneviik plays him as an aggressive lane skirmisher that compounds an early lead.",
+    combos: [
+      { name: "Skirmish", steps: "E (Aureate Rush) dash to engage → Q (The Darkin Glaive) for the glaive damage → auto → W (Dreaded Return) to reposition or reset the trade. Weave your dashes so you can commit and still disengage." },
+      { name: "Finish", steps: "R (Grim Deliverance) is your commit / finisher — open with it on a target you can lock down, or close the gap for the full combo." },
+    ],
+    spikes: [
+      "First bruiser item: your combo starts winning every extended trade.",
+      "Level 6: your ultimate turns a won skirmish into a kill.",
+    ],
+    watchOut: [
+      "You win extended fights, not burst trades — get on top and stay there rather than poking.",
+      "Spend your mobility to commit AND escape; burning it all on the engage leaves you exposed.",
+      "Kite, disengage and heavy ranged poke keep you off your target and blunt the skirmish.",
+    ],
+    itemNotes: "Bruiser (Eclipse / Black Cleaver → Sterak's / Death's Dance, Steelcaps) so you survive the dive and out-sustain the trade. Build to stick to targets.",
+    matchups: "Out-skirmishes melee bruisers and snowballs an early lead. Struggles into ranged pokers and disengage/kite that never let him connect.",
+  },
+
+  Sett: {
+    otp: "Vitoo", role: "Top",
+    identity: "A front-line juggernaut brawler who turns damage taken into damage dealt. Sett soaks punishment to charge Grit, unloads it as a shielded true-damage Haymaker, stuns with Facebreaker, and suplexes the enemy carry into their own team with The Show Stopper. Vitoo's Sett wins extended fights and swings teamfights with a single R.",
+    combos: [
+      { name: "Brawl", steps: "E (Facebreaker) pull the enemy in and stun → W (Haymaker) release the Grit you've stored as a shield + true-damage punch → Q (Knuckle Down) empowered autos + move speed to stick. Take a little damage first so W is charged." },
+      { name: "Pick", steps: "R (The Show Stopper) grabs an enemy — usually the fed carry — and slams them where you aim, dealing AoE damage and slowing. Suplex them INTO your team, then E-W to lock the fight." },
+    ],
+    spikes: [
+      "First bruiser item: your W punch and sustained autos start winning every extended trade.",
+      "Level 6: The Show Stopper is a fight-defining pick / disengage on demand.",
+    ],
+    watchOut: [
+      "W needs Grit — you build it by TAKING damage, so don't W on an empty bar. Trade, then punch.",
+      "E is your only engage and CC — hold it to catch or peel, not to poke.",
+      "Low mobility — ranged pokers and %max-HP / kite comps chip you down before you connect.",
+    ],
+    itemNotes: "Bruiser (Stridebreaker / Trinity Force → Sterak's Gage / Death's Dance, Plated Steelcaps). HP and sustain make your Grit shield and true-damage punch enormous.",
+    matchups: "Wins extended brawls and picks carries with R. Struggles into ranged poke, kite and %max-HP damage that never let him get his hands on the enemy.",
+  },
 };
 
 export const otpGuideOf = (dd) => OTP_GUIDES[dd] || null;
