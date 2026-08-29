@@ -12,6 +12,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.15.4] — 2026-08-28
+
+### Added
+- **12 more OTP How-to-Play guides** (all credited to verified one-tricks): Kindred (CastFM & chiv), Lucian (LLTrigger), Naafiri (Raveydemon), Kalista (Mirrai), Qiyana (Kaitiana), Poppy (Relise), Viego (Mino), Tryndamere (Hurra), Ambessa (Voxtrik), Fizz (Esruc), Zaahen (SHIHAN0), Sett (Vitoo). **36 of 173** champions now curated.
+
 ## [0.15.3] — 2026-08-27
 
 ### Added
