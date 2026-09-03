@@ -20,6 +20,7 @@ import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
+import { samplePaletteFromUrl } from "./data/samplePalette.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -854,6 +855,18 @@ useEffect(() => {
       // If the user forged a custom item set, apply that instead of the recommended one.
       const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt, runeSel,
         forgeHasItems ? forgeItems : null);
+      // Pre-flight: the client rejects an incomplete or cross-tree page with an
+      // opaque 400, so say what's actually wrong instead of sending it anyway.
+      if (!payload.runeValid) {
+        const why = payload.runeWrongTree?.length
+          ? payload.runeWrongTree[0]
+          : payload.runeMissing?.length
+            ? `missing ${payload.runeMissing.filter(Boolean).join(", ")}`
+            : "the rune page is incomplete — pick a keystone, one rune per primary row, two secondary runes and three shards";
+        setApplyState({ ok: false, msg: `Can't import — ${why}` });
+        setTimeout(() => setApplyState((s) => (s === "sending" ? s : null)), 5000);
+        return;
+      }
       const res = await window.frge.applyBuild({
         runePage: payload.runePage,
         itemSet: payload.itemSet,
@@ -1622,10 +1635,24 @@ useEffect(() => {
     : "Client idle";
 
   // ── Forge per-champion skin theme (palette sampled from the skin splash) ──
+  // skinThemeOf() is one FIXED palette per champion, but the Forge theme rolls a
+  // random skin for the splash — so the accents used to belong to a different
+  // skin than the art on screen. The bundled palette is now only the instant
+  // fallback: the real one is sampled from the splash actually displayed.
   const activeSkin = frgeTheme === "forge" ? skinThemeOf(champ.dd) : null;
-  const skinP = activeSkin?.m || "#FF6B35";   // primary
-  const skinH = activeSkin?.h || "#FFB347";   // highlight
-  const skinA = activeSkin?.a || "#D4AF37";   // accent
+  const splashUrl = activeSkin ? `${SPLASH_CDN}/${champ.dd}_${skinRoll}.jpg` : null;
+  const [sampled, setSampled] = useState(null);
+  useEffect(() => {
+    if (!splashUrl) { setSampled(null); return; }
+    let cancelled = false;
+    setSampled(null);                       // fall back while the sample is in flight
+    samplePaletteFromUrl(splashUrl).then((p) => { if (!cancelled) setSampled(p); });
+    return () => { cancelled = true; };
+  }, [splashUrl]);
+
+  const skinP = sampled?.m || activeSkin?.m || "#FF6B35";   // primary
+  const skinH = sampled?.h || activeSkin?.h || "#FFB347";   // highlight
+  const skinA = sampled?.a || activeSkin?.a || "#D4AF37";   // accent
   const clientLive = isDesktop && !!csState && (csState.active || csInGame); // League client connected
   // Fixed skin-splash backdrop for the champion-specific full-page tabs (How to
   // Play / Counter Picker), so the champion's art shows behind them too. Stays

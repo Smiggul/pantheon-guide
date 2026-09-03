@@ -24,6 +24,78 @@ const itemBlock = (type, names) => ({
 
 // ── Runes → LCU /lol-perks/v1/pages payload ─────────────────────────────────
 //  selectedPerkIds order: keystone, 3 primary, 2 secondary, 3 shards (9 total).
+// Which tree each rune belongs to, mirroring RUNE_TREES in App.jsx. NOT derived
+// from Data Dragon icon paths: Riot files some icons under the wrong tree (Last
+// Stand is a Precision rune whose icon lives in Styles/Sorcery/), so the asset
+// layout is not a reliable source. The client REJECTS a page whose perks do not
+// belong to the declared styles, so validating membership here turns a silent
+// import failure into a clear local error. helpers/patch-diff.mjs flags any rune
+// that disappears from Data Dragon, which is when this needs regenerating.
+const RUNE_STYLE = {
+  "Conqueror": "Precision",
+  "Lethal Tempo": "Precision",
+  "Press the Attack": "Precision",
+  "Fleet Footwork": "Precision",
+  "Absorb Life": "Precision",
+  "Triumph": "Precision",
+  "Presence of Mind": "Precision",
+  "Legend: Alacrity": "Precision",
+  "Legend: Haste": "Precision",
+  "Legend: Bloodline": "Precision",
+  "Coup de Grace": "Precision",
+  "Cut Down": "Precision",
+  "Last Stand": "Precision",
+  "Electrocute": "Domination",
+  "Dark Harvest": "Domination",
+  "Hail of Blades": "Domination",
+  "Cheap Shot": "Domination",
+  "Taste of Blood": "Domination",
+  "Sudden Impact": "Domination",
+  "Sixth Sense": "Domination",
+  "Grisly Mementos": "Domination",
+  "Deep Ward": "Domination",
+  "Treasure Hunter": "Domination",
+  "Relentless Hunter": "Domination",
+  "Ultimate Hunter": "Domination",
+  "Summon Aery": "Sorcery",
+  "Arcane Comet": "Sorcery",
+  "Deathfire Touch": "Sorcery",
+  "Stormraider's Surge": "Sorcery",
+  "Manaflow Band": "Sorcery",
+  "Nimbus Cloak": "Sorcery",
+  "Axiom Arcanist": "Sorcery",
+  "Transcendence": "Sorcery",
+  "Celerity": "Sorcery",
+  "Absolute Focus": "Sorcery",
+  "Scorch": "Sorcery",
+  "Waterwalking": "Sorcery",
+  "Gathering Storm": "Sorcery",
+  "Grasp of the Undying": "Resolve",
+  "Aftershock": "Resolve",
+  "Guardian": "Resolve",
+  "Demolish": "Resolve",
+  "Font of Life": "Resolve",
+  "Shield Bash": "Resolve",
+  "Conditioning": "Resolve",
+  "Second Wind": "Resolve",
+  "Bone Plating": "Resolve",
+  "Overgrowth": "Resolve",
+  "Revitalize": "Resolve",
+  "Unflinching": "Resolve",
+  "Glacial Augment": "Inspiration",
+  "First Strike": "Inspiration",
+  "Unsealed Spellbook": "Inspiration",
+  "Hextech Flashtraption": "Inspiration",
+  "Magical Footwear": "Inspiration",
+  "Cash Back": "Inspiration",
+  "Triple Tonic": "Inspiration",
+  "Time Warp Tonic": "Inspiration",
+  "Biscuit Delivery": "Inspiration",
+  "Cosmic Insight": "Inspiration",
+  "Approach Velocity": "Inspiration",
+  "Jack Of All Trades": "Inspiration",
+};
+
 export function buildRunePayload(runes, pageName = "FRGE.GG") {
   const missing = [];
   const look = (n, table) => {
@@ -39,8 +111,20 @@ export function buildRunePayload(runes, pageName = "FRGE.GG") {
     ...(runes.secondaryRunes || []).map((n) => look(n, RUNE_IDS)),
     ...(runes.shards || []).map((n) => look(n, SHARD_IDS)),
   ];
+  // Membership check: a perk from the wrong tree passes every id lookup above but
+  // is refused by the client, which surfaced as an unexplained "import failed".
+  const wrongTree = [];
+  const inTree = (n, tree) => {
+    const t = RUNE_STYLE[n];
+    if (t && tree && t !== tree) wrongTree.push(n + " is " + t + ", not " + tree);
+  };
+  if (runes.keystone) inTree(runes.keystone, runes.primary);
+  for (const n of runes.primaryRunes || []) if (n) inTree(n, runes.primary);
+  for (const n of runes.secondaryRunes || []) if (n) inTree(n, runes.secondary);
+
   const valid =
     missing.length === 0 &&
+    wrongTree.length === 0 &&
     primaryStyleId != null &&
     subStyleId != null &&
     selectedPerkIds.length === 9 &&
@@ -55,6 +139,7 @@ export function buildRunePayload(runes, pageName = "FRGE.GG") {
     },
     valid,
     missing,
+    wrongTree,
   };
 }
 
@@ -235,6 +320,7 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
     runePage: rune.page,
     runeValid: rune.valid,
     runeMissing: rune.missing,
+    runeWrongTree: rune.wrongTree,
     itemSet,
   };
 }
