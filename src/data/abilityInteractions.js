@@ -60,6 +60,30 @@ export const INTERACTIONS = [
     abilities: ["Black Shield (E)"],
     why: "Black Shield absorbs magic damage and, more importantly, blocks the next crowd control outright. A comp whose engage is one hook or one point-and-click lock-up has its entire win condition cancelled by a 24-second-cooldown button.",
   },
+  // ── Malzahar: the counter-pick, and why ───────────────────────────────────
+  // Three separate answers stacked in one kit — a recurring CC immunity, a
+  // point-and-click suppression, and a silence. Each is tagged separately so the
+  // engine credits him against the right comps rather than as one blanket buff.
+  {
+    a: "Malzahar", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Void Shift (P)"],
+    why: "Void Shift periodically grants crowd control IMMUNITY plus 90% damage reduction until it is spent. A comp whose engage is one hook or one point-and-click lock-up just feeds it: the CC is negated, the follow-up lands into 90% reduction, and the passive starts recharging. Unlike Morgana's Black Shield it is free and needs no cast — but it is self-only, so it saves him and nobody else.",
+  },
+  {
+    a: "Malzahar", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Void Shift (P)", "Nether Grasp (R)"],
+    why: "An assassin's all-in opens with burst or CC, which Void Shift eats outright, and Nether Grasp answers with a point-and-click knock-down into a 2.5-second suppression that no amount of mobility avoids. Suppression also stops dashes and channels mid-cast, so the dive ends where it started. QSS or Mercurial Scimitar is their only real out — plain Cleanse does not remove suppression.",
+  },
+  {
+    a: "Malzahar", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Nether Grasp (R)"],
+    why: "Nether Grasp targets a champion directly rather than a location, so no dash or blink dodges it, and the suppression cancels whatever they were casting. Note the channel continues while the tether holds even if the suppression itself is cleansed.",
+  },
+  {
+    a: "Malzahar", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Call of the Void (Q)", "Void Shift (P)"],
+    why: "Call of the Void silences, which cuts a combo champion off mid-sequence, and Void Shift's 90% damage reduction means the burst window they built their whole game around simply does not kill him.",
+  },
   {
     a: "Poppy", bTag: "dash", kind: "counter", weight: 3,
     abilities: ["Steadfast Presence (W)"],
