@@ -50,8 +50,23 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
           </div>
         </div>
         {(r.youCounter.length > 0 || r.theyCounter.length > 0 ||
-          r.youExploit.length > 0 || r.theyExploit.length > 0) && (
+          r.youExploit.length > 0 || r.theyExploit.length > 0 ||
+          r.youNotes?.length > 0 || r.theyNotes?.length > 0) && (
           <div style={{ padding:"0 11px 9px", display:"flex", flexDirection:"column", gap:"4px" }}>
+            {/* Named ability interactions lead — they are the specific, decisive
+                reasons, where the trait lines below are broad categories. */}
+            {r.youNotes?.map((n, i) => (
+              <div key={`yn${i}`} style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.45,
+                borderLeft:"2px solid rgba(87,217,119,.45)", paddingLeft:"6px" }}>
+                <b style={{ color:"#b6f0c6" }}>{n.abilities.join(" · ")}</b><br />{n.why}
+              </div>
+            ))}
+            {r.theyNotes?.map((n, i) => (
+              <div key={`tn${i}`} style={{ fontSize:"10px", color:"#f0a39d", lineHeight:1.45,
+                borderLeft:"2px solid rgba(217,83,79,.45)", paddingLeft:"6px" }}>
+                <b style={{ color:"#f6bdb8" }}>{n.abilities.join(" · ")}</b><br />{n.why}
+              </div>
+            ))}
             {r.youCounter.length > 0 && (
               <div style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.4 }}>
                 ✓ You shut down their {r.youCounter.map((t) => THREAT_LABEL[t] || t).join(", ")}

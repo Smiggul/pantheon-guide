@@ -11,6 +11,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { classOf } from "./champClasses.js";
 import { CHAMPS } from "./champs/index.js";
+import { counterInteractions } from "./abilityInteractions.js";
 
 // Which THREATS each COUNTER shuts down.
 const NEUTRALISE = {
@@ -221,6 +222,12 @@ const neutralises = (counters, threat) => counters.some((c) => (NEUTRALISE[c] ||
 
 // How `me` fares vs enemy laner `foe`: which of foe's threats I handle, which of
 // mine they handle, and a net score.
+/** Every derived tag a champion carries — used to resolve bTag interactions. */
+export function tagsOf(dd) {
+  const t = traitsOf(dd);
+  return [...new Set([...t.threats, ...t.weak])];
+}
+
 export function matchup(meDd, foeDd) {
   const me = traitsOf(meDd), foe = traitsOf(foeDd);
   const youCounter  = [...new Set(foe.threats.filter((t) => neutralises(me.counters, t)))];
@@ -228,9 +235,19 @@ export function matchup(meDd, foeDd) {
   // Body-type exploits: my kit preying on what their kit structurally lacks.
   const youExploit  = [...new Set(foe.weak.filter((w) => me.punishes.includes(w)))];
   const theyExploit = [...new Set(me.weak.filter((w) => foe.punishes.includes(w)))];
+  // Named ability interactions sit on top of the trait model: they are the
+  // cases where one specific spell invalidates a kit, which categories miss.
+  const foeTags = [...new Set([...foe.threats, ...foe.weak])];
+  const meTags  = [...new Set([...me.threats,  ...me.weak])];
+  const youNotes  = counterInteractions(meDd, foeDd, foeTags);
+  const theyNotes = counterInteractions(foeDd, meDd, meTags);
+  const w = (n) => n.reduce((sum, e) => sum + (e.weight || 1), 0);
+
   return {
     youCounter, theyCounter, youExploit, theyExploit,
-    score: (youCounter.length + youExploit.length) - (theyCounter.length + theyExploit.length),
+    youNotes, theyNotes,
+    score: (youCounter.length + youExploit.length + w(youNotes)) -
+           (theyCounter.length + theyExploit.length + w(theyNotes)),
   };
 }
 
