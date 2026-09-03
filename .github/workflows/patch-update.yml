@@ -66,6 +66,23 @@ jobs:
           --to ${{ steps.check.outputs.latest }}
           --out patch-report.md
 
+      - name: Read Riot's patch notes
+        id: notes
+        if: steps.check.outputs.outdated == 'true'
+        continue-on-error: true   # notes often publish a few hours after the client patch
+        run: node helpers/patch-notes.mjs --out patch-notes.md
+
+      - name: Fold the notes into the report
+        if: steps.check.outputs.outdated == 'true'
+        run: |
+          if [ -s patch-notes.md ]; then
+            printf '
+---
+
+' >> patch-report.md
+            cat patch-notes.md >> patch-report.md
+          fi
+
       - name: Build (verify the patch didn't break anything)
         if: steps.check.outputs.outdated == 'true'
         run: npm run build
