@@ -14,6 +14,7 @@ import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
 import TierList from "./TierList.jsx";
 import JunglePanel from "./JunglePanel.jsx";
 import CounterPicker from "./CounterPicker.jsx";
+import DraftCoach from "./DraftCoach.jsx";
 import HowToPlay from "./HowToPlay.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
@@ -1599,6 +1600,12 @@ useEffect(() => {
   }, [csState]);
 
   // ── Derived champ-select display values ─────────────────────────────────
+  // Enemy champions revealed in champ select — locked picks first, falling back
+  // to hover intent so the coach reacts while they are still deciding.
+  const liveEnemies = (csState?.theirTeam || [])
+    .map((p) => champByKey(p.championId || p.championPickIntent))
+    .filter(Boolean);
+
   const csActive = !!csState?.active;   // LIVE — gates hover / auto-import actions
   // We keep showing the frozen matchup after champ select ends (game in
   // progress), until League closes.
@@ -1736,6 +1743,7 @@ useEffect(() => {
               { id:"forge",   label:"Build Forge",    on:forgeOpen,          act:() => setForgeOpen(true) },
               { id:"howto",   label:"How to Play",    on:view === "howto",   act:() => setView("howto") },
               { id:"counter", label:"Counter Picker", on:view === "counter", act:() => setView("counter") },
+              { id:"draft",   label:"Draft Coach",    on:view === "draft",   act:() => setView("draft") },
               { id:"tiers",   label:"Tier List",      on:view === "tiers",   act:() => setView("tiers") },
               { id:"jungle",  label:"Jungle Coach",   on:jungleOpen,         act:() => { setView("build"); setJungleOpen(true); } },
             ].map(n => (
@@ -1815,6 +1823,20 @@ useEffect(() => {
           {frgeTheme === "forge" && skinFixedLayer(0.24)}
           <div style={{ position:"relative", zIndex:1 }}>
             <CounterPicker champ={champ} role={currentRole} champImg={champImg} S={S}
+              onClose={() => setView("build")}
+              onPick={(c) => { pickChamp(c); setView("build"); }} />
+          </div>
+        </div>
+      )}
+
+      {/* ── DRAFT COACH — the enemy comp as a whole ── */}
+      {view === "draft" && (
+        <div style={{ position:"fixed", inset:0, zIndex:120, overflowY:"auto",
+          background: frgeTheme === "forge" ? "#121013" : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)" }}>
+          {frgeTheme === "forge" && skinFixedLayer(0.24)}
+          <div style={{ position:"relative", zIndex:1 }}>
+            <DraftCoach champ={champ} role={currentRole} champImg={champImg} S={S}
+              liveEnemies={liveEnemies} isLive={csActive && liveEnemies.length > 0}
               onClose={() => setView("build")}
               onPick={(c) => { pickChamp(c); setView("build"); }} />
           </div>

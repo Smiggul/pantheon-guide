@@ -281,3 +281,42 @@ export function bestCountersVsComp(foeDds, candidateDds) {
     .map((dd) => ({ dd, ...scoreVsComp(dd, foeDds) }))
     .sort((a, b) => b.score - a.score);
 }
+
+// ── Draft-time comp analysis ────────────────────────────────────────────────
+// What an enemy team, as drafted so far, actually threatens you with — the
+// question a build page can't answer because it only knows one enemy at a time.
+export function compProfile(foeDds) {
+  const dmg = { ad: 0, ap: 0 };
+  const threats = {};
+  let auto = 0;
+  for (const dd of foeDds) {
+    const t = traitsOf(dd);
+    if (t.threats.includes("ap")) dmg.ap++; else dmg.ad++;
+    if (t.threats.includes("auto")) auto++;
+    for (const th of t.threats) {
+      if (th === "ad" || th === "ap" || th === "auto") continue;   // counted separately
+      threats[th] = (threats[th] || 0) + 1;
+    }
+  }
+  const n = foeDds.length || 1;
+  const lean = dmg.ad === dmg.ap ? "mixed" : dmg.ad > dmg.ap ? "physical" : "magic";
+  // The single most useful build instruction that falls out of a damage split.
+  const buildAdvice =
+    lean === "physical" && dmg.ad >= Math.ceil(n * 0.6) ? "Stack armour — Plated Steelcaps, Frozen Heart, Randuin's Omen. Thornmail if they also heal."
+    : lean === "magic" && dmg.ap >= Math.ceil(n * 0.6) ? "Stack magic resist — Mercury's Treads, Spirit Visage, Kaenic Rookern. Force of Nature into sustained magic damage."
+    : "Damage is split — take balanced resists (Steelcaps or Mercury's by lane) and prioritise health items that scale against both.";
+  const top = Object.entries(threats).sort((a, b) => b[1] - a[1]);
+  return { count: foeDds.length, dmg, lean, auto, threats, topThreats: top, buildAdvice };
+}
+
+// Which of MY named ability interactions apply against this comp, and which of
+// theirs apply to me — the "your kit already answers this" readout.
+export function compInteractions(meDd, foeDds) {
+  const mine = [], theirs = [];
+  for (const f of foeDds) {
+    const mu = matchup(meDd, f);
+    for (const n of mu.youNotes) mine.push({ vs: f, ...n });
+    for (const n of mu.theyNotes) theirs.push({ vs: f, ...n });
+  }
+  return { mine, theirs };
+}
