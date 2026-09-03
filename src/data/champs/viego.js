@@ -32,7 +32,7 @@ export default {
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],
       role:"Skirmisher / Possession Duelist",
       corePath:"Kraken Slayer  ›  The Collector  ›  Immortal Shieldbow  ›  Lord Dominik's Regards",
-      coreNote:"Viego plays for a repeated pick-and-possess pattern — Blade of the Ruined King Q's a target, kills it, and Spectral Maiden lets him briefly possess and reset with a champion's own body. Kraken Slayer's true damage proc and The Collector's execute both reward the burst-into-kill loop; Immortal Shieldbow's shield covers the commitment; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
+      coreNote:"Viego plays for a repeated pick-and-possess pattern — Blade of The Ruined King Q's a target, kills it, and Spectral Maiden lets him briefly possess and reset with a champion's own body. Kraken Slayer's true damage proc and The Collector's execute both reward the burst-into-kill loop; Immortal Shieldbow's shield covers the commitment; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
       sideItems:["Plated Steelcaps","Guardian Angel","Mercury's Treads","Bloodthirster","Wit's End","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Kraken Slayer","True damage proc ignores their armor stacking."),I("The Collector","Execute finishes what Q chunked.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Plated Steelcaps","Reduces auto damage from their press."),I("Immortal Shieldbow","Shield to survive.")],runes:{...VIEGO_JGL_DEFAULT_RUNES}},

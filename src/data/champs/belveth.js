@@ -24,7 +24,7 @@ export default {
       corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Guinsoo's Rageblade  ›  Terminus",
       coreNote:"Skill-Capped on-hit Bel'Veth — the core dominating solo queue after her mini-rework: Kraken Slayer → Guinsoo's Rageblade → Terminus with Lethal Tempo, since attack-speed/on-hit scaling is far more efficient on her now. Best into bruiser/tank comps. Alt crit line into squishy comps: Guinsoo's → Infinity Edge → Shieldbow or Lord Dominik's with Press the Attack for more upfront burst.",
       runes:{...BELVETH_JGL_DEFAULT_RUNES},
-      sideItems:["Guinsoo's Rageblade","Wit's End","Blade of the Ruined King","Infinity Edge","Mercury's Treads"],
+      sideItems:["Guinsoo's Rageblade","Wit's End","Blade of The Ruined King","Infinity Edge","Mercury's Treads"],
     }],
   },
   roles:{

@@ -406,7 +406,7 @@ export const ITEM_COLORS = {
   // On-hit
   "Nashor's Tooth":           "#9cba00",
   "Wit's End":                "#40e0d0",
-  "Blade of the Ruined King": "#8b0000",
+  "Blade of The Ruined King": "#8b0000",
 
   // AP
   "Liandry's Torment":        "#ff6b35",

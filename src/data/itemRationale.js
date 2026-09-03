@@ -69,7 +69,7 @@ export const ITEM_RATIONALE = {
   // ── On-hit / attack speed ──────────────────────────────────────────────────
   "Nashor's Tooth":         "AP, attack speed, haste — on-hit AP for spell-and-auto casters (Kayle, Teemo, AP on-hitters).",
   "Wit's End":              "Attack speed, MR and on-hit magic that stacks MR — vs AP while you're auto-attacking (bruiser/skirmisher).",
-  "Blade of the Ruined King": "AD, attack speed, lifesteal; on-hit %current-HP + an active slow-nuke — the anti-tank DPS/dueling item.",
+  "Blade of The Ruined King": "AD, attack speed, lifesteal; on-hit %current-HP + an active slow-nuke — the anti-tank DPS/dueling item.",
   "Guinsoo's Rageblade":    "AD, AP and stacking attack speed/AP with on-hit conversion — on-hit scaling for hybrid auto-attackers.",
   "Terminus":               "AD, attack speed; on-hit magic + alternating resistances and armor pen — on-hit plus durability for extended fighters.",
   "Kraken Slayer":          "AD, attack speed, MS; every third hit deals bonus %missing-HP damage — the on-hit/anti-bruiser marksman core.",

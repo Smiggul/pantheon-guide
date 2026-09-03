@@ -156,7 +156,7 @@ export const OTP_GUIDES = {
       "W (Defiant Dance) is channelled and slows you — time it to block a big spell, not on cooldown.",
       "Ranged tops (Vayne, Quinn), Fiora and early bullies (Pantheon, Renekton) beat your early game — farm and scale.",
     ],
-    itemNotes: "Blade of the Ruined King is the identity first item for the %HP shred and steroid; Trinity Force is the flexible alternative. Mana sustain early is what fixes her weak laning.",
+    itemNotes: "Blade of The Ruined King is the identity first item for the %HP shred and steroid; Trinity Force is the flexible alternative. Mana sustain early is what fixes her weak laning.",
     matchups: "Beats melee bruisers she can stick to and reset on. Struggles into ranged pokers, Fiora's parry, and grasp tanks who out-trade her early.",
   },
 
@@ -318,7 +318,7 @@ export const OTP_GUIDES = {
       "You are useless early — DON'T force fights before items. Farm, take objectives with your team, and scale.",
       "You need a frontline and resets — dive the squishy that gives you a Q reset, not the tank.",
     ],
-    itemNotes: "On-hit (Blade of the Ruined King / Kraken Slayer / Guinsoo's) or crit — both convert your uptime into DPS. Attack speed and lifesteal are what make the reset pattern unstoppable; prioritise the first-item spike above all.",
+    itemNotes: "On-hit (Blade of The Ruined King / Kraken Slayer / Guinsoo's) or crit — both convert your uptime into DPS. Attack speed and lifesteal are what make the reset pattern unstoppable; prioritise the first-item spike above all.",
     matchups: "Farms squishy, low-CC comps into oblivion. Hard-countered by chain CC, exhaust and heavy peel that never let him reset.",
   },
 
@@ -339,7 +339,7 @@ export const OTP_GUIDES = {
       "E shares a cooldown per target — you can't dash through the same unit twice, so plan your escape path.",
       "Squishy and weak early into all-in tops/mids (Malphite, Renekton, Pantheon) and point-and-click CC — respect levels 1–3 and scale.",
     ],
-    itemNotes: "Immortal Shieldbow or Infinity Edge into crit is the core, with Blade of the Ruined King for the %HP + steroid into tanks. Berserker's Greaves and the first crit item are the real power spike.",
+    itemNotes: "Immortal Shieldbow or Infinity Edge into crit is the core, with Blade of The Ruined King for the %HP + steroid into tanks. Berserker's Greaves and the first crit item are the real power spike.",
     matchups: "Beats immobile pokers whose projectiles he can wall and dodge. Struggles into hard engage, point-and-click CC and early lane bullies.",
   },
 
@@ -580,7 +580,7 @@ export const OTP_GUIDES = {
       "Rend is mana-hungry and single-use per cast — don't waste the stacks; time the execute.",
       "Squishy with a fixed hop distance; hard engage that ignores the kite ends her, and she falls off late.",
     ],
-    itemNotes: "On-hit (Blade of the Ruined King → Runaan's / Guinsoo's) maximises spear stacking, or a crit line for burst Rends. Attack speed is what fuels the whole pattern.",
+    itemNotes: "On-hit (Blade of The Ruined King → Runaan's / Guinsoo's) maximises spear stacking, or a crit line for burst Rends. Attack speed is what fuels the whole pattern.",
     matchups: "Kites and executes immobile targets and out-DPSes early. Struggles into hard engage, heavy CC and the late game where crit hypercarries overtake her.",
   },
 
@@ -628,11 +628,11 @@ export const OTP_GUIDES = {
     otp: "Mino", role: "Jungle",
     identity: "A reset skirmisher who chains kills by wearing his enemies' corpses. Kill a target and Sovereign's Domination lets Viego possess it — full heal, their abilities, and a reset on his own kit — so a won fight cascades into a team wipe. Mino's Viego is about winning the first pick, then snowballing the possession chain.",
     combos: [
-      { name: "All-in", steps: "W (Spectral Maw) charge a stun → Q (Blade of the Ruined King) for the empowered every-3rd on-hit → auto → E (Harrowed Path) mist for camo/speed → R (Heartbreaker) to dash-execute the low target." },
+      { name: "All-in", steps: "W (Spectral Maw) charge a stun → Q (Blade of The Ruined King) for the empowered every-3rd on-hit → auto → E (Harrowed Path) mist for camo/speed → R (Heartbreaker) to dash-execute the low target." },
       { name: "Possess chain", steps: "The instant an enemy dies near you, possess the corpse: you get their abilities, a big heal and a Q reset. Use the possessed ultimate, then burst out and repeat on the next target." },
     ],
     spikes: [
-      "First on-hit item (Blade of the Ruined King / Kraken): your Q melts targets and fuels the reset chain.",
+      "First on-hit item (Blade of The Ruined King / Kraken): your Q melts targets and fuels the reset chain.",
       "Any pick in a teamfight: one possession can snowball into three.",
     ],
     watchOut: [
@@ -640,7 +640,7 @@ export const OTP_GUIDES = {
       "W is a chargeable stun — over-charging telegraphs it; tap for a quick lock.",
       "Between resets he's squishy; single-target peel and denying the first kill shut the whole engine down.",
     ],
-    itemNotes: "On-hit (Blade of the Ruined King → Kraken Slayer / Hexdrinker) so your Q shreds and your heals scale. Attack speed keeps the empowered-Q cadence up.",
+    itemNotes: "On-hit (Blade of The Ruined King → Kraken Slayer / Hexdrinker) so your Q shreds and your heals scale. Attack speed keeps the empowered-Q cadence up.",
     matchups: "Snowballs fights with resets and out-duels most junglers. Struggles into single-target peel, disengage, and any comp that denies him the first kill.",
   },
 
@@ -880,7 +880,7 @@ export const OTP_GUIDES = {
       "You're weak into hard CC before items; E (Primal Howl) is your only mitigation, so save it for their burst.",
       "Grievous Wounds guts your entire sustain identity — expect it and build durability.",
     ],
-    itemNotes: "The tanky jungle line (Stridebreaker → Blade of the Ruined King → Thornmail/Spirit Visage, Steelcaps) — HP and resists so your lifesteal keeps you alive through dives, per Krun's build.",
+    itemNotes: "The tanky jungle line (Stridebreaker → Blade of The Ruined King → Thornmail/Spirit Visage, Steelcaps) — HP and resists so your lifesteal keeps you alive through dives, per Krun's build.",
     matchups: "Snowballs any lane that takes early damage and out-sustains skirmishes. Struggles into Grievous Wounds, hard CC and comps that kite his short range.",
   },
 
@@ -940,7 +940,7 @@ export const OTP_GUIDES = {
       "Condemn is your only escape and peel; missing the wall-stun on a diver usually means death.",
       "Short range and squishy — hard CC, poke and dive comps punish every mistake.",
     ],
-    itemNotes: "On-hit / crit (Blade of the Ruined King → Guinsoo's or Kraken; Berserker's Greaves) — %HP damage and attack speed. Her top-lane page builds the same core for the 1v1 kite.",
+    itemNotes: "On-hit / crit (Blade of The Ruined King → Guinsoo's or Kraken; Berserker's Greaves) — %HP damage and attack speed. Her top-lane page builds the same core for the 1v1 kite.",
     matchups: "Melts tanks and out-scales nearly every ADC. Struggles into poke, hard engage and anything that ends the game before she scales.",
   },
 
@@ -960,7 +960,7 @@ export const OTP_GUIDES = {
       "You're squishy and get burst before your W shield matters; respect assassins and hard CC.",
       "Weak levels 1–3 against ranged bullies — farm and scale to your first item.",
     ],
-    itemNotes: "Crit (Immortal Shieldbow / Infinity Edge → Blade of the Ruined King into tanks). The Absorb Life / BOTRK-first line is the current core; boots + first item is the spike.",
+    itemNotes: "Crit (Immortal Shieldbow / Infinity Edge → Blade of The Ruined King into tanks). The Absorb Life / BOTRK-first line is the current core; boots + first item is the spike.",
     matchups: "Out-skirmishes melee mids and dives squishies with E safety. Struggles into hard CC, poke and early lane bullies.",
   },
 
@@ -973,14 +973,14 @@ export const OTP_GUIDES = {
     ],
     spikes: [
       "Level 6: Grand Challenge's four Vitals + the healing zone win almost any 1v1.",
-      "First item (Blade of the Ruined King / Hullbreaker line): your Vital procs start deleting bruisers and tanks.",
+      "First item (Blade of The Ruined King / Hullbreaker line): your Vital procs start deleting bruisers and tanks.",
     ],
     watchOut: [
       "Riposte is the whole champion — wasting it means losing the duel. Learn the enemy's key cooldown and hold W for it.",
       "Chase the Vitals, not the target — walking around them for the weak point is how you out-damage bigger champions.",
       "Weak into ranged pokers and teamfight comps; she's a split-pusher, not a front-liner.",
     ],
-    itemNotes: "Duelist bruiser (Blade of the Ruined King → Death's Dance / Sterak's; Press the Attack is the current keystone). %HP damage + sustain so the Vital procs win extended fights.",
+    itemNotes: "Duelist bruiser (Blade of The Ruined King → Death's Dance / Sterak's; Press the Attack is the current keystone). %HP damage + sustain so the Vital procs win extended fights.",
     matchups: "Beats melee bruisers and tanks 1v1 with parry + Vitals. Struggles into ranged tops, kite and teamfight-heavy comps where a split-pusher can't carry.",
   },
 
