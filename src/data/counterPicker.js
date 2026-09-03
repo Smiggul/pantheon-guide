@@ -10,6 +10,7 @@
 //  windwall eats poke, Pantheon E blocks a Sett W, Morgana black-shields CC…).
 // ─────────────────────────────────────────────────────────────────────────────
 import { classOf } from "./champClasses.js";
+import { CHAMPS } from "./champs/index.js";
 
 // Which THREATS each COUNTER shuts down.
 const NEUTRALISE = {
@@ -23,12 +24,16 @@ const NEUTRALISE = {
   spellshield: ["burst", "pick", "engage"],       // eats the key ability
   outrange:    ["poke"],
   block:       ["poke", "burst", "dps"],          // directional damage block (Pantheon E, windwall, Braum E)
+  armorstack:  ["ad", "auto"],                    // a kit that hands out armour blanks physical damage
+  mrstack:     ["ap"],                            // ...and magic resist blanks magic damage
+  antiauto:    ["auto"],                          // blind / dodge / attack-speed slow / damage reflect
 };
 
 export const THREAT_LABEL = {
   dash: "dashes", engage: "hard engage", dive: "backline dives", poke: "long-range poke",
   heal: "heavy healing", dps: "sustained DPS", burst: "burst combos", tank: "a tanky frontline",
   scaling: "hard scaling", pick: "hook / pick threats",
+  ad: "physical damage", ap: "magic damage", auto: "auto-attack DPS",
 };
 export const COUNTER_LABEL = {
   antidash: "shuts down dashes", antidive: "protects the backline", disengage: "disengages their all-in",
@@ -138,15 +143,75 @@ const OVERRIDE = {
   Akali:      { threats: ["dive", "burst"],    counters: ["antipoke"] },                  // shroud
 };
 
+// ── Damage profile, derived from each champion's own build ───────────────────
+// A champion's damage type is a matchup fact in its own right: Malphite is a
+// free lane into Pantheon not because of any threat/counter pairing but because
+// Pantheon is physical damage and Malphite's kit hands him armour. Rather than
+// hand-tagging 173 champions, this reads the build data already in the roster —
+// AP item markers in any of a champion's core paths mean AP damage, on-hit and
+// crit markers mean the damage arrives as auto-attacks.
+const AP_MARK = /Rabadon|Luden|Liandry|Shadowflame|Nashor|Riftmaker|Malignance|Rod of Ages|Archangel|Lich Bane|Rylai|Void Staff|Zhonya|Stormsurge|Cosmic Drive|Rocketbelt|Cryptbloom|Morellonomicon|Horizon Focus|Blackfire|Bloodletter|Seraph|Dawncore|Mejai/i;
+const AUTO_MARK = /Kraken|Guinsoo|Blade of The Ruined King|Runaan|Wit's End|Nashor|Terminus|Rageknife|Statikk|Infinity Edge|Navori|Hexoptics|Fiendhunter/i;
+
+const buildTextOf = (c) => {
+  const parts = [];
+  const blocks = c.roles ? Object.values(c.roles) : [c];
+  for (const b of blocks) {
+    if (b?.corePath) parts.push(b.corePath);
+    if (b?.sideItems) parts.push(b.sideItems.join(" "));
+  }
+  for (const alts of Object.values(c.altBuilds || {})) {
+    for (const a of alts) if (a?.corePath) parts.push(a.corePath);
+  }
+  return parts.join(" ");
+};
+
+const DAMAGE = new Map();   // dd -> ["ad"|"ap", ...("auto")]
+for (const c of CHAMPS) {
+  const t = buildTextOf(c);
+  const d = [AP_MARK.test(t) ? "ap" : "ad"];
+  if (AUTO_MARK.test(t) || classOf(c.dd) === "MARKSMAN") d.push("auto");
+  DAMAGE.set(c.dd, d);
+}
+
+// ── Defensive kits ───────────────────────────────────────────────────────────
+// Hand-tagged, because these come from ability text rather than items and a
+// regex over Riot's prose produced too many false positives to trust (Pantheon
+// reads as an armour-stacker off "armor penetration"). Each tag generalises to
+// every matchup at once: armorstack on Malphite answers all ~94 AD champions.
+const KIT = {
+  Malphite:  { counters: ["armorstack", "antiauto"] },  // W bonus armour, E attack-speed slow
+  Rammus:    { counters: ["armorstack", "mrstack", "antiauto"] }, // W armour + MR, reflects basic attacks
+  Taric:     { counters: ["armorstack", "mrstack"] },   // W Bastion grants resists to himself and an ally
+  Leona:     { counters: ["armorstack", "mrstack"] },   // W Eclipse
+  Braum:     { counters: ["armorstack", "mrstack", "antiauto"] }, // passive resists, E blocks
+  Jax:       { counters: ["armorstack", "mrstack", "antiauto"] }, // R resists, E dodges basic attacks
+  Galio:     { counters: ["mrstack"] },                 // passive + W magic damage reduction
+  Kassadin:  { counters: ["mrstack"] },                 // passive Void Stone
+  Teemo:     { counters: ["antiauto"] },                // Q blind
+  Quinn:     { counters: ["antiauto"] },                // Q Blinding Assault
+  Shen:      { counters: ["antiauto"] },                // W blocks basic attacks
+  Pantheon:  { counters: ["antiauto"] },                // E blocks damage from one direction
+  Yasuo:     { counters: ["antiauto"] },                // W Wind Wall eats projectiles
+  Nilah:     { counters: ["antiauto"] },                // W dodges
+  Fiora:     { counters: ["antiauto"] },                // W parry
+  Poppy:     { counters: ["antiauto"] },                // W blocks dashes and grounds
+};
+
 // Resolve a champion's traits (override wins, else class default, else empty).
 export function traitsOf(dd) {
   const base = CLASS_DEFAULT[classOf(dd)] || { threats: [], counters: [], weak: [] };
   const o = OVERRIDE[dd];
   // An override replaces threats/counters outright, but body type still comes
   // from the class unless the override says otherwise.
+  // Damage type is ADDED to whatever the champion already threatens with, and
+  // defensive kit traits are ADDED to its counters — neither replaces the
+  // hand-authored data, they layer on top of it.
+  const dmg = DAMAGE.get(dd) || [];
+  const kit = KIT[dd]?.counters || [];
   return {
-    threats:  o?.threats  ?? base.threats  ?? [],
-    counters: o?.counters ?? base.counters ?? [],
+    threats:  [...new Set([...(o?.threats  ?? base.threats  ?? []), ...dmg])],
+    counters: [...new Set([...(o?.counters ?? base.counters ?? []), ...kit])],
     weak:     o?.weak     ?? base.weak     ?? [],
     punishes: o?.punishes ?? base.punishes ?? [],
   };
