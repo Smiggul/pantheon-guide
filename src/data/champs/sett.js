@@ -27,13 +27,49 @@ const SETT_JGL_DEFAULT_RUNES = {
 export default {
   id:"sett", display:"Sett", dd:"Sett",
   color:"#7b241c", glow:"#e74c3c",
+  // Off-meta alt: the lethality/tempo Hail of Blades page. Researched 2026-09-03
+  // against lolalytics (26.17) + creator VODs — see coreNote for the honest numbers.
+  altBuilds:{
+    Top: [{
+      label: "Hail of Blades (Lethality)",
+      tag: "alt",
+      corePath: "Stridebreaker  ›  Youmuu's Ghostblade  ›  The Collector  ›  Sterak's Gage",
+      coreNote: "A genuine off-meta novelty, not a second meta build — go in with eyes open. Hail of Blades Sett trades the juggernaut identity for an early burst-and-roam tempo: Stridebreaker still opens (the slow is non-negotiable for landing W), then Youmuu's and Collector turn the HoB burst window into assassin-grade damage on squishies. Streamer VODs running it (TheBausffs among them) build exactly this Stride → Youmuu's → Collector line. THE NUMBERS: on patch 26.17 lolalytics puts Hail of Blades Sett Top at roughly 48% over ~800 games at a 0.05% pick rate, versus ~50-52% for the standard Conqueror/Stridebreaker build across ~77k games — so it is about 2-4 points WORSE with a tiny sample behind it. Take it for the playstyle and the surprise factor in a snowball lane, not because it wins more.",
+      runes: {
+        keystone: "Hail of Blades",
+        primary: "Domination",
+        primaryRunes: ["Sudden Impact", "Grisly Mementos", "Relentless Hunter"],
+        secondary: "Precision",
+        secondaryRunes: ["Triumph", "Legend: Alacrity"],
+        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
+        reason: "Hail of Blades front-loads three rapid autos the instant you commit, which on Sett is unusually strong because his passive (Pit Grit) alternates empowered attacks and his Q resets the auto timer — the burst window lands Q, two empowered hits and the E pull before the enemy can react. Sudden Impact triggers off E's dash for flat lethality, and Relentless Hunter turns the roam-and-gank tempo this build wants into map pressure. Precision secondary keeps Triumph's kill sustain and the attack speed his chain needs.",
+      },
+      sideItems: ["Plated Steelcaps", "Ionian Boots of Lucidity", "Serylda's Grudge", "Black Cleaver", "Death's Dance", "Edge of Night", "Overlord's Bloodmail", "Maw of Malmortius"],
+    }],
+    Jungle: [{
+      label: "Hail of Blades (Lethality)",
+      tag: "alt",
+      corePath: "Youmuu's Ghostblade  ›  Boots of Swiftness  ›  Stridebreaker  ›  Sterak's Gage",
+      coreNote: "The same lethality tempo page, adapted to the jungle — and here the honesty matters more, because Sett Jungle is ALREADY off-meta before you change the runes (roughly 47% win rate at a 0.05% pick rate on 26.17). Youmuu's first is the real difference: the move speed fixes Sett's worst jungle problem, which is arriving at a gank too slowly to land E into W, and Hail of Blades gives the burst on arrival that his slow clear otherwise can't convert. Scorchclaw Pup is the pet — the burn helps a clear that is genuinely mediocre. Treat this as a for-fun pocket pick in a snowball game, not a ranked default; the standard Conqueror Top page is where Sett's win rate actually lives.",
+      runes: {
+        keystone: "Hail of Blades",
+        primary: "Domination",
+        primaryRunes: ["Sudden Impact", "Grisly Mementos", "Relentless Hunter"],
+        secondary: "Precision",
+        secondaryRunes: ["Triumph", "Legend: Alacrity"],
+        shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
+        reason: "Hail of Blades front-loads three rapid autos the instant you commit, which on Sett is unusually strong because his passive (Pit Grit) alternates empowered attacks and his Q resets the auto timer — the burst window lands Q, two empowered hits and the E pull before the enemy can react. Sudden Impact triggers off E's dash for flat lethality, and Relentless Hunter turns the roam-and-gank tempo this build wants into map pressure. Precision secondary keeps Triumph's kill sustain and the attack speed his chain needs.",
+      },
+      sideItems: ["Plated Steelcaps", "Mercury's Treads", "Serylda's Grudge", "Black Cleaver", "Death's Dance", "Edge of Night", "Overlord's Bloodmail", "Titanic Hydra"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Garen","Gnar","Kled"], replacements:["Renekton","Wukong","Pantheon"],
       role:"Juggernaut / Tank",
-      corePath:"Stridebreaker  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Sterak's Gage",
-      coreNote:"Current meta favors Stridebreaker's active slow (sticks targets in Haymaker range) and Overlord's Bloodmail's HP+damage-amp pairing over the older Heartsteel/Titanic Hydra core. Sterak's fourth — Grit (W mechanic) stores 8% of damage taken as a grey health bar, and the Haymaker expends it as true damage bonus. Heartsteel and Titanic Hydra remain fine alternates if the game goes long.",
-      sideItems:["Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail","Heartsteel","Titanic Hydra"],
+      corePath:"Stridebreaker  ›  Black Cleaver  ›  Overlord's Bloodmail  ›  Sterak's Gage",
+      coreNote:"Sett's highest-performing Top line on 26.17 (A tier, ~50-52% across ~77k games). Stridebreaker's active slow sticks targets inside Haymaker range; Black Cleaver second is the key addition — Sett's Q and W are both AD-scaling and his auto-Q-auto chain shreds armour fast, so the Cleaver stacks amplify every follow-up hit from you AND your team, while the HP and haste feed his trading pattern directly. Overlord's Bloodmail then converts that HP into damage amp, and Sterak's closes it: Grit (the W mechanic) stores 8% of damage taken as a grey health bar and Haymaker expends it as bonus true damage, so the more he absorbs the harder he punches. Buy boots (Plated Steelcaps vs AD, Mercury's vs CC) after the first item. Heartsteel and Titanic Hydra remain fine alternates if the game goes long.",
+      sideItems:["Plated Steelcaps","Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail","Heartsteel","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage scales with HP — more HP = bigger Haymaker."),I("Dead Man's Plate","Charge speed into their walk-down with bonus damage."),I("Warmog's Armor","Regen between trades — Grit restores passive HP.")],behind:[I("Sterak's Gage","Grit + Sterak shield = two separate damage-absorbing mechanics."),I("Gargoyle Stoneplate","Activates during their walk-down for massive resistances."),I("Thornmail","GW 40% on Darius/Mundo regen.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Titanic Hydra","W Haymaker AoE punishes their dive cluster."),I("Dead Man's Plate","Charge speed into their dive approach."),I("Sterak's Gage","Grit stored from their dive = bigger Haymaker.")],behind:[I("Sterak's Gage","Grit + shield — their dive damage becomes your damage."),I("Plated Steelcaps","Auto reduction on Irelia/Renekton chains."),I("Dead Man's Plate","Move speed to stay in Haymaker range.")],runes:{...SETT_TOP_DEFAULT_RUNES}},
