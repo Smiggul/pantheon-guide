@@ -37,21 +37,35 @@ export const COUNTER_LABEL = {
   outrange: "out-ranges the poke", block: "blocks their damage with a wall/shield",
 };
 
-const CLASS_DEFAULT = {
-  JUGGERNAUT: { threats: ["dps", "tank"],    counters: [] },
-  DIVER:      { threats: ["dive", "engage"], counters: [] },
-  ASSASSIN:   { threats: ["dive", "burst"],  counters: [] },
-  SKIRMISHER: { threats: ["dps", "dash"],    counters: [] },
-  BURST_MAGE: { threats: ["burst", "poke"],  counters: [] },
-  BATTLEMAGE: { threats: ["dps", "poke"],    counters: [] },
-  ARTILLERY:  { threats: ["poke"],           counters: ["outrange"] },
-  MARKSMAN:   { threats: ["dps"],            counters: ["antitank"] },
-  ENCHANTER:  { threats: [],                 counters: ["disengage", "antidive"] },
-  CATCHER:    { threats: ["pick", "engage"], counters: ["cclock"] },
-  VANGUARD:   { threats: ["engage"],         counters: ["cclock", "antidive"] },
-  WARDEN:     { threats: [],                 counters: ["antidive", "disengage", "cclock"] },
-  SPECIALIST: { threats: ["poke"],           counters: [] },
+// A champion's structural WEAKNESSES (what their kit can't answer) and the
+// PUNISHES tag for kits that specifically prey on them. Threats/counters model
+// ability interactions; this models body type — an unavoidable point-and-click
+// lockdown (Sett E/R) is simply free against something with no dash.
+export const WEAKNESS_LABEL = {
+  immobile: "no escape once you're on them",
+  squishy:  "no health to survive your burst",
 };
+export const PUNISH_LABEL = {
+  immobile: "punishes immobile targets",
+  squishy:  "punishes squishy targets",
+};
+
+const CLASS_DEFAULT = {
+  JUGGERNAUT: { threats: ["dps", "tank"],    counters: [],                                  weak: ["immobile"] },
+  DIVER:      { threats: ["dive", "engage"], counters: [],                                  weak: [] },
+  ASSASSIN:   { threats: ["dive", "burst"],  counters: [],                                  weak: ["squishy"] },
+  SKIRMISHER: { threats: ["dps", "dash"],    counters: [],                                  weak: [] },
+  BURST_MAGE: { threats: ["burst", "poke"],  counters: [],                                  weak: ["squishy", "immobile"] },
+  BATTLEMAGE: { threats: ["dps", "poke"],    counters: [],                                  weak: ["immobile"] },
+  ARTILLERY:  { threats: ["poke"],           counters: ["outrange"],                        weak: ["squishy", "immobile"], punishes: ["immobile"] },
+  MARKSMAN:   { threats: ["dps"],            counters: ["antitank"],                        weak: ["squishy"],             punishes: ["immobile"] },
+  ENCHANTER:  { threats: [],                 counters: ["disengage", "antidive"],           weak: ["squishy", "immobile"] },
+  CATCHER:    { threats: ["pick", "engage"], counters: ["cclock"],                          weak: ["squishy", "immobile"] },
+  VANGUARD:   { threats: ["engage"],         counters: ["cclock", "antidive"],              weak: [] },
+  WARDEN:     { threats: [],                 counters: ["antidive", "disengage", "cclock"], weak: [] },
+  SPECIALIST: { threats: ["poke"],           counters: [],                                  weak: [],                      punishes: ["immobile"] },
+};
+
 
 // Per-champ hand tags (dd keys). When present, fully replace the class default.
 const OVERRIDE = {
@@ -78,7 +92,9 @@ const OVERRIDE = {
   Sivir:      { threats: ["dps"],              counters: ["spellshield", "antitank"] },  // E
   Morgana:    { threats: ["pick"],             counters: ["spellshield", "cclock"] },    // black shield, bind
   Malzahar:   { threats: ["dps", "pick"],      counters: ["spellshield"] },              // E passive shield, R suppress
-  Sett:       { threats: ["engage", "dps"],    counters: [] },
+  // E (Facebreaker) pulls both sides together and stuns; R (Show Stopper) is a
+  // point-and-click grab. Neither can be dodged by something with no dash.
+  Sett:       { threats: ["engage", "dps"],    counters: ["cclock", "antidive"], punishes: ["immobile"] },
   // ── Anti-tank (%HP / true damage) ──────────────────────────────────────────
   Vayne:      { threats: ["dps"],              counters: ["antitank", "antidive"] },     // % true, condemn
   Fiora:      { threats: ["dps", "dash"],      counters: ["antitank"] },                 // % true
@@ -124,9 +140,16 @@ const OVERRIDE = {
 
 // Resolve a champion's traits (override wins, else class default, else empty).
 export function traitsOf(dd) {
-  if (OVERRIDE[dd]) return OVERRIDE[dd];
-  const c = classOf(dd);
-  return CLASS_DEFAULT[c] || { threats: [], counters: [] };
+  const base = CLASS_DEFAULT[classOf(dd)] || { threats: [], counters: [], weak: [] };
+  const o = OVERRIDE[dd];
+  // An override replaces threats/counters outright, but body type still comes
+  // from the class unless the override says otherwise.
+  return {
+    threats:  o?.threats  ?? base.threats  ?? [],
+    counters: o?.counters ?? base.counters ?? [],
+    weak:     o?.weak     ?? base.weak     ?? [],
+    punishes: o?.punishes ?? base.punishes ?? [],
+  };
 }
 
 const neutralises = (counters, threat) => counters.some((c) => (NEUTRALISE[c] || []).includes(threat));
@@ -135,9 +158,15 @@ const neutralises = (counters, threat) => counters.some((c) => (NEUTRALISE[c] ||
 // mine they handle, and a net score.
 export function matchup(meDd, foeDd) {
   const me = traitsOf(meDd), foe = traitsOf(foeDd);
-  const youCounter = [...new Set(foe.threats.filter((t) => neutralises(me.counters, t)))];
+  const youCounter  = [...new Set(foe.threats.filter((t) => neutralises(me.counters, t)))];
   const theyCounter = [...new Set(me.threats.filter((t) => neutralises(foe.counters, t)))];
-  return { youCounter, theyCounter, score: youCounter.length - theyCounter.length };
+  // Body-type exploits: my kit preying on what their kit structurally lacks.
+  const youExploit  = [...new Set(foe.weak.filter((w) => me.punishes.includes(w)))];
+  const theyExploit = [...new Set(me.weak.filter((w) => foe.punishes.includes(w)))];
+  return {
+    youCounter, theyCounter, youExploit, theyExploit,
+    score: (youCounter.length + youExploit.length) - (theyCounter.length + theyExploit.length),
+  };
 }
 
 // Rank candidate dd ids as counters to the enemy laner. Returns sorted desc.

@@ -1,5 +1,5 @@
 import { CHAMPS } from "./data/champs/index.js";
-import { matchup, THREAT_LABEL } from "./data/counterPicker.js";
+import { matchup, THREAT_LABEL, WEAKNESS_LABEL } from "./data/counterPicker.js";
 
 // Full matchup spread for the selected champion in a role: who they can play
 // against (favourable), even lanes, and who hard-counters them. Rendered as a
@@ -49,16 +49,27 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
             {r.score > 0 ? `+${r.score}` : r.score}
           </div>
         </div>
-        {(r.youCounter.length > 0 || r.theyCounter.length > 0) && (
+        {(r.youCounter.length > 0 || r.theyCounter.length > 0 ||
+          r.youExploit.length > 0 || r.theyExploit.length > 0) && (
           <div style={{ padding:"0 11px 9px", display:"flex", flexDirection:"column", gap:"4px" }}>
             {r.youCounter.length > 0 && (
               <div style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.4 }}>
                 ✓ You shut down their {r.youCounter.map((t) => THREAT_LABEL[t] || t).join(", ")}
               </div>
             )}
+            {r.youExploit.length > 0 && (
+              <div style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.4 }}>
+                ✓ They have {r.youExploit.map((w) => WEAKNESS_LABEL[w] || w).join(", ")}
+              </div>
+            )}
             {r.theyCounter.length > 0 && (
               <div style={{ fontSize:"10px", color:"#f0a39d", lineHeight:1.4 }}>
                 ✕ They shut down your {r.theyCounter.map((t) => THREAT_LABEL[t] || t).join(", ")}
+              </div>
+            )}
+            {r.theyExploit.length > 0 && (
+              <div style={{ fontSize:"10px", color:"#f0a39d", lineHeight:1.4 }}>
+                ✕ They punish you — {r.theyExploit.map((w) => WEAKNESS_LABEL[w] || w).join(", ")}
               </div>
             )}
           </div>

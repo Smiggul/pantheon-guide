@@ -256,7 +256,9 @@ const RUNE_TREES = {
   },
   Domination: {
     color: "#c0392b", label: "Domination", abbr: "D",
-    keystones: ["Electrocute","Dark Harvest","Predator","Hail of Blades"],
+    // Predator was removed from the game — it has no entry in runesReforged.json,
+    // so listing it here rendered a broken image in the rune picker.
+    keystones: ["Electrocute","Dark Harvest","Hail of Blades"],
     rows: [
       ["Cheap Shot","Taste of Blood","Sudden Impact"],
       ["Sixth Sense","Grisly Mementos","Deep Ward"],         // all 3 renamed
@@ -2703,7 +2705,7 @@ useEffect(() => {
       {/* ── CORE BUILD PATH ── */}
       <div style={{ maxWidth:"min(96vw,1900px)", margin:"8px auto 0", padding:"0 24px" }}>
         <div className="frge-panel" style={{
-          background:S.panelBg,
+          background:"rgba(27,27,30,.985)",   // slightly more opaque than S.panelBg — the build path stays legible over splash art
           padding:"11px 18px",
         }}>
           <div style={{ display:"flex", alignItems:"center",
@@ -3285,9 +3287,9 @@ useEffect(() => {
       {/* ── BUILD WORKSPACE — items + runes side by side, always visible ── */}
       <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 16px", padding:"0 24px" }}>
         <div className="frge-workspace" style={{
-          background: classEntry
-            ? `linear-gradient(135deg,rgba(20,20,26,.98) 0%,${classEntry.color}12 100%)`
-            : "rgba(20,20,26,.92)",
+          background: classEntry   // lower opacity than the build path — lets the splash art show through
+            ? `linear-gradient(135deg,rgba(20,20,26,.86) 0%,${classEntry.color}12 100%)`
+            : "rgba(20,20,26,.80)",
           border:`1px solid ${classEntry ? `${classEntry.glow}55` : "rgba(212,175,55,.18)"}`,
           padding:"16px 20px",
           boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
