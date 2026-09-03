@@ -185,9 +185,16 @@ p {
 .frge-enter { animation: frge-fade-up 220ms var(--frge-ease) both; }
 
 /* ── Theme system ────────────────────────────────────────────────────────────
-   Themes are applied via data-frge-theme on <html>. "classic" (default) keeps
-   the base inline look untouched; the others restyle through these classes.
-   Border/radius live here (not inline) so a theme can reshape the panels. */
+   Applied via data-frge-theme on <html>. Each theme sets its OWN accent family
+   and button treatment through the --t-* tokens below; the shared rules further
+   down consume those tokens, so a theme is defined by its palette rather than
+   by re-declaring every rule.
+
+   Buttons are styled INLINE in App.jsx, and an inline style beats any selector,
+   so the shared button rules need !important to take effect. That is deliberate
+   and confined to the properties a theme legitimately owns — shape, accent,
+   fill. Text colour is left alone wherever it carries meaning (enemy-class
+   colours, ahead/behind state).                                              */
 .frge-panel {
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 12px;
@@ -200,30 +207,126 @@ p {
   background: rgba(255, 255, 255, 0.015);
 }
 
-/* Direction 1 — REFINED DEPTH: layered shadows, glow, a living empty-state. */
-:root[data-frge-theme="depth"] .frge-panel,
-:root[data-frge-theme="depth"] .frge-workspace {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 34px rgba(0, 0, 0, 0.42);
-}
-:root[data-frge-theme="depth"] .frge-tile:hover {
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 16px var(--tile-hover-glow, rgba(249, 115, 22, 0.22));
-}
-:root[data-frge-theme="depth"] .frge-empty {
-  border-color: rgba(249, 115, 22, 0.24);
-  background: radial-gradient(circle at 50% 32%, rgba(249, 115, 22, 0.07), transparent 62%);
-}
-:root[data-frge-theme="depth"] .frge-sword {
-  filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.5));
-  animation: frge-sword-pulse 3s ease-in-out infinite;
-}
-@keyframes frge-sword-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%      { opacity: 0.85; transform: scale(1.06); }
+/* ── Per-theme palettes ──────────────────────────────────────────────────── */
+
+/* CLASSIC — the locked brand identity: gold on charcoal, softly rounded. */
+:root[data-frge-theme="classic"] {
+  --t-accent:     #D4AF37;
+  --t-accent-2:   #F97316;
+  --t-glow:       rgba(212, 175, 55, .35);
+  --t-btn-radius: 9px;
+  --t-cta-color:  #F97316;                 /* brand: orange is the CTA accent */
+  --t-btn-bg:     rgba(249, 115, 22, .10);
+  --t-btn-border: rgba(249, 115, 22, .55);
+  --t-pill-border: rgba(212, 175, 55, .55); /* brand: gold for secondary chrome */
+  --t-btn-track:  .01em;
+  --t-btn-case:   none;
 }
 
-/* Direction 2 — ESPORTS HUD: notched corners, orange accents, mono stat labels. */
+/* DEPTH — cool indigo, glassy and soft. Deliberately the coldest of the four
+   so it never reads as "the orange one" next to forge. */
+:root[data-frge-theme="depth"] {
+  --t-accent:     #8B7BF5;
+  --t-accent-2:   #B9AEFF;
+  --t-glow:       rgba(139, 123, 245, .40);
+  --t-btn-radius: 999px;
+  --t-btn-bg:     rgba(139, 123, 245, .16);
+  --t-btn-border: rgba(139, 123, 245, .50);
+  --t-pill-border: rgba(139, 123, 245, .50);
+  --t-btn-track:  .02em;
+  --t-btn-case:   none;
+  --frge-orange:  #8B7BF5;
+}
+
+/* ESPORTS HUD — electric cyan, hard edges, mono. Nothing rounded anywhere. */
+:root[data-frge-theme="hud"] {
+  --t-accent:     #22D3EE;
+  --t-accent-2:   #A3E635;
+  --t-glow:       rgba(34, 211, 238, .45);
+  --t-btn-radius: 0px;
+  --t-btn-bg:     rgba(34, 211, 238, .10);
+  --t-btn-border: rgba(34, 211, 238, .60);
+  --t-pill-border: rgba(34, 211, 238, .60);
+  --t-btn-track:  .12em;
+  --t-btn-case:   uppercase;
+  --frge-orange:  #22D3EE;
+}
+
+/* FORGE — molten, and the only champion-reactive theme: its accents come from
+   the selected champion's sampled skin palette, falling back to molten orange. */
+:root[data-frge-theme="forge"] {
+  --forge-molten: var(--skin-primary, #FF6B35);
+  --forge-hot:    var(--skin-hi, #FFB347);
+  --forge-gold:   var(--skin-accent, #D4AF37);
+  --t-accent:     var(--skin-primary, #FF6B35);
+  --t-accent-2:   var(--skin-hi, #FFB347);
+  --t-glow:       color-mix(in srgb, var(--forge-molten) 45%, transparent);
+  --t-btn-radius: 13px;
+  --t-btn-bg:     color-mix(in srgb, var(--forge-molten) 14%, transparent);
+  --t-btn-border: color-mix(in srgb, var(--forge-molten) 60%, transparent);
+  --t-pill-border: color-mix(in srgb, var(--forge-molten) 60%, transparent);
+  --t-btn-track:  .01em;
+  --t-btn-case:   none;
+  --frge-orange:  var(--skin-primary, #FF6B35);
+}
+
+/* ── Shared, token-driven treatment ──────────────────────────────────────── */
+
+/* Primary CTA — each theme gives it a different shape AND fill, not just a
+   different hover glow (which was the old behaviour). */
+:root[data-frge-theme] .frge-cta {
+  border-radius: var(--t-btn-radius) !important;
+  border: 1px solid var(--t-btn-border) !important;
+  background: var(--t-btn-bg) !important;
+  color: var(--t-cta-color, var(--t-accent)) !important;
+  letter-spacing: var(--t-btn-track);
+  text-transform: var(--t-btn-case);
+}
+:root[data-frge-theme] .frge-cta:hover:not(:disabled) {
+  border-color: var(--t-accent) !important;
+  box-shadow: 0 0 18px var(--t-glow);
+}
+
+/* Small pills — shape and accent follow the theme; text colour is left alone
+   because several pills encode state or enemy class. */
+:root[data-frge-theme] .frge-pill {
+  border-radius: var(--t-btn-radius) !important;
+  border-color: var(--t-pill-border, var(--t-btn-border)) !important;
+  letter-spacing: var(--t-btn-track);
+}
+:root[data-frge-theme] .frge-pill:hover { border-color: var(--t-accent) !important; }
+
+:root[data-frge-theme] .frge-tile:hover {
+  border-color: var(--t-accent) !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .5), 0 0 18px var(--tile-hover-glow, var(--t-glow));
+}
+:root[data-frge-theme] .frge-empty {
+  border-color: color-mix(in srgb, var(--t-accent) 30%, transparent);
+}
+:root[data-frge-theme] .frge-sword { filter: drop-shadow(0 0 12px var(--t-glow)); }
+
+/* ── Per-theme structure (shape, depth, type) ────────────────────────────── */
+
+/* DEPTH — layered shadows, generous radii, a living empty-state. */
+:root[data-frge-theme="depth"] .frge-panel,
+:root[data-frge-theme="depth"] .frge-workspace {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 12px 34px rgba(0, 0, 0, .42);
+}
+:root[data-frge-theme="depth"] .frge-panel { border-radius: 16px; border-color: rgba(139, 123, 245, .22); }
+:root[data-frge-theme="depth"] .frge-workspace { border-radius: 18px; }
+:root[data-frge-theme="depth"] .frge-empty {
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 32%, rgba(139, 123, 245, .09), transparent 62%);
+}
+:root[data-frge-theme="depth"] .frge-sword { animation: frge-sword-pulse 3s ease-in-out infinite; }
+@keyframes frge-sword-pulse {
+  0%, 100% { opacity: .5; transform: scale(1); }
+  50%      { opacity: .85; transform: scale(1.06); }
+}
+
+/* HUD — notched corners, scan-line header, mono stat labels, zero radius. */
 :root[data-frge-theme="hud"] .frge-panel {
-  border: 1px solid rgba(249, 115, 22, 0.34);
+  border: 1px solid rgba(34, 211, 238, .34);
   border-radius: 0;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
 }
@@ -233,73 +336,55 @@ p {
 }
 :root[data-frge-theme="hud"] .frge-panel::after {
   content: ""; position: absolute; left: 0; top: 0; width: 90px; height: 2px;
-  background: #F97316; box-shadow: 0 0 10px #F97316; pointer-events: none;
+  background: var(--t-accent); box-shadow: 0 0 10px var(--t-accent); pointer-events: none;
 }
 :root[data-frge-theme="hud"] .frge-pill {
-  border-radius: 2px;
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+:root[data-frge-theme="hud"] .frge-cta {
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  font-weight: 700;
 }
 :root[data-frge-theme="hud"] .frge-item-name {
   font-family: "Consolas", "Courier New", monospace;
-  letter-spacing: -0.3px;
+  letter-spacing: -.3px;
 }
+:root[data-frge-theme="hud"] .frge-display { letter-spacing: .06em; text-transform: uppercase; }
 :root[data-frge-theme="hud"] .frge-empty {
   border-radius: 0;
-  border-color: rgba(249, 115, 22, 0.28);
   clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
 }
 
-/* Direction 3 — FORGE: molten obsidian, Ornn's forge. Warmer accents, lava-crack
-   panel headers, ember glow. Display headings in Russo One via .frge-display;
-   the root background + Chakra Petch body font are switched in App.jsx (inline,
-   so CSS can't reach them). */
-:root[data-frge-theme="forge"] {
-  /* --skin-primary / --skin-hi / --skin-accent are set per-champion on the app
-     root (App.jsx); they fall back to the molten forge palette when the active
-     champion has no sampled skin. */
-  --forge-molten: var(--skin-primary, #FF6B35);
-  --forge-hot:    var(--skin-hi, #FFB347);
-  --forge-gold:   var(--skin-accent, #D4AF37);
-  --frge-orange:  var(--skin-primary, #FF6B35);   /* re-point focus ring + tile fallbacks */
-}
+/* FORGE — molten obsidian: lava-crack panel headers, ember glow, Russo One. */
 :root[data-frge-theme="forge"] body { background: #121013; }
-
 :root[data-frge-theme="forge"] .frge-display {
   font-family: "Russo One", "Arial Black", sans-serif;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: .01em;
 }
-
 :root[data-frge-theme="forge"] .frge-panel {
   border: 1px solid color-mix(in srgb, var(--forge-molten) 24%, transparent);
   border-radius: 13px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--forge-molten) 4%, transparent), rgba(255, 255, 255, 0.012));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--forge-molten) 4%, transparent), rgba(255, 255, 255, .012));
 }
 :root[data-frge-theme="forge"] .frge-panel::before {
   content: ""; position: absolute; left: 14px; right: 14px; top: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--forge-molten), var(--forge-gold), transparent);
-  opacity: 0.65; border-radius: 2px; pointer-events: none;
+  opacity: .65; border-radius: 2px; pointer-events: none;
 }
 :root[data-frge-theme="forge"] .frge-workspace {
   border-radius: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 14px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04), 0 14px 40px rgba(0, 0, 0, .5);
 }
-:root[data-frge-theme="forge"] .frge-tile:hover {
-  border-color: color-mix(in srgb, var(--forge-molten) 55%, transparent);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 18px var(--tile-hover-glow, color-mix(in srgb, var(--forge-molten) 32%, transparent));
-}
-:root[data-frge-theme="forge"] .frge-pill:hover { border-color: color-mix(in srgb, var(--forge-molten) 70%, transparent); }
-:root[data-frge-theme="forge"] .frge-cta:hover:not(:disabled) {
-  box-shadow: 0 0 22px color-mix(in srgb, var(--forge-molten) 55%, transparent);
+:root[data-frge-theme="forge"] .frge-cta {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--forge-molten) 26%, transparent),
+    color-mix(in srgb, var(--forge-molten) 10%, transparent)) !important;
 }
 :root[data-frge-theme="forge"] .frge-empty {
-  border-color: color-mix(in srgb, var(--forge-molten) 26%, transparent);
   background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--forge-molten) 8%, transparent), transparent 62%);
 }
-:root[data-frge-theme="forge"] .frge-sword {
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--forge-molten) 60%, transparent));
-  animation: frge-sword-pulse 3.2s ease-in-out infinite;
-}
+:root[data-frge-theme="forge"] .frge-sword { animation: frge-sword-pulse 3.2s ease-in-out infinite; }
 
 /* Respect the user's motion preference (a11y: High) */
 @media (prefers-reduced-motion: reduce) {

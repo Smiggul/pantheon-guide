@@ -244,6 +244,16 @@ const CLASSES = {
 // ─────────────────────────────────────────────────────────────────────────────
 //  RUNE TREES  — full layout for every path (patch 26.9)
 // ─────────────────────────────────────────────────────────────────────────────
+// Per-theme accent trio. Keeps the brand roles intact (orange = primary/energy,
+// gold = secondary/label) while giving each theme its own hue family, so the
+// themes are not four shades of the same orange.
+const THEME_ACCENTS = {
+  classic: { orange: "#F97316", gold: "#D4AF37", goldDim: "#a1852a", border: "rgba(212,175,55,.20)" },
+  depth:   { orange: "#8B7BF5", gold: "#B9AEFF", goldDim: "#6E5FD0", border: "rgba(139,123,245,.22)" },
+  hud:     { orange: "#22D3EE", gold: "#A3E635", goldDim: "#7FAE28", border: "rgba(34,211,238,.28)" },
+  forge:   { orange: "#FF6B35", gold: "#D4AF37", goldDim: "#a1852a", border: "rgba(255,107,53,.22)" },
+};
+
 const RUNE_TREES = {
   Precision: {
     color: "#D4AF37", label: "Precision", abbr: "P",
@@ -1032,13 +1042,18 @@ useEffect(() => {
     : orderCore(buildCorePath.split("›").map(s => s.trim()));
 
   // ── Colour helpers ────────────────────────────────────────────────────────
-  const S = {                       // shared style tokens
-    border:       "rgba(212,175,55,.2)",
+  // Shared style tokens. The accent trio is THEME-DEPENDENT: ~120 inline styles
+  // read S.gold / S.orange / S.goldDim, so re-pointing them here is what makes a
+  // theme change the whole interface rather than only the panels. Roles stay
+  // constant across themes — `orange` is always the primary/energy accent and
+  // `gold` always the secondary/label accent; only the hues move.
+  const S = {
+    border:       THEME_ACCENTS[frgeTheme]?.border ?? "rgba(212,175,55,.2)",
     panelBg:      "rgba(27,27,30,.95)",
     textDim:      "#7a8288",
-    gold:         "#D4AF37",
-    goldDim:      "#a1852a",
-    orange:       "#F97316",        // primary energy accent — CTAs, hero glow
+    gold:         THEME_ACCENTS[frgeTheme]?.gold ?? "#D4AF37",
+    goldDim:      THEME_ACCENTS[frgeTheme]?.goldDim ?? "#a1852a",
+    orange:       THEME_ACCENTS[frgeTheme]?.orange ?? "#F97316",
   };
 
 
