@@ -12,6 +12,15 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.16.1] — 2026-09-03
+
+### Changed
+- **Patch 26.17.** Data Dragon bundled at 16.17.1 (assets + LCU id tables synced); the in-app patch label derives from the bundled version, so it now reads 26.17 automatically.
+- **Sett Top core build** is now **Stridebreaker › Black Cleaver › Overlord's Bloodmail › Sterak's Gage**, re-verified against live 26.17 data (A tier, ~50% WR over ~77k games). Boots moved to situational, bought after the first item. Runes confirmed unchanged (Conqueror).
+
+### Added
+- **Sett — Hail of Blades (Lethality) alternate build** on both Top and Jungle, with its own rune page. Documented honestly: it runs ~48% win rate on a ~800-game sample versus ~50-52% over ~77k for the standard build, so it is presented as an off-meta novelty rather than a co-equal choice.
+
 ## [0.16.0] — 2026-08-29
 
 ### Added
