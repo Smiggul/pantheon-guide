@@ -673,7 +673,74 @@ export const INTERACTIONS = [
     abilities: ["Monsoon (R)", "Howling Gale (Q)"],
     why: "Monsoon pushes divers off a stationary carry and heals through the follow-up, which is exactly the protection an auto-attack carry needs to finish a fight.",
   },
+  // ── Kits built specifically to punish mobility ───────────────────────────
+  {
+    a: "Vex", bTag: "dash", kind: "counter", weight: 3,
+    abilities: ["Doom 'n Gloom (P)"],
+    why: "Gloom is not a general anti-mobility tool — it marks any nearby champion that DASHES OR BLINKS, for six seconds. Detonating the mark deals bonus damage and refunds a quarter of Doom's cooldown, so every time a mobile champion uses the thing their kit is built around, they hand Vex damage and a faster fear. Doom itself knocks down and fears on top.",
+    cue: "Do not dash near her to farm or reposition — save it for the escape, because the mark lasts 6 seconds and she detonates it with a single attack. If you are marked, expect the fear next.",
+  },
+  {
+    a: "Veigar", bTag: "dash", kind: "counter", weight: 3,
+    abilities: ["Event Horizon (E)"],
+    why: "Event Horizon stuns anything that touches the EDGE of the cage, so a dash aimed through it is a stun rather than an escape. Against a champion who commits with one gap-closer, the cage is both the wall and the punish.",
+    cue: "The cage takes half a second to erect and the centre is safe — dash INTO the middle, not across the perimeter, or wait the 3 seconds out. Never flash through the wall.",
+  },
+  {
+    a: "Azir", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Emperor's Divide (R)"],
+    why: "Emperor's Divide sends a wall of soldiers forward that shoves everyone it touches backwards and then stands as a barrier. A committed engage is physically pushed back out of the fight, and the team behind cannot follow through the wall.",
+    cue: "It shoves from where AZIR is standing, so flanking rather than walking at him straight on beats it. If you get shoved, do not walk back through — go around, or the fight restarts without you.",
+  },
+  {
+    a: "Jayce", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Thundering Blow (E)"],
+    why: "Thundering Blow is a point-and-click knock-back with percentage-health damage, so a champion who spends a dash to close the gap is simply put back where they started, with the cooldown gone and Jayce still at range.",
+    cue: "Do not gap-close while his hammer form E is up — bait it, then commit. It cannot be dodged once you are in range, only avoided by not being there.",
+  },
+  {
+    a: "Syndra", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Scatter the Weak (E)"],
+    why: "Scatter the Weak knocks back and stuns everything in a cone, so an assassin arriving on top of her is sent away stunned before the combo finishes.",
+    cue: "It is a cone in front of her — approach from an angle she is not facing, and note it stuns only if it hits the target directly rather than a pushed sphere.",
+  },
+
+  // ── Vision denial and untargetability ────────────────────────────────────
+  {
+    a: "Graves", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Smoke Screen (W)"],
+    why: "Smoke Screen nearsights everyone inside it, collapsing their sight radius. A champion who fights by landing skillshots from range cannot aim at what they cannot see, and has to either walk into Graves or give up the zone.",
+    cue: "Walk OUT of the cloud rather than fighting in it — nearsight is per-tick, so leaving restores your vision immediately. Do not try to trade blind.",
+  },
+  {
+    a: "Akali", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Twilight Shroud (W)"],
+    why: "Entering the shroud makes Akali invisible, so poke aimed at her stops having a target and the lane resets on her terms. Note it is INVISIBILITY, not untargetability — and attacking or casting breaks it, so she cannot fight out of it for free.",
+    cue: "She has to break invisibility to do anything, so hold your ability for the moment she commits rather than throwing into the smoke. A control ward or sweeper inside the shroud removes the safety entirely.",
+  },
+  {
+    a: "Yuumi", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["You and Me! (W)"],
+    why: "While attached, Yuumi is untargetable by everything except turrets and projectiles already in flight. A pick comp built to catch one champion out simply cannot catch her at all, and has to kill her anchor first.",
+    cue: "There is no point aiming anything at her — kill or threaten her anchor, which forces her to detach or die with them. She is only vulnerable in the moment she is unattached.",
+  },
+
+  // ── Undoing the kill ─────────────────────────────────────────────────────
+  {
+    a: "Milio", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Breath of Life (R)"],
+    why: "Breath of Life heals nearby allies and CLEANSES their crowd control, then leaves 65% tenacity behind. A comp whose engage is one hook or one lock-up has that engage removed after it lands, which is worse for them than it being dodged.",
+    cue: "It cannot cleanse airborne effects — knock-ups still land. Chain your crowd control so the cleanse is spent on the first one, and open with a displacement rather than a stun where you have the choice.",
+  },
+  {
+    a: "Renata Glasc", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Bailout (W)"],
+    why: "If the Bailout target takes fatal damage they are restored to full health instead of dying, burning down only if they fail to get a takedown. A burst rotation that correctly kills its target does not get the kill, and often gets punished by the target that just came back at full health.",
+    cue: "The burn kills them anyway if you disengage — do not panic and keep committing. Deny the takedown that cancels it, and kill Renata first if the fight is going long.",
+  },
 ];
+
+
 
 // ── Lookups ──────────────────────────────────────────────────────────────────
 // tagsOf is injected by the caller (counterPicker) so this module stays free of
