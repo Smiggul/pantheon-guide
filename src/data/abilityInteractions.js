@@ -1,3 +1,5 @@
+import { CHAMPS } from "./champs/index.js";
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  abilityInteractions.js — named ability-vs-kit interactions.
 //
@@ -927,6 +929,19 @@ export const INTERACTIONS = [
 // tagsOf is injected by the caller (counterPicker) so this module stays free of
 // circular imports — it needs to know a champion's derived traits to resolve
 // bTag entries, and counterPicker is where those are computed.
+
+// Entries are written with readable champion names ("Kha'Zix", "Lee Sin"), but
+// every caller passes Data Dragon keys ("Khazix", "LeeSin"). For the ~16
+// champions whose display name differs from their key, that mismatch meant the
+// entry silently never fired. Resolve once at load so both spellings work and
+// the data stays readable.
+const DD_OF = new Map(CHAMPS.map((c) => [c.display, c.dd]));
+const toDd = (name) => DD_OF.get(name) ?? name;
+for (const e of INTERACTIONS) {
+  e.a = toDd(e.a);
+  if (Array.isArray(e.b)) e.b = e.b.map(toDd);
+  else if (e.b) e.b = toDd(e.b);
+}
 
 const matchesTarget = (entry, foeDd, foeTags) => {
   // `b` is one champion or a list of them (several champions can share the same
