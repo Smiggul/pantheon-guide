@@ -919,7 +919,191 @@ export const INTERACTIONS = [
     why: "Crescendo stuns everyone in a long line and forces them to dance. A team that engages in formation is stunned in formation, and her team fights a stationary target.",
     cue: "Do not walk at her as a group along one axis. The cast is quick but the line is narrow — approaching from two angles means only half your team is caught.",
   },
+  // ── Executes and resets ──────────────────────────────────────────────────
+  {
+    a: "Pyke", bTag: "squishy", kind: "counter", weight: 3,
+    abilities: ["Death From Below (R)"],
+    why: "Death From Below executes outright below a health threshold that scales with his lethality, and it RESETS on a kill while also paying out gold to an ally. Against squishy targets there is no health bar to defend — below the line they simply die, and he immediately gets to cast it again on the next one.",
+    cue: "The threshold is a hard number, not a percentage, so a health item genuinely lifts you out of it where resists do not. Track how much lethality he has and treat that health total as the real zero.",
+  },
+  {
+    a: "Viego", bTag: "squishy", kind: "counter", weight: 2,
+    abilities: ["Sovereign's Domination (P)"],
+    why: "A takedown lets Viego possess the corpse, healing and taking their entire kit for the duration. In a teamfight, trading him one squishy does not remove a threat — it hands him a second body with fresh cooldowns.",
+    cue: "Do not let a low-health ally die near him mid-fight; peel them or pull back. Destroying the Mist Wraith before he reaches it denies the possession entirely.",
+  },
+
+  // ── Zone control that punishes grouping ──────────────────────────────────
+  {
+    a: "Rumble", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["The Equalizer (R)"],
+    why: "The Equalizer lays a burning line that lasts four and a half seconds. A team engaging through a chokepoint has to either walk the whole length of it or give up the engage, and the damage scales with how long they stay.",
+    cue: "It is a line, not a circle — cross it perpendicular rather than running along it. If it lands behind you, keep going forward instead of retreating through the fire.",
+  },
+  {
+    a: "Brand", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Pyroclasm (R)"],
+    why: "Pyroclasm bounces between nearby enemies, so the tighter a team engages the more times it hits and the more of them are ablaze. His passive detonation then spreads through the same cluster.",
+    cue: "Spread out before committing — the bounce needs nearby targets, and a lone champion takes it once. Do not stack on your frontliner while it is up.",
+  },
+  {
+    a: "Diana", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Lunar Rush (E)", "Moonfall (R)"],
+    why: "Moonfall drags every nearby enemy into one point. A committed engage arrives already grouped, which is exactly the shape she needs to land a full combo on all of it at once.",
+    cue: "Her ultimate needs them close — engaging spread out defuses it. If you get pulled, walk out immediately rather than trading, because the follow-up is instant.",
+  },
+  {
+    a: "Gnar", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["GNAR! (R)"],
+    why: "Mega Gnar's ultimate throws a whole team into the terrain behind them and stuns everything that lands against it. The value scales directly with how many of them engaged together and how close a wall is.",
+    cue: "Fight in open ground, away from walls — against a wall his ultimate is a full-team stun, in the open it is a knock-back. Watch his rage bar: Mega form is when the threat exists.",
+  },
+
+  // ── Locking down the approach ────────────────────────────────────────────
+  {
+    a: "Irelia", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Vanguard's Edge (R)"],
+    why: "Vanguard's Edge leaves a wall of blades that roots anyone who tries to cross it. A team committing forward is either stopped at the barrier or split by it, and Irelia resets through whatever is left.",
+    cue: "The wall only roots on CROSSING it — if you are caught behind, walk around rather than through. Engaging before she has it up is far cheaper than fighting through it.",
+  },
+  {
+    a: "Karma", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Focused Resolve (W)"],
+    why: "Focused Resolve tethers the target and roots them if the link holds, and mobility does not break it — only distance does. A champion who dashes in to commit is rooted for the rest of the trade.",
+    cue: "Break the tether by moving AWAY immediately, not by dashing sideways. If you are already close, disengaging early costs less than eating the full root.",
+  },
+  {
+    a: "Seraphine", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Encore (R)"],
+    why: "Encore charms everyone it passes through and extends every time it hits a champion, so an engaging team lengthens the very ability that stops it.",
+    cue: "It grows through allies and minions alike — do not line up behind your frontliner. Approach in a spread so the charm cannot chain to full length.",
+  },
+  {
+    a: "Leona", bTag: "squishy", kind: "counter", weight: 2,
+    abilities: ["Zenith Blade (E)", "Solar Flare (R)", "Shield of Daybreak (Q)"],
+    why: "Leona has a full chain of lockdown — a gap-closing pull, a point-blank stun, and a stun from range — with almost no gaps. A squishy champion she reaches does not get to act again until it is over.",
+    cue: "Her engage starts with E, so sidestepping that one link breaks the entire chain. Once she is on you, disengage rather than trading — the chain outlasts your cooldowns.",
+  },
+  {
+    a: "Caitlyn", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Yordle Snap Trap (W)", "90 Caliber Net (E)"],
+    why: "Traps root whatever steps on them and the net knocks her away while slowing, so a champion whose plan is one gap-closer is stopped on the ground she chose and then out-ranged for the rest of the trade.",
+    cue: "Traps are visible — path around them rather than dashing over. Her net is her escape AND her disengage, so committing right after she uses it is the window.",
+  },
+
+  // ── Surviving what should have killed them ───────────────────────────────
+  {
+    a: "Shaco", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Hallucinate (R)"],
+    why: "Hallucinate blinks him away and leaves a clone behind, so a burst rotation aimed at the Shaco that was standing there kills a decoy that then explodes on the attacker.",
+    cue: "The clone deals reduced damage and does not cast — watch which one moved. If you cannot tell, back off rather than committing your combo into a coin flip.",
+  },
+  {
+    a: "Yone", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Soul Unbound (E)"],
+    why: "While in Soul Unbound, damage dealt to Yone is only partly applied when he snaps back to his body, so a burst rotation landed during the window is discounted rather than lethal.",
+    cue: "The tether back to his body is visible — hit him after he returns, not during. Displacing him or killing the body's position value forces the return early.",
+  },
+  {
+    a: "Elise", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Rappel (E)"],
+    why: "Rappel lifts her into the air untargetable for the duration, so a committed burst combo simply has no target and she drops back down once the cooldowns are spent.",
+    cue: "Wait the window out rather than throwing your combo at the ascent. It is also her tower-dive tool, so expect it the moment she takes turret aggro.",
+  },
+  {
+    a: "Kai'Sa", bTag: "dive", kind: "counter", weight: 1,
+    abilities: ["Killer Instinct (R)"],
+    why: "Killer Instinct dashes her to a marked target with a shield attached, so a dive that isolates her is answered by her relocating out of it and absorbing the follow-up.",
+    cue: "She needs Plasma stacks on a target to use it — denying the marked target denies the escape. Diving her after she has already used it is close to free.",
+  },
+
+  // ── Range and reach as the interaction ───────────────────────────────────
+  {
+    a: "Xerath", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Rite of the Arcane (R)", "Arcanopulse (Q)"],
+    why: "Xerath out-ranges essentially every non-artillery champion in the game, and his ultimate reaches most of a lane from safety. A champion with no dash and no way to close cannot answer him at all — they can only take it.",
+    cue: "You cannot trade back, so do not try — use minion waves and terrain to break line of sight, and force a fight only after he commits a charged Q or his ultimate.",
+  },
+  {
+    a: "Rengar", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Unseen Predator (P)"],
+    why: "From brush he leaps the full range of his passive with an empowered attack, which is a gap-close no immobile champion gets to react to. Warding is the only interaction available before he lands.",
+    cue: "Control the brush rather than the lane — his leap only exists from cover. If the brush is unwarded, treat the whole area as a threat range, not just his walking distance.",
+  },
+  {
+    a: "Talon", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Assassin's Path (E)"],
+    why: "Assassin's Path lets him cross any wall, so he arrives from angles a lane has no vision of and leaves the same way. An immobile champion cannot follow, cannot escape, and cannot predict the approach.",
+    cue: "Ward the wall he would cross, not the lane entrance. He cannot cross the same wall twice quickly, so pushing him over one buys you a real window.",
+  },
+
+  // ── Stealing the win condition ───────────────────────────────────────────
+  {
+    a: "Sylas", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Hijack (R)"],
+    why: "Hijack takes a copy of an enemy ultimate, so a comp whose plan rests on one engage ultimate is handing him that exact tool. The better their engage, the worse it is to have it used back at them.",
+    cue: "He has to be in range to steal — check what he is holding before you commit yours. Forcing him to steal a low-value ultimate early is worth more than the mana it costs you.",
+  },
+  {
+    a: "Corki", bTag: "tank", kind: "counter", weight: 1,
+    abilities: ["Gatling Gun (E)"],
+    why: "Gatling Gun shreds armour in a cone the longer it channels, so a frontliner built on armour loses the stat they invested in while standing in front of him.",
+    cue: "Do not hold the front of the cone — step out and let the shred expire before re-engaging, or the rest of his team is hitting an unarmoured target.",
+  },
+
+  // ── Two more knock-ups for Last Breath ───────────────────────────────────
+  { a: "Aatrox", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["The Darkin Blade (Q)"],
+    why: "The sweet spot of each Darkin Blade swing knocks up, and the third cast is a wide circle — three separate airborne windows in one ability cycle rather than one on a long cooldown." },
+  { a: "Ivern", b: ["Yasuo", "Yone"], kind: "synergy", weight: 1, abilities: ["Daisy! (R)"],
+    why: "Daisy's every third attack knocks up, so she supplies repeated airborne windows for the whole 45 seconds she is on the field — unusual in being a persistent enabler rather than a single cast." },
+  // ── Stragglers with a genuine interaction ────────────────────────────────
+  {
+    a: "Evelynn", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Demon Shade (P)", "Allure (W)"],
+    why: "From level six Demon Shade keeps her camouflaged whenever she is out of combat, so the fight starts at a moment she chooses with a fully charged Allure already applied. A champion with no dash has no answer to an opener they never saw coming.",
+    cue: "Vision is the entire counterplay — control wards and sweepers strip the camouflage. Below six she has none of this, which is when an immobile laner is actually safe.",
+  },
+  {
+    a: "Swain", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Demonic Ascension (R)", "Nevermove (E)"],
+    why: "Demonic Ascension drains health from every nearby enemy at once, so the more of them commit to the engage the longer he sustains it. A team that arrives together is feeding the ability that beats them.",
+    cue: "Do not group inside his drain radius — the healing scales with how many of you are in it. Grievous Wounds before the fight matters far more than more damage during it.",
+  },
+  {
+    a: "Briar", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Certain Death (R)"],
+    why: "Certain Death fears everyone around the target across the map and sends Briar in with them marked. A team setting up an engage can be scattered from off-screen before it starts.",
+    cue: "The wind-up is global but visible on arrival — spread before it lands. Note her frenzy means crowd control on her is worth more than damage once she is in.",
+  },
+  {
+    a: "Renekton", b: ["Aatrox", "Gwen", "Kayle", "Nasus", "Vladimir"], kind: "counter", weight: 2, phase: "early",
+    abilities: ["Cull the Meek (Q)", "Ruthless Predator (W)", "Slice and Dice (E)"],
+    why: "Renekton's whole design is a front-loaded early game: at full fury his W is a longer stun with bonus damage, his Q heals, and his double dash means he chooses every trade. Against a scaling champion the lane is his to end before theirs begins.",
+    cue: "The fury bar is the tell — at 50+ he is looking for the empowered W all-in, so back off rather than trading. Deny him levels and the matchup inverts hard after two items.",
+  },
+  {
+    a: "Lux", bTag: "dash", kind: "counter", weight: 1,
+    abilities: ["Light Binding (Q)"],
+    why: "Light Binding roots through the first target it touches, so a dash spent closing the gap ends with the attacker rooted at her range rather than on top of her.",
+    cue: "It is a slow, thin skillshot that stops on the second unit hit — approach behind a minion and it is spent before it reaches you.",
+  },
+  {
+    a: "Riven", bTag: "poke", kind: "counter", weight: 1,
+    abilities: ["Valor (E)", "Broken Wings (Q)"],
+    why: "Valor is a dash attached to a shield on a short cooldown, so poke aimed at Riven is absorbed by the same button that closes the distance — she pays nothing for walking into range.",
+    cue: "Poke her when the shield is on cooldown, not before. Trading into a fresh Valor gives her free approach and costs you the ability.",
+  },
+  {
+    a: "Aurora", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Between Worlds (R)"],
+    why: "Between Worlds drops a barrier that pushes enemies out of the zone and keeps them there. A committed engage is separated from the fight it just started, with her team inside and theirs outside.",
+    cue: "The wall forms after her leap — the moment she jumps in, get out of the circle rather than deeper into it. Being caught inside alone is the whole point of the ability.",
+  },
 ];
+
+
+
+
 
 
 

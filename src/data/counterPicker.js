@@ -26,8 +26,12 @@ const NEUTRALISE = {
   spellshield: ["burst", "pick", "engage"],       // eats the key ability
   outrange:    ["poke"],
   block:       ["poke", "burst", "dps"],          // directional damage block (Pantheon E, windwall, Braum E)
-  armorstack:  ["ad", "auto"],                    // a kit that hands out armour blanks physical damage
-  mrstack:     ["ap"],                            // ...and magic resist blanks magic damage
+  // Resists MITIGATE, they do not negate. Armour does not counter a burst mage —
+  // it blunts damage that arrives repeatedly. Mapping these to a damage TYPE made
+  // any champion holding both armour and magic resist favourable against the
+  // entire roster by accumulation (Braum rated favourable into 171 of 172).
+  armorstack:  ["auto", "dps"],                   // armour answers sustained physical output
+  mrstack:     ["dps"],                           // magic resist answers sustained magic output
   antiauto:    ["auto"],                          // blind / dodge / attack-speed slow / damage reflect
 };
 
@@ -271,11 +275,20 @@ export function matchup(meDd, foeDd) {
   const theyNotes = counterInteractions(foeDd, meDd, meTags);
   const w = (n) => n.reduce((sum, e) => sum + (e.weight || 1), 0);
 
+  // Trait answers are capped, named interactions are not. A champion carrying
+  // many BROAD tags was otherwise favoured into the entire roster by accumulation
+  // — Braum holds armour, magic resist and anti-auto, so one of them fired in
+  // every single matchup and he rated favourable into 171 of 172 champions.
+  // Having several partial answers is not the same as having one decisive one,
+  // so the trait layer contributes at most 2 and a verified ability interaction
+  // is what pushes a matchup beyond that.
+  const TRAIT_CAP = 2;
+  const cap = (n) => Math.min(n, TRAIT_CAP);
   return {
     youCounter, theyCounter, youExploit, theyExploit,
     youNotes, theyNotes,
-    score: (youCounter.length + youExploit.length + w(youNotes)) -
-           (theyCounter.length + theyExploit.length + w(theyNotes)),
+    score: (cap(youCounter.length + youExploit.length) + w(youNotes)) -
+           (cap(theyCounter.length + theyExploit.length) + w(theyNotes)),
   };
 }
 
