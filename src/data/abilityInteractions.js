@@ -350,6 +350,84 @@ export const INTERACTIONS = [
     cue: "Check whether the passive is up before committing your engage — bait it with a cheap slow or root first, then engage properly. And deny the canister so it stays down.",
   },
 
+  // ── Reflects, stasis and resurrection ────────────────────────────────────
+  {
+    a: "Mel", bTag: "poke", kind: "counter", weight: 3,
+    abilities: ["Rebuttal (W)"],
+    why: "Rebuttal is not just a block — for its window she is invulnerable to non-turret damage AND every hostile projectile that hits the barrier is sent back at whoever fired it. Against a comp that fights by throwing skillshots, a well-timed W does not merely deny their damage, it hands it to them.",
+    cue: "It is a very short window, so she has to read you — vary your cast timing rather than throwing on cooldown. If she catches your ultimate with it, that ultimate is now aimed at you.",
+  },
+  {
+    a: "Mel", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Rebuttal (W)"],
+    why: "A burst rotation is a committed sequence of projectiles thrown at one moment, which is exactly what Rebuttal punishes. Reading the combo means taking none of it and returning the biggest part.",
+    cue: "Bait the barrier with one throwaway projectile before committing your combo — it is a 0.75-second window and she cannot hold it.",
+  },
+  {
+    a: "Bard", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Tempered Fate (R)"],
+    why: "Tempered Fate puts every unit in the area into stasis for 2.5 seconds. A committed engage is frozen mid-commit, the follow-up never arrives, and the fight restarts on Bard's terms.",
+    cue: "It hits ALLIES too, so watch what he is actually aiming at — and note stasis makes targets untargetable, so it can also deny your execute. Fight outside the arc, or wait the 2.5 seconds out rather than walking in.",
+  },
+  {
+    a: "Zilean", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Chronoshift (R)"],
+    why: "Chronoshift resurrects the target where they died, invulnerable and untargetable while it resolves. A burst comp that spends its whole rotation killing one carry simply has to do it twice, with every cooldown already gone.",
+    cue: "The golden clock over the target is the tell — do not commit your combo while it is visible. Force it out or kill someone else, and remember it lasts 5 seconds whether or not they die.",
+  },
+  {
+    a: "Akshan", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Going Rogue (W)"],
+    why: "Champions who kill his allies are marked Scoundrels, and a takedown on a Scoundrel resurrects everyone they killed. A dive comp that trades its cooldowns to kill a carry can have that kill undone by one pick.",
+    cue: "After you kill someone, you are marked — do not linger near Akshan at low health. Killing HIM removes the mark threat entirely, so prioritise him over finishing the carry.",
+  },
+
+  // ── Death is not the end ─────────────────────────────────────────────────
+  {
+    a: "Karthus", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Death Defied (P)"],
+    why: "Killing Karthus buys seven seconds of him casting everything for free, with Defile still ticking and Requiem still available. Bursting him down does not remove his damage from the fight — it removes his mana cost.",
+    cue: "Do not focus him first in a teamfight; kill him LAST or the zombie window lands on top of your team while your cooldowns are spent. If you must kill him, walk away from the corpse.",
+  },
+  {
+    a: "Kog'Maw", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Icathian Surprise (P)"],
+    why: "Killing him starts a four-second zombie state that accelerates toward whoever is nearest and then detonates. The diver who committed to killing him is exactly the champion standing in the blast.",
+    cue: "Walk AWAY the instant he dies — the explosion is on a timer and he speeds up over the duration. Do not stand and finish an objective next to his corpse.",
+  },
+  {
+    a: "Kled", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Skaarl, the Cowardly Lizard (P)"],
+    why: "All damage goes to Skaarl first, and losing the mount dismounts Kled rather than killing him — then he can remount by dealing damage. A burst combo that would kill any other champion leaves him alive and able to come back.",
+    cue: "Dismounting him is not a kill — he is at his weakest on foot, so commit to finishing him there rather than backing off. Letting him fight minions to remount undoes all of it.",
+  },
+
+  // ── Isolation and unavoidable lockdown ───────────────────────────────────
+  {
+    a: "Xin Zhao", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Crescent Guard (R)"],
+    why: "Crescent Guard knocks back every nearby enemy EXCEPT the one he has Challenged, so a grouped engage is split apart and the one target he wants is left alone with him. It answers exactly the comps that need to arrive together.",
+    cue: "If you are the Challenged target you cannot be knocked away — disengage before he lands the mark. If you are not, expect to be thrown out of the fight, so do not rely on standing on top of your carry.",
+  },
+  {
+    a: "Sett", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["The Show Stopper (R)"],
+    why: "The Show Stopper suppresses the target and travels with displacement immunity, so neither their mobility nor their team's peel stops it. Suppression cancels a channel or a dash mid-cast, and they land wherever Sett chooses.",
+    cue: "You cannot dash out once it lands — hold QSS or Mercurial for it, and watch his Grit bar, because he wants to ult INTO a full Haymaker.",
+  },
+  {
+    a: "Taliyah", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Weaver's Wall (R)"],
+    why: "Weaver's Wall raises a long strip of real terrain that knocks champions aside as it forms. Dropped across a committing team it cuts the engage in half and leaves whoever got through fighting alone.",
+    cue: "It takes time to travel and is visible the whole way — move perpendicular to it rather than trying to outrun it. Once it is up, going around costs more time than waiting the 4 seconds.",
+  },
+  {
+    a: "Zed", bTag: "poke", kind: "counter", weight: 1,
+    abilities: ["Death Mark (R)"],
+    why: "He is untargetable for the whole approach on Death Mark, so a poke champion's answer to being dived — landing a skillshot on the way in — does not exist for that window.",
+    cue: "The untargetable window is short and fixed. Do not spend your escape when he presses R, spend it when he reappears behind you, and hold any point-and-click for the moment he becomes targetable again.",
+  },
+
   // ── Matchups that FLIP with the game clock ────────────────────────────────
   // Some lanes are not "X counters Y" at all — they invert. Encoding both sides
   // with a phase nets the score to even, which is honest, while the reasoning
