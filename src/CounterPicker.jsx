@@ -18,6 +18,33 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
   const gold = S?.gold || "#D4AF37";
   const dim = "#8A8078";
 
+  // One named ability interaction: the mechanism, when it applies, and the cue
+  // that actually changes how you play the lane.
+  const Note = ({ n, good }) => {
+    const col = good ? "#8fe6a8" : "#f0a39d";
+    const head = good ? "#b6f0c6" : "#f6bdb8";
+    const rule = good ? "rgba(87,217,119,.45)" : "rgba(217,83,79,.45)";
+    return (
+      <div style={{ fontSize:"10px", color:col, lineHeight:1.45, borderLeft:`2px solid ${rule}`, paddingLeft:"6px" }}>
+        <b style={{ color:head }}>{n.abilities.join(" · ")}</b>
+        {n.phase && (
+          <span style={{ marginLeft:"5px", fontSize:"8px", fontWeight:800, letterSpacing:".1em",
+            textTransform:"uppercase", padding:"1px 4px", borderRadius:"3px",
+            color: n.phase === "early" ? "#E0A93B" : "#7FB2E8",
+            border: `1px solid ${n.phase === "early" ? "rgba(224,169,59,.5)" : "rgba(127,178,232,.5)"}` }}>
+            {n.phase} game
+          </span>
+        )}
+        <br />{n.why}
+        {n.cue && (
+          <div style={{ marginTop:"4px", color:"#C7C2BA", fontStyle:"italic" }}>
+            <b style={{ color:"#E8E3DA", fontStyle:"normal" }}>Watch for:</b> {n.cue}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const Tile = ({ r, tone }) => {
     const c = r.c;
     const border = tone === "good" ? "rgba(87,217,119,.4)" : tone === "bad" ? "rgba(217,83,79,.45)" : "rgba(255,255,255,.1)";
@@ -55,18 +82,8 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
           <div style={{ padding:"0 11px 9px", display:"flex", flexDirection:"column", gap:"4px" }}>
             {/* Named ability interactions lead — they are the specific, decisive
                 reasons, where the trait lines below are broad categories. */}
-            {r.youNotes?.map((n, i) => (
-              <div key={`yn${i}`} style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.45,
-                borderLeft:"2px solid rgba(87,217,119,.45)", paddingLeft:"6px" }}>
-                <b style={{ color:"#b6f0c6" }}>{n.abilities.join(" · ")}</b><br />{n.why}
-              </div>
-            ))}
-            {r.theyNotes?.map((n, i) => (
-              <div key={`tn${i}`} style={{ fontSize:"10px", color:"#f0a39d", lineHeight:1.45,
-                borderLeft:"2px solid rgba(217,83,79,.45)", paddingLeft:"6px" }}>
-                <b style={{ color:"#f6bdb8" }}>{n.abilities.join(" · ")}</b><br />{n.why}
-              </div>
-            ))}
+            {r.youNotes?.map((n, i) => <Note key={`yn${i}`} n={n} good />)}
+            {r.theyNotes?.map((n, i) => <Note key={`tn${i}`} n={n} />)}
             {r.youCounter.length > 0 && (
               <div style={{ fontSize:"10px", color:"#8fe6a8", lineHeight:1.4 }}>
                 ✓ You shut down their {r.youCounter.map((t) => THREAT_LABEL[t] || t).join(", ")}

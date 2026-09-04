@@ -210,8 +210,12 @@ export default function DraftCoach({ champ, role, champImg, onClose, onPick, S, 
                     <div key={i} style={{ borderLeft:"2px solid rgba(87,217,119,.5)", paddingLeft:"9px" }}>
                       <div style={{ fontSize:"12px", fontWeight:700, color:"#8fe6a8", marginBottom:"3px" }}>
                         vs {n.vs} — {n.abilities.join(" · ")}
+                        {n.phase && <span style={{ marginLeft:"6px", fontSize:"9px", fontWeight:800, letterSpacing:".1em",
+                          textTransform:"uppercase", color: n.phase === "early" ? "#E0A93B" : "#7FB2E8" }}>{n.phase} game</span>}
                       </div>
                       <div style={{ fontSize:"11.5px", color:"#C7C2BA", lineHeight:1.5 }}>{n.why}</div>
+                      {n.cue && <div style={{ fontSize:"11.5px", color:"#9C968D", lineHeight:1.5, marginTop:"4px" }}>
+                        <b style={{ color:"#C7C2BA" }}>Watch for:</b> {n.cue}</div>}
                     </div>
                   ))}
                 </div>
@@ -226,8 +230,12 @@ export default function DraftCoach({ champ, role, champImg, onClose, onPick, S, 
                       <div key={i} style={{ borderLeft:"2px solid rgba(217,83,79,.5)", paddingLeft:"9px" }}>
                         <div style={{ fontSize:"12px", fontWeight:700, color:"#f0a39d", marginBottom:"3px" }}>
                           {n.vs} — {n.abilities.join(" · ")}
+                          {n.phase && <span style={{ marginLeft:"6px", fontSize:"9px", fontWeight:800, letterSpacing:".1em",
+                            textTransform:"uppercase", color: n.phase === "early" ? "#E0A93B" : "#7FB2E8" }}>{n.phase} game</span>}
                         </div>
                         <div style={{ fontSize:"11.5px", color:"#C7C2BA", lineHeight:1.5 }}>{n.why}</div>
+                        {n.cue && <div style={{ fontSize:"11.5px", color:"#9C968D", lineHeight:1.5, marginTop:"4px" }}>
+                          <b style={{ color:"#C7C2BA" }}>Watch for:</b> {n.cue}</div>}
                       </div>
                     ))}
                   </div>
