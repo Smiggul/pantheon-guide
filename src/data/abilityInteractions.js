@@ -429,6 +429,84 @@ export const INTERACTIONS = [
     cue: "The untargetable window is short and fixed. Do not spend your escape when he presses R, spend it when he reappears behind you, and hold any point-and-click for the moment he becomes targetable again.",
   },
 
+  // ── Denying the escape, and denying the kill ─────────────────────────────
+  {
+    a: "Camille", bTag: "dash", kind: "counter", weight: 3,
+    abilities: ["The Hextech Ultimatum (R)"],
+    why: "The Hextech Ultimatum leaps in untargetable, disrupts whatever the target is channelling, and then walls them into an arena they cannot leave. A champion whose safety IS their mobility loses it entirely — the dash is still there, it just has nowhere to go.",
+    cue: "Mobility does not save you once the arena is up, so spend your escape BEFORE she lands rather than after. Her allies cannot enter either, so if you can win the 1v1 the ultimate is a mistake.",
+  },
+  {
+    a: "Taric", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Cosmic Radiance (R)"],
+    why: "Cosmic Radiance makes Taric and every nearby ally invulnerable for 2.5 seconds. A burst comp's entire plan is one committed window, and this deletes that window for the whole team rather than one target.",
+    cue: "The star takes 2.5 seconds to descend and is clearly telegraphed — that delay is your window to kill someone, or to disengage entirely. Committing after it lands wastes every cooldown you have.",
+  },
+  {
+    a: "Taric", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Cosmic Radiance (R)", "Bastion (W)"],
+    why: "A dive is a commitment to killing one target quickly. Bastion's resists make that slower and Cosmic Radiance makes it briefly impossible, so the divers are left standing in the enemy team with nothing left.",
+    cue: "Kill Taric or force the ultimate before diving his carry — diving into an untouched Taric is diving into a team that cannot die for 2.5 seconds.",
+  },
+  {
+    a: "Galio", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Hero's Entrance (R)"],
+    why: "Hero's Entrance lands Galio on an ALLY from anywhere on the map, arriving with a knock-up and a damage-reduction shield. A dive onto an isolated carry is answered by a second champion appearing on top of it mid-commit.",
+    cue: "The channel is long and visible, and you can see the landing marker — kill the target before it resolves or leave. Diving a lone carry while Galio has his ultimate up is how a 2v1 becomes a 2v2.",
+  },
+  {
+    a: "Kalista", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Fate's Call (R)"],
+    why: "Fate's Call cleanses her Oathsworn of all crowd control and makes them invulnerable and untargetable while it pulls them in. The support the enemy just committed everything to killing is removed from the fight and then fired back at them.",
+    cue: "It only works on her bound Oathsworn, so focusing anyone else denies it entirely. If she uses it defensively, the follow-up knock-up is still coming — do not stand in the landing line.",
+  },
+  {
+    a: "Thresh", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Dark Passage (W)"],
+    why: "The lantern shields an ally and lets them dash to Thresh from wherever the dive caught them. A dive that succeeds in isolating a carry is undone by one cast, and the divers are left deep with cooldowns spent.",
+    cue: "Kill the lantern's target before they click it — the window is short but real. Diving past Thresh rather than through him means the lantern always reaches.",
+  },
+  {
+    a: "Wukong", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Warrior Trickster (W)"],
+    why: "Warrior Trickster leaves a clone and turns him invisible as he dashes away. A burst rotation aimed at where he was hits a decoy, and by the time the mistake is obvious his damage is landing from a different angle.",
+    cue: "The clone does not move like he does — watch which one dashed. Holding your combo for half a second is better than spending it on a decoy.",
+  },
+
+  // ── Silences: cutting a combo mid-sequence ───────────────────────────────
+  {
+    a: "Soraka", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Equinox (E)"],
+    why: "Equinox silences everything standing in it. A burst champion's damage is a sequence, and a silence dropped between the opener and the follow-up means the sequence never finishes.",
+    cue: "The zone is placed, not instant — do not fight standing inside it. If you are silenced mid-combo, walk out rather than trying to finish, because the second half is what kills.",
+  },
+  {
+    a: "Cho'Gath", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Feral Scream (W)"],
+    why: "Feral Scream silences a wide cone, so an assassin who has committed to the gap-close arrives unable to cast the rest of the combo, standing next to a champion with an enormous health bar.",
+    cue: "The cone is directional — approach from behind or off-angle. If you get silenced on the way in, disengage rather than auto-attacking through it.",
+  },
+  {
+    a: "Blitzcrank", bTag: "burst", kind: "counter", weight: 1,
+    abilities: ["Static Field (R)"],
+    why: "Static Field silences everyone around him on cast, so a burst champion diving the backline is cut off mid-rotation the moment they arrive within his range.",
+    cue: "It is instant and has no travel time, so the only counterplay is range — do not commit your combo standing next to him.",
+  },
+
+  // ── Anti-heal built into the kit ─────────────────────────────────────────
+  {
+    a: "Varus", bTag: "heal", kind: "counter", weight: 2,
+    abilities: ["Hail of Arrows (E)"],
+    why: "Hail of Arrows desecrates the ground for four seconds, cutting the healing of everyone standing in it. Against a sustain champion that is a Grievous Wounds effect he has from level one, before anyone can itemise for it.",
+    cue: "The zone is what matters, not the initial hit — step out of it before you try to heal or drain. Fighting him on top of the desecrated ground is fighting without your sustain.",
+  },
+  {
+    a: "Katarina", bTag: "heal", kind: "counter", weight: 2,
+    abilities: ["Death Lotus (R)"],
+    why: "Death Lotus applies healing reduction to every champion it hits while it channels, so a drain-tank fighting inside it cannot out-sustain the damage the way their kit assumes.",
+    cue: "The channel is interruptible — any hard crowd control ends it immediately. If you cannot interrupt it, walk out of range rather than trading through the healing cut.",
+  },
+
   // ── Matchups that FLIP with the game clock ────────────────────────────────
   // Some lanes are not "X counters Y" at all — they invert. Encoding both sides
   // with a phase nets the score to even, which is honest, while the reasoning
@@ -612,14 +690,18 @@ const matchesTarget = (entry, foeDd, foeTags) => {
 // A champion can carry several tags at once (Blitzcrank is both "pick" and
 // "engage"), so two entries describing the SAME ability would both fire and
 // count its weight twice. Keep only the strongest entry per unique ability set.
+// Matching on the exact ability list is not enough: Taric's "Cosmic Radiance"
+// and "Cosmic Radiance + Bastion" are different lists naming the SAME ultimate,
+// so both fired and its weight counted twice. Entries are compared by ability
+// OVERLAP instead — if two share any ability, only the stronger is kept.
 const dedupeByAbility = (entries) => {
-  const best = new Map();
-  for (const e of entries) {
-    const key = (e.abilities || []).join("|");
-    const prev = best.get(key);
-    if (!prev || (e.weight || 1) > (prev.weight || 1)) best.set(key, e);
+  const kept = [];
+  for (const e of [...entries].sort((a, b) => (b.weight || 1) - (a.weight || 1))) {
+    const abilities = e.abilities || [];
+    const clash = kept.some((k) => (k.abilities || []).some((x) => abilities.includes(x)));
+    if (!clash) kept.push(e);
   }
-  return [...best.values()];
+  return kept;
 };
 
 /** Interactions where `meDd` counters `foeDd`. */
