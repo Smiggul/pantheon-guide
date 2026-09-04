@@ -145,6 +145,138 @@ export const INTERACTIONS = [
     why: "Courage's damage-reduction window is strongest against a single large burst, so a mage's combo lands into the one moment he is most durable — and his silence on Q cuts the follow-up.",
   },
 
+  // ── Directional damage negation ───────────────────────────────────────────
+  // Pantheon's Aegis Assault is invulnerability to non-turret damage from ONE
+  // direction for 1.5s. It is a damage block, NOT a crowd control block — that
+  // distinction decides which champions it actually beats.
+  {
+    a: "Pantheon", b: "Sett", kind: "counter", weight: 3,
+    abilities: ["Aegis Assault (E)"],
+    why: "Haymaker is Sett's whole payoff — a single huge directional punch whose damage scales with the Grit he has banked. Aegis Assault makes Pantheon invulnerable to damage from the direction he braces, so the punch he spent a whole trade charging simply does not land, and Sett is left with a spent W and no Grit.",
+  },
+  {
+    a: "Pantheon", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Aegis Assault (E)"],
+    why: "A burst combo is a committed sequence from one place. Bracing into it eats the whole rotation for 1.5 seconds and leaves them on cooldown at melee range. The catch is that Aegis blocks DAMAGE, not crowd control — anything that stuns or knocks him up still lands and cuts the channel.",
+  },
+  {
+    a: "Samira", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Blade Whirl (W)"],
+    why: "Blade Whirl destroys every hostile non-turret projectile in the area for its duration. Against a comp that fights by throwing skillshots, it deletes a full engage's worth of damage and lets her walk into her own range.",
+  },
+
+  // ── Spell shields: eat the ONE spell the enemy's game plan needs ──────────
+  {
+    a: "Sivir", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Spell Shield (E)"],
+    why: "Spell Shield blocks the next hostile spell outright and gives her movement speed for doing it. A comp whose engage is one hook or one point-and-click lock-up has a single button to play around, and guessing wrong means their cooldown is gone and she is now faster than them.",
+  },
+  {
+    a: "Nocturne", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Shroud of Darkness (W)"],
+    why: "Shroud of Darkness eats the next hostile spell and doubles his attack speed for succeeding, so a missed hook does not just fail — it arms him. Note a spell shield blocks SPELLS, not basic attacks.",
+  },
+  {
+    a: "Sivir", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Spell Shield (E)"],
+    why: "Most burst rotations open with one mandatory spell — the gap-closer or the root that makes the rest land. Blocking that first cast breaks the chain and the follow-up hits nothing.",
+  },
+  {
+    a: "Nocturne", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Shroud of Darkness (W)"],
+    why: "The shield blanks the opening spell of a burst combo, and the attack-speed refund means he wins the fight that was supposed to kill him.",
+  },
+
+  // ── Cleanses and crowd control immunity ──────────────────────────────────
+  {
+    a: "Gangplank", bTag: "pick", kind: "counter", weight: 2,
+    abilities: ["Remove Scurvy (W)"],
+    why: "Remove Scurvy cleanses ALL crowd control and heals. Being hooked or rooted is normally the whole of a pick comp's kill — he removes it mid-combo and walks out at health.",
+  },
+  {
+    a: "Alistar", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Unbreakable Will (R)"],
+    why: "Unbreakable Will cleanses all crowd control and then reduces incoming damage for seven seconds. A team that needs to burst him down to stop the engage cannot, and he is free to keep displacing their carry the entire time.",
+  },
+
+  // ── Untargetability and invulnerability windows ──────────────────────────
+  {
+    a: "Fizz", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Playful / Trickster (E)"],
+    why: "Playful makes him untargetable for the pole hop, which dodges targeted spells outright AND lets skillshots already in flight pass through him. An assassin who commits a full combo into it has nothing left and is standing next to a Fizz who has not used his ultimate.",
+  },
+  {
+    a: "Vladimir", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Sanguine Pool (W)"],
+    why: "Sanguine Pool makes him untargetable and ghosted for two seconds. Burst arrives as one committed window; pooling through it means the window closes with him alive and their cooldowns spent.",
+  },
+  {
+    a: "Kayle", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Divine Judgment (R)"],
+    why: "Divine Judgment grants full invulnerability for 2.5 seconds and can be cast on an ALLY. A dive comp's plan is to focus one target down quickly — she makes that target unkillable for exactly the window they committed to, then the swords punish everyone standing on top.",
+  },
+  {
+    a: "Tryndamere", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Undying Rage (R)"],
+    why: "Undying Rage sets a minimum health threshold for five seconds and can be cast even while affected by cast-inhibiting crowd control. Anything built to kill him in one window fails, and he is still swinging afterwards. Grievous Wounds and hard displacement are the real answers, not more damage.",
+  },
+  {
+    a: "Kindred", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Lamb's Respite (R)"],
+    why: "Lamb's Respite stops all units in the zone from dying for its duration — a full negation of an execute or a burst rotation. It applies to BOTH teams, so it saves her carry and denies the kill, but it also protects whoever she was about to finish.",
+  },
+  {
+    a: "Master Yi", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Alpha Strike (Q)"],
+    why: "Alpha Strike makes him untargetable while it resolves, so it is not just a gap-closer — it is a dodge for a telegraphed skillshot or a channelled ultimate aimed at him.",
+  },
+
+  // ── Terrain: the map itself as an answer to mobility ─────────────────────
+  {
+    a: "Trundle", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Pillar of Ice (E)"],
+    why: "Pillar of Ice is real terrain that knocks units away from where it lands and slows around it. Dropped on top of an engage it separates the frontline from the fight, and dropped behind a fleeing enemy it takes their escape route away entirely.",
+  },
+  {
+    a: "Anivia", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Crystallize (W)"],
+    why: "Crystallize is a five-second impassable wall that knocks units away as it forms. It cuts a committed engage in half — the ones who got through are now fighting alone, and the rest have to walk around.",
+  },
+  {
+    a: "Anivia", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Crystallize (W)"],
+    why: "A dash covers a fixed distance; a wall that appears mid-dash means arriving somewhere useless. Against a champion whose only engage is one dash, the wall is a hard no.",
+  },
+
+  // ── Point-and-click lockdown that mobility cannot answer ─────────────────
+  {
+    a: "Warwick", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Infinite Duress (R)"],
+    why: "He leaps with crowd control immunity and, on connecting, knocks the target down and suppresses them. Suppression cancels channels and dashes mid-cast, and immunity on the way in means their peel does not stop him arriving.",
+  },
+  {
+    a: "Mordekaiser", bTag: "auto", kind: "counter", weight: 3,
+    abilities: ["Realm of Death (R)"],
+    why: "Realm of Death banishes one champion into a seven-second 1v1 and steals a share of their stats for the duration. An auto-attack carry's entire value is dealing damage from behind a team — removed from that team, it is exactly the fight it is worst at.",
+  },
+  {
+    a: "Urgot", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Fear Beyond Death (R)"],
+    why: "Fear Beyond Death impales and leashes the first champion hit, dragging them back to him. A diver who commits and drops low does not get to leave — the ultimate executes them and fears everyone nearby.",
+  },
+
+  // ── Sustained cripples ───────────────────────────────────────────────────
+  {
+    a: "Nasus", bTag: "auto", kind: "counter", weight: 3,
+    abilities: ["Wither (W)"],
+    why: "Wither is point-and-click and ramps over five seconds, slowing movement AND crippling attack speed. Against a champion whose damage is basic attacks, that is most of their output removed for the length of a fight, with nothing to dodge.",
+  },
+  {
+    a: "Malphite", bTag: "auto", kind: "counter", weight: 2,
+    abilities: ["Thunderclap (W)", "Ground Slam (E)"],
+    why: "Ground Slam reduces the attack speed of everyone around him while Thunderclap's bonus armour blunts what still lands — a compounding answer to anything that fights by attacking repeatedly.",
+  },
+
   // ── Synergies: knock-ups enabling Last Breath ──────────────────────────────
   // Yasuo and Yone can only cast their ultimate on an AIRBORNE enemy, so any
   // reliable knock-up is a direct enabler rather than a vague "good together".
