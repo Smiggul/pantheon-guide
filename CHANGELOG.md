@@ -12,6 +12,28 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.17.0] — 2026-09-04
+
+### Added
+- **Draft Coach** — a new tab that reads the **whole enemy team** rather than one matchup at a time. Shows what they actually deal (physical/magic split, how many are auto-attack reliant) and turns that into a single build instruction, reads how they win fights, surfaces which of your abilities already answer them, and ranks stronger picks in your role. Fills itself from champ select over the League client — locked picks first, falling back to hover intent so it reacts while they're still deciding — and is fully usable by hand when the client isn't running.
+- **Ability interactions** — 66 named spell-vs-kit interactions across 49 champions, each verified against the real ability text. These are the matchups where one ability turns a whole kit off: Pantheon's Aegis Assault blanking Sett's Haymaker, Malzahar's Void Shift eating a hook comp's engage, Morgana's Black Shield, Poppy's Steadfast Presence against every dash champion. Synergies use the same structure, including knock-ups that enable Yasuo and Yone's ultimate.
+- **"Watch for" cues on every counter** — the cooldown to bait, the visual tell, and when your window opens. Bait Void Shift with a throwaway ability before committing; stop auto-attacking entirely while Rammus balls up; attack Pantheon from behind, because Aegis is directional and blocks damage but not crowd control.
+- **Phase-aware matchups** — lanes that invert rather than settle now say so. Pantheon beats Jax early and loses to him late, and each note carries an **EARLY GAME** / **LATE GAME** badge.
+- **Automatic patch review.** The patch workflow now reports which champions a patch actually affects, derived from Riot's own item data, and folds in Riot's official patch notes — so the PR carries their stated reasoning next to the exact numbers.
+
+### Changed
+- **Themes actually change the interface.** Buttons were byte-identical across all four themes and three of them used near-identical oranges. Each theme now owns a hue family — gold/orange (classic), indigo (depth), cyan and lime (hud), champion-reactive molten (forge) — and the accent now drives the whole interface rather than only the panels.
+- **Forge palette follows the displayed skin.** The theme rolls a random skin splash, but the palette was fixed per champion, so Zombie Slayer Pantheon rendered with Ruined Pantheon's greens. Colours are now sampled from the splash actually on screen; new skins work with no update.
+- **Counter engine understands damage type and defensive kits.** Malphite is now correctly a free lane into Pantheon, and Rammus into Warwick.
+- Rune page opacity lowered and the core build path raised slightly, so champion art reads through the runes without hurting the build path.
+
+### Fixed
+- **Predator** was listed as a Domination keystone but Riot removed it, so it rendered a broken image in the rune picker.
+- **Rune imports** now validate that every perk belongs to its declared tree. A cross-tree page previously passed locally and was refused by the client as an unexplained failure; the app now names the actual problem before sending.
+- **"Blade of the Ruined King"** was written with a lowercase "the" in 144 places across 9 files while Data Dragon calls it "Blade of **The** Ruined King", so every one of those references silently failed to resolve.
+- **Sett's counter picker** rated him favourable into nothing at all — he had no counter traits, so his score could never exceed zero against any champion.
+
+
 ## [0.16.1] — 2026-09-03
 
 ### Changed
