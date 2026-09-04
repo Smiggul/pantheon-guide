@@ -33,9 +33,17 @@ const merakiDesc = (arr) => {
   const a = arr?.[0];
   if (!a) return null;
   const parts = (a.effects || []).map((e) => (e.description || "").trim()).filter(Boolean);
+  // Meraki splits an ability across several effect entries, and the defining
+  // mechanic is often NOT the first one — Dr. Mundo's passive opens with health
+  // regen and only mentions its crowd-control immunity in the second entry.
+  // The old loop broke on the first entry that would overflow, silently dropping
+  // every later one, so ~11% of abilities shipped missing their real mechanic.
+  // Keep going instead of breaking, and only stop once the budget is genuinely
+  // spent, so a single long entry cannot swallow the ones behind it.
+  const BUDGET = 900;
   let out = "";
   for (const p of parts) {
-    if (out.length && out.length + p.length > 440) break;
+    if (out.length >= BUDGET) break;
     out += (out ? " " : "") + p;
   }
   return cleanMeraki(out) || null;

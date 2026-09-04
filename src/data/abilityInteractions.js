@@ -331,6 +331,25 @@ export const INTERACTIONS = [
     cue: "Attack-speed slows stack with his armour, so more auto-attacks is the wrong answer — bring percentage-penetration or magic damage instead.",
   },
 
+  // ── Dr. Mundo: a recurring crowd-control immunity with real counterplay ───
+  // This one exposed a generator bug: abilities.js used to carry only the
+  // health-regen half of the passive, because gen-abilities.mjs stopped at the
+  // first Meraki effect that overflowed its budget and dropped the rest — and
+  // the crowd-control immunity lives in the SECOND effect. Fixed at source, so
+  // the description now includes it.
+  {
+    a: "Dr. Mundo", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Goes Where He Pleases (P)"],
+    why: "Mundo is immune to the next hostile immobilising effect outright, and the immunity covers every immobilise from that same cast. A comp whose engage is one hook or one point-and-click root does not get to start the fight — the CC is resisted, he pays a little current health, and he walks at them anyway.",
+    cue: "When it triggers he drops a canister toward whoever CC'd him. WALK OVER IT to destroy it — letting him collect it heals him and cuts 15 seconds off the passive. Denying the canister is what keeps him vulnerable to the next hook.",
+  },
+  {
+    a: "Dr. Mundo", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Goes Where He Pleases (P)"],
+    why: "An engage ultimate that lands on Mundo is simply resisted if the passive is up, so the fight starts with their longest cooldown spent and Mundo still walking forward.",
+    cue: "Check whether the passive is up before committing your engage — bait it with a cheap slow or root first, then engage properly. And deny the canister so it stays down.",
+  },
+
   // ── Matchups that FLIP with the game clock ────────────────────────────────
   // Some lanes are not "X counters Y" at all — they invert. Encoding both sides
   // with a phase nets the score to even, which is honest, while the reasoning
@@ -459,9 +478,23 @@ export const INTERACTIONS = [
 const matchesTarget = (entry, foeDd, foeTags) =>
   entry.b ? entry.b === foeDd : (entry.bTag ? foeTags.includes(entry.bTag) : false);
 
+// A champion can carry several tags at once (Blitzcrank is both "pick" and
+// "engage"), so two entries describing the SAME ability would both fire and
+// count its weight twice. Keep only the strongest entry per unique ability set.
+const dedupeByAbility = (entries) => {
+  const best = new Map();
+  for (const e of entries) {
+    const key = (e.abilities || []).join("|");
+    const prev = best.get(key);
+    if (!prev || (e.weight || 1) > (prev.weight || 1)) best.set(key, e);
+  }
+  return [...best.values()];
+};
+
 /** Interactions where `meDd` counters `foeDd`. */
 export function counterInteractions(meDd, foeDd, foeTags = []) {
-  return INTERACTIONS.filter((e) => e.kind === "counter" && e.a === meDd && matchesTarget(e, foeDd, foeTags));
+  return dedupeByAbility(
+    INTERACTIONS.filter((e) => e.kind === "counter" && e.a === meDd && matchesTarget(e, foeDd, foeTags)));
 }
 
 /** Interactions where `meDd` synergises with ally `allyDd` (checked both ways). */
