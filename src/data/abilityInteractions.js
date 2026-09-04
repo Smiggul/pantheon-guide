@@ -14,7 +14,8 @@
 //  belief is wrong, the note says so (Shen's W does NOT block Yasuo's Q; Q is an
 //  ability that applies on-hit effects, not a basic attack).
 //
-//  `b` targets one champion; `bTag` targets everything carrying a derived trait
+//  `b` targets one champion (or a list of them); `bTag` targets everything
+//  carrying a derived trait
 //  ("auto", "ad", "ap", "dash", "engage", "poke", "pick", "dive", "heal", "tank")
 //  so a single entry can cover a hundred matchups.
 //
@@ -525,6 +526,54 @@ export const INTERACTIONS = [
     why: "Cyclone knocks up everyone it touches for the duration of the spin, which is a long, guaranteed Last Breath window on multiple targets.",
   },
 
+  // ── Every reliable knock-up in the game enables Last Breath / Fate Sealed ──
+  // Yasuo and Yone can only ultimate an AIRBORNE target, so a knock-up is not a
+  // vague "works well together" — it is the cast condition. Listed by how
+  // reliably the knock-up actually arrives, which is what separates a real
+  // enabler from one that needs the enemy to cooperate.
+  { a: "Alistar", b: ["Yone"], kind: "synergy", weight: 2, abilities: ["Pulverize (Q)"],
+    why: "Pulverize knocks up everyone around him, which is Fate Sealed's cast condition as much as it is Yasuo's." },
+  { a: "Poppy", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Keeper's Verdict (R)"],
+    why: "Keeper's Verdict knocks up on the tap-cast, and the charged version hurls a whole team. The tap is the one to use as an enabler — the charged cast sends them too far away to follow up on." },
+  { a: "Vi", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Cease and Desist (R)"],
+    why: "Cease and Desist is an unstoppable point-and-click that knocks the target up on arrival, so the airborne window is guaranteed rather than a skillshot they can dodge." },
+  { a: "Jarvan IV", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Dragon Strike (Q)", "Cataclysm (R)"],
+    why: "The flag-drag knocks up along its whole line, and Cataclysm walls the target in place afterwards — an airborne window followed by terrain that stops them leaving." },
+  { a: "Ornn", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Searing Charge (E)", "Call of the Forge God (R)"],
+    why: "Searing Charge knocks up anything thrown into terrain, and Call of the Forge God knocks up the entire enemy team twice over when the ram passes through his Brittle targets." },
+  { a: "Sejuani", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Arctic Assault (Q)"],
+    why: "Arctic Assault knocks up everyone in its path on the charge, and Glacial Prison stuns afterwards to hold whatever survives." },
+  { a: "Zac", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Elastic Slingshot (E)"],
+    why: "Elastic Slingshot knocks up everything at the landing point, and Let's Bounce keeps re-applying displacement through the fight." },
+  { a: "Rell", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Ferromancy: Crash Down (W)"],
+    why: "Crash Down knocks up on landing and is on a short cooldown compared with most engage ultimates — a repeatable airborne window rather than a once-a-fight one." },
+  { a: "Galio", b: ["Yasuo", "Yone"], kind: "synergy", weight: 3, abilities: ["Justice Punch (E)", "Hero's Entrance (R)"],
+    why: "Justice Punch knocks up everything it passes through, and Hero's Entrance knocks up the whole area on arrival — and it lands on an ALLY, so it can deliver Galio directly on top of a committed Yasuo." },
+  { a: "Nami", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Aqua Prison (Q)", "Tidal Wave (R)"],
+    why: "Tidal Wave knocks up everyone it rolls through across the whole enemy team, and Aqua Prison offers a smaller single-target version on a much shorter cooldown." },
+  { a: "Zyra", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Stranglethorns (R)"],
+    why: "Stranglethorns knocks up everyone standing in it after its wind-up, so a fight held in the zone hands over a full-team airborne window." },
+  { a: "Neeko", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Pop Blossom (R)"],
+    why: "Pop Blossom knocks up every enemy caught in the blast, and her disguise means she can walk into the middle of them to land it." },
+  { a: "Vel'Koz", b: ["Yasuo", "Yone"], kind: "synergy", weight: 1, abilities: ["Tectonic Disruption (E)"],
+    why: "Tectonic Disruption knocks up in a small area after a short delay — a real enabler, but a single-target-sized one rather than a teamfight window." },
+  { a: "Cho'Gath", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Rupture (Q)"],
+    why: "Rupture knocks up everything in the circle after its telegraph, and Feral Scream silences anyone who survives it." },
+  { a: "Nunu & Willump", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Biggest Snowball Ever! (W)"],
+    why: "The snowball knocks up everything it hits, and the longer it rolls the harder it lands — a wide, telegraphed but very large airborne window." },
+  { a: "Sion", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Decimating Smash (Q)", "Unstoppable Onslaught (R)"],
+    why: "A fully charged Decimating Smash knocks up in a wide arc, and Unstoppable Onslaught knocks up whoever the charge collides with from across the map." },
+  { a: "Blitzcrank", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Rocket Grab (Q)", "Power Fist (E)"],
+    why: "Power Fist knocks up the target on his next attack, and because Rocket Grab drags them into range first, the pairing is a guaranteed pick into a guaranteed airborne window." },
+  { a: "Xin Zhao", b: ["Yasuo", "Yone"], kind: "synergy", weight: 2, abilities: ["Three Talon Strike (Q)"],
+    why: "The third strike of Three Talon Strike knocks up, which arrives on a basic-attack cadence rather than a long cooldown — frequent, if small." },
+  { a: "Bel'Veth", b: ["Yasuo", "Yone"], kind: "synergy", weight: 1, abilities: ["Above and Below (W)"],
+    why: "Above and Below knocks up in a line and slows afterwards — reliable, though she usually wants to be using it to start her own fight." },
+  { a: "Kayn", b: ["Yasuo", "Yone"], kind: "synergy", weight: 1, abilities: ["Blade's Reach (W)"],
+    why: "Blade's Reach knocks up in a long line, giving a jungler an airborne setup on a gank without needing his ultimate." },
+  { a: "Samira", b: ["Yasuo", "Yone"], kind: "synergy", weight: 1, abilities: ["Daredevil Impulse (P)"],
+    why: "Samira's own combo needs a knock-up to reach S rank, so a Yasuo or Yone duo feeds both directions — but her passive knock-up is a small, situational window rather than a setup tool." },
+
   // ── Other genuine pairings ────────────────────────────────────────────────
   {
     a: "Thresh", b: "Kalista", kind: "synergy", weight: 3,
@@ -553,8 +602,12 @@ export const INTERACTIONS = [
 // circular imports — it needs to know a champion's derived traits to resolve
 // bTag entries, and counterPicker is where those are computed.
 
-const matchesTarget = (entry, foeDd, foeTags) =>
-  entry.b ? entry.b === foeDd : (entry.bTag ? foeTags.includes(entry.bTag) : false);
+const matchesTarget = (entry, foeDd, foeTags) => {
+  // `b` is one champion or a list of them (several champions can share the same
+  // interaction — every knock-up enables BOTH Yasuo and Yone).
+  if (entry.b) return Array.isArray(entry.b) ? entry.b.includes(foeDd) : entry.b === foeDd;
+  return entry.bTag ? foeTags.includes(entry.bTag) : false;
+};
 
 // A champion can carry several tags at once (Blitzcrank is both "pick" and
 // "engage"), so two entries describing the SAME ability would both fire and

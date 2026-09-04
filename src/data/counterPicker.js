@@ -12,6 +12,7 @@
 import { classOf } from "./champClasses.js";
 import { CHAMPS } from "./champs/index.js";
 import { counterInteractions } from "./abilityInteractions.js";
+import { ABILITIES } from "./abilities.js";
 
 // Which THREATS each COUNTER shuts down.
 const NEUTRALISE = {
@@ -167,11 +168,38 @@ const buildTextOf = (c) => {
   return parts.join(" ");
 };
 
+// Two threats were badly under-tagged because they were only ever hand-written:
+// only 10 champions carried "dash" and 6 carried "heal", so every anti-dash and
+// anti-heal answer in the game fired against almost nothing. Both are readable
+// straight from the ability text.
+//
+// A dash only counts as a THREAT when the champion uses it to reach you — every
+// escape in the game contains the word "dash", so the mobility is intersected
+// with a class or threat that actually engages. Healing counts as heavy when it
+// appears in two or more separate abilities, which is what separates a sustain
+// champion from one with an incidental heal.
+const abilityTextOf = (dd) => {
+  const a = ABILITIES[dd];
+  if (!a) return "";
+  return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean).map((x) => x.desc || "").join(" ");
+};
+const healAbilityCount = (dd) => {
+  const a = ABILITIES[dd];
+  if (!a) return 0;
+  return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
+    .filter((x) => /\bheal(?:s|ing)?\b|lifesteal|omnivamp/i.test(x.desc || "")).length;
+};
+const HAS_DASH = /\bdash(?:es|ing)?\b|\bblinks?\b|\bleaps?\b/i;
+const ENGAGING = new Set(["DIVER", "ASSASSIN", "SKIRMISHER", "VANGUARD"]);
+
 const DAMAGE = new Map();   // dd -> ["ad"|"ap", ...("auto")]
 for (const c of CHAMPS) {
   const t = buildTextOf(c);
   const d = [AP_MARK.test(t) ? "ap" : "ad"];
   if (AUTO_MARK.test(t) || classOf(c.dd) === "MARKSMAN") d.push("auto");
+  const cls = classOf(c.dd);
+  if (HAS_DASH.test(abilityTextOf(c.dd)) && ENGAGING.has(cls)) d.push("dash");
+  if (healAbilityCount(c.dd) >= 2) d.push("heal");
   DAMAGE.set(c.dd, d);
 }
 
