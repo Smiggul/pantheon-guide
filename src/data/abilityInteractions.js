@@ -738,7 +738,188 @@ export const INTERACTIONS = [
     why: "If the Bailout target takes fatal damage they are restored to full health instead of dying, burning down only if they fail to get a takedown. A burst rotation that correctly kills its target does not get the kill, and often gets punished by the target that just came back at full health.",
     cue: "The burn kills them anyway if you disengage — do not panic and keep committing. Deny the takedown that cancels it, and kill Renata first if the fight is going long.",
   },
+  // ── Punishing what a champion's own kit forces them to do ────────────────
+  {
+    a: "Kha'Zix", bTag: "squishy", kind: "counter", weight: 3,
+    abilities: ["Taste Their Fear (Q)"],
+    why: "Kha'Zix treats any enemy not standing near an ally as ISOLATED, and Taste Their Fear does 110% increased damage to them. A squishy champion who steps to a side lane, walks a ward, or gets peeled off their team is not just vulnerable — they are taking roughly double damage from an ability on a low cooldown.",
+    cue: "Never be the one standing apart. Isolation is a radius check, so keeping ANY ally near you removes the bonus entirely — the answer is positioning, not defensive items.",
+  },
+  {
+    a: "Nilah", bTag: "auto", kind: "counter", weight: 3,
+    abilities: ["Jubilant Veil (W)"],
+    why: "Jubilant Veil dodges ALL non-turret basic attacks for its duration and cuts magic damage by a quarter on top. Against a champion whose damage arrives as auto-attacks, that is a full negation window she can hold through their steroid.",
+    cue: "Stop attacking and reposition for the 2.25 seconds rather than feeding the dodge — abilities still land through it, so use those instead and save your attack-speed window for after.",
+  },
+  {
+    a: "Ashe", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Volley (W)", "Frost Shot (P)"],
+    why: "Every one of Ashe's attacks slows, and Volley slows a whole cone. A champion who has spent their dash to close the gap then has to walk the rest, permanently slowed, while she simply backs away.",
+    cue: "Do not dash in from max range — she will kite the remaining distance. Close from a flank or after her Volley is on cooldown, because there is no window where she is not slowing you.",
+  },
+
+  // ── Point-and-click lockdown that mobility cannot dodge ──────────────────
+  {
+    a: "Lissandra", bTag: "dash", kind: "counter", weight: 3,
+    abilities: ["Frozen Tomb (R)"],
+    why: "Frozen Tomb is cast directly on a champion — no skillshot to sidestep and no dash that outruns it. A diver who commits is knocked down and stunned on arrival, and her self-cast version means bursting her instead just puts her in stasis.",
+    cue: "You cannot dodge it, so play around the cooldown: bait it on a teammate or fight after she has spent it. If she self-casts, walk away rather than waiting the stasis out next to her.",
+  },
+  {
+    a: "Twisted Fate", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Pick a Card (W)"],
+    why: "The gold card is a guaranteed stun attached to a basic attack, so it lands regardless of how mobile the target is. A champion who dashes in is stunned the moment they arrive, and his ultimate means his jungler is arriving too.",
+    cue: "Watch the card colour before you commit — gold means do not walk at him. He has to lock the card in advance, so engaging on blue or red is close to free.",
+  },
+  {
+    a: "Annie", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Pyromania (P)"],
+    why: "At four stacks Annie's next spell stuns guaranteed, with no skillshot to dodge, and Tibbers arrives with it. A diver landing on her eats an unavoidable stun and a full combo at point-blank range.",
+    cue: "Count her stacks — the white swirl around her means the next ability stuns. Do not dive into a charged passive; make her spend it on a minion wave first.",
+  },
+  {
+    a: "Skarner", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Impale (R)"],
+    why: "Impale suppresses up to three champions at once and drags them with him. A team that commits together is exactly the shape he wants — the more of them arrive at the same time, the more of them get carried out of the fight.",
+    cue: "Do not group tightly when his ultimate is up, and QSS or Mercurial is the only escape once it lands. Spreading the engage costs you tempo but denies him the multi-target grab.",
+  },
+
+  // ── Scattering or sleeping a committed team ──────────────────────────────
+  {
+    a: "Hecarim", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Onslaught of Shadows (R)"],
+    why: "Onslaught of Shadows fears everyone it passes through and sends them running away from the fight. A comp that wins by arriving together is scattered in every direction at exactly the moment it committed.",
+    cue: "The charge is telegraphed and travels in a line — spread out and let it pass through a smaller part of your team. Tenacity and cleanses shorten the fear, which is usually enough to hold the fight.",
+  },
+  {
+    a: "Zoe", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Sleepy Trouble Bubble (E)"],
+    why: "Sleepy Trouble Bubble is one of the longest single crowd controls in the game, and it lingers as a trap if it misses. An engage has to cross the ground in front of her, which is precisely where the bubble sits.",
+    cue: "Check the ground before you walk — a missed bubble becomes a trap for five seconds. Minions and allies can body-block it, so engage behind something rather than at the front.",
+  },
+  {
+    a: "Lillia", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Lilting Lullaby (R)"],
+    why: "Lilting Lullaby drowsies every champion she has damaged and then sleeps them, wherever they are on the map. A team preparing to engage can simply be put to sleep before it starts, and the first hit on a sleeping target is amplified.",
+    cue: "Drowsy is a visible debuff with a delay before sleep — break it by taking damage from anything, including a minion, or use the window to move out of the fight.",
+  },
+  {
+    a: "Fiddlesticks", bTag: "engage", kind: "counter", weight: 3,
+    abilities: ["Terrify (Q)", "Crowstorm (R)"],
+    why: "Crowstorm lands Fiddlesticks in the middle of a grouped team, and Terrify fears whoever it touches on the way in. A comp that stacks up to engage hands him the exact target cluster his ultimate is designed for.",
+    cue: "Ward the brush he needs to channel from — the channel is audible and visible, and killing or displacing him during it wastes the whole ultimate. Do not group tightly near unwarded terrain.",
+  },
+  {
+    a: "Amumu", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Curse of the Sad Mummy (R)"],
+    why: "Curse of the Sad Mummy entangles everyone around him at once. The tighter the enemy engage, the more of it is stunned simultaneously — it punishes grouping rather than any individual champion.",
+    cue: "Spread before you commit. He has to be inside your team for it to be worth casting, so killing or peeling him on approach denies the whole thing.",
+  },
+  {
+    a: "Kennen", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Slicing Maelstrom (R)"],
+    why: "Slicing Maelstrom stuns everyone who accumulates his mark while standing near him, so a team that engages onto Kennen stuns itself by staying in the fight.",
+    cue: "Leave the storm rather than fighting through it — the stun comes from repeated ticks, so time inside the radius is what kills you. Do not chase him during his ultimate.",
+  },
+
+  // ── Undoing the burst ────────────────────────────────────────────────────
+  {
+    a: "Ekko", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Chronobreak (R)"],
+    why: "Chronobreak rewinds Ekko to where he was four seconds ago and heals him for a share of the damage he took in between. A burst rotation that lands perfectly is undone — the damage is refunded and he leaves.",
+    cue: "He has to survive the burst to press it, so the answer is either killing him inside the window or saving your damage until it is spent. Grievous Wounds cuts the heal significantly.",
+  },
+  {
+    a: "Xayah", bTag: "burst", kind: "counter", weight: 3,
+    abilities: ["Featherstorm (R)"],
+    why: "Featherstorm makes her untargetable for its duration while still throwing feathers, so a committed burst combo has nothing to land on and she roots the attacker on the recall.",
+    cue: "It is a short window and she cannot move far — wait it out rather than spending your combo. And do not stand in the feather line afterwards, because that is the root.",
+  },
+  {
+    a: "LeBlanc", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Distortion (W)"],
+    why: "Distortion leaves a marker she can return to, so committing a burst rotation onto her often lands on a champion who simply leaves the moment it starts.",
+    cue: "The return has a time limit and a visible marker — fight her away from it, or force the W out with poke before you all-in.",
+  },
+  {
+    a: "Senna", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Dawning Shadow (R)"],
+    why: "Dawning Shadow shields every allied champion in an enormous line across the map. Against a comp that wins by chipping a team down before a fight, one cast returns most of that poke damage as shielding.",
+    cue: "Force the fight before she has it up, or engage from an angle her line cannot cover. Poking into an available Dawning Shadow is spending your cooldowns for nothing.",
+  },
+
+  // ── Peel that answers a dive outright ────────────────────────────────────
+  {
+    a: "Tristana", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Buster Shot (R)"],
+    why: "Buster Shot knocks the target back and stuns, so an assassin who lands on her is simply removed from the fight mid-combo. It is also point-and-click, so their mobility does not help them stay.",
+    cue: "Expect to be launched — do not dive her unless you can kill through it or she has already used it. Diving with a follow-up teammate is the way through, since she only has one.",
+  },
+  {
+    a: "Heimerdinger", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["H-28G Evolution Turret (Q)"],
+    why: "His turrets are a permanent damage source that does not care about cooldowns, so a dive onto Heimerdinger is a dive into sustained fire from three separate sources plus his own stun.",
+    cue: "Kill the turrets before committing, or dive from an angle where only one covers him. Diving into a full turret nest at low health is how most Heimerdinger kills happen.",
+  },
+  {
+    a: "Maokai", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Twisted Advance (W)", "Nature's Grasp (R)"],
+    why: "Twisted Advance is an untargetable dash that roots on arrival, and Nature's Grasp sends a wall of brambles that roots everything in its path. Against a champion whose plan is a single gap-close, both answers arrive without needing to predict it.",
+    cue: "His W cannot miss once cast, so hold your dash for after it lands rather than before. His ultimate is a long telegraphed line — move perpendicular to it, not backwards.",
+  },
+  {
+    a: "Lee Sin", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Dragon's Rage (R)"],
+    why: "Dragon's Rage kicks a champion out of the fight and knocks back everything they collide with. A committed engage is answered by its own frontliner being punted back through it.",
+    cue: "Spread out on approach so the kicked target does not collide with your team. If you are the engage, expect to be the one kicked — respect his range before you commit.",
+  },
+
+  // ── Zone denial and structural pressure ─────────────────────────────────
+  {
+    a: "Jinx", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Flame Chompers! (E)"],
+    why: "Flame Chompers root whatever walks over them, so the ground an assassin has to cross to reach her is the ground that stops them. They also body-block a dash.",
+    cue: "They are visible and take a moment to arm — go around, or force them out before engaging. Never dash directly onto the line she just laid.",
+  },
+  {
+    a: "Viktor", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Gravity Field (W)"],
+    why: "Gravity Field slows anything standing in it and stuns once they have accumulated enough time inside. A champion who dashes in and stays to trade is stunned for doing exactly what their kit wants.",
+    cue: "Do not fight standing in the field — dash in, trade, and leave, or step out and back in. The stun comes from time spent inside, not from the initial hit.",
+  },
+  {
+    a: "Qiyana", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Supreme Display of Talent (R)"],
+    why: "Her ultimate travels along terrain and stuns everything near a wall, so a team that engages through a chokepoint or fights in the jungle is stunned as a group.",
+    cue: "Fight in open ground where her ultimate has no wall to propagate along. In a corridor, spread out — the shockwave follows the terrain, not the champions.",
+  },
+  {
+    a: "Volibear", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Stormbringer (R)"],
+    why: "Stormbringer leaps him in with displacement immunity and DISABLES enemy turrets in the area. A comp that wants to sit back, poke and defend under tower loses the tower as an argument for the duration.",
+    cue: "The leap cannot be interrupted by displacement — peel with slows and roots instead, or step out of the landing circle. Do not rely on the turret to save you while it is up.",
+  },
+  {
+    a: "Darius", bTag: "auto", kind: "counter", weight: 2,
+    abilities: ["Crippling Strike (W)"],
+    why: "Crippling Strike slows movement and cripples attack speed, so an auto-attack champion trading with him loses most of its damage output for the length of the trade while he keeps his.",
+    cue: "Do not stand and trade autos through the cripple — disengage and come back when it is down. His Q heals off champions hit, so backing off also denies the sustain.",
+  },
+  {
+    a: "Ahri", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Charm (E)"],
+    why: "Charm interrupts whatever the target is doing and walks them toward her, so a dash spent engaging becomes a slow walk in the wrong direction with her full combo landing.",
+    cue: "It is a slow, thin skillshot — do not dash in a straight line at her. Bait the charm first, then commit, because it is her only reliable lock-up.",
+  },
+  {
+    a: "Sona", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Crescendo (R)"],
+    why: "Crescendo stuns everyone in a long line and forces them to dance. A team that engages in formation is stunned in formation, and her team fights a stationary target.",
+    cue: "Do not walk at her as a group along one axis. The cast is quick but the line is narrow — approaching from two angles means only half your team is caught.",
+  },
 ];
+
+
 
 
 
