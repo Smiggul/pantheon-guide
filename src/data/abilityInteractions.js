@@ -1099,7 +1099,81 @@ export const INTERACTIONS = [
     why: "Between Worlds drops a barrier that pushes enemies out of the zone and keeps them there. A committed engage is separated from the fight it just started, with her team inside and theirs outside.",
     cue: "The wall forms after her leap — the moment she jumps in, get out of the circle rather than deeper into it. Being caught inside alone is the whole point of the ability.",
   },
+  // ── Terrain traversal beats terrain control ──────────────────────────────
+  // A wall only works on champions who have to walk around it. These four cross
+  // it outright, which turns the enemy's zoning ultimate into nothing — a real
+  // interaction that no threat category expresses, so it targets the wall
+  // champions by name.
+  {
+    a: "Zeri", b: ["Anivia", "Trundle", "JarvanIV", "Azir", "Taliyah", "Yorick", "Veigar", "Maokai"],
+    kind: "counter", weight: 2,
+    abilities: ["Spark Surge (E)"],
+    why: "Spark Surge dashes THROUGH terrain, so every wall, pillar and cage built to trap or separate her is just another surface to vault. The ability these champions spend their ultimate on does not apply to her.",
+    cue: "Do not spend the wall to trap her — use it to cut her team off instead. Her dash across terrain has a short cooldown, so the wall buys seconds at best.",
+  },
+  {
+    a: "Smolder", b: ["Anivia", "Trundle", "JarvanIV", "Azir", "Taliyah", "Yorick", "Veigar", "Maokai"],
+    kind: "counter", weight: 2,
+    abilities: ["Flap, Flap, Flap (E)"],
+    why: "Flap, Flap, Flap gives him unobstructed movement for its duration, so he flies over the wall, pillar or cage rather than being held by it. Zoning him requires damage, not geometry.",
+    cue: "Terrain does not hold him — save the wall to block his team's follow-up instead. He is ghosted during the flight, so body-blocking fails too.",
+  },
+  {
+    a: "Aurelion Sol", b: ["Anivia", "Trundle", "JarvanIV", "Azir", "Taliyah", "Yorick", "Veigar", "Maokai"],
+    kind: "counter", weight: 2,
+    abilities: ["Astral Flight (W)"],
+    why: "Astral Flight carries him over terrain with unobstructed movement, so a wall dropped to separate him from the fight or to cut off his escape simply does not.",
+    cue: "Walls do not contain him — use yours to split his team from him rather than to trap him. His flight also resets his Q, so the escape costs him nothing.",
+  },
+
+  // ── Removing a champion from the fight entirely ──────────────────────────
+  {
+    a: "Tahm Kench", bTag: "dive", kind: "counter", weight: 3,
+    abilities: ["Devour (R)"],
+    why: "Devour abducts a champion and swallows them, taking them out of the fight for its duration. Cast on the diver it removes the dive; cast on the target it removes what the dive was for. Either way the commitment is wasted, and Thick Skin means he survives long enough to press it.",
+    cue: "He has to be close and the channel is visible — kill him or displace him mid-cast. Diving with two champions is the answer, since Devour only takes one.",
+  },
+  {
+    a: "Rek'Sai", bTag: "squishy", kind: "counter", weight: 2,
+    abilities: ["Void Rush (R)"],
+    why: "Anything Rek'Sai damages is Marked as Prey, and Void Rush leaps to that mark from across the map as an unavoidable finisher. A squishy champion who takes any chip damage and then walks away low is not actually safe anywhere on the map.",
+    cue: "The mark lasts a few seconds — do not disengage at low health right after trading with her, wait it out. Her burrow tremor sense also tracks you through terrain, so breaking vision does not break the mark.",
+  },
+  {
+    a: "Naafiri", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["The Call of the Pack (W)"],
+    why: "The Call of the Pack makes her untargetable and ghosted as it starts, so a burst rotation aimed at the moment she commits lands on nothing while her packmates keep attacking.",
+    cue: "The untargetable window is at the START of the hunt — wait a beat before committing your combo, and kill the packmates first because they carry a real share of her damage.",
+  },
+
+  // ── Ground the approach ─────────────────────────────────────────────────
+  {
+    a: "Ziggs", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Hexplosive Minefield (E)", "Satchel Charge (W)"],
+    why: "The minefield covers the ground an assassin has to cross with eleven separate slows, and Satchel Charge physically displaces whoever survives it. A single gap-closer does not get him to Ziggs, and Ziggs does not need to be in range to answer.",
+    cue: "The mines are visible and each only triggers once — walk a clean path or accept the slow rather than dashing into the middle. Satchel is also his escape, so engaging after he uses it is the real window.",
+  },
+  {
+    a: "Jhin", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Deadly Flourish (W)", "Captive Audience (E)"],
+    why: "Anything Jhin, his traps, or his allies have damaged is marked, and Deadly Flourish roots that mark from most of a screen away. Against a champion with no dash, being touched once means being rooted from a range they cannot answer.",
+    cue: "Being marked is the tell — break line of sight or move unpredictably for the few seconds it lasts. His lotus traps are what apply the mark uninvited, so sweep the ground around objectives.",
+  },
+  {
+    a: "Twitch", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Ambush (Q)"],
+    why: "Ambush camouflages him and grants attack speed on the reveal, so the fight starts from a position an immobile champion never saw and cannot walk away from once his venom is stacking.",
+    cue: "Control wards and sweepers are the whole counterplay — camouflage is revealed by them at close range. Never take an objective or path a river without vision while he is unaccounted for.",
+  },
+  {
+    a: "Ryze", bTag: "dash", kind: "counter", weight: 1,
+    abilities: ["Rune Prison (W)"],
+    why: "Rune Prison is point-and-click and roots outright when empowered by Flux, so a champion who spends a dash to reach him is held in place for the follow-up rather than trading and leaving.",
+    cue: "It cannot be dodged, only pre-empted — engage when his Flux is not up, and note the empowered version is the root while the base is only a slow.",
+  },
 ];
+
+
 
 
 
