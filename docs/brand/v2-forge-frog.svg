@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <!-- FRGE.GG V2 — buff blacksmith frog, hammer wound up over the head.
+       Built as SVG because the Figma MCP hit its plan tool-call limit; import
+       this file into Figma when the limit clears.
+
+       gradientUnits="userSpaceOnUse" puts every shape on ONE shared gradient
+       ramp, so separate primitives read as a single unioned body. -->
+  <defs>
+    <linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="150" y1="180" x2="560" y2="900">
+      <stop offset="0"    stop-color="#F0C75A"/>
+      <stop offset="0.55" stop-color="#D4AF37"/>
+      <stop offset="1"    stop-color="#A8862A"/>
+    </linearGradient>
+    <linearGradient id="steel" gradientUnits="userSpaceOnUse" x1="460" y1="600" x2="820" y2="860">
+      <stop offset="0" stop-color="#B9942F"/>
+      <stop offset="1" stop-color="#8A6E22"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="1000" fill="#1B1B1E"/>
+  <rect x="60" y="900" width="880" height="28" rx="14" fill="#2A2F38"/>
+
+  <!-- anvil: single horn pointing left, toward the frog -->
+  <path fill="url(#steel)" d="M 460 660 L 540 630 L 820 630 L 820 694 L 726 712 L 708 776
+                              L 782 806 L 782 850 L 596 850 L 596 806 L 670 776 L 652 712 L 540 694 Z"/>
+
+  <g fill="url(#gold)" stroke="url(#gold)" stroke-linecap="round">
+    <!-- legs: thick thighs are half of what makes a figure read as powerful -->
+    <line x1="255" y1="790" x2="222" y2="880" stroke-width="62"/>
+    <line x1="360" y1="790" x2="398" y2="880" stroke-width="62"/>
+    <ellipse cx="260" cy="762" rx="48" ry="72" stroke="none"/>
+    <ellipse cx="356" cy="762" rx="48" ry="72" stroke="none"/>
+    <ellipse cx="214" cy="884" rx="64" ry="26" stroke="none"/>
+    <ellipse cx="406" cy="884" rx="64" ry="26" stroke="none"/>
+
+    <!-- V-taper: 285 across the shoulders down to 100 at the waist, ~2.9:1.
+         That ratio is the whole reason the silhouette reads as "powerful". -->
+    <path d="M 160 442 L 445 442 L 355 692 L 255 692 Z" stroke="none"/>
+    <ellipse cx="305" cy="700" rx="78"  ry="52" stroke="none"/>
+    <ellipse cx="302" cy="482" rx="122" ry="84" stroke="none"/>
+    <ellipse cx="188" cy="452" rx="86"  ry="80" stroke="none"/>
+    <ellipse cx="416" cy="452" rx="86"  ry="80" stroke="none"/>
+
+    <!-- working arm, crossing the body to rest on the anvil horn -->
+    <line x1="188" y1="452" x2="200" y2="556" stroke-width="70"/>
+    <ellipse cx="194" cy="502" rx="50" ry="54" stroke="none"/>
+    <line x1="200" y1="556" x2="448" y2="628" stroke-width="58"/>
+    <ellipse cx="454" cy="630" rx="34" ry="30" stroke="none"/>
+
+    <!-- hammer arm: elbow BENT and the hammer wound up over the head. A straight
+         diagonal arm reads as pointing, not as a swing. -->
+    <line x1="416" y1="452" x2="476" y2="368" stroke-width="72"/>
+    <ellipse cx="450" cy="408" rx="50" ry="54" stroke="none"/>
+    <line x1="476" y1="368" x2="446" y2="262" stroke-width="62"/>
+
+    <!-- head: smaller than the torso and clearly higher, or the stack blobs -->
+    <ellipse cx="305" cy="338" rx="76" ry="46" stroke="none"/>
+    <ellipse cx="300" cy="286" rx="92" ry="78" stroke="none"/>
+    <circle  cx="252" cy="208" r="52" stroke="none"/>
+    <circle  cx="356" cy="208" r="52" stroke="none"/>
+  </g>
+
+  <!-- pupils nearly fill the bulge, or the eyes read as ears -->
+  <circle cx="252" cy="208" r="33" fill="#1B1B1E"/>
+  <circle cx="356" cy="208" r="33" fill="#1B1B1E"/>
+
+  <!-- mouth: wide and level. Determined, not smirking — the smirk is the Pepe tell -->
+  <path d="M 252 342 Q 305 358 358 342" fill="none" stroke="#1B1B1E"
+        stroke-width="11" stroke-linecap="round"/>
+
+  <!-- muscle definition, cut as negative space like the V1 anvil -->
+  <g fill="none" stroke="#1B1B1E" stroke-linecap="round" opacity="0.55">
+    <path d="M 302 432 L 302 508" stroke-width="9"/>
+    <path d="M 232 470 Q 268 512 302 508" stroke-width="8"/>
+    <path d="M 372 470 Q 336 512 302 508" stroke-width="8"/>
+    <path d="M 268 556 L 340 556" stroke-width="7"/>
+    <path d="M 274 604 L 334 604" stroke-width="7"/>
+  </g>
+
+  <!-- separation contour: without it the working arm disappears into the torso -->
+  <g fill="none" stroke="#1B1B1E" stroke-linecap="round" opacity="0.62">
+    <path d="M 232 552 Q 330 576 436 604" stroke-width="8"/>
+    <path d="M 246 470 Q 214 520 224 566" stroke-width="7"/>
+  </g>
+
+  <!-- hammer -->
+  <line x1="452" y1="292" x2="432" y2="168" stroke="#8A6E22" stroke-width="26" stroke-linecap="round"/>
+  <rect x="-62" y="-34" width="124" height="68" rx="10" fill="#B9942F"
+        transform="translate(428,150) rotate(-9)"/>
+  <rect x="34" y="-34" width="28" height="68" rx="8" fill="#8A6E22"
+        transform="translate(428,150) rotate(-9)"/>
+
+  <!-- forge embers: the only job molten orange has here, and what sells the
+       anvil as hot rather than decorative -->
+  <g fill="#F97316">
+    <path d="M 668 604 l 9 -22 l 9 22 l -9 22 Z"/>
+    <path d="M 726 588 l 7 -17 l 7 17 l -7 17 Z" opacity="0.85"/>
+    <path d="M 616 596 l 6 -15 l 6 15 l -6 15 Z" opacity="0.7"/>
+    <circle cx="762" cy="606" r="6" opacity="0.6"/>
+    <circle cx="588" cy="612" r="5" opacity="0.5"/>
+  </g>
+</svg>
