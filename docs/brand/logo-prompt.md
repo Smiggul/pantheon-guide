@@ -1,4 +1,13 @@
-# FRGE.GG — Master Logo Prompt
+# FRGE.GG — Master Logo Prompt (V1, the ICON)
+
+> **This is V1 — the icon tier.** Built, saved and approved for small sizes:
+> favicon, the 32px tray icon, the .ico and the app icon.
+> A second, detailed mascot (a buff blacksmith frog mid-swing) is specified
+> separately in  and serves as the HERO mark. V2 does not
+> replace V1 — a frog mid-swing cannot read at 32x32, which is exactly the size
+> the tray icon needs.
+>
+> **Figma:** https://www.figma.com/design/qYucavOkOlW1QEHYYrLgcV
 
 Brand asset. Version-controlled so the brief lives with the project rather than in
 chat history. Palette here MUST stay in sync with the locked brand palette in
