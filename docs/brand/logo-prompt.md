@@ -10,10 +10,14 @@ O, and an anvil hides in the frog's forehead.
 **Decisions taken (2026-09-06):** golden frog (golden poison dart frog reference,
 justifies `#D4AF37` without breaking the locked palette) + negative-space anvil.
 
-**Known construction problem, already solved in the brief:** a conventional anvil
-has a horn on one side and a heel on the other, so it is NOT vertically symmetrical
-and collides with the symmetry rule. Dropping the horn entirely leaves an hourglass.
-The brief specifies a *double-horned* anvil instead — symmetric, still legible.
+**Symmetry rule REMOVED (2026-09-06), and this is the most important lesson here.**
+The blanket "perfect vertical symmetry" requirement was inherited from an automotive
+brief and was simply wrong for a gaming brand — T1, Fnatic, FaZe, Red Bull, Monster
+and Slayer are none of them symmetrical, and that asymmetry is where their energy
+comes from. Three separate symmetric anvils were built and all three read as a "T"
+or a bone, because the single tapered horn IS the thing that makes an anvil
+recognisable; mirror it and you have an I-beam. The rule now is: the FACE is
+symmetric (faces should be), the ANVIL is asymmetric. That fixed it immediately.
 
 **Known risk, guarded against in the brief:** a cartoon frog in a gaming context
 reads as Pepe the Frog, which carries hate-symbol associations. The brief forbids
@@ -149,7 +153,7 @@ on the grid - compass-and-straightedge construction, NOT freehand drawing.
 
 Requirements:
 - Overall silhouette fits a perfect circle
-- Perfect vertical symmetry
+- The FACE is vertically symmetric — eyes, pupils and mouth mirror exactly
 - Two eyes as circles breaking the top of the circle silhouette - this is the
   single most recognisable frog cue and must survive at 32px
 - Eyes are the ONLY facial feature at small sizes
@@ -169,30 +173,27 @@ illustrated.
 ---
 
 # THE ANVIL (NEGATIVE SPACE)
-An anvil is cut as NEGATIVE SPACE into the frog's forehead - the flat area
-between and below the two eyes. Charcoal shows through the gold. This is the
-second reading: FROG on the surface, FORGE underneath.
+An anvil is cut as NEGATIVE SPACE into the frog's face - the flat area below the
+two eyes. Charcoal shows through the gold. This is the second reading: FROG on
+the surface, FORGE underneath.
 
-CONSTRUCTION - symmetry is mandatory:
-A conventional anvil has a horn on one side and a heel on the other and is
-therefore NOT vertically symmetrical. Do not use that silhouette. Instead build a
-DOUBLE-HORNED anvil:
-- Flat horizontal top face, the widest element
-- A short tapered horn on BOTH sides, mirrored exactly
-- Narrow waist
-- Splayed base, narrower than the top face
+CONSTRUCTION - the anvil is ASYMMETRIC, deliberately:
+- A tapered HORN on the left, coming to a point at roughly mid-height
+- A flat horizontal top face, the widest element
+- A squared HEEL on the right, stepping in underneath
+- A pinched waist
+- A splayed foot, narrower than the top face
 
-The twin horns should nest into the valley formed between the two eyes.
+DO NOT mirror the horn to make it symmetric. This was tried three times and it
+fails every time - a double-horned anvil reads as an I-beam, a "T", a bone or a
+bowtie. The single horn is the only cue that identifies an anvil at a glance. The
+frog's face carries the symmetry; the anvil carries the asymmetry, which is also
+what gives the mark its energy.
 
-FAILURE MODES to design against:
-- If the horns are too short it reads as an HOURGLASS - lengthen them.
-- If the waist is too narrow it reads as a BOWTIE - thicken it.
-- If the base is wider than the top face it reads as a PLINTH - invert the ratio.
-- The anvil must never touch the outer circle edge or the eye circles. Maintain
-  a minimum gap equal to one grid unit on all sides.
-
-The anvil occupies no more than 30% of the frog's total area. It is a discovery,
-not the subject. Someone should notice the frog first and the anvil second.
+The anvil must never touch the outer circle edge or the eye circles - maintain a
+minimum gap of one grid unit on all sides. It occupies no more than 30% of the
+frog's area. It is a discovery, not the subject: someone should notice the frog
+first and the anvil second.
 
 ---
 
@@ -204,8 +205,9 @@ Define three explicit states:
   Frog, eyes, pupils, mouth arc, full anvil in negative space.
 
 64px to 255px - REDUCED
-  Frog, eyes, pupils. The anvil simplifies to its flat top face and waist only;
-  the horns are dropped.
+  Frog, eyes, pupils and the full anvil. Only the mouth arc is dropped. The anvil
+  does NOT simplify - the horn is what makes it legible, so removing detail from
+  it defeats the purpose.
 
 Below 64px (including the 32px tray icon) - SILHOUETTE
   Gold circle, two eye circles breaking the top edge, AND the pupils. Nothing
@@ -302,14 +304,14 @@ AppIcon.ico             <- multi-resolution: 16, 32, 48, 256
 
 # QUALITY CHECK
 Before finishing, verify:
-- Perfect vertical symmetry, including the anvil
+- The face is vertically symmetric; the anvil is deliberately NOT
 - Consistent stroke widths
 - Pixel-perfect alignment
 - Every curve is a true arc with a defined radius
 - Clean vector paths, minimal anchor points
 - Optimised SVG
 - The frog reads as a frog at 32x32 with eyes alone
-- The anvil reads as an anvil, NOT an hourglass, bowtie or plinth
+- The anvil reads as an anvil, NOT a T, an I-beam, a bone or a bowtie
 - The anvil is absent entirely below 64px
 - Someone notices the frog first and the anvil second
 - The lockup reads as FORGE, FROG and FRGE simultaneously
@@ -336,7 +338,7 @@ going through an internal review at Pentagram, Landor, Collins, or Wolff Olins.
 
 Score the logo out of 10 in the following categories:
 - Balance
-- Symmetry
+- Symmetry (of the face only)
 - Memorability
 - Negative Space
 - Anvil Legibility
