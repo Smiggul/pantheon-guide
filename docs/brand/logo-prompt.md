@@ -129,9 +129,10 @@ THE FROG IS THE MISSING O.
 THE ANVIL IS HIDDEN INSIDE THE FROG.
 
 The primary mark is a frog rendered as a near-perfect circle, sitting in the O
-position of the wordmark:
+position of the wordmark. FORGE spells F-O-R-G-E, so the O is the SECOND
+character and the frog sits between the F and the R:
 
-    F R [frog] G E
+    F [frog] R G E
 
 This must read simultaneously as FORGE, as FROG, and as FRGE. That triple reading
 is the entire idea and must survive every simplification.
@@ -153,7 +154,9 @@ Requirements:
   single most recognisable frog cue and must survive at 32px
 - Eyes are the ONLY facial feature at small sizes
 - A single arc suggests the mouth at larger sizes only
-- No pupils rendered as separate shapes below 64px
+- Pupils must nearly FILL the eye bulge, leaving only a thin gold rim. A small
+  dot inside a large gold circle reads as an ear-hole, not an eye - this is the
+  single difference between reading as a frog and reading as a bear
 - No legs, no feet, no body below the head at icon size
 - Negative space between the eyes should suggest an upward curve - quiet warmth,
   never a smirk
@@ -205,7 +208,10 @@ Define three explicit states:
   the horns are dropped.
 
 Below 64px (including the 32px tray icon) - SILHOUETTE
-  Gold circle with two eye circles breaking the top edge. NOTHING ELSE.
+  Gold circle, two eye circles breaking the top edge, AND the pupils. Nothing
+  else. The pupils are two plain dots and survive 32px perfectly - and without
+  them the eye bulges read as EARS, so the mark becomes a bear. Corrected after
+  building it: an earlier version of this brief dropped them.
   The anvil is removed COMPLETELY - not shrunk, not faded. A partially rendered
   anvil at 32px reads as dirt on the icon and is an automatic failure.
 
