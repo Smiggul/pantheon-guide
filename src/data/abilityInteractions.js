@@ -1171,6 +1171,172 @@ export const INTERACTIONS = [
     why: "Rune Prison is point-and-click and roots outright when empowered by Flux, so a champion who spends a dash to reach him is held in place for the follow-up rather than trading and leaving.",
     cue: "It cannot be dodged, only pre-empted — engage when his Flux is not up, and note the empowered version is the root while the base is only a slow.",
   },
+  // ── Batch: the 13 champions that had no kit reasoning of their own ─────────
+  // Every claim below was read off src/data/abilities.js. Locke, Zaahen and
+  // Yunara ship with Riot's numbers stripped from the ability text, so their
+  // entries describe mechanisms only and carry no damage figures.
+  {
+    a: "Shyvana", bTag: "tank", kind: "counter", weight: 2,
+    abilities: ["Molten Burst (E)"],
+    why: "Molten Burst marks whoever it hits, and every basic attack into that mark deals bonus magic damage equal to a percentage of the target's MAXIMUM health. Stacking health to survive her makes each of her autos hit harder, and in Dragon Form the fireball leaves a field that re-marks everyone standing in it.",
+    cue: "The mark lasts five seconds and is what turns her autos lethal — after she lands the fireball, disengage or break line of sight for those five seconds instead of trading through it.",
+  },
+  {
+    a: "Shyvana", bTag: "pick", kind: "counter", weight: 2,
+    abilities: ["Dragon's Descent (R)"],
+    why: "Dragon's Descent dashes with displacement immunity, so a hook, knock-up or pull thrown at her mid-flight simply does not land. She also carries enemies caught in the path along with her, arriving with your carry already out of position.",
+    cue: "She is only displacement-immune during the dash itself. Hold your hook until she lands rather than throwing it at the animation — and note she needs 100 Fury to cast it, so she cannot repeat the trick.",
+  },
+  {
+    a: "Udyr", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Blazing Stampede (E)"],
+    why: "Awakened Blazing Stampede grants outright immunity to crowd control for 1.5 seconds on top of ghosting and bonus movement speed. A hook, root or stun landed into that window does nothing at all, and he closes the distance anyway.",
+    cue: "Awakening is a second press of the same stance a moment after the first — watch for the re-cast, not the initial one. Land your pick before he awakens, or bait the awaken and go in the seconds after it ends.",
+  },
+  {
+    a: "Udyr", bTag: "tank", kind: "counter", weight: 2,
+    abilities: ["Wilding Claw (Q)"],
+    why: "Awakened Wilding Claw adds percent-maximum-health physical damage to his empowered attacks AND chains lightning that deals percent-maximum-health magic damage per strike across several strikes. Both halves scale off the target's health pool, so a health-stacking frontline is the worst possible answer to him.",
+    cue: "The lightning chains to nearby enemies, so do not stand next to your own frontline while he is in Claw stance. His damage arrives on basic attacks — disengaging beats trying to out-tank it.",
+  },
+  {
+    a: "Udyr", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Iron Mantle (W)"],
+    why: "Awakened Iron Mantle stacks a second shield on top of the remaining first, heals him every quarter-second for four seconds, and doubles both the life steal and the percent-maximum-health healing on his empowered attacks. Chip damage is repaid faster than a poke pattern can apply it.",
+    cue: "Poking him while Mantle is up is worse than not poking at all — it feeds nothing and wastes your cooldowns. Wait for the shield to expire, then commit.",
+  },
+  {
+    a: "Nidalee", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Javelin Toss / Takedown (Q)"],
+    why: "Javelin Toss gains up to 200% bonus damage based on the distance it travels, so its biggest hits come from a range at which a champion with no dash can neither answer nor close. Prowl also gives her ghosting and movement speed out of brush, so she picks the range every time.",
+    cue: "The javelin is a slow skillshot — sidestep it rather than walking in a straight line at her, and deny the brush she repositions through. Landing it also marks you as Hunted, which resets her form swap.",
+  },
+  {
+    a: "Nidalee", bTag: "auto", kind: "synergy", weight: 2,
+    abilities: ["Primal Surge / Swipe (E)"],
+    why: "Primal Surge grants an allied champion bonus attack speed for seven seconds and heals them for an amount that scales with how much health they are missing. On an auto-attack carry that is a damage steroid and an emergency heal from one cast.",
+    cue: "The heal is largest when the ally is lowest, so it is worth holding through the first half of a fight rather than topping someone off early.",
+  },
+  {
+    a: "Ezreal", bTag: "pick", kind: "counter", weight: 3,
+    abilities: ["Arcane Shift (E)", "Mystic Shot (Q)"],
+    why: "Arcane Shift is a blink, not a travelling dash, so there is no in-between position to hook him out of — and every Mystic Shot that connects cuts 1.5 seconds off ALL his cooldowns, including Arcane Shift's. A farming Ezreal keeps his escape permanently available.",
+    cue: "Count his Q hits. If he has been last-hitting with Mystic Shot, assume the blink is up and do not spend a hook on him. The window is immediately after he blinks, before the next few Q hits refund it.",
+  },
+  {
+    a: "Ezreal", bTag: "immobile", kind: "counter", weight: 1,
+    abilities: ["Mystic Shot (Q)"],
+    why: "Mystic Shot is a low-cooldown ranged poke that applies on-hit effects and refunds its own cooldown whenever it lands. Against a champion who can neither dodge it nor close on him, it is free damage repeated indefinitely.",
+    cue: "It is a linear skillshot that stops on the first enemy hit — stand behind your minion wave so it is blocked, rather than beside it.",
+  },
+  {
+    a: "Draven", bTag: "dash", kind: "counter", weight: 2,
+    abilities: ["Stand Aside (E)"],
+    why: "Stand Aside throws a fan of axes that knocks enemies aside and slows them for two seconds. A diver who spends their gap-closer to reach him is displaced back out of range and then cannot re-close through the slow.",
+    cue: "He usually holds E as his only self-peel, so baiting it out before committing your dash is the whole play. It cannot push you through terrain, so fighting him against a wall removes most of its value.",
+  },
+  {
+    a: "Draven", bTag: "squishy", kind: "counter", weight: 2,
+    abilities: ["Whirling Death (R)", "League of Draven (P)"],
+    why: "Whirling Death executes champions brought below a health threshold set by his Adoration stacks, and it passes twice — out and back. The threshold is not fixed: a Draven who has been catching axes uncontested executes from far higher health than the same ability did ten minutes earlier.",
+    cue: "His Adoration count is visible on his passive — check it before deciding a fight is survivable. He loses half of it on death, so killing him once genuinely lowers the execute range.",
+  },
+  {
+    a: "Miss Fortune", bTag: "engage", kind: "counter", weight: 2,
+    abilities: ["Bullet Time (R)", "Make It Rain (E)"],
+    why: "Make It Rain slows everyone in a zone by 40% for two seconds and Bullet Time fires waves of six projectiles down a cone for three more. A comp that commits a hard engage arrives clumped and slowed inside exactly the shape her ultimate covers.",
+    cue: "Bullet Time is a stationary channel — interrupt it or spread out before engaging rather than walking through it. Her E landing on the choke is the tell that the ultimate is coming.",
+  },
+  {
+    a: "Miss Fortune", bTag: "immobile", kind: "counter", weight: 1,
+    abilities: ["Double Up (Q)", "Love Tap (P)"],
+    why: "Double Up hits the target and bounces to whoever is behind them, applying on-hit effects to both, and Love Tap adds bonus physical damage every time she switches to a new target. A champion who has to hold a position to farm feeds both halves of that pattern.",
+    cue: "Do not stand directly in line behind your own minions or your support — the bounce prioritises whoever is immediately behind the primary target.",
+  },
+  {
+    a: "Lucian", bTag: "heal", kind: "synergy", weight: 3,
+    abilities: ["Lightslinger (P)"],
+    why: "Vigilance is written into his passive: whenever an ALLY heals or shields him, his next two shots gain bonus magic damage on-hit, and he can bank up to four. An enchanter next to Lucian is not only keeping him alive — every shield cast is also a damage buff, which no other marksman gets.",
+    cue: "The shield is worth casting proactively rather than saving for danger, because holding it also holds his damage. Look for the empowered-shot indicator before committing to an all-in.",
+  },
+  {
+    a: "Lucian", bTag: "shield", kind: "synergy", weight: 3,
+    abilities: ["Lightslinger (P)"],
+    why: "Vigilance counts a SHIELD exactly as it counts a heal — any ally shielding him empowers his next two shots with bonus magic damage on-hit. A shield-only enchanter buffs his damage every time she protects him, without healing a point.",
+    cue: "Shield him on cooldown rather than saving it for danger. Holding the shield also holds his damage, and he can bank up to four empowered shots before a fight starts.",
+  },
+  {
+    a: "Lucian", bTag: "engage", kind: "synergy", weight: 3,
+    abilities: ["Lightslinger (P)", "Relentless Pursuit (E)"],
+    why: "Vigilance also triggers on any enemy champion immobilised within 1000 units of him, so a support who lands a stun, hook or knock-up hands him empowered shots for free on top of the target being unable to move. Relentless Pursuit then refunds two seconds per Lightslinger shot that hits a champion, so he can dash in and still have the dash back out.",
+    cue: "Land the crowd control BEFORE he commits rather than as follow-up — the empowerment has to be banked before the shots are fired for it to matter.",
+  },
+  {
+    a: "Aphelios", bTag: "engage", kind: "synergy", weight: 2,
+    abilities: ["Moonlight Vigil (R)"],
+    why: "Moonlight Vigil locks on to every champion caught in the smite, and with Gravitum equipped it raises the initial slow to 99% and empowers his root to hold everyone that enhanced slow touched. That is a multi-target lockdown handed to whoever engages alongside him.",
+    cue: "It only applies the effect of the weapon currently in his main hand, and his queue order decides that, not he does — check which weapon is up before counting on the root.",
+  },
+  {
+    a: "Aphelios", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["Moonlight Vigil (R)", "The Hitman and the Seer (P)"],
+    why: "With Severum equipped, Moonlight Vigil heals him for a large flat amount as long as it hits at least one champion. A poke pattern that spends its cooldowns chipping him gets the whole exchange refunded by a single ultimate.",
+    cue: "His weapon queue is public information — the Weapon Queue System shows what is coming next. Poke him while Severum is at the back of the queue, not when it is about to come up.",
+  },
+  {
+    a: "Yunara", bTag: "tank", kind: "counter", weight: 2,
+    abilities: ["Vow of the First Lands (P)", "Cultivation of Spirit (Q)"],
+    why: "Her critical strikes deal bonus MAGIC damage and Cultivation of Spirit adds further magic damage on-hit, so a large share of her output bypasses armour entirely. Building armour against her — the reflexive answer to a crit marksman — reduces far less than it looks like it should.",
+    cue: "Magic resist, not armour, is the item that answers her. Her Q also spreads her attacks to nearby enemies while active, so do not stand shoulder-to-shoulder with your frontline while it is up.",
+  },
+  {
+    a: "Locke", bTag: "squishy", kind: "counter", weight: 2,
+    abilities: ["Silver Stake (P)", "Purgatory (R)"],
+    why: "Silver Stake adds magic damage on-hit that grows the more health the target is MISSING, and Purgatory seals away marked champions brought below its threshold outright. The half-health disengage that works against most assassins is the exact state both halves of his kit are built to punish.",
+    cue: "Backing off at low health is what kills you here, not what saves you. Once the artifact is down, leave its radius entirely rather than fighting at the edge — and note he permanently raises the threshold each time he collects it.",
+  },
+  {
+    a: "Locke", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Ashen Pursuit (E)", "Ritual Nails (Q)"],
+    why: "Ritual Nails stack a slow per nail landed, and Ashen Pursuit teleports him in and then dashes him onto his target on the next attack. A champion with no dash eats the full nail stack and then cannot leave the range he arrives at — and a takedown resets the whole approach.",
+    cue: "The nails are the tell: each one landed makes the slow worse, so break off after the first rather than trading through the stack. His E resetting on a takedown means a fight he wins nearby arrives at you immediately.",
+  },
+  {
+    a: "Zaahen", bTag: "poke", kind: "counter", weight: 2,
+    abilities: ["The Darkin Glaive (Q)", "Grim Deliverance (R)", "Cultivation of War (P)"],
+    why: "The Darkin Glaive restores a share of his maximum health on the double slash, Grim Deliverance returns part of the damage it deals to champions as health, and once his Determination is full he can revive outright. Chip damage does not accumulate against him the way it does against other bruisers.",
+    cue: "Check whether his passive is filled before committing — a kill that should be finished is not, if the revive is up. Trading in short bursts is worse here than one committed all-in that outpaces the sustain.",
+  },
+  {
+    a: "Zaahen", bTag: "tank", kind: "counter", weight: 2,
+    abilities: ["Aureate Rush (E)", "Grim Deliverance (R)"],
+    why: "Enemies clipped by the OUTER edge of Aureate Rush take percent-maximum-health MAGIC damage instead of the flat physical hit, and his ultimate passively grants armour penetration besides. Health and armour are both the wrong answer — the edge of his dash is tuned to punish exactly that build.",
+    cue: "Being at the rim of his spin is worse than being at its centre. If he dashes past you, step toward him rather than away.",
+  },
+  {
+    a: "Ambessa", bTag: "squishy", kind: "counter", weight: 3,
+    abilities: ["Public Execution (R)"],
+    why: "Public Execution blinks her behind the FARTHEST enemy champion in the line and suppresses them — so standing behind your own frontline is not protection, it is what selects you as the target. Suppression beats most defensive cooldowns, and she is displacement-immune for the whole animation, so a peel knock-up will not pull her off.",
+    cue: "Positioning deeper makes you MORE likely to be picked, not less. The answers are a cleanse, a stopwatch, or standing off the line entirely — she has to draw a straight line through to reach you.",
+  },
+  {
+    a: "Ambessa", bTag: "burst", kind: "counter", weight: 2,
+    abilities: ["Repudiation (W)"],
+    why: "Repudiation shields her at the moment of cast, and if that shield absorbs ANY champion damage before she slams, the slam's damage is increased by 50%. Dumping burst into her brace is not merely absorbed — it actively pays her for having been hit.",
+    cue: "The brace is a visible half-second wind-up. Hold your combo through it rather than firing into it; the shield only lasts 1.5 seconds and the amplification needs your damage to land inside that window.",
+  },
+  {
+    a: "Hwei", bTag: "immobile", kind: "counter", weight: 2,
+    abilities: ["Signature of the Visionary (P)"],
+    why: "His passive marks anything his abilities hit, and the NEXT damaging ability into that mark detonates it for bonus magic damage. The whole kit is built on landing two spells on the same target, which is trivial against a champion who cannot dodge the second one.",
+    cue: "The mark is what to watch, not the individual spell — once the first ability connects you have four seconds in which the detonation is free for him. Move unpredictably inside that window, not after it.",
+  },
+  {
+    a: "Hwei", bTag: "dive", kind: "counter", weight: 2,
+    abilities: ["Spiraling Despair (R)"],
+    why: "Spiraling Despair attaches a growing aura to one champion that applies a stack of Despair every quarter-second, each adding to a slow that compounds up to twelve stacks. A diver caught inside it loses the mobility the dive depended on, then cannot leave before it explodes.",
+    cue: "It can only be cast when he has NOT entered a mood, so an Hwei sitting on all four subject spells uncast is the one about to ultimate. Spread out — the aura grows over three seconds and damages everyone inside, not only its host.",
+  },
 ];
 
 
@@ -1233,9 +1399,9 @@ export function counterInteractions(meDd, foeDd, foeTags = []) {
 
 /** Interactions where `meDd` synergises with ally `allyDd` (checked both ways). */
 export function synergyInteractions(meDd, allyDd, allyTags = [], meTags = []) {
-  return INTERACTIONS.filter((e) => e.kind === "synergy" &&
+  return dedupeByAbility(INTERACTIONS.filter((e) => e.kind === "synergy" &&
     ((e.a === meDd && matchesTarget(e, allyDd, allyTags)) ||
-     (e.a === allyDd && matchesTarget(e, meDd, meTags))));
+     (e.a === allyDd && matchesTarget(e, meDd, meTags)))));
 }
 
 /** Every interaction naming this champion, for a champion-page summary. */

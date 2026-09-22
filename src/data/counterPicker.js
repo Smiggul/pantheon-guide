@@ -62,7 +62,7 @@ export const PUNISH_LABEL = {
 };
 
 const CLASS_DEFAULT = {
-  JUGGERNAUT: { threats: ["dps", "tank"],    counters: [],                                  weak: ["immobile"] },
+  JUGGERNAUT: { threats: ["dps"],            counters: [],                                  weak: ["immobile"] },
   DIVER:      { threats: ["dive", "engage"], counters: [],                                  weak: [] },
   ASSASSIN:   { threats: ["dive", "burst"],  counters: [],                                  weak: ["squishy"] },
   SKIRMISHER: { threats: ["dps", "dash"],    counters: [],                                  weak: [] },
@@ -193,6 +193,23 @@ const healAbilityCount = (dd) => {
   return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
     .filter((x) => /\bheal(?:s|ing)?\b|lifesteal|omnivamp/i.test(x.desc || "")).length;
 };
+// Shields an ALLY, not merely the caster: self-shielding is personal sustain and
+// says nothing about enabling a carry, so self-only wording stays out.
+const SHIELD_WORD = /shield/i;
+const ALLY_WORD = /\ballies\b|\ballied\b|\bally\b/i;
+const shieldsAllies = (dd) => {
+  const a = ABILITIES[dd];
+  if (!a) return false;
+  return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
+    .some((x) => SHIELD_WORD.test(x.desc || "") && ALLY_WORD.test(x.desc || ""));
+};
+const HEAL_WORD = /\bheals?\b|\bhealing\b/i;
+const healsAllies = (dd) => {
+  const a = ABILITIES[dd];
+  if (!a) return false;
+  return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
+    .some((x) => HEAL_WORD.test(x.desc || "") && ALLY_WORD.test(x.desc || ""));
+};
 const HAS_DASH = /\bdash(?:es|ing)?\b|\bblinks?\b|\bleaps?\b/i;
 const ENGAGING = new Set(["DIVER", "ASSASSIN", "SKIRMISHER", "VANGUARD"]);
 
@@ -203,7 +220,10 @@ for (const c of CHAMPS) {
   if (AUTO_MARK.test(t) || classOf(c.dd) === "MARKSMAN") d.push("auto");
   const cls = classOf(c.dd);
   if (HAS_DASH.test(abilityTextOf(c.dd)) && ENGAGING.has(cls)) d.push("dash");
-  if (healAbilityCount(c.dd) >= 2) d.push("heal");
+  // Two self-heals OR one that targets an ally. The count-only rule missed
+  // Nami, whose single heal is the entire reason to pick her.
+  if (healAbilityCount(c.dd) >= 2 || healsAllies(c.dd)) d.push("heal");
+  if (shieldsAllies(c.dd)) d.push("shield");
   DAMAGE.set(c.dd, d);
 }
 
@@ -232,6 +252,11 @@ const KIT = {
 };
 
 // Resolve a champion's traits (override wins, else class default, else empty).
+// Health-and-resist stackers. Kept out of CLASS_DEFAULT deliberately: an
+// override replaces threats wholesale, and a champion does not stop being a
+// tank because someone hand-wrote what else they threaten with.
+const TANK_CLASSES = new Set(["JUGGERNAUT", "VANGUARD", "WARDEN"]);
+
 export function traitsOf(dd) {
   const base = CLASS_DEFAULT[classOf(dd)] || { threats: [], counters: [], weak: [] };
   const o = OVERRIDE[dd];
@@ -243,7 +268,8 @@ export function traitsOf(dd) {
   const dmg = DAMAGE.get(dd) || [];
   const kit = KIT[dd]?.counters || [];
   return {
-    threats:  [...new Set([...(o?.threats  ?? base.threats  ?? []), ...dmg])],
+    threats:  [...new Set([...(o?.threats  ?? base.threats  ?? []), ...dmg,
+                           ...(TANK_CLASSES.has(classOf(dd)) ? ["tank"] : [])])],
     counters: [...new Set([...(o?.counters ?? base.counters ?? []), ...kit])],
     weak:     o?.weak     ?? base.weak     ?? [],
     punishes: o?.punishes ?? base.punishes ?? [],
