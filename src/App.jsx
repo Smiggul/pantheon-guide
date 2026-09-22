@@ -904,8 +904,15 @@ useEffect(() => {
   const [preHoverOn, setPreHoverOn] = useState(true); // auto-hover the selected champ, ON by default
   const [csMsg,   setCsMsg]     = useState(null);    // transient hover/status message
   const [enemyPanelOpen, setEnemyPanelOpen] = useState(true); // versus-team panel
+  // Manual "playing vs" pick. opponentDd() guesses, and its last resort is
+  // literally "first locked enemy", so it is wrong often enough that the user
+  // needs to be able to correct it. null = follow the guess.
+  const [oppOverride, setOppOverride] = useState(null);      // DDragon id
+  const [oppPickerOpen, setOppPickerOpen] = useState(false);
+  const [oppSearch, setOppSearch] = useState("");
   // Refs so the mount-once champ-select subscription always sees current values.
   const csSyncRef = useRef(csSync);
+  const oppOverrideRef = useRef(oppOverride);
   const preHoverOnRef = useRef(preHoverOn);
   const preHoverSentRef = useRef(false);   // hovered once this session
   const autoImportedRef = useRef(false);   // imported once this session
@@ -915,6 +922,7 @@ useEffect(() => {
   const altRef   = useRef(activeAlt);
   const runeSelRef = useRef(runeSel);
   useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
+  useEffect(() => { oppOverrideRef.current = oppOverride; }, [oppOverride]);
   useEffect(() => { preHoverOnRef.current = preHoverOn; }, [preHoverOn]);
   useEffect(() => { champRef.current = champ; }, [champ]);
   useEffect(() => { roleRef.current = currentRole; }, [currentRole]);
@@ -978,8 +986,11 @@ useEffect(() => {
         setChamp((prev) => (prev.id === target.id ? prev : target));
         const resolvedRole = roleForPosition(target, data.assignedPosition);
         setActiveRole(resolvedRole);
-        // Auto-match the lane opponent's class
-        const oppDd = opponentDd(data.theirTeam, data.assignedPosition, resolvedRole);
+        // Auto-match the lane opponent's class. A manual pick WINS over the
+        // guess here — this runs on every poll (~1.5s), so without the override
+        // the user's choice would be overwritten a second after they made it.
+        const oppDd = oppOverrideRef.current
+          || opponentDd(data.theirTeam, data.assignedPosition, resolvedRole);
         const oc = oppDd ? classOf(oppDd) : null;
         if (oc) setOpenClass(oc);
       }
@@ -1613,9 +1624,16 @@ useEffect(() => {
   // still predict against the right lane.
   const csMyRole = detectedRole || currentRole
     || (detectedChamp?.roles ? Object.keys(detectedChamp.roles)[0] : null);
-  const csOppDd = dispCs
+  const csAutoOppDd = dispCs
     ? opponentDd(dispCs.theirTeam, dispCs.assignedPosition, csMyRole)
     : null;
+  // A manual pick overrides the guess everywhere the opponent is consumed:
+  // the readout, the counter panel, and the enemy-team analysis below.
+  const csOppDd = oppOverride || csAutoOppDd;
+  const inChampSelect = !!dispCs;
+  useEffect(() => {
+    if (!inChampSelect) { setOppOverride(null); setOppPickerOpen(false); }
+  }, [inChampSelect]);
   // Are any enemies locked in yet? (distinguishes "no data" from "broke")
   const csEnemiesLocked = !!dispCs
     && (dispCs.theirTeam || []).some((p) => p.championId > 0);
@@ -2125,20 +2143,114 @@ useEffect(() => {
                 {csChampIcon(detectedChamp.dd, "#ffffff")}
                 <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
                 {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}>({detectedRole})</span>}
-                {csOppChamp ? (
-                  <>
-                    <span style={{ color:"rgba(255,255,255,.35)", margin:"0 2px" }}>vs</span>
-                    {csChampIcon(csOppChamp.dd, "#f0b8b0")}
-                    <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
-                    {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}>— {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
-                  </>
-                ) : (
-                  <span style={{ color:"rgba(255,255,255,.35)" }}>
-                    · {csEnemiesLocked ? "no clear lane opponent yet" : "waiting for enemy picks…"}
+                <span style={{ color:"rgba(255,255,255,.35)", margin:"0 2px" }}>vs</span>
+                {/* The opponent is a GUESS — opponentDd() falls back to "first
+                    locked enemy" when it cannot match lanes, which is wrong often
+                    enough that this has to be correctable by hand. */}
+                <button
+                  onClick={() => { setOppPickerOpen((v) => !v); setOppSearch(""); }}
+                  title="Set who you're actually laning against — the auto-detected opponent is a best guess"
+                  style={{
+                    display:"flex", alignItems:"center", gap:"6px", cursor:"pointer",
+                    fontFamily:"inherit", fontSize:"13px", padding:"2px 8px", borderRadius:"6px",
+                    border:`1px solid ${oppOverride ? "rgba(240,184,176,.5)" : "rgba(255,255,255,.12)"}`,
+                    background: oppPickerOpen ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.03)",
+                    color:"#f0b8b0",
+                  }}>
+                  {csOppChamp ? (
+                    <>
+                      {csChampIcon(csOppChamp.dd, "#f0b8b0")}
+                      <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
+                      {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}>— {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
+                    </>
+                  ) : (
+                    <span style={{ color:"rgba(255,255,255,.45)" }}>
+                      {csEnemiesLocked ? "no clear opponent — pick one" : "waiting for enemy picks…"}
+                    </span>
+                  )}
+                  <span style={{ fontSize:"9px", letterSpacing:"1px", color:"rgba(255,255,255,.35)" }}>
+                    {oppOverride ? "MANUAL" : "AUTO"}
                   </span>
-                )}
+                </button>
               </span>
             )}
+
+            {/* Opponent picker. The enemy team comes first because that is
+                almost always the right answer; the full search is the escape
+                hatch for an unconnected client or an unlocked lane. */}
+            {oppPickerOpen && (() => {
+              const roster = (dispCs?.theirTeam || [])
+                .map((m) => ({ dd: KEY_TO_DD[m.championId], role: POS_ROLE[m.assignedPosition] || null }))
+                .filter((m) => m.dd && DD_TO_CHAMP[m.dd]);
+              const q = oppSearch.trim().toLowerCase();
+              const results = q
+                ? CHAMPS.filter((c) => c.display.toLowerCase().includes(q)).slice(0, 24)
+                : [];
+              const pick = (dd) => {
+                setOppOverride(dd);
+                const oc = dd ? classOf(dd) : null;
+                if (oc) setOpenClass(oc);        // the build follows the corrected pick
+                setOppPickerOpen(false);
+                setOppSearch("");
+              };
+              const chip = (dd, role, active) => (
+                <button key={dd} onClick={() => pick(dd)}
+                  style={{
+                    display:"flex", alignItems:"center", gap:"6px", cursor:"pointer",
+                    fontFamily:"inherit", fontSize:"12px", padding:"5px 9px", borderRadius:"6px",
+                    border:`1px solid ${active ? "rgba(240,184,176,.6)" : "rgba(255,255,255,.1)"}`,
+                    background: active ? "rgba(240,184,176,.14)" : "rgba(255,255,255,.03)",
+                    color:"#e6e9ec",
+                  }}>
+                  {csChampIcon(dd, "#f0b8b0")}
+                  {DD_TO_CHAMP[dd]?.display || dd}
+                  {role && <span style={{ color:"rgba(255,255,255,.4)", fontSize:"10px" }}>{role}</span>}
+                </button>
+              );
+              return (
+                <div style={{ flexBasis:"100%", marginTop:"4px" }}>
+                  <div className="frge-panel" style={{
+                    background:"rgba(20,20,24,.97)", borderColor:"rgba(240,184,176,.28)",
+                    padding:"10px 12px", maxWidth:"760px",
+                  }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
+                      marginBottom:"8px", gap:"10px" }}>
+                      <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
+                        color:"rgba(255,255,255,.45)" }}>Who are you laning against?</span>
+                      <span style={{ display:"flex", gap:"6px" }}>
+                        {oppOverride && (
+                          <button onClick={() => { setOppOverride(null); setOppPickerOpen(false); }}
+                            style={{ cursor:"pointer", fontFamily:"inherit", fontSize:"10px",
+                              padding:"4px 9px", borderRadius:"5px", border:"1px solid rgba(255,255,255,.14)",
+                              background:"rgba(255,255,255,.04)", color:"#9aa0a6" }}>
+                            Back to auto
+                          </button>
+                        )}
+                        <button onClick={() => setOppPickerOpen(false)} aria-label="Close"
+                          style={{ cursor:"pointer", background:"none", border:"none",
+                            color:"#7a8288", fontSize:"15px", lineHeight:1, padding:"0 2px" }}>×</button>
+                      </span>
+                    </div>
+                    {roster.length > 0 && (
+                      <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginBottom:"9px" }}>
+                        {roster.map((m) => chip(m.dd, m.role, m.dd === csOppDd))}
+                      </div>
+                    )}
+                    <input value={oppSearch} onChange={(e) => setOppSearch(e.target.value)}
+                      placeholder={roster.length ? "Or search any champion…" : "Search a champion…"}
+                      style={{ width:"100%", boxSizing:"border-box", background:"rgba(0,0,0,.35)",
+                        border:"1px solid rgba(255,255,255,.12)", borderRadius:"6px", color:"#e6e9ec",
+                        fontSize:"12px", padding:"6px 9px", fontFamily:"inherit", outline:"none" }} />
+                    {results.length > 0 && (
+                      <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"8px",
+                        maxHeight:"180px", overflowY:"auto" }}>
+                        {results.map((c) => chip(c.dd, null, c.dd === csOppDd))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
             {csActive && !detectedChamp && (
               <span style={{ fontSize:"12px", color:"rgba(255,255,255,.45)" }}>
                 Hover or lock a champion…
@@ -2231,8 +2343,16 @@ useEffect(() => {
                     const src = champImg(m.dd);
                     const dc = m.dmg === "AP" ? AP_C : m.dmg === "Mixed" ? S.gold : AD_C;
                     return (
-                      <div key={ek} title={m.isOpp ? "Your lane opponent" : undefined}
+                      <div key={ek}
+                        onClick={() => {
+                          if (m.isOpp) return;              // already the opponent
+                          setOppOverride(m.dd);
+                          const oc = classOf(m.dd);
+                          if (oc) setOpenClass(oc);         // build follows the correction
+                        }}
+                        title={m.isOpp ? "Your lane opponent" : `Set ${(DD_TO_CHAMP[m.dd]?.display) || m.dd} as your lane opponent`}
                         style={{ display:"flex", alignItems:"center", gap:"8px",
+                          cursor: m.isOpp ? "default" : "pointer",
                           padding:"5px 10px 5px 6px", borderRadius:"9px",
                           border:`1px solid ${m.isOpp ? S.orange : "rgba(255,255,255,.1)"}`,
                           background: m.isOpp ? "rgba(249,115,22,.1)" : "rgba(255,255,255,.03)",
