@@ -10,6 +10,16 @@ const CHOGATH_TOP_DEFAULT_RUNES = {
   reason:         "Modern Cho'Gath plays AP burst-tank, and Hail of Blades frontloads the trade: three fast autos with Vorpal Spike magic damage between Rupture and Feral Scream. Cheap Shot fires true damage on every knockup and silence, Grisly Mementos stacks haste off the pick pattern, Ultimate Hunter is the headline — more Feasts means more true-damage executes and more stacks — while Axiom Arcanist amplifies Feast itself and Celerity feeds the surprisingly fast walking mountain.",
 };
 
+const CHOGATH_JGL_DEFAULT_RUNES = {
+  keystone:       "Hail of Blades",
+  primary:        "Domination",
+  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Axiom Arcanist","Celerity"],
+  shards:         ["Adaptive Force","Health (scaling)","Health (scaling)"],
+  reason:         "Same keystone as Top, doing a different job: on the jungle tank build Hail of Blades is a CLEAR tool first, three fast Vorpal Spike autos per camp, which is what drops the clear to roughly 2:36 and lets you leave the jungle before other tanks have finished it. Cheap Shot still fires true damage off every Rupture knockup and Feral Scream silence, Grisly Mementos stacks haste off the gank pattern, and Ultimate Hunter is the headline for the same reason it is on Top \u2014 more Feasts means more permanent health and more true-damage executes. The shards go health-heavy rather than double adaptive because this page is building Heartsteel, not Rocketbelt.",
+};
+
 // ══════════════════════════════════════════════════════════════════════════
 //  CHO'GATH — Terror of the Void: AP Feast Tank  (Top ~51% 26.14)
 // ══════════════════════════════════════════════════════════════════════════
@@ -17,7 +27,7 @@ const CHOGATH_TOP_DEFAULT_RUNES = {
 export default {
   id:"chogath", display:"Cho'Gath", dd:"Chogath",
   color:"#3a2a4a", glow:"#b080e0",
-  lanes:["Top"],
+  lanes:["Top","Jungle"],
   // Standard Cho'Gath (below) is the modern AP Hail of Blades burst mage. This
   // is the full-tank line — the higher-WR build on Mobalytics 26.14 (53.1% / 2.7k).
   altBuilds:{
@@ -59,6 +69,28 @@ export default {
         VANGUARD:{ahead:[I("Riftmaker","True damage wins the tank mirror — Feast eats the loser."),I("Rabadon's Deathcap","Out-scale their durability curve."),I("Thornmail","Anti-heal their sustain engage.")],behind:[I("Kaenic Rookern","Shield the AP half of their engage."),I("Randuin's Omen","Slow their wombo follow-up."),I("Jak'Sho, The Protean","Ramp the counter-fight.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
         WARDEN:{ahead:[I("Riftmaker","True damage cracks the peel stalemate — Feast is true too."),I("Rabadon's Deathcap","Out-scale the mitigation budget."),I("Thornmail","Anti-heal their protected carry.")],behind:[I("Riftmaker","Required true damage vs stacked resists."),I("Spirit Visage","Sustain the stalemate."),I("Thornmail","Anti-heal to make progress.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
         SPECIALIST:{ahead:[I("Hextech Rocketbelt","Rupture-silence answers most gimmicks."),I("Riftmaker","Drain through the tricks."),I("Rabadon's Deathcap","Scale past the gimmick.")],behind:[I("Kaenic Rookern","Shield the surprise burst."),I("Randuin's Omen","Slow the gimmick down."),I("Spirit Visage","Sustain through the unfamiliar.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
+      },
+    },
+    Jungle:{
+      bans:["Master Yi","Lillia","Kha'Zix"], replacements:["Sejuani","Zac","Rammus"],
+      role:"Feast-Stacking Tank Jungler",
+      corePath:"Heartsteel  ›  Boots of Swiftness  ›  Dead Man's Plate  ›  Force of Nature",
+      coreNote:"Added in the 26.18 sweep — Cho'Gath Jungle is S/S+ on live data (51-53% WR, rank 2 of 78, ~113k Emerald+ games) and is no longer an off-meta curiosity. It is a different champion from the Top page: there you are an AP burst mage, here you are a frontline tank whose selling point is clear speed. An optimised Cho clear finishes around 2:36, faster than 95% of junglers, so you are out on the map making plays while other tanks are still farming. Heartsteel turns every gank into permanent health on top of Feast stacks, Boots of Swiftness beat the slows that punish a big slow target, Dead Man's Plate converts that into engage speed, and Force of Nature answers the AP junglers who otherwise kite you. Keep Hail of Blades — the three fast autos are what make the clear, not a trade tool. Swap to the Rocketbelt AP line when the enemy team is mostly squishy and you want to delete a carry rather than soak for yours.",
+      sideItems:["Thornmail","Jak'Sho, The Protean","Kaenic Rookern","Spirit Visage","Randuin's Omen","Sunfire Aegis","Hollow Radiance"],
+      data:{
+        JUGGERNAUT:{ahead:[I("Thornmail","Anti-heal lands before their sustain out-scales your HP."),I("Dead Man's Plate","Speed to catch them between waves."),I("Randuin's Omen","Blunt the auto-weave they brawl with.")],behind:[I("Thornmail","Cut the healing before comparing health bars."),I("Jak'Sho, The Protean","Resists ramp across a long brawl."),I("Spirit Visage","Amplify what little sustain you have.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        DIVER:{ahead:[I("Heartsteel","Every counter-gank proc is permanent health."),I("Randuin's Omen","Slow the dive mid-commit, then Rupture."),I("Dead Man's Plate","Arrive first and set the fight up.")],behind:[I("Randuin's Omen","The active blanks their dive window."),I("Kaenic Rookern","Shield the AP divers."),I("Jak'Sho, The Protean","Ramp resists as they keep committing.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        ASSASSIN:{ahead:[I("Heartsteel","Health stacking puts you out of one-combo range."),I("Force of Nature","MR plus speed answers AP assassins."),I("Randuin's Omen","Slow the reset escape — then Feast.")],behind:[I("Kaenic Rookern","Magic shield eats the opening burst."),I("Force of Nature","Stack MR against repeated attempts."),I("Randuin's Omen","Deny the clean reset.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        SKIRMISHER:{ahead:[I("Thornmail","Grievous wounds break their duel sustain."),I("Randuin's Omen","Attack-speed slow blunts the extended fight."),I("Frozen Heart","Cut the DPS they win 1v1s with.")],behind:[I("Randuin's Omen","Their DPS window is the whole matchup."),I("Thornmail","Anti-heal the lifesteal loop."),I("Frozen Heart","Attack-speed aura is the hard answer.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        BURST_MAGE:{ahead:[I("Force of Nature","MR ramp makes the rotation not matter."),I("Kaenic Rookern","Shield blanks the combo — silence blanks the next."),I("Heartsteel","Out-scale the burst ceiling entirely.")],behind:[I("Kaenic Rookern","Rush the magic shield."),I("Force of Nature","Stack MR and speed to close."),I("Spirit Visage","MR plus sustain through the poke.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        BATTLEMAGE:{ahead:[I("Force of Nature","Beat the ramp before it starts."),I("Kaenic Rookern","Shield resets every trade window."),I("Thornmail","Anti-heal the drain mages.")],behind:[I("Kaenic Rookern","MR shield answers sustained magic."),I("Force of Nature","The ramp is what kills you — stack MR."),I("Spirit Visage","Amplify healing in the attrition war.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        ARTILLERY:{ahead:[I("Dead Man's Plate","Speed is the only answer to range."),I("Force of Nature","Cross the poke zone without melting."),I("Heartsteel","Health to survive the approach.")],behind:[I("Force of Nature","MR plus movement speed to close at all."),I("Dead Man's Plate","Required closing speed."),I("Kaenic Rookern","Shield the volleys on the way in.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        MARKSMAN:{ahead:[I("Randuin's Omen","Crit reduction plus the active deletes their window."),I("Thornmail","Anti-heal the lifesteal."),I("Dead Man's Plate","Speed to actually reach them.")],behind:[I("Randuin's Omen","Blanks their DPS outright."),I("Frozen Heart","Attack-speed aura on the whole backline."),I("Thornmail","Cut the lifesteal sustaining them.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        ENCHANTER:{ahead:[I("Thornmail","Grievous wounds is the whole matchup."),I("Dead Man's Plate","Speed to reach the protected carry."),I("Hollow Radiance","AoE burn keeps anti-heal on everyone.")],behind:[I("Thornmail","Anti-heal before anything else."),I("Dead Man's Plate","Closing speed past the peel."),I("Jak'Sho, The Protean","Ramp through their extended fights.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        CATCHER:{ahead:[I("Force of Nature","MR plus speed answers a landed hook."),I("Heartsteel","Health means one pick does not kill you."),I("Dead Man's Plate","Speed out of the follow-up.")],behind:[I("Kaenic Rookern","Shield eats the burst after the catch."),I("Force of Nature","MR against the magic follow-up."),I("Heartsteel","Raw health buys the escape.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        VANGUARD:{ahead:[I("Randuin's Omen","Answer their engage with a better one."),I("Thornmail","Anti-heal the tank sustain."),I("Jak'Sho, The Protean","Out-ramp the frontline war.")],behind:[I("Jak'Sho, The Protean","Resist ramp is how you win a tank mirror."),I("Randuin's Omen","Blunt their follow-up damage."),I("Thornmail","Cut their healing.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        WARDEN:{ahead:[I("Thornmail","Anti-heal breaks the peel comp."),I("Hollow Radiance","AoE burn pressures a stalling frontline."),I("Dead Man's Plate","Speed past the wall to the carry.")],behind:[I("Thornmail","Grievous wounds on the sustain."),I("Jak'Sho, The Protean","Ramp resists through a long siege."),I("Spirit Visage","Amplify your own healing.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
+        SPECIALIST:{ahead:[I("Heartsteel","Health scaling answers most gimmicks."),I("Force of Nature","MR covers the magic-damage half."),I("Randuin's Omen","Slow whatever they are doing down.")],behind:[I("Kaenic Rookern","Shield the surprise damage."),I("Randuin's Omen","Slow the pattern you have not learned yet."),I("Spirit Visage","Sustain through the unfamiliar.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},
       },
     },
   },

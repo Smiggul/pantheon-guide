@@ -86,8 +86,8 @@ export default {
     Jungle:{
       bans:["Rammus","Lillia","Diana"], replacements:["Rek'Sai","Sett","Xin Zhao"],
       role:"Diver / Bruiser",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Black Cleaver",
-      coreNote:"Same core as Top. Jungle Wukong uses W clone to bait enemy spells during ganks — drop it and circle behind while they attack it. R spin for engagement and AoE after W repositioning.",
+      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Black Cleaver  ›  Sundered Sky",
+      coreNote:"Same core as Top. 26.18 re-verified: Black Cleaver has overtaken Sundered Sky as the second item — the repeated Sundered Sky nerfs since 26.16 tipped it, and live 26.18 data has Trinity Force › Plated Steelcaps › Black Cleaver at 51.9%. R spin fills Cleaver's stacks in a single rotation, which is why it scales better here than on most bruisers; Sundered Sky is still the pick-up when you want the guaranteed-crit heal instead of shred. Jungle Wukong uses W clone to bait enemy spells during ganks — drop it and circle behind while they attack it. R spin for engagement and AoE after W repositioning.",
       sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Lord Dominik's Regards"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver in one rotation on ganks."),I("Serylda's Grudge","Slow stops their walk-down after gank landing.")],behind:[I("Death's Dance","Delay Darius burst while W clone distracts them."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},
