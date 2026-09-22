@@ -16,6 +16,7 @@ import JunglePanel from "./JunglePanel.jsx";
 import CounterPicker from "./CounterPicker.jsx";
 import DraftCoach from "./DraftCoach.jsx";
 import HowToPlay from "./HowToPlay.jsx";
+import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { synergiesFor } from "./data/synergies.js";
@@ -590,7 +591,18 @@ export default function App() {
     const [runeMap, setRuneMap] = useState({});   // runeName    → icon path string
     const [spellMap, setSpellMap] = useState({}); // spellName   → icon path string
     const [abilityMap, setAbilityMap] = useState({}); // ddKey → {passive, spells:[Q,W,E,R]}
-    const [pillTip, setPillTip] = useState(null);     // ability hover tooltip (skill order)
+    // ONE tooltip for the whole app. It MUST live at App level: RunePage is
+    // defined inside App and rendered as JSX, so every App re-render gives it a
+    // new component identity and React remounts its whole subtree. The
+    // champ-select poll fires every 1.5s, so a tooltip whose state lived inside
+    // RunePage was wiped about a second after it appeared — the "hovers for a
+    // split second then disappears" bug. App state survives that remount.
+    const [tip, setTip] = useState(null);   // { title, body, x, y }
+    const showTip = (title, body, e) => setTip({ title, body, x: e.clientX, y: e.clientY });
+    const trackTip = (e) => { const { clientX: x, clientY: y } = e; setTip(t => t ? { ...t, x, y } : null); };
+    const hideTip = () => setTip(null);
+    const itemTip = (name, e, fallback = "Situational pickup — buy it when the enemy comp calls for it.") =>
+      showTip(name, ITEM_RATIONALE[name] || fallback, e);
 
 useEffect(() => {
   // Full item.json → name→ID map. This must stay complete so ANY corePath item
@@ -673,9 +685,9 @@ useEffect(() => {
   const spellFor = (letter) => champAbil?.spells?.[{ Q: 0, W: 1, E: 2, R: 3 }[letter]] || null;
   const abilEnter = (letter, e) => {
     const s = spellFor(letter);
-    if (s) setPillTip({ name: `${letter} · ${s.name}`, desc: s.description, x: e.clientX, y: e.clientY });
+    if (s) showTip(`${letter} · ${s.name}`, s.description, e);
   };
-  const abilMove = (e) => setPillTip(t => (t ? { ...t, x: e.clientX, y: e.clientY } : null));
+  const abilMove = trackTip;
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -1161,7 +1173,6 @@ useEffect(() => {
   const secRunes = sel.secondaryRunes;
   const shards   = sel.shards;
   const override = recommended?.champOverrides?.[enemyChamp] || null;
-  const [tooltip, setTooltip] = useState(null);
 
   const ALL_TREES = Object.keys(RUNE_TREES);
 
@@ -1230,8 +1241,8 @@ useEffect(() => {
     const n = [...s.shards]; n[rowIdx] = name; return { ...s, shards: n };
   });
 
-  const tip     = (name, e) => setTooltip({ name, x: e.clientX, y: e.clientY });
-  const moveTip = (name, e) => setTooltip(t => t ? { ...t, x: e.clientX, y: e.clientY } : null);
+  // Rune tooltips route through the shared App-level tooltip (see showTip).
+  const runeTip = (name, e) => showTip(name, RUNE_DESCRIPTIONS[name] || "", e);
 
   // ── Rune circle ───────────────────────────────────────────────────────────
   const Rune = ({ name, size = 42, isKeystone = false, selected, treeColor,
@@ -1244,15 +1255,15 @@ useEffect(() => {
       <div
         key={name}
         onClick={!locked ? onClick : undefined}
-        onMouseEnter={e  => tip(name, e)}
-        onMouseMove={e   => moveTip(name, e)}
-        onMouseLeave={()  => setTooltip(null)}
+        onMouseEnter={e  => runeTip(name, e)}
+        onMouseMove={trackTip}
+        onMouseLeave={hideTip}
         style={{
           width: size, height: size, borderRadius: "50%",
           position: "relative", flexShrink: 0,
           cursor: locked ? "not-allowed" : "pointer",
           transition: "all .18s ease",
-          transform: tooltip?.name === name && selected ? "scale(1.12)" : "scale(1)",
+          transform: tip?.title === name && selected ? "scale(1.12)" : "scale(1)",
         }}
       >
         {/* Glow ring */}
@@ -1316,8 +1327,9 @@ useEffect(() => {
               title={isBlocked ? "Click to swap primary ↔ secondary" : t}>
               <div
                 onClick={() => onPick(t)}
-                onMouseEnter={e  => tip(t, e)}
-                onMouseLeave={()  => setTooltip(null)}
+                onMouseEnter={e  => runeTip(t, e)}
+                onMouseMove={trackTip}
+                onMouseLeave={hideTip}
                 style={{
                   width: 36, height: 36, borderRadius: "50%", overflow: "hidden",
                   border: isActive
@@ -1480,8 +1492,9 @@ useEffect(() => {
                   <div key={opt} style={{ position: "relative" }}>
                   <div
                     onClick={() => pickShard(ri, opt)}
-                    onMouseEnter={e  => tip(opt, e)}
-                    onMouseLeave={()  => setTooltip(null)}
+                    onMouseEnter={e  => runeTip(opt, e)}
+                    onMouseMove={trackTip}
+                    onMouseLeave={hideTip}
                     style={{
                       width: 24, height: 24, borderRadius: "50%", cursor: "pointer",
                       background: isSel ? "rgba(212,175,55,.2)" : "rgba(255,255,255,.04)",
@@ -1563,25 +1576,6 @@ useEffect(() => {
         </div>
       )}
 
-      {/* Cursor tooltip — portalled to <body> so a transformed ancestor can't
-          offset position:fixed (that was the "down-and-left of cursor" bug). */}
-      {tooltip && typeof document !== "undefined" && createPortal(
-        <div style={{
-          position: "fixed", left: tooltip.x + 16, top: tooltip.y - 12,
-          zIndex: 9999, pointerEvents: "none", maxWidth: 240,
-          background: "rgba(27,27,30,.97)",
-          border: "1px solid rgba(212,175,55,.35)",
-          borderRadius: 8, padding: "8px 12px",
-          boxShadow: "0 8px 32px rgba(0,0,0,.7)",
-        }}>
-          <div style={{ fontSize: 12, fontWeight: "bold", color: "#D4AF37",
-            marginBottom: 4, letterSpacing: ".3px" }}>{tooltip.name}</div>
-          <div style={{ fontSize: 11, color: "#c7ccd1", lineHeight: 1.5 }}>
-            {RUNE_DESCRIPTIONS[tooltip.name] || ""}
-          </div>
-        </div>,
-        document.body
-      )}
     </div>
   );
 };
@@ -2939,7 +2933,7 @@ useEffect(() => {
                       const accent = isUlt ? S.gold : S.orange;
                       return (
                         <div key={ab} style={{ display:"flex", gap:"3px", alignItems:"center", marginBottom:"3px" }}>
-                          <span onMouseEnter={e => abilEnter(ab, e)} onMouseMove={abilMove} onMouseLeave={() => setPillTip(null)}
+                          <span onMouseEnter={e => abilEnter(ab, e)} onMouseMove={abilMove} onMouseLeave={hideTip}
                             style={{ position:"relative", width:"22px", height:"20px", flexShrink:0, borderRadius:"5px", overflow:"hidden",
                             display:"flex", alignItems:"center", justifyContent:"center", fontSize:"10px", fontWeight:"800",
                             border:`1px solid ${accent}66`, background:`${accent}14`, color: isUlt ? S.gold : "#f0b070",
@@ -2975,7 +2969,7 @@ useEffect(() => {
                       const accent = isUlt ? S.gold : S.orange;
                       return (
                         <span key={i} style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", gap:"2px" }}>
-                          <span onMouseEnter={e => abilEnter(lv, e)} onMouseMove={abilMove} onMouseLeave={() => setPillTip(null)}
+                          <span onMouseEnter={e => abilEnter(lv, e)} onMouseMove={abilMove} onMouseLeave={hideTip}
                             style={{ position:"relative", width:"22px", height:"22px", borderRadius:"5px", flexShrink:0, overflow:"hidden",
                             display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", fontWeight:"800",
                             border:`1px solid ${isUlt ? S.gold : accent + "66"}`,
@@ -3000,17 +2994,6 @@ useEffect(() => {
             </div>
           )}
 
-          {/* Ability hover tooltip for the skill-order pills — portalled to <body> */}
-          {pillTip && typeof document !== "undefined" && createPortal(
-            <div style={{ position:"fixed", left:pillTip.x + 16, top:pillTip.y - 12, zIndex:9999,
-              pointerEvents:"none", maxWidth:280, background:"rgba(27,27,30,.97)",
-              border:"1px solid rgba(212,175,55,.35)", borderRadius:8, padding:"8px 12px",
-              boxShadow:"0 8px 32px rgba(0,0,0,.7)" }}>
-              <div style={{ fontSize:12, fontWeight:"bold", color:"#D4AF37", marginBottom:4, letterSpacing:".3px" }}>{pillTip.name}</div>
-              <div style={{ fontSize:11, color:"#c7ccd1", lineHeight:1.5 }}>{pillTip.desc}</div>
-            </div>,
-            document.body
-          )}
 
           {/* Build Forge now opens from the top nav; the authoring modal renders below. */}
 
@@ -3246,7 +3229,10 @@ useEffect(() => {
               const ek  = `core-${item}`;
               const src = itemImg(item, itemMap);
               return (
-                <div key={idx} title={ITEM_RATIONALE[item] || item} style={{ display:"flex", alignItems:"center", gap:"6px", cursor:"help" }}>
+                <div key={idx}
+                  onMouseEnter={e => itemTip(item, e, "Part of the core build path.")}
+                  onMouseMove={trackTip} onMouseLeave={hideTip}
+                  style={{ display:"flex", alignItems:"center", gap:"6px", cursor:"help" }}>
                   <div style={{
                     width:"44px", height:"44px", borderRadius:"8px", overflow:"hidden",
                     border:`2px solid ${col}55`, background:`${col}15`,
@@ -3492,7 +3478,10 @@ useEffect(() => {
               const ek  = `side-${name}`;
               const src = itemImg(name, itemMap);
               return (
-                <div key={name} title={ITEM_RATIONALE[name] || `${name} — situational pickup`} style={{
+                <div key={name}
+                  onMouseEnter={e => itemTip(name, e)}
+                  onMouseMove={trackTip} onMouseLeave={hideTip}
+                  style={{
                   display:"flex", alignItems:"center", gap:"7px",
                   background:"rgba(255,255,255,.03)",
                   border:`1px solid ${col}30`, borderRadius:"7px",
@@ -3660,6 +3649,42 @@ useEffect(() => {
 
       {/* Keeps the fixed bottom ad from covering the last of the page content */}
       {showAds && <div style={{ height: adBottomOpen ? "78px" : "22px" }} />}
+
+      {/* Bottom-LEFT so it never fights the game-state toggle bottom-right, and
+          lifted clear of the bottom ad bar when that's expanded. */}
+      <FeedbackBubble S={S} appVersion={appVersion} patch={GAME_PATCH}
+        champ={champ?.display} role={currentRole}
+        offset={showAds ? (adBottomOpen ? 92 : 36) : 26} />
+
+      {/* ── THE tooltip ──────────────────────────────────────────────────────
+          One portal for runes, ability pills and item chips. Portalled to
+          <body> so a transformed ancestor can't clip it, pointer-events:none
+          so it never steals the hover that spawned it, and coloured from S so
+          it tracks THEME_ACCENTS instead of being hardcoded gold. */}
+      {tip && typeof document !== "undefined" && createPortal(
+        (() => {
+          // Flip to the other side of the cursor rather than running off the
+          // edge. The situational strip sits at the bottom of the page and the
+          // rune tree icons sit at the right, so both edges get hit in practice.
+          const W = 300, vw = window.innerWidth, vh = window.innerHeight;
+          const left = tip.x + 16 + W > vw ? Math.max(8, tip.x - 16 - W) : tip.x + 16;
+          const top  = Math.max(8, Math.min(tip.y - 12, vh - (tip.body ? 150 : 52)));
+          return (
+        <div style={{
+          position:"fixed", left, top, zIndex:9999,
+          pointerEvents:"none", maxWidth:W,
+          background:"rgba(27,27,30,.97)",
+          border:`1px solid ${S.border}`, borderRadius:8, padding:"8px 12px",
+          boxShadow:`0 8px 32px rgba(0,0,0,.7), 0 0 0 1px ${S.gold}12`,
+        }}>
+          <div style={{ fontSize:12, fontWeight:"bold", color:S.gold,
+            marginBottom: tip.body ? 4 : 0, letterSpacing:".3px" }}>{tip.title}</div>
+          {tip.body && <div style={{ fontSize:11, color:"#c7ccd1", lineHeight:1.5 }}>{tip.body}</div>}
+        </div>
+          );
+        })(),
+        document.body
+      )}
 
     </div>
   );
