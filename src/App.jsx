@@ -909,7 +909,6 @@ useEffect(() => {
   // needs to be able to correct it. null = follow the guess.
   const [oppOverride, setOppOverride] = useState(null);      // DDragon id
   const [oppPickerOpen, setOppPickerOpen] = useState(false);
-  const [oppSearch, setOppSearch] = useState("");
   // Refs so the mount-once champ-select subscription always sees current values.
   const csSyncRef = useRef(csSync);
   const oppOverrideRef = useRef(oppOverride);
@@ -2148,7 +2147,7 @@ useEffect(() => {
                     locked enemy" when it cannot match lanes, which is wrong often
                     enough that this has to be correctable by hand. */}
                 <button
-                  onClick={() => { setOppPickerOpen((v) => !v); setOppSearch(""); }}
+                  onClick={() => setOppPickerOpen((v) => !v)}
                   title="Set who you're actually laning against — the auto-detected opponent is a best guess"
                   style={{
                     display:"flex", alignItems:"center", gap:"6px", cursor:"pointer",
@@ -2182,16 +2181,11 @@ useEffect(() => {
               const roster = (dispCs?.theirTeam || [])
                 .map((m) => ({ dd: KEY_TO_DD[m.championId], role: POS_ROLE[m.assignedPosition] || null }))
                 .filter((m) => m.dd && DD_TO_CHAMP[m.dd]);
-              const q = oppSearch.trim().toLowerCase();
-              const results = q
-                ? CHAMPS.filter((c) => c.display.toLowerCase().includes(q)).slice(0, 24)
-                : [];
               const pick = (dd) => {
                 setOppOverride(dd);
                 const oc = dd ? classOf(dd) : null;
                 if (oc) setOpenClass(oc);        // the build follows the corrected pick
                 setOppPickerOpen(false);
-                setOppSearch("");
               };
               const chip = (dd, role, active) => (
                 <button key={dd} onClick={() => pick(dd)}
@@ -2236,15 +2230,9 @@ useEffect(() => {
                         {roster.map((m) => chip(m.dd, m.role, m.dd === csOppDd))}
                       </div>
                     )}
-                    <input value={oppSearch} onChange={(e) => setOppSearch(e.target.value)}
-                      placeholder={roster.length ? "Or search any champion…" : "Search a champion…"}
-                      style={{ width:"100%", boxSizing:"border-box", background:"rgba(0,0,0,.35)",
-                        border:"1px solid rgba(255,255,255,.12)", borderRadius:"6px", color:"#e6e9ec",
-                        fontSize:"12px", padding:"6px 9px", fontFamily:"inherit", outline:"none" }} />
-                    {results.length > 0 && (
-                      <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"8px",
-                        maxHeight:"180px", overflowY:"auto" }}>
-                        {results.map((c) => chip(c.dd, null, c.dd === csOppDd))}
+                    {roster.length === 0 && (
+                      <div style={{ fontSize:"11px", color:"rgba(255,255,255,.4)", lineHeight:1.5 }}>
+                        No enemy picks yet — they appear here the moment anyone locks in.
                       </div>
                     )}
                   </div>

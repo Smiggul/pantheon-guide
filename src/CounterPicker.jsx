@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CHAMPS } from "./data/champs/index.js";
 import { matchup, THREAT_LABEL, WEAKNESS_LABEL } from "./data/counterPicker.js";
 
@@ -12,6 +13,12 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
   const favourable = rows.filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
   const even       = rows.filter((r) => r.score === 0);
   const hard       = rows.filter((r) => r.score < 0).sort((a, b) => a.score - b.score);
+
+  const [q, setQ] = useState("");
+  const needle = q.trim().toLowerCase();
+  const hit = (r) => !needle || r.c.display.toLowerCase().includes(needle);
+  const fav = favourable.filter(hit), hardF = hard.filter(hit), evenF = even.filter(hit);
+  const totalHits = fav.length + hardF.length + evenF.length;
 
   const bans = new Set(champ.roles?.[role]?.bans || champ.bans || []);
 
@@ -142,14 +149,40 @@ export default function CounterPicker({ champ, role, champImg, onClose, onPick, 
             style={{ cursor:"pointer", borderRadius:"9px", padding:"8px 16px", fontSize:"12px", fontWeight:700,
               border:`1px solid ${gold}55`, background:`${gold}18`, color:gold }}>✕ Close</button>
         </div>
-        <hr style={{ height:"1px", border:0, background:"linear-gradient(90deg,transparent,rgba(255,107,53,.5),rgba(212,175,55,.3),transparent)", margin:"14px 0 24px" }} />
+        <hr style={{ height:"1px", border:0, background:"linear-gradient(90deg,transparent,rgba(255,107,53,.5),rgba(212,175,55,.3),transparent)", margin:"14px 0 18px" }} />
+
+        <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"22px", flexWrap:"wrap" }}>
+          <input value={q} onChange={(e) => setQ(e.target.value)}
+            placeholder={`Find a ${role} matchup…`}
+            style={{ flex:"1 1 260px", maxWidth:"360px", boxSizing:"border-box",
+              background:"rgba(0,0,0,.35)", border:`1px solid ${gold}33`, borderRadius:"8px",
+              color:"#e6e9ec", fontSize:"13px", padding:"9px 12px", fontFamily:"inherit", outline:"none" }} />
+          {needle && (
+            <>
+              <span style={{ fontSize:"11px", color:dim }}>
+                {totalHits} {totalHits === 1 ? "match" : "matches"}
+              </span>
+              <button onClick={() => setQ("")} className="frge-pill"
+                style={{ cursor:"pointer", borderRadius:"7px", padding:"6px 12px", fontSize:"11px",
+                  border:"1px solid rgba(255,255,255,.14)", background:"rgba(255,255,255,.03)", color:dim }}>
+                Clear
+              </button>
+            </>
+          )}
+        </div>
+
+        {needle && totalHits === 0 && (
+          <div style={{ fontSize:"13px", color:dim, padding:"18px 0 30px" }}>
+            No {role} champion matches “{q.trim()}”. They may not be played in this role.
+          </div>
+        )}
 
         <Section title="You can play against" sub="favourable — you answer more than they do"
-          colour="#57d977" rows={favourable} tone="good" />
+          colour="#57d977" rows={fav} tone="good" />
         <Section title="Hard counters" sub="they answer more than you do — respect or ban"
-          colour="#e8685f" rows={hard} tone="bad" />
+          colour="#e8685f" rows={hardF} tone="bad" />
         <Section title="Even lanes" sub="skill matchup"
-          colour="#c9c2b6" rows={even} tone="even" />
+          colour="#c9c2b6" rows={evenF} tone="even" />
       </div>
     </div>
   );
