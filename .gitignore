@@ -29,3 +29,7 @@ release
 
 # local build-export test artifacts
 exports/
+
+# Python bytecode from helpers/
+__pycache__/
+*.pyc

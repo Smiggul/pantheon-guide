@@ -36,6 +36,37 @@ except Exception:
 PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public" / "ddragon"
 
 RAW = "https://raw.githubusercontent.com/noxelisdev/LoL_DDragon/master"
+CDN = "https://ddragon.leagueoflegends.com/cdn"
+VERSIONS_API = "https://ddragon.leagueoflegends.com/api/versions.json"
+
+# Where the remote files live for whichever source is in use.
+#
+# Riot's own CDN is canonical and publishes on patch day; the community mirror
+# can lag. On 26.19 it sat a full patch behind, which matters because
+# check-patch.mjs reads Riot's API: CI would detect 16.19.1, then pull 16.18.1
+# from the mirror and open a PR named for a patch it did not actually contain.
+# So Riot is the default and the mirror is the fallback.
+#
+# Layout differs between them. Riot pins data+img under /cdn/<version>/ but
+# serves perk-images unversioned at /cdn/img/. The mirror mimics the dragontail
+# tarball, where perk-images sits at the root and the rest lives under /latest.
+SRC = {
+    "data": f"{RAW}/latest/data/en_US",
+    "img":  f"{RAW}/latest/img",
+    "perk": f"{RAW}/img",
+}
+
+
+def use_riot(version: str) -> None:
+    SRC["data"] = f"{CDN}/{version}/data/en_US"
+    SRC["img"] = f"{CDN}/{version}/img"
+    SRC["perk"] = f"{CDN}/img"
+
+
+def use_mirror() -> None:
+    SRC["data"] = f"{RAW}/latest/data/en_US"
+    SRC["img"] = f"{RAW}/latest/img"
+    SRC["perk"] = f"{RAW}/img"
 
 # Stat shard icons are not listed in runesReforged.json — mirror of
 # SHARD_ICONS in src/App.jsx (plus its fallback icon).
@@ -107,7 +138,7 @@ def sync_abilities(champ_raw: dict, force: bool) -> None:
 
     def one(cid: str) -> None:
         try:
-            raw = json.loads(fetch(f"{RAW}/latest/data/en_US/champion/{cid}.json"))
+            raw = json.loads(fetch(f"{SRC['data']}/champion/{cid}.json"))
         except Exception:
             return
         d = raw["data"].get(cid)
@@ -128,10 +159,10 @@ def sync_abilities(champ_raw: dict, force: bool) -> None:
         with lock:
             abilities[cid] = entry
             if p_img:
-                img_jobs.append((f"{RAW}/latest/img/passive/{p_img}",
+                img_jobs.append((f"{SRC['img']}/passive/{p_img}",
                                  PUBLIC_DIR / "img" / "passive" / p_img))
             for s in entry["spells"]:
-                img_jobs.append((f"{RAW}/latest/img/spell/{s['image']}",
+                img_jobs.append((f"{SRC['img']}/spell/{s['image']}",
                                  PUBLIC_DIR / "img" / "spell" / s["image"]))
 
     with ThreadPoolExecutor(max_workers=16) as pool:
@@ -186,14 +217,34 @@ def download_many(jobs: list, force: bool, label: str) -> None:
         print(f"      ⚠ {url}")
 
 
-def sync_from_github(force: bool) -> str:
-    print(f"\n→ Fetching latest patch data from noxelisdev/LoL_DDragon ...")
+def resolve_source(prefer_mirror: bool) -> tuple:
+    """Pick a source and return (label, item_raw, version).
 
-    item_raw = json.loads(fetch(f"{RAW}/latest/data/en_US/item.json"))
-    champ_raw = json.loads(fetch(f"{RAW}/latest/data/en_US/champion.json"))
-    runes_raw = json.loads(fetch(f"{RAW}/latest/data/en_US/runesReforged.json"))
+    Riot first, mirror as fallback. Both are verified by actually fetching
+    item.json, so a source that 404s or serves a stale version is caught here
+    rather than halfway through a few thousand image downloads."""
+    if not prefer_mirror:
+        try:
+            version = json.loads(fetch(VERSIONS_API))[0]
+            use_riot(version)
+            item_raw = json.loads(fetch(f"{SRC['data']}/item.json"))
+            return ("Riot Data Dragon", item_raw, version)
+        except Exception as e:
+            print(f"  ! Riot CDN unavailable ({e}) — falling back to the mirror")
 
-    version = item_raw.get("version", "latest")
+    use_mirror()
+    item_raw = json.loads(fetch(f"{SRC['data']}/item.json"))
+    return ("noxelisdev/LoL_DDragon (mirror)", item_raw, item_raw.get("version", "latest"))
+
+
+def sync_from_github(force: bool, prefer_mirror: bool = False) -> str:
+    label, item_raw, resolved = resolve_source(prefer_mirror)
+    print(f"\n→ Fetching patch data from {label} ...")
+    champ_raw = json.loads(fetch(f"{SRC['data']}/champion.json"))
+    runes_raw = json.loads(fetch(f"{SRC['data']}/runesReforged.json"))
+
+    # Trust the payload's own version over the one the API advertised.
+    version = item_raw.get("version") or resolved
     print(f"  Detected patch: {version}\n")
 
     # ── data JSONs ─────────────────────────────────────────────────────────
@@ -207,20 +258,20 @@ def sync_from_github(force: bool) -> str:
 
     # ── images ─────────────────────────────────────────────────────────────
     champ_jobs = [
-        (f"{RAW}/latest/img/champion/{c['image']['full']}",
+        (f"{SRC['img']}/champion/{c['image']['full']}",
          PUBLIC_DIR / "img" / "champion" / c["image"]["full"])
         for c in champ_raw["data"].values()
     ]
     item_jobs = [
-        (f"{RAW}/latest/img/item/{info['image']}",
+        (f"{SRC['img']}/item/{info['image']}",
          PUBLIC_DIR / "img" / "item" / info["image"])
         for info in slim_items["data"].values()
     ]
     rune_jobs = [
-        (f"{RAW}/img/{icon}", PUBLIC_DIR / "img" / Path(icon))
+        (f"{SRC['perk']}/{icon}", PUBLIC_DIR / "img" / Path(icon))
         for icon in set(slim_runes.values())
     ] + [
-        (f"{RAW}/img/perk-images/StatMods/{name}",
+        (f"{SRC['perk']}/perk-images/StatMods/{name}",
          PUBLIC_DIR / "img" / "perk-images" / "StatMods" / name)
         for name in SHARD_FILES
     ]
@@ -321,8 +372,10 @@ def sync_from_tarball(tgz_path: Path) -> str:
 # ── Entry point ────────────────────────────────────────────────────────────────
 
 def main():
-    args = [a for a in sys.argv[1:] if a != "--force"]
+    flags = {"--force", "--mirror"}
+    args = [a for a in sys.argv[1:] if a not in flags]
     force = "--force" in sys.argv[1:]
+    prefer_mirror = "--mirror" in sys.argv[1:]   # skip Riot, use the mirror
 
     if args:
         tgz_path = Path(args[0])
@@ -331,7 +384,7 @@ def main():
             sys.exit(1)
         version = sync_from_tarball(tgz_path)
     else:
-        version = sync_from_github(force)
+        version = sync_from_github(force, prefer_mirror)
 
     (PUBLIC_DIR / "version.txt").write_text(version)
 
