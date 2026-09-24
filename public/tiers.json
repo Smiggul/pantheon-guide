@@ -304,8 +304,7 @@
      "LeBlanc",
      "Qiyana",
      "Syndra",
-     "Kassadin",
-     "Nasus"
+     "Kassadin"
     ],
     "B": [
      "Katarina",
@@ -444,7 +443,6 @@
      "Kalista",
      "Senna",
      "Cassiopeia",
-     "Corki",
      "Ezreal"
     ],
     "wr": {
@@ -881,7 +879,6 @@
     ],
     "A": [
      "Yasuo",
-     "Nasus",
      "Zed",
      "Orianna",
      "Aurelion Sol",
@@ -1025,8 +1022,7 @@
      "Kog'Maw",
      "Smolder",
      "Ziggs",
-     "Kalista",
-     "Corki"
+     "Kalista"
     ],
     "C": [
      "Twitch",
@@ -1453,8 +1449,7 @@
     "OP": [
      "Vex",
      "Fizz",
-     "Yasuo",
-     "Nasus"
+     "Yasuo"
     ],
     "S": [
      "Viktor",
@@ -1619,8 +1614,7 @@
     "C": [
      "Kalista",
      "Senna",
-     "Cassiopeia",
-     "Corki"
+     "Cassiopeia"
     ],
     "wr": {
      "Xayah": 52,

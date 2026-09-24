@@ -15,7 +15,7 @@ const PYKE_MID_DEFAULT_RUNES = {
   primary:        "Domination",
   primaryRunes:   ["Sudden Impact","Grisly Mementos","Ultimate Hunter"],
   secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Second Wind"],
+  secondaryRunes: ["Bone Plating","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
   reason:         "Same Hail of Blades burst core as Support. Bone Plating and Second Wind replace Precision's lane-sustain runes — solo-lane Pyke has no support gold items or a peeling ADC, so he needs the extra durability to survive lane before his all-ins come online.",
 };

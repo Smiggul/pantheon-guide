@@ -15,7 +15,7 @@ const YASUO_TOP_DEFAULT_RUNES = {
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
   secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Second Wind"],
+  secondaryRunes: ["Bone Plating","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
   reason:         "Same Lethal Tempo hybrid-crit core as Mid, but Top Yasuo plays hit-and-run — kiting in and out of the wave to land Q stacks and auto poke rather than committing to all-ins. Bone Plating and Second Wind replace Domination's kill-snowball runes, since a solo lane offers no jungler cover if a trade goes wrong.",
 };
