@@ -1254,22 +1254,22 @@ export const INTERACTIONS = [
     cue: "Do not stand directly in line behind your own minions or your support — the bounce prioritises whoever is immediately behind the primary target.",
   },
   {
-    a: "Lucian", bTag: "heal", kind: "synergy", weight: 3,
+    a: "Lucian", bTag: "heal", kind: "synergy", weight: 2,
     abilities: ["Lightslinger (P)"],
-    why: "Vigilance is written into his passive: whenever an ALLY heals or shields him, his next two shots gain bonus magic damage on-hit, and he can bank up to four. An enchanter next to Lucian is not only keeping him alive — every shield cast is also a damage buff, which no other marksman gets.",
+    why: "Vigilance is written into his passive: whenever an ALLY heals or shields him, his next two shots gain bonus magic damage on-hit, and he can bank up to four. An enchanter next to Lucian is not only keeping him alive — every heal is also a damage buff, which no other marksman gets. Patch 26.19 cut that payoff hard (passive damage 15 to 5, AD ratio 20% to 15%) and compensated his Q instead, so the pairing still works but is no longer the reason to draft him — a melee engage support now gets more out of him than an enchanter does.",
     cue: "The shield is worth casting proactively rather than saving for danger, because holding it also holds his damage. Look for the empowered-shot indicator before committing to an all-in.",
   },
   {
-    a: "Lucian", bTag: "shield", kind: "synergy", weight: 3,
+    a: "Lucian", bTag: "shield", kind: "synergy", weight: 2,
     abilities: ["Lightslinger (P)"],
-    why: "Vigilance counts a SHIELD exactly as it counts a heal — any ally shielding him empowers his next two shots with bonus magic damage on-hit. A shield-only enchanter buffs his damage every time she protects him, without healing a point.",
+    why: "Vigilance counts a SHIELD exactly as it counts a heal — any ally shielding him empowers his next two shots with bonus magic damage on-hit, so a shield-only enchanter buffs his damage every time she protects him without healing a point. 26.19 shifted most of that power into his Q, so treat the shield as protection that happens to add damage rather than as his main source of it.",
     cue: "Shield him on cooldown rather than saving it for danger. Holding the shield also holds his damage, and he can bank up to four empowered shots before a fight starts.",
   },
   {
     a: "Lucian", bTag: "engage", kind: "synergy", weight: 3,
     abilities: ["Lightslinger (P)", "Relentless Pursuit (E)"],
     why: "Vigilance also triggers on any enemy champion immobilised within 1000 units of him, so a support who lands a stun, hook or knock-up hands him empowered shots for free on top of the target being unable to move. Relentless Pursuit then refunds two seconds per Lightslinger shot that hits a champion, so he can dash in and still have the dash back out.",
-    cue: "Land the crowd control BEFORE he commits rather than as follow-up — the empowerment has to be banked before the shots are fired for it to matter.",
+    cue: "Land the crowd control BEFORE he commits rather than as follow-up — the empowerment has to be banked before the shots are fired for it to matter. Since 26.19 this is his STRONGER pairing: the enchanter half of Vigilance was nerfed while an engage support still delivers both the empowerment and a target that cannot walk away.",
   },
   {
     a: "Aphelios", bTag: "engage", kind: "synergy", weight: 2,

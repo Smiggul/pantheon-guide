@@ -1,23 +1,23 @@
 {
- "patch": "26.18",
- "updated": "2026-09-22",
+ "patch": "26.19",
+ "updated": "2026-09-24",
  "region": "EUW",
- "source": "Skill-Capped 26.18 updated tier list (14 Sep 2026) + 26.18 solo-carry video; only the \"all\" bracket is video-sourced — High/Low-Elo brackets remain reasoned seeds",
+ "source": "Skill-Capped 26.19 tier list; only the \"all\" bracket is video-sourced — High/Low-Elo brackets remain reasoned seeds",
  "brackets": {
   "all": {
    "Top": {
     "OP": [
      "Mordekaiser",
      "Sett",
-     "Garen",
-     "Nasus"
+     "Garen"
     ],
     "S": [
      "Darius",
      "Gangplank",
      "Renekton",
      "Urgot",
-     "Zaahen"
+     "Zaahen",
+     "Nasus"
     ],
     "A": [
      "Aatrox",
@@ -137,21 +137,20 @@
    },
    "Jungle": {
     "OP": [
-     "Rammus"
+     "Rammus",
+     "Cho'Gath",
+     "Wukong"
     ],
     "S": [
      "Shyvana",
-     "Wukong",
      "Zac",
      "Lillia",
      "Talon",
      "Sylas",
      "Trundle",
-     "Nocturne",
      "Sejuani",
      "Master Yi",
-     "Ekko",
-     "Cho'Gath"
+     "Ekko"
     ],
     "A": [
      "Lee Sin",
@@ -165,7 +164,9 @@
      "Nasus",
      "Bel'Veth",
      "Graves",
-     "Viego"
+     "Viego",
+     "Volibear",
+     "Nocturne"
     ],
     "B": [
      "Vi",
@@ -186,7 +187,6 @@
      "Renekton",
      "Sett",
      "Taliyah",
-     "Volibear",
      "Zyra"
     ],
     "C": [
@@ -287,8 +287,9 @@
      "Yasuo",
      "Malzahar",
      "Xerath",
-     "Nasus",
-     "Gwen"
+     "Gwen",
+     "Aurora",
+     "Yone"
     ],
     "A": [
      "Zed",
@@ -298,13 +299,13 @@
      "Anivia",
      "Taliyah",
      "Naafiri",
-     "Aurora",
      "Diana",
      "Sylas",
      "LeBlanc",
      "Qiyana",
      "Syndra",
-     "Kassadin"
+     "Kassadin",
+     "Nasus"
     ],
     "B": [
      "Katarina",
@@ -328,8 +329,7 @@
      "Riven",
      "Swain",
      "Vel'Koz",
-     "Galio",
-     "Yone"
+     "Galio"
     ],
     "C": [
      "Ryze",
@@ -426,11 +426,11 @@
      "Ashe",
      "Miss Fortune",
      "Nilah",
-     "Aphelios",
-     "Yunara"
+     "Yunara",
+     "Draven",
+     "Aphelios"
     ],
     "B": [
-     "Draven",
      "Vayne",
      "Twitch",
      "Samira",
