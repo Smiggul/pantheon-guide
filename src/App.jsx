@@ -461,6 +461,10 @@ export default function App() {
   const [imgErr,       setImgErr]       = useState({});
   const [showCore,     setShowCore]     = useState(false);
   const [altBuildIdx,  setAltBuildIdx]  = useState(-1); // -1 = primary build; 0+ = ALT_BUILDS index
+  // Display name of the lane opponent, for per-enemy rune pages. Set from the
+  // champ-select opponent further down (see csOppDisplay); declared here because
+  // the rune recommendation below is computed before that state exists.
+  const [matchupFoe,   setMatchupFoe]   = useState(null);
   // Track window width so the items|runes workspace can stack to one column on
   // narrow/half-screen windows (side-by-side squeezes the fixed-size rune page).
   const [winW, setWinW] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
@@ -693,11 +697,23 @@ useEffect(() => {
   //    for BOTH the always-visible editable page AND what gets imported) ────────
   // The recommended page for the current champ/role/class (or alt build); falls
   // back to the role's first-class page when no enemy class is picked yet.
-  const recommendedRunes = activeAlt
+  const baseRunes = activeAlt
     ? activeAlt.runes
     : (activeChampRole.data?.[openClass]?.runes
        ?? Object.values(activeChampRole.data || {})[0]?.runes
        ?? null);
+  // Per-enemy rune pages (champOverrides) are PARTIAL: each names only the
+  // fields it changes, written against the class page it sits inside. So they
+  // apply to the primary build only — alts are authored as whole pages, and
+  // merging a fragment over a page from a different tree would be illegal.
+  // helpers/check-rune-rows.mjs validates every one of these merged pages.
+  const matchupRunes = !activeAlt && matchupFoe
+    ? baseRunes?.champOverrides?.[matchupFoe] || null
+    : null;
+  // Only set when an override actually applied, so an opponent with no
+  // matchup page never resets the rune page the user may have edited.
+  const appliedMatchup = matchupRunes ? matchupFoe : null;
+  const recommendedRunes = matchupRunes ? { ...baseRunes, ...matchupRunes } : baseRunes;
   const EMPTY_RUNES = { primary: "Precision", keystone: "", primaryRunes: [null, null, null],
     secondary: "", secondaryRunes: [], shards: [null, null, null] };
   const [runeSel, setRuneSel] = useState(EMPTY_RUNES);
@@ -721,7 +737,7 @@ useEffect(() => {
       shards:         r.shards         ? [...r.shards]         : [null, null, null],
     } : EMPTY_RUNES);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [champ.id, currentRole, openClass, altBuildIdx]);
+  }, [champ.id, currentRole, openClass, altBuildIdx, appliedMatchup]);
 
   // ── Shareable build codes (export / import) ──────────────────────────────
   const [importCode, setImportCode] = useState("");
@@ -895,7 +911,7 @@ useEffect(() => {
     }
     setTimeout(() => setApplyState((s) => (s === "sending" ? s : null)), 4000);
   };
-  useEffect(() => { setApplyState(null); }, [champ.id, currentRole, openClass, altBuildIdx]);
+  useEffect(() => { setApplyState(null); }, [champ.id, currentRole, openClass, altBuildIdx, appliedMatchup]);
 
   // ── Live champ-select sync (desktop) ────────────────────────────────────────
   const [csState, setCsState]   = useState(null);   // last session summary from main
@@ -1546,11 +1562,11 @@ useEffect(() => {
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 6,
           marginBottom: 12, padding: "4px 10px",
-          background: "rgba(212,175,55,.12)",
-          border: "1px solid rgba(212,175,55,.3)",
+          background: `${S.gold}1f`,
+          border: `1px solid ${S.gold}4d`,
           borderRadius: 20, fontSize: 10, color: S.gold, letterSpacing: "1px",
         }}>
-          ✦ CHAMPION-SPECIFIC — {enemyChamp.toUpperCase()}
+          MATCHUP PAGE — VS {enemyChamp.toUpperCase()}
         </div>
       )}
 
@@ -1629,6 +1645,11 @@ useEffect(() => {
   // A manual pick overrides the guess everywhere the opponent is consumed:
   // the readout, the counter panel, and the enemy-team analysis below.
   const csOppDd = oppOverride || csAutoOppDd;
+  // Bridge the opponent up to matchupFoe. Keyed on the display-name STRING, so
+  // the 1.5s champ-select poll — which rebuilds dispCs every tick — does not
+  // re-fire it. A manual pick from the opponent picker flows through here too.
+  const csOppDisplay = csOppDd ? DD_TO_CHAMP[csOppDd]?.display || null : null;
+  useEffect(() => { setMatchupFoe(csOppDisplay); }, [csOppDisplay]);
   const inChampSelect = !!dispCs;
   useEffect(() => {
     if (!inChampSelect) { setOppOverride(null); setOppPickerOpen(false); }
@@ -2171,12 +2192,34 @@ useEffect(() => {
                     {oppOverride ? "MANUAL" : "AUTO"}
                   </span>
                 </button>
+                {/* One click to push the matchup page. Auto-import fires once, at
+                    pre-hover, before the opponent has usually locked — so
+                    without this the client keeps the generic page. A button,
+                    not a second automatic import, so client-side edits are
+                    never overwritten unprompted. */}
+                {appliedMatchup && csActive && (
+                  <button onClick={sendToLeague} disabled={applyState === "sending"}
+                    title={`Import the rune page tuned for ${appliedMatchup} into the League client`}
+                    style={{
+                      cursor: applyState === "sending" ? "wait" : "pointer",
+                      fontFamily:"inherit", fontSize:"11px", letterSpacing:".4px",
+                      padding:"3px 10px", borderRadius:"6px",
+                      border:`1px solid ${applyState?.ok ? "rgba(76,175,125,.55)" : S.gold + "73"}`,
+                      background: applyState?.ok ? "rgba(76,175,125,.14)" : `${S.gold}1f`,
+                      color: applyState?.ok ? "#8fe0b4" : S.gold,
+                    }}>
+                    {applyState === "sending" ? "Importing…"
+                      : applyState?.ok ? "Matchup page imported"
+                      : applyState && applyState.ok === false ? "Retry matchup import"
+                      : "Import matchup page"}
+                  </button>
+                )}
               </span>
             )}
 
-            {/* Opponent picker. The enemy team comes first because that is
-                almost always the right answer; the full search is the escape
-                hatch for an unconnected client or an unlocked lane. */}
+            {/* Opponent picker: the enemy team only. Champ select is timed, so
+                there is deliberately no text search here — that lives in the
+                Counter Picker, where there is time to browse. */}
             {oppPickerOpen && (() => {
               const roster = (dispCs?.theirTeam || [])
                 .map((m) => ({ dd: KEY_TO_DD[m.championId], role: POS_ROLE[m.assignedPosition] || null }))
@@ -3564,7 +3607,7 @@ useEffect(() => {
               <RunePage
                 sel={runeSel} setSel={setRuneSel}
                 recommended={recommendedRunes}
-                enemyChamp={""}
+                enemyChamp={appliedMatchup || ""}
               />
             </div>
           </div>
