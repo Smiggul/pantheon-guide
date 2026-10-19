@@ -18,6 +18,15 @@ export default {
   id:"xayah", display:"Xayah", dd:"Xayah",
   color:"#7a1a2a", glow:"#e04050",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"Stormrazor rush", tag:"alt",
+      corePath:"Stormrazor  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"A setup several EUW Xayah one-tricks run in place of Guinsoo's Rageblade. Stormrazor was buffed a few patches ago and has the highest win rate of any first item on her, but on only about 3% play rate, so it is not proven better than Guinsoo's. The real difference is timing: Stormrazor is the stronger one-item spike and Guinsoo's scales better. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Guinsoo's with an enchanter who wants a longer game.",
+      runes:{...XAYAH_BOT_DEFAULT_RUNES},
+      sideItems:["Guinsoo's Rageblade","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercurial Scimitar"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],

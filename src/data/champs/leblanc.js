@@ -18,6 +18,15 @@ export default {
   id:"leblanc", display:"LeBlanc", dd:"Leblanc",
   color:"#4a2a50", glow:"#c080d0",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Hextech Gunblade", tag:"alt",
+      corePath:"Hextech Gunblade  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"A Challenger one-trick setup that replaces the standard Luden's rush. Gunblade's active slow is the point: when LeBlanc dives, Ethereal Chains is the spell most likely to miss, and a slowed target almost cannot dodge it, so her catch-and-burst becomes far more consistent. Shadowflame second gives a strong two-item one-shot. Gunblade's 10% omnivamp also lets her heal off waves, which strengthens her side-lane threat in the mid game. It gives no mana, so Manaflow Band stops being optional.",
+      runes:{...LEBLANC_MID_DEFAULT_RUNES, secondaryRunes:["Manaflow Band","Transcendence"], reason:"Her standard Electrocute page with Manaflow Band brought into the Sorcery secondary in place of Gathering Storm, because Gunblade gives no mana and the source names Manaflow as essential."},
+      sideItems:["Luden's Echo","Zhonya's Hourglass","Void Staff","Banshee's Veil","Mejai's Soulstealer"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Kassadin","Galio","Malzahar"], replacements:["Ahri","Zed","Katarina"],

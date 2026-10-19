@@ -32,9 +32,9 @@ export default {
     Mid:{
       bans:["Malzahar","Riven","Ekko"], replacements:["Yasuo","Ahri","Katarina"],
       role:"Skirmisher / Hybrid Duelist",
-      corePath:"Blade of The Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
-      coreNote:"Yone deals hybrid physical and magic damage through Soul Unbound. Immortal Shieldbow's shield covers his early all-in weakness; Infinity Edge doubles his passive crit chance toward the cap; Blade of The Ruined King now leads over Wit's End for the current build, adding %-HP damage and a slow to shore up his lack of a hard engage tool.",
-      sideItems:["Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
+      corePath:"Immortal Shieldbow  ›  Berserker's Greaves  ›  Infinity Edge  ›  Death's Dance",
+      coreNote:"Yone deals hybrid physical and magic damage through Soul Unbound. 26.20 moved his whole build: since Riot cut the crit penalty on Yasuo and Yone by 5% in 26.17, a two-item 100% crit spike is reachable, and Immortal Shieldbow into Infinity Edge is now the dominant core — about three quarters of all Emerald+ Yone mid games at 53.3% over ~154k games, with Blade of The Ruined King no longer in the common core at all. The reason is tempo, not raw damage: BOTRK takes so long to reach full crit that it pushes Death's Dance and Jak'Sho deep into the game, while Shieldbow's lifeline survives exactly the burst mid laners open with and lets you outlast them in the extended fight. Keep BOTRK for games where the enemy is stacking health.",
+      sideItems:["Blade of The Ruined King","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YONE_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Immortal Shieldbow","Shield absorbs their engage burst."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Death's Dance","Outlast their all-in.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Maw of Malmortius","AP divers — lifeline shield."),I("Mercury's Treads","Shorter CC on the engage.")],runes:{...YONE_MID_DEFAULT_RUNES}},
@@ -54,9 +54,9 @@ export default {
     Top:{
       bans:["Jax","Vex","Ekko"], replacements:["Renekton","Sett","Darius"],
       role:"Skirmisher / Hybrid Duelist",
-      corePath:"Blade of The Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
-      coreNote:"Top Yone plays as a mobile bruiser duelist rather than the Mid poke-into-all-in pattern — same hybrid crit core led by Blade of The Ruined King's %-HP damage, but prioritize Sterak's Gage or Death's Dance earlier for lane sustain against top-lane bullies.",
-      sideItems:["Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
+      corePath:"Immortal Shieldbow  ›  Berserker's Greaves  ›  Infinity Edge  ›  Death's Dance",
+      coreNote:"Top Yone plays as a mobile bruiser duelist rather than Mid's poke-into-all-in pattern, but on 26.20 he builds the same way: Immortal Shieldbow into Infinity Edge is the core in roughly 85% of Emerald+ top Yone games (52.1% over ~176k), and Blade of The Ruined King has dropped out of the common core. Top is a long lane, so the early chase and level-two all-in decide it — Lethal Tempo with Doran's Blade wins most levels one and two, and Flash plus Exhaust makes the first duel very hard to lose. Go Sterak's Gage or Death's Dance earlier against lane bullies, and keep BOTRK for health stackers. Avoid Jax and Renekton; both cut off your all-in.",
+      sideItems:["Blade of The Ruined King","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YONE_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Immortal Shieldbow","Shield absorbs their engage burst."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Death's Dance","Outlast their all-in.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Maw of Malmortius","AP divers — lifeline shield."),I("Mercury's Treads","Shorter CC on the engage.")],runes:{...YONE_TOP_DEFAULT_RUNES}},

@@ -18,6 +18,15 @@ export default {
   id:"bard", display:"Bard", dd:"Bard",
   color:"#4a4a2a", glow:"#e0d060",
   lanes:["Support"],
+  altBuilds:{
+    Support:[{
+      label:"Rocketbelt playmaker", tag:"alt",
+      corePath:"Bloodsong  ›  Boots of Swiftness  ›  Hextech Rocketbelt  ›  Zeke's Convergence",
+      coreNote:"A pure solo-carry Bard setup from a high-elo Bard specialist. Rocketbelt amplifies his catch power and roams and lets him put out real damage in skirmishes, and at 2,650 gold it is reachable early for a support. Zeke's Convergence follows because, although ranged, Bard wants to get close and auto when he fights, and Zeke's slow keeps him on the target. Do not drop Dead Man's Plate entirely: into a full AD team its value is too high. Use this line into mixed or AP-heavy teams.",
+      runes:{...BARD_SUP_DEFAULT_RUNES},
+      sideItems:["Dead Man's Plate","Locket of the Iron Solari","Knight's Vow","Redemption","Mercury's Treads"],
+    }],
+  },
   roles:{
     Support:{
       bans:["Maokai","Taric","Senna"], replacements:["Thresh","Rakan","Pyke"],

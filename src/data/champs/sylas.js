@@ -28,6 +28,21 @@ export default {
   id:"sylas", display:"Sylas", dd:"Sylas",
   color:"#2a3a4a", glow:"#60a0c0",
   lanes:["Mid","Jungle"],
+  altBuilds:{
+    Mid:[{
+      label:"Stormraider's vs two-rotation targets", tag:"alt",
+      corePath:"Hextech Rocketbelt  ›  Ionian Boots of Lucidity  ›  Riftmaker  ›  Zhonya's Hourglass",
+      coreNote:"A high-elo one-trick rune page, taken into matchups Sylas cannot kill in one rotation — Anivia, Galio, Yone, Yasuo. Blow the full combo, then use Stormraider's movement speed to back off and take less in return while cooldowns come back. The rule of thumb: if the target needs two rotations, take Stormraider's; if one rotation kills, Electrocute is better. Items are unchanged from his standard build. Note that 26.20 nerfed Rocketbelt and it is underperforming on Sylas this patch; Dusk and Dawn is being tried but does not yet have enough games to recommend.",
+      runes:{
+        keystone:"Stormraider's Surge", primary:"Sorcery",
+        primaryRunes:["Manaflow Band","Absolute Focus","Scorch"],
+        secondary:"Resolve", secondaryRunes:["Second Wind","Overgrowth"],
+        shards:["Ability Haste","Adaptive Force","Health (scaling)"],
+        reason:"The page as the source gives it. Manaflow Band and Absolute Focus feed repeated rotations rather than one, Scorch adds chip between them, and Second Wind with Overgrowth keep him healthy enough to go in a second time.",
+      },
+      sideItems:["Dusk and Dawn","Shadowflame","Void Staff","Banshee's Veil","Sorcerer's Shoes"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Anivia","Malzahar","Lissandra"], replacements:["Vladimir","Akali","Katarina"],

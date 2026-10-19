@@ -28,6 +28,21 @@ export default {
   id:"elise", display:"Elise", dd:"Elise",
   color:"#4a1a1a", glow:"#c02020",
   lanes:["Jungle","Support"],
+  altBuilds:{
+    Jungle:[{
+      label:"Stormraider's burst", tag:"alt",
+      corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
+      coreNote:"A high-elo one-trick setup that most Elise players have not picked up — Stormraider's Surge appears in only about 3% of Elise games. She procs it almost for free: land Cocoon and the follow-up is guaranteed to cross the threshold, and the movement speed then lets her keep chasing or kite out while cooldowns return. Spider-form Rappel is an escape only under specific conditions, so a reliable dip-out after the burst is worth more on her than Dark Harvest's extra damage, which this already-lethal Lich Bane into Shadowflame line tends to overkill with anyway.",
+      runes:{
+        keystone:"Stormraider's Surge", primary:"Sorcery",
+        primaryRunes:["Manaflow Band","Absolute Focus","Scorch"],
+        secondary:"Precision", secondaryRunes:["Triumph","Coup de Grace"],
+        shards:["Adaptive Force","Adaptive Force","Health (scaling)"],
+        reason:"Only the keystone and items come from the source. The Sorcery rows reuse the Stormraider's page the same video gives for Sylas, the closest sourced burst-mage version, and the Precision secondary is kept from her standard page.",
+      },
+      sideItems:["Stormsurge","Rabadon's Deathcap","Void Staff","Banshee's Veil","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],

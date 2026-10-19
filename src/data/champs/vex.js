@@ -20,20 +20,20 @@ export default {
   lanes:["Mid"],
   altBuilds:{
     Mid:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Rabadon's Deathcap",
-      coreNote:"Skill-Capped burst line: Luden's Echo rush → Stormsurge second → Shadowflame or Rabadon's third, Electrocute. Stormsurge's Stormraider proc rewards Vex's fear-into-burst pattern and the extra magic pen helps delete squishies on her R reset chain — a more all-in burst variant of her standard Shadowflame build. Buffed indirectly by the Spellslinger's Shoes pen buff + Chain-Laced Crushers nerf. Blind-pick her; ban long-range mids (Xerath) that out-poke her.",
+      label:"Vs hard engage", tag:"alt",
+      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
+      coreNote:"Her pre-26.20 main build, kept as the answer to hard-engage teams. Stormsurge is now the default third item, but it does nothing to keep Vex alive when a Malphite, Leona or Rell lands on her. Zhonya's Hourglass third lets her dive into fights on her R reset and stasis while her team follows up, and Shadowflame still converts feared targets into executes. Take it when the enemy has two or more reliable engage tools; otherwise the Stormsurge line out-damages it.",
       runes:{...VEX_MID_DEFAULT_RUNES},
-      sideItems:["Shadowflame","Zhonya's Hourglass","Void Staff","Cosmic Drive","Rabadon's Deathcap"],
+      sideItems:["Rabadon's Deathcap","Stormsurge","Void Staff","Banshee's Veil","Morellonomicon"],
     }],
   },
   roles:{
     Mid:{
       bans:["Taliyah","Hwei","Vladimir"], replacements:["Lux","Syndra","Lissandra"],
       role:"Anti-Dash Fear Mage",
-      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Vex is the anti-mobility answer: every enemy dash procs her Gloom fear, turning dive comps into feeding comps. Luden's Echo adds burst to the Electrocute rotation, Shadowflame converts feared targets into executes, and Zhonya's Hourglass covers the R dash-in her reset pattern demands. Rabadon's Deathcap scales the one-rotation kill into the whole enemy team — R resets on takedown mean one pick becomes a pentakill lottery ticket. Draft her into Yasuo, Zed, Lee Sin and watch them despair.",
-      sideItems:["Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon","Cosmic Drive","Mejai's Soulstealer"],
+      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Shadowflame",
+      coreNote:"Vex is the anti-mobility answer: every enemy dash procs her Gloom fear, turning dive comps into feeding comps. The Stormsurge line that was her alternate on 26.17 is now the main build — 26.20 data has Luden's Echo into Stormsurge as the core, with Shadowflame a strong fourth item rather than the third. Luden's adds burst to the Electrocute rotation and Stormsurge's flat penetration lands before mid laners build magic resist. R resets on takedown, so one pick becomes a chain. Draft her into Yasuo, Zed and Lee Sin. Into a hard-engage team, take Zhonya's earlier — see the alternate.",
+      sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon","Mejai's Soulstealer"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke them off every wave — no dash means no answer."),I("Shadowflame","Pen punishes their low MR."),I("Rabadon's Deathcap","Scale the poke into real chunks.")],behind:[I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the gloom real."),I("Cosmic Drive","Speed to hold the spacing.")],runes:{...VEX_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Shadowflame","Their dash feeds your fear — burst the interrupted dive."),I("Luden's Echo","Full rotation beats their entry damage."),I("Zhonya's Hourglass","Stasis wastes what the fear didn't.")],behind:[I("Zhonya's Hourglass","Stasis covers the timing the fear misses."),I("Banshee's Veil","Blocks the engage opener."),I("Cosmic Drive","Speed to disengage.")],runes:{...VEX_MID_DEFAULT_RUNES}},

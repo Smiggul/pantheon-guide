@@ -1,13 +1,12 @@
 {
- "patch": "26.19",
- "updated": "2026-09-24",
+ "patch": "26.20",
+ "updated": "2026-10-19",
  "region": "EUW",
- "source": "Skill-Capped 26.19 tier list; only the \"all\" bracket is video-sourced — High/Low-Elo brackets remain reasoned seeds",
+ "source": "Skill-Capped 26.20 mid-patch tier list (12 Oct 2026); only the \"all\" bracket is video-sourced — High/Low-Elo brackets remain reasoned seeds",
  "brackets": {
   "all": {
    "Top": {
     "OP": [
-     "Mordekaiser",
      "Sett",
      "Garen"
     ],
@@ -17,7 +16,8 @@
      "Renekton",
      "Urgot",
      "Zaahen",
-     "Nasus"
+     "Nasus",
+     "Mordekaiser"
     ],
     "A": [
      "Aatrox",
@@ -26,14 +26,14 @@
      "Quinn",
      "Kled",
      "Singed",
-     "Kennen",
      "Gwen",
      "Poppy",
      "Ambessa",
      "Irelia",
      "Yasuo",
      "Cho'Gath",
-     "Aurora"
+     "Aurora",
+     "Tahm Kench"
     ],
     "B": [
      "Fiora",
@@ -53,10 +53,10 @@
      "Rumble",
      "Sejuani",
      "Shyvana",
-     "Tahm Kench",
      "Warwick",
      "Wukong",
-     "Jax"
+     "Jax",
+     "Kennen"
     ],
     "C": [
      "Teemo",
@@ -166,13 +166,13 @@
      "Graves",
      "Viego",
      "Volibear",
-     "Nocturne"
+     "Nocturne",
+     "Diana"
     ],
     "B": [
      "Vi",
      "Xin Zhao",
      "Kha'Zix",
-     "Diana",
      "Hecarim",
      "Warwick",
      "Rek'Sai",
@@ -421,13 +421,11 @@
     ],
     "A": [
      "Jhin",
-     "Lucian",
-     "Ashe",
      "Miss Fortune",
      "Nilah",
-     "Yunara",
      "Draven",
-     "Aphelios"
+     "Aphelios",
+     "Smolder"
     ],
     "B": [
      "Vayne",
@@ -435,9 +433,11 @@
      "Samira",
      "Varus",
      "Kog'Maw",
-     "Smolder",
      "Yasuo",
-     "Ziggs"
+     "Ziggs",
+     "Ashe",
+     "Yunara",
+     "Lucian"
     ],
     "C": [
      "Kalista",
@@ -490,12 +490,13 @@
      "Sona",
      "Poppy",
      "Seraphine",
-     "Lux"
+     "Lux",
+     "Blitzcrank",
+     "Alistar",
+     "Rakan"
     ],
     "A": [
      "Nautilus",
-     "Rakan",
-     "Alistar",
      "Renata Glasc",
      "Zilean",
      "Taric",
@@ -503,7 +504,6 @@
      "Senna"
     ],
     "B": [
-     "Blitzcrank",
      "Pyke",
      "Nami",
      "Janna",
@@ -523,16 +523,16 @@
      "Shen",
      "Tahm Kench",
      "Veigar",
-     "Zac"
+     "Zac",
+     "Neeko",
+     "Swain"
     ],
     "C": [
      "Morgana",
      "Yuumi",
      "Xerath",
      "Brand",
-     "Neeko",
      "Maokai",
-     "Swain",
      "Camille",
      "Pantheon",
      "Sion",

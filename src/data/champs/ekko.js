@@ -28,6 +28,15 @@ export default {
   id:"ekko", display:"Ekko", dd:"Ekko",
   color:"#0f4a4a", glow:"#3fd4b0",
   lanes:["Mid","Jungle"],
+  altBuilds:{
+    Mid:[{
+      label:"Stormsurge rush", tag:"alt",
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"Played by a top-ranked EUW Ekko and named again in the 26.20 solo-carry video. Only about 10% of Ekko players rush Stormsurge, but it wins around 2% more than the standard first item. Stormsurge's flat penetration plus upgraded Sorcerer's Shoes is about 35 magic penetration early, against a mid laner on roughly 45 base magic resist, and flat penetration is strongest exactly when the target has little. It also builds more smoothly, since it stacks Amplifying Tomes. Skip it into Galio or anyone likely to rush Mercury's Treads, and keep Dusk and Dawn for matchups where you need quick E-Q trades.",
+      runes:{...EKKO_MID_DEFAULT_RUNES},
+      sideItems:["Dusk and Dawn","Zhonya's Hourglass","Void Staff","Banshee's Veil","Lich Bane"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Malzahar","Lissandra","Vladimir"], replacements:["Katarina","Akali","Fizz"],

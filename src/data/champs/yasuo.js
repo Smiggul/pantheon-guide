@@ -86,9 +86,9 @@ export default {
     Bot:{
       bans:["Xayah","Kalista","Draven"], replacements:["Jinx","Ziggs","Seraphine"],
       role:"All-In Hyper-Carry",
-      corePath:"Blade of The Ruined King  ›  Berserker's Greaves  ›  Immortal Shieldbow  ›  Infinity Edge",
-      coreNote:"Bot Yasuo is a pure all-in champion — with a CC-heavy support opening the fight, he looks to go 100-0 rather than trade evenly across the whole laning phase. Blade of The Ruined King moves earlier than in other lanes since its %-HP damage and slow both matter immediately for an all-in playstyle; the rest of the build is identical to Mid/Top.",
-      sideItems:["Mercury's Treads","Death's Dance","Maw of Malmortius","Wit's End","Sterak's Gage","Guardian Angel"],
+      corePath:"Immortal Shieldbow  ›  Berserker's Greaves  ›  Infinity Edge  ›  Death's Dance",
+      coreNote:"Bot Yasuo is a pure all-in champion — with a CC-heavy support opening the fight, he looks to go 100-0 rather than trade evenly across the laning phase. He now builds like Mid and Top: Immortal Shieldbow into Infinity Edge for the two-item 100% crit spike the 26.17 crit-penalty cut made possible. Blade of The Ruined King used to come first here for its immediate slow, but it is no longer in the 26.20 bottom-lane core. Stormrazor shows up as a first-item option on a smaller sample and suits the most aggressive lanes; treat it as situational rather than default.",
+      sideItems:["Stormrazor","Blade of The Ruined King","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Blade of The Ruined King","% HP damage + slow wins the all-in outright."),I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YASUO_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Immortal Shieldbow","Shield absorbs their engage burst."),I("Blade of The Ruined King","% HP + slow punishes the failed dive."),I("Death's Dance","Outlast their all-in.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Maw of Malmortius","AP divers — lifeline shield."),I("Mercury's Treads","Shorter CC on the engage.")],runes:{...YASUO_BOT_DEFAULT_RUNES}},

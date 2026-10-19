@@ -86,6 +86,21 @@ export default {
           reason: "Press the Attack rewards the exact three-hit trade Pantheon forces (spear, W-auto, auto) with a burst of bonus damage AND a damage-amp debuff on the target, so your Q follow-up and Voltaic proc hit for more. Presence of Mind funds the Q spam, Coup de Grace executes after the W-stun, and the Resolve secondary is the survivability the aggressive line needs — Bone Plating survives the burst-back after you commit, Overgrowth scales your HP for the drawn-out brawls.",
         },
         sideItems: ["Serylda's Grudge", "Eclipse", "Edge of Night", "Opportunity", "Sterak's Gage", "Youmuu's Ghostblade", "Maw of Malmortius", "Serpent's Fang"],
+      }, {
+        label: "Spear Shot — Stormraider's",
+        tag: "alt",
+        corePath: "Bastionbreaker  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Edge of Night",
+        coreNote: "The build Spear Shot ran to Rank 1 on EUW in October 2026 (Challenger, ~4,300 LP, a Pantheon one-trick with roughly 1,800 games on him this season at 55%). The keystone is the change he calls the new tech: Stormraider's Surge. His reasoning, from his own Rank 1 video, is that against very mobile duelists like Fiora you cannot let them choose when the fight happens, but their kits will let them anyway — spacing only goes so far against a good player. Stormraider's lands on the combo Pantheon already wants to throw, then gives him the movement speed to reset the spacing on his terms instead of theirs. It is not a fringe pick: Mobalytics has Bastionbreaker with Stormraider's as the highest win-rate Pantheon Top option on 26.20 (55.0%), and Blitz already recommends it as his primary keystone. Bastionbreaker is the reason the line works — 22 lethality and extra true damage on ability hits, more than double Voltaic Cyclosword's lethality, on a champion whose damage is almost entirely abilities. He leans on Edge of Night's spell shield and times it deliberately against the one ability that would otherwise decide the trade. Take Exhaust over Teleport.",
+        runes: {
+          keystone: "Stormraider's Surge",
+          primary: "Sorcery",
+          primaryRunes: ["Axiom Arcanist", "Transcendence", "Scorch"],
+          secondary: "Precision",
+          secondaryRunes: ["Absorb Life", "Legend: Haste"],
+          shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+          reason: "From Spear Shot: Stormraider's Surge, Axiom Arcanist, and the Absorb Life + Legend: Haste secondary. Not from him: no source gives his second and third Sorcery runes, so Transcendence and Scorch are the ones Pantheon Top already takes in his standard pages here. Axiom Arcanist adds damage to Grand Starfall and cuts its cooldown on every takedown, which suits a champion who uses his ultimate to join fights across the map. Stormraider's needs 25% of a champion's maximum health dealt to trigger, which Pantheon's spear-into-empowered-combo reaches reliably. Absorb Life heals on each last hit and kill, keeping him healthy through a lane of trades, and Legend: Haste turns takedowns into permanent haste on his basic abilities, so more Comet Spears.",
+        },
+        sideItems: ["Lord Dominik's Regards", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Guardian Angel", "Serpent's Fang", "Youmuu's Ghostblade"],
       }],
       Mid: [{
         label: "Lethality Assassin",
