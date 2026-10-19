@@ -6,7 +6,9 @@
 //  All IDs come from src/data/lcuData.js (generated from CommunityDragon +
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
-import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
+import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS, ATTACK_RANGE } from "./lcuData.js";
+import { counterInteractions } from "./abilityInteractions.js";
+import { tagsOf } from "./counterPicker.js";
 import { classOf } from "./champClasses.js";
 import { petFor } from "./junglePets.js";
 
@@ -182,6 +184,47 @@ const PROFILE = {
   TANK:      { start: "Doran's Shield", startLabel: "durable", filler: "Ruby Crystal",    greedy: null },
 };
 
+// ── Matchup-aware lane start ──────────────────────────────────────────────────────────
+// The PROFILE start above is chosen by who YOU are. Which Doran's to open with
+// also depends on who you are laning against, so once the opponent is known two
+// calls with strong consensus can override it. Both are Top only, and only for
+// a melee champion:
+//   vs a ranged laner         -> Doran's Shield. Riot's own text: "after taking
+//                                damage from a champion, restore Health over 8
+//                                seconds" — built for a lane of being poked.
+//   vs a curated worst matchup -> Doran's Shield, to survive a lane you are not
+//                                going to win — UNLESS you hold an early-phase
+//                                edge on them (Pantheon beats Jax early and loses
+//                                late), because a starter is an early-game call.
+//
+// Deliberately NOT driven by the counter engine's matchup score: it rates
+// Pantheon +4 into Gangplank, his #2 curated ban, because GP is melee by auto
+// range while his lane is ranged Q poke. The curated bans are more trustworthy.
+//
+// Mid and Bot are left alone on purpose. Melee mids vs ranged mages split by
+// champion (Yasuo often Shield, Zed and Yone Blade), and every Bot opponent is
+// ranged, so range carries no matchup information there.
+const RANGED_FROM = 300;               // melee tops out at 225; ranged starts at 300
+// Riot's attackrange is the DEFAULT form. Mini Gnar lanes at range and Jayce
+// pokes from cannon form, so for a laning-phase call they count as ranged.
+// Kayle's 175 is right as listed: she is melee until level 6.
+const LANES_RANGED = new Set(["Gnar", "Jayce"]);
+const isRanged = (dd) => LANES_RANGED.has(dd) || (ATTACK_RANGE[dd] ?? 0) >= RANGED_FROM;
+
+export function laneStartFor(champDd, roleName, roleData, foe) {
+  if (!foe || roleName !== "Top" || isRanged(champDd)) return null;
+  if (isRanged(foe.dd)) {
+    return { item: "Doran's Shield", label: "ranged: sustain the poke" };
+  }
+  const worst = roleData?.bans || [];
+  if (worst.includes(foe.display)) {
+    const earlyEdge = counterInteractions(champDd, foe.dd, tagsOf(foe.dd))
+      .some((e) => e.phase === "early");
+    if (!earlyEdge) return { item: "Doran's Shield", label: "worst matchup: survive lane" };
+  }
+  return null;
+}
+
 // Support quest line (World Atlas → Runic Compass) finishes into one of these.
 // Pick the one that matches the build, but list them all so the player can swap.
 const SUPPORT_FINISHERS = ["Bloodsong", "Solstice Sleigh", "Celestial Opposition", "Dream Maker", "Zaz'Zak's Realmspike"];
@@ -201,7 +244,9 @@ function supportFinishers(coreNoBoots) {
 //  customItems (optional): a Build Forge set { starter, core, situational } —
 //  when present it replaces the recommended item blocks so the exported/imported
 //  set is exactly what the user forged (runes still come from the rune page).
-export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null) {
+//  foe (optional): the lane opponent's champ object, when known. Tailors the
+//  recommended starter (see laneStartFor) and names them in the set title.
+export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null) {
   const hasCustom = customItems &&
     ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.boots?.length || 0) + (customItems.situational?.length || 0) > 0);
   if (hasCustom) {
@@ -234,6 +279,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const pet = roleName === "Jungle" ? petFor(champDd, roleData, null) : null;
   const isSupport = roleName === "Support" && !pet;
   const supFin = isSupport ? supportFinishers(coreNoBoots) : null;
+  // Only meaningful for a laner; null when it would just repeat the standard start.
+  const tailoredRaw = !pet && !isSupport ? laneStartFor(champDd, roleName, roleData, foe) : null;
+  const tailored = tailoredRaw && tailoredRaw.item !== prof.start ? tailoredRaw : null;
   const startBlocks = pet
     ? [
         // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
@@ -249,9 +297,15 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
         itemBlock("Support item — finish (pick one)", supFin),
       ]
     : [
-        // Laning starts, each a complete buy — standard, then the situational swaps.
+        // Laning starts, each a complete buy. A start tailored to the opponent
+        // goes first when one applies; the standard then follows as the swap.
+        ...(tailored
+          ? [itemBlock(`Start — vs ${foe.display} (${tailored.label})`, [tailored.item, "Health Potion", "Stealth Ward"])]
+          : []),
         itemBlock(`Start — standard (${prof.startLabel})`, [prof.start, "Health Potion", "Stealth Ward"]),
-        ...(prof.start !== "Doran's Shield"
+        // Skip the generic Shield block when Shield is already the tailored start
+        // (or the standard one), so it is never listed twice.
+        ...(prof.start !== "Doran's Shield" && tailored?.item !== "Doran's Shield"
           ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
           : []),
         itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
@@ -279,7 +333,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
 
   const key = CHAMP_KEYS[champDd];
   return {
-    title: `FRGE.GG — ${champDd} ${roleName}`,
+    title: `FRGE.GG — ${champDd} ${roleName}${foe ? ` vs ${foe.display}` : ""}`,
     type: "custom",
     map: "any",
     mode: "any",
@@ -298,7 +352,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
 //  runesOverride (optional): the live, possibly user-edited rune page from the UI.
 //  When present it wins over both the alt build and the data recommendation, so
 //  the export is exactly the (editable) rune page the user sees — WYSIWYG import.
-export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null) {
+export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null, foe = null) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
     ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems,
@@ -311,7 +365,9 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
       : (data[enemyClass]?.runes || data[Object.keys(data)[0]]?.runes || {}));
   const label = altBuild ? `${champ.display} ${altBuild.label}` : `${champ.display} ${roleName}`;
   const rune = buildRunePayload(runes, `FRGE ${label}`);
-  const itemSet = buildItemSet(champ.dd, roleName, enemyClass, roleData || {}, customItems);
+  // Bans fall back to champ level, the same way the Recommended Ban tiles read them.
+  const itemRole = { ...(roleData || {}), bans: roleData?.bans || champ.bans || [] };
+  const itemSet = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe);
   return {
     champion: champ.display,
     role: roleName,

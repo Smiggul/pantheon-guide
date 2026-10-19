@@ -465,6 +465,7 @@ export default function App() {
   // champ-select opponent further down (see csOppDisplay); declared here because
   // the rune recommendation below is computed before that state exists.
   const [matchupFoe,   setMatchupFoe]   = useState(null);
+  const foeChamp = matchupFoe ? CHAMPS.find((c) => c.display === matchupFoe) || null : null;
   // Track window width so the items|runes workspace can stack to one column on
   // narrow/half-screen windows (side-by-side squeezes the fixed-size rune page).
   const [winW, setWinW] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
@@ -883,7 +884,7 @@ useEffect(() => {
     try {
       // If the user forged a custom item set, apply that instead of the recommended one.
       const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt, runeSel,
-        forgeHasItems ? forgeItems : null);
+        forgeHasItems ? forgeItems : null, foeChamp);
       // Pre-flight: the client rejects an incomplete or cross-tree page with an
       // opaque 400, so say what's actually wrong instead of sending it anyway.
       if (!payload.runeValid) {
@@ -935,6 +936,7 @@ useEffect(() => {
   const roleRef  = useRef(currentRole);
   const classRef = useRef(openClass);
   const altRef   = useRef(activeAlt);
+  const foeRef   = useRef(foeChamp);
   const runeSelRef = useRef(runeSel);
   useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
   useEffect(() => { oppOverrideRef.current = oppOverride; }, [oppOverride]);
@@ -943,6 +945,7 @@ useEffect(() => {
   useEffect(() => { roleRef.current = currentRole; }, [currentRole]);
   useEffect(() => { classRef.current = openClass; }, [openClass]);
   useEffect(() => { altRef.current = activeAlt; }, [activeAlt]);
+  useEffect(() => { foeRef.current = foeChamp; }, [foeChamp]);
   useEffect(() => { runeSelRef.current = runeSel; }, [runeSel]);
   useEffect(() => { if (!csMsg) return; const t = setTimeout(() => setCsMsg(null), 5000); return () => clearTimeout(t); }, [csMsg]);
 
@@ -954,7 +957,8 @@ useEffect(() => {
     const importCurrent = (assignedPosition) => {
       const champObj = champRef.current;
       const role = roleForPosition(champObj, assignedPosition, roleRef.current);
-      const p = buildExport(champObj, role, classRef.current, altRef.current, runeSelRef.current);
+      const p = buildExport(champObj, role, classRef.current, altRef.current, runeSelRef.current,
+        null, foeRef.current);
       return window.frge.applyBuild({ runePage: p.runePage, itemSet: p.itemSet });
     };
     const unsub = window.frge.onChampSelect((data) => {

@@ -24,6 +24,9 @@ const RUNE = {}; for (const p of perks) if (p.name && !(p.id >= 5001 && p.id <= 
 const SHARD = { "Adaptive Force":5008,"Attack Speed":5005,"Ability Haste":5007,"Move Speed":5010,
   "Health":5011,"Health (scaling)":5001,"Tenacity":5013,"Armor":5002,"Magic Resist":5003 };
 const CHAMP = {}; for (const v of Object.values(champs)) CHAMP[v.id] = Number(v.key);
+// Base attack range, for melee-vs-ranged starter calls. Melee tops out at 225
+// and ranged starts at 300 — there is a clean gap, so 300 splits them.
+const RANGE = {}; for (const v of Object.values(champs)) RANGE[v.id] = v.stats.attackrange;
 
 const idByName = {}; for (const [id, v] of Object.entries(full)) if (!(v.name in idByName)) idByName[v.name] = id;
 
@@ -103,8 +106,11 @@ ${lit(FB)}
 export const CHAMP_KEYS = {
 ${lit(CHAMP)}
 };
+export const ATTACK_RANGE = {
+${lit(RANGE)}
+};
 export const ITEM_IDS = {
 ${lit(ITEM)}
 };
 `);
-console.log(`Wrote src/data/lcuData.js — ddragon ${ver}: ${Object.keys(STYLE).length} styles, ${Object.keys(RUNE).length} runes, ${Object.keys(SHARD).length} shards, ${Object.keys(FB).length} first-back, ${Object.keys(CHAMP).length} champ keys, ${Object.keys(ITEM).length} items.`);
+console.log(`Wrote src/data/lcuData.js — ddragon ${ver}: ${Object.keys(STYLE).length} styles, ${Object.keys(RUNE).length} runes, ${Object.keys(SHARD).length} shards, ${Object.keys(FB).length} first-back, ${Object.keys(CHAMP).length} champ keys, ${Object.keys(RANGE).length} attack ranges, ${Object.keys(ITEM).length} items.`);
