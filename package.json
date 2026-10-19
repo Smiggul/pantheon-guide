@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "app": "electron .",
     "app:dev": "electron . --dev",
-    "dist:win": "vite build && electron-builder --win"
+    "dist:win": "vite build && electron-builder --win",
+    "check:runes": "node helpers/check-rune-rows.mjs"
   },
   "build": {
     "appId": "gg.frge.app",

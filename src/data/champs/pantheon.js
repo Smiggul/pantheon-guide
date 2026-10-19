@@ -147,20 +147,20 @@ export default {
                                             primary: "Precision",
                                             primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
                                             secondary: "Resolve",
-                                            secondaryRunes: ["Bone Plating","Second Wind"],
+                                            secondaryRunes: ["Bone Plating","Unflinching"],
                                             shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
                                             reason: "Divers CC you during dives — Tenacity shortens every stun, slow and root. Bone Plating reduces their burst on landing.",
                                             champOverrides: {
                                               "Irelia": {
                                                 primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Conditioning"],
+                                                secondaryRunes: ["Bone Plating","Unflinching"],
                                                 shards: ["Ability Haste","Adaptive Force","Health (scaling)"],
                                                 reason: "Irelia's mark and stun stack into long CC chains. Bone Plating breaks her short-trade pattern. E her during the stun.",
                                               },
                                               "Camille": {
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                secondaryRunes: ["Bone Plating","Unflinching"],
                                                 reason: "Camille's E deals physical + true damage. Bone Plating reduces both hits. Don't fight her in her hextech cage.",
                                               },
                                               "Sylas": {
@@ -179,7 +179,7 @@ export default {
                                           primary: "Precision",
                                           primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
                                           secondary: "Resolve",
-                                          secondaryRunes: ["Bone Plating","Second Wind"],
+                                          secondaryRunes: ["Bone Plating","Unflinching"],
                                           shards: ["Ability Haste","Adaptive Force","Tenacity"],
                                           reason: "Assassin burst windows are short — Bone Plating breaks their opener. Magic Resist shard vs AP assassins.",
                                           champOverrides: {
@@ -225,7 +225,7 @@ export default {
                                             "Yone": {
                                               primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
                                               secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              secondaryRunes: ["Bone Plating","Unflinching"],
                                               shards: ["Ability Haste","Adaptive Force","Tenacity"],
                                               reason: "Yone deals hybrid physical + magic damage via Soul Unbound. MR shard + Bone Plating reduces both. Tenacity on his E knockback.",
                                             },
@@ -246,7 +246,7 @@ export default {
                                             "Jax": {
                                               primaryRunes: ["Triumph","Legend: Bloodline","Last Stand"],
                                               secondary: "Resolve",
-                                              secondaryRunes: ["Bone Plating","Second Wind"],
+                                              secondaryRunes: ["Bone Plating","Unflinching"],
                                               reason: "Jax counter-strike stuns — Tenacity essential. Bone Plating makes his E-AA burst shorter. You beat him pre-6; respect his ult power spike.",
                                             },
                                             "Master Yi": {
@@ -272,12 +272,12 @@ export default {
                                             champOverrides: {
                                               "Syndra": {
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                secondaryRunes: ["Bone Plating","Unflinching"],
                                                 reason: "Syndra's ball scatter (E) stuns you from range — Bone Plating reduces her follow-up burst. Respect her power spike at 9 balls.",
                                               },
                                               "Veigar": {
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                secondaryRunes: ["Bone Plating","Unflinching"],
                                                 reason: "Veigar's Event Horizon cage stuns corner-to-corner. Never stand near walls. Bone Plating reduces his Q-auto opener damage.",
                                               },
                                             },
@@ -299,13 +299,13 @@ export default {
                                                 keystone: "Conqueror",
                                                 primaryRunes: ["Triumph","Legend: Haste","Last Stand"],
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                secondaryRunes: ["Second Wind","Revitalize"],
                                                 reason: "Vladimir's Transfusion sustain is a war of attrition. Second Wind lets you sustain back. Build Mortal Reminder second.",
                                               },
                                               "Cassiopeia": {
                                                 shards: ["Ability Haste","Adaptive Force","Tenacity"],
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                secondaryRunes: ["Bone Plating","Overgrowth"],
                                                 reason: "Cassiopeia's Twin Fang chains deal massive DPS when poisoned. Bone Plating breaks her opener. Never walk into her miasma without E.",
                                               },
                                             },
@@ -382,7 +382,7 @@ export default {
                                               champOverrides: {
                                                 "Morgana": {
                                                   secondary: "Resolve",
-                                                  secondaryRunes: ["Bone Plating","Second Wind"],
+                                                  secondaryRunes: ["Bone Plating","Unflinching"],
                                                   shards: ["Ability Haste","Adaptive Force","Tenacity"],
                                                   reason: "Morgana deals AP damage with Black Shield blocking your CC. Resolve secondary for durability. MR shard vs her Q + W damage.",
                                                 },
@@ -407,7 +407,7 @@ export default {
                                               "Malphite": {
                                                 shards: ["Ability Haste","Adaptive Force","Tenacity"],
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Second Wind","Conditioning"],
+                                                secondaryRunes: ["Conditioning","Overgrowth"],
                                                 reason: "Malphite deals AP damage via passive and ult. MR shard + Conditioning gives sustained MR scaling into his ult timing.",
                                               },
                                               "Leona": {
@@ -432,7 +432,7 @@ export default {
                                               "Poppy": {
                                                 primaryRunes: ["Presence of Mind","Legend: Bloodline","Cut Down"],
                                                 secondary: "Resolve",
-                                                secondaryRunes: ["Bone Plating","Second Wind"],
+                                                secondaryRunes: ["Bone Plating","Unflinching"],
                                                 reason: "Poppy's Steadfast Presence blocks dashes and her E knocks into walls. Tenacity + Bone Plating makes her trades shorter. Don't dash near walls.",
                                               },
                                               "Galio": {
