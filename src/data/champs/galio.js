@@ -30,11 +30,11 @@ export default {
   lanes:["Mid","Support"],
   altBuilds:{
     Mid:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Abyssal Mask  ›  Sorcerer's Shoes  ›  Imperial Mandate  ›  Cosmic Drive",
-      coreNote:"Skill-Capped enabler Galio: take Abyssal Mask over Hollow Radiance as the core, paired with Imperial Mandate. Abyssal amps ALL magic damage on the target by 12% and Mandate adds 7%, so your team follows up far harder on whoever you ult/taunt onto. Its rush data beats both Hollow Radiance and Rocketbelt on win rate AND win-probability. Only take it when teammates deal magic damage (ideal: a mage bot plus an AP top or jungle); if your team is all physical, stick with Hollow Radiance for the MR.",
+      label:"Abyssal Mask magic amp", tag:"alt",
+      corePath:"Abyssal Mask  ›  Mercury's Treads  ›  Imperial Mandate  ›  Zhonya's Hourglass",
+      coreNote:"Abyssal Mask in place of Hextech Rocketbelt: it amplifies the magic damage enemies around you take, and Imperial Mandate on top marks whoever you taunt or ult for your team's follow-up. Only about 2-3% of Galio mids rush it, but on lolalytics it has won 3-5 points more than Rocketbelt-first at the same item count on both 26.19 and 26.20. That is on roughly 1,000-2,000 games per patch, so it is a consistent lean rather than proof. Most players who rush it go Mercury's Treads and Imperial Mandate into Zhonya's, the same path as the main build. Take it only when your team deals magic damage, such as a mage bot or an AP top or jungle; into an all-physical team, Rocketbelt or Hollow Radiance is better.",
       runes:{...GALIO_MID_DEFAULT_RUNES},
-      sideItems:["Hollow Radiance","Rylai's Crystal Scepter","Kaenic Rookern","Riftmaker","Mercury's Treads"],
+      sideItems:["Riftmaker","Hollow Radiance","Kaenic Rookern","Thornmail","Plated Steelcaps"],
     }],
   },
   roles:{
@@ -42,8 +42,8 @@ export default {
       bans:["Zed","Talon","Yasuo"], replacements:["Lissandra","Vex","Annie"],
       role:"Anti-Magic Roam Colossus",
       corePath:"Hextech Rocketbelt  ›  Mercury's Treads  ›  Imperial Mandate  ›  Zhonya's Hourglass",
-      coreNote:"Galio is the teamfight-first mid: taunt is the best engage-and-peel spell in the lane, and Hero's Entrance turns every side-lane skirmish into a 5v4. Hextech Rocketbelt guarantees the Flash-less taunt engage, Imperial Mandate converts his constant CC into team damage, and Zhonya's covers the always-in-the-middle positioning. Riftmaker closes the drain-fight scaling. Shove mid, watch the map, and arrive from the sky whenever anyone anywhere starts a fight.",
-      sideItems:["Riftmaker","Spirit Visage","Thornmail","Force of Nature","Rabadon's Deathcap","Kaenic Rookern"],
+      coreNote:"Galio is the teamfight-first mid: taunt is the best engage-and-peel spell in the lane, and Hero's Entrance turns every side-lane skirmish into a 5v4. Hextech Rocketbelt guarantees the Flash-less taunt engage, Imperial Mandate converts his constant CC into team damage, and Zhonya's covers the always-in-the-middle positioning. Riftmaker closes the drain-fight scaling. Hollow Radiance is the other common first item, about as popular as Rocketbelt and a point or two behind it at equal item counts: take it when the enemy mid and jungle both deal magic damage. Shove mid, watch the map, and arrive from the sky whenever anyone anywhere starts a fight.",
+      sideItems:["Hollow Radiance","Riftmaker","Spirit Visage","Thornmail","Force of Nature","Rabadon's Deathcap","Kaenic Rookern"],
       data:{
         JUGGERNAUT:{ahead:[I("Imperial Mandate","Taunt-proc them for your whole team."),I("Riftmaker","Out-sustain the brawl they want."),I("Hextech Rocketbelt","Dash spacing controls the trade tempo.")],behind:[I("Thornmail","Anti-heal their sustain trades."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Spirit Visage","Amplify your shield-heal loop.")],runes:{...GALIO_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Hextech Rocketbelt","Counter-taunt their engage — the dive dies mid-air."),I("Imperial Mandate","Proc the whole failed dive."),I("Zhonya's Hourglass","Stasis wastes their commitment.")],behind:[I("Zhonya's Hourglass","Stasis answers the all-in."),I("Kaenic Rookern","Shield vs AP divers."),I("Spirit Visage","Sustain repeated attempts.")],runes:{...GALIO_MID_DEFAULT_RUNES}},

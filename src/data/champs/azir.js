@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const AZIR_MID_DEFAULT_RUNES = {
-  keystone:       "Lethal Tempo",
+  keystone:       "Press the Attack",
   primary:        "Precision",
   primaryRunes:   ["Presence of Mind","Legend: Alacrity","Cut Down"],
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Overgrowth"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Azir is an attack-speed mage — his soldiers strike on his auto-attack timer, so Lethal Tempo directly scales his entire damage output. Presence of Mind sustains the mana-hungry poke phase, Legend: Alacrity stacks even more soldier attack speed, and Cut Down helps shred the frontliners who dive him. Bone Plating and Overgrowth patch up his notoriously weak early laning.",
+  reason:         "Azir is an attack-speed mage — his soldiers strike on his auto-attack timer, so three soldier hits land Press the Attack and expose the target to everything his team follows up with. It is now his most common keystone and the better one: about half of Azir players run it, at roughly two points more win rate than Lethal Tempo (lolalytics, Emerald+). Presence of Mind sustains the mana-hungry poke phase, Legend: Alacrity stacks even more soldier attack speed, and Cut Down helps shred the frontliners who dive him. Bone Plating and Overgrowth patch up his notoriously weak early laning.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -20,20 +20,20 @@ export default {
   lanes:["Mid"],
   altBuilds:{
     Mid:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Dusk and Dawn  ›  Berserker's Greaves  ›  Nashor's Tooth  ›  Rabadon's Deathcap",
-      coreNote:"Skill-Capped Azir: Press the Attack over Lethal Tempo — PTA is winning ~3% more (Lethal Tempo is actually negative win-probability on him right now) and it's already run by 34% of Azir players. Rush Dusk and Dawn so you proc PTA in TWO autos instead of three for huge upfront trades; with Azir's Q damage buffed for 26.16, the Q → PTA-proc threat makes his laning much stronger.",
-      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack rewards Azir's soldier-auto rhythm and, with Dusk and Dawn, procs in two autos for a burst trade — it out-wins Lethal Tempo by ~3% right now. Presence of Mind + Manaflow Band fix his mana; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight." },
-      sideItems:["Nashor's Tooth","Rabadon's Deathcap","Void Staff","Zhonya's Hourglass","Rylai's Crystal Scepter"],
+      label:"Dusk and Dawn spellblade", tag:"alt",
+      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"A minority Azir line: Dusk and Dawn first instead of Nashor's Tooth, in about 6-9% of games on lolalytics. Its spellblade loads extra damage into the soldier attack after each ability, so it front-loads short trades rather than buying the sustained soldier DPS Nashor's gives. It is not a stronger build: at equal item counts it finishes within about a point of Nashor's-first, behind at two and three items and ahead at four, so pick it for the trading pattern, not the numbers. Players who take it buy Sorcerer's Shoes and follow with Shadowflame more often than Nashor's Tooth.",
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack, as on the main page, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
+      sideItems:["Nashor's Tooth","Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter"],
     }],
   },
   roles:{
     Mid:{
       bans:["Fizz","Zed","Irelia"], replacements:["Orianna","Syndra","Xerath"],
       role:"Soldier Control Mage / Hyperscaler",
-      corePath:"Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Azir fights through his sand soldiers — every item that buys attack speed or AP multiplies their drumbeat of on-hit magic damage. Nashor's Tooth is the defining spike: attack speed plus on-hit AP is exactly what soldiers convert into DPS. Shadowflame adds burst against the squishies you poke low, and Zhonya's Hourglass covers the Shurima Shuffle — ult the enemy team into your carries, then stasis through the retaliation.",
-      sideItems:["Rabadon's Deathcap","Void Staff","Banshee's Veil","Riftmaker","Cosmic Drive","Ionian Boots of Lucidity"],
+      corePath:"Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"Azir fights through his sand soldiers — every item that buys attack speed or AP multiplies their drumbeat of on-hit magic damage. Nashor's Tooth is the defining spike and the first item in over 80% of Azir games: attack speed plus on-hit AP is exactly what soldiers convert into DPS. Shadowflame adds burst against the squishies you poke low, and Rabadon's Deathcap is now the usual third item, about twice as common there as Zhonya's Hourglass. Move Zhonya's up when the enemy has the dive to punish a Shurima Shuffle — ult them into your carries, then stasis through the retaliation.",
+      sideItems:["Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter","Riftmaker","Ionian Boots of Lucidity"],
       data:{
         JUGGERNAUT:{ahead:[I("Nashor's Tooth","Soldier DPS shreds them before they ever reach you."),I("Shadowflame","Punish their low MR with flat pen."),I("Rabadon's Deathcap","Scaling AP turns soldiers into a sustained shredder.")],behind:[I("Zhonya's Hourglass","Stasis when they finally force the gap close."),I("Void Staff","Pen keeps soldier damage real without a gold lead."),I("Banshee's Veil","Blocks the gap-closer or pull that starts their kill window.")],runes:{...AZIR_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Zhonya's Hourglass","Even ahead, stasis answers the tower dive."),I("Nashor's Tooth","Out-DPS them while soldiers body-block."),I("Shadowflame","Burst the diver before the combo lands.")],behind:[I("Zhonya's Hourglass","Mandatory — negates the all-in you can't outrun."),I("Banshee's Veil","Blocks the engage spell that starts the dive."),I("Ionian Boots of Lucidity","More E/R uptime to disengage.")],runes:{...AZIR_MID_DEFAULT_RUNES}},

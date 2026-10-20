@@ -11,13 +11,13 @@ const BRIAR_JGL_DEFAULT_RUNES = {
 };
 
 const BRIAR_TOP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
+  keystone:       "Press the Attack",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Second Wind","Revitalize"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Same Conqueror core as jungle. Second Wind replaces Bone Plating in lane — Briar top eats constant poke while walking down her lane opponent, and Second Wind + passive healing out-regens it. Revitalize amplifies E channel healing between trades.",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
+  secondary:      "Domination",
+  secondaryRunes: ["Sudden Impact","Treasure Hunter"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Same page as jungle. Press the Attack is the Briar Top keystone in about two thirds of games, with Conqueror now under 7%. Three Frenzy autos proc it almost instantly, and the damage amp feeds the passive healing race. Sudden Impact procs off the Q and W dashes, Coup de Grace finishes targets Frenzy has drained, and Treasure Hunter funds the snowball. Source: lolalytics, patch 26.20 (Emerald+ and all ranks agree).",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -29,18 +29,24 @@ export default {
   color:"#7a1f2b", glow:"#e0566a",
   altBuilds:{
     Top:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Endless Hunger",
-      coreNote:"26.16 Eclipse short-trade Briar (Eclipse's proc buff makes it real again) — a third identity beside her health-stacker and teamfight builds: Eclipse plays for repeated short trades. Rush Eclipse → Black Cleaver, then flex the third item to the enemy: Endless Hunger for near-zero cooldowns (it scales with bonus AD, and Eclipse+Cleaver give a lot of it), or Death's Dance vs burst/physical. Q→auto is a guaranteed short trade on a ~5-6s cooldown, and the shield makes her own health less relevant so freezing is fine. D-Shield start; grab a Refillable Potion into ranged matchups.",
+      label:"Eclipse short trades", tag:"alt",
+      corePath:"Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"Swap Blade of The Ruined King for Eclipse and play for repeated short trades: Q into auto lands Eclipse's proc and shield in one window, so you can trade without committing your HP bar to a full Frenzy. After Eclipse the path is the same as the standard build (Black Cleaver, then Death's Dance). Endless Hunger is an occasional third item, not the norm. Treat this as a thin-sample option. Eclipse is the first item in about 6-7% of Briar Top games and wins more often than the BotRK rush (52.7% vs 50.4% over ~1,900 all-rank games, 53.3% vs 50.7% over ~470 Emerald+ games), but Briar Top itself is under 0.5% pick rate. Source: lolalytics, patch 26.20.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Coup de Grace"], secondary:"Resolve", secondaryRunes:["Second Wind","Unflinching"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Press the Attack front-loads Briar's short-trade pattern — the Q→auto lands the third hit fast for the amp, and Eclipse's proc lands in the same window. Legend: Haste keeps her spells and Eclipse's 6s proc up; Coup de Grace executes. Resolve's Second Wind + Unflinching sustain the ranged-matchup laning this build is built to survive." },
-      sideItems:["Death's Dance","Sterak's Gage","Spirit Visage","Serylda's Grudge","Mercury's Treads"],
+      sideItems:["Endless Hunger","Sterak's Gage","Spirit Visage","Guardian Angel","Mercury's Treads"],
     }],
     Jungle:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Hubris  ›  Ionian Boots of Lucidity  ›  Axiom Arc  ›  The Collector",
-      coreNote:"26.16 Hail-of-Blades lethality Briar — an ult-focused one-shot build. Reworked Hail of Blades trades attack speed for much higher bonus-AD scaling on its true damage, and Briar's Q adds a proc (up to 5 hits), so it hits like a truck once you have AD. Rush Hubris (most AD of the lethality items — huge on an ult fly-in) → Axiom Arc (refunds ult cooldown for more R-oneshot chances) → The Collector → Edge of Night → Lord Dominik's. Take Legend: Haste over the Axiom Arc rune (it's bad). Modern Briar jungle also ganks more than the old disciplined full-clear.",
-      runes:{ keystone:"Hail of Blades", primary:"Domination", primaryRunes:["Sudden Impact","Grisly Mementos","Ultimate Hunter"], secondary:"Precision", secondaryRunes:["Legend: Haste","Coup de Grace"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Hail of Blades' reworked bonus-AD true-damage scaling turns Briar's Q-buffed auto chain into a one-combo delete once Hubris/Collector land. Sudden Impact fires off every W/R dash for lethality; Ultimate Hunter stacks R uptime (the whole point of the build); Legend: Haste over the Axiom Arc rune adds the cooldowns that actually get you another ult." },
-      sideItems:["Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Guardian Angel","Mercury's Treads"],
+      label:"Hail of Blades burst", tag:"alt",
+      corePath:"The Collector  ›  Plated Steelcaps  ›  Profane Hydra  ›  Lord Dominik's Regards",
+      coreNote:"The burst page. About a quarter of Briar junglers run Hail of Blades instead of Press the Attack (26% of games, both win 53.1-53.2%), so this is a co-equal choice, not an off-meta gimmick. Hail of Blades makes Briar's opening W-dive autos hit hard, which suits a gank-heavy, pick-off jungle. The items stay close to the standard build: The Collector first in two thirds of these games, then Profane Hydra or Titanic Hydra (Profane's active adds a dash-in burst), then Lord Dominik's Regards. Hubris first is the main variant (about 13% of Hail of Blades games, 55% win rate). Source: lolalytics, patch 26.20, Emerald+, filtered to Hail of Blades (28,760 games).",
+      runes:{ keystone:"Hail of Blades", primary:"Domination", primaryRunes:["Sudden Impact","Sixth Sense","Treasure Hunter"], secondary:"Inspiration", secondaryRunes:["Cash Back","Triple Tonic"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"The most-picked Hail of Blades page on 26.20. Hail of Blades front-loads attack speed into the first three autos after a W dive, and Sudden Impact adds lethality off every dash. Sixth Sense periodically reveals nearby wards, which keeps gank paths hidden, and Treasure Hunter funds the snowball from kill participation. The Inspiration secondary (Cash Back + Triple Tonic) trades the Precision rows for economy: gold back on each Legendary item, plus stronger potions in the early clear." },
+      sideItems:["Hubris","Titanic Hydra","Infinity Edge","Death's Dance","Guardian Angel","Edge of Night","Mercury's Treads"],
+    },{
+      label:"Titanic Hydra bruiser", tag:"alt",
+      corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"The bruiser path, and the main build before The Collector took over. It is still the second most common start (about 18% of games) and wins slightly more often than the Collector rush (53.3% vs 52.1% as the first item). It is also a very consistent path: Titanic Hydra into Black Cleaver in 84% of these games, then Death's Dance in 70%. Titanic's health-scaling AoE proc fires on every Frenzy auto, Black Cleaver shreds while Frenzy stacks it instantly, and Death's Dance turns burst into a bleed your passive out-heals. Take it into tanky or bruiser-heavy teams, or when you want to frontline rather than one-shot. Endless Hunger is the higher win-rate but rarer third item. Source: lolalytics, patch 26.20, Emerald+.",
+      runes:{...BRIAR_JGL_DEFAULT_RUNES},
+      sideItems:["Endless Hunger","Spirit Visage","Sterak's Gage","Guardian Angel","Mercury's Treads"],
     }],
   },
   roles:{
@@ -50,9 +56,9 @@ export default {
       // Jungle companion (smite pet). Briar is the textbook aggressive early 1v1
       // duelist, so Scorchclaw's bonus damage snowballs her invades/ganks/clear.
       pet:"Scorchclaw Pup",
-      corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Current meta drops Eclipse entirely — Titanic Hydra first for the HP-scaling AoE proc that fires on every Frenzy auto. Plated Steelcaps second keeps you alive through counter-ganks before your kit online. Black Cleaver shreds while Frenzy autos stack it instantly; Death's Dance (or Spirit Visage / Guardian Angel situationally) rounds out the HP-as-a-resource game plan. A burst variant swapping in The Collector and Lord Dominik's Regards exists for lopsided burst comps, but the bruiser path is the safer default.",
-      sideItems:["Spirit Visage","Wit's End","Maw of Malmortius","Randuin's Omen","Serylda's Grudge","Guardian Angel","The Collector","Lord Dominik's Regards"],
+      corePath:"The Collector  ›  Plated Steelcaps  ›  Titanic Hydra  ›  Lord Dominik's Regards",
+      coreNote:"The Collector is now Briar's standard first item, in about half of all games and nearly three times as often as Titanic Hydra. Its execute closes out targets that Frenzy has drained low, and the lethality spikes her early ganks. Plated Steelcaps keep you alive through counter-ganks (Mercury's Treads into AP or heavy CC). Titanic Hydra second adds the health-scaling AoE proc on every Frenzy auto, with Profane Hydra as the burstier swap. Lord Dominik's Regards third shreds the armor of whoever stacks it against you. Death's Dance is the usual fourth item and Guardian Angel the late-game buy. The old Titanic Hydra into Black Cleaver bruiser path is kept as an alternative. Source: lolalytics, patch 26.20, Emerald+: Collector first in 51% of games, then Titanic in 52%, then Lord Dominik's in 60%.",
+      sideItems:["Death's Dance","Guardian Angel","Black Cleaver","Profane Hydra","Infinity Edge","Mercury's Treads","Spirit Visage","Wit's End","Maw of Malmortius","Randuin's Omen","Serylda's Grudge"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Frenzy autos shred their armor in seconds."),I("Titanic Hydra","AoE proc on their stacked health."),I("Spirit Visage","Amps passive + E healing — you out-sustain a Juggernaut.")],behind:[I("Sterak's Gage","Shield when the stat-check goes their way."),I("Spirit Visage","Healing keeps the war of attrition close."),I("Plated Steelcaps","Auto reduction on their walk-down.")],runes:{...BRIAR_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Titanic Hydra","AoE proc wins the mirror dive."),I("Black Cleaver","Shred + haste for more E interrupts."),I("Death's Dance","Their burst becomes bleed your passive out-heals.")],behind:[I("Sterak's Gage","Survive their engage before Frenzy ramps."),I("Plated Steelcaps","Irelia/Camille chains."),I("Guardian Angel","Frenzy dives trade 1-for-1 — GA makes it profitable.")],runes:{...BRIAR_JGL_DEFAULT_RUNES}},
@@ -72,9 +78,9 @@ export default {
     Top:{
       bans:["Jax","Trundle","Warwick"], replacements:["Sett","Renekton","Volibear"],
       role:"Skirmisher / Bruiser",
-      corePath:"Stridebreaker  ›  Black Cleaver  ›  Spirit Visage  ›  Sterak's Gage",
-      coreNote:"Top lane trades Eclipse for Stridebreaker — the active slow replaces jungle R engages as your stick mechanic, and the waveclear covers Briar's weak early pushing. Spirit Visage third amplifies the passive + E healing that wins the lane war of attrition. Same rule as jungle: her HP bar is a resource — spend it, heal it back, repeat.",
-      sideItems:["Titanic Hydra","Wit's End","Death's Dance","Maw of Malmortius","Randuin's Omen","Thornmail","Guardian Angel","Plated Steelcaps"],
+      corePath:"Blade of The Ruined King  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"Blade of The Ruined King is the most common Briar Top rush. Its percent-current-health damage and lifesteal on every Frenzy auto win the extended trades she wants, and the slow helps her stick. Black Cleaver second shreds while Frenzy stacks it instantly, and Death's Dance third turns their burst into a bleed your passive heals through. The Collector or Titanic Hydra first are the other common starts. Same rule as jungle: her HP bar is a resource, so spend it, heal it back, repeat. Data is thin, because Briar Top is under 0.5% pick rate. Source: lolalytics, patch 26.20: BotRK first in about 30% of games, then Black Cleaver in 55%, then Death's Dance in 55%. Emerald+ and all-rank data agree, and patch 26.19 shows the same core.",
+      sideItems:["The Collector","Titanic Hydra","Lord Dominik's Regards","Guardian Angel","Spirit Visage","Sterak's Gage","Mercury's Treads","Wit's End","Maw of Malmortius","Randuin's Omen","Thornmail","Stridebreaker"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Frenzy autos shred their armor stack."),I("Spirit Visage","Out-sustain the sustain class."),I("Stridebreaker","They can never disengage the losing fight.")],behind:[I("Sterak's Gage","Shield their walk-down."),I("Thornmail","GW cuts Darius/Mundo regen."),I("Plated Steelcaps","Auto reduction.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stridebreaker","Slow their dash-out — Frenzy finishes."),I("Black Cleaver","Shred + haste for E interrupts on their engage."),I("Death's Dance","Their burst becomes bleed.")],behind:[I("Sterak's Gage","Survive the engage spike."),I("Plated Steelcaps","Irelia/Camille chains."),I("Guardian Angel","Even trades still snowball your scaling.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
@@ -82,7 +88,7 @@ export default {
         SKIRMISHER:{ahead:[I("Wit's End","On-hit + MR race — Frenzy wins stat checks."),I("Death's Dance","Out-sustain the duel class."),I("Black Cleaver","Long-fight shred.")],behind:[I("Randuin's Omen","Crit/AS cut on Trynd/Yone/Jax ult windows."),I("Sterak's Gage","Their spike, survived."),I("Thornmail","GW on their lifesteal.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         BURST_MAGE:{ahead:[I("Maw of Malmortius","Lifeline covers the Frenzy commit."),I("Wit's End","MR + on-hit while sticking."),I("Stridebreaker","Slow so the combo gap never opens.")],behind:[I("Maw of Malmortius","Mandatory lifeline."),I("Mercury's Treads","Shorter CC mid-Frenzy."),I("Spirit Visage","Recover between combos.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         BATTLEMAGE:{ahead:[I("Wit's End","MR + on-hit vs sustained AP."),I("Spirit Visage","Healing races their drain."),I("Death's Dance","Bleed + kill heal.")],behind:[I("Maw of Malmortius","Vlad/Swain drain fights."),I("Wit's End","MR + DPS."),I("Mercury's Treads","Layered CC.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
-        ARTILLERY:{ahead:[I("Stridebreaker","Gap-close slow — one connect ends the poke game."),I("Wit's End","MR chip resistance walking in."),I("Black Cleaver","Haste for more E interrupts.")],behind:[I("Maw of Malmortius","Survive the poke rotation."),I("Mercury's Treads","Slows/roots."),I("Spirit Visage","Second Wind + Visage out-regens chip.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
+        ARTILLERY:{ahead:[I("Stridebreaker","Gap-close slow — one connect ends the poke game."),I("Wit's End","MR chip resistance walking in."),I("Black Cleaver","Haste for more E interrupts.")],behind:[I("Maw of Malmortius","Survive the poke rotation."),I("Mercury's Treads","Slows/roots."),I("Spirit Visage","Visage-amplified passive healing out-regens chip.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         MARKSMAN:{ahead:[I("Stridebreaker","Slow beats kite — Frenzy does the rest."),I("Black Cleaver","Move speed on procs to stick."),I("Death's Dance","Eat their DPS while eating them.")],behind:[I("Plated Steelcaps","Auto reduction."),I("Randuin's Omen","Crit cut + active."),I("Sterak's Gage","Survive peel + DPS.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         ENCHANTER:{ahead:[I("Serylda's Grudge","Shred + slow through shields."),I("Black Cleaver","Chew the shield economy."),I("Titanic Hydra","AoE hits both.")],behind:[I("Death's Dance","Out-sustain their heals."),I("Serylda's Grudge","Anti-shield."),I("Maw of Malmortius","AP poke.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},
         CATCHER:{ahead:[I("Mercury's Treads","Shorter CC — caught Frenzy is dead Frenzy."),I("Stridebreaker","Punish the missed hook instantly."),I("Black Cleaver","Kill the catcher first.")],behind:[I("Mercury's Treads","Mandatory."),I("Sterak's Gage","Survive the follow-up."),I("Guardian Angel","Even when caught, trade.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},

@@ -7,7 +7,7 @@ const GAREN_TOP_DEFAULT_RUNES = {
   secondary:      "Sorcery",
   secondaryRunes: ["Axiom Arcanist","Celerity"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks almost instantly off Judgment's spin — every tick counts as a hit, so Garen hits max stacks in under two seconds and gets the omnivamp to sustain through extended trades. Legend: Haste speeds up Judgment/Decisive Strike uptime. Axiom Arcanist and Celerity stack pure movement speed and Adaptive Force, amplified further by Swiftmarch's boots passive, letting him stick to targets after silencing their escape with Decisive Strike.",
+  reason:         "Conqueror stacks almost instantly off Judgment's spin — every tick counts as a hit, so Garen hits max stacks in under two seconds and gets the omnivamp to sustain through extended trades. Legend: Haste speeds up Judgment/Decisive Strike uptime. Axiom Arcanist and Celerity stack pure movement speed and Adaptive Force, letting him stick to targets after silencing their escape with Decisive Strike.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -20,20 +20,20 @@ export default {
   lanes:["Top"],
   altBuilds:{
     Top:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Stridebreaker  ›  Swiftmarch  ›  Youmuu's Ghostblade  ›  Serylda's Grudge",
-      coreNote:"Skill-Capped solo-carry fork: still rush Stridebreaker, but into squishy comps take Youmuu's Ghostblade second for lethality instead of the Phantom Dancer crit line — the lethality is better value for bursting carries (keep the standard Phantom Dancer build into tankier teams). Garen is buffed indirectly this patch by Berserker's Greaves and the Tiamat AD increase feeding Stridebreaker. Ban Teemo (blind) / avoid Kayle.",
+      label:"Youmuu's lethality", tag:"alt",
+      corePath:"Berserker's Greaves  ›  Stridebreaker  ›  Youmuu's Ghostblade  ›  Phantom Dancer",
+      coreNote:"The lethality fork of the standard build: same Berserker's Greaves and Stridebreaker start, but Youmuu's Ghostblade second instead of Phantom Dancer, with Phantom Dancer moving to third. Youmuu's is Garen's second most common follow-up to Stridebreaker (about 19% of games) and wins slightly more often than the Phantom Dancer line (56.5% vs 55.3% as the second item). Its active speed closes the gap for Decisive Strike, and the lethality makes Judgment and Demacian Justice delete squishy carries. Take it into squishy teams; keep the Phantom Dancer line into tanky ones. After Youmuu's, Phantom Dancer, Mortal Reminder and Voltaic Cyclosword are the usual third items. Source: lolalytics, patch 26.20, Emerald+.",
       runes:{...GAREN_TOP_DEFAULT_RUNES},
-      sideItems:["Phantom Dancer","Death's Dance","Sterak's Gage","Serylda's Grudge","Mercury's Treads"],
+      sideItems:["Mortal Reminder","Voltaic Cyclosword","Dead Man's Plate","Infinity Edge","Lord Dominik's Regards","Sterak's Gage","Mercury's Treads"],
     }],
   },
   roles:{
     Top:{
       bans:["Vayne","Teemo","Jayce"], replacements:["Darius","Sett","Volibear"],
       role:"Juggernaut / Unstoppable Spin",
-      corePath:"Stridebreaker  ›  Swiftmarch  ›  Dead Man's Plate  ›  Phantom Dancer",
-      coreNote:"Garen plays for the unavoidable spin-to-win all-in — Decisive Strike silences the escape, Judgment shreds HP, Demacian Justice executes. Stridebreaker's slow keeps targets locked in Judgment range; Swiftmarch and Dead Man's Plate stack movement speed to chase them down; Phantom Dancer adds attack speed for more spin ticks.",
-      sideItems:["Sterak's Gage","Trinity Force","Force of Nature","Thornmail","Guardian Angel","Mercury's Treads"],
+      corePath:"Berserker's Greaves  ›  Stridebreaker  ›  Phantom Dancer  ›  Mortal Reminder",
+      coreNote:"Garen plays for the unavoidable spin-to-win all-in — Decisive Strike silences the escape, Judgment shreds HP, Demacian Justice executes. Berserker's Greaves come first (about two thirds of Garens buy them, usually before Stridebreaker completes). Stridebreaker's slow keeps targets locked in Judgment range, and Phantom Dancer adds attack speed and crit for more spin ticks. Mortal Reminder is the usual third item, since grievous wounds cuts the healing of most top laners. Dead Man's Plate is the common fourth item for chase speed, or Infinity Edge for more crit. Swiftmarch is a minority boots choice. Source: lolalytics, patch 26.20, Emerald+: Stridebreaker first in 96% of games, then Phantom Dancer in 51%, then Mortal Reminder in 51%.",
+      sideItems:["Dead Man's Plate","Infinity Edge","Sterak's Gage","Force of Nature","Thornmail","Guardian Angel","Swiftmarch","Plated Steelcaps","Mercury's Treads","Trinity Force"],
       data:{
         JUGGERNAUT:{ahead:[I("Dead Man's Plate","Charge speed sticks to the mirror matchup."),I("Stridebreaker","Slow wins the stick-fight."),I("Phantom Dancer","AS adds up over the spin.")],behind:[I("Thornmail","GW cuts their sustain."),I("Sterak's Gage","Shield when the walk-down connects."),I("Force of Nature","MR if they go hybrid.")],runes:{...GAREN_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stridebreaker","Slow denies their dash-out after committing."),I("Sterak's Gage","Shield through the engage."),I("Phantom Dancer","AS wins the follow-up trade.")],behind:[I("Sterak's Gage","Shield absorbs the engage burst."),I("Mercury's Treads","Shorter CC on their engage."),I("Guardian Angel","Second life.")],runes:{...GAREN_TOP_DEFAULT_RUNES}},

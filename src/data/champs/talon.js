@@ -30,11 +30,11 @@ export default {
   lanes:["Mid","Jungle"],
   altBuilds:{
     Jungle:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Umbral Glaive  ›  Ionian Boots of Lucidity  ›  Bastionbreaker  ›  Voltaic Cyclosword",
-      coreNote:"Skill-Capped one-shot Talon JG: still rush Umbral Glaive (its vision-denial passive is massive on him), then the three-item combo Umbral → Bastionbreaker → Voltaic Cyclosword. Every one of those has a burst passive, and the true damage from Umbral + Bastionbreaker lets you delete a squishy on the two-item spike. Fleet Footwork (buffed 26.16) keeps him a top-tier snowball jungler; use Bastionbreaker's tower shred to close games fast.",
+      label:"Axiom Arc ult reset", tag:"alt",
+      corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Voltaic Cyclosword  ›  Axiom Arc",
+      coreNote:"The previous main build, now a minority line: Voltaic Cyclosword second and Axiom Arc third in place of Bastionbreaker, trading Bastionbreaker's true-damage burst for a Shadow Assault that comes back after every takedown. It appears in only 2-3% of three- and four-item Talon jungle games on lolalytics, but finishes a point or more ahead of the standard core at the same item count. That is on about 1,500 games, so treat it as a lean, not proof. Take it when the game will be decided by teamfights your ult opens, rather than by solo picks.",
       runes:{...TALON_JGL_DEFAULT_RUNES},
-      sideItems:["Youmuu's Ghostblade","Serylda's Grudge","Edge of Night","Axiom Arc","Mercury's Treads"],
+      sideItems:["Bastionbreaker","Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Guardian Angel","Youmuu's Ghostblade"],
     }],
   },
   roles:{
@@ -63,9 +63,9 @@ export default {
     Jungle:{
       bans:["Rammus","Poppy","Malphite"], replacements:["Kayn","Rengar","Nocturne"],
       role:"Vision-Control Assassin Jungler",
-      corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Voltaic Cyclosword  ›  Axiom Arc",
-      coreNote:"Jungle Talon is S-tier this patch on a Fleet Footwork sustain-clear into Umbral Glaive — the sweep-on-hit passive erases enemy vision along his parkour gank paths, so his ganks come from angles that were warded five seconds ago. Voltaic Cyclosword frontloads the gank burst, Axiom Arc refunds Shadow Assault off every takedown, and Serylda's Grudge closes the build against stacked armor.",
-      sideItems:["Serylda's Grudge","Edge of Night","Serpent's Fang","Guardian Angel","Youmuu's Ghostblade","Opportunity"],
+      corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Bastionbreaker  ›  Voltaic Cyclosword",
+      coreNote:"Jungle Talon is S tier on a Fleet Footwork sustain-clear into Umbral Glaive — the sweep-on-hit passive erases enemy vision along his parkour gank paths, so his ganks come from angles that were warded five seconds ago. Bastionbreaker second and Voltaic Cyclosword third is now the standard core, in close to half of all three-item games: Bastionbreaker adds true damage to his ability hits on top of Umbral's lethality, enough for a two-item one-shot on squishies. Voltaic Cyclosword frontloads the next gank. Edge of Night and Lord Dominik's Regards are the common follow-ups; Serylda's Grudge closes against stacked armor.",
+      sideItems:["Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Serpent's Fang","Guardian Angel","Youmuu's Ghostblade"],
       data:{
         JUGGERNAUT:{ahead:[I("Voltaic Cyclosword","Burst-and-leave beats their jungle brawl."),I("Serylda's Grudge","Pen keeps chunks real through armor."),I("Axiom Arc","More ults = more skirmish resets.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance in forced river fights."),I("Maw of Malmortius","Vs mixed-damage bruisers.")],runes:{...TALON_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Voltaic Cyclosword","Burst them mid-engage before the combo lands."),I("Umbral Glaive","Dark vision = they never see your counter-gank."),I("Edge of Night","Block the dive-opener.")],behind:[I("Edge of Night","Spell shield answers their engage ability."),I("Guardian Angel","Second life on contested dives."),I("Maw of Malmortius","Shield vs AP divers.")],runes:{...TALON_JGL_DEFAULT_RUNES}},

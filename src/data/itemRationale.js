@@ -36,7 +36,6 @@ export const ITEM_RATIONALE = {
   "Hubris":                 "AD, lethality, haste; stacking AD on takedowns — the snowball lethality item when you're getting picks.",
   "Opportunity":            "AD, lethality; bonus lethality/MS out of combat and on takedowns — early-tempo lethality for roaming assassins.",
   "Axiom Arc":              "AD, lethality, haste; takedowns refund your ult cooldown — for assassins whose plan is spamming R (Talon, Briar).",
-  "Duskblade of Draktharr": "AD, lethality, haste; bonus %missing-HP ability damage and untargetability on takedowns — snowball assassin item vs squishies.",
   "Hexoptics C44":          "AD, crit; bonus attack damage that scales with distance + AD on takedowns — a ranged tempo/burst marksman item.",
 
   // ── Defensive (AD side) ────────────────────────────────────────────────────
@@ -141,7 +140,6 @@ export const ITEM_RATIONALE = {
   "Zaz'Zak's Realmspike":   "Support finisher; %max-HP magic explosions on ability damage — the AP/poke support option (Brand, Zyra, Vel'Koz).",
   "Dawncore":               "AP, heal power, mana regen; scales your heals/shields off mana regen — the late-game enchanter scaling item.",
   "Bandlepipes":            "HP, haste, resistances; slowing/immobilising grants you + nearby allies move and attack speed — the engage/poke support buff.",
-  "Vigilant Wardstone":     "HP, haste, resistances, extra ward caps and a stat boost from your items — a late-game vision/utility pickup for supports/tanks.",
   "World Atlas":            "The support quest starter — earns gold from assisting, then upgrades into Runic Compass and a finished support item.",
   "Runic Compass":          "The mid-tier support item — completes the quest into your chosen finisher (Bloodsong/Solstice/Celestial/Dream Maker/Zaz'Zak's).",
 

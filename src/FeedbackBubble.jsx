@@ -21,9 +21,9 @@ import { createPortal } from "react-dom";
 //  readable JS is a scraper target. A contact address belongs behind the
 //  planned backend (see Monetisation/accounts), not in the client.
 //
-//  Deliberately understated: a low-opacity pill in the corner that only comes
-//  up to full contrast on hover. It should be findable when wanted and invisible
-//  when not.
+//  A themed pill in the corner: readable at rest (accent border, dimmed accent
+//  text, a small status dot) and full accent on hover. It started out at ~20%
+//  effective contrast, which made it effectively undiscoverable.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const REPO  = "Smiggul/pantheon-guide";
@@ -224,15 +224,20 @@ export default function FeedbackBubble({ S, appVersion, patch, champ, role, offs
         style={{
           position: "fixed", left: "22px", bottom: `${offset}px`, zIndex: 9998,
           cursor: "pointer", fontFamily: "inherit",
-          fontSize: "10px", letterSpacing: "1.5px", textTransform: "uppercase",
-          padding: "7px 13px", borderRadius: "8px",
-          border: `1px solid ${open || hover ? border : "rgba(255,255,255,.08)"}`,
-          background: open || hover ? "rgba(27,27,30,.95)" : "rgba(27,27,30,.55)",
-          color: open || hover ? gold : "rgba(200,204,209,.45)",
+          display: "flex", alignItems: "center", gap: "7px",
+          fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase",
+          padding: "8px 14px", borderRadius: "8px",
+          border: `1px solid ${open || hover ? gold : border}`,
+          background: open || hover ? "rgba(27,27,30,.98)" : "rgba(27,27,30,.92)",
+          color: open || hover ? gold : goldDim,
+          boxShadow: open || hover ? `0 0 14px ${gold}33, 0 4px 14px rgba(0,0,0,.5)` : "0 4px 14px rgba(0,0,0,.45)",
           backdropFilter: "blur(6px)",
-          opacity: open || hover ? 1 : 0.42,
-          transition: "opacity .18s, color .18s, background .18s, border-color .18s",
+          transition: "color .18s, background .18s, border-color .18s, box-shadow .18s",
         }}>
+        <span aria-hidden="true" style={{
+          width: "6px", height: "6px", borderRadius: "50%", background: orange,
+          boxShadow: `0 0 6px ${orange}`, flexShrink: 0,
+        }} />
         Feedback
       </button>
       {open && typeof document !== "undefined" && createPortal(panel, document.body)}

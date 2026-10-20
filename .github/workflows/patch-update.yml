@@ -80,6 +80,19 @@ jobs:
             cat patch-notes.md >> patch-report.md
           fi
 
+      # A removed or Arena-only item still has a NAME in Data Dragon, so the diff
+      # and the build both pass it. This asks Riot's own map flags instead, and
+      # reports into the PR rather than failing: the PR is where a human fixes it.
+      - name: Check every recommended item is sold on the Rift
+        if: steps.check.outputs.outdated == 'true'
+        run: |
+          if ! node helpers/check-sr-items.mjs > sr-items.txt 2>&1; then
+            printf '\n---\n\n### Recommended items not sold on the Rift\n\n```\n' >> patch-report.md
+            cat sr-items.txt >> patch-report.md
+            printf '```\n' >> patch-report.md
+          fi
+          cat sr-items.txt
+
       - name: Build (verify the patch didn't break anything)
         if: steps.check.outputs.outdated == 'true'
         run: npm run build

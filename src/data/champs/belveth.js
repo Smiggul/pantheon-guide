@@ -20,20 +20,20 @@ export default {
   lanes:["Jungle"],
   altBuilds:{
     Jungle:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Guinsoo's Rageblade  ›  Terminus",
-      coreNote:"Skill-Capped on-hit Bel'Veth — the core dominating solo queue after her mini-rework: Kraken Slayer → Guinsoo's Rageblade → Terminus with Lethal Tempo, since attack-speed/on-hit scaling is far more efficient on her now. Best into bruiser/tank comps. Alt crit line into squishy comps: Guinsoo's → Infinity Edge → Shieldbow or Lord Dominik's with Press the Attack for more upfront burst.",
-      runes:{...BELVETH_JGL_DEFAULT_RUNES},
-      sideItems:["Guinsoo's Rageblade","Wit's End","Blade of The Ruined King","Infinity Edge","Mercury's Treads"],
+      label:"Guinsoo's on-hit", tag:"alt",
+      corePath:"Kraken Slayer  ›  Plated Steelcaps  ›  Guinsoo's Rageblade  ›  Terminus",
+      coreNote:"The second most common Bel'Veth core: Kraken Slayer into Guinsoo's Rageblade and Terminus, about one three-item game in eight on lolalytics. Guinsoo's multiplies her on-hit procs and Terminus keeps stacking resistances and penetration as the fight drags on, so it is built for long brawls into bruisers and tanks. It is not stronger than the Ruined King line: it trails by about two points at three items and draws level at four, so treat it as a matchup choice. Most players who build it still take Plated Steelcaps, not Berserker's Greaves. Lethal Tempo is the most common Bel'Veth keystone overall and suits the attack-speed stacking here.",
+      runes:{ keystone:"Lethal Tempo", primary:"Precision", primaryRunes:["Triumph","Legend: Alacrity","Coup de Grace"], secondary:"Inspiration", secondaryRunes:["Cash Back","Triple Tonic"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Lethal Tempo is the most common Bel'Veth keystone and ramps the attack speed this on-hit line multiplies. Triumph and Legend: Alacrity keep the ramp going through the takedown resets her R chains into, Coup de Grace finishes what the dash barrage starts, and Cash Back plus Triple Tonic is the Inspiration pair most Bel'Veth players take for early gold and stats. This is the most common Lethal Tempo page on lolalytics." },
+      sideItems:["Blade of The Ruined King","Death's Dance","Wit's End","Guardian Angel","Mercury's Treads"],
     }],
   },
   roles:{
     Jungle:{
       bans:["Talon","Udyr","Evelynn"], replacements:["Master Yi","Viego","Kayn"],
       role:"True-Form Objective Empress",
-      corePath:"Kraken Slayer  ›  Plated Steelcaps  ›  Stridebreaker  ›  Death's Dance",
-      coreNote:"Bel'Veth is rank-4 on real data — her quad-dash kit turns every skirmish into a blender, and True Form plus a Void Coral turns every objective take into a minion army siege. Kraken Slayer's true damage rides her endless autos, Stridebreaker's slow-and-dash keeps targets inside the storm, and Death's Dance converts burst into a bleed her lifesteal passive heals through. Wit's End closes against AP comps. Stack Lavender early, hit two items, and every dragon fight becomes a coronation.",
-      sideItems:["Wit's End","Blade of The Ruined King","Guardian Angel","Sterak's Gage","Terminus","Maw of Malmortius"],
+      corePath:"Kraken Slayer  ›  Plated Steelcaps  ›  Blade of The Ruined King  ›  Death's Dance",
+      coreNote:"Bel'Veth's quad-dash kit turns every skirmish into a blender, and True Form plus a Void Coral turns every objective take into a minion army siege. Kraken Slayer into Blade of The Ruined King is now the standard opener, in about half of all three-item games: Kraken's true damage and Ruined King's current-health damage and lifesteal both ride her endless autos. Death's Dance third converts burst into a bleed her lifesteal heals through, and Wit's End closes against AP comps. Stridebreaker, the old second item, now shows up in only about one game in ten and is a situational pick for its slow. Stack Lavender early, hit two items, and every dragon fight becomes a coronation.",
+      sideItems:["Wit's End","Terminus","Guardian Angel","Stridebreaker","Mercury's Treads","Maw of Malmortius"],
       data:{
         JUGGERNAUT:{ahead:[I("Kraken Slayer","True damage shreds their HP stacking."),I("Blade of The Ruined King","Percent-HP stacks the melt."),I("Death's Dance","Out-sustain the brawl they want.")],behind:[I("Death's Dance","Survive their burst and bleed it out."),I("Sterak's Gage","Shield the all-in."),I("Stridebreaker","Dash-slow to disengage the loss.")],runes:{...BELVETH_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stridebreaker","Win the engage mirror — your dashes never stop."),I("Kraken Slayer","True damage through the extended brawl."),I("Death's Dance","Out-sustain their engage window.")],behind:[I("Sterak's Gage","Shield their engage burst."),I("Death's Dance","Bleed through the counter-dive."),I("Guardian Angel","Insurance when both teams commit.")],runes:{...BELVETH_JGL_DEFAULT_RUNES}},

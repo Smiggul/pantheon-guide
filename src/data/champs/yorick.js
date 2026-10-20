@@ -20,11 +20,11 @@ export default {
   lanes:["Top","Jungle"],
   altBuilds:{
     Top:[{
-      label:"OP 26.17 ALT", tag:"alt",
+      label:"Black Cleaver rush", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
-      coreNote:"Skill-Capped OP line: Black Cleaver rush (his best-performing rush item in recent patches, now buffed) → Spear of Shojin → Sterak's Gage. Yorick benefits from BOTH the Cleaver and Sterak's 26.16 buffs, so his power spikes hard. Best into comps stacking armor — Cleaver's % armor shred scales with their stacking. Conqueror keystone into tank tops. Into squishier comps you can still rush Trinity Force instead (both are now good rushes).",
+      coreNote:"Rush Black Cleaver instead of Trinity Force. It is Yorick's second most common first item (about 12% of games) and wins as often as the Trinity rush (52.2% vs 52.0%), so treat it as a matchup call rather than an upgrade. Take it into armor-stacking or melee-heavy teams, where the percent armor shred is worth the most. Spear of Shojin and Eclipse are the two usual follow-ups and win equally often, and Sterak's Gage is the most common third item after Cleaver into Shojin. Conqueror over Grasp is a reasonable swap into tank tops. Source: lolalytics, patch 26.20, Emerald+.",
       runes:{...YORICK_TOP_DEFAULT_RUNES},
-      sideItems:["Trinity Force","Death's Dance","Thornmail","Plated Steelcaps","Spirit Visage"],
+      sideItems:["Eclipse","Trinity Force","Hullbreaker","Death's Dance","Thornmail","Spirit Visage","Mercury's Treads"],
     }],
   },
   roles:{

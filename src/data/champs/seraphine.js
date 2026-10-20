@@ -28,15 +28,6 @@ export default {
   id:"seraphine", display:"Seraphine", dd:"Seraphine",
   color:"#e8a4d8", glow:"#f8c8f0",
   lanes:["Support","Bot"],
-  altBuilds:{
-    Bot:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Archangel's Staff  ›  Sorcerer's Shoes  ›  Demonic Embrace  ›  Rylai's Crystal Scepter",
-      coreNote:"Skill-Capped solo-carry bot Seraphine: a cheap, effective scaling core — Archangel's Staff → Demonic Embrace → Rylai's — that she completes fast off the ADC role-quest gold (versus the 3,000g+ items traditional ADCs rush). Tankier and more consistent than the Malignance burst line; her kit does the skirmish work, so she stays impactful no matter how lane goes. The only real threat is a hook support, so ban Blitzcrank or Pyke.",
-      runes:{...SERAPHINE_ADC_DEFAULT_RUNES},
-      sideItems:["Malignance","Liandry's Torment","Cosmic Drive","Zhonya's Hourglass","Void Staff"],
-    }],
-  },
   roles:{
     Support:{
       bans:["Galio","Taric","Janna"], replacements:["Lulu","Karma","Milio"],
@@ -63,9 +54,9 @@ export default {
     Bot:{
       bans:["Xayah","Ashe","Aphelios"], replacements:["Jinx","Miss Fortune","Xerath"],
       role:"AP Poke-Carry",
-      corePath:"Malignance  ›  Luden's Echo  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"ADC Seraphine trades auto-attack DPS for AoE poke and scaling burst. Malignance and Luden's Echo proc off her empowered notes for wave clear and extra damage; Shadowflame and Rabadon's turn her into a real teamfight threat by mid-game.",
-      sideItems:["Sorcerer's Shoes","Mercury's Treads","Zhonya's Hourglass","Banshee's Veil","Void Staff","Cosmic Drive"],
+      corePath:"Blackfire Torch  ›  Archangel's Staff  ›  Rylai's Crystal Scepter  ›  Imperial Mandate",
+      coreNote:"ADC Seraphine trades auto-attack DPS for AoE poke and control, and on 26.20 she builds for mana and crowd control rather than burst. Blackfire Torch, Archangel's Staff and Rylai's Crystal Scepter are each on roughly 56-60% of her OP.GG Emerald+ bot games (~12.5k), and Tear into Blackfire Torch, Seraph's Embrace and Rylai's is the most common core (16.4%, 54.1% over ~1.5k games); Lolalytics shows the same Blackfire-Archangel's core. Buy Tear of the Goddess early so Archangel's is stacking while you lane. Blackfire's burn spreads across everyone her Q and E hit and grants AP per burning target, Archangel's turns her constant casting into mana and AP, and Rylai's slow sets up Beat Drop's root on slowed targets. Imperial Mandate (about 41% of games) is the usual fourth: haste on her immobilizing abilities and a Vulnerable mark on every target Beat Drop roots or stuns. The old Malignance and Luden's Echo burst line has faded: Malignance is on about 2% of games and Luden's on 15% at a below-average win rate. Thin sample: she is under 1% pick rate in this role.",
+      sideItems:["Ionian Boots of Lucidity","Sorcerer's Shoes","Mercury's Treads","Shadowflame","Rabadon's Deathcap","Zhonya's Hourglass","Luden's Echo","Malignance","Banshee's Veil","Void Staff","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Malignance","Haste = more poke casts before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...SERAPHINE_ADC_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Cosmic Drive","Mobility kites the dive attempt."),I("Shadowflame","Burst them before the combo finishes."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Mercury's Treads","Shorter CC to kite out.")],runes:{...SERAPHINE_ADC_DEFAULT_RUNES}},

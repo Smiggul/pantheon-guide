@@ -18,22 +18,13 @@ export default {
   id:"yunara", display:"Yunara", dd:"Yunara",
   color:"#7fd4c1", glow:"#e0fff5",
   lanes:["Bot"],
-  altBuilds:{
-    Bot:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
-      coreNote:"Skill-Capped Yunara: swap Fiendhunter Bolts for Runaan's Hurricane as the second item. Hurricane is buffed this patch (movement speed +1%, passive AD ratio +10%) and already had the highest win-probability of any Yunara 2nd item beforehand. She lacks a wave-clear tool, so Hurricane's AoE bolts are worth more on her than on most ADCs — strongest into majority-melee, tankier comps, but with the buffs it's close to the best pick every game.",
-      runes:{...YUNARA_BOT_DEFAULT_RUNES},
-      sideItems:["Fiendhunter Bolts","Infinity Edge","Lord Dominik's Regards","Bloodthirster","Phantom Dancer"],
-    }],
-  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Yasuo","Ziggs"],
       role:"Marksman / Traditional Crit Carry",
-      corePath:"Kraken Slayer  ›  Fiendhunter Bolts  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Yunara is a traditional orb-walking crit marksman — spacing, positioning, and attack uptime win her the game. Kraken Slayer's true damage proc adds a reliable early spike; Fiendhunter Bolts feeds the crit-into-magic-damage synergy from her passive; Infinity Edge and Lord Dominik's Regards scale the crit into a real late-game DPS check.",
-      sideItems:["Berserker's Greaves","Immortal Shieldbow","Bloodthirster","Guardian Angel","Mercury's Treads","Rapid Firecannon"],
+      corePath:"Kraken Slayer  ›  Runaan's Hurricane  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Yunara is a traditional orb-walking crit marksman — spacing, positioning, and attack uptime win her the game. On 26.20 Runaan's Hurricane is her standard second item, on about 81% of OP.GG Emerald+ Yunara games (~179k), and Kraken Slayer into Hurricane into Infinity Edge is the most common core (27.9%, 55.1% over ~47k games). She has no wave-clear ability, and Hurricane's bolts apply on-hit to two extra targets, so it covers that gap in lane and spreads her damage in fights. Fiendhunter Bolts has fallen to about 12% of games. The first item is a genuine split: Kraken Slayer is on 51.5% of games and Yun Tal Wildarrows on 43.3%, with Yun Tal winning more (50.9% to 48.3%), so it is a fair swap. Gluttonous Greaves has overtaken Berserker's Greaves as her most common boots. Her 26.20 nerf cut the flat bonus damage on Cultivation of Spirit (Q), not her items.",
+      sideItems:["Gluttonous Greaves","Berserker's Greaves","Yun Tal Wildarrows","Fiendhunter Bolts","Hexoptics C44","Immortal Shieldbow","Bloodthirster","Guardian Angel","Mercury's Treads","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Kraken Slayer","True damage proc ignores their armor stacking."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...YUNARA_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Immortal Shieldbow","Shield absorbs their engage burst."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Rapid Firecannon","Range + slow to kite the follow-up.")],behind:[I("Immortal Shieldbow","Shield is your lifeline behind."),I("Mercury's Treads","Shorter CC on their engage."),I("Guardian Angel","Second life.")],runes:{...YUNARA_BOT_DEFAULT_RUNES}},

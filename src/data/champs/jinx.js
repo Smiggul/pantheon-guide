@@ -20,20 +20,20 @@ export default {
   lanes:["Bot"],
   altBuilds:{
     Bot:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
-      coreNote:"Skill-Capped Jinx: run Runaan's Hurricane as the second item (buffed this patch) when you need to shred an enemy front line — its AoE bolts scale off her Infinity Edge (75 AD) and Hextech Optics, adding real cleave. Flex it against Phantom Dancer: go PD into rangy comps with no real front line; prioritize Hurricane when they have a tank top + jungle you must shred through to win fights.",
+      label:"Phantom Dancer kite", tag:"alt",
+      corePath:"Hexoptics C44  ›  Phantom Dancer  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Her previous main build, kept for one situation: a dive-heavy enemy team with no real front line. Phantom Dancer second trades Runaan's Hurricane's cleave for more attack speed, more movement speed and Ghosting, so you can kite assassins and divers instead of shredding tanks you are not facing. It is the minority line on 26.20 — Hexoptics C44 into Phantom Dancer into Infinity Edge is about 5% of OP.GG Emerald+ Jinx cores (61.1% over ~14k games) against Hurricane's 42% — and its higher completed-core win rate carries the same survivorship bias as every three-item figure, so it is not proven better. Take Hurricane by default; take Phantom Dancer when Hurricane's bolts would have nothing worth hitting.",
       runes:{...JINX_BOT_DEFAULT_RUNES},
-      sideItems:["Phantom Dancer","Infinity Edge","Lord Dominik's Regards","Bloodthirster","Berserker's Greaves"],
+      sideItems:["Berserker's Greaves","Runaan's Hurricane","Bloodthirster","Guardian Angel","Mercury's Treads","Mortal Reminder"],
     }],
   },
   roles:{
     Bot:{
       bans:["Seraphine","Zeri","Ziggs"], replacements:["Kai'Sa","Xayah","Miss Fortune"],
       role:"Marksman / Hyper-carry",
-      corePath:"Hexoptics C44  ›  Phantom Dancer  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Jinx is a scaling hyper-carry — Hexoptics C44 now edges out Kraken Slayer as the on-hit rush item funding her weak early game, Phantom Dancer's attack speed + crit amplifies both rocket and minigun form, Infinity Edge spikes crit damage further. Get Excited resets her tempo after every takedown or objective. Kraken Slayer and Rapid Firecannon remain fine alternates depending on the enemy comp.",
-      sideItems:["Berserker's Greaves","Mercury's Treads","Bloodthirster","Guardian Angel","Mortal Reminder","Runaan's Hurricane","Zeke's Convergence","Kraken Slayer","Rapid Firecannon"],
+      corePath:"Hexoptics C44  ›  Runaan's Hurricane  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Jinx is a scaling hyper-carry, and on 26.20 her build has settled on Runaan's Hurricane second. Hexoptics C44 into Hurricane into Infinity Edge is the most common Emerald+ core by a wide margin (about 42% of OP.GG cores, 58.6% over ~123k games), and Hurricane is on roughly three quarters of all Jinx games (~299k), so its 26.20 nerf did not move her off it. Hexoptics rewards attacking from long range, which rocket form does, and its takedown range bonus fires alongside Get Excited. Hurricane's bolts apply on-hit to two extra targets: wave clear in lane, front-line shred in teamfights. Lord Dominik's Regards is the usual fourth item. Phantom Dancer second is the minority option into dive teams with no front line (see the alternate), and Yun Tal Wildarrows is the less common first-item swap.",
+      sideItems:["Berserker's Greaves","Gluttonous Greaves","Mercury's Treads","Phantom Dancer","Yun Tal Wildarrows","Bloodthirster","Guardian Angel","Mortal Reminder","Zeke's Convergence","Kraken Slayer","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Kraken Slayer","True damage cuts through their stacked HP."),I("Lord Dominik's Regards","% armor pen keeps damage relevant as they build tank."),I("Rapid Firecannon","Range lets you kite the walk-down indefinitely.")],behind:[I("Guardian Angel","Second life vs their inevitable walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Rapid Firecannon","Range to kite even from a deficit.")],runes:{...JINX_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rapid Firecannon","Range buys a reposition window before the dive lands."),I("Guardian Angel","Insurance if the all-in connects anyway."),I("Runaan's Hurricane","Wave clear keeps minions between you and them.")],behind:[I("Guardian Angel","Critical — survive the dive, win the reset."),I("Mercury's Treads","Shorter CC from the engage."),I("Zeke's Convergence","Amplify damage if your support peels successfully.")],runes:{...JINX_BOT_DEFAULT_RUNES}},

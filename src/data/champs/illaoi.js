@@ -11,7 +11,7 @@ const ILLAOI_TOP_DEFAULT_RUNES = {
 };
 
 // ══════════════════════════════════════════════════════════════════════════
-//  ILLAOI — Kraken Priestess: Tentacle Zone Juggernaut  (S tier Top 26.14)
+//  ILLAOI — Kraken Priestess: Tentacle Zone Juggernaut
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {
@@ -20,11 +20,11 @@ export default {
   lanes:["Top"],
   altBuilds:{
     Top:[{
-      label:"OP 26.17 ALT", tag:"alt",
-      corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Spirit Visage",
-      coreNote:"Skill-Capped OP line: rush Black Cleaver, then slot Sterak's Gage SECOND (most Illaoi go Iceborn 2nd). After the 26.16 Black Cleaver +5 AD and Sterak's buffs, Cleaver→Sterak's is the higher win-probability spike — and even before the buffs Sterak's was already Illaoi's best win-rate second item over Iceborn. Best when the enemy team isn't stacking physical damage. Runes: Grasp in melee matchups (its health scaling loves the two big HP items), Conqueror into ranged or tankier comps.",
+      label:"Sterak's second", tag:"alt",
+      corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Death's Dance",
+      coreNote:"Same Black Cleaver rush, but Sterak's Gage second instead of Iceborn Gauntlet. After Cleaver, about a quarter of Illaoi players take Sterak's next (half take Iceborn), and it wins more often (57.2% vs 54.3% as the second item). The trade-off is that you give up Iceborn's slow for a bigger shield in the all-in. Death's Dance is the most common third item on this path, with Spirit Visage and Iceborn after it. Mercury's Treads replace Plated Steelcaps into AP or heavy CC; the highest win-rate version of this core runs them. Grasp stays the keystone in melee matchups, Conqueror into ranged or tankier lanes. Source: lolalytics, patch 26.20, Emerald+.",
       runes:{...ILLAOI_TOP_DEFAULT_RUNES},
-      sideItems:["Iceborn Gauntlet","Spirit Visage","Dead Man's Plate","Thornmail","Force of Nature"],
+      sideItems:["Spirit Visage","Iceborn Gauntlet","Mercury's Treads","Thornmail","Randuin's Omen","Dead Man's Plate","Force of Nature"],
     }],
   },
   roles:{
