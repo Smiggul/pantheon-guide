@@ -20,16 +20,26 @@ export const damageOf = (dd) => damageTypeOf(dd);
 const TANK_CLASSES = new Set(["VANGUARD", "WARDEN"]);
 
 // Curated fact sets (DDragon ids) ────────────────────────────────────────────
-const SHIELD_CHAMPS = new Set([ // grant shields → Serpent's Fang shreds them
+// Exported for matchupAdjust.js, which reads the same facts for the lane opponent.
+export const SHIELD_CHAMPS = new Set([ // grant shields → Serpent's Fang shreds them
   "Lulu", "Karma", "Janna", "Seraphine", "Renata", "Ivern", "Milio", "Orianna",
   "Rakan", "Taric", "Yuumi", "Riven",
+  // Big self-shields a lane opponent leans on (each kit's text names the shield):
+  // Mordekaiser W, Sett W, Yasuo passive, Yone W, Garen W, Camille passive,
+  // Malphite passive, Shen passive, Rumble W.
+  "Mordekaiser", "Sett", "Yasuo", "Yone", "Garen", "Camille", "Malphite", "Shen", "Rumble",
 ]);
-const HEAL_CHAMPS = new Set([ // strong healing/sustain → Grievous Wounds
+export const HEAL_CHAMPS = new Set([ // strong healing/sustain → Grievous Wounds
   "Soraka", "Sona", "Nami", "Yuumi", "Milio", "Taric", "Seraphine", "Aatrox",
   "DrMundo", "Warwick", "Vladimir", "Swain", "Briar", "Nilah", "Sylas", "Zac", "Fiddlesticks",
+  // Self-sustain laners and junglers where Grievous Wounds is a standard buy:
+  // the heal is a core part of how they win a fight, not a minor effect.
+  "Mordekaiser", "Volibear", "Illaoi", "Olaf", "Darius", "Fiora", "Irelia", "Renekton",
+  "Trundle", "Udyr", "Kayn", "Viego", "Gwen", "Gangplank", "Nasus", "Tryndamere", "MasterYi",
+  "Yorick", "Maokai",
 ]);
 // Hard, reliable CC beyond the inherently-CC tank classes (VANGUARD/CATCHER).
-const CC_CHAMPS = new Set([
+export const CC_CHAMPS = new Set([
   "Ashe", "JarvanIV", "Lissandra", "Veigar", "Neeko", "Zoe", "Morgana", "Warwick",
   "Sett", "KSante", "Ahri", "TwistedFate", "Elise", "Anivia", "Brand", "Syndra", "Lux",
 ]);

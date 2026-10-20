@@ -126,7 +126,7 @@ export default {
               skillOrder:["Q","E","W"], // Top maxes Aegis (E) second, not W
                         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
                         coreNote: "Voltaic Cyclosword first — the lead-snowball line. Once you win the early spear trades, Voltaic's energized proc + move speed + ability haste convert that lead into repeated one-combo bursts far better than Eclipse. Eclipse is the safer alternative first item and still shows up below in Situational Items — pick it instead when you're even or behind rather than ahead. Black Cleaver is the standard second core: its shred keeps Conqueror trades snowballing. Sundered Sky adds the guaranteed-crit heal on Q, and Death's Dance turns extended fights into a bleed you outlast. Chempunk Chainsword (below, under Anti-Heal) is Pantheon's best AD scaling swap specifically into sustain lanes — Warwick, Darius, Briar — not a default buy. First back after Voltaic is The Brutalizer (it now builds from Pickaxe, not Serrated Dirk, since its rework — so buy toward Brutalizer, not a dead-end Dirk); swap Plated Steelcaps / Mercury's Treads to the matchup's damage type.",
-                        sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Banshee's Veil","Randuin's Omen","Frozen Heart"],
+                        sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Edge of Night","Randuin's Omen","Frozen Heart"],
                         data: {
                                 JUGGERNAUT: {
                                   ahead:  [ I("Lord Dominik's Regards","% armor pen + bonus dmg vs HP stacks — press the lead."), I("Serylda's Grudge","Q/Ult slow seals the execute. Armor pen on a losing Juggernaut."), I("Eclipse","Pure burst to convert lead into a one-rotation kill.") ],
@@ -188,7 +188,7 @@ export default {
                                 },
                                 ASSASSIN: {
                                   ahead:  [ I("Eclipse","Out-burst them — your lead means you delete first."), I("Youmuu's Ghostblade","Chase Zed/Akali who disengage after failed bursts."), I("Serylda's Grudge","Slow on Q/Ult stops Talon/Katarina re-entering after their dash.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Banshee's Veil","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
+                                  behind: [ I("Maw of Malmortius","Magic shield at <35% HP — absorbs Akali/Ekko hybrid burst."), I("Edge of Night","Block their engagement opener (Akali E, Kata Shunpo) to survive."), I("Sterak's Gage","Second shield layer + HP; combined with E block, hard to one-shot.") ],
                                   runes: {
                                           keystone: "Conqueror",
                                           primary: "Precision",
@@ -275,7 +275,7 @@ export default {
                                 },
                                 BURST_MAGE: {
                                   ahead:  [ I("Eclipse","Dive in and blow them up before they land their full combo."), I("Youmuu's Ghostblade","Speed lets you gap-close faster than their cast animations."), I("Serpent's Fang","Orianna/Karma with early shields — 50% reduction on contact.") ],
-                                  behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Banshee's Veil","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
+                                  behind: [ I("Maw of Malmortius","Magic shield absorbs their dump-everything combo when behind."), I("Edge of Night","Block first CC (Syndra E / Lissandra Q) to prevent the chain."), I("Mercury's Treads","Shorter stun/root duration = more time to retaliate or E-block.") ],
                                   runes: {
                                             keystone: "Conqueror",
                                             primary: "Precision",
@@ -328,7 +328,7 @@ export default {
                                 },
                                 ARTILLERY: {
                                   ahead:  [ I("Youmuu's Ghostblade","Sprint active closes the poke gap instantly."), I("Eclipse","One-shot on landing — no escape when you close that fast."), I("Spear of Shojin","Haste + Q reset = ranged poke pressure during the approach.") ],
-                                  behind: [ I("Banshee's Veil","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
+                                  behind: [ I("Edge of Night","Block one long-range ability — the window to Ult onto them."), I("Mercury's Treads","Shorter Xerath/Vel'Koz CC = more time to close the gap."), I("Sterak's Gage","Survive poke damage accumulated while closing distance.") ],
                                    runes: {
                                             keystone: "Fleet Footwork",
                                             primary: "Precision",
@@ -385,7 +385,7 @@ export default {
                                 },
                                 CATCHER: {
                                   ahead:  [ I("Youmuu's Ghostblade","Outmanoeuvre Blitz/Thresh entirely with active speed."), I("Eclipse","Close range, detonate — one-shot the Catcher before they reset."), I("Serpent's Fang","Zac/Morgana shields absorbed — more damage gets through.") ],
-                                  behind: [ I("Banshee's Veil","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
+                                  behind: [ I("Edge of Night","Spell shield absorbs Blitz Q / Thresh hook — your lifeline."), I("Mercury's Treads","Shorter Nautilus root / Morgana bind when you get caught."), I("Sterak's Gage","Survive the collapse after their Catcher lands CC on you.") ],
                                     runes: {
                                               keystone: "Conqueror",
                                               primary: "Precision",
@@ -460,7 +460,7 @@ export default {
                                 },
                                 SPECIALIST: {
                                   ahead:  [ I("Eclipse","Burst Singed/Shyvana before their stacks get critical."), I("Youmuu's Ghostblade","Active speed lets you chase Singed instead of him kiting forever."), I("Serylda's Grudge","Slow means even Quinn can't disengage from your combo.") ],
-                                  behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Banshee's Veil","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
+                                  behind: [ I("Mortal Reminder","GP Orange heal, Kayle sustain, Udyr regen — GW 40% cuts all."), I("Edge of Night","Teemo blind, TF gold card, Kennen stun — blocks their key setup."), I("Sterak's Gage","Survive the poke absorbed while getting to engage range.") ],
                                   runes: {
                                             keystone: "Conqueror",
                                             primary: "Precision",
@@ -593,7 +593,7 @@ export default {
                                 },
                                 BURST_MAGE: {
                                   ahead:  [ I("Youmuu's Ghostblade","Close gap before they complete spell rotation."), I("Eclipse","One combo = kill before they kite back."), I("Edge of Night","Spell shield blocks key CC like Syndra E.") ],
-                                  behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Banshee's Veil","Blocks engage spell so you can still all-in.") ],
+                                  behind: [ I("Maw of Malmortius","Critical vs AP burst — gives second life window."), I("Mercury's Treads","Shorter CC chains = more chance to E-block."), I("Edge of Night","Blocks engage spell so you can still all-in.") ],
                                   runes: { ...PANTH_MID_DEFAULT_RUNES },                                
                                 },
                                 BATTLEMAGE: {
@@ -603,7 +603,7 @@ export default {
                                 },
                                 ARTILLERY: {
                                   ahead:  [ I("Youmuu's Ghostblade","Gap close instantly from fog or roam."), I("Eclipse","Delete them before they reposition."), I("Edge of Night","Block one long-range CC tool.") ],
-                                  behind: [ I("Banshee's Veil","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
+                                  behind: [ I("Edge of Night","Gives safe engage window vs poke champs."), I("Mercury's Treads","Reduce CC duration so you can reach them."), I("Sterak's Gage","Survive poke before committing.") ],
                                   runes: { ...PANTH_MID_DEFAULT_RUNES },
                                 },
                                 JUGGERNAUT: {
@@ -683,7 +683,7 @@ export default {
                             },
                             CATCHER: {
                               ahead:  [ I("Youmuu's Ghostblade","Dodge hooks and engage first."), I("Eclipse","Kill them before they reset fight."), I("Edge of Night","Block hook/CC entirely.") ],
-                              behind: [ I("Banshee's Veil","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
+                              behind: [ I("Edge of Night","Spell shield vs hook champs."), I("Mercury's Treads","Reduce CC duration."), I("Knight's Vow","Play defensive around ADC.") ],
                               runes: { ...PANTH_SUP_DEFAULT_RUNES },
                             },
                             VANGUARD: {

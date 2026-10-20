@@ -8,32 +8,41 @@
 //  numeric championId resolves via  CHAMP_KEYS (id->key) inverted  ->  this map.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// Aligned with Riot's official class (the League wiki's champion list) on
+// 2026-10-20: 18 champions moved, and where Riot lists two classes the app takes
+// the first. Four deliberately differ, because Riot's SPECIALIST is a catch-all
+// and a functional label gives better matchup advice:
+//   Graves, Quinn  Riot SPECIALIST -> MARKSMAN    ranged AD auto-attackers
+//   Chogath        Riot SPECIALIST -> BATTLEMAGE  his damage is magic either way
+//   Zilean         Riot SPECIALIST -> ENCHANTER   his kit is ally utility
+// Class does NOT encode damage type (Mordekaiser is a Juggernaut who deals magic
+// damage): damageTypes.js holds that, and matchupAdjust.js uses both.
 const BY_CLASS = {
-  JUGGERNAUT: ["Darius","Garen","Mordekaiser","Sett","Nasus","Illaoi","DrMundo","Urgot",
-    "Yorick","KSante","Olaf","Trundle","Udyr"],
-  DIVER: ["Aatrox","Ambessa","Briar","Camille","Diana","Elise","Hecarim","Irelia","JarvanIV",
-    "Kayn","Kled","LeeSin","Nocturne","Pantheon","RekSai","Renekton","Shyvana","Sylas","Vi",
-    "Viego","Volibear","Warwick","MonkeyKing","XinZhao","Zaahen"],
+  JUGGERNAUT: ["Aatrox","Darius","Garen","Mordekaiser","Sett","Nasus","Illaoi","DrMundo","Urgot",
+    "Volibear","Yorick","Trundle","Udyr"],
+  DIVER: ["Ambessa","Briar","Camille","Diana","Elise","Hecarim","Irelia","JarvanIV",
+    "LeeSin","Olaf","Pantheon","RekSai","Renekton","Shyvana","Vi",
+    "Warwick","MonkeyKing","XinZhao"],
   ASSASSIN: ["Akali","Ekko","Evelynn","Fizz","Kassadin","Katarina","Khazix","Leblanc","Locke",
-    "Naafiri","Pyke","Qiyana","Rengar","Shaco","Talon","Zed"],
-  SKIRMISHER: ["Belveth","Fiora","Gwen","Jax","Lillia","MasterYi","Nilah","Riven","Tryndamere",
-    "Yasuo","Yone"],
-  BURST_MAGE: ["Ahri","Annie","Aurora","Lissandra","Lux","Mel","Neeko","Orianna","Syndra",
-    "Veigar","Vex","Zoe"],
-  BATTLEMAGE: ["Anivia","AurelionSol","Brand","Cassiopeia","Chogath","Hwei","Karthus","Malzahar",
+    "Naafiri","Nocturne","Pyke","Qiyana","Rengar","Shaco","Talon","Zed"],
+  SKIRMISHER: ["Belveth","Fiora","Gwen","Jax","Kayn","Kled","Lillia","MasterYi","Nilah","Riven",
+    "Tryndamere","Viego","Yasuo","Yone","Zaahen"],
+  BURST_MAGE: ["Ahri","Annie","Aurora","Brand","Lissandra","Lux","Neeko","Orianna","Sylas","Syndra",
+    "TwistedFate","Veigar","Vex","Zoe"],
+  BATTLEMAGE: ["Anivia","AurelionSol","Cassiopeia","Chogath","Karthus","Malzahar",
     "Rumble","Ryze","Swain","Taliyah","Viktor","Vladimir"],
-  ARTILLERY: ["Velkoz","Xerath","Ziggs"],
+  ARTILLERY: ["Hwei","Jayce","Mel","Velkoz","Xerath","Ziggs"],
   MARKSMAN: ["Akshan","Aphelios","Ashe","Caitlyn","Corki","Draven","Ezreal","Graves","Jhin","Jinx",
     "Kaisa","Kalista","Kindred","KogMaw","Lucian","MissFortune","Quinn","Samira","Senna","Sivir",
     "Smolder","Tristana","Twitch","Varus","Vayne","Xayah","Yunara","Zeri"],
-  ENCHANTER: ["Ivern","Janna","Karma","Lulu","Milio","Nami","Seraphine","Sona","Soraka","Taric",
+  ENCHANTER: ["Janna","Karma","Lulu","Milio","Nami","Renata","Seraphine","Sona","Soraka","Taric",
     "Yuumi","Zilean"],
-  CATCHER: ["Bard","Blitzcrank","Morgana","Rakan","Renata","Thresh","Zyra"],
-  VANGUARD: ["Alistar","Amumu","Galio","Gragas","Leona","Malphite","Maokai","Nautilus","Nunu",
+  CATCHER: ["Bard","Blitzcrank","Ivern","Morgana","Rakan","Thresh","Zyra"],
+  VANGUARD: ["Alistar","Amumu","Gragas","Leona","Malphite","Maokai","Nautilus","Nunu",
     "Ornn","Rammus","Rell","Sejuani","Sion","Skarner","Zac"],
-  WARDEN: ["Braum","Poppy","Shen","TahmKench"],
-  SPECIALIST: ["Azir","Fiddlesticks","Gangplank","Gnar","Heimerdinger","Jayce","Kayle","Kennen",
-    "Nidalee","Singed","Teemo","TwistedFate"],
+  WARDEN: ["Braum","Galio","KSante","Poppy","Shen","TahmKench"],
+  SPECIALIST: ["Azir","Fiddlesticks","Gangplank","Gnar","Heimerdinger","Kayle","Kennen",
+    "Nidalee","Singed","Teemo"],
 };
 
 // invert to  ddId -> CLASS

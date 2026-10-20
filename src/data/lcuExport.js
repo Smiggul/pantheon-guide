@@ -6,7 +6,8 @@
 //  All IDs come from src/data/lcuData.js (generated from CommunityDragon +
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
-import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS, ATTACK_RANGE } from "./lcuData.js";
+import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
+import { isRanged, matchupAdvice } from "./matchupAdjust.js";
 import { counterInteractions } from "./abilityInteractions.js";
 import { tagsOf } from "./counterPicker.js";
 import { classOf } from "./champClasses.js";
@@ -204,12 +205,8 @@ const PROFILE = {
 // Mid and Bot are left alone on purpose. Melee mids vs ranged mages split by
 // champion (Yasuo often Shield, Zed and Yone Blade), and every Bot opponent is
 // ranged, so range carries no matchup information there.
-const RANGED_FROM = 300;               // melee tops out at 225; ranged starts at 300
-// Riot's attackrange is the DEFAULT form. Mini Gnar lanes at range and Jayce
-// pokes from cannon form, so for a laning-phase call they count as ranged.
-// Kayle's 175 is right as listed: she is melee until level 6.
-const LANES_RANGED = new Set(["Gnar", "Jayce"]);
-const isRanged = (dd) => LANES_RANGED.has(dd) || (ATTACK_RANGE[dd] ?? 0) >= RANGED_FROM;
+// isRanged (melee vs ranged, with the Gnar/Jayce laning-form exceptions) lives
+// in matchupAdjust.js, which uses the same rule for the matchup proposals.
 
 export function laneStartFor(champDd, roleName, roleData, foe) {
   if (!foe || roleName !== "Top" || isRanged(champDd)) return null;
@@ -317,6 +314,16 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
           : []),
       ];
 
+  // Items tuned to the lane opponent (matchupAdjust.js): the answers to their
+  // damage type, healing, health stacking and shields that the class list misses.
+  const advice = foe
+    ? matchupAdvice({ champ: { dd: champDd }, roleName, roleData, enemyClass, page: null, foe })
+    : null;
+  const vsItems = (advice?.items || []).map((i) => i.to);
+  const vsTitle = advice
+    ? `Vs ${foe.display} — ${advice.chips.slice(0, 3).map((c) => c.label.toLowerCase()).join(", ")}`
+    : "";
+
   const blocks = [
     ...startBlocks,
     // First back: ~900-1300g. The first core item's real building block, a
@@ -327,6 +334,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
       : [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
     itemBlock(`Core — ${roleName}`, coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
+    ...(vsItems.length ? [itemBlock(vsTitle, vsItems)] : []),
     itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`, [...ahead, ...situational]),
     itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
   ].filter((b) => b.items.length > 0);

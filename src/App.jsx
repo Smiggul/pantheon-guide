@@ -19,6 +19,7 @@ import HowToPlay from "./HowToPlay.jsx";
 import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
+import { matchupAdvice } from "./data/matchupAdjust.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
@@ -740,6 +741,24 @@ useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [champ.id, currentRole, openClass, altBuildIdx, appliedMatchup]);
 
+  // ── Matchup adjustments (matchupAdjust.js) ─────────────────────────────────
+  // The class page is written for the typical member of the opponent's class;
+  // this reads the opponent's own facts (damage type, healing, health stacking,
+  // shields, CC, range) and proposes swaps. Proposals only: the rune changes
+  // apply on one click, and the items ride along in the exported item set.
+  // Computed against the live rune page, so once applied its swaps no longer
+  // match anything and the strip falls back to a confirmation.
+  const matchupAdj = foeChamp ? matchupAdvice({
+    champ, roleName: currentRole,
+    roleData: activeAlt
+      ? { ...activeChampRole, corePath: activeAlt.corePath, sideItems: activeAlt.sideItems || activeChampRole.sideItems }
+      : activeChampRole,
+    enemyClass: openClass, page: runeSel, foe: foeChamp,
+    curated: !!appliedMatchup,          // a hand-written matchup page already applied
+  }) : null;
+  const [vsApplied, setVsApplied] = useState(false);
+  useEffect(() => { setVsApplied(false); }, [champ.id, currentRole, openClass, altBuildIdx, matchupFoe]);
+
   // ── Shareable build codes (export / import) ──────────────────────────────
   const [importCode, setImportCode] = useState("");
   const [shareMsg,   setShareMsg]   = useState(null);
@@ -878,13 +897,15 @@ useEffect(() => {
   // ── Desktop-only: apply the current rune page + item set to a running client ─
   const isDesktop = typeof window !== "undefined" && window.frge?.isDesktop;
   const [applyState, setApplyState] = useState(null); // null | "sending" | {ok,msg}
-  const sendToLeague = async () => {
+  // runesOverride: a page to send instead of the live one. The matchup strip uses
+  // it to apply and import in one click, before the setRuneSel state update lands.
+  const sendToLeague = async (runesOverride = null) => {
     if (!isDesktop || applyState === "sending") return;
     setApplyState("sending");
     try {
       // If the user forged a custom item set, apply that instead of the recommended one.
-      const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt, runeSel,
-        forgeHasItems ? forgeItems : null, foeChamp);
+      const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt,
+        runesOverride || runeSel, forgeHasItems ? forgeItems : null, foeChamp);
       // Pre-flight: the client rejects an incomplete or cross-tree page with an
       // opaque 400, so say what's actually wrong instead of sending it anyway.
       if (!payload.runeValid) {
@@ -2202,7 +2223,7 @@ useEffect(() => {
                     not a second automatic import, so client-side edits are
                     never overwritten unprompted. */}
                 {appliedMatchup && csActive && (
-                  <button onClick={sendToLeague} disabled={applyState === "sending"}
+                  <button onClick={() => sendToLeague()} disabled={applyState === "sending"}
                     title={`Import the rune page tuned for ${appliedMatchup} into the League client`}
                     style={{
                       cursor: applyState === "sending" ? "wait" : "pointer",
@@ -2219,6 +2240,79 @@ useEffect(() => {
                   </button>
                 )}
               </span>
+            )}
+
+            {/* Matchup adjustments: what the class page misses about THIS
+                opponent (matchupAdjust.js). Its own full-width row so it wraps
+                under the readout. Items are proposals that also ride along in
+                the exported item set; rune swaps apply on one click and never
+                touch the page unprompted. */}
+            {detectedChamp && matchupAdj && (matchupAdj.items.length > 0 || matchupAdj.runes.length > 0 || vsApplied) && (
+              <div style={{ flexBasis:"100%", display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
+                <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
+                  color:S.goldDim, flexShrink:0 }}>Vs {matchupAdj.foe}</span>
+                {matchupAdj.chips.map((c) => (
+                  <span key={c.key} style={{ fontSize:"10.5px", padding:"1px 8px", borderRadius:"10px",
+                    border:"1px solid rgba(255,255,255,.14)", color:"rgba(255,255,255,.72)" }}>{c.label}</span>
+                ))}
+                {matchupAdj.items.map((i) => {
+                  const ek = `vs-${i.to}`;
+                  const src = itemImg(i.to, itemMap);
+                  return (
+                    <span key={ek} title={`${i.why}. Included in the exported item set.`}
+                      style={{ display:"flex", alignItems:"center", gap:"6px", padding:"2px 9px 2px 3px",
+                        borderRadius:"16px", border:`1px solid ${S.gold}33`, background:"rgba(212,175,55,.06)" }}>
+                      <span style={{ width:"20px", height:"20px", borderRadius:"4px", overflow:"hidden",
+                        background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                        {src && !imgFail(ek)
+                          ? <img src={src} alt={i.to} onError={() => onErr(ek)}
+                              style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                          : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
+                      </span>
+                      <span style={{ fontSize:"11.5px", color:"#e9ebee" }}>
+                        {i.from && <span style={{ color:"rgba(255,255,255,.45)" }}>{i.from} → </span>}
+                        {!i.from && <span style={{ color:"rgba(255,255,255,.45)" }}>add </span>}
+                        <b style={{ fontWeight:600 }}>{i.to}</b>
+                      </span>
+                    </span>
+                  );
+                })}
+                {matchupAdj.runes.length > 0 && (
+                  <>
+                    <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
+                      color:S.goldDim, marginLeft:"4px" }}>Runes</span>
+                    {matchupAdj.runes.map((r) => (
+                      <span key={`${r.from}-${r.to}`} title={r.why} style={{ fontSize:"11.5px", padding:"2px 9px",
+                        borderRadius:"16px", border:"1px solid rgba(255,255,255,.14)", color:"#e9ebee" }}>
+                        <span style={{ color:"rgba(255,255,255,.45)" }}>{r.from} → </span><b style={{ fontWeight:600 }}>{r.to}</b>
+                      </span>
+                    ))}
+                    <button
+                      onClick={() => {
+                        setRuneSel(matchupAdj.page);
+                        setVsApplied(true);
+                        if (csActive && isDesktop) sendToLeague(matchupAdj.page);
+                      }}
+                      disabled={applyState === "sending"}
+                      title={csActive && isDesktop
+                        ? "Apply these rune swaps and import the page and item set into the League client"
+                        : "Apply these rune swaps to the rune page below"}
+                      style={{ cursor: applyState === "sending" ? "wait" : "pointer", fontFamily:"inherit",
+                        fontSize:"11px", letterSpacing:".4px", padding:"3px 10px", borderRadius:"6px",
+                        border:`1px solid ${S.gold}73`, background:`${S.gold}1f`, color:S.gold }}>
+                      {csActive && isDesktop ? "Apply + import" : "Apply to rune page"}
+                    </button>
+                  </>
+                )}
+                {vsApplied && matchupAdj.runes.length === 0 && (
+                  <span style={{ fontSize:"11px", color: applyState?.ok === false ? "#f0b8b0" : "#8fe0b4" }}>
+                    {applyState === "sending" ? "Importing…"
+                      : applyState?.ok === false ? applyState.msg
+                      : applyState?.ok ? `Matchup runes applied and imported`
+                      : "Matchup runes applied"}
+                  </span>
+                )}
+              </div>
             )}
 
             {/* Opponent picker: the enemy team only. Champ select is timed, so
@@ -2927,7 +3021,7 @@ useEffect(() => {
               textTransform:"uppercase" }}>Core Build Path</span>
             {isDesktop && (
               <button
-                onClick={sendToLeague}
+                onClick={() => sendToLeague()}
                 disabled={applyState === "sending"}
                 className="frge-cta"
                 title="Import this rune page + item set into the running League client"
