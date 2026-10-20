@@ -526,7 +526,7 @@ export default {
                     behind: [ I("Plated Steelcaps","Reduce DPS from ADC."), I("Sterak's Gage","Survive initial burst."), I("Guardian Angel","Second life for risky engages.") ],
                     runes: {
                       ...PANTH_JGL_DEFAULT_RUNES,
-                      reason: "Hextech Flashtraption from river bush: appear behind bot lane to cut off escape before the hook lands. Coup de Grace over Last Stand — ADCs die fast.",
+                      reason: "Gank bot from the river bush and cut off the escape before the ADC can Flash. Coup de Grace over Last Stand — ADCs die fast.",
                       primaryRunes: ["Triumph","Legend: Haste","Coup de Grace"],
                     },
                     },

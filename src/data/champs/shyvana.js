@@ -17,7 +17,7 @@ const SHYVANA_TOP_DEFAULT_RUNES = {
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Unflinching"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Same Press the Attack core as Jungle. Bone Plating and Second Wind replace Inspiration's gold-saving runes for a solo lane — Top Shyvana wants lane survivability more than the jungle-clear speed those runes fund, since there's no camp-clearing pattern to accelerate here.",
+  reason:         "Same Press the Attack core as Jungle. Bone Plating and Unflinching replace Inspiration's gold-saving runes for a solo lane — Top Shyvana wants lane survivability more than the jungle-clear speed those runes fund, since there's no camp-clearing pattern to accelerate here.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

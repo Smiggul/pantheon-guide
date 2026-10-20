@@ -1,13 +1,13 @@
 import { I } from "../runeHelpers.js";
 
 const AZIR_MID_DEFAULT_RUNES = {
-  keystone:       "Press the Attack",
+  keystone:       "Lethal Tempo",
   primary:        "Precision",
   primaryRunes:   ["Presence of Mind","Legend: Alacrity","Cut Down"],
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Overgrowth"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Azir is an attack-speed mage — his soldiers strike on his auto-attack timer, so three soldier hits land Press the Attack and expose the target to everything his team follows up with. It is now his most common keystone and the better one: about half of Azir players run it, at roughly two points more win rate than Lethal Tempo (lolalytics, Emerald+). Presence of Mind sustains the mana-hungry poke phase, Legend: Alacrity stacks even more soldier attack speed, and Cut Down helps shred the frontliners who dive him. Bone Plating and Overgrowth patch up his notoriously weak early laning.",
+  reason:         "Azir is an attack-speed mage — his soldiers strike on his auto-attack timer, so Lethal Tempo directly scales his entire damage output. Presence of Mind sustains the mana-hungry poke phase, Legend: Alacrity stacks even more soldier attack speed, and Cut Down helps shred the frontliners who dive him. Bone Plating and Overgrowth patch up his notoriously weak early laning.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -23,7 +23,7 @@ export default {
       label:"Dusk and Dawn spellblade", tag:"alt",
       corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
       coreNote:"A minority Azir line: Dusk and Dawn first instead of Nashor's Tooth, in about 6-9% of games on lolalytics. Its spellblade loads extra damage into the soldier attack after each ability, so it front-loads short trades rather than buying the sustained soldier DPS Nashor's gives. It is not a stronger build: at equal item counts it finishes within about a point of Nashor's-first, behind at two and three items and ahead at four, so pick it for the trading pattern, not the numbers. Players who take it buy Sorcerer's Shoes and follow with Shadowflame more often than Nashor's Tooth.",
-      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack, as on the main page, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack instead of the main page's Lethal Tempo, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
       sideItems:["Nashor's Tooth","Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter"],
     }],
   },

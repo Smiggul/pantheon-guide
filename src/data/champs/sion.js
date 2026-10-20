@@ -27,7 +27,7 @@ const SION_MID_DEFAULT_RUNES = {
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
   shards:         ["Ability Haste","Health","Health (scaling)"],
-  reason:         "Same Grasp core as Top and current meta's Inspiration secondary. Approach Velocity chases down targets after an E fear during side-lane roams; Cosmic Insight reduces R cooldown for more of the roam-and-threaten pattern that's Mid Sion's actual win condition, since you aren't trying to win lane outright.",
+  reason:         "Same Grasp core as Top and current meta's Inspiration secondary. Biscuit Delivery sustains the early lane so you can leave it to roam; Cosmic Insight adds summoner-spell and item haste for more of the roam-and-threaten pattern that's Mid Sion's actual win condition, since you aren't trying to win lane outright.",
 };
 
 const SION_SUP_DEFAULT_RUNES = {

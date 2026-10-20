@@ -1,27 +1,26 @@
 import { I } from "../runeHelpers.js";
 
-// Top primary is the Heartsteel tank line on 26.20, and Grasp is its keystone
-// (roughly three in five Heartsteel openers run it). Hail of Blades is still the
-// most common keystone overall, but it belongs to the AP Rocketbelt alternate.
 const CHOGATH_TOP_DEFAULT_RUNES = {
-  keystone:       "Grasp of the Undying",
-  primary:        "Resolve",
-  primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Approach Velocity"],
-  shards:         ["Attack Speed","Health","Health (scaling)"],
-  reason:         "Grasp of the Undying is the keystone of the tank build: roughly three in five Cho'Gath players who open Heartsteel run it on 26.20. It permanently grows his health with every trade, on top of Heartsteel's stacks and Feast's. Demolish turns lane pressure into tower damage, Conditioning and Overgrowth scale the resist and health stat line into the late game, and the Inspiration splash is the common one: Magical Footwear for free boots and Approach Velocity to catch whoever Rupture has slowed. The attack-speed shard speeds up the empowered Vorpal Spikes autos. Hail of Blades is still the most common keystone overall (about 53% of games), but most of its players build the AP Rocketbelt alternate.",
-};
-
-// The previous standard page, now used by the AP Rocketbelt alternate.
-const CHOGATH_TOP_AP_RUNES = {
   keystone:       "Hail of Blades",
   primary:        "Domination",
   primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
   secondary:      "Sorcery",
   secondaryRunes: ["Axiom Arcanist","Celerity"],
   shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "AP burst-tank Cho'Gath, and Hail of Blades frontloads the trade: three fast autos with Vorpal Spike magic damage between Rupture and Feral Scream. Cheap Shot fires true damage on every knockup and silence, Grisly Mementos stacks haste off the pick pattern, Ultimate Hunter is the headline — more Feasts means more true-damage executes and more stacks — while Axiom Arcanist amplifies Feast itself and Celerity feeds the surprisingly fast walking mountain.",
+  reason:         "Modern Cho'Gath plays AP burst-tank, and Hail of Blades frontloads the trade: three fast autos with Vorpal Spike magic damage between Rupture and Feral Scream. Cheap Shot fires true damage on every knockup and silence, Grisly Mementos stacks haste off the pick pattern, Ultimate Hunter is the headline — more Feasts means more true-damage executes and more stacks — while Axiom Arcanist amplifies Feast itself and Celerity feeds the surprisingly fast walking mountain.",
+};
+
+// Full Tank alternate. Roughly three in five Cho'Gath players who open
+// Heartsteel run Grasp; Hail of Blades, the main page, is still the most common
+// keystone overall (about 53% of games on 26.20).
+const CHOGATH_TOP_TANK_RUNES = {
+  keystone:       "Grasp of the Undying",
+  primary:        "Resolve",
+  primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Magical Footwear","Approach Velocity"],
+  shards:         ["Attack Speed","Health","Health (scaling)"],
+  reason:         "Grasp of the Undying is the keystone of the Full Tank alternate: roughly three in five Cho'Gath players who open Heartsteel run it on 26.20. It permanently grows his health with every trade, on top of Heartsteel's stacks and Feast's. Demolish turns lane pressure into tower damage, Conditioning and Overgrowth scale the resist and health stat line into the late game, and the Inspiration splash is the common one: Magical Footwear for free boots and Approach Velocity to catch whoever Rupture has slowed. The attack-speed shard speeds up the empowered Vorpal Spikes autos. Hail of Blades is still the most common keystone overall (about 53% of games), but most of its players build the AP Rocketbelt alternate.",
 };
 
 const CHOGATH_JGL_DEFAULT_RUNES = {
@@ -31,7 +30,7 @@ const CHOGATH_JGL_DEFAULT_RUNES = {
   secondary:      "Sorcery",
   secondaryRunes: ["Axiom Arcanist","Celerity"],
   shards:         ["Adaptive Force","Health (scaling)","Health (scaling)"],
-  reason:         "Same keystone as the Top AP alternate, doing a different job: on the jungle tank build Hail of Blades is a CLEAR tool first, three fast Vorpal Spike autos per camp, which is what drops the clear to roughly 2:36 and lets you leave the jungle before other tanks have finished it. Cheap Shot still fires true damage off every Rupture knockup and Feral Scream silence, Grisly Mementos stacks haste off the gank pattern, and Ultimate Hunter is the headline for the same reason it is on the Top AP page \u2014 more Feasts means more permanent health and more true-damage executes. The shards go health-heavy rather than double adaptive because this page is building Heartsteel, not Rocketbelt.",
+  reason:         "Same keystone as Top, doing a different job: on the jungle tank build Hail of Blades is a CLEAR tool first, three fast Vorpal Spike autos per camp, which is what drops the clear to roughly 2:36 and lets you leave the jungle before other tanks have finished it. Cheap Shot still fires true damage off every Rupture knockup and Feral Scream silence, Grisly Mementos stacks haste off the gank pattern, and Ultimate Hunter is the headline for the same reason it is on Top \u2014 more Feasts means more permanent health and more true-damage executes. The shards go health-heavy rather than double adaptive because this page is building Heartsteel, not Rocketbelt.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -42,27 +41,25 @@ export default {
   id:"chogath", display:"Cho'Gath", dd:"Chogath",
   color:"#3a2a4a", glow:"#b080e0",
   lanes:["Top","Jungle"],
-  // Standard Cho'Gath Top (below) is the Heartsteel tank line, the most common
-  // opener on 26.20. Until 26.20 this slot held a "Full Tank" alternate; with
-  // tank now the primary it would duplicate it, so the slot holds the former
-  // standard build, the AP Hail of Blades Rocketbelt line.
+  // Standard Cho'Gath (below) is the modern AP Hail of Blades burst mage. This
+  // is the full-tank line — updated to the 26.20 Heartsteel line, about 54% of first items.
   altBuilds:{
     Top: [{
-      label: "AP Burst (Hail of Blades)",
+      label: "Full Tank",
       tag: "alt",
-      corePath: "Hextech Rocketbelt  ›  Boots of Swiftness  ›  Riftmaker  ›  Dead Man's Plate",
-      coreNote: "The AP burst-tank line and the former standard build. On 26.20 Hextech Rocketbelt opens about a third of Cho'Gath Top games, against more than half for Heartsteel, but Rocketbelt into Riftmaker is still the single most common two-item path (about 19%), with Dead Man's Plate third in about half of those games. Hail of Blades is the most common keystone overall, and about half of its players open Rocketbelt. Rocketbelt guarantees the Rupture-Feral Scream combo lands, Riftmaker adds damage and omnivamp the longer a fight goes and turns his bonus health into AP, Dead Man's Plate feeds the roam-slam pattern, and Boots of Swiftness beat the slows that punish a big slow target. Pick it into squishy teams, where deleting a carry is worth more than soaking for yours.",
-      runes: {...CHOGATH_TOP_AP_RUNES},
-      sideItems: ["Jak'Sho, The Protean", "Rabadon's Deathcap", "Kaenic Rookern", "Thornmail", "Spirit Visage", "Randuin's Omen"],
+      corePath: "Heartsteel  ›  Plated Steelcaps  ›  Thornmail  ›  Hollow Radiance",
+      coreNote: "Full-tank Cho'Gath — you become an HP monster the enemy simply can't kill, while Feast still executes for a flat chunk and your R and Q keep their base damage. On 26.20 this is close to an even split with the main build rather than a minority line: Heartsteel is the first item in about 54% of Cho'Gath Top games, against about 35% for Hextech Rocketbelt, but Hail of Blades is still the most common keystone (about 53%), so the AP line stays the default. After Heartsteel, Thornmail and Hollow Radiance are a near tie for second. Take it into AD-heavy teams, or when you would rather be the frontline than the burst.",
+      runes: {...CHOGATH_TOP_TANK_RUNES},
+      sideItems: ["Unending Despair", "Sunfire Aegis", "Jak'Sho, The Protean", "Kaenic Rookern", "Dead Man's Plate", "Spirit Visage", "Randuin's Omen", "Mercury's Treads"],
     }],
   },
   roles:{
     Top:{
       bans:["Fiora","Vayne","Gwen"], replacements:["Sion","Dr. Mundo","Malphite"],
-      role:"Feast-Stacking Tank",
-      corePath:"Heartsteel  ›  Plated Steelcaps  ›  Thornmail  ›  Hollow Radiance",
-      coreNote:"Cho'Gath Top on 26.20 is mostly built as a tank: Heartsteel is the first item in more than half of games (about 54%, against about 35% for Hextech Rocketbelt). After Heartsteel the follow-ups split almost evenly between Thornmail and Hollow Radiance, and Heartsteel into Thornmail into Hollow Radiance is among the most common three-item sets. Heartsteel's charged attack hits for a share of your maximum health and adds permanent health every time it lands, so it stacks with Feast; Thornmail punishes the auto-attackers who try to trade with you; Hollow Radiance adds magic resist and a burn aura that clears waves and damages everyone near you. Plated Steelcaps are the most common boots, and Unending Despair is the usual alternative third. Every Feast is permanent HP and a true-damage execute — eat the enemy top laner at six, eat their carry at every teamfight, and by forty minutes he's a raid boss with a dinner bell. The AP Rocketbelt build is still the single most common two-item path and is kept as the alternate.",
-      sideItems:["Unending Despair","Sunfire Aegis","Jak'Sho, The Protean","Kaenic Rookern","Dead Man's Plate","Spirit Visage","Randuin's Omen","Mercury's Treads"],
+      role:"Feast-Stacking AP Terror",
+      corePath:"Hextech Rocketbelt  ›  Boots of Swiftness  ›  Riftmaker  ›  Dead Man's Plate",
+      coreNote:"Cho'Gath scales infinitely and this build weaponizes the journey: Hextech Rocketbelt guarantees the Rupture-Scream combo lands, Riftmaker converts the AP-tank statline into true-damage drain, Dead Man's Plate feeds the roam-slam pattern, and Jak'Sho ramps the resists his Feast HP multiplies. Every Feast is permanent HP and a true-damage execute — eat the enemy top laner at six, eat their carry at every teamfight, and by forty minutes he's a raid boss with a dinner bell. On 26.20 the Full Tank line (Heartsteel first) is the slightly more common opener, about 54% against 35%, but Hail of Blades is still the most common keystone, so this stays the default; see the alternate.",
+      sideItems:["Jak'Sho, The Protean","Rabadon's Deathcap","Kaenic Rookern","Thornmail","Spirit Visage","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","True-damage drain wins the brawl — Feast finishes it."),I("Rabadon's Deathcap","Scale the combo past their HP."),I("Thornmail","Anti-heal their sustain.")],behind:[I("Thornmail","Cut their healing before comparing bars."),I("Jak'Sho, The Protean","Resist ramp evens the brawl."),I("Spirit Visage","Amplify your carnivore healing.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Hextech Rocketbelt","Counter-engage — Rupture their dive mid-air."),I("Riftmaker","Out-sustain their engage window."),I("Jak'Sho, The Protean","Resists ramp as they commit.")],behind:[I("Randuin's Omen","Slow the dive mid-animation."),I("Kaenic Rookern","Shield vs AP divers."),I("Spirit Visage","Sustain repeated attempts.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
