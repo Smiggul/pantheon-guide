@@ -1,13 +1,25 @@
 import { I } from "../runeHelpers.js";
 
 const NOCTURNE_JGL_DEFAULT_RUNES = {
+  keystone:       "Hail of Blades",
+  primary:        "Domination",
+  primaryRunes:   ["Sudden Impact","Grisly Mementos","Ultimate Hunter"],
+  secondary:      "Precision",
+  secondaryRunes: ["Legend: Alacrity","Triumph"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Hail of Blades is the most common Nocturne keystone on 26.20 (about 44% of games, ahead of Conqueror at about 30% and Lethal Tempo at about 22%), and it is the keystone of the lethality line: most Hail of Blades players open Profane Hydra or Axiom Arc. Paranoia lands him on a target with no time to react, and three fast autos with the Umbra Blades cleave front-load the kill before the fear even resolves. Sudden Impact fires off the Paranoia dash, Grisly Mementos rewards every takedown, and Ultimate Hunter brings Paranoia back sooner — the whole kill pattern runs on how often that ultimate is up. The Precision splash adds attack speed (Legend: Alacrity) and a heal after each pick (Triumph).",
+};
+
+// The bruiser page, for the Hexplate/Stridebreaker alternate. Conqueror and
+// Lethal Tempo players build that line; this is the previous standard page.
+const NOCTURNE_JGL_BRUISER_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
   secondary:      "Domination",
   secondaryRunes: ["Grisly Mementos","Ultimate Hunter"],
   shards:         ["Attack Speed","Adaptive Force","Health"],
-  reason:         "Conqueror is now the standard Nocturne keystone, stacking through the auto-heavy fear-tether duel his kit forces. Legend: Alacrity keeps the attack speed ramping. Grisly Mementos stacks damage and slow resist off every takedown, and Ultimate Hunter reduces R cooldown — the whole kill pattern (R from fog, fear, walk out with the shutdown) runs on how often that ultimate is up.",
+  reason:         "Conqueror is the bruiser-line keystone (about 30% of Nocturne games on 26.20), stacking through the auto-heavy fear-tether duel the Hexplate and Stridebreaker items want to take. Legend: Alacrity keeps the attack speed ramping, Last Stand pays off the low-health end of the duel, and Grisly Mementos plus Ultimate Hunter keep the R-from-fog pattern on a short cooldown.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -17,13 +29,22 @@ const NOCTURNE_JGL_DEFAULT_RUNES = {
 export default {
   id:"nocturne", display:"Nocturne", dd:"Nocturne",
   color:"#3b2c50", glow:"#9b59b6",
+  altBuilds:{
+    Jungle:[{
+      label:"Hexplate bruiser", tag:"alt",
+      corePath:"Experimental Hexplate  ›  Stridebreaker  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"The bruiser line, played in close to half of Nocturne games on 26.20 and so only just the minority. Experimental Hexplate is actually the single most common first item (about a third of games, with Stridebreaker first adding about an eighth), but the follow-ups scatter, so no single bruiser path is close to as common as Profane Hydra into Axiom Arc into Voltaic Cyclosword. Most Conqueror and Lethal Tempo players build this. Hexplate's ultimate haste, and the attack and move speed it grants after Paranoia, arrive exactly when you land; Stridebreaker's slow keeps the target inside the passive cleave; Black Cleaver shreds while you auto; Death's Dance turns their counter-burst into a bleed. Take it into frontlines, and into teams with the peel to survive a one-rotation burst. Hexplate into Stridebreaker is the usual order; Stridebreaker first is the common variant.",
+      runes:{...NOCTURNE_JGL_BRUISER_RUNES},
+      sideItems:["Guardian Angel","Sterak's Gage","Maw of Malmortius","Wit's End","Serylda's Grudge","Plated Steelcaps","Mercury's Treads"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Udyr","Viego","Gragas"], replacements:["Briar","Warwick","Rek'Sai"],
       role:"Diver / Assassin",
-      corePath:"Stridebreaker  ›  Experimental Hexplate  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Bruiser Nocturne — Stridebreaker's active slow keeps targets in Q trail + passive cleave range after R lands. Experimental Hexplate's move-speed burst on ability use now edges out a straight Serylda's Grudge rush, closing gaps faster for the R-into-fear kill pattern. Black Cleaver shreds while you auto through Conqueror stacks. Death's Dance converts their counter-burst into bleed. The kill pattern is always the same: R from fog, W the obvious answer spell, E fear if they run, walk out with the shutdown.",
-      sideItems:["Youmuu's Ghostblade","Edge of Night","Sterak's Gage","Maw of Malmortius","Guardian Angel","Wit's End","Mercury's Treads","Plated Steelcaps","Serylda's Grudge"],
+      corePath:"Profane Hydra  ›  Axiom Arc  ›  Voltaic Cyclosword  ›  Lord Dominik's Regards",
+      coreNote:"Lethality Nocturne — Paranoia from fog, three Hail of Blades autos and a Profane Hydra active, and the target is dead before Unspeakable Horror's fear finishes. On 26.20 Nocturne splits almost evenly between this line and the Hexplate bruiser build (kept as the alternate), but this is the most common single path: Profane Hydra into Axiom Arc is the top two-item start (about 27%) and Voltaic Cyclosword third is the most common three-item set (about 20%). Profane Hydra adds a burst cleave to the opener and speeds up the clear; Axiom Arc refunds part of Paranoia's cooldown whenever a champion you damaged dies, so a won fight puts the next R up much sooner; Voltaic Cyclosword turns the first ability hit into an Energized attack that chunks by current health. Lord Dominik's Regards is the usual fourth item, Guardian Angel the safer one. Boots are Plated Steelcaps or Ionian Boots of Lucidity, depending on their damage. The kill pattern is always the same: R from fog, W the obvious answer spell, E fear if they run, walk out with the shutdown.",
+      sideItems:["Guardian Angel","The Collector","Death's Dance","Edge of Night","Maw of Malmortius","Plated Steelcaps","Ionian Boots of Lucidity","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor stack while Tempo ramps."),I("Stridebreaker","Slow so they can't walk away from the duel."),I("Death's Dance","Their damage becomes bleed you out-sustain.")],behind:[I("Sterak's Gage","Shield when the dive goes wrong."),I("Death's Dance","Survive their counter-pressure."),I("Plated Steelcaps","Auto reduction on their walk-down.")],runes:{...NOCTURNE_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stridebreaker","Win the mirror skirmish — slow beats dash."),I("Black Cleaver","Shred + haste for repeat fear tethers."),I("Death's Dance","Out-sustain their burst rotation.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Plated Steelcaps","Irelia/Camille auto chains."),I("Guardian Angel","Trade 1-for-1 and win the reset.")],runes:{...NOCTURNE_JGL_DEFAULT_RUNES}},

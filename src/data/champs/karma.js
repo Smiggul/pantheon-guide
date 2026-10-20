@@ -54,9 +54,9 @@ export default {
     Mid:{
       bans:["Orianna","LeBlanc","Zed"], replacements:["Xerath","Ahri","Locke"],
       role:"Poke-Mage / Off-Meta Siege",
-      corePath:"Luden's Echo  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Void Staff",
-      coreNote:"Mid Karma is an older-meta poke-mage pick that resurfaces when siege comps are strong. Luden's Echo procs off Mantra-empowered Q for wave clear and poke damage; Rabadon's and Void Staff round out a burst spike most mid laners don't respect.",
-      sideItems:["Sorcerer's Shoes","Mercury's Treads","Zhonya's Hourglass","Banshee's Veil","Cosmic Drive","Morellonomicon"],
+      corePath:"Malignance  ›  Horizon Focus  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"Mid Karma is a long-range poke mage that resurfaces when siege comps are strong: Mantra-empowered Inner Flame chunks from a distance, and Inspire's shield and speed get her away from engages. Be honest about the sample: she is rare in Mid, at about 5,000 games on 26.20, so treat the order after the first item loosely. The first item is clear even so: Malignance opens about four games in five, and Luden's Echo, the old first item, is down to about one in ten. Malignance's ultimate haste matters more on Karma than on most mages, because Mantra is her ultimate and she spends it on nearly every empowered spell. Horizon Focus is the most common second item, revealing anyone she hits from long range, and Shadowflame is the usual third, turning low-health targets into executes. Rabadon's Deathcap rounds out the burst.",
+      sideItems:["Ionian Boots of Lucidity","Sorcerer's Shoes","Luden's Echo","Stormsurge","Void Staff","Zhonya's Hourglass","Banshee's Veil","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Rabadon's Deathcap","Scaling burst ends the trade outright."),I("Luden's Echo","Poke wears them down before the fight starts.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...KARMA_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Cosmic Drive","Mobility kites the dive attempt."),I("Shadowflame","Burst them before the combo finishes."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Mercury's Treads","Shorter CC to kite out.")],runes:{...KARMA_MID_DEFAULT_RUNES}},

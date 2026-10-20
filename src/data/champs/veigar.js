@@ -1,13 +1,23 @@
 import { I } from "../runeHelpers.js";
 
 const VEIGAR_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
+  keystone:       "First Strike",
+  primary:        "Inspiration",
+  primaryRunes:   ["Magical Footwear","Biscuit Delivery","Cosmic Insight"],
   secondary:      "Sorcery",
   secondaryRunes: ["Manaflow Band","Transcendence"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "First Strike is now Veigar's most common keystone on 26.20, on about 43% of Mid games against Arcane Comet's 34%, with Electrocute down to about 7%. It rewards opening a trade from range with Baleful Strike or Dark Matter, adding damage to the combo that follows, and its bonus gold speeds up the Rod of Ages and Archangel's Staff curve. Magical Footwear delivers free boots for him to upgrade into Sorcerer's Shoes, Biscuit Delivery covers his early mana and health while he farms stacks, and Cosmic Insight shortens his summoner spell and item cooldowns. Manaflow Band and Transcendence keep the Q-spam stacking loop paid for and shorten his cooldowns.",
+};
+
+const VEIGAR_MID_COMET_RUNES = {
+  keystone:       "Arcane Comet",
+  primary:        "Sorcery",
+  primaryRunes:   ["Manaflow Band","Transcendence","Gathering Storm"],
+  secondary:      "Domination",
+  secondaryRunes: ["Cheap Shot","Ultimate Hunter"],
   shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute delivers the 3-hit burst Veigar needs to convert a landed Dark Matter/Baleful Strike combo into a full kill window — Event Horizon traps the target inside the burst radius. Cheap Shot adds true damage to anyone caged by Event Horizon; Grisly Mementos and Ultimate Hunter fund his stacking passive's item reliance and shorten Primordial Burst's execute cooldown. Manaflow Band and Transcendence solve the mana strain of constant Q spam and add haste.",
+  reason:         "Arcane Comet lands on the poke that Luden's Echo and Stormsurge are built around: a Baleful Strike or Dark Matter from range calls it down, and Event Horizon holds targets in place for it. Manaflow Band and Transcendence cover his mana and cooldowns, and Gathering Storm adds AP that keeps growing through the game. Cheap Shot adds true damage on targets he has stunned, and Ultimate Hunter shortens Primordial Burst. This is the most common Comet page for Mid Veigar on 26.20.",
 };
 
 const VEIGAR_SUP_DEFAULT_RUNES = {
@@ -28,13 +38,22 @@ export default {
   id:"veigar", display:"Veigar", dd:"Veigar",
   color:"#4a1a5c", glow:"#c9a0e8",
   lanes:["Mid","Support"],
+  altBuilds:{
+    Mid:[{
+      label:"Luden's Echo burst", tag:"alt",
+      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Rabadon's Deathcap",
+      coreNote:"The burst line, and close to half of Mid Veigar games: Luden's Echo first in about 41% on 26.20, narrowly behind Rod of Ages. Stormsurge is now its most common second item, at about 18% of all opening pairs, and Rabadon's Deathcap follows in about seven games in ten from there. It trades Rod of Ages' health and mana for an earlier damage spike: Luden's adds burst to each combo, and Stormsurge's flat penetration and delayed storm finish targets caught in Event Horizon. It is the minority line by a few points, and he is squishier on it, so play lane more carefully. The page here is Arcane Comet, his second most common keystone. Luden's Echo players split close to evenly between Comet and First Strike, so the main page also works.",
+      runes:{...VEIGAR_MID_COMET_RUNES},
+      sideItems:["Zhonya's Hourglass","Shadowflame","Void Staff","Banshee's Veil","Rod of Ages","Archangel's Staff","Cosmic Drive"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Zed","Qiyana","Akali"], replacements:["Katarina","Ahri","Xerath"],
       role:"Burst Mage / Stacking Cage-and-Kill",
-      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Veigar plays a scaling stack-and-burst pattern — every unique champion takedown grows Phenomenal Evil Power's AP permanently, and once he's ahead nobody survives an Event Horizon cage into full combo. Luden's Echo's proc rewards constant poke and wave clear; Shadowflame executes low-HP targets his stacking passive has already outscaled; Rabadon's Deathcap amplifies every point of stacked AP into a real one-rotation kill threat.",
-      sideItems:["Zhonya's Hourglass","Void Staff","Banshee's Veil","Morellonomicon","Ionian Boots of Lucidity","Cosmic Drive"],
+      corePath:"Rod of Ages  ›  Sorcerer's Shoes  ›  Archangel's Staff  ›  Rabadon's Deathcap",
+      coreNote:"Veigar plays a scaling stack-and-burst pattern — Baleful Strike last hits and champion takedowns grow his AP permanently, and once he's ahead nobody survives an Event Horizon cage into full combo. Rod of Ages is now his most common first item on 26.20, narrowly ahead of Luden's Echo (about 45% to 41%), and Rod of Ages into Archangel's Staff is the most common opening pair by a wide margin, at almost 30%. The two mana items pay for the Q spam his stacking runs on while he farms. Rod of Ages adds health that keeps him safe in lane and grows for its first ten minutes, and Archangel's turns his growing mana into AP and later becomes Seraph's Embrace. Rabadon's Deathcap then multiplies every stacked point of AP into a one-rotation kill threat, and Zhonya's Hourglass is the most common fourth item. Luden's Echo into Stormsurge is the burst line and nearly as common as a first item; see the alternate.",
+      sideItems:["Zhonya's Hourglass","Luden's Echo","Shadowflame","Stormsurge","Void Staff","Banshee's Veil","Ionian Boots of Lucidity","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Luden's Echo","Poke wears them down before the fight starts."),I("Rabadon's Deathcap","Scaling burst ends the trade outright.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Void Staff","Pen remains effective regardless of gold lead.")],runes:{...VEIGAR_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Cosmic Drive","Mobility kites the dive attempt."),I("Shadowflame","Burst them before the combo finishes."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Cosmic Drive","Mobility to kite out.")],runes:{...VEIGAR_MID_DEFAULT_RUNES}},

@@ -7,7 +7,7 @@ const JARVANIV_JGL_DEFAULT_RUNES = {
   secondary:      "Inspiration",
   secondaryRunes: ["Magical Footwear","Cosmic Insight"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Jarvan's E-Q knockup opener starts every fight, and Conqueror stacks through the brawl that follows — he's a diver who stays in the fight, not a one-rotation assassin. Triumph refunds HP through multi-takedown Cataclysm fights, Legend: Alacrity speeds both clear and passive procs, Coup de Grace finishes what the flag-drag starts, and the Inspiration economy line (Magical Footwear, Cosmic Insight) accelerates the Sundered Sky spike and shortens the ult cooldown windows his engage tempo lives on.",
+  reason:         "Jarvan's E-Q knockup opener starts every fight, and Conqueror stacks through the brawl that follows — he's a diver who stays in the fight, not a one-rotation assassin. Triumph refunds HP through multi-takedown Cataclysm fights, Legend: Alacrity speeds both clear and passive procs, Coup de Grace finishes what the flag-drag starts, and the Inspiration economy line (Magical Footwear, Cosmic Insight) accelerates the first-item spike and shortens the ult cooldown windows his engage tempo lives on.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -18,13 +18,22 @@ export default {
   id:"jarvaniv", display:"Jarvan IV", dd:"JarvanIV",
   color:"#3a3a5a", glow:"#e0c060",
   lanes:["Jungle"],
+  altBuilds:{
+    Jungle:[{
+      label:"Sundered Sky bruiser", tag:"alt",
+      corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Guardian Angel",
+      coreNote:"The previous standard line, now the minority: on 26.20 Sundered Sky is the first item in about a fifth of Jarvan games (Eclipse is a similar share), and Sundered Sky into Black Cleaver is the second most common two-item start at about 14%, well behind Profane Hydra into Voltaic Cyclosword. It suits long fights more than one-rotation picks, so it is the line to take into frontline-heavy teams. Sundered Sky's guaranteed crit-and-heal on the first hit rides the E-Q dive opener, Black Cleaver shreds armor for the team fighting inside Cataclysm, and Guardian Angel insures the always-in-the-middle positioning his ult demands. Death's Dance is an equally common third item.",
+      runes:{...JARVANIV_JGL_DEFAULT_RUNES},
+      sideItems:["Death's Dance","Sterak's Gage","Spirit Visage","Thornmail","Randuin's Omen","Maw of Malmortius"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Briar","Rek'Sai","Master Yi"], replacements:["Vi","Sejuani","Wukong"],
       role:"Flag-Drag Engage Diver",
-      corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Guardian Angel",
-      coreNote:"Jarvan is the gank-and-arena jungler: E-Q knockup from fog, Cataclysm to lock the kill inside the walls, and the whole map plays around his flag. Sundered Sky's crit-heal proc rides the dive opener, Black Cleaver shreds armor for the team fighting inside his arena, and Guardian Angel insures the always-in-the-middle positioning his ult demands. Spirit Visage rounds out durability against AP comps. His early ganks are among the strongest in the game — play the first ten minutes like every lane is your lane.",
-      sideItems:["Spirit Visage","Sterak's Gage","Thornmail","Randuin's Omen","Maw of Malmortius","Dead Man's Plate"],
+      corePath:"Profane Hydra  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Bastionbreaker",
+      coreNote:"Jarvan is the gank-and-arena jungler: E-Q knockup from fog, Cataclysm to lock the kill inside the walls, and the whole map plays around his flag. On 26.20 most Jarvan players build it as a lethality burst jungler rather than a bruiser: Profane Hydra is the first item in about half of games, Profane Hydra into Voltaic Cyclosword is the most common two-item start by a wide margin (about 31%), and Bastionbreaker is the usual third. Profane Hydra's active adds a second burst hit right after the knockup lands and speeds up the clear, Voltaic Cyclosword turns the ability that opens the gank into an Energized attack that chunks the target by current health, and Bastionbreaker adds true damage to every ability hit and, after a takedown, bonus true damage on the next dragon or tower. Edge of Night, Guardian Angel and Death's Dance are the common fourth items, depending on how much survival the dive needs. His early ganks are among the strongest in the game — play the first ten minutes like every lane is your lane.",
+      sideItems:["Edge of Night","Guardian Angel","Death's Dance","Axiom Arc","Black Cleaver","Sundered Sky","Eclipse","Maw of Malmortius"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them for your whole team inside Cataclysm."),I("Sundered Sky","Heal-proc wins the extended brawl."),I("Sterak's Gage","Survive their answer to your engage.")],behind:[I("Plated Steelcaps","Blunt their auto damage cheaply."),I("Sterak's Gage","Shield the all-in you can't avoid."),I("Thornmail","Anti-heal their sustain.")],runes:{...JARVANIV_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Sundered Sky","Win the engage mirror — your knockup opens first."),I("Black Cleaver","Shred through the extended brawl."),I("Guardian Angel","Dive deeper than they dare.")],behind:[I("Guardian Angel","Insurance when both teams commit."),I("Sterak's Gage","Shield eats their engage burst."),I("Randuin's Omen","Slow their follow-up.")],runes:{...JARVANIV_JGL_DEFAULT_RUNES}},

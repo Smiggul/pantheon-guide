@@ -11,13 +11,13 @@ const SION_TOP_DEFAULT_RUNES = {
 };
 
 const SION_JGL_DEFAULT_RUNES = {
-  keystone:       "Arcane Comet",
-  primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Absolute Focus","Scorch"],
-  secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Overgrowth"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
-  reason:         "Jungle Sion trends toward a mobility-focused build (Youmuu's Ghostblade, Axiom Arc) rather than the straight bruiser pattern Top uses, and Comet fits the Q-poke-into-gank pattern better than Aftershock does when he's not tanking a lane's worth of aggression. Manaflow Band solves the Q-charge mana cost; Bone Plating and Overgrowth keep him alive through counter-jungle skirmishes.",
+  keystone:       "Grasp of the Undying",
+  primary:        "Resolve",
+  primaryRunes:   ["Shield Bash","Conditioning","Overgrowth"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Cash Back","Approach Velocity"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Grasp of the Undying is the keystone in close to six Sion Jungle games in ten on 26.20, with Stormraider's Surge at under a third; the Arcane Comet page this used to recommend is almost never taken. Grasp's empowered auto heals him and stacks permanent health, which compounds with Heartsteel and his W passive. Shield Bash turns the Soul Furnace shield into bonus armor, magic resist and auto damage; Conditioning and Overgrowth add resistances and health over time. Approach Velocity speeds him toward targets his Q or R has knocked up, and Cash Back returns gold on each completed item. The sample is small, about 8,500 games.",
 };
 
 const SION_MID_DEFAULT_RUNES = {
@@ -52,6 +52,16 @@ export default {
     color:   "#7f8c8d",
     glow:    "#95a5a6",
     lanes:   ["Top","Mid","Support","Jungle"],
+
+    altBuilds:{
+      Mid:[{
+        label:"Heartsteel bruiser", tag:"alt",
+        corePath:"Heartsteel  ›  Titanic Hydra  ›  Overlord's Bloodmail  ›  Unending Despair",
+        coreNote:"The older opening: Heartsteel first. It is about one Mid Sion game in five on 26.20, with a win rate a little under the Hollow Radiance line. Heartsteel's empowered auto against a nearby champion grows his max health every few seconds in lane, and Titanic Hydra and Overlord's Bloodmail both turn that health into damage, so this version threatens more in side-lane duels and gives up some of the main build's wave burn and magic resist. Titanic Hydra is the most common second item; past that the sample is a few hundred games, with Overlord's Bloodmail and Unending Despair about even as the third.",
+        runes:{ ...SION_MID_DEFAULT_RUNES },
+        sideItems:["Plated Steelcaps","Mercury's Treads","Hollow Radiance","Thornmail","Hullbreaker","Jak'Sho, The Protean"],
+      }],
+    },
 
     roles:{
       Top:{
@@ -254,13 +264,13 @@ export default {
       Mid:{
         bans:["Akali","Fizz","Yasuo"], replacements:["Galio","Malphite","Aurelion Sol"],
         skillOrder:["W","Q","E"], // AP Mid Sion maxes the shield (W) first, unlike tank Top/Jungle Q>W>E
-        corePath: "Heartsteel  ›  Hollow Radiance  ›  Titanic Hydra  ›  Unending Despair",
-        coreNote: "Mid Sion is a wave-control disruptor. You don't win lane — you neutralize it, then impact side lanes with R and shove priority. Hollow Radiance and Unending Despair are the current AoE burn + anti-heal core, ahead of the older Sunfire Aegis/Force of Nature pattern.",
+        corePath: "Hollow Radiance  ›  Unending Despair  ›  Titanic Hydra  ›  Thornmail",
+        coreNote: "Mid Sion is a wave-control disruptor. You don't win lane, you neutralize it, then impact side lanes with R and shove priority. Hollow Radiance is his first item in almost half of mid games on 26.20, more than twice as often as Heartsteel, and Hollow Radiance into Unending Despair is the most common two-item start, about a quarter of games. Hollow Radiance burns everything near him after he deals or takes damage, which backs his Q and E wave clear, and its magic resist covers him against mid-lane mages. Unending Despair adds armor and drains nearby champions every four seconds for a large heal, so he can stand in long trades. Titanic Hydra is the most common third item, turning his health into cleave damage, and Thornmail the most common fourth into auto-attackers. Mercury's Treads are the usual boots. Heartsteel first is the minority alternate.",
 
         sideItems: [
-          "Mercury's Treads","Plated Steelcaps","Sunfire Aegis","Force of Nature",
-          "Frozen Heart","Randuin's Omen",
-          "Abyssal Mask","Jak'Sho, The Protean"
+          "Mercury's Treads","Plated Steelcaps","Heartsteel","Jak'Sho, The Protean",
+          "Sunfire Aegis","Force of Nature",
+          "Randuin's Omen","Frozen Heart"
         ],
 
         data: {
@@ -451,12 +461,12 @@ export default {
 
       Jungle:{
         bans:["Udyr","Kindred","Lillia"], replacements:["Amumu","Zac","Warwick"],
-        corePath: "Sunfire Aegis  ›  Heartsteel  ›  Titanic Hydra  ›  Thornmail",
-        coreNote: "Sion jungle plays for scaling and objective control. Clear speed is stable, but your value comes from mid-game frontline and engage.",
+        corePath: "Heartsteel  ›  Overlord's Bloodmail  ›  Titanic Hydra  ›  Unending Despair",
+        coreNote: "Sion Jungle plays for scaling and objective control: clear speed is stable, and his value comes from a mid-game frontline that also hits hard. Heartsteel is his first item in just over half of jungle games on 26.20, and Sunfire Aegis, which this page used to open with, in under one in ten. Heartsteel's empowered auto against a nearby champion grows his max health on every gank. Overlord's Bloodmail, the most common follow-up to Heartsteel, and Titanic Hydra, the usual third, turn that health into attack damage, and Unending Despair is the most common fourth, adding armor and a heal while he fights in the middle of the enemy team. Boots of Swiftness and Plated Steelcaps are the usual boots. The sample is small, about 8,500 games, but the shift away from Sunfire is not close. About a fifth of players build lethality off Youmuu's Ghostblade instead.",
 
         sideItems: [
-          "Plated Steelcaps","Mercury's Treads",
-          "Frozen Heart","Randuin's Omen",
+          "Boots of Swiftness","Plated Steelcaps","Mercury's Treads",
+          "Sunfire Aegis","Thornmail","Randuin's Omen",
           "Force of Nature","Jak'Sho, The Protean"
         ],
 
@@ -648,13 +658,13 @@ export default {
 
       Support:{
         bans:["Zyra","Vel'Koz","Blitzcrank"], replacements:["Alistar","Braum","Pantheon"],
-        corePath: "Locket of the Iron Solari  ›  Thornmail  ›  Frozen Heart  ›  Force of Nature",
-        coreNote: "Support Sion is engage + disruption. You trade lane dominance for teamfight initiation and soak.",
+        corePath: "Celestial Opposition  ›  Heartsteel  ›  Thornmail  ›  Unending Despair",
+        coreNote: "Support Sion is engage and disruption: you trade lane dominance for teamfight initiation and soak. He is a rare pick here, about 6,500 Emerald+ games on 26.20, so the sample is small. Celestial Opposition is the most common support item, in about half of games; it cuts the damage he takes after a champion hits him and slows nearby enemies when that ends, which suits a support who walks in first. Heartsteel is the most common tank opening and wins about 51%, its empowered auto growing his max health in every lane fight; Locket of the Iron Solari, which this page used to open with, is first in only about 4% of games. Thornmail and Unending Despair are the usual follow-ups, though past the second item the sample is a few hundred games. The most common single opening is actually Youmuu's Ghostblade, in more than a quarter of games, but that lethality build wins only about 44%, so it is not the recommendation here.",
 
         sideItems: [
-          "Mercury's Treads","Plated Steelcaps",
-          "Knight's Vow","Zeke's Convergence",
-          "Abyssal Mask","Randuin's Omen"
+          "Boots of Swiftness","Plated Steelcaps","Mercury's Treads",
+          "Locket of the Iron Solari","Knight's Vow",
+          "Zeke's Convergence","Bandlepipes","Force of Nature"
         ],
 
         data: {

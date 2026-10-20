@@ -18,13 +18,22 @@ export default {
   id:"ahri", display:"Ahri", dd:"Ahri",
   color:"#e8a4c9", glow:"#f7c6de",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Blackfire Torch into Lich Bane", tag:"alt",
+      corePath:"Blackfire Torch  ›  Lich Bane  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
+      coreNote:"The minority line, and the old main build: Blackfire Torch first in about a quarter of Ahri games on 26.20, against Malignance's three in five. Blackfire Torch into Lich Bane is about 13% of opening pairs and wins more often than the main path (56.5% against 53.0% for Malignance into Shadowflame), on fewer games. Blackfire's haste and burn suit longer skirmishes, and Lich Bane adds a spellblade auto between spells, so her damage keeps coming even when Charm or Orb misses. Zhonya's and Rabadon's finish it, as in the main build. Electrocute is still the most common page on this line. Players who take Deathfire Touch open Blackfire Torch more often than Malignance, so that keystone also suits it.",
+      runes:{...AHRI_MID_DEFAULT_RUNES},
+      sideItems:["Sorcerer's Shoes","Malignance","Shadowflame","Banshee's Veil","Void Staff","Mercury's Treads","Cosmic Drive"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Hwei","Qiyana","Annie"], replacements:["Katarina","Locke","Xerath"],
       role:"Burst Mage / Mobile Assassin",
-      corePath:"Blackfire Torch  ›  Lich Bane  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-      coreNote:"Ahri plays for poke-into-burst combos. The current high-success build (26.16) rushes Blackfire Torch over Malignance for the extra ability haste, then Lich Bane second over Shadowflame — the haste feeds Lich Bane's spellblade proc so she weaves an empowered auto between every spell, making her skirmish damage far more reliable even when Charm or Orb miss. Zhonya's protects the all-in dive; Rabadon's caps off the burst.",
-      sideItems:["Sorcerer's Shoes","Mercury's Treads","Banshee's Veil","Cosmic Drive","Morellonomicon","Void Staff","Luden's Echo"],
+      corePath:"Malignance  ›  Shadowflame  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
+      coreNote:"Ahri plays for poke into burst: land Charm, follow with Orb of Deception, and use Spirit Rush's three dashes to chase a kill or reset the fight. Malignance is her first item in about three games in five on 26.20, with Blackfire Torch at a quarter. Its ultimate haste brings Spirit Rush back sooner, which is most of her playmaking, and its burn lowers the magic resist of anyone her ult damages. Shadowflame is the most common second item by a clear margin, turning targets below 40% health into executes, and Zhonya's Hourglass is the usual third, a stasis for after she has spent her dashes. Rabadon's Deathcap finishes the core in about two games in three from there. Blackfire Torch into Lich Bane is the main minority line, with a higher win rate on fewer games; see the alternate.",
+      sideItems:["Sorcerer's Shoes","Lich Bane","Blackfire Torch","Banshee's Veil","Void Staff","Mercury's Treads","Luden's Echo","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade outright."),I("Luden's Echo","Poke wears them down before the fight starts.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...AHRI_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Cosmic Drive","Mobility kites the dive attempt."),I("Shadowflame","Burst them before the combo finishes."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Mercury's Treads","Shorter CC to kite out.")],runes:{...AHRI_MID_DEFAULT_RUNES}},

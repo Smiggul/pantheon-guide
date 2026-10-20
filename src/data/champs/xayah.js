@@ -22,18 +22,18 @@ export default {
     Bot:[{
       label:"Stormrazor rush", tag:"alt",
       corePath:"Stormrazor  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"A setup several EUW Xayah one-tricks run in place of Guinsoo's Rageblade. Stormrazor was buffed a few patches ago and has the highest win rate of any first item on her, but on only about 3% play rate, so it is not proven better than Guinsoo's. The real difference is timing: Stormrazor is the stronger one-item spike and Guinsoo's scales better. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Guinsoo's with an enchanter who wants a longer game.",
+      coreNote:"A setup several EUW Xayah one-tricks run in place of Yun Tal Wildarrows. Stormrazor has one of the highest win rates of any first item on her, but it opens only about 3% of games, so it is not proven better than Yun Tal. The real difference is timing: Stormrazor is the stronger one-item burst and movement spike, while Yun Tal is the steadier attack-speed and crit item. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Yun Tal with an enchanter who wants a longer game.",
       runes:{...XAYAH_BOT_DEFAULT_RUNES},
-      sideItems:["Guinsoo's Rageblade","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercurial Scimitar"],
+      sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercurial Scimitar"],
     }],
   },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Feather-Root Carry",
-      corePath:"Guinsoo's Rageblade  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Xayah plays for a feather-carpeted zone that roots anyone standing on 3+ blades — Bladecaller confirms the root, and Featherstorm both dodges and recalls every feather thrown. Guinsoo's Rageblade is now her best-value first item, outperforming Essence Reaver by ~3% after the on-hit buffs (take Essence Reaver only when an early lead wants immediate power). Navori Flickerblade and Infinity Edge are interchangeable 2nd/3rd — IE second into squishy comps, Flickerblade second into tanks or awkward base timers; Lord Dominik's Regards shreds the enemy front line.",
-      sideItems:["Berserker's Greaves","Guardian Angel","Mercury's Treads","Bloodthirster","Rapid Firecannon","Wit's End"],
+      corePath:"Yun Tal Wildarrows  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Xayah plays for a feather-carpeted zone that roots anyone standing on 3+ blades — Bladecaller confirms the root, and Featherstorm both dodges and recalls every feather thrown. Yun Tal Wildarrows is now the standard opener, in nearly three games in four: every attack adds permanent crit chance, and its Flurry attack-speed burst stacks with Deadly Plumage. Navori Flickerblade comes second in most games, its attacks cutting her ability cooldowns so she throws and recalls feathers more often, then Infinity Edge for crit damage; Lord Dominik's Regards is the usual fourth item and shreds the enemy front line. Essence Reaver is the other real opener, at about a fifth of games, when you want mana and ability haste first. Guinsoo's Rageblade, which this guide used to open with, barely appears as a first item.",
+      sideItems:["Berserker's Greaves","Essence Reaver","Guinsoo's Rageblade","Mortal Reminder","Guardian Angel","Bloodthirster","Mercury's Treads","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Navori Flickerblade","Haste means more root windows."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...XAYAH_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rapid Firecannon","Range + slow kites the dive."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Bloodthirster","Shield absorbs the opening burst.")],behind:[I("Bloodthirster","Shield is your lifeline behind."),I("Mercury's Treads","Shorter CC on their engage."),I("Guardian Angel","Second life (Featherstorm dodges the follow-up).")],runes:{...XAYAH_BOT_DEFAULT_RUNES}},

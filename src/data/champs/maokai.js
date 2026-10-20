@@ -7,7 +7,7 @@ const MAOKAI_JGL_DEFAULT_RUNES = {
   secondary:      "Domination",
   secondaryRunes: ["Cheap Shot","Ultimate Hunter"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "First Strike rewards Maokai's poke-first jungle clear and gank pattern — Sapling Toss and Twisted Advance both threaten from range before he ever commits. Magical Footwear and Triple Tonic solve the early gold/sustain curve; Cosmic Insight speeds up Sapling Toss and Twisted Advance cooldowns for more ganks. Cheap Shot adds true damage to anything Sapling Toss has slowed; Ultimate Hunter reduces Vengeful Maelstrom's cooldown for more teamfight-turning ultimates.",
+  reason:         "First Strike rewards Maokai's poke-first jungle clear and gank pattern — Sapling Toss and Twisted Advance both threaten from range before he ever commits. Magical Footwear and Triple Tonic solve the early gold/sustain curve; Cosmic Insight speeds up Sapling Toss and Twisted Advance cooldowns for more ganks. Cheap Shot adds true damage to anything Sapling Toss has slowed; Ultimate Hunter reduces Nature's Grasp's cooldown for more teamfight-turning ultimates.",
 };
 
 const MAOKAI_SUP_DEFAULT_RUNES = {
@@ -32,9 +32,9 @@ export default {
     Jungle:{
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],
       role:"Vanguard / Poke-and-Pull Jungler",
-      corePath:"Liandry's Torment  ›  Ionian Boots of Lucidity  ›  Bloodletter's Curse  ›  Imperial Mandate",
-      coreNote:"Maokai plays for a poke-and-zone jungle pattern — Sapling Toss chips from range, Twisted Advance pulls him to a target, and Vengeful Maelstrom pulls the whole enemy team's damage back at them. Liandry's Torment's burn compounds with the passive sap-life healing; Bloodletter's Curse and Imperial Mandate both add poke and team-wide damage amplification; Ionian Boots gets haste online fast for more Sapling Toss and Twisted Advance windows.",
-      sideItems:["Protoplasm Harness","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Spirit Visage","Thornmail"],
+      corePath:"Liandry's Torment  ›  Ionian Boots of Lucidity  ›  Imperial Mandate  ›  Bloodletter's Curse",
+      coreNote:"Maokai plays for a poke-and-zone jungle pattern — Sapling Toss chips from range, Twisted Advance pulls him to a target, and Nature's Grasp roots the enemy team as it rolls through them. On 26.20 Liandry's Torment opens about three games in four, and Imperial Mandate is now the usual second item: Liandry's into Imperial Mandate is the most common start (about 28%), and Liandry's, Imperial Mandate, Bloodletter's Curse is the most common three-item set. Liandry's Torment's burn compounds with the passive sap-life healing; Imperial Mandate gives haste to his immobilizing abilities and marks every rooted target to take more damage, so Twisted Advance and Nature's Grasp set up the whole team; Bloodletter's Curse shreds magic resist for your mages; Ionian Boots get haste online fast for more Sapling Toss and Twisted Advance windows. Bloodletter's Curse second is the common alternative order.",
+      sideItems:["Unending Despair","Protoplasm Harness","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Spirit Visage","Thornmail"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn compounds with the passive sap-life healing."),I("Imperial Mandate","Amplify damage after your pull lands."),I("Thornmail","GW cuts their sustain.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Protoplasm Harness","Extra durability vs their press.")],runes:{...MAOKAI_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Bloodletter's Curse","Poke punishes their commit."),I("Liandry's Torment","Burn punishes the dive attempt."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Spirit Visage","Amplify the passive self-heal.")],runes:{...MAOKAI_JGL_DEFAULT_RUNES}},
@@ -56,7 +56,7 @@ export default {
       skillOrder:["Q","W","E"], // Support maxes W (Twisted Advance) second for engage; Jungle maxes E (global Q>E>W)
       role:"Pull-and-Peel Engage",
       corePath:"Solstice Sleigh  ›  Boots of Swiftness  ›  Locket of the Iron Solari  ›  Bandlepipes",
-      coreNote:"Support Maokai plays for a pull-and-peel pattern — Twisted Advance drags a priority target in, Sapling Toss zones the lane, and Vengeful Maelstrom shields the whole team while reflecting damage back. Solstice Sleigh adds team-wide utility and tankiness right out the gate; Locket adds burst mitigation right as the pull lands; Bandlepipes rounds out team-wide utility for a peel-heavy support.",
+      coreNote:"Support Maokai plays for a pull-and-peel pattern — Twisted Advance drags a priority target in, Sapling Toss zones the lane, and Nature's Grasp shields the whole team while reflecting damage back. Solstice Sleigh adds team-wide utility and tankiness right out the gate; Locket adds burst mitigation right as the pull lands; Bandlepipes rounds out team-wide utility for a peel-heavy support.",
       sideItems:["Thornmail","Spirit Visage","Mercury's Treads","Randuin's Omen","Zeke's Convergence","Redemption"],
       data:{
         JUGGERNAUT:{ahead:[I("Locket of the Iron Solari","Shield covers the walk-down window."),I("Zeke's Convergence","Amplify damage after your pull lands."),I("Knight's Vow","Protect your carry while you soak.")],behind:[I("Thornmail","GW cuts their sustain."),I("Spirit Visage","Amplify your own sustain."),I("Mercury's Treads","Reduce their key CC.")],runes:{...MAOKAI_SUP_DEFAULT_RUNES}},

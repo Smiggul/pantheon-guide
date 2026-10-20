@@ -18,13 +18,22 @@ export default {
   id:"qiyana", display:"Qiyana", dd:"Qiyana",
   color:"#3a4a2a", glow:"#e0c050",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Profane Hydra opener", tag:"alt",
+      corePath:"Profane Hydra  ›  Ionian Boots of Lucidity  ›  Voltaic Cyclosword  ›  Serylda's Grudge",
+      coreNote:"The minority opener: Profane Hydra first in about 27% of Qiyana games on 26.20, against Voltaic Cyclosword's 47%. Profane Hydra into Voltaic is about 19% of opening pairs, and Serylda's Grudge is the usual third. Hydra's cleave and its active add area damage to her combo, which helps her clear a wave before a roam and hit more than one target when her R stuns a group. The two openers win at about the same rate, around 51% each, so pick on preference. Electrocute is still the most common page on this line.",
+      runes:{...QIYANA_MID_DEFAULT_RUNES},
+      sideItems:["Bastionbreaker","Edge of Night","Hubris","Serpent's Fang","Youmuu's Ghostblade","Guardian Angel","Maw of Malmortius"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Galio","Vex","Lissandra"], replacements:["Talon","Zed","Akali"],
       role:"Element-Combo Terrain Assassin",
-      corePath:"Voltaic Cyclosword  ›  Ionian Boots of Lucidity  ›  Profane Hydra  ›  Serylda's Grudge",
-      coreNote:"Qiyana turns the map itself into her kit: river roots, grass stealths, wall-element bursts, and Supreme Display of Talent stuns everything along any terrain edge. Voltaic Cyclosword's energised proc rides the ice-element slow opener, Profane Hydra slots its execute active into her full combo, Serylda's Grudge keeps the burst real through armor, and Edge of Night blanks the peel spell saved for her. Fight near walls, always — her R is a five-man stun that only asks for geometry.",
-      sideItems:["Edge of Night","Youmuu's Ghostblade","Guardian Angel","Serpent's Fang","Maw of Malmortius","Umbral Glaive"],
+      corePath:"Voltaic Cyclosword  ›  Ionian Boots of Lucidity  ›  Bastionbreaker  ›  Serylda's Grudge",
+      coreNote:"Qiyana turns the map itself into her kit: river roots, grass stealths, wall-element bursts, and Supreme Display of Talent stuns everything along any terrain edge. Voltaic Cyclosword is her most common first item on 26.20, at just under half of games, and Voltaic into Bastionbreaker is now the most common opening pair at 28%, well ahead of the old Voltaic into Profane Hydra at 12%. Her abilities set off Voltaic's Energized attack, which adds current-health damage and bonus lethality on the auto she weaves into the combo. Bastionbreaker adds true damage to her ability hits, and a takedown gives her bonus true damage on the next turret or epic monster she hits, which suits a roam-and-take pattern. Serylda's Grudge keeps the burst real through armor, and Edge of Night, the most common fourth item, blanks the peel spell saved for her. Fight near walls, always — her R is a five-man stun that only asks for geometry. Profane Hydra first is still about a quarter of games; see the alternate.",
+      sideItems:["Edge of Night","Profane Hydra","Hubris","Serpent's Fang","Youmuu's Ghostblade","Guardian Angel","Maw of Malmortius","Umbral Glaive"],
       data:{
         JUGGERNAUT:{ahead:[I("Serylda's Grudge","Pen + slow — poke the juggernaut, never brawl."),I("Profane Hydra","Execute range beats their HP stacking."),I("Youmuu's Ghostblade","Speed to never be catchable.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance in forced fights."),I("Maw of Malmortius","Vs mixed-damage bruisers.")],runes:{...QIYANA_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Voltaic Cyclosword","Burst them mid-engage — R the wall behind them."),I("Profane Hydra","Out-burst their engage window."),I("Edge of Night","Block the dive-opener.")],behind:[I("Edge of Night","Spell shield answers their engage ability."),I("Guardian Angel","Second life on contested dives."),I("Maw of Malmortius","Shield vs AP divers.")],runes:{...QIYANA_MID_DEFAULT_RUNES}},

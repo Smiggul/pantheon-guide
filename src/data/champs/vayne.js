@@ -18,6 +18,15 @@ export default {
   id:"vayne", display:"Vayne", dd:"Vayne",
   color:"#5a4a6e", glow:"#c9c9d9",
   lanes:["Bot","Top"],
+  altBuilds:{
+    Top:[{
+      label:"Experimental Hexplate burst", tag:"alt",
+      corePath:"Experimental Hexplate  ›  Essence Reaver  ›  Stormrazor  ›  Fiendhunter Bolts",
+      coreNote:"The minority line, and the build this guide used to lead with: Experimental Hexplate first in about a quarter of games, against nearly half for Blade of The Ruined King. Hexplate's ultimate haste and post-ult attack and move speed bring Final Hour up more often, and Essence Reaver, which follows it in about half of those games, then Stormrazor turn it into a burstier Tumble-and-auto pattern rather than a long on-hit duel. It wins less often as a first item (about 48.6% against 51.0% for Blade of The Ruined King), and the fourth item varies on a small sample.",
+      runes:{...VAYNE_BOT_DEFAULT_RUNES},
+      sideItems:["Blade of The Ruined King","Guinsoo's Rageblade","Infinity Edge","Berserker's Greaves","Guardian Angel","Wit's End"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Xerath","Ashe"], replacements:["Jinx","Yunara","Caitlyn"],
@@ -44,9 +53,9 @@ export default {
     Top:{
       bans:["Malphite","Poppy","Renekton"], replacements:["Sett","Volibear","Jax"],
       role:"Off-Meta On-Hit Duelist",
-      corePath:"Experimental Hexplate  ›  Essence Reaver  ›  Stormrazor  ›  Fiendhunter Bolts",
-      coreNote:"Top Vayne is currently in the strongest state she's been in — the same hyper-scaling on-hit pattern as Bot, but soloing a lane means faster levels and more HP than she'd have babysat by a support, making her far tankier through the early game than her Bot counterpart. Experimental Hexplate and Essence Reaver fund the early spike; Stormrazor and Fiendhunter Bolts keep the attack-speed-into-burst pattern rolling into the late game.",
-      sideItems:["Berserker's Greaves","Mercury's Treads","Wit's End","Guardian Angel","Bloodthirster","Blade of The Ruined King"],
+      corePath:"Blade of The Ruined King  ›  Guinsoo's Rageblade  ›  Terminus  ›  Jak'Sho, The Protean",
+      coreNote:"Top Vayne plays the same hyper-scaling on-hit pattern as Bot — Silver Bolts stacks true damage, Tumble repositions, Condemn pins duelists against walls — and soloing a lane means faster levels than she'd get beside a support. She now builds like Bot too. Blade of The Ruined King is the most common opener, in nearly half of games, for its current-health damage, lifesteal and slow against high-health top laners. Guinsoo's Rageblade follows in most of those games, applying her on-hit effects twice on every third attack, and Terminus is the usual third item for penetration and resists; Jak'Sho, The Protean is the most common fourth. Experimental Hexplate, which this guide used to open with, is about a quarter of games and wins less often; see the alternate build. She is a niche pick in this lane, at about a 50% win rate on 26.20.",
+      sideItems:["Berserker's Greaves","Experimental Hexplate","Essence Reaver","Kraken Slayer","Wit's End","Mercury's Treads","Guardian Angel","Bloodthirster"],
       data:{
         JUGGERNAUT:{ahead:[I("Blade of The Ruined King","% HP damage beats their HP-stacking model."),I("Essence Reaver","Mana return keeps Tumble spamming through the trade."),I("Stormrazor","Burst proc adds up over the fight.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Wit's End","MR + on-hit if they build offense.")],runes:{...VAYNE_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Experimental Hexplate","Haste + burst punishes the dive."),I("Blade of The Ruined King","Slow denies their dash-out."),I("Guardian Angel","Second life if it still connects.")],behind:[I("Mercury's Treads","Shorter CC on their engage."),I("Wit's End","MR lifeline vs AP divers."),I("Guardian Angel","Insurance.")],runes:{...VAYNE_BOT_DEFAULT_RUNES}},

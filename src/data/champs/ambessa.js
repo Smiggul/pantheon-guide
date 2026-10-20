@@ -54,9 +54,9 @@ export default {
     Jungle:{
       bans:["Kayn","Warwick","Nocturne"], replacements:["Wukong","Sett","Shyvana"],
       role:"Off-Meta Skirmish Jungler",
-      corePath:"Profane Hydra  ›  Plated Steelcaps  ›  Axiom Arc  ›  Death's Dance",
-      coreNote:"Jungle Ambessa fights constantly — her clear speed is gated by Q cooldown, so haste and sustained-combat items matter more than a single burst spike. Profane Hydra's active extends her combo range for a clean gank finisher; Plated Steelcaps blunts invades; Axiom Arc adds burst and ultimate damage; Death's Dance keeps her topped up through skirmishes.",
-      sideItems:["Endless Hunger","Sterak's Gage","Serylda's Grudge","Black Cleaver","Guardian Angel","Mercury's Treads"],
+      corePath:"Profane Hydra  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Death's Dance",
+      coreNote:"Jungle Ambessa fights constantly — her clear speed is gated by Q cooldown, so haste and sustained-combat items matter more than a single burst spike. On 26.20 Profane Hydra is the opener in more than half of games, and Voltaic Cyclosword is now the second item: Profane Hydra into Voltaic Cyclosword is the most common start (about a third), well ahead of the Axiom Arc follow-up, and Death's Dance is the usual third. Profane Hydra's active extends her combo range for a clean gank finisher; Voltaic Cyclosword turns her first ability hit into an Energized attack that chunks by current health; Plated Steelcaps blunts invades; Death's Dance keeps her topped up through skirmishes. Hubris first is the main alternative opener.",
+      sideItems:["Axiom Arc","Hubris","Endless Hunger","Sterak's Gage","Serylda's Grudge","Black Cleaver","Guardian Angel","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Sustain wins the extended skirmish."),I("Profane Hydra","Active extends your combo range in the trade."),I("Axiom Arc","Extra burst adds up over the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from a counter-gank."),I("Sterak's Gage","Shield when the walk-down connects."),I("Death's Dance","Sustain even when behind.")],runes:{...AMBESSA_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Profane Hydra","Extends the combo to punish the dive."),I("Serylda's Grudge","Slow denies their dash-out."),I("Death's Dance","Outlast their all-in.")],behind:[I("Sterak's Gage","Shield absorbs the engage burst."),I("Plated Steelcaps","Auto reduction on Irelia/Camille chains."),I("Guardian Angel","Second life if it still connects.")],runes:{...AMBESSA_JGL_DEFAULT_RUNES}},

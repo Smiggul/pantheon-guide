@@ -61,6 +61,16 @@ const ddClean = (s) => (s || "")
 
 const KEYS = ["Q", "W", "E", "R"];
 
+// Meraki can lag Riot after a rework, and then its resolved text describes a
+// kit that no longer exists. For these "<dd>.<P|Q|W|E|R>" keys, use Riot's own
+// description: it is shorter and loses the numbers, but it is correct.
+//   Cassiopeia.P — Serpentine Grace no longer forbids boots (16.20.1: "All Move
+//   Speed bonuses are more effective on Cassiopeia"), and ~half her games buy
+//   them. Meraki still says she "cannot purchase Boots items".
+// Drop an entry once Meraki catches up.
+const USE_RIOT_TEXT = new Set(["Cassiopeia.P"]);
+const meraki = (dd, key, arr) => (USE_RIOT_TEXT.has(`${dd}.${key}`) ? null : merakiDesc(arr));
+
 async function fetchJson(url) {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`${r.status}`);
@@ -76,7 +86,7 @@ async function fetchChamp(dd) {
     title: c.title,
     passive: {
       name: c.passive.name,
-      desc: merakiDesc(m?.abilities?.P) || ddClean(c.passive.description),
+      desc: meraki(dd, "P", m?.abilities?.P) || ddClean(c.passive.description),
       img: c.passive.image.full,
     },
   };
@@ -84,7 +94,7 @@ async function fetchChamp(dd) {
     if (i > 3) return;
     out[KEYS[i]] = {
       name: s.name,
-      desc: merakiDesc(m?.abilities?.[KEYS[i]]) || ddClean(s.tooltip) || ddClean(s.description),
+      desc: meraki(dd, KEYS[i], m?.abilities?.[KEYS[i]]) || ddClean(s.tooltip) || ddClean(s.description),
       img: s.image.full,
       cd: s.cooldownBurn, cost: s.costBurn, range: s.rangeBurn,
     };

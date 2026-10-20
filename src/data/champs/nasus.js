@@ -17,7 +17,7 @@ const NASUS_JGL_DEFAULT_RUNES = {
   secondary:      "Inspiration",
   secondaryRunes: ["Magical Footwear","Approach Velocity"],
   shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Jungle Nasus stacks Q off camps uncontested — no lane bully can deny a wolf pack. Fleet Footwork sustains the clear, Cut Down replaces Last Stand because his gank targets are the enemy's HP-stacked frontline, and the Inspiration line is jungle tech: Magical Footwear funds the Protoplasm Harness rush and Approach Velocity accelerates ganks onto anyone his Wither has already slowed to a crawl. The dog scales twice — Q stacks and jungle income.",
+  reason:         "Jungle Nasus stacks Q off camps uncontested — no lane bully can deny a wolf pack. Fleet Footwork sustains the clear, Cut Down replaces Last Stand because his gank targets are the enemy's HP-stacked frontline, and the Inspiration line is jungle tech: Magical Footwear gets his boots online for free while Trinity Force comes together, and Approach Velocity accelerates ganks onto anyone his Wither has already slowed to a crawl. The dog scales twice — Q stacks and jungle income.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -55,9 +55,9 @@ export default {
       bans:["Udyr","Briar","Kha'Zix"], replacements:["Amumu","Volibear","Malphite"],
       skillOrder:["Q","W","E"], // Jungle Nasus maxes W (Wither slow) before E; Top maxes E (global Q>E>W)
       role:"Uncontested Stack Farmer",
-      corePath:"Protoplasm Harness  ›  Boots of Swiftness  ›  Iceborn Gauntlet  ›  Spirit Visage",
-      coreNote:"Jungle Nasus solves his own biggest weakness — no lane bully exists in the jungle, so the Q stacks come free. Protoplasm Harness is the current jungle-item core, Iceborn Gauntlet's spellblade slow chains with Wither so gank targets simply stop moving, and Spirit Visage plus Jak'Sho tune him into an unkillable mid-game. His ganks look slow until you notice the target is Withered, Iceborn-slowed, and dead. Farm to 300 stacks by 20 minutes and side-lane the map apart.",
-      sideItems:["Jak'Sho, The Protean","Thornmail","Kaenic Rookern","Sterak's Gage","Randuin's Omen","Force of Nature"],
+      corePath:"Trinity Force  ›  Ionian Boots of Lucidity  ›  Protoplasm Harness  ›  Frozen Heart",
+      coreNote:"Jungle Nasus solves his own biggest weakness — no lane bully exists in the jungle, so the Q stacks come free. The sample is small on 26.20 (under 4k Emerald+ games) and the role's win rate there is below 48%, but the opener is not close: Trinity Force is the first item in about three games in five, against about one in seven for Protoplasm Harness. Trinity Force's Spellblade proc lands on every Siphoning Strike and its Quicken move speed helps him reach a Withered target; Ionian Boots of Lucidity are the most common boots and feed the Q cooldown; Protoplasm Harness is the most common second item and Frozen Heart the most common third, both adding haste and a frontline that is hard to kill. Spirit Visage is the usual alternative third. His ganks look slow until you notice the target is Withered and dead. Farm to 300 stacks by 20 minutes and side-lane the map apart.",
+      sideItems:["Spirit Visage","Iceborn Gauntlet","Jak'Sho, The Protean","Thornmail","Randuin's Omen","Force of Nature","Boots of Swiftness","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Iceborn Gauntlet","Slow field wins the invade brawl."),I("Spirit Visage","Amplified lifesteal outlasts them."),I("Thornmail","Anti-heal their sustain.")],behind:[I("Thornmail","Cut their healing before comparing stacks."),I("Jak'Sho, The Protean","Resist ramp evens the brawl."),I("Sterak's Gage","Survive and keep farming.")],runes:{...NASUS_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Iceborn Gauntlet","Their engage dies in the slow field."),I("Jak'Sho, The Protean","Resists ramp as their dive extends."),I("Spirit Visage","Sustain the counter-skirmish.")],behind:[I("Randuin's Omen","Slow the dive mid-animation."),I("Sterak's Gage","Shield their burst opener."),I("Kaenic Rookern","Vs AP divers.")],runes:{...NASUS_JGL_DEFAULT_RUNES}},

@@ -7,7 +7,7 @@ const XINZHAO_JGL_DEFAULT_RUNES = {
   secondary:      "Inspiration",
   secondaryRunes: ["Magical Footwear","Cosmic Insight"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast through Xin's three-hit passive weaving and Q flurry, and his W heal converts the stacks into brawl sustain. Triumph refunds HP through the multi-takedown ganks his early tempo generates, Legend: Alacrity feeds both passive procs and Q knockup speed, Coup de Grace finishes the target his E-Q chain locks down, and the Inspiration economy line accelerates the Sundered Sky spike while Cosmic Insight brings Crescent Guard around for more duel-anyone windows.",
+  reason:         "Conqueror stacks fast through Xin's three-hit passive weaving and Q flurry, and his W heal converts the stacks into brawl sustain. Triumph refunds HP through the multi-takedown ganks his early tempo generates, Legend: Alacrity feeds both passive procs and Q knockup speed, Coup de Grace finishes the target his E-Q chain locks down, and the Inspiration economy line accelerates the first-item spike while Cosmic Insight brings Crescent Guard around for more duel-anyone windows.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -18,13 +18,22 @@ export default {
   id:"xinzhao", display:"Xin Zhao", dd:"XinZhao",
   color:"#4a2a2a", glow:"#d08080",
   lanes:["Jungle"],
+  altBuilds:{
+    Jungle:[{
+      label:"Sundered Sky duelist", tag:"alt",
+      corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"The previous standard line, now the minority: on 26.20 Sundered Sky opens about one Xin Zhao game in six, against about three in five for Titanic Hydra, and Sundered Sky into Black Cleaver is the second most common two-item start at about 12%. Sundered Sky's guaranteed crit-and-heal on the first hit against a champion rides the E-Q dive opener, which suits a single-target duel more than Titanic Hydra's cleave does, so it is the line for games you expect to fight one target at a time. Black Cleaver and Death's Dance follow exactly as in the main build.",
+      runes:{...XINZHAO_JGL_DEFAULT_RUNES},
+      sideItems:["Guardian Angel","Sterak's Gage","Spirit Visage","Maw of Malmortius","Titanic Hydra"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Zac","Karthus","Nasus"], replacements:["Jarvan IV","Vi","Wukong"],
       role:"Three-Talon Duel Diver",
-      corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Xin Zhao owns the early game: his level-3 gank is among the strongest in the jungle, and Crescent Guard makes him unkillable by anyone outside the circle. Sundered Sky's crit-heal proc rides the E-Q dive opener, Black Cleaver shreds while stacking HP for the extended brawls his kit drags out, and Death's Dance converts burst into a bleed his W heals through. Guardian Angel insures the always-first-in pattern. Gank every lane before ten minutes; R turns any 2v2 into a 1v1 you win.",
-      sideItems:["Guardian Angel","Sterak's Gage","Spirit Visage","Maw of Malmortius","Randuin's Omen","Spear of Shojin"],
+      corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+      coreNote:"Xin Zhao owns the early game: his level-3 gank is among the strongest in the jungle, and Crescent Guard makes him unkillable by anyone outside the circle. On 26.20 Titanic Hydra is the clear opener, in about three games in five, and Titanic Hydra into Black Cleaver into Death's Dance is the most common three-item set by a wide margin (about a third of three-item games). Titanic Hydra's cleave carries his three-hit passive and Q flurry onto everyone standing behind the target and adds health for the long brawl, Black Cleaver shreds armor while stacking more health, and Death's Dance converts burst into a bleed his passive heals through. Guardian Angel is the common swap for the third item when you must be first in. Gank every lane before ten minutes; R turns any 2v2 into a 1v1 you win.",
+      sideItems:["Guardian Angel","Sundered Sky","Sterak's Gage","Spirit Visage","Maw of Malmortius","Randuin's Omen","Spear of Shojin"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them through the extended brawl."),I("Sundered Sky","Heal-proc wins the trade war."),I("Death's Dance","Sustain conversion outlasts their damage.")],behind:[I("Death's Dance","Survive their burst and heal it back."),I("Sterak's Gage","Shield the all-in."),I("Spirit Visage","Amplify your W healing.")],runes:{...XINZHAO_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Sundered Sky","Win the engage mirror — your knockup opens first."),I("Black Cleaver","Shred through the counter-brawl."),I("Guardian Angel","Dive deeper than they dare.")],behind:[I("Guardian Angel","Insurance when both teams commit."),I("Sterak's Gage","Shield their engage burst."),I("Randuin's Omen","Slow their follow-up.")],runes:{...XINZHAO_JGL_DEFAULT_RUNES}},

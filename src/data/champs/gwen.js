@@ -11,13 +11,13 @@ const GWEN_TOP_DEFAULT_RUNES = {
 };
 
 const GWEN_MID_DEFAULT_RUNES = {
-  keystone:       "Glacial Augment",
+  keystone:       "First Strike",
   primary:        "Inspiration",
-  primaryRunes:   ["Magical Footwear","Biscuit Delivery","Cosmic Insight"],
+  primaryRunes:   ["Cash Back","Biscuit Delivery","Jack Of All Trades"],
   secondary:      "Sorcery",
-  secondaryRunes: ["Manaflow Band","Transcendence"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Mid Gwen is a burst duelist rather than Top's extended-trade bruiser, and the page follows: Glacial Augment slows whatever she lands her combo on, which is what lets a melee champion with no gap-closer actually finish a mid laner who is allowed to walk away. Magical Footwear and Cosmic Insight fund the roams and keep Hallowed Mist and Skip 'n Slash close to available, Biscuit Delivery covers the mana and health a melee mid bleeds in the first ten minutes, and Manaflow Band with Transcendence pays for the Q spam the Lich Bane pattern needs. Top's Conqueror page is the wrong tool here \u2014 it is built for a duel that mid lane rarely gives you.",
+  secondaryRunes: ["Absolute Focus","Gathering Storm"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "First Strike is now the majority keystone for Mid Gwen, on about 57% of games on 26.20, with Stormraider's Surge second at 28% and Conqueror, Top's page, at 13%; the old Glacial Augment page has all but disappeared. Mid Gwen plays for one burst rotation rather than Top's long duel, and First Strike rewards exactly that: open the trade with a snip or an auto and the whole combo hits harder, while its bonus gold speeds up the first item. Cash Back returns gold on her item purchases, Biscuit Delivery hands out health-restoring biscuits until six minutes, covering the health a melee mid bleeds in lane, and Jack Of All Trades adds stats as her items cover more stat types. Absolute Focus adds damage while she is healthy, and Gathering Storm grows her AP through the game.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -28,6 +28,15 @@ export default {
   id:"gwen", display:"Gwen", dd:"Gwen",
   color:"#2a5a5a", glow:"#70e0d0",
   lanes:["Top","Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Lich Bane burst", tag:"alt",
+      corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"The minority opener, and the old main build: Lich Bane first in about 27% of Mid Gwen games on 26.20, against Dusk and Dawn's 70%. Lich Bane into Shadowflame into Rabadon's Deathcap is about 16% of three-item starts. Lich Bane trades Dusk and Dawn's health, attack speed and double on-hit for more AP and move speed, so the spellblade auto between snips hits harder but she is squishier. On this small sample its first-item win rate is a little higher than Dusk and Dawn's (56.6% against 54.2%), which makes it a fair choice into squishy lanes where she can end the trade in one rotation. First Strike is the most common page on this line too.",
+      runes:{...GWEN_MID_DEFAULT_RUNES},
+      sideItems:["Void Staff","Dusk and Dawn","Malignance","Zhonya's Hourglass","Banshee's Veil","Nashor's Tooth"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Riven","Vladimir","Gragas"], replacements:["Fiora","Camille","Irelia"],
@@ -53,10 +62,10 @@ export default {
     },
     Mid:{
       bans:["Ekko","Fizz","Zed"], replacements:["Akali","Katarina","Sylas"],
-      role:"Lich Bane Burst Duelist",
-      corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Added in the 26.19 sweep, and it is a real page rather than the Top build in another lane — Top runs Conqueror into Dusk and Dawn as an extended-trade bruiser, while Mid runs Glacial Augment into Lich Bane and plays for one burst rotation. Lich Bane is the whole identity: Gwen's Q already snips true damage through resists, and a spellblade proc on the auto between snips turns a poke trade into a kill threat most mid laners cannot answer at melee range. Hallowed Mist matters more here than it does Top, because mid-lane ganks come from both sides and the Mist blocks everything originating outside it. Be honest about the sample: this is a 52-55% win rate on roughly 0.5% pick rate, so it is a strong pocket pick rather than a lane you should expect to be familiar to your opponent.",
-      sideItems:["Zhonya's Hourglass","Void Staff","Riftmaker","Nashor's Tooth","Banshee's Veil","Horizon Focus"],
+      role:"Spellblade Burst Duelist",
+      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      coreNote:"Mid Gwen now buys the same items as Top: Dusk and Dawn first in about 70% of Mid games on 26.20, and Dusk and Dawn into Shadowflame into Rabadon's Deathcap is the most common three-item start, at about 44%. What separates the lanes is the rune page. Top runs Conqueror for long duels, while Mid's most common page is First Strike, which suits a champion who plays for one burst rotation. Dusk and Dawn's spellblade auto applies on-hit effects twice, so the auto she weaves between snips lands her passive's max-health damage twice, and its health and attack speed help a melee mage survive lane. Shadowflame executes chunked targets, Rabadon's Deathcap multiplies everything her kit touches, and Void Staff is the usual fourth. Hallowed Mist matters more here than it does Top, because mid-lane ganks come from both sides and the Mist blocks everything originating outside it. Be honest about the sample: about 14,000 games at roughly 0.6% pick rate, so this is a strong pocket pick rather than a lane your opponent will know well. Lich Bane first is about a quarter of games; see the alternate.",
+      sideItems:["Void Staff","Lich Bane","Malignance","Zhonya's Hourglass","Riftmaker","Nashor's Tooth","Banshee's Veil"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","True-damage snips plus pen ignores the health they stacked."),I("Lich Bane","Spellblade turns each trade into a real chunk."),I("Rabadon's Deathcap","Scale the melt.")],behind:[I("Zhonya's Hourglass","Stasis answers the one all-in they get."),I("Riftmaker","Sustain back through the extended fight."),I("Void Staff","Pen stays useful without a lead.")],runes:{...GWEN_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Lich Bane","Burst them out of the dive animation."),I("Shadowflame","Execute whoever survives the Mist."),I("Zhonya's Hourglass","Stasis wastes their commitment.")],behind:[I("Zhonya's Hourglass","Stasis plus Mist is a double answer to one engage."),I("Banshee's Veil","Blocks the opener that starts the dive."),I("Riftmaker","Sustain repeated attempts.")],runes:{...GWEN_MID_DEFAULT_RUNES}},

@@ -18,13 +18,22 @@ export default {
   id:"zeri", display:"Zeri", dd:"Zeri",
   color:"#3a5a1a", glow:"#a0e040",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"Stormrazor opener", tag:"alt",
+      corePath:"Stormrazor  ›  Gluttonous Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
+      coreNote:"The minority line, and the build this guide used to lead with: Stormrazor first in a bit over a quarter of games, against about two thirds for Yun Tal Wildarrows. Its Energized attack adds bonus magic damage and a burst of movement speed, so it gives the stronger one-item spike for early skirmishes, while Yun Tal is the steadier attack-speed and crit item. The rest of the build is the same, Runaan's Hurricane and then Infinity Edge. First-item win rates are close (about 53.6% for Stormrazor against 52.6% for Yun Tal), so treat it as a choice of lane and taste rather than an upgrade.",
+      runes:{...ZERI_BOT_DEFAULT_RUNES},
+      sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Lord Dominik's Regards","Fiendhunter Bolts","Bloodthirster","Guardian Angel"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Lucian","Caitlyn"], replacements:["Sivir","Tristana","Jinx"],
       role:"Kite-DPS Hypercarry / Wall-Surf Skirmisher",
-      corePath:"Stormrazor  ›  Berserker's Greaves  ›  Fiendhunter Bolts  ›  Infinity Edge",
-      coreNote:"Zeri turns move speed into damage and damage into move speed — every item here feeds that loop. Stormrazor's energised proc slots into her Q pattern and adds the burst her early game lacks, Fiendhunter Bolts is her premier mid-build spike this patch, and Infinity Edge multiplies the endless Q crits into hypercarry territory. Lord Dominik's Regards closes against frontline stacking. Ult in a teamfight, chain lightning through five people, and surf walls out the other side.",
-      sideItems:["Lord Dominik's Regards","Runaan's Hurricane","Phantom Dancer","Bloodthirster","Guardian Angel","Immortal Shieldbow"],
+      corePath:"Yun Tal Wildarrows  ›  Gluttonous Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
+      coreNote:"Zeri turns move speed into damage and damage into move speed. Burst Fire is treated as an attack, so attack-speed and crit items feed her Q directly. Yun Tal Wildarrows is now the standard opener, in about two games in three, for its permanent crit stacks and Flurry attack-speed burst. Runaan's Hurricane follows in three quarters of games, firing bolts at two extra targets so her damage spreads across a teamfight, and Infinity Edge comes third in most of those; Lord Dominik's Regards is the usual fourth against a front line. Gluttonous Greaves have overtaken Berserker's as her most common boots (about 57% of games to 36%), their omnivamp sustaining her through long kiting fights. Stormrazor, which this guide used to open with, is still the first item in a bit over a quarter of games; see the alternate build. Ult in a teamfight, chain lightning through five people, and surf walls out the other side.",
+      sideItems:["Lord Dominik's Regards","Berserker's Greaves","Stormrazor","Fiendhunter Bolts","Immortal Shieldbow","Bloodthirster","Guardian Angel","Phantom Dancer"],
       data:{
         JUGGERNAUT:{ahead:[I("Fiendhunter Bolts","Sustained Q-DPS shreds their HP stacking."),I("Infinity Edge","Crit spike ends the kite-down faster."),I("Lord Dominik's Regards","Pen through their armor curve.")],behind:[I("Phantom Dancer","Speed + AS to kite from further behind."),I("Guardian Angel","Insurance when they finally connect."),I("Bloodthirster","Sustain the chip war.")],runes:{...ZERI_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Stormrazor","Burst them mid-dive with energised procs."),I("Infinity Edge","Kill the diver before the combo lands."),I("Phantom Dancer","Speed makes the dive whiff entirely.")],behind:[I("Guardian Angel","Second life against the inevitable dive."),I("Immortal Shieldbow","Lifeline shield mid-engage."),I("Phantom Dancer","Kite speed to escape the collapse.")],runes:{...ZERI_BOT_DEFAULT_RUNES}},

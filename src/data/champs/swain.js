@@ -11,13 +11,13 @@ const SWAIN_MID_DEFAULT_RUNES = {
 };
 
 const SWAIN_SUP_DEFAULT_RUNES = {
-  keystone:       "Arcane Comet",
-  primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
+  keystone:       "Electrocute",
+  primary:        "Domination",
+  primaryRunes:   ["Cheap Shot","Grisly Mementos","Ultimate Hunter"],
   secondary:      "Resolve",
-  secondaryRunes: ["Bone Plating","Revitalize"],
+  secondaryRunes: ["Conditioning","Overgrowth"],
   shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Same Comet-poke core as Mid. Bone Plating replaces Second Wind for a 2v2 lane where trades come in bursts rather than constant chip. Revitalize amplifies the healing Swain's passive and R provide to himself and the lane.",
+  reason:         "Electrocute and Conqueror split Support Swain's games almost evenly on 26.20, about 44% each; the Arcane Comet page this used to recommend is almost never taken. Electrocute is the more common by a hair and suits a lane built on short trades, since his E pull into Q lands the three hits it needs in one rotation. Cheap Shot adds true damage to targets his E has rooted or Rylai's has slowed, Grisly Mementos adds permanent Adaptive Force from takedowns, and Ultimate Hunter shortens Demonic Ascension, his main teamfight tool. Conditioning and Overgrowth add the resistances and health he needs to stand in fights. Conqueror is the equally popular choice for longer brawls.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -32,9 +32,9 @@ export default {
     Mid:{
       bans:["Ekko","Syndra","Viktor"], replacements:["Xerath","Locke","Aurelion Sol"],
       role:"Battlemage / Poke-Scaling",
-      corePath:"Blackfire Torch  ›  Liandry's Torment  ›  Rylai's Crystal Scepter  ›  Zhonya's Hourglass",
-      coreNote:"Swain wants extended fights — Blackfire Torch now leads the build, its burn stacking directly with Liandry's % HP damage on the same DoT-marked target. Rylai's slow keeps enemies inside his Q/E range and the R pull radius. Zhonya's protects the ultimate's channel from being interrupted. Riftmaker remains a fine alternate for the omnivamp when facing sustain-heavy comps.",
-      sideItems:["Sorcerer's Shoes","Mercury's Treads","Void Staff","Banshee's Veil","Morellonomicon","Cosmic Drive","Riftmaker"],
+      corePath:"Blackfire Torch  ›  Rylai's Crystal Scepter  ›  Zhonya's Hourglass  ›  Liandry's Torment",
+      coreNote:"Swain wants extended fights. Blackfire Torch is his first item in about four mid games in ten on 26.20, and Rylai's Crystal Scepter is now the clear second: Blackfire into Rylai's is the most common two-item start, about a quarter of games, more than three times as common as Blackfire into Liandry's Torment. Blackfire's burn applies to every enemy his abilities hit and grants AP for each one burning, and Rylai's slows on every damaging ability, so enemies stay inside his Q, his E pull and the Demonic Ascension drain radius. Zhonya's Hourglass is the most common third item; its stasis lets him survive the moment the enemy team collapses on him in his ultimate. Liandry's Torment is the usual fourth, for its percent-health burn against frontliners. Mercury's Treads are the most common boots. Rylai's first and Malignance first are the other common openings, about a quarter and a sixth of games.",
+      sideItems:["Mercury's Treads","Sorcerer's Shoes","Malignance","Spirit Visage","Riftmaker","Void Staff","Banshee's Veil","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn scales off their HP stacking."),I("Rylai's Crystal Scepter","Perma-slow keeps them from ever closing."),I("Riftmaker","Omnivamp outlasts their sustain.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Blocks their engage tool.")],runes:{...SWAIN_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rylai's Crystal Scepter","Slow shuts down their engage follow-up."),I("Riftmaker","Omnivamp sustains through the dive."),I("Zhonya's Hourglass","Insurance even while ahead.")],behind:[I("Zhonya's Hourglass","Essential — negates their all-in timing."),I("Banshee's Veil","Blocks the engage ability that starts the dive."),I("Mercury's Treads","Shorter CC to kite out.")],runes:{...SWAIN_MID_DEFAULT_RUNES}},
@@ -54,9 +54,9 @@ export default {
     Support:{
       bans:["Taric","Zilean","Renata Glasc"], replacements:["Xerath","Karma","Pantheon"],
       role:"Battlemage / Poke-Utility",
-      corePath:"Liandry's Torment  ›  Riftmaker  ›  Zhonya's Hourglass  ›  Rylai's Crystal Scepter",
-      coreNote:"Support Swain plays for global vision pressure and poke. Vision of Empire threatens the whole map, and the same mage core that works in Mid still gives him damage relevant in a 2v2 lane where enchanters usually deal none.",
-      sideItems:["Sorcerer's Shoes","Mercury's Treads","Zeke's Convergence","Redemption","Banshee's Veil","Void Staff"],
+      corePath:"Rylai's Crystal Scepter  ›  Zhonya's Hourglass  ›  Liandry's Torment  ›  Spirit Visage",
+      coreNote:"Support Swain plays for global vision pressure and lane damage enchanters cannot match: Vision of Empire threatens the whole map. Rylai's Crystal Scepter is his first legendary in nearly eight games in ten on 26.20, whatever support item he takes, and Liandry's Torment first, which this page used to recommend, is down to a few percent. Zaz'Zak's Realmspike is the most common support item, just under half of games, its explosion triggered by his ability damage, with Celestial Opposition and Solstice Sleigh the choices for a tankier lane. Rylai's slows on every damaging ability, which keeps the enemy ADC inside his E pull and his R drain. Zhonya's Hourglass is the most common second item, just ahead of Liandry's Torment; the two are often bought together, and Liandry's first suits a game against tanks. Spirit Visage is the most common later item, raising the healing from his passive and Demonic Ascension. Plated Steelcaps, Sorcerer's Shoes and Mercury's Treads are all common boots.",
+      sideItems:["Plated Steelcaps","Sorcerer's Shoes","Mercury's Treads","Malignance","Riftmaker","Morellonomicon","Zeke's Convergence","Redemption"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn scales off their HP stacking as they walk down your ADC."),I("Zeke's Convergence","Amplify your ADC's follow-up damage."),I("Rylai's Crystal Scepter","Perma-slow keeps a Juggernaut off your carry.")],behind:[I("Zhonya's Hourglass","Stall their all-in window."),I("Mercury's Treads","Reduce CC duration."),I("Redemption","Global heal offsets accumulated chip.")],runes:{...SWAIN_SUP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rylai's Crystal Scepter","Slows shut down the dive before it reaches your ADC."),I("Zeke's Convergence","Amplify the counter-engage."),I("Riftmaker","Omnivamp sustains through the skirmish.")],behind:[I("Zhonya's Hourglass","Negates their all-in timing on your backline."),I("Banshee's Veil","Blocks the engage tool that starts the dive."),I("Mercury's Treads","Shorter CC on the engage.")],runes:{...SWAIN_SUP_DEFAULT_RUNES}},

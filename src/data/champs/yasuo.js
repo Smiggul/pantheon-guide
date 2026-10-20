@@ -38,6 +38,15 @@ export default {
   id:"yasuo", display:"Yasuo", dd:"Yasuo",
   color:"#4a6572", glow:"#7fa8b8",
   lanes:["Mid","Top","Bot"],
+  altBuilds:{
+    Top:[{
+      label:"Shieldbow first", tag:"alt",
+      corePath:"Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance  ›  Guardian Angel",
+      coreNote:"The minority line on Top, and the build this guide used to lead with (it is still Mid's main build): Immortal Shieldbow first in about a quarter of games, against nearly half for Blade of The Ruined King. It rushes the crit spike, Shieldbow into Infinity Edge, and skips the early on-hit duel item; Death's Dance and Guardian Angel then let him dive repeatedly without dying to the follow-up. It has the higher first-item win rate (about 54% against 50%), but first-item win rates are shaped by who picks each line, so take the gap as a lean rather than proof.",
+      runes:{...YASUO_TOP_DEFAULT_RUNES},
+      sideItems:["Blade of The Ruined King","Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Vladimir","Annie","Renekton"], replacements:["Yone","Riven","Katarina"],
@@ -64,9 +73,9 @@ export default {
     Top:{
       bans:["Jax","Riven","Fiora"], replacements:["Renekton","Sett","Darius"],
       role:"Skirmisher / Mobile Duelist",
-      corePath:"Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance  ›  Guardian Angel",
-      coreNote:"Same crit-scaling core as Mid — Top Yasuo plays a hit-and-run poke-and-kite game instead of an all-in lane, weaving Q stacks and autos between waves rather than committing early.",
-      sideItems:["Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Wit's End","Sterak's Gage","Blade of The Ruined King"],
+      corePath:"Blade of The Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
+      coreNote:"Top Yasuo plays a hit-and-run poke-and-kite game instead of an all-in lane, weaving Q stacks and autos between waves rather than committing early. Unlike Mid, he most often opens Blade of The Ruined King here, in nearly half of games: its current-health damage, lifesteal and slow win the extended trades against high-health top laners. Immortal Shieldbow comes second in most of those games, its low-health shield covering the all-ins he cannot avoid, then Infinity Edge for crit damage; his passive increases his crit chance, so the crit items pay off faster on him. Death's Dance is the usual fourth. Kraken Slayer opens about one game in six. Shieldbow first, the line this guide used to lead with, is about a quarter of games and wins more often (about 54% against 50% for Blade of The Ruined King first); see the alternate build.",
+      sideItems:["Berserker's Greaves","Guardian Angel","Kraken Slayer","Lord Dominik's Regards","Mercury's Treads","Maw of Malmortius","Wit's End","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YASUO_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Immortal Shieldbow","Shield absorbs their engage burst."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Death's Dance","Outlast their all-in.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Maw of Malmortius","AP divers — lifeline shield."),I("Mercury's Treads","Shorter CC on the engage.")],runes:{...YASUO_TOP_DEFAULT_RUNES}},

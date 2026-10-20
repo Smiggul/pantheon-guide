@@ -12,7 +12,7 @@ const YUUMI_SUP_DEFAULT_RUNES = {
 
 // ══════════════════════════════════════════════════════════════════════════
 //  YUUMI — Magical Cat: Attached Enchanter  (C tier Support 26.14)
-//  NOTE: like Cassiopeia, she skips boots entirely — never add boots
+//  NOTE: she skips boots entirely (attached movement replaces them) — never add boots
 // ══════════════════════════════════════════════════════════════════════════
 
 export default {

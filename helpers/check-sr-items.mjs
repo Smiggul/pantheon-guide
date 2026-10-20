@@ -14,6 +14,9 @@
 //  with that name is available on map 11. Quest upgrades that are earned rather
 //  than bought (support items) are on map 11 but not purchasable; they pass.
 //
+//  It also checks that every name resolves in lcuData's ITEM_IDS, without which
+//  the client export drops the item silently.
+//
 //  Run:  node helpers/check-sr-items.mjs        (exit 1 on any problem)
 // ─────────────────────────────────────────────────────────────────────────────
 import fs from "node:fs";
@@ -64,11 +67,18 @@ for (const c of CHAMPS) {
   }
 }
 
-const notOnRift = [], unknown = [];
+// The client export resolves names through lcuData's ITEM_IDS, which
+// gen-lcu-data only fills with names the roster used WHEN IT LAST RAN. A newly
+// recommended item (Yun Tal Wildarrows, on 26.20) passes every other check and
+// is then silently dropped from the exported item set.
+const { ITEM_IDS } = await import(pathToFileURL(path.join(ROOT, "src", "data", "lcuData.js")).href);
+
+const notOnRift = [], unknown = [], noExportId = [];
 for (const [name, where] of uses) {
   const e = byName.get(name);
   if (!e) unknown.push([name, where]);
   else if (!e.onRift) notOnRift.push([name, where, [...e.modes].join(",") || "none"]);
+  else if (ITEM_IDS[name.toLowerCase()] == null) noExportId.push([name, where]);
 }
 
 const show = (list, head, extra) => {
@@ -84,5 +94,6 @@ const show = (list, head, extra) => {
 console.log(`check-sr-items: ${uses.size} distinct item names across the roster, Data Dragon ${ver}`);
 show(notOnRift, "NOT sold on Summoner's Rift:", true);
 show(unknown, "Not an item at all (typo or removed):", false);
-if (notOnRift.length || unknown.length) process.exit(1);
-console.log("  every recommended item is available on the Rift");
+show(noExportId, "No client export id (run: node helpers/gen-lcu-data.mjs):", false);
+if (notOnRift.length || unknown.length || noExportId.length) process.exit(1);
+console.log("  every recommended item is available on the Rift and resolves for the client export");
