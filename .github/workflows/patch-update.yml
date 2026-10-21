@@ -1,10 +1,12 @@
 name: Auto patch update
 
 # Detects a new League (Data Dragon) patch and opens a PR that refreshes the
-# bundled assets + regenerated LCU id tables. League patches land roughly every
-# two weeks. It checks twice a day: a run with no new patch exits at the version
-# check in seconds, so frequent runs cost almost nothing. The old every-3-days
-# schedule left a patch unnoticed for up to three days (26.21 slipped that way).
+# bundled assets and every file generated from them: LCU id tables, the Rift
+# item list, summoner spells, the skin list and ability text. League patches
+# land roughly every two weeks. It checks twice a day: a run with no new patch
+# exits at the version check in seconds, so frequent runs cost almost nothing.
+# The old every-3-days schedule left a patch unnoticed for up to three days
+# (26.21 slipped that way).
 # The schedule only fires from the default branch (frge-gg).
 #
 # Requires (one-time repo setting): Settings → Actions → General → Workflow
@@ -60,6 +62,18 @@ jobs:
         if: steps.check.outputs.outdated == 'true'
         run: node helpers/gen-lcu-data.mjs # pins to the refreshed version.txt
 
+      # The rest of the data the app reads that is generated from Riot's files.
+      # Each generator pins to the refreshed version.txt. They used to be run by
+      # hand, and sr-items.json sat on 16.17.1 for four patches. Riot is the only
+      # source here, the same CDN setup_ddragon just used, so a failure fails the
+      # run, as gen-lcu-data does.
+      - name: Regenerate the Rift item list, summoner spells and skin list
+        if: steps.check.outputs.outdated == 'true'
+        run: |
+          node helpers/gen-sr-items.mjs
+          node helpers/gen-summoner-spells.mjs
+          node helpers/gen-champ-skins.mjs
+
       - name: Work out which champions this patch affects
         id: diff
         if: steps.check.outputs.outdated == 'true'
@@ -82,6 +96,22 @@ jobs:
             printf '\n---\n\n' >> patch-report.md
             cat patch-notes.md >> patch-report.md
           fi
+
+      # Ability prose comes from Meraki, a third party with no per-patch data
+      # (see gen-abilities.mjs); cooldown, cost and range come from Data Dragon.
+      # The generator refuses to write a degraded file, so a Meraki outage keeps
+      # the previous abilities.js and says so in the PR instead of failing the
+      # whole update. It runs here, not beside the generators above, because it
+      # reports into patch-report.md, which the diff step creates.
+      - name: Regenerate ability text
+        if: steps.check.outputs.outdated == 'true'
+        run: |
+          if ! node helpers/gen-abilities.mjs > gen-abilities.txt 2>&1; then
+            printf '\n---\n\n### Ability text not regenerated\n\n`src/data/abilities.js` still holds the previous patch. Re-run `node helpers/gen-abilities.mjs` once the cause below is fixed.\n\n```\n' >> patch-report.md
+            cat gen-abilities.txt >> patch-report.md
+            printf '```\n' >> patch-report.md
+          fi
+          cat gen-abilities.txt
 
       # A removed or Arena-only item still has a NAME in Data Dragon, so the diff
       # and the build both pass it. This asks Riot's own map flags instead, and
@@ -115,4 +145,6 @@ jobs:
           add-paths: |
             public/**
             src/data/lcuData.js
+            src/data/champSkins.js
+            src/data/abilities.js
           body-path: patch-report.md

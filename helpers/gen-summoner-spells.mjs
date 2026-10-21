@@ -1,7 +1,8 @@
 // Fetches Summoner's Rift summoner-spell icons + a flat name->iconPath map,
 // mirroring the existing item.json/runesReforged.json convention so the
 // existing runeImg()-style lookup pattern works unchanged for spells.
-// Run after a patch: node helpers/gen-summoner-spells.mjs
+// Run after a patch: node helpers/gen-summoner-spells.mjs  (the patch workflow
+// runs it, from the repo root: the paths below are relative to it)
 import fs from "node:fs";
 import path from "node:path";
 import https from "node:https";

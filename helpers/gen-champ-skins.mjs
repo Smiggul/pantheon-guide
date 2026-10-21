@@ -3,7 +3,8 @@
 //  Generates src/data/champSkins.js — per-champion splash-bearing skin numbers
 //  (base + real skins; chroma variants "Skin (Colour)" excluded, they reuse the
 //  parent splash). Pinned to public/ddragon/version.txt so it matches the
-//  bundled assets. Run after a patch (alongside setup_ddragon / gen-lcu-data):
+//  bundled assets. Run after a patch (alongside setup_ddragon / gen-lcu-data;
+//  the patch workflow runs it):
 //    node helpers/gen-champ-skins.mjs
 // ─────────────────────────────────────────────────────────────────────────────
 import fs from "fs";
@@ -16,11 +17,21 @@ const themes = fs.readFileSync(path.join(root, "src/data/skinThemes.js"), "utf8"
 const dds = [...themes.matchAll(/^\s*"([A-Za-z0-9]+)"\s*:/gm)].map((m) => m[1]);
 console.log(`patch ${ver} — ${dds.length} champions`);
 
+// A few retries: this is ~170 requests and runs unattended in the patch workflow.
+async function fetchJson(url, tries = 3) {
+  for (let i = 1; ; i++) {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return await r.json();
+    } catch (e) {
+      if (i >= tries) throw e;
+    }
+  }
+}
+
 async function fetchSkins(dd) {
-  const url = `https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/champion/${dd}.json`;
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${dd} ${r.status}`);
-  const d = await r.json();
+  const d = await fetchJson(`https://ddragon.leagueoflegends.com/cdn/${ver}/data/en_US/champion/${dd}.json`);
   const champ = d.data[Object.keys(d.data)[0]];
   const nums = champ.skins.filter((s) => !s.name.includes("(")).map((s) => s.num);
   if (!nums.includes(0)) nums.unshift(0);
@@ -28,14 +39,22 @@ async function fetchSkins(dd) {
 }
 
 const map = {};
+const failed = [];
 const batch = 12;
 for (let i = 0; i < dds.length; i += batch) {
   const slice = dds.slice(i, i + batch);
   const res = await Promise.allSettled(slice.map(fetchSkins));
   slice.forEach((dd, j) => {
-    map[dd] = res[j].status === "fulfilled" ? res[j].value : [0];
-    if (res[j].status !== "fulfilled") console.error("!!", dd, res[j].reason?.message);
+    if (res[j].status === "fulfilled") map[dd] = res[j].value;
+    else { failed.push(dd); console.error("!!", dd, res[j].reason?.message); }
   });
+}
+// Never write a partial list. A failed champion used to be written as [0] (base
+// skin only), which in the unattended patch workflow would quietly commit a
+// shrunken skin pool. Keep the previous file instead.
+if (failed.length) {
+  console.error(`gen-champ-skins: ${failed.length} champion(s) failed (${failed.join(", ")}); src/data/champSkins.js left unchanged.`);
+  process.exit(1);
 }
 
 const keys = Object.keys(map).sort();

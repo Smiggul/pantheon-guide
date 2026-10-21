@@ -7,7 +7,9 @@
 // Excludes: Arena-only items (map 30, not 11), champion-locked items
 // (requiredChampion — Ornn masterworks etc.), non-purchasable / not-in-store
 // items, and zero-cost trinkets/wards (handled separately as vision).
-// Run after setup_ddragon.py:  node helpers/gen-sr-items.mjs
+// Run after setup_ddragon.py:  node helpers/gen-sr-items.mjs  (the patch
+// workflow runs it; it was missing from there until 16.21.1, which left this
+// file stamped 16.17.1 for four patches)
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
