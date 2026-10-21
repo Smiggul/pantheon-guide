@@ -101,6 +101,26 @@ export default {
           reason: "From Spear Shot: Stormraider's Surge, Axiom Arcanist, and the Absorb Life + Legend: Haste secondary. Not from him: no source gives his second and third Sorcery runes, so Transcendence and Scorch are the ones Pantheon Top already takes in his standard pages here. Axiom Arcanist adds damage to Grand Starfall and cuts its cooldown on every takedown, which suits a champion who uses his ultimate to join fights across the map. Stormraider's needs 25% of a champion's maximum health dealt to trigger, which Pantheon's spear-into-empowered-combo reaches reliably. Absorb Life heals on each last hit and kill, keeping him healthy through a lane of trades, and Legend: Haste turns takedowns into permanent haste on his basic abilities, so more Comet Spears.",
         },
         sideItems: ["Lord Dominik's Regards", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Guardian Angel", "Serpent's Fang", "Youmuu's Ghostblade"],
+        // How to play the Stormraider's line, from a second high-elo source.
+        // Every kit fact below was checked against Riot's 16.21 text: a tapped Q
+        // refunds 60% of its cooldown, Mortal Will empowers the next ability at
+        // 5 stacks, Grand Starfall "instantly readies Mortal Will", and
+        // Stormraider's Surge triggers on 25% max health within 3 seconds.
+        playTips: {
+          source: "LoL Dobby, \"How a Full AD Pantheon Reached Rank 10\" (19 Oct 2026): a Korean-server Rank 10 Pantheon main on the same Stormraider's line.",
+          tips: [
+            { phase: "Lane", text: "Harass with Q plus Scorch, and stack Manaflow Band off every Q that lands. Tap Q in trades: a tap refunds 60% of its cooldown, while a charged throw slows you and leaves you exposed." },
+            { phase: "Lane", text: "Track the enemy's level 2 spike while you poke. When you go in, open with Q, Flash and finish with W, auto, Q; Ignite early so the low-health Q bonus finishes them." },
+            { phase: "Lane", text: "Go in with at least 3 Mortal Will stacks, so W and an auto bring you to 5 and the Q comes out empowered. Even 2 stacks can get there with an extra auto." },
+            { phase: "Lane", text: "Hold W until they burn a skill or Flash, then follow the Flash with W: the damage procs Stormraider's for the chase, and the same speed gets you out if it goes wrong." },
+            { phase: "Level 6", text: "Land a Q, back off fully as if you recalled, then ult as they walk up to farm. Don't W the instant you land; keep W, auto, Q for the finish." },
+            { phase: "Level 6", text: "Grand Starfall fills Mortal Will on landing, so you can open with the empowered Q without spending Flash." },
+            { phase: "Mid game", text: "Bastionbreaker first makes the empowered Q hit hard and snowballs off tower plating; Voltaic Cyclosword second. Once you have lethality, the empowered Q alone procs Stormraider's." },
+            { phase: "Mid game", text: "Spend Mortal Will on Q rather than W: open Q, Flash, W instead of Flash, W. The empowered Q hits harder and comes back faster for a second Q. With full stacks and a threat on you, Q then E leaves them no counterplay." },
+            { phase: "Teamfights", text: "Enemies can stand on your ult landing spot, so keep Flash for after you land. Hunt the marksman, and look for picks with Oracle Lens." },
+          ],
+          variant: "His build differs from Spear Shot's: Manaflow Band instead of Axiom Arcanist, Triumph + Cut Down instead of Absorb Life + Legend: Haste, and two Adaptive Force shards. He goes Doran's Blade into Bastionbreaker, Voltaic Cyclosword and an armor-penetration item, finishes items before upgrading basic Boots, and takes Serpent's Fang second into heavy shields. Spells: Ignite or Teleport with Flash. He names Malphite and Poppy as the hard matchups.",
+        },
       }],
       Mid: [{
         label: "Lethality Assassin",

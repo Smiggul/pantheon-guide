@@ -3512,6 +3512,32 @@ useEffect(() => {
               {buildCoreNote}
             </p>
           )}
+          {/* How to play an alternate, when its data carries a play pattern
+              (e.g. Pantheon's Stormraider's line). One line per tip, grouped
+              by game phase, with the source credited underneath. */}
+          {showCore && activeAlt?.playTips?.tips?.length > 0 && (
+            <div style={{ display:"flex", flexDirection:"column", gap:"6px",
+              borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
+              <span style={{ fontSize:"13px", fontWeight:600, color:S.gold }}>How to play it</span>
+              {activeAlt.playTips.tips.map((t, i) => (
+                <div key={i} style={{ display:"grid", gridTemplateColumns:"84px 1fr", gap:"10px",
+                  fontSize:"13px", lineHeight:1.6 }}>
+                  <span style={{ color:S.goldDim }}>{t.phase}</span>
+                  <span style={{ color:"#c9cdd2" }}>{t.text}</span>
+                </div>
+              ))}
+              {activeAlt.playTips.variant && (
+                <p style={{ margin:"4px 0 0", fontSize:"12.5px", color:"#9aa0a6", lineHeight:1.6 }}>
+                  {activeAlt.playTips.variant}
+                </p>
+              )}
+              {activeAlt.playTips.source && (
+                <span style={{ fontSize:"11.5px", color:"rgba(255,255,255,.4)" }}>
+                  Source: {activeAlt.playTips.source}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
