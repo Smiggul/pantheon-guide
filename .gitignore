@@ -33,3 +33,6 @@ exports/
 # Python bytecode from helpers/
 __pycache__/
 *.pyc
+
+# taste-skill working files (direction sheet, inspector screenshots, mockups)
+.taste-skill/

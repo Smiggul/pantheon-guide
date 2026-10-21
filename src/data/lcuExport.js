@@ -279,6 +279,18 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   // Only meaningful for a laner; null when it would just repeat the standard start.
   const tailoredRaw = !pet && !isSupport ? laneStartFor(champDd, roleName, roleData, foe) : null;
   const tailored = tailoredRaw && tailoredRaw.item !== prof.start ? tailoredRaw : null;
+  // When the opponent WAS checked (Top, melee) and the usual start still holds,
+  // say so in the block title: otherwise the client shows "standard" and the
+  // start looks like it ignored who you are laning against. Pantheon into
+  // Mordekaiser is the case: 88% of Emerald+ games start Doran's Blade there.
+  const startChecked = !pet && !isSupport && !!foe && roleName === "Top" && !isRanged(champDd);
+  const worstLane = startChecked && (roleData?.bans || []).includes(foe.display);
+  const holdsWhy = worstLane
+    ? "your usual start holds: a hard matchup, but you win its early lane"
+    : "your usual start holds: melee lane, not a worst matchup";
+  const standardTitle = startChecked && !tailored
+    ? `Start — vs ${foe.display} (${tailoredRaw ? tailoredRaw.label : holdsWhy})`
+    : `Start — standard (${prof.startLabel})`;
   const startBlocks = pet
     ? [
         // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
@@ -293,16 +305,21 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
         itemBlock("Start — support quest", ["World Atlas", "Health Potion", "Stealth Ward"]),
         itemBlock("Support item — finish (pick one)", supFin),
       ]
+    : startChecked
+    ? [
+        // The opponent was checked, so there is ONE start, chosen for them: the
+        // tailored one, or the usual one with the reason it still holds. Offering
+        // the generic alternatives next to it would undo the decision (the user's
+        // call, 2026-10-21: "only one starter vs Morde, not 3").
+        tailored
+          ? itemBlock(`Start — vs ${foe.display} (${tailored.label})`, [tailored.item, "Health Potion", "Stealth Ward"])
+          : itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
+      ]
     : [
-        // Laning starts, each a complete buy. A start tailored to the opponent
-        // goes first when one applies; the standard then follows as the swap.
-        ...(tailored
-          ? [itemBlock(`Start — vs ${foe.display} (${tailored.label})`, [tailored.item, "Health Potion", "Stealth Ward"])]
-          : []),
-        itemBlock(`Start — standard (${prof.startLabel})`, [prof.start, "Health Potion", "Stealth Ward"]),
-        // Skip the generic Shield block when Shield is already the tailored start
-        // (or the standard one), so it is never listed twice.
-        ...(prof.start !== "Doran's Shield" && tailored?.item !== "Doran's Shield"
+        // Nobody to plan against yet (or a lane the start logic does not judge):
+        // each laning start as a complete buy, the standard first, then the swaps.
+        itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
+        ...(prof.start !== "Doran's Shield"
           ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
           : []),
         itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
@@ -335,7 +352,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     itemBlock(`Core — ${roleName}`, coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
     ...(vsItems.length ? [itemBlock(vsTitle, vsItems)] : []),
-    itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`, [...ahead, ...situational]),
+    // Every item appears once: what the matchup block already lists is left out here.
+    itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`,
+      [...ahead, ...situational].filter((n) => !vsItems.includes(n))),
     itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
   ].filter((b) => b.items.length > 0);
 
