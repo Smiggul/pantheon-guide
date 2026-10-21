@@ -25,6 +25,25 @@ const itemBlock = (type, names) => ({
     .map((id) => ({ id: String(id), count: 1 })),
 });
 
+// Every item appears once in an exported set (the user's rule, 2026-10-21).
+// Before this, 9,844 of 9,945 roster sets listed some item twice: core items
+// again under Situational, the boots again under Situational. An item stays in
+// the first block that lists it, except that the matchup block (`keep`) outranks
+// the generic lists, so a boot proposed against this opponent leaves the Boots
+// list instead. Wards and potions are exempt: they are bought again and again.
+const REBUY = ["Health Potion", "Refillable Potion", "Control Ward", "Stealth Ward",
+  "Farsight Alteration", "Oracle Lens"];
+function onceEach(blocks, keep = null) {
+  const rebuy = new Set(REBUY.map((n) => String(itemId(n))));
+  const seen = new Set((keep?.items || []).map((i) => i.id));
+  return blocks
+    .map((b) => (b === keep ? b : {
+      ...b,
+      items: b.items.filter((i) => rebuy.has(i.id) || (!seen.has(i.id) && seen.add(i.id))),
+    }))
+    .filter((b) => b.items.length > 0);
+}
+
 // ── Runes → LCU /lol-perks/v1/pages payload ─────────────────────────────────
 //  selectedPerkIds order: keystone, 3 primary, 2 secondary, 3 shards (9 total).
 // Which tree each rune belongs to, mirroring RUNE_TREES in App.jsx. NOT derived
@@ -243,22 +262,35 @@ function supportFinishers(coreNoBoots) {
 //  set is exactly what the user forged (runes still come from the rune page).
 //  foe (optional): the lane opponent's champ object, when known. Tailors the
 //  recommended starter (see laneStartFor) and names them in the set title.
-export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null) {
+//
+//  champName (optional): the display name for the set title (falls back to the
+//  Data Dragon key, which reads wrong for Wukong: "MonkeyKing").
+//
+//  Block titles (the subheadings) stay SHORT: the in-game shop cuts long ones
+//  off (the user, 2026-10-21: "extensive unnecessary description in the
+//  subheadings"). The reasons that used to ride in them come back in `notes`,
+//  which buildExport strips off before anything reaches the client; the app's
+//  in-game view shows them instead. The set's own title keeps champion, role and
+//  opponent ("FRGE.GG — Pantheon Top vs Mordekaiser"); the user may want short
+//  forms later ("Panth vs Morde"), undecided.
+export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null, champName = null) {
+  const who = champName || champDd;
   const hasCustom = customItems &&
     ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.boots?.length || 0) + (customItems.situational?.length || 0) > 0);
   if (hasCustom) {
     const key = CHAMP_KEYS[champDd];
     const blocks = [
-      itemBlock("Starter", [...(customItems.starter || []), "Stealth Ward"]),
+      itemBlock("Start", [...(customItems.starter || []), "Stealth Ward"]),
       itemBlock("Core", customItems.core || []),
       itemBlock("Boots", customItems.boots || []),
       itemBlock("Situational", customItems.situational || []),
-      itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
+      itemBlock("Vision", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
     ].filter((b) => b.items.length > 0);
     return {
-      title: `FRGE.GG — ${champDd} ${roleName} (forged)`,
+      title: `FRGE.GG — ${who} ${roleName} (forged)`,
       type: "custom", map: "any", mode: "any", sortrank: 1, startedFrom: "blank",
       associatedMaps: [11, 12], associatedChampions: key ? [key] : [], blocks,
+      notes: { start: null, foe: null, traits: [], swaps: [] },
     };
   }
 
@@ -280,39 +312,36 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const tailoredRaw = !pet && !isSupport ? laneStartFor(champDd, roleName, roleData, foe) : null;
   const tailored = tailoredRaw && tailoredRaw.item !== prof.start ? tailoredRaw : null;
   // When the opponent WAS checked (Top, melee) and the usual start still holds,
-  // say so in the block title: otherwise the client shows "standard" and the
-  // start looks like it ignored who you are laning against. Pantheon into
-  // Mordekaiser is the case: 88% of Emerald+ games start Doran's Blade there.
+  // the title still names them, so it never looks like it ignored who you are
+  // laning against. Pantheon into Mordekaiser is the case: 88% of Emerald+ games
+  // start Doran's Blade there.
   const startChecked = !pet && !isSupport && !!foe && roleName === "Top" && !isRanged(champDd);
-  const worstLane = startChecked && (roleData?.bans || []).includes(foe.display);
-  const holdsWhy = worstLane
-    ? "your usual start holds: a hard matchup, but you win its early lane"
-    : "your usual start holds: melee lane, not a worst matchup";
-  const standardTitle = startChecked && !tailored
-    ? `Start — vs ${foe.display} (${tailoredRaw ? tailoredRaw.label : holdsWhy})`
-    : `Start — standard (${prof.startLabel})`;
+  const standardTitle = startChecked && !tailored ? `Start vs ${foe.display}` : "Start";
+  // A reason only when the start CHANGED for the opponent. "Your usual start
+  // holds" was cut as noise (the user, 2026-10-21: "completely unnecessary").
+  const startWhy = tailored ? tailored.label : null;
   const startBlocks = pet
     ? [
         // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
         // Potion (150g) would push it to 600g, which isn't affordable at level 1.
-        itemBlock(`Jungle pet — ${pet}`, [pet, "Health Potion", "Stealth Ward"]),
-        itemBlock("Alt pets", ["Scorchclaw Pup", "Gustwalker Hatchling", "Mosstomper Seedling"].filter((p) => p !== pet)),
+        itemBlock("Jungle pet", [pet, "Health Potion", "Stealth Ward"]),
+        itemBlock("Other pets", ["Scorchclaw Pup", "Gustwalker Hatchling", "Mosstomper Seedling"].filter((p) => p !== pet)),
       ]
     : isSupport
     ? [
         // Support quest item (World Atlas → Runic Compass) + the finished support
         // items it upgrades into — recommended finisher first, then the rest.
-        itemBlock("Start — support quest", ["World Atlas", "Health Potion", "Stealth Ward"]),
-        itemBlock("Support item — finish (pick one)", supFin),
+        itemBlock("Start", ["World Atlas", "Health Potion", "Stealth Ward"]),
+        itemBlock("Support item", supFin),
       ]
     : startChecked
     ? [
         // The opponent was checked, so there is ONE start, chosen for them: the
-        // tailored one, or the usual one with the reason it still holds. Offering
+        // tailored one, or the usual one titled with the opponent. Offering
         // the generic alternatives next to it would undo the decision (the user's
         // call, 2026-10-21: "only one starter vs Morde, not 3").
         tailored
-          ? itemBlock(`Start — vs ${foe.display} (${tailored.label})`, [tailored.item, "Health Potion", "Stealth Ward"])
+          ? itemBlock(`Start vs ${foe.display}`, [tailored.item, "Health Potion", "Stealth Ward"])
           : itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
       ]
     : [
@@ -320,14 +349,14 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
         // each laning start as a complete buy, the standard first, then the swaps.
         itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
         ...(prof.start !== "Doran's Shield"
-          ? [itemBlock("Start — vs poke / ranged harass", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
+          ? [itemBlock("Start vs poke", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
           : []),
-        itemBlock("Start — vs heavy damage (tanky)", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
+        itemBlock("Start, tanky", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
         ...(prof.greedy
-          ? [itemBlock("Start — greedy / snowball", [prof.greedy, "Health Potion", "Stealth Ward"])]
+          ? [itemBlock("Start, greedy", [prof.greedy, "Health Potion", "Stealth Ward"])]
           : []),
         ...(profileOf(champDd, coreNoBoots) === "AD_RANGED"
-          ? [itemBlock("Start — attack speed / on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
+          ? [itemBlock("Start, on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
           : []),
       ];
 
@@ -337,30 +366,26 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     ? matchupAdvice({ champ: { dd: champDd }, roleName, roleData, enemyClass, page: null, foe })
     : null;
   const vsItems = (advice?.items || []).map((i) => i.to);
-  const vsTitle = advice
-    ? `Vs ${foe.display} — ${advice.chips.slice(0, 3).map((c) => c.label.toLowerCase()).join(", ")}`
-    : "";
-
-  const blocks = [
+  const vsBlock = vsItems.length ? itemBlock(`Vs ${foe.display}`, vsItems) : null;
+  const blocks = onceEach([
     ...startBlocks,
     // First back: ~900-1300g. The first core item's real building block, a
     // damage-type-appropriate filler (never a Long Sword on an AP champ), the
     // greedy stacking option where it applies, then boots and a ward.
-    itemBlock("First back (~1000g)", isSupport
+    itemBlock("First back", isSupport
       ? [supFin[0], "Boots", "Control Ward"]
       : [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
-    itemBlock(`Core — ${roleName}`, coreNoBoots),
+    itemBlock("Core", coreNoBoots),
     itemBlock("Boots", [boots, ...BOOTS]),
-    ...(vsItems.length ? [itemBlock(vsTitle, vsItems)] : []),
-    // Every item appears once: what the matchup block already lists is left out here.
-    itemBlock(`Situational vs ${String(enemyClass).replace(/_/g, " ").toLowerCase()}`,
-      [...ahead, ...situational].filter((n) => !vsItems.includes(n))),
-    itemBlock("Vision & consumables", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
-  ].filter((b) => b.items.length > 0);
+    ...(vsBlock ? [vsBlock] : []),
+    itemBlock("Situational", [...ahead, ...situational]),
+    itemBlock("Vision", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
+  ], vsBlock);
 
   const key = CHAMP_KEYS[champDd];
   return {
-    title: `FRGE.GG — ${champDd} ${roleName}${foe ? ` vs ${foe.display}` : ""}`,
+    // "FRGE.GG" must lead: main.cjs replaces earlier sets by that prefix.
+    title: `FRGE.GG — ${who} ${roleName}${foe ? ` vs ${foe.display}` : ""}`,
     type: "custom",
     map: "any",
     mode: "any",
@@ -369,6 +394,14 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     associatedMaps: [11, 12],
     associatedChampions: key ? [key] : [],
     blocks,
+    // For the app only, never sent: why the start was chosen, who it was
+    // chosen against, their traits, and which core items the matchup swaps.
+    notes: {
+      start: startWhy || null,
+      foe: foe ? foe.display : null,
+      traits: (advice?.chips || []).map((c) => c.label),
+      swaps: (advice?.items || []).filter((i) => i.from).map((i) => ({ from: i.from, to: i.to })),
+    },
   };
 }
 
@@ -394,7 +427,8 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
   const rune = buildRunePayload(runes, `FRGE ${label}`);
   // Bans fall back to champ level, the same way the Recommended Ban tiles read them.
   const itemRole = { ...(roleData || {}), bans: roleData?.bans || champ.bans || [] };
-  const itemSet = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe);
+  // notes are for the app; the client gets the item set without them.
+  const { notes, ...itemSet } = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe, champ.display);
   return {
     champion: champ.display,
     role: roleName,
@@ -405,6 +439,7 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
     runeMissing: rune.missing,
     runeWrongTree: rune.wrongTree,
     itemSet,
+    notes,
   };
 }
 

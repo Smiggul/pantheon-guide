@@ -41,6 +41,28 @@ export const colors = {
   behind: { text:"#7eb8f7", bg:"rgba(74,111,165,.18)",  border:"#4a6fa560" },
 };
 
+// ── In-game view (src/InGameView.jsx) ─────────────────────────────────────────
+// Flat surfaces from the 2026-10-21 redesign mock (Taste Skill true-black-flat
+// with the brand palette kept). Orange marks only what the matchup changed;
+// gold is kept for the wordmark.
+export const inGame = {
+  ground:  "#1b1b1e",
+  surface: "#232327",
+  raised:  "#2a2f38",
+  active:  "#2f3036",
+  rule:    "#2c2c31",
+  text:    "#f5f5f5",
+  muted:   "#b4b4b4",
+  faint:   "#949494",
+  accent:  "#f97316",
+  gold:    "#d4af37",
+  live:    "#3fc07a",
+  radiusCard: "16px",
+  radiusIcon: "6px",
+  display: "'Spartan MB', 'Chakra Petch', system-ui, sans-serif",
+  font:    "'Chakra Petch', system-ui, sans-serif",
+};
+
 // ── Typography ────────────────────────────────────────────────────────────────
 export const text = {
   eyebrow: {
