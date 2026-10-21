@@ -2,14 +2,17 @@ name: Auto patch update
 
 # Detects a new League (Data Dragon) patch and opens a PR that refreshes the
 # bundled assets + regenerated LCU id tables. League patches land roughly every
-# two weeks; this checks every 3 days so a new patch is picked up within days.
+# two weeks. It checks twice a day: a run with no new patch exits at the version
+# check in seconds, so frequent runs cost almost nothing. The old every-3-days
+# schedule left a patch unnoticed for up to three days (26.21 slipped that way).
+# The schedule only fires from the default branch (frge-gg).
 #
 # Requires (one-time repo setting): Settings → Actions → General → Workflow
 # permissions → "Allow GitHub Actions to create and approve pull requests".
 
 on:
   schedule:
-    - cron: "17 8 */3 * *" # 08:17 UTC every 3rd day
+    - cron: "17 6,18 * * *" # 06:17 and 18:17 UTC, every day
   workflow_dispatch: {} # allow a manual run from the Actions tab
 
 permissions:
