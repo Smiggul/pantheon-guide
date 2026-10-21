@@ -6,7 +6,7 @@
 //  All IDs come from src/data/lcuData.js (generated from CommunityDragon +
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
-import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
+import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS, PARTYPE } from "./lcuData.js";
 import { isRanged, matchupAdvice } from "./matchupAdjust.js";
 import { counterInteractions } from "./abilityInteractions.js";
 import { tagsOf } from "./counterPicker.js";
@@ -204,6 +204,26 @@ const PROFILE = {
   TANK:      { start: "Doran's Shield", startLabel: "durable", filler: "Ruby Crystal",    greedy: null },
 };
 
+// ── Doran's Ring without Mana ───────────────────────────────────────────────
+// Ring's Drain restores Mana, and "If you can't gain Mana, heal for 45% of this
+// value instead" (Riot 16.21.1). A champion without Mana (PARTYPE: Energy,
+// Shield, Heat, None, ...) still gets its 18 AP and 90 Health, and heals 0.45
+// Health a second (0.9 after hitting a champion). That is still the most common
+// start for most of them, so Ring stays by default. Share of games that start
+// Ring, lolalytics Emerald+ 16.20 (16.21 and OP.GG agree): Rumble Top 90%,
+// Vladimir Mid 87%, Akali Top 72%, Mordekaiser Top 71%, Akali Mid 63%.
+// Keyed by champion AND role: a start is a lane call. Only the manaless
+// champions whose own data says otherwise are listed:
+const MANALESS_START = {
+  "Kennen:Top":   "Doran's Blade", // Blade 52%, Ring 27%, Bow 17% (51.6k games)
+  // Dark Seal 36%, Blade 30%, Shield 14%, Ring 13% (183k games). Dark Seal stays
+  // listed as the AP profile's "Start, greedy" block.
+  "Katarina:Mid": "Doran's Blade",
+};
+const startFor = (champDd, roleName, prof) =>
+  (prof.start === "Doran's Ring" && PARTYPE[champDd] !== "Mana" &&
+    MANALESS_START[`${champDd}:${roleName}`]) || prof.start;
+
 // ── Matchup-aware lane start ──────────────────────────────────────────────────────────
 // The PROFILE start above is chosen by who YOU are. Which Doran's to open with
 // also depends on who you are laning against, so once the opponent is known two
@@ -300,6 +320,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const firstCore = coreNoBoots[0] || core[0];
   const firstBack = firstCore ? FIRST_BACK[firstCore] : null;
   const prof = PROFILE[profileOf(champDd, coreNoBoots)];
+  const start = startFor(champDd, roleName, prof);
   const situational = roleData.sideItems || [];
   const ahead = (roleData.data?.[enemyClass]?.ahead || []).map((e) => e?.name).filter(Boolean);
 
@@ -310,7 +331,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const supFin = isSupport ? supportFinishers(coreNoBoots) : null;
   // Only meaningful for a laner; null when it would just repeat the standard start.
   const tailoredRaw = !pet && !isSupport ? laneStartFor(champDd, roleName, roleData, foe) : null;
-  const tailored = tailoredRaw && tailoredRaw.item !== prof.start ? tailoredRaw : null;
+  const tailored = tailoredRaw && tailoredRaw.item !== start ? tailoredRaw : null;
   // When the opponent WAS checked (Top, melee) and the usual start still holds,
   // the title still names them, so it never looks like it ignored who you are
   // laning against. Pantheon into Mordekaiser is the case: 88% of Emerald+ games
@@ -342,13 +363,13 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
         // call, 2026-10-21: "only one starter vs Morde, not 3").
         tailored
           ? itemBlock(`Start vs ${foe.display}`, [tailored.item, "Health Potion", "Stealth Ward"])
-          : itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
+          : itemBlock(standardTitle, [start, "Health Potion", "Stealth Ward"]),
       ]
     : [
         // Nobody to plan against yet (or a lane the start logic does not judge):
         // each laning start as a complete buy, the standard first, then the swaps.
-        itemBlock(standardTitle, [prof.start, "Health Potion", "Stealth Ward"]),
-        ...(prof.start !== "Doran's Shield"
+        itemBlock(standardTitle, [start, "Health Potion", "Stealth Ward"]),
+        ...(start !== "Doran's Shield"
           ? [itemBlock("Start vs poke", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
           : []),
         itemBlock("Start, tanky", ["Doran's Helm", "Health Potion", "Stealth Ward"]),

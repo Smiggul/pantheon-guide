@@ -27,6 +27,9 @@ const CHAMP = {}; for (const v of Object.values(champs)) CHAMP[v.id] = Number(v.
 // Base attack range, for melee-vs-ranged starter calls. Melee tops out at 225
 // and ranged starts at 300 — there is a clean gap, so 300 splits them.
 const RANGE = {}; for (const v of Object.values(champs)) RANGE[v.id] = v.stats.attackrange;
+// Resource bar ("Mana", "Energy", "Fury", "Shield", "None", ...), for the
+// starter call: Doran's Ring restores Mana, so it only fits champions who use it.
+const PAR = {}; for (const v of Object.values(champs)) PAR[v.id] = v.partype;
 
 const idByName = {}; for (const [id, v] of Object.entries(full)) if (!(v.name in idByName)) idByName[v.name] = id;
 
@@ -109,8 +112,11 @@ ${lit(CHAMP)}
 export const ATTACK_RANGE = {
 ${lit(RANGE)}
 };
+export const PARTYPE = {
+${lit(PAR)}
+};
 export const ITEM_IDS = {
 ${lit(ITEM)}
 };
 `);
-console.log(`Wrote src/data/lcuData.js — ddragon ${ver}: ${Object.keys(STYLE).length} styles, ${Object.keys(RUNE).length} runes, ${Object.keys(SHARD).length} shards, ${Object.keys(FB).length} first-back, ${Object.keys(CHAMP).length} champ keys, ${Object.keys(RANGE).length} attack ranges, ${Object.keys(ITEM).length} items.`);
+console.log(`Wrote src/data/lcuData.js — ddragon ${ver}: ${Object.keys(STYLE).length} styles, ${Object.keys(RUNE).length} runes, ${Object.keys(SHARD).length} shards, ${Object.keys(FB).length} first-back, ${Object.keys(CHAMP).length} champ keys, ${Object.keys(RANGE).length} attack ranges, ${Object.keys(PAR).length} resource types, ${Object.keys(ITEM).length} items.`);
