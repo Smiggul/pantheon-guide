@@ -32,7 +32,10 @@ export default {
     Jungle:[{
       label:"Lethality burst", tag:"alt",
       corePath:"Voltaic Cyclosword  ›  Axiom Arc  ›  Ionian Boots of Lucidity  ›  Serylda's Grudge",
-      coreNote:"Her previous main build, and still the second most common line: Axiom Arc follows Voltaic Cyclosword in about 27% of Emerald+ jungle games that start Voltaic (Lolalytics, ~12k), and Serylda's Grudge comes next in 39% of those. It trades the bruiser line's armor and damage deferral for lethality and ability haste, so the pack kills one isolated target faster, but she has much less to fall back on if the first all-in fails. Take it into squishy teams you can catch alone; take the bruiser line into front lines and long fights. It uses the same Conqueror page, since the rune data is not split by build.",
+      // Research: Her previous main build, and still the second most common line: Axiom Arc follows Voltaic in about 27%
+      //   of Emerald+ jungle games that start Voltaic (lolalytics, ~12k), and Serylda's comes next in 39% of
+      //   those. It uses the same Conqueror page because the rune data is not split by build.
+      coreNote:"The lethality line: Axiom Arc after Voltaic Cyclosword, then Serylda's Grudge. It trades the bruiser line's armor and damage deferral for lethality and ability haste, so the pack kills one isolated target faster, but you have much less to fall back on if the first all-in fails. Take it into squishy teams you can catch alone; take the bruiser line into front lines and long fights. Same Conqueror page.",
       runes:{...NAAFIRI_JGL_DEFAULT_RUNES},
       sideItems:["Edge of Night","Hubris","Serpent's Fang","Maw of Malmortius","Guardian Angel"],
     }],
@@ -42,7 +45,12 @@ export default {
       bans:["Nocturne","Wukong","Briar"], replacements:["Warwick","Sett","Shyvana"],
       role:"Bruiser / Pack-Hunt Skirmisher",
       corePath:"Voltaic Cyclosword  ›  Ionian Boots of Lucidity  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Jungle Naafiri now builds as a bruiser rather than a one-shot assassin. On 26.20 Black Cleaver follows Voltaic Cyclosword in 55% of Emerald+ jungle games that start Voltaic (Lolalytics, ~24k), against 27% for Axiom Arc, and Death's Dance comes next 65% of the time. 55% of her three-item builds contain Black Cleaver, and Voltaic Cyclosword into Black Cleaver into Death's Dance is OP.GG's top core by a wide margin (23% of cores, 55.5% over ~10.5k games; the next is 7%). Her damage is physical and spread across a long skirmish, so Black Cleaver's armor shred and Fervor movement speed keep paying off, and Death's Dance spreads incoming burst over three seconds and wipes what is left on a takedown. That suits the Conqueror page, which rewards long fights over a single burst. The lethality line is kept as an alternate.",
+      // Research: On 26.20 Black Cleaver follows Voltaic in 55% of Emerald+ jungle games that start Voltaic (lolalytics,
+      //   ~24k), against 27% for Axiom Arc, and Death's Dance comes next 65% of the time. 55% of her three-item
+      //   builds contain Black Cleaver, and Voltaic into Cleaver into Death's Dance is OP.GG's top core by a wide
+      //   margin (23% of cores, 55.5% over ~10.5k games; the next is 7%). The lethality line is kept as an
+      //   alternate.
+      coreNote:"Jungle Naafiri builds as a bruiser, not a one-shot assassin: Voltaic Cyclosword, Black Cleaver, then Death's Dance. Your damage is physical and spread across a long skirmish, so Black Cleaver's armor shred and Fervor movement speed keep paying off, and Death's Dance spreads incoming burst over three seconds and wipes what is left on a takedown. That suits the Conqueror page, which rewards long fights over a single burst.",
       sideItems:["Plated Steelcaps","Mercury's Treads","Spear of Shojin","Guardian Angel","Serpent's Fang","Edge of Night","Maw of Malmortius","Axiom Arc","Serylda's Grudge","Hubris"],
       data:{
         JUGGERNAUT:{ahead:[I("Serylda's Grudge","Slow keeps them inside the pack's range."),I("Edge of Night","Blocks their key engage CC."),I("Voltaic Cyclosword","Extra proc burst before their damage scales up.")],behind:[I("Edge of Night","Still blocks their key engage CC."),I("Maw of Malmortius","Shield vs their all-in."),I("Guardian Angel","Second chance if you get caught.")],runes:{...NAAFIRI_JGL_DEFAULT_RUNES}},

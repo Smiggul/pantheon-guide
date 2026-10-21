@@ -34,7 +34,11 @@ export default {
       label: "Hail of Blades (Lethality)",
       tag: "alt",
       corePath: "Stridebreaker  ›  Youmuu's Ghostblade  ›  The Collector  ›  Sterak's Gage",
-      coreNote: "A genuine off-meta novelty, not a second meta build — go in with eyes open. Hail of Blades Sett trades the juggernaut identity for an early burst-and-roam tempo: Stridebreaker still opens (the slow is non-negotiable for landing W), then Youmuu's and Collector turn the HoB burst window into assassin-grade damage on squishies. Streamer VODs running it (TheBausffs among them) build exactly this Stride → Youmuu's → Collector line. THE NUMBERS: on patch 26.17 lolalytics puts Hail of Blades Sett Top at roughly 48% over ~800 games at a 0.05% pick rate, versus ~50-52% for the standard Conqueror/Stridebreaker build across ~77k games — so it is about 2-4 points WORSE with a tiny sample behind it. Take it for the playstyle and the surprise factor in a snowball lane, not because it wins more.",
+      // Research: Streamer VODs running it (TheBausffs among them) build exactly this Stridebreaker into Youmuu's into
+      //   Collector line. On patch 26.17 lolalytics puts Hail of Blades Sett Top at roughly 48% over ~800 games at
+      //   a 0.05% pick rate, versus ~50-52% for the standard Conqueror/Stridebreaker build across ~77k games:
+      //   about 2-4 points worse with a tiny sample behind it.
+      coreNote: "An off-meta novelty, not a second meta build: it wins about 2-4 points less than the standard build. Hail of Blades trades the juggernaut identity for early burst-and-roam tempo. Stridebreaker still opens, since its slow is non-negotiable for landing W, then Youmuu's and The Collector turn the Hail of Blades window into assassin-grade damage on squishies. Take it for the playstyle and the surprise factor in a snowball lane, not because it wins more.",
       runes: {
         keystone: "Hail of Blades",
         primary: "Domination",
@@ -50,7 +54,11 @@ export default {
       label: "Hail of Blades (Lethality)",
       tag: "alt",
       corePath: "Hubris  ›  Boots of Swiftness  ›  Voltaic Cyclosword  ›  The Collector",
-      coreNote: "The full-lethality assassin build popularised by Nightblue TV — not a bruiser jungle at all. The whole idea rests on one number: The Show Stopper carries a 120% AD ratio, so stacking lethality, AD and crit turns Sett's ultimate into an execute that one-shots a carry outright rather than a teamfight displacement. Hubris opens after blue and snowballs AD off every takedown, Voltaic Cyclosword adds 25 lethality plus the energised slow to stick to targets, and The Collector supplies the crit and its own execute. Boots of Swiftness over Steelcaps, deliberately — reach is Sett's problem, not survivability. BE HONEST ABOUT THIS ONE: Sett Jungle sits near 47% win rate at a 0.05% pick rate, and Nightblue's own verdict after seven games of testing was that Sett has bonus damage to monsters but 'nobody plays him in the jungle because his ganks are dooky' — the build works, the champion's gank pattern is what holds it back. A snowball pocket pick with a genuinely spectacular ceiling, not a ranked default.",
+      // Research: Popularised by Nightblue TV. Voltaic adds 25 lethality. Sett Jungle sits near 47% win rate at a 0.05%
+      //   pick rate, and Nightblue's own verdict after seven games of testing was that Sett has bonus damage to
+      //   monsters but "nobody plays him in the jungle because his ganks are dooky": the build works, the
+      //   champion's gank pattern holds it back.
+      coreNote: "A full-lethality assassin build, not a bruiser jungle. The Show Stopper has a 120% AD ratio, so lethality, AD and crit turn your ult into an execute that one-shots a carry. Hubris after blue snowballs AD off takedowns, Voltaic Cyclosword adds lethality and a slow to stick, and The Collector adds crit and its own execute. Boots of Swiftness over Steelcaps: reach is Sett's problem. Sett Jungle already wins below average and his ganks are weak: a pocket pick, not a ranked default.",
       runes: {
         keystone: "Hail of Blades",
         primary: "Domination",
@@ -68,7 +76,10 @@ export default {
       bans:["Garen","Gnar","Kled"], replacements:["Renekton","Wukong","Pantheon"],
       role:"Juggernaut / Tank",
       corePath:"Stridebreaker  ›  Black Cleaver  ›  Overlord's Bloodmail  ›  Sterak's Gage",
-      coreNote:"Sett's highest-performing Top line on 26.17 (A tier, ~50-52% across ~77k games). Stridebreaker's active slow sticks targets inside Haymaker range; Black Cleaver second is the key addition — Sett's Q and W are both AD-scaling and his auto-Q-auto chain shreds armour fast, so the Cleaver stacks amplify every follow-up hit from you AND your team, while the HP and haste feed his trading pattern directly. Overlord's Bloodmail then converts that HP into damage amp, and Sterak's closes it: Grit (the W mechanic) stores 8% of damage taken as a grey health bar and Haymaker expends it as bonus true damage, so the more he absorbs the harder he punches. Buy boots (Plated Steelcaps vs AD, Mercury's vs CC) after the first item. Heartsteel and Titanic Hydra remain fine alternates if the game goes long.",
+      // Research: Sett's highest-performing Top line on 26.17 (A tier, ~50-52% across ~77k games). Grit (the W mechanic)
+      //   stores 8% of damage taken as a grey health bar, and Haymaker expends it as bonus true damage. Heartsteel
+      //   and Titanic Hydra remain fine alternates if the game goes long.
+      coreNote:"Stridebreaker's slow sticks targets inside Haymaker range. Black Cleaver second is the key: Sett's Q and W scale with AD and his auto-Q-auto chain stacks the shred fast, so every follow-up hit from you and your team lands harder, and its health and haste feed your trades. Overlord's Bloodmail turns health into damage; Sterak's closes, and the more you absorb, the more Grit Haymaker spends as true damage. Boots after the first item: Plated Steelcaps into AD, Mercury's into CC.",
       sideItems:["Plated Steelcaps","Warmog's Armor","Gargoyle Stoneplate","Dead Man's Plate","Force of Nature","Mercury's Treads","Thornmail","Heartsteel","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Titanic Hydra","Grit W damage scales with HP — more HP = bigger Haymaker."),I("Dead Man's Plate","Charge speed into their walk-down with bonus damage."),I("Warmog's Armor","Regen between trades — Grit restores passive HP.")],behind:[I("Sterak's Gage","Grit + Sterak shield = two separate damage-absorbing mechanics."),I("Gargoyle Stoneplate","Activates during their walk-down for massive resistances."),I("Thornmail","GW 40% on Darius/Mundo regen.")],runes:{...SETT_TOP_DEFAULT_RUNES}},

@@ -55,7 +55,11 @@ export default {
       bans:["Orianna","LeBlanc","Zed"], replacements:["Xerath","Ahri","Locke"],
       role:"Poke-Mage / Off-Meta Siege",
       corePath:"Malignance  ›  Horizon Focus  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Mid Karma is a long-range poke mage that resurfaces when siege comps are strong: Mantra-empowered Inner Flame chunks from a distance, and Inspire's shield and speed get her away from engages. Be honest about the sample: she is rare in Mid, at about 5,000 games on 26.20, so treat the order after the first item loosely. The first item is clear even so: Malignance opens about four games in five, and Luden's Echo, the old first item, is down to about one in ten. Malignance's ultimate haste matters more on Karma than on most mages, because Mantra is her ultimate and she spends it on nearly every empowered spell. Horizon Focus is the most common second item, revealing anyone she hits from long range, and Shadowflame is the usual third, turning low-health targets into executes. Rabadon's Deathcap rounds out the burst.",
+      // Research: She resurfaces when siege comps are strong. Rare in Mid, about 5,000 games on 26.20, so treat the order
+      //   after the first item loosely. Malignance opens about four games in five; Luden's Echo, the old first
+      //   item, is down to about one in ten. Horizon Focus is the most common second item and Shadowflame the
+      //   usual third.
+      coreNote:"Mid Karma is a long-range poke mage: Mantra-empowered Inner Flame chunks from a distance, and Inspire's shield and speed get you away from engages. Malignance first: its ultimate haste matters more on Karma than on most mages, because Mantra is her ultimate and you spend it on nearly every empowered spell. Horizon Focus second reveals anyone you hit from long range, Shadowflame third turns low-health targets into executes, and Rabadon's Deathcap rounds out the burst.",
       sideItems:["Ionian Boots of Lucidity","Sorcerer's Shoes","Luden's Echo","Stormsurge","Void Staff","Zhonya's Hourglass","Banshee's Veil","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Rabadon's Deathcap","Scaling burst ends the trade outright."),I("Luden's Echo","Poke wears them down before the fight starts.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...KARMA_MID_DEFAULT_RUNES}},

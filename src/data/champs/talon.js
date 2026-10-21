@@ -32,7 +32,10 @@ export default {
     Jungle:[{
       label:"Axiom Arc ult reset", tag:"alt",
       corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Voltaic Cyclosword  ›  Axiom Arc",
-      coreNote:"The previous main build, now a minority line: Voltaic Cyclosword second and Axiom Arc third in place of Bastionbreaker, trading Bastionbreaker's true-damage burst for a Shadow Assault that comes back after every takedown. It appears in only 2-3% of three- and four-item Talon jungle games on lolalytics, but finishes a point or more ahead of the standard core at the same item count. That is on about 1,500 games, so treat it as a lean, not proof. Take it when the game will be decided by teamfights your ult opens, rather than by solo picks.",
+      // Research: The previous main build, now a minority line: in only 2-3% of three- and four-item Talon jungle games on
+      //   lolalytics, but a point or more ahead of the standard core at the same item count, on about 1,500 games,
+      //   so a lean, not proof.
+      coreNote:"Voltaic Cyclosword second and Axiom Arc third in place of Bastionbreaker, trading Bastionbreaker's true-damage burst for a Shadow Assault that comes back after every takedown. Few players run it, but it has finished a point or more ahead of the standard core. Take it when the game will be decided by teamfights your ult opens, rather than by solo picks.",
       runes:{...TALON_JGL_DEFAULT_RUNES},
       sideItems:["Bastionbreaker","Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Guardian Angel","Youmuu's Ghostblade"],
     }],
@@ -64,7 +67,9 @@ export default {
       bans:["Rammus","Poppy","Malphite"], replacements:["Kayn","Rengar","Nocturne"],
       role:"Vision-Control Assassin Jungler",
       corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Bastionbreaker  ›  Voltaic Cyclosword",
-      coreNote:"Jungle Talon is S tier on a Fleet Footwork sustain-clear into Umbral Glaive — the sweep-on-hit passive erases enemy vision along his parkour gank paths, so his ganks come from angles that were warded five seconds ago. Bastionbreaker second and Voltaic Cyclosword third is now the standard core, in close to half of all three-item games: Bastionbreaker adds true damage to his ability hits on top of Umbral's lethality, enough for a two-item one-shot on squishies. Voltaic Cyclosword frontloads the next gank. Edge of Night and Lord Dominik's Regards are the common follow-ups; Serylda's Grudge closes against stacked armor.",
+      // Research: Jungle Talon is S tier. Bastionbreaker second and Voltaic third is now the standard core, in close to
+      //   half of all three-item games.
+      coreNote:"Jungle Talon runs Fleet Footwork for a sustained clear into Umbral Glaive, whose sweep-on-hit passive erases enemy vision along your parkour gank paths, so your ganks come from angles that were warded seconds ago. Bastionbreaker second adds true damage to your ability hits on top of Umbral's lethality, enough for a two-item one-shot on squishies. Voltaic Cyclosword third frontloads the next gank. Edge of Night and Lord Dominik's Regards follow; Serylda's Grudge closes against stacked armor.",
       sideItems:["Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Serpent's Fang","Guardian Angel","Youmuu's Ghostblade"],
       data:{
         JUGGERNAUT:{ahead:[I("Voltaic Cyclosword","Burst-and-leave beats their jungle brawl."),I("Serylda's Grudge","Pen keeps chunks real through armor."),I("Axiom Arc","More ults = more skirmish resets.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance in forced river fights."),I("Maw of Malmortius","Vs mixed-damage bruisers.")],runes:{...TALON_JGL_DEFAULT_RUNES}},

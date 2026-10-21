@@ -32,7 +32,9 @@ export default {
     Jungle:[{
       label:"Stormraider's burst", tag:"alt",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"A setup popularised by high-elo one-tricks that has since caught on: on 26.20 Stormraider's Surge is the keystone in about one Elise jungle game in six, though Dark Harvest is still the large majority. It uses the same Lich Bane into Shadowflame items as the main build; only the runes differ. She procs it almost for free: land Cocoon and the follow-up is guaranteed to cross the threshold, and the movement speed then lets her keep chasing or kite out while cooldowns return. Spider-form Rappel is an escape only under specific conditions, so a reliable dip-out after the burst is worth more on her than Dark Harvest's extra damage, which this already-lethal Lich Bane into Shadowflame line tends to overkill with anyway.",
+      // Research: A setup popularised by high-elo one-tricks that has since caught on: on 26.20 Stormraider's Surge is the
+      //   keystone in about one Elise jungle game in six, though Dark Harvest is still the large majority.
+      coreNote:"Same Lich Bane into Shadowflame items as the main build; only the keystone changes, to Stormraider's Surge. You proc it almost for free: land Cocoon and the follow-up is sure to cross the threshold, and the speed lets you keep chasing or kite out while cooldowns return. Spider-form Rappel is an escape only under specific conditions, so a reliable dip-out after the burst is worth more than Dark Harvest's extra damage, which this already-lethal line tends to overkill with anyway.",
       runes:{
         keystone:"Stormraider's Surge", primary:"Sorcery",
         primaryRunes:["Manaflow Band","Absolute Focus","Scorch"],
@@ -44,7 +46,10 @@ export default {
     },{
       label:"Stormsurge opener", tag:"alt",
       corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"The previous standard line, now the minority: on 26.20 Stormsurge opens about three Elise jungle games in ten, against close to two in three for Lich Bane, and Stormsurge into Shadowflame is the second most common start at about 22%. Stormsurge marks a champion once you deal a quarter of their maximum health within a couple of seconds, which the Cocoon-into-spider combo does to any squishy target, then hits them again shortly after. That front-loads burst where Lich Bane rewards repeated Spellblade autos, so this line suits picks on isolated squishies more than drawn-out skirmishes. Shadowflame and Zhonya's Hourglass follow exactly as in the main build, on the same Dark Harvest page.",
+      // Research: The previous standard line, now the minority: on 26.20 Stormsurge opens about three Elise jungle games
+      //   in ten, against close to two in three for Lich Bane, and Stormsurge into Shadowflame is the second most
+      //   common start at about 22%.
+      coreNote:"Stormsurge first. It marks a champion once you deal a quarter of their maximum health within a couple of seconds, which Cocoon into the spider combo does to any squishy, then hits them again shortly after. That front-loads burst where Lich Bane rewards repeated Spellblade autos, so this line suits picks on isolated squishies more than drawn-out skirmishes. Shadowflame and Zhonya's Hourglass follow as in the main build, on the same Dark Harvest page.",
       runes:{...ELISE_JGL_DEFAULT_RUNES},
       sideItems:["Lich Bane","Rabadon's Deathcap","Void Staff","Banshee's Veil","Mercury's Treads"],
     }],
@@ -54,7 +59,10 @@ export default {
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],
       role:"Assassin / Human-Spider Ambush",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Elise plays for a spider-form burst pattern — Cocoon stuns from range in human form, then Spider Form's Skittering Frenzy and Venomous Bite finish the kill up close, with Rappel repositioning for the next gank. On 26.20 Lich Bane is the opener in close to two games in three, and Lich Bane into Shadowflame is the most common start by a wide margin (about 48%). Lich Bane's Spellblade proc rides the form-swap combo, since every ability she casts sets up an empowered auto; Shadowflame executes low-HP targets Cocoon has already set up; Zhonya's Hourglass buys time when a counter-invade catches her mid-combo. Rabadon's Deathcap is the other common third item when you are ahead. Stormsurge first is still a real minority line, kept as an alternate.",
+      // Research: On 26.20 Lich Bane is the opener in close to two games in three, and Lich Bane into Shadowflame is the
+      //   most common start by a wide margin (about 48%). Rabadon's is the other common third item. Stormsurge
+      //   first is still a real minority line, kept as an alternate.
+      coreNote:"Elise plays for spider-form burst: Cocoon stuns from range in human form, then Skittering Frenzy and Venomous Bite finish up close, and Rappel repositions for the next gank. Lich Bane first rides the form-swap combo, since every ability sets up an empowered auto. Shadowflame executes what Cocoon set up, and Zhonya's Hourglass covers you when a counter-invade catches you mid-combo. Rabadon's Deathcap is the other third item when ahead.",
       sideItems:["Rabadon's Deathcap","Stormsurge","Void Staff","Banshee's Veil","Morellonomicon","Liandry's Torment","Ionian Boots of Lucidity"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Stormsurge","Poke wears them down before the fight starts."),I("Rabadon's Deathcap","Scaling burst ends the trade outright.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Void Staff","Pen remains effective regardless of gold lead.")],runes:{...ELISE_JGL_DEFAULT_RUNES}},
@@ -76,7 +84,7 @@ export default {
       bans:["Blitzcrank","Leona","Nautilus"], replacements:["Zyra","Brand","Vel'Koz"],
       role:"Cocoon Kill-Lane Support",
       corePath:"Bloodsong  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Shadowflame",
-      coreNote:"Support Elise is a kill lane in a bottle: Cocoon is a hook-class pick tool, and the spider-form follow-up bursts harder than most mid laners at level 3. Bloodsong amps her carry's damage after every landed stun, Stormsurge detonates off the Electrocute combo, and Shadowflame converts chunked targets into executes. Zhonya's covers the rappel-in positioning. Her human-spider toggle means she never runs out of things to cast — poke with human Q, kill with spider Q, and roam mid from level 6 like a second jungler.",
+      coreNote:"Support Elise is a kill lane: Cocoon is a hook-class pick tool, and the spider follow-up bursts harder than most mid laners at level 3. Bloodsong amps your carry's damage after every landed stun, Stormsurge detonates off the Electrocute combo, and Shadowflame converts chunked targets into executes. Zhonya's covers the Rappel-in positioning. Poke with human Q, kill with spider Q, and roam mid from level 6 like a second jungler.",
       sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Void Staff","Banshee's Veil","Imperial Mandate","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Stormsurge","Poke-burst them off the wave from range."),I("Shadowflame","Pen punishes their low MR."),I("Bloodsong","Amp the carry kiting them.")],behind:[I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the burst real."),I("Banshee's Veil","Blocks the pull.")],runes:{...ELISE_SUP_DEFAULT_RUNES}},

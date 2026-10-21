@@ -23,7 +23,7 @@ export default {
       bans:["Morgana","Lulu","Karma"], replacements:["Thresh","Leona","Zac"],
       role:"Catcher / Single-Target Pick",
       corePath:"Celestial Opposition  ›  Boots of Swiftness  ›  Locket of the Iron Solari  ›  Zeke's Convergence",
-      coreNote:"Blitzcrank plays for a single landed Rocket Grab into a guaranteed kill — hook, silence, punch, and the whole team collapses on the pulled target. Celestial Opposition heals him for engaging near allies; Boots of Swiftness gets him into hook range faster; Locket adds team-wide burst mitigation; Zeke's Convergence amplifies the damage the moment his hook connects.",
+      coreNote:"Play for a single landed Rocket Grab into a guaranteed kill: hook, silence, punch, and the whole team collapses on the pulled target. Celestial Opposition heals you for engaging near allies; Boots of Swiftness get you into hook range faster; Locket adds team-wide burst mitigation; Zeke's Convergence amplifies the damage the moment your hook connects.",
       sideItems:["Bandlepipes","Shurelya's Battlesong","Knight's Vow","Randuin's Omen","Thornmail","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Locket of the Iron Solari","Shield covers the walk-down window."),I("Zeke's Convergence","Amplify damage after your hook lands."),I("Knight's Vow","Protect your carry while you soak.")],behind:[I("Randuin's Omen","Crit/AS reduction if they build offense."),I("Knight's Vow","Share damage taken."),I("Thornmail","GW cuts their sustain.")],runes:{...BLITZCRANK_SUP_DEFAULT_RUNES}},

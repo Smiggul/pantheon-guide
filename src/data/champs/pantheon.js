@@ -60,7 +60,7 @@ export default {
         label: "Lethality Carry",
         tag: "off-meta",
         corePath: "Youmuu's Ghostblade  ›  Voltaic Cyclosword  ›  The Collector  ›  Serylda's Grudge",
-        coreNote: "The greedy glass-cannon line — skip the bruiser durability entirely and build a full-lethality carry that snowballs into a one-shot machine. PTA + a Sorcery secondary trade survivability for raw scaling damage: you farm, roam, and delete squishies, but you fold if you get caught, so play for picks and position. Youmuu's Ghostblade is the roam + lethality spike, Voltaic Cyclosword adds the energized auto-reset burst, The Collector gives the execute threshold that turns a spear + combo into an instant kill, and Serylda's Grudge pens armor + slows so nothing escapes the follow-up. Opportunity, Edge of Night, or Profane Hydra continue it. Play greedy — scale, pick, and carry.",
+        coreNote: "The greedy glass-cannon line: full lethality, no bruiser durability. Press the Attack and a Sorcery secondary trade survivability for scaling damage, so you fold if caught: play for picks and position. Youmuu's Ghostblade is the roam and lethality spike, Voltaic Cyclosword adds energized burst, The Collector's execute turns spear plus combo into a kill, and Serylda's Grudge pens armor and slows. Then Opportunity, Edge of Night or Profane Hydra.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -75,7 +75,9 @@ export default {
         label: "PTA Bruiser",
         tag: "alt",
         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Spear of Shojin  ›  Death's Dance",
-        coreNote: "A personal line — Press the Attack instead of Conqueror, with a Resolve secondary for survivability, built on Voltaic Cyclosword and the rest of the lethality/bruiser items. PTA procs on the spear → W-stun → auto three-hit and then amplifies ALL damage the target takes for the window, so the follow-up Q and item burst land much harder — perfect for the short, decisive trades Pantheon lives on. Voltaic first for the energized auto-reset burst + move speed, Black Cleaver for the armor shred + HP, Spear of Shojin for the ability haste + ability-damage amp that supercharges the Q-spam trades, and Death's Dance to outlast. Black Cleaver already handles your armor pen, so Serylda's Grudge is an either/or swap for it (sideItems) — take Serylda's over Cleaver when you need the slow to stick, not both. Tankier and more forgiving than the pure-lethality Carry line — you brawl the trades instead of one-shotting from range.",
+        // Research: "A personal line." Black Cleaver already handles the armor pen, so Serylda's is an either/or swap for it
+        //   (listed in sideItems).
+        coreNote: "Press the Attack instead of Conqueror, with a Resolve secondary. It procs on the spear, W-stun, auto three-hit, then amplifies all damage the target takes, so your follow-up Q and item burst land harder. Voltaic Cyclosword for burst and move speed, Black Cleaver for shred and health, Spear of Shojin for haste and Q damage, Death's Dance to outlast. Take Serylda's Grudge instead of Cleaver, not as well, when you need the slow. Tankier and more forgiving than the Carry line.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -90,7 +92,12 @@ export default {
         label: "Spear Shot — Stormraider's",
         tag: "alt",
         corePath: "Bastionbreaker  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Edge of Night",
-        coreNote: "The build Spear Shot ran to Rank 1 on EUW in October 2026 (Challenger, ~4,300 LP, a Pantheon one-trick with roughly 1,800 games on him this season at 55%). The keystone is the change he calls the new tech: Stormraider's Surge. His reasoning, from his own Rank 1 video, is that against very mobile duelists like Fiora you cannot let them choose when the fight happens, but their kits will let them anyway — spacing only goes so far against a good player. Stormraider's lands on the combo Pantheon already wants to throw, then gives him the movement speed to reset the spacing on his terms instead of theirs. It is not a fringe pick: Mobalytics has Bastionbreaker with Stormraider's as the highest win-rate Pantheon Top option on 26.20 (55.0%), and Blitz already recommends it as his primary keystone. Bastionbreaker is the reason the line works — 22 lethality and extra true damage on ability hits, more than double Voltaic Cyclosword's lethality, on a champion whose damage is almost entirely abilities. He leans on Edge of Night's spell shield and times it deliberately against the one ability that would otherwise decide the trade. Take Exhaust over Teleport.",
+        // Research: The build Spear Shot ran to Rank 1 on EUW in October 2026 (Challenger, ~4,300 LP, a Pantheon one-trick
+        //   with roughly 1,800 games on him this season at 55%). Stormraider's is the change he calls the new tech;
+        //   the reasoning is from his own Rank 1 video. Not a fringe pick: Mobalytics has Bastionbreaker with
+        //   Stormraider's as the highest win-rate Pantheon Top option on 26.20 (55.0%), and Blitz already recommends
+        //   it as his primary keystone.
+        coreNote: "Stormraider's is the point: mobile duelists like Fiora choose when the fight happens, and spacing only goes so far. Stormraider's procs on the combo you already throw, then gives you the speed to reset the spacing on your terms. Bastionbreaker makes the line work: 22 lethality and true damage on ability hits, more than double Voltaic's lethality, on a champion whose damage is mostly abilities. Save Edge of Night's spell shield for the ability that decides the trade. Exhaust over Teleport.",
         runes: {
           keystone: "Stormraider's Surge",
           primary: "Sorcery",
@@ -126,7 +133,8 @@ export default {
         label: "Lethality Assassin",
         tag: "off-meta",
         corePath: "Youmuu's Ghostblade  ›  Ionian Boots of Lucidity  ›  Voltaic Cyclosword  ›  Edge of Night",
-        coreNote: "The one-shot roam build (Mobalytics 26.14, ~11k games), not the Conqueror bruiser: rush lethality, spear-Q from max range, W-stun, and delete the squishy before they react. Youmuu's Ghostblade is the first-item spike — roam speed + lethality — Voltaic Cyclosword adds the energized auto-reset burst, and Edge of Night blanks the peel spell saved for you. Black Cleaver or Serylda's close it. Far spikier and squishier than the standard page — snowball mid, roam side lanes with Grand Starfall.",
+        // Research: Mobalytics 26.14, ~11k games.
+        coreNote: "The one-shot roam build, not the Conqueror bruiser: rush lethality, spear-Q from max range, W-stun, and delete the squishy before they react. Youmuu's Ghostblade is the first-item spike for roam speed and lethality, Voltaic Cyclosword adds the energized burst, and Edge of Night blanks the peel spell saved for you. Black Cleaver or Serylda's close it. Far spikier and squishier than the standard page: snowball mid, then roam side lanes with Grand Starfall.",
         runes: {
           keystone: "Electrocute",
           primary: "Domination",
@@ -145,7 +153,10 @@ export default {
               bans:["Malphite","Gangplank","Jax"], replacements:["Renekton","Sett","Wukong"],
               skillOrder:["Q","E","W"], // Top maxes Aegis (E) second, not W
                         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
-                        coreNote: "Voltaic Cyclosword first — the lead-snowball line. Once you win the early spear trades, Voltaic's energized proc + move speed + ability haste convert that lead into repeated one-combo bursts far better than Eclipse. Eclipse is the safer alternative first item and still shows up below in Situational Items — pick it instead when you're even or behind rather than ahead. Black Cleaver is the standard second core: its shred keeps Conqueror trades snowballing. Sundered Sky adds the guaranteed-crit heal on Q, and Death's Dance turns extended fights into a bleed you outlast. Chempunk Chainsword (below, under Anti-Heal) is Pantheon's best AD scaling swap specifically into sustain lanes — Warwick, Darius, Briar — not a default buy. First back after Voltaic is The Brutalizer (it now builds from Pickaxe, not Serrated Dirk, since its rework — so buy toward Brutalizer, not a dead-end Dirk); swap Plated Steelcaps / Mercury's Treads to the matchup's damage type.",
+                        // Research: UI pointers removed: Eclipse "still shows up below in Situational Items"; Chempunk is "below, under
+                        //   Anti-Heal". The Brutalizer builds from Pickaxe, not Serrated Dirk, since its rework, so a Dirk is a dead
+                        //   end.
+                        coreNote: "Voltaic Cyclosword first: once you win the early spear trades, its energized proc, move speed and haste turn that lead into repeated one-combo bursts. Take Eclipse first when even or behind. Black Cleaver second keeps Conqueror trades snowballing, Sundered Sky adds a guaranteed-crit heal on Q, and Death's Dance outlasts long fights. Chempunk Chainsword only into sustain lanes (Warwick, Darius, Briar). Build toward The Brutalizer from Pickaxe, not Serrated Dirk. Boots by their damage type.",
                         sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Edge of Night","Randuin's Omen","Frozen Heart"],
                         data: {
                                 JUGGERNAUT: {
@@ -522,7 +533,8 @@ export default {
               bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
               skillOrder:["Q","W","E"], // Q@1,4,5,7,9 · W@2,8,10,12,13 · E@3,14,15,17,18
                 corePath: "Sundered Sky  ›  Black Cleaver  ›  Guardian Angel  ›  Death's Dance",
-                coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky's crit-heal now edges out Eclipse as the priority first item in current meta; Black Cleaver transitions into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
+                // Research: Sundered Sky's crit-heal edges out Eclipse as the priority first item in current meta.
+                coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky first for its crit-heal; Black Cleaver carries you into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
                 sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Spear of Shojin","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
 
                 data: {

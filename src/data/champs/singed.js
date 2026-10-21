@@ -23,7 +23,8 @@ export default {
       bans:["Teemo","Quinn","Cassiopeia"], replacements:["Dr. Mundo","Mordekaiser","Rumble"],
       role:"Proxy Trail Chaos Engine",
       corePath:"Boots of Swiftness  ›  Liandry's Torment  ›  Rylai's Crystal Scepter  ›  Dead Man's Plate",
-      coreNote:"Singed is rank-6-tier on real data because nobody wins the game he's playing: proxy the wave behind their tower, fling whoever chases, and let the trail do the arguing. Liandry's Torment stacks a second burn on the gas, Rylai's Crystal Scepter makes the trail a slow zone nothing escapes, Dead Man's Plate feeds the speed engine, and Force of Nature turns their poke into his stats. Chase Singed and you lose; ignore Singed and you lose slower. There is no third option.",
+      // Research: Singed is rank-6-tier on real data.
+      coreNote:"Nobody wins the game Singed is playing: proxy the wave behind their tower, fling whoever chases, and let the trail do the arguing. Liandry's Torment stacks a second burn on the gas, Rylai's Crystal Scepter makes the trail a slow zone nothing escapes, Dead Man's Plate feeds the speed engine, and Force of Nature turns their poke into your stats. Chase Singed and you lose; ignore him and you lose slower.",
       sideItems:["Force of Nature","Spirit Visage","Rabadon's Deathcap","Thornmail","Kaenic Rookern","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Rylai's Crystal Scepter","They chase, they slow, they die in the gas."),I("Liandry's Torment","Burn scales off their HP bar."),I("Dead Man's Plate","Speed they can never match.")],behind:[I("Rylai's Crystal Scepter","Kite the walk-down with trail slows."),I("Force of Nature","MR + speed to disengage."),I("Thornmail","Anti-heal their sustain.")],runes:{...SINGED_TOP_DEFAULT_RUNES}},

@@ -22,7 +22,10 @@ export default {
     Top:[{
       label:"Black Cleaver rush", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
-      coreNote:"Rush Black Cleaver instead of Trinity Force. It is Yorick's second most common first item (about 12% of games) and wins as often as the Trinity rush (52.2% vs 52.0%), so treat it as a matchup call rather than an upgrade. Take it into armor-stacking or melee-heavy teams, where the percent armor shred is worth the most. Spear of Shojin and Eclipse are the two usual follow-ups and win equally often, and Sterak's Gage is the most common third item after Cleaver into Shojin. Conqueror over Grasp is a reasonable swap into tank tops. Source: lolalytics, patch 26.20, Emerald+.",
+      // Research: Yorick's second most common first item (about 12% of games), winning as often as the Trinity rush (52.2%
+      //   vs 52.0%). Shojin and Eclipse are the two usual follow-ups and win equally often; Sterak's is the most
+      //   common third item after Cleaver into Shojin. Source: lolalytics, patch 26.20, Emerald+.
+      coreNote:"Rush Black Cleaver instead of Trinity Force. It wins as often as the Trinity rush, so treat it as a matchup call rather than an upgrade: take it into armor-stacking or melee-heavy teams, where percent armor shred is worth the most. Spear of Shojin or Eclipse second, then Sterak's Gage. Conqueror over Grasp is a reasonable swap into tank tops.",
       runes:{...YORICK_TOP_DEFAULT_RUNES},
       sideItems:["Eclipse","Trinity Force","Hullbreaker","Death's Dance","Thornmail","Spirit Visage","Mercury's Treads"],
     }],

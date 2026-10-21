@@ -42,7 +42,11 @@ export default {
     Top:[{
       label:"Shieldbow first", tag:"alt",
       corePath:"Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance  ›  Guardian Angel",
-      coreNote:"The minority line on Top, and the build this guide used to lead with (it is still Mid's main build): Immortal Shieldbow first in about a quarter of games, against nearly half for Blade of The Ruined King. It rushes the crit spike, Shieldbow into Infinity Edge, and skips the early on-hit duel item; Death's Dance and Guardian Angel then let him dive repeatedly without dying to the follow-up. It has the higher first-item win rate (about 54% against 50%), but first-item win rates are shaped by who picks each line, so take the gap as a lean rather than proof.",
+      // Research: The minority line on Top, and the build this guide used to lead with (it is still Mid's main build):
+      //   Shieldbow first in about a quarter of games, against nearly half for BotRK. First-item win rate about
+      //   54% against 50%, but first-item win rates are shaped by who picks each line, so take the gap as a lean
+      //   rather than proof.
+      coreNote:"Immortal Shieldbow first instead of Blade of The Ruined King. It rushes the crit spike, Shieldbow into Infinity Edge, and skips the early on-hit duel item; Death's Dance and Guardian Angel then let you dive repeatedly without dying to the follow-up. It has won a few points more often as a first item, though that gap may reflect who picks it more than the build itself.",
       runes:{...YASUO_TOP_DEFAULT_RUNES},
       sideItems:["Blade of The Ruined King","Berserker's Greaves","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End"],
     }],
@@ -74,7 +78,11 @@ export default {
       bans:["Jax","Riven","Fiora"], replacements:["Renekton","Sett","Darius"],
       role:"Skirmisher / Mobile Duelist",
       corePath:"Blade of The Ruined King  ›  Immortal Shieldbow  ›  Infinity Edge  ›  Death's Dance",
-      coreNote:"Top Yasuo plays a hit-and-run poke-and-kite game instead of an all-in lane, weaving Q stacks and autos between waves rather than committing early. Unlike Mid, he most often opens Blade of The Ruined King here, in nearly half of games: its current-health damage, lifesteal and slow win the extended trades against high-health top laners. Immortal Shieldbow comes second in most of those games, its low-health shield covering the all-ins he cannot avoid, then Infinity Edge for crit damage; his passive increases his crit chance, so the crit items pay off faster on him. Death's Dance is the usual fourth. Kraken Slayer opens about one game in six. Shieldbow first, the line this guide used to lead with, is about a quarter of games and wins more often (about 54% against 50% for Blade of The Ruined King first); see the alternate build.",
+      // Research: Unlike Mid, he most often opens BotRK here, in nearly half of games; Shieldbow second in most of those;
+      //   Death's Dance the usual fourth. Kraken Slayer opens about one game in six. Shieldbow first, the line
+      //   this guide used to lead with, is about a quarter of games and wins more often (about 54% against 50% for
+      //   BotRK first).
+      coreNote:"Top Yasuo pokes and kites, weaving Q stacks and autos between waves rather than committing early. Blade of The Ruined King first: current-health damage, lifesteal and a slow win long trades against high-health top laners. Immortal Shieldbow second covers the all-ins you cannot avoid, then Infinity Edge, which pays off faster since your passive boosts crit chance. Death's Dance fourth. Shieldbow first is the alternate, and it has won more often.",
       sideItems:["Berserker's Greaves","Guardian Angel","Kraken Slayer","Lord Dominik's Regards","Mercury's Treads","Maw of Malmortius","Wit's End","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YASUO_TOP_DEFAULT_RUNES}},
@@ -96,7 +104,10 @@ export default {
       bans:["Xayah","Kalista","Draven"], replacements:["Jinx","Ziggs","Seraphine"],
       role:"All-In Hyper-Carry",
       corePath:"Immortal Shieldbow  ›  Berserker's Greaves  ›  Infinity Edge  ›  Death's Dance",
-      coreNote:"Bot Yasuo is a pure all-in champion — with a CC-heavy support opening the fight, he looks to go 100-0 rather than trade evenly across the laning phase. He now builds like Mid and Top: Immortal Shieldbow into Infinity Edge for the two-item 100% crit spike the 26.17 crit-penalty cut made possible. Blade of The Ruined King used to come first here for its immediate slow, but it is no longer in the 26.20 bottom-lane core. Stormrazor shows up as a first-item option on a smaller sample and suits the most aggressive lanes; treat it as situational rather than default.",
+      // Research: He now builds like Mid and Top; the two-item 100% crit spike was made possible by the 26.17 crit-penalty
+      //   cut. Blade of The Ruined King used to come first here for its immediate slow, but it is no longer in the
+      //   26.20 bottom-lane core. Stormrazor shows up as a first-item option on a smaller sample.
+      coreNote:"Bot Yasuo is a pure all-in champion: with a CC-heavy support opening the fight, you look to go 100-0 rather than trade evenly across the laning phase. Immortal Shieldbow into Infinity Edge for the two-item 100% crit spike. Stormrazor is a situational first item for the most aggressive lanes, not a default.",
       sideItems:["Stormrazor","Blade of The Ruined King","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Blade of The Ruined King","% HP damage + slow wins the all-in outright."),I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YASUO_BOT_DEFAULT_RUNES}},

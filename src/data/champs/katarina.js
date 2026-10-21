@@ -27,7 +27,8 @@ export default {
     roles: {
       Mid: {
         corePath: "Lich Bane  ›  Shadowflame  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-        coreNote: "Katarina is a pure AP burst assassin — Lich Bane's Spellblade proc massively amplifies the auto that follows any of her abilities, Shadowflame finishes low-HP targets, and Zhonya's protects the reset-chasing all-in. Void Staff rounds out the build vs stacked MR. The old on-hit hybrid (Nashor's Tooth + Riftmaker) is a fine alternate build vs extended-fight comps, but pure burst is the current standard.",
+        // Research: The on-hit hybrid is the old build; pure burst is the current standard.
+        coreNote: "Katarina is a pure AP burst assassin: Lich Bane's Spellblade proc massively amplifies the auto that follows any of her abilities, Shadowflame finishes low-health targets, and Zhonya's protects the reset-chasing all-in. Void Staff rounds out the build against stacked MR. The on-hit hybrid (Nashor's Tooth and Riftmaker) is a fine alternative into extended-fight comps.",
 
         sideItems: ["Sorcerer's Shoes","Mercury's Treads","Void Staff","Banshee's Veil","Nashor's Tooth","Riftmaker","Hextech Rocketbelt"],
 

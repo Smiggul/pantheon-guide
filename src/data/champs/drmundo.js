@@ -33,7 +33,7 @@ export default {
       bans:["Fiora","Gwen","Kayle"], replacements:["Sion","Ornn","K'Sante"],
       role:"Unkillable HP Mountain",
       corePath:"Warmog's Armor  ›  Boots of Swiftness  ›  Heartsteel  ›  Spirit Visage",
-      coreNote:"Mundo goes where he pleases because nothing can stop him: his passive shrugs the first CC, his ult regenerates a full health bar, and Warmog's plus Heartsteel stack the HP that every part of his kit multiplies. Spirit Visage amplifies the entire regeneration engine, Thornmail punishes anyone trying to auto through it, and the cleaver spam chunks harder than his tank frame suggests. He has one real weakness — percent-HP true damage — so ban Fiora or accept a hard lane. Everyone else eventually runs out of damage before he runs out of health.",
+      coreNote:"Mundo goes where he pleases: his passive shrugs off the first CC, his ult regenerates a full health bar, and Warmog's plus Heartsteel stack the health every part of his kit multiplies. Spirit Visage amplifies the whole regeneration engine, Thornmail punishes anyone trying to auto through it, and the cleaver spam chunks harder than his tank frame suggests. His one real weakness is percent-health true damage: ban Fiora or accept a hard lane.",
       sideItems:["Thornmail","Randuin's Omen","Kaenic Rookern","Force of Nature","Unending Despair","Overlord's Bloodmail"],
       data:{
         JUGGERNAUT:{ahead:[I("Warmog's Armor","Out-HP the HP war — regen between every trade."),I("Thornmail","Anti-heal their sustain."),I("Heartsteel","Stack the mirror advantage.")],behind:[I("Thornmail","Cut their healing before comparing bars."),I("Spirit Visage","Amplify your regen engine."),I("Randuin's Omen","Slow their walk-down.")],runes:{...DRMUNDO_TOP_DEFAULT_RUNES}},
@@ -55,7 +55,7 @@ export default {
       bans:["Udyr","Briar","Kha'Zix"], replacements:["Amumu","Sejuani","Zac"],
       role:"Regenerating Farm Jungler",
       corePath:"Heartsteel  ›  Boots of Swiftness  ›  Dead Man's Plate  ›  Spirit Visage",
-      coreNote:"Jungle Mundo trades lane bullying risk for uncontested scaling: his passive plus Fleet sustains the clear, and no jungler wants to fight a camp-fed regenerator at objectives. Heartsteel stacks off every camp, Dead Man's Plate converts his roaming mass into gank speed and slam damage, Spirit Visage amplifies the whole engine, and Titanic Hydra converts the HP pile into real cleave damage. Gank with cleaver-slow plus Approach Velocity chase-down; by 25 minutes he's the frontline their whole team budget can't dent.",
+      coreNote:"Jungle Mundo trades lane-bully risk for uncontested scaling: his passive plus Fleet Footwork sustains the clear, and no jungler wants to fight a camp-fed regenerator at objectives. Heartsteel stacks off every camp, Dead Man's Plate turns his roaming bulk into gank speed and slam damage, Spirit Visage amplifies the whole engine, and Titanic Hydra converts the health pile into real cleave damage. Gank with the cleaver slow plus Approach Velocity.",
       sideItems:["Titanic Hydra","Thornmail","Warmog's Armor","Kaenic Rookern","Randuin's Omen","Force of Nature"],
       data:{
         JUGGERNAUT:{ahead:[I("Heartsteel","Win the HP race off jungle income."),I("Thornmail","Anti-heal their sustain brawls."),I("Titanic Hydra","Convert the HP pile into cleave.")],behind:[I("Thornmail","Cut their healing before comparing bars."),I("Spirit Visage","Amplify your regen."),I("Randuin's Omen","Slow their walk-down.")],runes:{...DRMUNDO_JGL_DEFAULT_RUNES}},

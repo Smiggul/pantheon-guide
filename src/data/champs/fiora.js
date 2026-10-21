@@ -22,7 +22,9 @@ export default {
     Top:[{
       label:"Hail of Blades burst", tag:"alt",
       corePath:"Ravenous Hydra  ›  Plated Steelcaps  ›  Eclipse  ›  Endless Hunger",
-      coreNote:"A Challenger one-trick setup, and named again in Skill-Capped's 26.20 solo-carry list. Hail of Blades instead of Press the Attack front-loads the trade: a level-three Fiora bursts most top laners before they can answer, then uses W to disengage. Ravenous Hydra into Eclipse into Endless Hunger is reported as her highest win-rate three-item core, and the raw AD plays her closer to an assassin. Ignite over Teleport fits the kill-lane plan. It is the wrong page into tanks — three quick autos do little against stacked health and resists, and Press the Attack's extended fight is better there.",
+      // Research: A Challenger one-trick setup, named again in Skill-Capped's 26.20 solo-carry list. Ravenous Hydra into
+      //   Eclipse into Endless Hunger is reported as her highest win-rate three-item core.
+      coreNote:"Hail of Blades instead of Press the Attack front-loads the trade: a level-three Fiora bursts most top laners before they can answer, then uses W to disengage. Ravenous Hydra into Eclipse into Endless Hunger is the core, and the raw AD plays her closer to an assassin. Ignite over Teleport fits the kill-lane plan. It is the wrong page into tanks: three quick autos do little against stacked health and resists, and Press the Attack's extended fight is better there.",
       runes:{
         keystone:"Hail of Blades", primary:"Domination",
         primaryRunes:["Sudden Impact","Deep Ward","Treasure Hunter"],

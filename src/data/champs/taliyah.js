@@ -32,7 +32,11 @@ export default {
     Mid:[{
       label:"Archangel's Staff scaling", tag:"alt",
       corePath:"Archangel's Staff  ›  Ionian Boots of Lucidity  ›  Rylai's Crystal Scepter  ›  Liandry's Torment",
-      coreNote:"The minority line, and the old main build: Archangel's Staff first in about 19% of Mid Taliyah games on 26.20, against Blackfire Torch's two in three. Rylai's Crystal Scepter is the most common follow-up, and Liandry's Torment is the most common third, with Zhonya's Hourglass close behind. Archangel's pays for the mana her Q pattern burns, gains max mana from every spell she lands and turns that mana into AP, and later becomes Seraph's Embrace, so this line trades an earlier power spike for a stronger late game. Rylai's makes the volleys sticky, and Liandry's burns anyone trapped in the minefield. Win rates for the two openers are within about one point, so choose this when you expect a long game. Deathfire Touch and Stormraider's Surge are about equally common on this line, so the main page carries over.",
+      // Research: The minority line, and the old main build: Archangel's first in about 19% of Mid Taliyah games on 26.20,
+      //   against Blackfire's two in three. Rylai's is the most common follow-up, Liandry's the most common third
+      //   with Zhonya's close behind. Win rates for the two openers are within about one point. Deathfire Touch
+      //   and Stormraider's Surge are about equally common on this line.
+      coreNote:"Archangel's Staff first instead of Blackfire Torch. It pays for the mana your Q pattern burns, grows max mana from every spell you land and turns it into AP, then becomes Seraph's Embrace: a later spike for a stronger late game. Rylai's Crystal Scepter second makes the volleys sticky, and Liandry's Torment third burns anyone in the minefield, with Zhonya's close behind. Both openers win about as often, so choose this for a long game. The main rune page carries over.",
       runes:{...TALIYAH_MID_DEFAULT_RUNES},
       sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Blackfire Torch","Void Staff","Banshee's Veil","Cosmic Drive"],
     }],
@@ -42,7 +46,11 @@ export default {
       bans:["Zed","Yasuo","Kassadin"], replacements:["Orianna","Syndra","Ziggs"],
       role:"Seismic Control Mage",
       corePath:"Blackfire Torch  ›  Ionian Boots of Lucidity  ›  Rylai's Crystal Scepter  ›  Zhonya's Hourglass",
-      coreNote:"Mid Taliyah is a zone-control mage: seed Worked Ground, spam empowered Q volleys, and wall off every escape route with E and R. Blackfire Torch is her first item in about two games in three on 26.20, against Archangel's Staff at 19%, and Blackfire into Rylai's Crystal Scepter is the most common opening pair by a wide margin. Blackfire's burn lands on everyone her volleys and boulders touch, gives her more AP for each champion it is burning, and its haste shortens the Q-W-E loop. Rylai's Crystal Scepter makes the boulder volleys sticky, so targets stay in her minefield, and Zhonya's Hourglass is the most common third item, covering the mid-range casting her combo demands. Rabadon's Deathcap and Liandry's Torment are the usual next buys. Her ult turns any side-lane push into a five-second flank threat. Archangel's Staff first is the scaling minority line; see the alternate.",
+      // Research: Blackfire is her first item in about two games in three on 26.20, against Archangel's at 19%, and
+      //   Blackfire into Rylai's is the most common opening pair by a wide margin. Zhonya's is the most common
+      //   third item; Rabadon's and Liandry's the usual next buys. Archangel's first is the scaling minority line
+      //   (the alternate).
+      coreNote:"Mid Taliyah is a zone-control mage: seed Worked Ground, spam empowered Q volleys, and wall off escapes with E and R. Blackfire Torch first: its burn lands on everyone your volleys and boulders touch, adds AP per burning champion, and its haste shortens the Q-W-E loop. Rylai's Crystal Scepter second keeps targets in your minefield, and Zhonya's Hourglass third covers your mid-range casting. Rabadon's Deathcap and Liandry's Torment next. Your ult turns a side-lane push into a flank.",
       sideItems:["Rabadon's Deathcap","Liandry's Torment","Archangel's Staff","Shadowflame","Void Staff","Banshee's Veil","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Rylai's Crystal Scepter","Slowed juggernauts never cross the minefield."),I("Liandry's Torment","Burn scales off their HP stacking."),I("Archangel's Staff","Out-scale their ramp with your own.")],behind:[I("Rylai's Crystal Scepter","Kite their walk-up forever."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the volleys real.")],runes:{...TALIYAH_MID_DEFAULT_RUNES}},

@@ -51,7 +51,8 @@ export default {
       bans:["Trundle","Rek'Sai","Lillia"], replacements:["Udyr","Bel'Veth","Karthus"],
       role:"Skirmisher / Bruiser",
       corePath:"Trinity Force  ›  Spear of Shojin  ›  Death's Dance  ›  Jak'Sho, The Protean",
-      coreNote:"Trinity Force first for Sheen proc on Q double-strike. Current meta favors Spear of Shojin's ability haste over Guinsoo's on-hit — more Q resets and dragon form uptime. Death's Dance and Jak'Sho round out survivability for extended skirmishes and objective fights. Guinsoo's Rageblade and Titanic Hydra remain fine alternates if the game goes long enough for on-hit scaling to matter more than haste.",
+      // Research: Current meta favors Spear of Shojin's haste over Guinsoo's on-hit.
+      coreNote:"Trinity Force first for the Sheen proc on Q's double strike. Take Spear of Shojin's ability haste over Guinsoo's on-hit: more Q resets and dragon-form uptime. Death's Dance and Jak'Sho round out survivability for extended skirmishes and objective fights. Guinsoo's Rageblade and Titanic Hydra are fine if the game goes long enough for on-hit scaling to matter more than haste.",
       sideItems:["Blade of The Ruined King","Nashor's Tooth","Wit's End","Sterak's Gage","Guinsoo's Rageblade","Titanic Hydra","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Blade of The Ruined King","% current HP on Q double-strike destroys their HP stacking."),I("Guinsoo's Rageblade","On-hit Q magic damage — ignores their armor stacking."),I("Titanic Hydra","AoE on Q resets shreds their camp while poking them.")],behind:[I("Sterak's Gage","Shield when they walk you down."),I("Death's Dance","Delay Darius/Mundo burst — E to disengage."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...SHYVANA_JGL_DEFAULT_RUNES}},
@@ -74,7 +75,9 @@ export default {
       bans:["Malphite","Jax","Fiora"], replacements:["Renekton","Wukong","Sett"],
       role:"Skirmisher / Bruiser (off-meta counter-pick)",
       corePath:"Trinity Force  ›  Spear of Shojin  ›  Death's Dance  ›  Sundered Sky",
-      coreNote:"Top Shyvana is a genuine off-meta counter-pick into melee matchups, not a troll build — this alt itemization (Trinity Force into a haste/sustain core rather than Jungle's on-hit path) has posted very strong win rates when the matchup calls for it. Jungle remains her stronger seat overall, but this isn't a weak novelty like some off-meta roles.",
+      // Research: "Not a troll build": this alt itemization has posted very strong win rates when the matchup calls for
+      //   it, and it isn't a weak novelty like some off-meta roles.
+      coreNote:"Top Shyvana is an off-meta counter-pick into melee matchups. Build Trinity Force into a haste and sustain core rather than Jungle's on-hit path. Jungle is still her stronger role.",
       sideItems:["Plated Steelcaps","Mercury's Treads","Jak'Sho, The Protean","Wit's End","Sterak's Gage","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Trinity Force","Sheen proc wins the trade outright."),I("Spear of Shojin","Haste for more Q double-strikes in the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from their all-in."),I("Sterak's Gage","Shield when the walk-down connects."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...SHYVANA_TOP_DEFAULT_RUNES}},

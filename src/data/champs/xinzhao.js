@@ -22,7 +22,10 @@ export default {
     Jungle:[{
       label:"Sundered Sky duelist", tag:"alt",
       corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"The previous standard line, now the minority: on 26.20 Sundered Sky opens about one Xin Zhao game in six, against about three in five for Titanic Hydra, and Sundered Sky into Black Cleaver is the second most common two-item start at about 12%. Sundered Sky's guaranteed crit-and-heal on the first hit against a champion rides the E-Q dive opener, which suits a single-target duel more than Titanic Hydra's cleave does, so it is the line for games you expect to fight one target at a time. Black Cleaver and Death's Dance follow exactly as in the main build.",
+      // Research: The previous standard line, now the minority: on 26.20 Sundered Sky opens about one Xin Zhao game in
+      //   six, against about three in five for Titanic Hydra, and Sundered Sky into Black Cleaver is the second
+      //   most common two-item start at about 12%.
+      coreNote:"Sundered Sky first. Its guaranteed crit-and-heal on the first hit against a champion rides the E-Q dive opener, which suits a single-target duel more than Titanic Hydra's cleave, so take it when you expect to fight one target at a time. Black Cleaver and Death's Dance follow as in the main build.",
       runes:{...XINZHAO_JGL_DEFAULT_RUNES},
       sideItems:["Guardian Angel","Sterak's Gage","Spirit Visage","Maw of Malmortius","Titanic Hydra"],
     }],
@@ -32,7 +35,10 @@ export default {
       bans:["Zac","Karthus","Nasus"], replacements:["Jarvan IV","Vi","Wukong"],
       role:"Three-Talon Duel Diver",
       corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Xin Zhao owns the early game: his level-3 gank is among the strongest in the jungle, and Crescent Guard makes him unkillable by anyone outside the circle. On 26.20 Titanic Hydra is the clear opener, in about three games in five, and Titanic Hydra into Black Cleaver into Death's Dance is the most common three-item set by a wide margin (about a third of three-item games). Titanic Hydra's cleave carries his three-hit passive and Q flurry onto everyone standing behind the target and adds health for the long brawl, Black Cleaver shreds armor while stacking more health, and Death's Dance converts burst into a bleed his passive heals through. Guardian Angel is the common swap for the third item when you must be first in. Gank every lane before ten minutes; R turns any 2v2 into a 1v1 you win.",
+      // Research: On 26.20 Titanic Hydra is the clear opener, in about three games in five, and Titanic into Black Cleaver
+      //   into Death's Dance is the most common three-item set by a wide margin (about a third of three-item
+      //   games). Guardian Angel is the common third-item swap.
+      coreNote:"Xin Zhao owns the early game: his level-3 gank is among the strongest in the jungle, and Crescent Guard makes him unkillable by anyone outside the circle. Titanic Hydra first carries his passive and Q flurry onto everyone behind the target and adds health, Black Cleaver shreds armor, and Death's Dance turns burst into a bleed your passive heals through. Guardian Angel third when you must be first in. Gank every lane before ten minutes; R turns any 2v2 into a 1v1 you win.",
       sideItems:["Guardian Angel","Sundered Sky","Sterak's Gage","Spirit Visage","Maw of Malmortius","Randuin's Omen","Spear of Shojin"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them through the extended brawl."),I("Sundered Sky","Heal-proc wins the trade war."),I("Death's Dance","Sustain conversion outlasts their damage.")],behind:[I("Death's Dance","Survive their burst and heal it back."),I("Sterak's Gage","Shield the all-in."),I("Spirit Visage","Amplify your W healing.")],runes:{...XINZHAO_JGL_DEFAULT_RUNES}},

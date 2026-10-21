@@ -22,7 +22,10 @@ export default {
     Bot:[{
       label:"Phantom Dancer kite", tag:"alt",
       corePath:"Hubris  ›  Phantom Dancer  ›  Infinity Edge  ›  Rapid Firecannon",
-      coreNote:"Phantom Dancer looks wrong on a champion who cannot attack faster, but Jhin converts every point of bonus attack speed into AD, and the movement speed he gains on crit scales off that same bonus attack speed — 0.44% per point, so Phantom Dancer's 65% adds roughly 29% on top of his base 14%, about 43% in total. It turns the most immobile marksman in the game into a kiting one. On 26.20 it is about a quarter of Jhin games against a third for The Collector, with a slightly higher win rate. Take it into dive and assassin threats; The Collector does more damage when you are safe.",
+      // Research: Move speed on crit scales 0.44% per point of bonus attack speed, so Phantom Dancer's 65% adds roughly
+      //   29%. On 26.20 it is about a quarter of Jhin games against a third for The Collector, with a slightly
+      //   higher win rate.
+      coreNote:"Phantom Dancer looks wrong on a champion who cannot attack faster, but Jhin converts bonus attack speed into AD, and his on-crit move speed scales off that same bonus: Phantom Dancer adds roughly 29% on top of his base 14%, about 43% in total. It turns the most immobile marksman into a kiting one, and wins slightly more often than The Collector second. Take it into dive and assassin threats; The Collector does more damage when you are safe.",
       runes:{...JHIN_BOT_DEFAULT_RUNES},
       sideItems:["Boots of Swiftness","The Collector","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
     }],
@@ -32,7 +35,10 @@ export default {
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Fourth-Shot Executioner",
       corePath:"Hubris  ›  The Collector  ›  Infinity Edge  ›  Rapid Firecannon",
-      coreNote:"Jhin plays for the fourth-shot crit. Hubris is his first item in about two thirds of Emerald+ games on 26.20, and The Collector is the most common second item: it executes champions below 5% health, which is exactly where the fourth shot leaves them, and pays 25 bonus gold per kill. Infinity Edge third spikes crit damage, and Rapid Firecannon and Lord Dominik's Regards are a near-even split fourth; take Lord Dominik's into health stackers. Phantom Dancer second is a close second choice — see the alternate — for games where you need to kite rather than execute.",
+      // Research: Hubris is his first item in about two thirds of Emerald+ games on 26.20, and The Collector is the most
+      //   common second item. Rapid Firecannon and Lord Dominik's Regards are a near-even split fourth. Phantom
+      //   Dancer second is a close second choice.
+      coreNote:"Jhin plays for the fourth-shot crit. Hubris first. The Collector second executes champions below 5% health, exactly where the fourth shot leaves them, and pays 25 bonus gold per kill. Infinity Edge third spikes crit damage, then Rapid Firecannon or Lord Dominik's Regards fourth; take Lord Dominik's into health stackers. Phantom Dancer second is the alternate for when you need to kite rather than execute.",
       sideItems:["Boots of Swiftness","Phantom Dancer","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("The Collector","Execute finishes what the fourth shot chunked."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...JHIN_BOT_DEFAULT_RUNES}},

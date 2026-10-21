@@ -23,7 +23,8 @@ export default {
       bans:["Morgana","Janna","Zyra"], replacements:["Leona","Nautilus","Alistar"],
       role:"Crash-Down Engage Tank",
       corePath:"Celestial Opposition  ›  Plated Steelcaps  ›  Zeke's Convergence  ›  Locket of the Iron Solari",
-      coreNote:"Rell is the hardest engage in the game — W dismount flips a whole team into the air, and Magnet Storm drags them back in for seconds. Celestial Opposition blunts the counter-burst her dives absorb, Zeke's Convergence turns every R into a damage aura for her carry, Locket shields the team through the follow-up, and Knight's Vow keeps the ADC alive inside the chaos she creates. Draft note: she's rank-1 in high elo for a reason — ban her mirror or first-pick her.",
+      // Research: She's rank-1 in high elo.
+      coreNote:"Rell is the hardest engage in the game: W dismount flips a whole team into the air, and Magnet Storm drags them back in for seconds. Celestial Opposition blunts the counter-burst your dives absorb, Zeke's Convergence turns every R into a damage aura for your carry, Locket shields the team through the follow-up, and Knight's Vow keeps the ADC alive inside the chaos. In draft, ban her or first-pick her.",
       sideItems:["Knight's Vow","Thornmail","Redemption","Kaenic Rookern","Randuin's Omen","Bandlepipes"],
       data:{
         JUGGERNAUT:{ahead:[I("Zeke's Convergence","Engage them first — the aura burns while they flail."),I("Thornmail","Anti-heal their sustain brawls."),I("Locket of the Iron Solari","Team shield through their damage.")],behind:[I("Thornmail","Cut their healing on every dive."),I("Knight's Vow","Split their damage off your carry."),I("Redemption","Heal the extended fight.")],runes:{...RELL_SUP_DEFAULT_RUNES}},

@@ -23,7 +23,7 @@ export default {
       bans:["Udyr","Kha'Zix","Graves"], replacements:["Zac","Sejuani","Maokai"],
       role:"Forest Enchanter / Daisy Handler",
       corePath:"Redemption  ›  Ionian Boots of Lucidity  ›  Moonstone Renewer  ›  Ardent Censer",
-      coreNote:"Ivern doesn't fight the jungle — he frees it, farming without combat while lanes get a five-second-cooldown shield-bot ganker. Redemption opens the enchanter curve, Moonstone Renewer chains his E shields into team sustain, Ardent Censer buffs whoever the Brushmaker hides, and Dawncore scales the aura stack. Daisy is the tank he never built: send her in, shield the carry, root the diver, repeat. His ganks look gentle until the triple-brush root chains into a Daisy knockup and someone's carry is just gone.",
+      coreNote:"Ivern doesn't fight the jungle, he frees it, farming without combat while lanes get a five-second-cooldown shield-bot ganker. Redemption opens the enchanter curve, Moonstone Renewer chains his E shields into team sustain, Ardent Censer buffs whoever the Brushmaker hides, and Dawncore scales the aura stack. Daisy is the tank he never built: send her in, shield the carry, root the diver, repeat.",
       sideItems:["Dawncore","Staff of Flowing Water","Mikael's Blessing","Locket of the Iron Solari","Knight's Vow","Shurelya's Battlesong"],
       data:{
         JUGGERNAUT:{ahead:[I("Ardent Censer","Buff the carry kiting them — Daisy holds the door."),I("Moonstone Renewer","Outlast their all-in windows."),I("Redemption","Heal the extended brawl.")],behind:[I("Locket of the Iron Solari","Shield the target they walk down."),I("Knight's Vow","Split their damage off your carry."),I("Redemption","Heal the fights you can't prevent.")],runes:{...IVERN_JGL_DEFAULT_RUNES}},

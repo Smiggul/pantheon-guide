@@ -35,7 +35,7 @@ export default {
       label: "Lethality Poke",
       tag: "off-meta",
       corePath: "Youmuu's Ghostblade  ›  Berserker's Greaves  ›  The Collector  ›  Serylda's Grudge",
-      coreNote: "Lethality poke Varus — max Q and play a long-range siege caster, not an on-hit DPS. Stack Blight from range with W-empowered autos, then a fully-charged Q chunks (and often one-shots a squishy once The Collector's execute is online). Youmuu's gives the roam/siege speed + lethality, The Collector adds the execute threshold, and Serylda's Grudge pens + slows so the poke always lands. Opportunity or Edge of Night continue it. Trades the on-hit build's sustained tank-shred for burst-from-fog and objective-siege pressure.",
+      coreNote: "Lethality poke Varus: max Q and play a long-range siege caster, not on-hit DPS. Stack Blight from range with W-empowered autos, then a fully charged Q chunks, often one-shotting a squishy once The Collector's execute is online. Youmuu's gives roam and siege speed plus lethality, The Collector adds the execute, and Serylda's Grudge pens and slows so the poke lands. Opportunity or Edge of Night continue it. You trade the on-hit build's tank shred for burst from fog and siege pressure.",
       runes: {
         keystone: "Dark Harvest",
         primary: "Domination",

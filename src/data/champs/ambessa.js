@@ -55,7 +55,10 @@ export default {
       bans:["Kayn","Warwick","Nocturne"], replacements:["Wukong","Sett","Shyvana"],
       role:"Off-Meta Skirmish Jungler",
       corePath:"Profane Hydra  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Death's Dance",
-      coreNote:"Jungle Ambessa fights constantly — her clear speed is gated by Q cooldown, so haste and sustained-combat items matter more than a single burst spike. On 26.20 Profane Hydra is the opener in more than half of games, and Voltaic Cyclosword is now the second item: Profane Hydra into Voltaic Cyclosword is the most common start (about a third), well ahead of the Axiom Arc follow-up, and Death's Dance is the usual third. Profane Hydra's active extends her combo range for a clean gank finisher; Voltaic Cyclosword turns her first ability hit into an Energized attack that chunks by current health; Plated Steelcaps blunts invades; Death's Dance keeps her topped up through skirmishes. Hubris first is the main alternative opener.",
+      // Research: On 26.20 Profane Hydra is the opener in more than half of games and Voltaic Cyclosword is now the second
+      //   item: Profane Hydra into Voltaic Cyclosword is the most common start (about a third), well ahead of the
+      //   Axiom Arc follow-up, and Death's Dance is the usual third.
+      coreNote:"Jungle Ambessa fights constantly: her clear speed is gated by Q cooldown, so haste and sustained-combat items matter more than one burst spike. Profane Hydra first: its active extends her combo range for a clean gank finish. Voltaic Cyclosword second turns her first ability hit into an Energized attack that chunks by current health. Plated Steelcaps blunt invades, and Death's Dance third keeps you topped up through skirmishes. Hubris first is the main alternative opener.",
       sideItems:["Axiom Arc","Hubris","Endless Hunger","Sterak's Gage","Serylda's Grudge","Black Cleaver","Guardian Angel","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Sustain wins the extended skirmish."),I("Profane Hydra","Active extends your combo range in the trade."),I("Axiom Arc","Extra burst adds up over the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from a counter-gank."),I("Sterak's Gage","Shield when the walk-down connects."),I("Death's Dance","Sustain even when behind.")],runes:{...AMBESSA_JGL_DEFAULT_RUNES}},

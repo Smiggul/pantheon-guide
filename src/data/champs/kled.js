@@ -23,7 +23,7 @@ export default {
       bans:["Quinn","Vayne","Teemo"], replacements:["Darius","Sett","Urgot"],
       role:"Remount All-In Cavalier",
       corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Overlord's Bloodmail",
-      coreNote:"Kled fights with two health bars and zero fear: dismount is a free second life, and remounting mid-fight flips lost trades into kills. Titanic Hydra converts his HP stacking into cleave, Black Cleaver shreds through the Q-drag brawls, Overlord's Bloodmail doubles down on the HP-to-damage identity, and Sterak's covers the all-in windows. His ult is the best engage in top lane — a cross-map charge that shields him and drags the whole team into the fight he already started. Yell first, count numbers later.",
+      coreNote:"Kled fights with two health bars: dismount is a free second life, and remounting mid-fight flips lost trades into kills. Titanic Hydra converts his health stacking into cleave, Black Cleaver shreds through the Q-drag brawls, Overlord's Bloodmail doubles down on health-to-damage, and Sterak's covers the all-in windows. His ult is the best engage in top lane: a cross-map charge that shields him and drags the whole team into the fight he already started.",
       sideItems:["Sterak's Gage","Death's Dance","Spirit Visage","Maw of Malmortius","Randuin's Omen","Dead Man's Plate"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them through the Q-drag brawl."),I("Titanic Hydra","Cleave wins the extended slugfest."),I("Death's Dance","Bleed conversion outlasts their trades.")],behind:[I("Death's Dance","Survive their burst and heal it back."),I("Sterak's Gage","Shield the all-in."),I("Spirit Visage","Amplify the remount sustain.")],runes:{...KLED_TOP_DEFAULT_RUNES}},

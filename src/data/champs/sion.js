@@ -57,7 +57,10 @@ export default {
       Mid:[{
         label:"Heartsteel bruiser", tag:"alt",
         corePath:"Heartsteel  ›  Titanic Hydra  ›  Overlord's Bloodmail  ›  Unending Despair",
-        coreNote:"The older opening: Heartsteel first. It is about one Mid Sion game in five on 26.20, with a win rate a little under the Hollow Radiance line. Heartsteel's empowered auto against a nearby champion grows his max health every few seconds in lane, and Titanic Hydra and Overlord's Bloodmail both turn that health into damage, so this version threatens more in side-lane duels and gives up some of the main build's wave burn and magic resist. Titanic Hydra is the most common second item; past that the sample is a few hundred games, with Overlord's Bloodmail and Unending Despair about even as the third.",
+        // Research: The older opening: about one Mid Sion game in five on 26.20, with a win rate a little under the Hollow
+        //   Radiance line. Titanic is the most common second item; past that the sample is a few hundred games, with
+        //   Overlord's and Unending Despair about even as the third.
+        coreNote:"Heartsteel first: its empowered auto against a nearby champion grows your max health every few seconds in lane, and Titanic Hydra and Overlord's Bloodmail both turn that health into damage. This version threatens more in side-lane duels but gives up some of the main build's wave burn and magic resist, and wins a little less often. Titanic Hydra second, then Overlord's Bloodmail or Unending Despair.",
         runes:{ ...SION_MID_DEFAULT_RUNES },
         sideItems:["Plated Steelcaps","Mercury's Treads","Hollow Radiance","Thornmail","Hullbreaker","Jak'Sho, The Protean"],
       }],
@@ -67,7 +70,9 @@ export default {
       Top:{
         bans:["Riven","Fiora","Kayle"], replacements:["Ornn","Malphite","Sett"],
         corePath: "Heartsteel  ›  Hollow Radiance  ›  Titanic Hydra  ›  Unending Despair",
-        coreNote: "Sion top is a scaling HP stacker and wave controller. Heartsteel stacking defines your mid-game; Hollow Radiance and Unending Despair are the current meta's AoE burn + anti-heal tank pairing, replacing the older Sunfire Aegis/Thornmail combo; Titanic Hydra converts HP into damage while maintaining frontline presence.",
+        // Research: Hollow Radiance and Unending Despair are the current meta's pairing, replacing the older Sunfire
+        //   Aegis/Thornmail combo.
+        coreNote: "Sion Top is a scaling health stacker and wave controller. Heartsteel stacking defines your mid game; Hollow Radiance and Unending Despair are the AoE burn and anti-heal tank pairing; Titanic Hydra converts health into damage while you hold the front line.",
 
         sideItems: [
           "Plated Steelcaps","Mercury's Treads","Sunfire Aegis","Thornmail",
@@ -265,7 +270,11 @@ export default {
         bans:["Akali","Fizz","Yasuo"], replacements:["Galio","Malphite","Aurelion Sol"],
         skillOrder:["W","Q","E"], // AP Mid Sion maxes the shield (W) first, unlike tank Top/Jungle Q>W>E
         corePath: "Hollow Radiance  ›  Unending Despair  ›  Titanic Hydra  ›  Thornmail",
-        coreNote: "Mid Sion is a wave-control disruptor. You don't win lane, you neutralize it, then impact side lanes with R and shove priority. Hollow Radiance is his first item in almost half of mid games on 26.20, more than twice as often as Heartsteel, and Hollow Radiance into Unending Despair is the most common two-item start, about a quarter of games. Hollow Radiance burns everything near him after he deals or takes damage, which backs his Q and E wave clear, and its magic resist covers him against mid-lane mages. Unending Despair adds armor and drains nearby champions every four seconds for a large heal, so he can stand in long trades. Titanic Hydra is the most common third item, turning his health into cleave damage, and Thornmail the most common fourth into auto-attackers. Mercury's Treads are the usual boots. Heartsteel first is the minority alternate.",
+        // Research: Hollow Radiance is his first item in almost half of mid games on 26.20, more than twice as often as
+        //   Heartsteel, and Hollow Radiance into Unending Despair is the most common two-item start, about a quarter
+        //   of games. Titanic is the most common third item and Thornmail the most common fourth. Mercury's are the
+        //   usual boots. Heartsteel first is the minority alternate.
+        coreNote: "Mid Sion neutralizes lane rather than winning it, then impacts side lanes with R and shove priority. Hollow Radiance first burns everything near you after you deal or take damage, backing your wave clear, and its magic resist covers you against mages. Unending Despair second adds armor and drains nearby champions every four seconds for a big heal in long trades. Titanic Hydra third turns health into cleave; Thornmail fourth into auto-attackers. Mercury's Treads.",
 
         sideItems: [
           "Mercury's Treads","Plated Steelcaps","Heartsteel","Jak'Sho, The Protean",
@@ -462,7 +471,12 @@ export default {
       Jungle:{
         bans:["Udyr","Kindred","Lillia"], replacements:["Amumu","Zac","Warwick"],
         corePath: "Heartsteel  ›  Overlord's Bloodmail  ›  Titanic Hydra  ›  Unending Despair",
-        coreNote: "Sion Jungle plays for scaling and objective control: clear speed is stable, and his value comes from a mid-game frontline that also hits hard. Heartsteel is his first item in just over half of jungle games on 26.20, and Sunfire Aegis, which this page used to open with, in under one in ten. Heartsteel's empowered auto against a nearby champion grows his max health on every gank. Overlord's Bloodmail, the most common follow-up to Heartsteel, and Titanic Hydra, the usual third, turn that health into attack damage, and Unending Despair is the most common fourth, adding armor and a heal while he fights in the middle of the enemy team. Boots of Swiftness and Plated Steelcaps are the usual boots. The sample is small, about 8,500 games, but the shift away from Sunfire is not close. About a fifth of players build lethality off Youmuu's Ghostblade instead.",
+        // Research: Heartsteel is his first item in just over half of jungle games on 26.20, and Sunfire Aegis, which this
+        //   page used to open with, in under one in ten. Overlord's is the most common follow-up, Titanic the usual
+        //   third, Unending Despair the most common fourth. The sample is small, about 8,500 games, but the shift
+        //   away from Sunfire is not close. About a fifth of players build lethality off Youmuu's Ghostblade
+        //   instead.
+        coreNote: "Sion Jungle plays for scaling and objective control: the clear is stable, and your value is a mid-game frontline that also hits hard. Heartsteel first: its empowered auto against a nearby champion grows your max health on every gank. Overlord's Bloodmail second and Titanic Hydra third turn that health into attack damage, and Unending Despair fourth adds armor and a heal while you fight in the middle of the enemy team. Boots of Swiftness or Plated Steelcaps.",
 
         sideItems: [
           "Boots of Swiftness","Plated Steelcaps","Mercury's Treads",
@@ -659,7 +673,12 @@ export default {
       Support:{
         bans:["Zyra","Vel'Koz","Blitzcrank"], replacements:["Alistar","Braum","Pantheon"],
         corePath: "Celestial Opposition  ›  Heartsteel  ›  Thornmail  ›  Unending Despair",
-        coreNote: "Support Sion is engage and disruption: you trade lane dominance for teamfight initiation and soak. He is a rare pick here, about 6,500 Emerald+ games on 26.20, so the sample is small. Celestial Opposition is the most common support item, in about half of games; it cuts the damage he takes after a champion hits him and slows nearby enemies when that ends, which suits a support who walks in first. Heartsteel is the most common tank opening and wins about 51%, its empowered auto growing his max health in every lane fight; Locket of the Iron Solari, which this page used to open with, is first in only about 4% of games. Thornmail and Unending Despair are the usual follow-ups, though past the second item the sample is a few hundred games. The most common single opening is actually Youmuu's Ghostblade, in more than a quarter of games, but that lethality build wins only about 44%, so it is not the recommendation here.",
+        // Research: A rare pick here, about 6,500 Emerald+ games on 26.20, so the sample is small. Celestial is the most
+        //   common support item, in about half of games. Heartsteel is the most common tank opening and wins about
+        //   51%; Locket, which this page used to open with, is first in only about 4%. Past the second item the
+        //   sample is a few hundred games. The most common single opening is actually Youmuu's Ghostblade, in more
+        //   than a quarter of games, but that lethality build wins only about 44%.
+        coreNote: "Support Sion is engage and disruption: you trade lane dominance for teamfight initiation and soak. Celestial Opposition cuts the damage you take after a champion hits you and slows nearby enemies when that ends, which suits a support who walks in first. Heartsteel is the tank opening, its empowered auto growing your max health in every lane fight. Thornmail and Unending Despair follow. Avoid the common Youmuu's lethality build: it wins far less.",
 
         sideItems: [
           "Boots of Swiftness","Plated Steelcaps","Mercury's Treads",

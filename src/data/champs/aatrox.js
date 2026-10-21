@@ -33,7 +33,10 @@ export default {
       bans:["Vayne","Quinn","Fiora"], replacements:["Darius","Sett","Volibear"],
       role:"Juggernaut / Sword-Sweep Bruiser",
       corePath:"Eclipse  ›  Plated Steelcaps  ›  Sundered Sky  ›  Death's Dance",
-      coreNote:"Aatrox plays for a repeated Q sword-sweep combo — each cast heals off ability damage, Umbral Dash repositions between casts, and World Ender turns a losing fight into a takeover. Eclipse is his most common first item on 26.20 by a wide margin, about half of Emerald+ top games against a quarter for Spear of Shojin: its shield wins the early trades, and the usual follow-up is Sundered Sky into Death's Dance. Sundered Sky's guaranteed-crit heal compounds his Q healing, and Death's Dance lets him commit fully to the all-in. Spear of Shojin first is the main alternative, close in win rate: more Q casts per fight means more healing, which the 26.19 E healing buff rewards.",
+      // Research: Eclipse is his most common first item on 26.20 by a wide margin, about half of Emerald+ top games
+      //   against a quarter for Spear of Shojin; the usual follow-up is Sundered Sky into Death's Dance. Shojin
+      //   first is close in win rate, and the 26.19 E healing buff rewards it.
+      coreNote:"Aatrox fights with his Q sword-sweep combo: every cast heals off ability damage, Umbral Dash repositions between casts, and World Ender turns a losing fight into a takeover. Eclipse first: its shield wins the early trades. Sundered Sky's guaranteed-crit heal compounds your Q healing, and Death's Dance lets you commit fully to the all-in. Spear of Shojin first is a close alternative: more Q casts per fight means more healing.",
       sideItems:["Spear of Shojin","Sterak's Gage","Guardian Angel","Black Cleaver","Serylda's Grudge","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Healing wins the sustained trade war."),I("Spear of Shojin","Haste + true damage adds up over the fight."),I("Death's Dance","Outlast their sustain with your own.")],behind:[I("Sterak's Gage","Shield when the walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Plated Steelcaps","Reduces auto damage from their press.")],runes:{...AATROX_TOP_DEFAULT_RUNES}},
@@ -55,7 +58,8 @@ export default {
       bans:["Ivern","Nidalee","Evelynn"], replacements:["Jarvan IV","Vi","Warwick"],
       role:"World Ender Skirmish Jungler",
       corePath:"Hubris  ›  Plated Steelcaps  ›  Sundered Sky  ›  Death's Dance",
-      coreNote:"Jungle Aatrox is A-tier on real data — his Q healing makes the clear free, and every gank arrives with three knockups and a revive threat. Hubris snowballs the skirmish-heavy pattern his Conqueror brawling wins, Sundered Sky spikes the dive opener, and Death's Dance converts focus fire into a bleed he heals through mid-World Ender. Maw closes against AP comps. He wants every dragon fight to be a brawl in a phone booth — with World Ender up, take every 50/50 and win most of them.",
+      // Research: Jungle Aatrox is A-tier on real data.
+      coreNote:"Aatrox's Q healing makes the clear free, and every gank arrives with three knockups and a revive threat. Hubris snowballs the skirmishes his Conqueror brawling wins, Sundered Sky spikes the dive opener, and Death's Dance turns focus fire into a bleed you heal through during World Ender. Maw of Malmortius closes against AP comps. With World Ender up, take every 50/50 brawl at dragon.",
       sideItems:["Maw of Malmortius","Sterak's Gage","Spear of Shojin","Black Cleaver","Guardian Angel","Spirit Visage"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Q-chain brawls beat them with Conqueror stacked."),I("Death's Dance","Sustain conversion outlasts their trades."),I("Black Cleaver","Shred through the invade brawl.")],behind:[I("Death's Dance","Survive their burst and heal it back."),I("Sterak's Gage","Shield the all-in."),I("Spirit Visage","Amplify the World Ender healing.")],runes:{...AATROX_JGL_DEFAULT_RUNES}},

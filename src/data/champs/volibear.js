@@ -31,13 +31,13 @@ export default {
     Top:[{
       label:"Statikk Waveclear", tag:"alt",
       corePath:"Dusk and Dawn  ›  Statikk Shiv  ›  Berserker's Greaves  ›  Spirit Visage",
-      coreNote:"A waveclear-first spin on his on-hit build: keep Dusk and Dawn first for the fast Lethal-Tempo/on-hit proc, but take Statikk Shiv over Navori Flickerblade. Statikk's energized bolts give Volibear the AoE waveclear + teamfight chip his kit otherwise lacks (and clear waves fast enough to freely roam or dive with R). You trade some of Flickerblade's single-target sustained DPS for shove pressure and poke — best when you keep getting shoved in or want to force objective tempo. Lethal Tempo keystone as normal.",
+      coreNote:"A waveclear-first spin on the on-hit build: keep Dusk and Dawn first for the fast Lethal Tempo on-hit proc, but take Statikk Shiv over Navori Flickerblade. Statikk's energized bolts give Volibear the AoE wave clear and teamfight chip his kit lacks, fast enough to roam or dive with R freely. You trade some single-target DPS for shove pressure and poke: best when you keep getting shoved in or want to force objective tempo. Lethal Tempo as normal.",
       runes:{...VOLIBEAR_TOP_DEFAULT_RUNES},
       sideItems:["Navori Flickerblade","Wit's End","Thornmail","Kaenic Rookern","Sterak's Gage","Mercury's Treads"],
     },{
       label:"Full Tank", tag:"alt",
       corePath:"Sunfire Aegis  ›  Jak'Sho, The Protean  ›  Spirit Visage  ›  Thornmail",
-      coreNote:"The frontline-engage identity: give up the on-hit DPS for pure durability. Volibear's kit carries this well — R disables a tower and its shield + AoE keep you diving, W still heals a chunk off every bite, and the passive does %-max-HP magic damage so you stay relevant without damage items. Sunfire → Jak'Sho → Spirit Visage → Thornmail, with Aftershock to punish your own engage. Best into heavy-damage enemy comps or when your team just needs a rock-solid frontline — much less solo-carry threat than the DPS builds, but far harder to kill. Swap Kaenic Rookern in vs AP, Randuin's/Frozen Heart vs crit.",
+      coreNote:"Pure durability instead of on-hit DPS. The kit carries it: R disables a tower and its shield and AoE keep you diving, W still heals off every bite, and the passive deals percent-max-health magic damage without damage items. Sunfire, Jak'Sho, Spirit Visage, Thornmail, with Aftershock to punish your own engage. Best into heavy-damage teams or when your team needs a front line: far harder to kill, far less of a carry. Kaenic Rookern into AP, Randuin's or Frozen Heart into crit.",
       runes:{ keystone:"Aftershock", primary:"Resolve", primaryRunes:["Font of Life","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Aftershock turns Volibear's guaranteed E/R engage into a burst of resistances + a damage pop, exactly when he dives in — the tank keystone that rewards his all-in pattern. Font of Life and Conditioning scale his frontline durability, Overgrowth compounds it in longer games; Triumph + Legend: Haste keep him healthy and spamming his kit through the fight." },
       sideItems:["Warmog's Armor","Kaenic Rookern","Frozen Heart","Randuin's Omen","Unending Despair","Mercury's Treads"],
     }],
@@ -47,7 +47,8 @@ export default {
       bans:["Teemo","Fiora","Aatrox"], replacements:["Sett","Renekton","Sion"],
       role:"Juggernaut / Tank",
       corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
-      coreNote:"Current meta favors Dusk and Dawn's on-hit/crit hybrid stats and Navori Flickerblade's cooldown refund over the older Heartsteel/Sunfire Aegis core — both feed his passive's per-cast bonus damage more directly. Spirit Visage still amplifies W self-healing (his core sustain mechanic); Thornmail or Force of Nature last depending on their damage profile. Heartsteel remains a fine alternate for longer scaling games. Remember: R disables the tower — Demolish + dive is your win condition.",
+      // Research: Current meta favors Dusk and Dawn plus Navori over the older Heartsteel/Sunfire Aegis core.
+      coreNote:"Dusk and Dawn's on-hit and crit hybrid stats and Navori Flickerblade's cooldown refund both feed your passive's per-cast bonus damage directly. Spirit Visage amplifies W self-healing, your core sustain; Thornmail or Force of Nature last, by their damage profile. Heartsteel is a fine alternative for long, scaling matches. R disables the tower: Demolish plus dive is your win condition.",
       sideItems:["Force of Nature","Dead Man's Plate","Warmog's Armor","Randuin's Omen","Frozen Heart","Abyssal Mask","Mercury's Treads","Plated Steelcaps","Heartsteel","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Sunfire Aegis","Burn stacks while you out-sustain their walk-down with W."),I("Spirit Visage","Amplifies W healing — you win the HP war."),I("Thornmail","GW cuts Darius/Mundo regen while they hit you.")],behind:[I("Thornmail","GW 40% is the equaliser vs their sustain."),I("Spirit Visage","W healing keeps you relevant behind."),I("Warmog's Armor","Regen between waves — never base, never lose tower.")],runes:{...VOLIBEAR_TOP_DEFAULT_RUNES}},
@@ -69,7 +70,8 @@ export default {
       bans:["Kindred","Rek'Sai","Elise"], replacements:["Udyr","Warwick","Sett"],
       role:"Juggernaut / Bruiser",
       corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
-      coreNote:"Same current-meta core as Top — Dusk and Dawn's on-hit/crit hybrid and Navori Flickerblade's cooldown refund feed his passive's per-cast damage better than the older Trinity Force/Sundered Sky pattern. Spirit Visage amplifies the W healing that anchors every gank. Gank pattern unchanged: E from fog for the slow field, Q stun on arrival, R to break tower dives.",
+      // Research: Dusk and Dawn plus Navori feed his passive better than the older Trinity Force/Sundered Sky pattern.
+      coreNote:"Same core as Top: Dusk and Dawn's on-hit and crit hybrid and Navori Flickerblade's cooldown refund feed your passive's per-cast damage. Spirit Visage amplifies the W healing that anchors every gank. Gank with E from fog for the slow field, Q stun on arrival, and R to break tower dives.",
       sideItems:["Dead Man's Plate","Force of Nature","Wit's End","Blade of The Ruined King","Mercury's Treads","Plated Steelcaps","Trinity Force","Sundered Sky","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Crit-heal bite wins the bruiser mirror."),I("Blade of The Ruined King","% HP shred on their stacked health."),I("Thornmail","GW on their regen while you DPS.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Thornmail","GW equaliser."),I("Spirit Visage","W healing keeps skirmishes winnable.")],runes:{...VOLIBEAR_JGL_DEFAULT_RUNES}},

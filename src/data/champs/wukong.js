@@ -47,7 +47,9 @@ export default {
       label: "Full HP (Exodia)",
       tag: "off-meta",
       corePath: "Heartsteel  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Riftmaker",
-      coreNote: "The 'Exodia' full-HP build — Wukong's passive and his 100%-AP-ratio E both love stacked health, so you snowball HP into damage: Heartsteel to stack, Overlord's Bloodmail (AD off max HP), then Riftmaker (huge AP off the E ratio + omnivamp + ramping true damage after 4s in a fight). Round it out with Titanic Hydra or Unending Despair. A slow-scaling late-game monster that becomes nearly unkillable and still hits like a truck at three items — much tankier than the Trinity bruiser but weaker early, so grab Tiamat first into shove matchups (Singed). Conqueror + Resolve for the extended brawls it's built to win.",
+      // Research: Nicknamed the "Exodia" full-HP build. Riftmaker's true damage ramps after 4s in a fight. It still hits
+      //   hard at three items.
+      coreNote: "The full-health build: Wukong's passive and his 100% AP-ratio E both love stacked health. Heartsteel to stack, Overlord's Bloodmail for AD off max health, then Riftmaker for AP off the E ratio, omnivamp and true damage. Round it out with Titanic Hydra or Unending Despair. Nearly unkillable late but weaker early than the Trinity bruiser, so grab Tiamat first into shove matchups like Singed. Conqueror and Resolve for the long brawls.",
       runes: {
         keystone: "Conqueror",
         primary: "Precision",
@@ -87,7 +89,10 @@ export default {
       bans:["Rammus","Lillia","Diana"], replacements:["Rek'Sai","Sett","Xin Zhao"],
       role:"Diver / Bruiser",
       corePath:"Trinity Force  ›  Plated Steelcaps  ›  Black Cleaver  ›  Sundered Sky",
-      coreNote:"Same core as Top. 26.18 re-verified: Black Cleaver has overtaken Sundered Sky as the second item — the repeated Sundered Sky nerfs since 26.16 tipped it, and live 26.18 data has Trinity Force › Plated Steelcaps › Black Cleaver at 51.9%. R spin fills Cleaver's stacks in a single rotation, which is why it scales better here than on most bruisers; Sundered Sky is still the pick-up when you want the guaranteed-crit heal instead of shred. Jungle Wukong uses W clone to bait enemy spells during ganks — drop it and circle behind while they attack it. R spin for engagement and AoE after W repositioning.",
+      // Research: 26.18 re-verified: Black Cleaver has overtaken Sundered Sky as the second item; the repeated Sundered
+      //   Sky nerfs since 26.16 tipped it, and live 26.18 data has Trinity Force › Plated Steelcaps › Black
+      //   Cleaver at 51.9%.
+      coreNote:"Same core as Top, with Black Cleaver second: your R spin fills its stacks in a single rotation, which is why it scales better here than on most bruisers. Take Sundered Sky instead when you want the guaranteed-crit heal over shred. In ganks, drop the W clone to bait enemy spells and circle behind while they attack it; R spin for engage and AoE after the W reposition.",
       sideItems:["Death's Dance","Sterak's Gage","Guardian Angel","Serylda's Grudge","Maw of Malmortius","Lord Dominik's Regards"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","% pen into their HP stacking."),I("Black Cleaver","R spin stacks Cleaver in one rotation on ganks."),I("Serylda's Grudge","Slow stops their walk-down after gank landing.")],behind:[I("Death's Dance","Delay Darius burst while W clone distracts them."),I("Sterak's Gage","Shield on failed ganks."),I("Plated Steelcaps","Auto reduction on every Juggernaut auto-weave.")],runes:{...WUKONG_JGL_DEFAULT_RUNES}},

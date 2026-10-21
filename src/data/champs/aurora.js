@@ -45,7 +45,8 @@ export default {
       bans:["Irelia","Camille","Jax"], replacements:["Teemo","Vayne","Gnar"],
       role:"Ranged Top Skirmish Mage",
       corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Top Aurora runs the identical page and core to Mid — the data confirms it — because her game plan doesn't change: bully melees with Q-auto Electrocute trades they can't answer, hop away from every engage, and scale into a realm-warp teamfighter. The difference is the fifth slot leaning Void Staff over Zhonya's, since top lane feeds her tanks and juggernauts to shred instead of assassins to survive. Ranged-top discipline applies: freeze, poke, never coinflip.",
+      // Research: "The data confirms" Top runs the identical page and core to Mid.
+      coreNote:"Top Aurora runs the same page and core as Mid, because her plan doesn't change: bully melees with Q-auto Electrocute trades they can't answer, hop away from every engage, and scale into a realm-warp teamfighter. The difference is the fifth slot: Void Staff over Zhonya's, since top lane feeds you tanks and juggernauts to shred rather than assassins to survive. Freeze, poke, never coinflip.",
       sideItems:["Void Staff","Zhonya's Hourglass","Banshee's Veil","Cosmic Drive","Horizon Focus","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke rotations they can never answer."),I("Void Staff","Shred the MR they're forced to buy."),I("Cosmic Drive","Speed to kite the walk-down forever.")],behind:[I("Cosmic Drive","Speed keeps their hands off you."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the poke real.")],runes:{...AURORA_DEFAULT_RUNES}},

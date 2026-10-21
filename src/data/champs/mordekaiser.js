@@ -25,7 +25,8 @@ export default {
       label: "Dusk & Dawn AP",
       tag: "alt",
       corePath: "Rylai's Crystal Scepter  ›  Plated Steelcaps  ›  Riftmaker  ›  Liandry's Torment",
-      coreNote: "The highest-win-rate Morde line on Mobalytics 26.14 (60.1% over ~1.5k games), more aggressive than the standard Rylai's/Liandry's tank-mage. Dusk and Dawn's alternating on-hit + move speed lets you chase inside the Death Realm, Riftmaker converts the extended duel into omnivamp true damage, and Experimental Hexplate speeds up and empowers Realm of Death itself — so you ult more often and hit harder inside it. Spirit Visage amplifies the whole sustain package. Same Conqueror gameplan, tuned for tempo and ult uptime rather than raw kiting.",
+      // Research: The highest-win-rate Morde line on Mobalytics 26.14 (60.1% over ~1.5k games).
+      coreNote: "More aggressive than the standard Rylai's and Liandry's tank-mage line. Dusk and Dawn's alternating on-hit and move speed lets you chase inside the Death Realm, Riftmaker turns the long duel into omnivamp true damage, and Experimental Hexplate speeds up and empowers Realm of Death, so you ult more often and hit harder inside it. Spirit Visage amplifies the whole sustain package. Same Conqueror plan, tuned for tempo and ult uptime rather than raw kiting.",
       runes: {
         keystone: "Conqueror",
         primary: "Precision",
@@ -43,7 +44,7 @@ export default {
       bans:["Fiora","Vayne","Teemo"], replacements:["Darius","Garen","Sett"],
       role:"Death-Realm Duelist Juggernaut",
       corePath:"Rylai's Crystal Scepter  ›  Plated Steelcaps  ›  Riftmaker  ›  Liandry's Torment",
-      coreNote:"Mordekaiser wins by making the fight one-on-one — Realm of Death removes their best answer from the map, and this build makes the seven seconds inside unwinnable for them. Rylai's Crystal Scepter is the current first buy: the slow solves his only real problem (people walking away from E-Q), Riftmaker's omnivamp turns extended Death Realm duels into guaranteed wins, and Liandry's burn stacks with his passive AoE. Spirit Visage amplifies the whole healing package. Ult their carry, delete them, walk out with their stats.",
+      coreNote:"Mordekaiser wins by making the fight one-on-one: Realm of Death removes their best answer from the map, and this build makes the seven seconds inside unwinnable for them. Rylai's Crystal Scepter first: the slow solves his only real problem, people walking away from E-Q. Riftmaker's omnivamp wins the long Death Realm duels, and Liandry's burn stacks with his passive AoE. Spirit Visage amplifies the whole healing package. Ult their carry, kill them, walk out with their stats.",
       sideItems:["Spirit Visage","Rabadon's Deathcap","Thornmail","Force of Nature","Zhonya's Hourglass","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","Omnivamp wins the juggernaut mirror slugfest."),I("Rylai's Crystal Scepter","They can't leave the passive circle slowed."),I("Liandry's Torment","Burn scales off their HP stacking.")],behind:[I("Thornmail","Anti-heal their sustain before comparing bars."),I("Spirit Visage","Amplify your own healing loop."),I("Plated Steelcaps","Cheap mitigation vs their autos.")],runes:{...MORDEKAISER_DEFAULT_RUNES}},
@@ -65,7 +66,8 @@ export default {
       bans:["Lillia","Kindred","Master Yi"], replacements:["Volibear","Amumu","Warwick"],
       role:"Off-Meta Death-Realm Ganker",
       corePath:"Rylai's Crystal Scepter  ›  Plated Steelcaps  ›  Riftmaker  ›  Liandry's Torment",
-      coreNote:"Jungle Mordekaiser is a genuine off-meta sleeper — low pick rate but a 53%+ win rate on real data, running the identical page and build as Top because the plan doesn't change: arrive, ult the carry, and delete them inside the Death Realm. His clear is honest AoE off Q and passive, and every gank carries the scariest threat in the game — a 1v1 nobody's carry can win. Rylai's makes his ganks stick, Riftmaker wins the realm duels, and the rest is Top Morde with a smite button.",
+      // Research: A genuine off-meta sleeper: low pick rate but a 53%+ win rate on real data.
+      coreNote:"Jungle Mordekaiser runs the same page and build as Top, because the plan doesn't change: arrive, ult the carry, and kill them inside the Death Realm. His clear is honest AoE off Q and passive, and every gank threatens a 1v1 nobody's carry can win. Rylai's makes your ganks stick and Riftmaker wins the realm duels.",
       sideItems:["Spirit Visage","Rabadon's Deathcap","Thornmail","Force of Nature","Zhonya's Hourglass","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","Omnivamp wins the invade slugfest."),I("Rylai's Crystal Scepter","They can't leave the passive circle slowed."),I("Liandry's Torment","Burn scales off their HP stacking.")],behind:[I("Thornmail","Anti-heal their sustain before comparing bars."),I("Spirit Visage","Amplify your healing loop."),I("Plated Steelcaps","Cheap mitigation vs their autos.")],runes:{...MORDEKAISER_DEFAULT_RUNES}},

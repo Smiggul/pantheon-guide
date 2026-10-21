@@ -22,7 +22,10 @@ export default {
     Mid:[{
       label:"Dusk and Dawn spellblade", tag:"alt",
       corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"A minority Azir line: Dusk and Dawn first instead of Nashor's Tooth, in about 6-9% of games on lolalytics. Its spellblade loads extra damage into the soldier attack after each ability, so it front-loads short trades rather than buying the sustained soldier DPS Nashor's gives. It is not a stronger build: at equal item counts it finishes within about a point of Nashor's-first, behind at two and three items and ahead at four, so pick it for the trading pattern, not the numbers. Players who take it buy Sorcerer's Shoes and follow with Shadowflame more often than Nashor's Tooth.",
+      // Research: A minority line, in about 6-9% of games on lolalytics. At equal item counts it finishes within about a
+      //   point of Nashor's-first: behind at two and three items, ahead at four. Players who take it buy
+      //   Sorcerer's Shoes and follow with Shadowflame more often than Nashor's Tooth.
+      coreNote:"Dusk and Dawn first instead of Nashor's Tooth. Its spellblade loads extra damage into the soldier attack after each ability, so it front-loads short trades rather than buying the sustained soldier DPS Nashor's gives. It is not a stronger build, finishing within about a point of Nashor's first, so pick it for the trading pattern. Pair it with Sorcerer's Shoes and follow with Shadowflame rather than Nashor's Tooth.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack instead of the main page's Lethal Tempo, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
       sideItems:["Nashor's Tooth","Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter"],
     }],
@@ -32,7 +35,9 @@ export default {
       bans:["Fizz","Zed","Irelia"], replacements:["Orianna","Syndra","Xerath"],
       role:"Soldier Control Mage / Hyperscaler",
       corePath:"Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Azir fights through his sand soldiers — every item that buys attack speed or AP multiplies their drumbeat of on-hit magic damage. Nashor's Tooth is the defining spike and the first item in over 80% of Azir games: attack speed plus on-hit AP is exactly what soldiers convert into DPS. Shadowflame adds burst against the squishies you poke low, and Rabadon's Deathcap is now the usual third item, about twice as common there as Zhonya's Hourglass. Move Zhonya's up when the enemy has the dive to punish a Shurima Shuffle — ult them into your carries, then stasis through the retaliation.",
+      // Research: Nashor's Tooth is the first item in over 80% of Azir games. Rabadon's Deathcap is now the usual third
+      //   item, about twice as common there as Zhonya's Hourglass.
+      coreNote:"Azir fights through his sand soldiers: every point of attack speed or AP multiplies their on-hit magic damage. Nashor's Tooth first is the defining spike, since attack speed plus on-hit AP is exactly what soldiers convert into DPS. Shadowflame adds burst against the squishies you poke low, and Rabadon's Deathcap comes third. Move Zhonya's up when the enemy has the dive to punish a Shurima Shuffle: ult them into your carries, then stasis through the retaliation.",
       sideItems:["Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter","Riftmaker","Ionian Boots of Lucidity"],
       data:{
         JUGGERNAUT:{ahead:[I("Nashor's Tooth","Soldier DPS shreds them before they ever reach you."),I("Shadowflame","Punish their low MR with flat pen."),I("Rabadon's Deathcap","Scaling AP turns soldiers into a sustained shredder.")],behind:[I("Zhonya's Hourglass","Stasis when they finally force the gap close."),I("Void Staff","Pen keeps soldier damage real without a gold lead."),I("Banshee's Veil","Blocks the gap-closer or pull that starts their kill window.")],runes:{...AZIR_MID_DEFAULT_RUNES}},

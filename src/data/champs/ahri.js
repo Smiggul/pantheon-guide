@@ -22,7 +22,12 @@ export default {
     Mid:[{
       label:"Blackfire Torch into Lich Bane", tag:"alt",
       corePath:"Blackfire Torch  ›  Lich Bane  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-      coreNote:"The minority line, and the old main build: Blackfire Torch first in about a quarter of Ahri games on 26.20, against Malignance's three in five. Blackfire Torch into Lich Bane is about 13% of opening pairs and wins more often than the main path (56.5% against 53.0% for Malignance into Shadowflame), on fewer games. Blackfire's haste and burn suit longer skirmishes, and Lich Bane adds a spellblade auto between spells, so her damage keeps coming even when Charm or Orb misses. Zhonya's and Rabadon's finish it, as in the main build. Electrocute is still the most common page on this line. Players who take Deathfire Touch open Blackfire Torch more often than Malignance, so that keystone also suits it.",
+      // Research: The old main build. Blackfire Torch first in about a quarter of Ahri games on 26.20, against
+      //   Malignance's three in five. Blackfire Torch into Lich Bane is about 13% of opening pairs and wins more
+      //   often than the main path (56.5% against 53.0% for Malignance into Shadowflame), on fewer games.
+      //   Electrocute is still the most common page on this line; players who take Deathfire Touch open Blackfire
+      //   Torch more often than Malignance.
+      coreNote:"The minority line: Blackfire Torch first, then Lich Bane. Blackfire's haste and burn suit longer skirmishes, and Lich Bane adds a spellblade auto between spells, so your damage keeps coming even when Charm or Orb misses. Zhonya's and Rabadon's finish it, as in the main build. It has won more often than the Malignance line, though fewer players run it. Electrocute works here, and so does Deathfire Touch.",
       runes:{...AHRI_MID_DEFAULT_RUNES},
       sideItems:["Sorcerer's Shoes","Malignance","Shadowflame","Banshee's Veil","Void Staff","Mercury's Treads","Cosmic Drive"],
     }],
@@ -32,7 +37,11 @@ export default {
       bans:["Hwei","Qiyana","Annie"], replacements:["Katarina","Locke","Xerath"],
       role:"Burst Mage / Mobile Assassin",
       corePath:"Malignance  ›  Shadowflame  ›  Zhonya's Hourglass  ›  Rabadon's Deathcap",
-      coreNote:"Ahri plays for poke into burst: land Charm, follow with Orb of Deception, and use Spirit Rush's three dashes to chase a kill or reset the fight. Malignance is her first item in about three games in five on 26.20, with Blackfire Torch at a quarter. Its ultimate haste brings Spirit Rush back sooner, which is most of her playmaking, and its burn lowers the magic resist of anyone her ult damages. Shadowflame is the most common second item by a clear margin, turning targets below 40% health into executes, and Zhonya's Hourglass is the usual third, a stasis for after she has spent her dashes. Rabadon's Deathcap finishes the core in about two games in three from there. Blackfire Torch into Lich Bane is the main minority line, with a higher win rate on fewer games; see the alternate.",
+      // Research: Malignance is her first item in about three games in five on 26.20, Blackfire Torch about a quarter.
+      //   Shadowflame is the most common second item by a clear margin, Zhonya's the usual third, and Rabadon's
+      //   finishes the core in about two games in three from there. Blackfire Torch into Lich Bane is the main
+      //   minority line, with a higher win rate on fewer games (the alternate).
+      coreNote:"Ahri plays for poke into burst: land Charm, follow with Orb of Deception, and use Spirit Rush's three dashes to chase a kill or reset the fight. Malignance first: its ultimate haste brings Spirit Rush back sooner, and its burn lowers the magic resist of anyone your ult damages. Shadowflame second turns targets below 40% health into executes, Zhonya's Hourglass third is a stasis for after you have spent your dashes, and Rabadon's Deathcap finishes the core.",
       sideItems:["Sorcerer's Shoes","Lich Bane","Blackfire Torch","Banshee's Veil","Void Staff","Mercury's Treads","Luden's Echo","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade outright."),I("Luden's Echo","Poke wears them down before the fight starts.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Mercury's Treads","Shorter CC before the kill."),I("Banshee's Veil","Block their engage tool.")],runes:{...AHRI_MID_DEFAULT_RUNES}},

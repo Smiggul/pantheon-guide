@@ -22,7 +22,10 @@ export default {
     Bot:[{
       label:"Essence Reaver opener", tag:"alt",
       corePath:"Essence Reaver  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"The minority line, and the build this guide used to lead with: Essence Reaver first in a bit under a third of games, against about two thirds for Yun Tal Wildarrows. Its Spellblade returns mana after every ability, so Boomerang Blade wave clear never runs her dry, and its ability haste stacks with Navori Flickerblade, which follows it in most games. It wins less often as a first item (about 50% against 53% for Yun Tal), so take it for a lane where you expect to shove and clear rather than fight.",
+      // Research: The minority line, and the build this guide used to lead with: Essence Reaver first in a bit under a
+      //   third of games, against about two thirds for Yun Tal. Navori follows it in most games. About 50% against
+      //   53% for Yun Tal as a first item.
+      coreNote:"Essence Reaver first: its Spellblade returns mana after every ability, so Boomerang Blade wave clear never runs you dry, and its ability haste stacks with Navori Flickerblade, which follows it. It wins a few points less often than Yun Tal Wildarrows first, so take it for a lane where you expect to shove and clear rather than fight.",
       runes:{...SIVIR_BOT_DEFAULT_RUNES},
       sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Mortal Reminder","Guardian Angel","Bloodthirster","Mercury's Treads"],
     }],
@@ -32,7 +35,10 @@ export default {
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Wave-Clear-and-Roam Carry",
       corePath:"Yun Tal Wildarrows  ›  Infinity Edge  ›  Navori Flickerblade  ›  Lord Dominik's Regards",
-      coreNote:"Sivir plays for a wave-clear-into-teamfight pattern — Boomerang Blade pushes lanes fast, Spell Shield blocks the one ability that would kill her, and On The Hunt lets her whole team collapse on a skirmish. Yun Tal Wildarrows is now the standard opener, in about two games in three: every attack adds permanent crit chance, and its Flurry attack-speed burst powers up Ricochet's bouncing attacks. Infinity Edge and Navori Flickerblade come next in either order, with Infinity Edge second slightly more often; Navori's attacks cut her basic ability cooldowns, so Boomerang Blade and Spell Shield come back faster. Lord Dominik's Regards is the usual fourth item. Essence Reaver, which this guide used to open with, is still the first item in a bit under a third of games; see the alternate build.",
+      // Research: Yun Tal is now the standard opener, in about two games in three. Infinity Edge second slightly more
+      //   often than Navori. Lord Dominik's is the usual fourth. Essence Reaver, which this guide used to open
+      //   with, is still first in a bit under a third of games (the alternate build).
+      coreNote:"Sivir clears waves into teamfights: Boomerang Blade pushes fast, Spell Shield blocks the ability that would kill you, and On The Hunt lets your team collapse on a skirmish. Yun Tal Wildarrows first: every attack adds permanent crit chance, and its Flurry powers up Ricochet. Infinity Edge and Navori Flickerblade next, in either order; Navori's attacks cut your basic cooldowns so Boomerang Blade and Spell Shield return faster. Lord Dominik's Regards fourth.",
       sideItems:["Berserker's Greaves","Essence Reaver","Mortal Reminder","Guardian Angel","Bloodthirster","Mercury's Treads","Rapid Firecannon","Wit's End"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Navori Flickerblade","Haste means more On The Hunt windows."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...SIVIR_BOT_DEFAULT_RUNES}},

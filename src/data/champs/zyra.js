@@ -33,7 +33,8 @@ export default {
       bans:["Sona","Rakan","Alistar"], replacements:["Morgana","Karma","Swain"],
       role:"Plant-Zone Damage Support",
       corePath:"Zaz'Zak's Realmspike  ›  Sorcerer's Shoes  ›  Liandry's Torment  ›  Rylai's Crystal Scepter",
-      coreNote:"Zyra is the highest-win-rate support in the game this patch because she converts the support slot into a full damage seat. Zaz'Zak's Realmspike procs off her endless plant poke, Liandry's Torment burns through everything her plants touch, and Rylai's Crystal Scepter turns every plant hit into a slow — the combination makes her garden a zone nothing can walk through. Morellonomicon or Zhonya's closes depending on the game.",
+      // Research: Zyra is the highest-win-rate support in the game this patch.
+      coreNote:"Zyra converts the support slot into a full damage seat. Zaz'Zak's Realmspike procs off her endless plant poke, Liandry's Torment burns through everything her plants touch, and Rylai's Crystal Scepter turns every plant hit into a slow, which makes the garden a zone nothing can walk through. Morellonomicon or Zhonya's closes, depending on the game.",
       sideItems:["Morellonomicon","Zhonya's Hourglass","Void Staff","Rabadon's Deathcap","Banshee's Veil","Blackfire Torch"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn scales off their big HP bar."),I("Rylai's Crystal Scepter","Perma-slow means they never reach anyone."),I("Void Staff","Pen through their late MR buys.")],behind:[I("Rylai's Crystal Scepter","Slow keeps your carry alive even when behind."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Morellonomicon","Cut their sustain cheaply.")],runes:{...ZYRA_SUP_DEFAULT_RUNES}},

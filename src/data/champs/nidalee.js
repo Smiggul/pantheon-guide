@@ -23,7 +23,10 @@ export default {
       bans:["Warwick","Udyr","Zac"], replacements:["Karthus","Elise","Ekko"],
       role:"Spear-Pounce Carry Jungler",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Hextech Rocketbelt  ›  Zhonya's Hourglass",
-      coreNote:"Nidalee is an early-tempo carry jungler — invade, spear, pounce, repeat until the map is hers. On 26.20 the opener is not in question: Lich Bane is the first item in close to nine games in ten. Lich Bane converts every form-swap into a Spellblade-empowered auto, and her cougar combo weaves it constantly. Hextech Rocketbelt is the most common second item (about 36% of two-item starts) and adds a fourth gap-closer to a kit that already leaps over walls, and Zhonya's Hourglass is the usual third, covering the dive-heavy pattern her tempo demands. Shadowflame second is the main alternative (about 28%) when you want more one-spear execute damage instead of the dash. Rabadon's Deathcap scales the one-spear chunk into a one-spear kill once you are ahead.",
+      // Research: On 26.20 Lich Bane is the first item in close to nine games in ten. Rocketbelt is the most common second
+      //   item (about 36% of two-item starts) and Zhonya's the usual third. Shadowflame second is the main
+      //   alternative (about 28%).
+      coreNote:"Nidalee is an early-tempo carry jungler: invade, spear, pounce, repeat. Lich Bane first turns every form swap into a Spellblade auto, and her cougar combo weaves it constantly. Hextech Rocketbelt second adds a fourth gap-closer, and Zhonya's Hourglass third covers the dives your tempo demands. Take Shadowflame second instead for more spear execute damage over the dash. Rabadon's Deathcap turns the spear chunk into a kill once you are ahead.",
       sideItems:["Shadowflame","Rabadon's Deathcap","Void Staff","Banshee's Veil","Mejai's Soulstealer","Ionian Boots of Lucidity","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Hextech Rocketbelt","Kite them forever — spear, dash, repeat."),I("Rabadon's Deathcap","Spears chunk half their HP bar."),I("Void Staff","Pen through their late MR buys.")],behind:[I("Zhonya's Hourglass","Stasis escapes the caught clear."),I("Void Staff","Spear damage stays real."),I("Banshee's Veil","Blocks the pull that catches you.")],runes:{...NIDALEE_JGL_DEFAULT_RUNES}},

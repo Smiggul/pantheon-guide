@@ -88,7 +88,8 @@ export default {
       skillOrder:["W","E","Q"], // Top Zac maxes W first; Jungle/Support max E first (global E>W>Q)
       role:"Off-Meta Split-Push Tank",
       corePath:"Sunfire Aegis  ›  Plated Steelcaps  ›  Spirit Visage  ›  Thornmail",
-      coreNote:"Top Zac is a rare, low-pick-rate off-meta split-push tank — same HP-sacrifice identity as Jungle, but built for sustained top-lane trades instead of gank tempo. Sunfire Aegis adds constant burn to punish trades; Plated Steelcaps and Spirit Visage round out survivability and self-heal amp; Thornmail cuts through healing/lifesteal top laners.",
+      // Research: A rare, low-pick-rate pick.
+      coreNote:"Top Zac is an off-meta split-push tank: the same health-sacrifice identity as Jungle, built for sustained top-lane trades instead of gank tempo. Sunfire Aegis adds constant burn to punish trades; Plated Steelcaps and Spirit Visage round out survivability and self-heal; Thornmail cuts through healing and lifesteal top laners.",
       sideItems:["Unending Despair","Mercury's Treads","Force of Nature","Randuin's Omen","Abyssal Mask","Riftmaker"],
       data:{
         JUGGERNAUT:{ahead:[I("Spirit Visage","Amp self-heal wins the sustained trade war."),I("Sunfire Aegis","Burn adds up over the trade."),I("Thornmail","GW cuts their sustain.")],behind:[I("Plated Steelcaps","Reduces auto damage from their all-in."),I("Randuin's Omen","Crit/AS reduction if they build offense."),I("Unending Despair","Extra shield + omnivamp to keep pace.")],runes:{...ZAC_TOP_DEFAULT_RUNES}},

@@ -22,7 +22,11 @@ export default {
     Jungle:[{
       label:"Sundered Sky bruiser", tag:"alt",
       corePath:"Sundered Sky  ›  Plated Steelcaps  ›  Black Cleaver  ›  Guardian Angel",
-      coreNote:"The previous standard line, now the minority: on 26.20 Sundered Sky is the first item in about a fifth of Jarvan games (Eclipse is a similar share), and Sundered Sky into Black Cleaver is the second most common two-item start at about 14%, well behind Profane Hydra into Voltaic Cyclosword. It suits long fights more than one-rotation picks, so it is the line to take into frontline-heavy teams. Sundered Sky's guaranteed crit-and-heal on the first hit rides the E-Q dive opener, Black Cleaver shreds armor for the team fighting inside Cataclysm, and Guardian Angel insures the always-in-the-middle positioning his ult demands. Death's Dance is an equally common third item.",
+      // Research: The previous standard line, now the minority: on 26.20 Sundered Sky is the first item in about a fifth
+      //   of Jarvan games (Eclipse is a similar share), and Sundered Sky into Black Cleaver is the second most
+      //   common two-item start at about 14%, well behind Profane Hydra into Voltaic Cyclosword. Death's Dance is
+      //   an equally common third item.
+      coreNote:"Sundered Sky first, the bruiser line. It suits long fights more than one-rotation picks, so take it into frontline-heavy teams. Sundered Sky's guaranteed crit-and-heal on the first hit rides the E-Q dive opener, Black Cleaver shreds armor for the team fighting inside Cataclysm, and Guardian Angel insures the always-in-the-middle positioning your ult demands. Death's Dance is an equal third option.",
       runes:{...JARVANIV_JGL_DEFAULT_RUNES},
       sideItems:["Death's Dance","Sterak's Gage","Spirit Visage","Thornmail","Randuin's Omen","Maw of Malmortius"],
     }],
@@ -32,7 +36,12 @@ export default {
       bans:["Briar","Rek'Sai","Master Yi"], replacements:["Vi","Sejuani","Wukong"],
       role:"Flag-Drag Engage Diver",
       corePath:"Profane Hydra  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Bastionbreaker",
-      coreNote:"Jarvan is the gank-and-arena jungler: E-Q knockup from fog, Cataclysm to lock the kill inside the walls, and the whole map plays around his flag. On 26.20 most Jarvan players build it as a lethality burst jungler rather than a bruiser: Profane Hydra is the first item in about half of games, Profane Hydra into Voltaic Cyclosword is the most common two-item start by a wide margin (about 31%), and Bastionbreaker is the usual third. Profane Hydra's active adds a second burst hit right after the knockup lands and speeds up the clear, Voltaic Cyclosword turns the ability that opens the gank into an Energized attack that chunks the target by current health, and Bastionbreaker adds true damage to every ability hit and, after a takedown, bonus true damage on the next dragon or tower. Edge of Night, Guardian Angel and Death's Dance are the common fourth items, depending on how much survival the dive needs. His early ganks are among the strongest in the game — play the first ten minutes like every lane is your lane.",
+      // Research: On 26.20 most Jarvan players build him as a lethality burst jungler rather than a bruiser: Profane Hydra
+      //   is the first item in about half of games, Profane Hydra into Voltaic Cyclosword is the most common
+      //   two-item start by a wide margin (about 31%), and Bastionbreaker is the usual third. Edge of Night,
+      //   Guardian Angel and Death's Dance are the common fourth items. Cut for length: his early ganks are among
+      //   the strongest in the game, so play the first ten minutes like every lane is your lane.
+      coreNote:"Jarvan ganks from fog with the E-Q knockup and locks the kill inside Cataclysm. Build lethality burst: Profane Hydra's active adds a second hit right after the knockup and speeds the clear, Voltaic Cyclosword turns your opening ability into an Energized attack that chunks by current health, and Bastionbreaker adds true damage to ability hits and to the next dragon or tower after a takedown. Fourth: Edge of Night, Guardian Angel or Death's Dance, by how much survival the dive needs.",
       sideItems:["Edge of Night","Guardian Angel","Death's Dance","Axiom Arc","Black Cleaver","Sundered Sky","Eclipse","Maw of Malmortius"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them for your whole team inside Cataclysm."),I("Sundered Sky","Heal-proc wins the extended brawl."),I("Sterak's Gage","Survive their answer to your engage.")],behind:[I("Plated Steelcaps","Blunt their auto damage cheaply."),I("Sterak's Gage","Shield the all-in you can't avoid."),I("Thornmail","Anti-heal their sustain.")],runes:{...JARVANIV_JGL_DEFAULT_RUNES}},

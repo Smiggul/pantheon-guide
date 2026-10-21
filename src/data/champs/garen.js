@@ -22,7 +22,10 @@ export default {
     Top:[{
       label:"Youmuu's lethality", tag:"alt",
       corePath:"Berserker's Greaves  ›  Stridebreaker  ›  Youmuu's Ghostblade  ›  Phantom Dancer",
-      coreNote:"The lethality fork of the standard build: same Berserker's Greaves and Stridebreaker start, but Youmuu's Ghostblade second instead of Phantom Dancer, with Phantom Dancer moving to third. Youmuu's is Garen's second most common follow-up to Stridebreaker (about 19% of games) and wins slightly more often than the Phantom Dancer line (56.5% vs 55.3% as the second item). Its active speed closes the gap for Decisive Strike, and the lethality makes Judgment and Demacian Justice delete squishy carries. Take it into squishy teams; keep the Phantom Dancer line into tanky ones. After Youmuu's, Phantom Dancer, Mortal Reminder and Voltaic Cyclosword are the usual third items. Source: lolalytics, patch 26.20, Emerald+.",
+      // Research: Youmuu's is Garen's second most common follow-up to Stridebreaker (about 19% of games) and wins slightly
+      //   more often than the Phantom Dancer line (56.5% vs 55.3% as the second item). Source: lolalytics, patch
+      //   26.20, Emerald+.
+      coreNote:"The lethality fork: the same Berserker's Greaves and Stridebreaker start, but Youmuu's Ghostblade second instead of Phantom Dancer, which moves to third. Youmuu's active speed closes the gap for Decisive Strike, and the lethality makes Judgment and Demacian Justice delete squishy carries. Take it into squishy teams; keep the Phantom Dancer line into tanky ones. After Youmuu's, take Phantom Dancer, Mortal Reminder or Voltaic Cyclosword third.",
       runes:{...GAREN_TOP_DEFAULT_RUNES},
       sideItems:["Mortal Reminder","Voltaic Cyclosword","Dead Man's Plate","Infinity Edge","Lord Dominik's Regards","Sterak's Gage","Mercury's Treads"],
     }],
@@ -32,7 +35,10 @@ export default {
       bans:["Vayne","Teemo","Jayce"], replacements:["Darius","Sett","Volibear"],
       role:"Juggernaut / Unstoppable Spin",
       corePath:"Berserker's Greaves  ›  Stridebreaker  ›  Phantom Dancer  ›  Mortal Reminder",
-      coreNote:"Garen plays for the unavoidable spin-to-win all-in — Decisive Strike silences the escape, Judgment shreds HP, Demacian Justice executes. Berserker's Greaves come first (about two thirds of Garens buy them, usually before Stridebreaker completes). Stridebreaker's slow keeps targets locked in Judgment range, and Phantom Dancer adds attack speed and crit for more spin ticks. Mortal Reminder is the usual third item, since grievous wounds cuts the healing of most top laners. Dead Man's Plate is the common fourth item for chase speed, or Infinity Edge for more crit. Swiftmarch is a minority boots choice. Source: lolalytics, patch 26.20, Emerald+: Stridebreaker first in 96% of games, then Phantom Dancer in 51%, then Mortal Reminder in 51%.",
+      // Research: About two thirds of Garens buy Berserker's Greaves first. Swiftmarch is a minority boots choice. Source:
+      //   lolalytics, patch 26.20, Emerald+: Stridebreaker first in 96% of games, then Phantom Dancer in 51%, then
+      //   Mortal Reminder in 51%.
+      coreNote:"Garen plays for the spin-to-win all-in: Decisive Strike silences the escape, Judgment shreds health, Demacian Justice executes. Berserker's Greaves first, usually before Stridebreaker completes. Stridebreaker's slow keeps targets in Judgment range, and Phantom Dancer adds attack speed and crit for more spin ticks. Mortal Reminder third, since grievous wounds cuts the healing of most top laners. Dead Man's Plate fourth for chase speed, or Infinity Edge for more crit.",
       sideItems:["Dead Man's Plate","Infinity Edge","Sterak's Gage","Force of Nature","Thornmail","Guardian Angel","Swiftmarch","Plated Steelcaps","Mercury's Treads","Trinity Force"],
       data:{
         JUGGERNAUT:{ahead:[I("Dead Man's Plate","Charge speed sticks to the mirror matchup."),I("Stridebreaker","Slow wins the stick-fight."),I("Phantom Dancer","AS adds up over the spin.")],behind:[I("Thornmail","GW cuts their sustain."),I("Sterak's Gage","Shield when the walk-down connects."),I("Force of Nature","MR if they go hybrid.")],runes:{...GAREN_TOP_DEFAULT_RUNES}},

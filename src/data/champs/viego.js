@@ -22,7 +22,11 @@ export default {
     Jungle:[{
       label:"Hail of Blades lethality", tag:"alt",
       corePath:"Hubris  ›  The Collector  ›  Lord Dominik's Regards  ›  Immortal Shieldbow",
-      coreNote:"Hail of Blades is now on about 42% of Viego jungle games and wins more than the Conqueror page: 52.3% over roughly 90,000 Emerald+ games against 49.8% over roughly 118,000 (lolalytics). Its most common core is Hubris into The Collector and Lord Dominik's Regards, which turns the Q-auto opener into burst for snowballing off early skirmishes rather than drawn-out duels. Many Hail of Blades players still go Kraken Slayer first, and it is the rune page more than Hubris that carries the edge: at equal item counts Hubris-first and Kraken-first finish within a couple of points of each other. Take it into squishy teams you can catch; stay on Conqueror and Kraken Slayer into frontline-heavy teams.",
+      // Research: Hail of Blades is on about 42% of Viego jungle games and wins 52.3% over roughly 90,000 Emerald+ games
+      //   against 49.8% over roughly 118,000 for Conqueror (lolalytics). Its most common core is Hubris,
+      //   Collector, Lord Dominik's. Many Hail of Blades players still go Kraken Slayer first; at equal item
+      //   counts Hubris-first and Kraken-first finish within a couple of points of each other.
+      coreNote:"Hail of Blades wins about 2-3 points more than the Conqueror page. Its core is Hubris into The Collector and Lord Dominik's Regards, which turns the Q-auto opener into burst for snowballing off early skirmishes rather than drawn-out duels. The rune page carries the edge more than Hubris does, so Kraken Slayer first also works on it. Take it into squishy teams you can catch; stay on Conqueror and Kraken Slayer into frontline-heavy teams.",
       runes:{ keystone:"Hail of Blades", primary:"Domination", primaryRunes:["Sudden Impact","Sixth Sense","Treasure Hunter"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Alacrity"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Hail of Blades front-loads three fast autos into the Q opener, so a gank or possession reset ends before the target can trade back. Sudden Impact procs off his W dash and R blink, Sixth Sense covers the invade-heavy jungle he plays, and Treasure Hunter pays out across the kill chains his resets produce. Triumph and Legend: Alacrity from Precision keep him topped up and attacking quickly once the burst window closes. This is the most common Hail of Blades page on lolalytics." },
       sideItems:["Kraken Slayer","Infinity Edge","Plated Steelcaps","Mercury's Treads","Guardian Angel","Edge of Night"],
     }],
@@ -32,7 +36,9 @@ export default {
       bans:["Nocturne","Warwick","Kayn"], replacements:["Wukong","Sett","Shyvana"],
       role:"Skirmisher / Possession Duelist",
       corePath:"Kraken Slayer  ›  The Collector  ›  Immortal Shieldbow  ›  Lord Dominik's Regards",
-      coreNote:"Viego plays for a repeated pick-and-possess pattern — Blade of The Ruined King Q's a target, kills it, and Spectral Maiden lets him briefly possess and reset with a champion's own body. Kraken Slayer's true damage proc and The Collector's execute both reward the burst-into-kill loop; Immortal Shieldbow's shield covers the commitment; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
+      // Research: The original note called Kraken Slayer's proc "true damage"; cut, since it deals bonus physical damage
+      //   (CLAUDE.md 26.20 audit).
+      coreNote:"Viego plays for a repeated pick-and-possess pattern: Blade of The Ruined King Q's a target, kills it, and Spectral Maiden lets him briefly possess and reset with a champion's own body. Kraken Slayer's proc and The Collector's execute both reward the burst-into-kill loop; Immortal Shieldbow's shield covers the commitment; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
       sideItems:["Plated Steelcaps","Guardian Angel","Mercury's Treads","Bloodthirster","Wit's End","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Kraken Slayer","The third-hit bonus grows as they drop — pair it with armor pen into armor stacking."),I("The Collector","Execute finishes what Q chunked.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Plated Steelcaps","Reduces auto damage from their press."),I("Immortal Shieldbow","Shield to survive.")],runes:{...VIEGO_JGL_DEFAULT_RUNES}},

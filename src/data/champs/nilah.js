@@ -23,7 +23,8 @@ export default {
       bans:["Syndra","Xayah","Viktor"], replacements:["Samira","Kai'Sa","Lucian"],
       role:"Whip-Range Brawl Carry",
       corePath:"The Collector  ›  Gluttonous Greaves  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Nilah trades range for the best brawl kit any ADC owns: W dodges autos entirely, E surfs to targets, and Apotheosis pulls whole teams into blender range while healing hers. The Collector converts her dive commitment into executes, Gluttonous Greaves feed omnivamp into the W-brawl pattern, Infinity Edge multiplies the whip crits, and Immortal Shieldbow backs the melee positioning. Her passive shares XP-and-heal joy with her support — enchanters love her, and so does her win rate: one of the highest in the entire bot pool.",
+      // Research: Her win rate is one of the highest in the entire bot pool.
+      coreNote:"Nilah trades range for the best brawl kit any ADC owns: W dodges autos entirely, E surfs to targets, and Apotheosis pulls whole teams into blender range while healing hers. The Collector converts the dive commitment into executes, Gluttonous Greaves feed omnivamp into the W brawl, Infinity Edge multiplies the whip crits, and Immortal Shieldbow backs the melee positioning. Her passive shares XP and heals with her support, so enchanters pair well with her.",
       sideItems:["Immortal Shieldbow","Bloodthirster","Phantom Dancer","Guardian Angel","Mercurial Scimitar","Death's Dance"],
       data:{
         JUGGERNAUT:{ahead:[I("The Collector","Execute beats their HP stacking."),I("Lord Dominik's Regards","Giant slayer through the armor curve."),I("Bloodthirster","Sustain the brawl they force.")],behind:[I("Immortal Shieldbow","Lifeline when they finally connect."),I("Guardian Angel","Insurance in the melee scrum."),I("Phantom Dancer","Speed to pick your fights.")],runes:{...NILAH_BOT_DEFAULT_RUNES}},

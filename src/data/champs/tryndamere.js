@@ -23,7 +23,7 @@ export default {
       bans:["Jax","Malphite","Rammus"], replacements:["Yasuo","Riven","Fiora"],
       role:"Undying Rage Split-Pusher",
       corePath:"Ravenous Hydra  ›  Berserker's Greaves  ›  Phantom Dancer  ›  Infinity Edge",
-      coreNote:"Tryndamere plays the simplest win condition in the game: hit things until they die, and refuse to die himself. Ravenous Hydra sustains the spin-farm split-push loop, Phantom Dancer feeds attack speed and the ghosting his stick-to-target pattern needs, Infinity Edge multiplies the fury-guaranteed crits into tower-and-champion-deleting DPS, and Lord Dominik's finishes tanks. Undying Rage makes every tower dive on him a coin flip he rigged — five seconds of unkillable is five seconds of someone else dying.",
+      coreNote:"Tryndamere's win condition is simple: hit things until they die, and refuse to die yourself. Ravenous Hydra sustains the spin-farm split-push loop, Phantom Dancer feeds the attack speed and ghosting your stick-to-target pattern needs, Infinity Edge multiplies the fury-guaranteed crits into tower-and-champion-deleting DPS, and Lord Dominik's finishes tanks. Undying Rage gives you five unkillable seconds whenever they dive you.",
       sideItems:["Lord Dominik's Regards","Bloodthirster","Sterak's Gage","Guardian Angel","Death's Dance","Mercurial Scimitar"],
       data:{
         JUGGERNAUT:{ahead:[I("Ravenous Hydra","Sustain out-trades their walk-down."),I("Infinity Edge","Crit through their HP stacking."),I("Lord Dominik's Regards","Giant slayer seals the duel.")],behind:[I("Bloodthirster","Sustain the chip war and scale."),I("Sterak's Gage","Survive the all-in — R covers the rest."),I("Guardian Angel","Insurance beyond Undying Rage.")],runes:{...TRYNDAMERE_TOP_DEFAULT_RUNES}},

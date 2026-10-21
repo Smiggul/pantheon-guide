@@ -25,7 +25,8 @@ export default {
       label: "AP (Nashor's)",
       tag: "off-meta",
       corePath: "Nashor's Tooth  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote: "Full-AP Kai'Sa, not the AD/on-hit hybrid. Her W (Void Seeker) and the plasma detonation from her passive both scale hard with AP, so you play like a caster-marksman: poke and burst with W, then dash in to finish. Nashor's Tooth is the mandatory first item — its 60 AP + attack speed alone evolves W (the range + double-shot upgrade), which is the whole build's spike. Shadowflame and Rabadon's stack the burst; Sorcerer's Shoes for the magic pen. Riftmaker or Zhonya's for a bruiser/safe lean, Cryptbloom/Void Staff vs MR. Far spikier and squishier than on-hit — you assassinate from range instead of DPS-ing tanks.",
+      // Research: Nashor's 60 AP plus attack speed alone evolves W (the range and double-shot upgrade).
+      coreNote: "Full-AP Kai'Sa: W (Void Seeker) and her passive's plasma detonation scale hard with AP, so you poke and burst with W, then dash in to finish. Nashor's Tooth first is mandatory: its AP and attack speed alone evolve W, the build's whole spike. Shadowflame and Rabadon's stack burst, on Sorcerer's Shoes. Riftmaker or Zhonya's for a bruiser or safe lean, Cryptbloom or Void Staff into MR. Spikier and squishier than on-hit: assassinate from range rather than DPS tanks.",
       runes: {
         keystone: "Hail of Blades",
         primary: "Domination",
@@ -43,7 +44,9 @@ export default {
       bans:["Draven","Samira","Nautilus"], replacements:["Jinx","Yunara","Caitlyn"],
       role:"Marksman / Hybrid Evolution Carry",
       corePath:"Kraken Slayer  ›  Berserker's Greaves  ›  Guinsoo's Rageblade  ›  Nashor's Tooth",
-      coreNote:"Kai'Sa plays a hybrid on-hit/burst evolution pattern — Plasma stacks reward attack speed and ability haste equally, so her build leans into both. Kraken Slayer's true damage proc rewards the auto-heavy playstyle; Guinsoo's Rageblade stacks attack speed toward evolving Icathian Rain; Nashor's Tooth adds ability haste and on-hit AP that both feed Plasma.",
+      // Research: The original note called Kraken Slayer's proc "true damage"; cut, since it deals bonus physical damage
+      //   (CLAUDE.md 26.20 audit).
+      coreNote:"Kai'Sa plays a hybrid on-hit and burst evolution pattern: Plasma stacks reward attack speed and ability haste equally, so her build leans into both. Kraken Slayer's proc rewards the auto-heavy playstyle; Guinsoo's Rageblade stacks attack speed toward evolving Icathian Rain; Nashor's Tooth adds ability haste and on-hit AP that both feed Plasma.",
       sideItems:["Runaan's Hurricane","Void Staff","Guardian Angel","Mercury's Treads","Wit's End","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Void Staff","Pen keeps damage relevant through their armor/MR stacking."),I("Kraken Slayer","The third-hit proc keeps scaling as they drop."),I("Guinsoo's Rageblade","AS stacking adds up over the fight.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Wit's End","MR + on-hit if they build offense.")],runes:{...KAISA_BOT_DEFAULT_RUNES}},

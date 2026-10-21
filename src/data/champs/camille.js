@@ -55,7 +55,8 @@ export default {
       bans:["Rell","Taric","Rakan"], replacements:["Leona","Pyke","Alistar"],
       role:"Hookshot Dive Support",
       corePath:"Bloodsong  ›  Plated Steelcaps  ›  Sundered Sky  ›  Sterak's Gage",
-      coreNote:"Support Camille is a real meta role at high pick rate — a dive support who hookshot-stuns onto the enemy carry and isolates them with R while her ADC cleans up. Bloodsong amps the carry's damage after every E stun, Sundered Sky gives the crit-heal spike her half-income build needs to survive the dive, and Sterak's plus Guardian Angel insure the always-deepest-in positioning. Her ult is peel-proof: whoever she ults fights alone. Engage on cooldown; her lane is won by tempo, not attrition.",
+      // Research: Support Camille is a real meta role at high pick rate.
+      coreNote:"Support Camille is a dive support: Hookshot-stun onto the enemy carry and isolate them with R while your ADC cleans up. Bloodsong amps your carry's damage after every E stun, Sundered Sky gives the crit-heal spike a half-income build needs to survive the dive, and Sterak's plus Guardian Angel insure the always-deepest positioning. Whoever you ult fights alone. Engage on cooldown; the lane is won by tempo, not attrition.",
       sideItems:["Guardian Angel","Knight's Vow","Randuin's Omen","Thornmail","Dead Man's Plate","Zeke's Convergence"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Dive past them — your target is the backline."),I("Bloodsong","Amp the carry kiting them down."),I("Sterak's Gage","Survive their peel damage.")],behind:[I("Knight's Vow","Split their damage off your carry."),I("Randuin's Omen","Slow their walk-down."),I("Thornmail","Anti-heal their sustain.")],runes:{...CAMILLE_SUP_DEFAULT_RUNES}},

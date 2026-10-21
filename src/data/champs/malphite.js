@@ -42,7 +42,7 @@ export default {
     Top:[{
       label:"Full AP", tag:"alt",
       corePath:"Malignance  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Zhonya's Hourglass",
-      coreNote:"Full-AP burst Malphite — take this over the tank build when the enemy team is squishier and more magic-damage-heavy. Building MR as a tank underperforms right now (Hollow Radiance wins ~3% less than Sunfire), so the split is full-armor tank vs full AP. Malignance + Stormsurge turn R → E into a one-shot on the enemy carries, and Zhonya's covers the dive. Into a heavy-AD comp stay tank (Frozen Heart + Sunfire); into squishy/AP, go this.",
+      coreNote:"Full-AP burst Malphite: take this over the tank build when the enemy team is squishier and heavier on magic damage. Magic-resist tank builds underperform (Hollow Radiance wins about 3 points less than Sunfire), so the choice is full-armor tank or full AP. Malignance and Stormsurge turn R into E into a one-shot on the enemy carries, and Zhonya's covers the dive. Into a heavy-AD comp stay tank (Frozen Heart and Sunfire); into squishy or AP teams, go this.",
       runes:{...MALPHITE_SUP_DEFAULT_RUNES},
       sideItems:["Rabadon's Deathcap","Shadowflame","Void Staff","Cosmic Drive","Rylai's Crystal Scepter"],
     }],

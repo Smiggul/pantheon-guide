@@ -42,14 +42,20 @@ export default {
     Jungle:[{
       label:"Stormsurge burst", tag:"alt",
       corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"The minority opening: Stormsurge first instead of Lich Bane. It is about one Gragas Jungle game in five on 26.20, with a win rate level with the Lich Bane line, and most of these players keep the same Dark Harvest page. Stormsurge's penetration and move speed work without auto-attacks, and its Squall lands two seconds after a Body Slam into Explosive Cask combo takes a quarter of the target's health, finishing laners who Flash away. Shadowflame is the usual second item and Zhonya's Hourglass the most common third, the same back half as the main build. Take it when your ganks end in one combo; when you stay in the fight and auto, Lich Bane does more.",
+      // Research: The minority opening: about one Gragas Jungle game in five on 26.20, with a win rate level with the Lich
+      //   Bane line; most of these players keep the same Dark Harvest page.
+      coreNote:"Stormsurge first instead of Lich Bane, on the same Dark Harvest page. Its penetration and move speed work without auto-attacks, and its Squall lands two seconds after a Body Slam into Explosive Cask combo takes a quarter of the target's health, finishing laners who Flash away. Shadowflame second and Zhonya's Hourglass third, the same back half as the main build. Take it when your ganks end in one combo; when you stay in the fight and auto, Lich Bane does more.",
       runes:{...GRAGAS_JGL_DEFAULT_RUNES},
       sideItems:["Lich Bane","Rabadon's Deathcap","Void Staff","Banshee's Veil","Mercury's Treads"],
     }],
     Top:[{
       label:"Rod of Ages battlemage", tag:"alt",
       corePath:"Rod of Ages  ›  Winter's Approach  ›  Cosmic Drive  ›  Zhonya's Hourglass",
-      coreNote:"The sturdier AP line. Rod of Ages is as common a first item as Lich Bane on 26.20, about three games in ten each, but Rod of Ages into Winter's Approach is the less common two-item start (about 13%, against 18% for Lich Bane into Shadowflame) and wins less often (about 52% against 54%). Rod of Ages gains health, mana and AP every minute for ten minutes and heals Gragas for part of the mana he spends; Winter's Approach adds health and transforms into Fimbulwinter, whose shield triggers when Body Slam stuns or Explosive Cask slows; Cosmic Drive adds haste and move speed for repeated Barrel poke. It gives up burst to stay in long fights, which suits a lane against a bruiser you cannot burst. Most players on this line take Ionian Boots of Lucidity, and most keep the same Stormraider's Surge page.",
+      // Research: Rod of Ages is as common a first item as Lich Bane on 26.20, about three games in ten each, but Rod of
+      //   Ages into Winter's Approach is the less common two-item start (about 13%, against 18% for Lich Bane into
+      //   Shadowflame) and wins less often (about 52% against 54%). Most players on this line take Ionian Boots of
+      //   Lucidity, and most keep the same Stormraider's Surge page.
+      coreNote:"The sturdier AP line, which wins a little less often than Lich Bane first. Rod of Ages grows health, mana and AP for ten minutes and heals you for part of the mana you spend; Winter's Approach adds health and becomes Fimbulwinter, whose shield triggers when Body Slam stuns or Explosive Cask slows; Cosmic Drive adds haste and move speed for repeated Barrel poke. It gives up burst to stay in long fights, which suits a lane against a bruiser you cannot burst. Take Ionian Boots of Lucidity.",
       runes:{...GRAGAS_TOP_DEFAULT_RUNES},
       sideItems:["Ionian Boots of Lucidity","Archangel's Staff","Lich Bane","Imperial Mandate","Spirit Visage","Frozen Heart"],
     }],
@@ -59,7 +65,10 @@ export default {
       bans:["Ivern","Amumu","Zac"], replacements:["Warwick","Wukong","Sett"],
       role:"AP Burst-Mage / Body Slam Ganker",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Gragas Jungle is an AP burst ganker. Lich Bane is his first item in about seven games in ten on 26.20, against about one in five for Stormsurge, and Lich Bane into Shadowflame is the opening in over four games in ten. Gank from an angle Body Slam can reach, land Explosive Cask, and weave autos between abilities: Lich Bane's Spellblade adds magic damage to the auto after every ability, and its move speed helps him reach the lane. Sorcerer's Shoes come second for the magic penetration. Shadowflame's penetration and its critical-strike effect on targets below 40% health finish what the combo starts. Zhonya's Hourglass is now the most common third item, ahead of Rabadon's Deathcap, because Body Slam puts him in the middle of the enemy team and stasis lets him survive the follow-up; Rabadon's is the usual fourth. Stormsurge first is the minority alternate.",
+      // Research: Lich Bane is his first item in about seven games in ten on 26.20, against about one in five for
+      //   Stormsurge, and Lich Bane into Shadowflame is the opening in over four games in ten. Zhonya's is now the
+      //   most common third item, ahead of Rabadon's. Stormsurge first is the minority alternate.
+      coreNote:"Gragas Jungle is an AP burst ganker. Gank from an angle Body Slam can reach, land Explosive Cask, and weave autos between abilities: Lich Bane first adds magic damage to the auto after every ability, and its move speed helps you reach lane. Sorcerer's Shoes second for magic penetration. Shadowflame's penetration and crit on targets below 40% health finish what the combo starts. Zhonya's Hourglass third, because Body Slam puts you in the middle of the enemy team; Rabadon's Deathcap fourth.",
       sideItems:["Rabadon's Deathcap","Stormsurge","Void Staff","Hextech Rocketbelt","Banshee's Veil","Mercury's Treads","Riftmaker","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Hextech Rocketbelt","Dash in, burst, dash out before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Sorcerer's Shoes","Keep damage relevant vs their MR.")],runes:{...GRAGAS_JGL_DEFAULT_RUNES}},
@@ -81,7 +90,13 @@ export default {
       bans:["Mordekaiser","Vladimir","Garen"], replacements:["Renekton","Sett","Volibear"],
       role:"AP Burst-Mage / Body Slam Engage",
       corePath:"Lich Bane  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Zhonya's Hourglass",
-      coreNote:"Gragas Top is an AP burst mage on 26.20, not a tank: Sunfire Aegis, Riftmaker and Thornmail no longer appear among his common openings. Lich Bane and Rod of Ages are level as first items, each in about three games in ten, but Lich Bane into Shadowflame is the most common two-item start (about 18%, against 13% for Rod of Ages into Winter's Approach) and wins more often, about 54%. Trade with Explosive Cask, then Body Slam in and weave the empowered auto: Lich Bane's Spellblade adds magic damage to the auto after every ability, so each trade ends in an extra hit. Shadowflame's penetration and its critical-strike effect on targets below 40% health make the follow-up Barrel lethal. Rabadon's Deathcap is the most common third item and Zhonya's Hourglass the most common fourth, its stasis covering him after he dives in. Most players on this line take Sorcerer's Shoes. The Rod of Ages battlemage line is the alternate.",
+      // Research: On 26.20 Sunfire Aegis, Riftmaker and Thornmail no longer appear among his common openings. Lich Bane
+      //   and Rod of Ages are level as first items, each in about three games in ten, but Lich Bane into
+      //   Shadowflame is the most common two-item start (about 18%, against 13% for Rod of Ages into Winter's
+      //   Approach) and wins more often, about 54%. Rabadon's is the most common third and Zhonya's the most
+      //   common fourth. Most players on this line take Sorcerer's Shoes. The Rod of Ages battlemage line is the
+      //   alternate.
+      coreNote:"Gragas Top is an AP burst mage, not a tank. Trade with Explosive Cask, then Body Slam in and weave the empowered auto: Lich Bane's Spellblade adds magic damage to the auto after every ability, so each trade ends in an extra hit. Shadowflame's penetration and crit on targets below 40% health make the follow-up Barrel lethal. Rabadon's Deathcap third and Zhonya's Hourglass fourth, its stasis covering you after you dive in. Take Sorcerer's Shoes.",
       sideItems:["Sorcerer's Shoes","Stormsurge","Void Staff","Cosmic Drive","Banshee's Veil","Mercury's Treads","Riftmaker","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Hextech Rocketbelt","Dash in, burst, dash out before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Sorcerer's Shoes","Keep damage relevant vs their MR.")],runes:{...GRAGAS_TOP_DEFAULT_RUNES}},
@@ -103,7 +118,11 @@ export default {
       bans:["Malzahar","Sylas","Locke"], replacements:["Katarina","Aurelion Sol","Xerath"],
       role:"AP Burst-Mage / Body Slam Engage",
       corePath:"Lich Bane  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Zhonya's Hourglass",
-      coreNote:"Mid Gragas is a rare pick, well under 1% of mid games, but a strong one on 26.20, winning about 54% in Emerald+. He plays the same AP burst pattern as his jungle build. Lich Bane is the most common first item (about 43%), ahead of Luden's Echo (about 31%), and Lich Bane into Shadowflame is the most common two-item start at 28%; Hextech Rocketbelt first has faded to about 5% of games. Poke with Explosive Cask, then Body Slam in and weave the auto that Lich Bane's Spellblade empowers after each ability. Shadowflame's penetration and its critical-strike effect on targets below 40% health make the follow-up Barrel lethal, and Rabadon's Deathcap is the most common third item. Zhonya's Hourglass covers him after the dive. Most players take Sorcerer's Shoes. Luden's Echo first is the main alternative for a longer-range poke game.",
+      // Research: Mid Gragas is a rare pick, well under 1% of mid games, but strong on 26.20, winning about 54% in
+      //   Emerald+. Lich Bane is the most common first item (about 43%), ahead of Luden's Echo (about 31%); Lich
+      //   Bane into Shadowflame is the most common two-item start at 28%; Hextech Rocketbelt first has faded to
+      //   about 5% of games. Rabadon's is the most common third item. Most players take Sorcerer's Shoes.
+      coreNote:"Mid Gragas plays the same AP burst pattern as his jungle build. Poke with Explosive Cask, then Body Slam in and weave the auto that Lich Bane's Spellblade empowers after each ability. Shadowflame's penetration and crit on targets below 40% health make the follow-up Barrel lethal, and Rabadon's Deathcap comes third. Zhonya's Hourglass covers you after the dive. Take Sorcerer's Shoes. Luden's Echo first is the main alternative, for a longer-range poke game.",
       sideItems:["Sorcerer's Shoes","Stormsurge","Luden's Echo","Hextech Rocketbelt","Void Staff","Banshee's Veil","Morellonomicon","Rylai's Crystal Scepter"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Hextech Rocketbelt","Dash in, burst, dash out before they close."),I("Rabadon's Deathcap","Scaling burst ends the trade.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Sorcerer's Shoes","Keep damage relevant vs their MR.")],runes:{...GRAGAS_MID_DEFAULT_RUNES}},

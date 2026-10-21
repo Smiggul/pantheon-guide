@@ -22,7 +22,10 @@ export default {
     Bot:[{
       label:"Stormrazor opener", tag:"alt",
       corePath:"Stormrazor  ›  Gluttonous Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
-      coreNote:"The minority line, and the build this guide used to lead with: Stormrazor first in a bit over a quarter of games, against about two thirds for Yun Tal Wildarrows. Its Energized attack adds bonus magic damage and a burst of movement speed, so it gives the stronger one-item spike for early skirmishes, while Yun Tal is the steadier attack-speed and crit item. The rest of the build is the same, Runaan's Hurricane and then Infinity Edge. First-item win rates are close (about 53.6% for Stormrazor against 52.6% for Yun Tal), so treat it as a choice of lane and taste rather than an upgrade.",
+      // Research: The minority line, and the build this guide used to lead with: Stormrazor first in a bit over a quarter
+      //   of games, against about two thirds for Yun Tal. First-item win rates about 53.6% for Stormrazor against
+      //   52.6% for Yun Tal.
+      coreNote:"Stormrazor first: its Energized attack adds bonus magic damage and a burst of movement speed, so it is the stronger one-item spike for early skirmishes, while Yun Tal Wildarrows is the steadier attack-speed and crit item. The rest of the build is the same: Runaan's Hurricane, then Infinity Edge. Both openers win about as often, so choose by lane and taste rather than as an upgrade.",
       runes:{...ZERI_BOT_DEFAULT_RUNES},
       sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Lord Dominik's Regards","Fiendhunter Bolts","Bloodthirster","Guardian Angel"],
     }],
@@ -32,7 +35,11 @@ export default {
       bans:["Draven","Lucian","Caitlyn"], replacements:["Sivir","Tristana","Jinx"],
       role:"Kite-DPS Hypercarry / Wall-Surf Skirmisher",
       corePath:"Yun Tal Wildarrows  ›  Gluttonous Greaves  ›  Runaan's Hurricane  ›  Infinity Edge",
-      coreNote:"Zeri turns move speed into damage and damage into move speed. Burst Fire is treated as an attack, so attack-speed and crit items feed her Q directly. Yun Tal Wildarrows is now the standard opener, in about two games in three, for its permanent crit stacks and Flurry attack-speed burst. Runaan's Hurricane follows in three quarters of games, firing bolts at two extra targets so her damage spreads across a teamfight, and Infinity Edge comes third in most of those; Lord Dominik's Regards is the usual fourth against a front line. Gluttonous Greaves have overtaken Berserker's as her most common boots (about 57% of games to 36%), their omnivamp sustaining her through long kiting fights. Stormrazor, which this guide used to open with, is still the first item in a bit over a quarter of games; see the alternate build. Ult in a teamfight, chain lightning through five people, and surf walls out the other side.",
+      // Research: Yun Tal is now the standard opener, in about two games in three. Hurricane follows in three quarters of
+      //   games, IE third in most of those, Lord Dominik's the usual fourth. Gluttonous Greaves have overtaken
+      //   Berserker's as her most common boots (about 57% of games to 36%). Stormrazor, which this guide used to
+      //   open with, is still the first item in a bit over a quarter of games (the alternate build).
+      coreNote:"Zeri turns move speed into damage and damage into move speed. Burst Fire counts as an attack, so attack-speed and crit items feed your Q directly. Yun Tal Wildarrows first for permanent crit stacks and its Flurry. Runaan's Hurricane second spreads your damage across a teamfight, then Infinity Edge, and Lord Dominik's Regards fourth against a front line. Gluttonous Greaves sustain you through long kiting fights. In teamfights, ult, chain lightning through five people, and surf walls out.",
       sideItems:["Lord Dominik's Regards","Berserker's Greaves","Stormrazor","Fiendhunter Bolts","Immortal Shieldbow","Bloodthirster","Guardian Angel","Phantom Dancer"],
       data:{
         JUGGERNAUT:{ahead:[I("Fiendhunter Bolts","Sustained Q-DPS shreds their HP stacking."),I("Infinity Edge","Crit spike ends the kite-down faster."),I("Lord Dominik's Regards","Pen through their armor curve.")],behind:[I("Phantom Dancer","Speed + AS to kite from further behind."),I("Guardian Angel","Insurance when they finally connect."),I("Bloodthirster","Sustain the chip war.")],runes:{...ZERI_BOT_DEFAULT_RUNES}},

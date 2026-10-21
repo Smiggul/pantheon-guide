@@ -22,7 +22,10 @@ export default {
     Mid:[{
       label:"Profane Hydra opener", tag:"alt",
       corePath:"Profane Hydra  ›  Ionian Boots of Lucidity  ›  Voltaic Cyclosword  ›  Serylda's Grudge",
-      coreNote:"The minority opener: Profane Hydra first in about 27% of Qiyana games on 26.20, against Voltaic Cyclosword's 47%. Profane Hydra into Voltaic is about 19% of opening pairs, and Serylda's Grudge is the usual third. Hydra's cleave and its active add area damage to her combo, which helps her clear a wave before a roam and hit more than one target when her R stuns a group. The two openers win at about the same rate, around 51% each, so pick on preference. Electrocute is still the most common page on this line.",
+      // Research: The minority opener: Profane Hydra first in about 27% of Qiyana games on 26.20, against Voltaic's 47%.
+      //   Profane into Voltaic is about 19% of opening pairs, and Serylda's is the usual third. Both openers win
+      //   around 51%. Electrocute is still the most common page on this line.
+      coreNote:"Profane Hydra first instead of Voltaic Cyclosword, then Voltaic and Serylda's Grudge. Hydra's cleave and active add area damage to your combo, which helps you clear a wave before a roam and hit more than one target when your R stuns a group. Both openers win at about the same rate, so pick on preference. Electrocute still fits this line.",
       runes:{...QIYANA_MID_DEFAULT_RUNES},
       sideItems:["Bastionbreaker","Edge of Night","Hubris","Serpent's Fang","Youmuu's Ghostblade","Guardian Angel","Maw of Malmortius"],
     }],
@@ -32,7 +35,11 @@ export default {
       bans:["Galio","Vex","Lissandra"], replacements:["Talon","Zed","Akali"],
       role:"Element-Combo Terrain Assassin",
       corePath:"Voltaic Cyclosword  ›  Ionian Boots of Lucidity  ›  Bastionbreaker  ›  Serylda's Grudge",
-      coreNote:"Qiyana turns the map itself into her kit: river roots, grass stealths, wall-element bursts, and Supreme Display of Talent stuns everything along any terrain edge. Voltaic Cyclosword is her most common first item on 26.20, at just under half of games, and Voltaic into Bastionbreaker is now the most common opening pair at 28%, well ahead of the old Voltaic into Profane Hydra at 12%. Her abilities set off Voltaic's Energized attack, which adds current-health damage and bonus lethality on the auto she weaves into the combo. Bastionbreaker adds true damage to her ability hits, and a takedown gives her bonus true damage on the next turret or epic monster she hits, which suits a roam-and-take pattern. Serylda's Grudge keeps the burst real through armor, and Edge of Night, the most common fourth item, blanks the peel spell saved for her. Fight near walls, always — her R is a five-man stun that only asks for geometry. Profane Hydra first is still about a quarter of games; see the alternate.",
+      // Research: Voltaic is her most common first item on 26.20, at just under half of games, and Voltaic into
+      //   Bastionbreaker is now the most common opening pair at 28%, well ahead of the old Voltaic into Profane
+      //   Hydra at 12%. Edge of Night is the most common fourth item. Profane Hydra first is still about a quarter
+      //   of games (the alternate).
+      coreNote:"Qiyana turns the map into her kit: river roots, grass stealths, wall bursts, and an ult that stuns everything along a terrain edge. Voltaic Cyclosword first: your abilities set off its Energized attack, adding current-health damage and lethality. Bastionbreaker second adds true damage to ability hits and, after a takedown, to the next turret or epic monster. Serylda's Grudge keeps burst through armor, and Edge of Night fourth blanks the peel spell saved for you. Fight near walls.",
       sideItems:["Edge of Night","Profane Hydra","Hubris","Serpent's Fang","Youmuu's Ghostblade","Guardian Angel","Maw of Malmortius","Umbral Glaive"],
       data:{
         JUGGERNAUT:{ahead:[I("Serylda's Grudge","Pen + slow — poke the juggernaut, never brawl."),I("Profane Hydra","Execute range beats their HP stacking."),I("Youmuu's Ghostblade","Speed to never be catchable.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance in forced fights."),I("Maw of Malmortius","Vs mixed-damage bruisers.")],runes:{...QIYANA_MID_DEFAULT_RUNES}},

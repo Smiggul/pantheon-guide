@@ -22,7 +22,11 @@ export default {
     Bot:[{
       label:"Blade of The Ruined King opener", tag:"alt",
       corePath:"Blade of The Ruined King  ›  Berserker's Greaves  ›  Guinsoo's Rageblade  ›  Runaan's Hurricane",
-      coreNote:"The minority line, and the build this guide used to lead with: Blade of The Ruined King first in about a fifth of games, against more than half for Guinsoo's Rageblade. Its current-health on-hit damage, lifesteal and slow hit hardest early against high-health targets. Guinsoo's Rageblade almost always comes second, then Runaan's Hurricane in about half of those games, with Terminus the other common third item. As a first item it wins a little less often (about 53.6% against 55.2% for Guinsoo's).",
+      // Research: The minority line, and the build this guide used to lead with: BotRK first in about a fifth of games,
+      //   against more than half for Guinsoo's. Guinsoo's almost always comes second, then Hurricane in about half
+      //   of those games, with Terminus the other common third item. As a first item about 53.6% against 55.2% for
+      //   Guinsoo's.
+      coreNote:"Blade of The Ruined King first: its current-health on-hit damage, lifesteal and slow hit hardest early against high-health targets. Guinsoo's Rageblade second, then Runaan's Hurricane or Terminus. As a first item it wins slightly less often than Guinsoo's.",
       runes:{...KOGMAW_BOT_DEFAULT_RUNES},
       sideItems:["Navori Flickerblade","Terminus","Jak'Sho, The Protean","Wit's End","Guardian Angel","Bloodthirster"],
     }],
@@ -32,7 +36,12 @@ export default {
       bans:["Draven","Lucian","Tristana"], replacements:["Kalista","Twitch","Vayne"],
       role:"Artillery-Range On-Hit Melter",
       corePath:"Guinsoo's Rageblade  ›  Berserker's Greaves  ›  Navori Flickerblade  ›  Terminus",
-      coreNote:"Kog'Maw is a turret your team builds a fortress around: Bio-Arcane Barrage gives him extra range and percent-max-HP on-hit damage on every auto. Guinsoo's Rageblade is the standard opener, in more than half of games: its stacking attack speed, and on-hit applied twice on every third attack, multiply that W damage. Navori Flickerblade is the most common second item, its attacks cutting W's cooldown so the barrage is up for more of each fight, and Terminus follows it about two thirds of the time for penetration and resists as the fight extends. Runaan's Hurricane is the other common second item, spraying on-hit bolts across a teamfight. Blade of The Ruined King first, the line this guide used to lead with, is about a fifth of games (see the alternate build), and an AP line opening Dusk and Dawn takes about one game in six. He has zero mobility and needs none if the team peels — draft enchanters, ban divers, and melt everything from behind your front line.",
+      // Research: Guinsoo's is the standard opener, in more than half of games; Navori is the most common second item, and
+      //   Terminus follows it about two thirds of the time; Hurricane is the other common second item. BotRK
+      //   first, the line this guide used to lead with, is about a fifth of games (the alternate build), and an AP
+      //   line opening Dusk and Dawn takes about one game in six. He has zero mobility and needs none if the team
+      //   peels.
+      coreNote:"Bio-Arcane Barrage gives Kog'Maw extra range and percent-max-health on-hit damage on every auto. Guinsoo's Rageblade first: its stacking attack speed and doubled on-hit every third attack multiply that W damage. Navori Flickerblade second cuts W's cooldown with every attack, and Terminus third adds penetration and resists as fights extend. Runaan's Hurricane is the other second item, spraying on-hit across a teamfight. Draft enchanters, ban divers, and attack from behind your front line.",
       sideItems:["Blade of The Ruined King","Runaan's Hurricane","Jak'Sho, The Protean","Wit's End","Lord Dominik's Regards","Guardian Angel","Immortal Shieldbow","Bloodthirster"],
       data:{
         JUGGERNAUT:{ahead:[I("Blade of The Ruined King","Percent-HP autos shred their giant bar."),I("Guinsoo's Rageblade","Double on-hit melts through the HP stack."),I("Terminus","Pen keeps the melt real through resists.")],behind:[I("Guardian Angel","Insurance when they finally reach you."),I("Immortal Shieldbow","Lifeline shield mid-fight."),I("Terminus","Resists to survive the walk-down.")],runes:{...KOGMAW_BOT_DEFAULT_RUNES}},
