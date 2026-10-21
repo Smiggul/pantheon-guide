@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  enemyTeam.js  —  reads the live enemy team (from the champ-select session) and
 //  produces a "versus team" readout: each member's role + class + damage type, a
-//  team damage split (AD / AP), threat flags (heavy CC, dive, shields, healing,
-//  poke), and a short list of counter-items tailored to YOUR champion.
+//  team damage split (AD / AP) and threat flags (heavy CC, dive, shields, healing,
+//  poke). The item answers to those threats are built by gamePlan.js.
 //
 //  Pure logic, no React / no client calls. Keys are DDragon ids (matching
 //  champClasses.js). classOf gives the primary class; the curated sets below add
@@ -51,19 +51,36 @@ export function myProfileOf(dd) {
   return damageOf(dd) === "AP" ? "AP" : "AD";
 }
 
-// Counter items keyed by (need, my profile). Names must match item.json so the
-// icons resolve. Each entry is the item the reader should build for that threat.
-const MR_ITEM   = { AP: "Banshee's Veil", AD: "Maw of Malmortius", TANK: "Force of Nature" };
-const ARMOR_ITEM = { AP: "Zhonya's Hourglass", AD: "Death's Dance", TANK: "Randuin's Omen" };
-const ANTIHEAL  = { AP: "Morellonomicon", AD: "Chempunk Chainsword", TANK: "Thornmail" };
-const ANTIDIVE  = { AP: "Zhonya's Hourglass", AD: "Guardian Angel", TANK: "Randuin's Omen" };
+// What the enemy team threatens, as counts. Shared by the Enemy team panel
+// (analyzeEnemyTeam) and the game plan (gamePlan.js), which turns these into the
+// mid and late layer of the build. dds: DDragon ids of the known enemies.
+export function teamThreats(dds) {
+  let ad = 0, ap = 0, mixed = 0, tank = 0;
+  let shields = 0, heals = 0, dive = 0, cc = 0, poke = 0;
+  for (const dd of dds || []) {
+    if (!dd) continue;
+    const cls = classOf(dd), dmg = damageOf(dd);
+    if (dmg === "AP") ap++;
+    else if (dmg === "Mixed") mixed++;
+    else ad++;
+    if (TANK_CLASSES.has(cls)) tank++;
+    if (SHIELD_CHAMPS.has(dd)) shields++;
+    if (HEAL_CHAMPS.has(dd)) heals++;
+    if (cls === "ASSASSIN" || cls === "DIVER") dive++;
+    if (cls === "VANGUARD" || cls === "CATCHER" || CC_CHAMPS.has(dd)) cc++;
+    if (cls === "ARTILLERY" || cls === "BURST_MAGE") poke++;
+  }
+  return { ad, ap, mixed, tank, shields, heals, dive, cc, poke };
+}
 
 // ── Analyse the enemy team ──────────────────────────────────────────────────
 //  theirTeam: [{ championId, assignedPosition }]  (from the LCU session)
 //  keyToDd:   championId -> DDragon id  (passed in; lives in App.jsx)
 //  posRole:   assignedPosition -> role label
-//  myDd:      your champion's DDragon id (tailors the counters)
+//  myDd:      your champion's DDragon id
 //  myOppDd:   your lane opponent's DDragon id (to highlight that member)
+// The item answers to the team used to live here as a separate "Consider" list;
+// they are now part of the one game plan (gamePlan.js), ordered by phase.
 export function analyzeEnemyTeam(theirTeam, keyToDd, posRole, myDd, myOppDd) {
   const members = (theirTeam || [])
     .map((p) => {
@@ -79,63 +96,16 @@ export function analyzeEnemyTeam(theirTeam, keyToDd, posRole, myDd, myOppDd) {
     })
     .filter((m) => m.picked); // only resolved picks; unpicked slots are dropped
 
-  let ad = 0, ap = 0, mixed = 0, tank = 0;
-  let shields = 0, heals = 0, dive = 0, cc = 0, poke = 0;
-  for (const m of members) {
-    if (m.dmg === "AP") ap++;
-    else if (m.dmg === "Mixed") { mixed++; ap += 0; ad += 0; }
-    else ad++;
-    if (TANK_CLASSES.has(m.cls)) tank++;
-    if (SHIELD_CHAMPS.has(m.dd)) shields++;
-    if (HEAL_CHAMPS.has(m.dd)) heals++;
-    if (m.cls === "ASSASSIN" || m.cls === "DIVER") dive++;
-    if (m.cls === "VANGUARD" || m.cls === "CATCHER" || CC_CHAMPS.has(m.dd)) cc++;
-    if (m.cls === "ARTILLERY" || m.cls === "BURST_MAGE") poke++;
-  }
-
+  const t = teamThreats(members.map((m) => m.dd));
   const flags = [];
-  if (cc >= 2) flags.push({ key: "cc", label: "heavy CC" });
-  if (dive >= 1) flags.push({ key: "dive", label: dive >= 2 ? "dive-heavy" : "assassin threat" });
-  if (shields >= 1) flags.push({ key: "shield", label: "enemy shielding" });
-  if (heals >= 1) flags.push({ key: "heal", label: "enemy healing" });
-  if (poke >= 2) flags.push({ key: "poke", label: "poke / burst" });
+  if (t.cc >= 2) flags.push({ key: "cc", label: "heavy CC" });
+  if (t.dive >= 1) flags.push({ key: "dive", label: t.dive >= 2 ? "dive-heavy" : "assassin threat" });
+  if (t.shields >= 1) flags.push({ key: "shield", label: "enemy shielding" });
+  if (t.heals >= 1) flags.push({ key: "heal", label: "enemy healing" });
+  if (t.poke >= 2) flags.push({ key: "poke", label: "poke / burst" });
 
-  const prof = myDd ? myProfileOf(myDd) : "AD";
-  const counters = buildCounters({ ad, ap, cc, dive, shields, heals }, prof);
-
-  return { members, split: { ad, ap, mixed, tank }, flags, counters, profile: prof };
-}
-
-function buildCounters({ ad, ap, cc, dive, shields, heals }, prof) {
-  const out = [];
-  const push = (name, why) => { if (name && !out.some((o) => o.name === name)) out.push({ name, why }); };
-
-  const apLean = ap >= 2 && ap >= ad;
-  const adLean = ad >= 2 && ad > ap;
-
-  // 1) Anti-heal first — it's cheap, early, and hard-counters a whole strategy.
-  if (heals >= 1) push(ANTIHEAL[prof], "cuts enemy healing (Grievous Wounds)");
-
-  // 2) Boots + a resist item against the dominant damage type.
-  if (apLean) {
-    push("Mercury's Treads", `${ap} AP threats — MR + tenacity`);
-    push(MR_ITEM[prof], "magic resist vs their casters");
-  } else if (adLean) {
-    push("Plated Steelcaps", `${ad} AD threats — armor`);
-    push(ARMOR_ITEM[prof], "armor vs their physical damage");
-  }
-
-  // 3) Shield-shred (lethality item — only meaningful on AD builds).
-  if (shields >= 1 && prof === "AD") push("Serpent's Fang", "shreds enemy shields");
-
-  // 4) Anti-dive / survive their assassins.
-  if (dive >= 1) push(ANTIDIVE[prof], dive >= 2 ? "survive the dive" : "blunt their assassin");
-
-  // 5) If they're CC-heavy but we didn't already take Mercs, flag tenacity.
-  if (cc >= 2 && !out.some((o) => o.name === "Mercury's Treads"))
-    push("Mercury's Treads", "cut the CC chain (tenacity)");
-
-  return out.slice(0, 4);
+  return { members, split: { ad: t.ad, ap: t.ap, mixed: t.mixed, tank: t.tank }, flags,
+    profile: myDd ? myProfileOf(myDd) : "AD" };
 }
 
 export default analyzeEnemyTeam;

@@ -20,7 +20,7 @@ import InGameView from "./InGameView.jsx";
 import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
-import { matchupAdvice } from "./data/matchupAdjust.js";
+import { gamePlan, orderCore as orderCoreFor, placeBoots, bootsTimingOf } from "./data/gamePlan.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
@@ -747,21 +747,8 @@ useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [champ.id, currentRole, openClass, altBuildIdx, appliedMatchup]);
 
-  // ── Matchup adjustments (matchupAdjust.js) ─────────────────────────────────
-  // The class page is written for the typical member of the opponent's class;
-  // this reads the opponent's own facts (damage type, healing, health stacking,
-  // shields, CC, range) and proposes swaps. Proposals only: the rune changes
-  // apply on one click, and the items ride along in the exported item set.
-  // Computed against the live rune page, so once applied its swaps no longer
-  // match anything and the strip falls back to a confirmation.
-  const matchupAdj = foeChamp ? matchupAdvice({
-    champ, roleName: currentRole,
-    roleData: activeAlt
-      ? { ...activeChampRole, corePath: activeAlt.corePath, sideItems: activeAlt.sideItems || activeChampRole.sideItems }
-      : activeChampRole,
-    enemyClass: openClass, page: runeSel, foe: foeChamp,
-    curated: !!appliedMatchup,          // a hand-written matchup page already applied
-  }) : null;
+  // The game plan (gamePlan.js) is computed further down, next to the enemy
+  // team it needs; vsApplied tracks its one-click rune swap.
   const [vsApplied, setVsApplied] = useState(false);
   useEffect(() => { setVsApplied(false); }, [champ.id, currentRole, openClass, altBuildIdx, matchupFoe]);
 
@@ -910,13 +897,16 @@ useEffect(() => {
   const [lastImport, setLastImport] = useState(null);
   // runesOverride: a page to send instead of the live one. The matchup strip uses
   // it to apply and import in one click, before the setRuneSel state update lands.
-  const sendToLeague = async (runesOverride = null) => {
+  // enemies: the enemy team's locked picks, for the game plan in the item set
+  // (passed by the caller: planEnemies is computed further down this render).
+  const sendToLeague = async (runesOverride = null, enemies = []) => {
     if (!isDesktop || applyState === "sending") return;
     setApplyState("sending");
     try {
       // If the user forged a custom item set, apply that instead of the recommended one.
       const payload = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt,
-        runesOverride || runeSel, forgeHasItems ? forgeItems : null, foeChamp);
+        runesOverride || runeSel, forgeHasItems ? forgeItems : null, foeChamp,
+        { mode, enemies });
       // Pre-flight: the client rejects an incomplete or cross-tree page with an
       // opaque 400, so say what's actually wrong instead of sending it anyway.
       if (!payload.runeValid) {
@@ -975,6 +965,11 @@ useEffect(() => {
   const altRef   = useRef(activeAlt);
   const foeRef   = useRef(foeChamp);
   const runeSelRef = useRef(runeSel);
+  const modeRef = useRef(mode);
+  // The enemy team's locked picks (DDragon ids) for the game plan in the
+  // export; refreshed on every champ-select update below.
+  const enemiesRef = useRef([]);
+  useEffect(() => { modeRef.current = mode; }, [mode]);
   useEffect(() => { csSyncRef.current = csSync; }, [csSync]);
   useEffect(() => { oppOverrideRef.current = oppOverride; }, [oppOverride]);
   useEffect(() => { preHoverOnRef.current = preHoverOn; }, [preHoverOn]);
@@ -995,7 +990,7 @@ useEffect(() => {
       const champObj = champRef.current;
       const role = roleForPosition(champObj, assignedPosition, roleRef.current);
       const p = buildExport(champObj, role, classRef.current, altRef.current, runeSelRef.current,
-        null, foeRef.current);
+        null, foeRef.current, { mode: modeRef.current, enemies: enemiesRef.current });
       return window.frge.applyBuild({ runePage: p.runePage, itemSet: p.itemSet }).then((r) => {
         if (r?.ok) setLastImport({ champDd: champObj.dd, role, altLabel: altRef.current?.label || null,
           foe: foeRef.current?.display || null, runes: runeSelRef.current, exp: p, at: Date.now() });
@@ -1004,6 +999,9 @@ useEffect(() => {
     };
     const unsub = window.frge.onChampSelect((data) => {
       setCsState(data);
+      // Same picks the Enemy team panel reads (locked only).
+      if (data?.active) enemiesRef.current = (data.theirTeam || [])
+        .map((p) => (p.championId > 0 ? KEY_TO_DD[p.championId] : null)).filter(Boolean);
       if (!data || !data.active) {           // reset per-session guards
         preHoverSentRef.current = false;
         autoImportedRef.current = false;
@@ -1116,20 +1114,13 @@ useEffect(() => {
     ? classEntry.champions.filter(c => c !== champ.display)
     : [];
 
-  // "Survive & Scale" (behind) mode reorders the core so a defensive item is
-  // rushed earlier — i.e. the order reflects what you'd build when behind vs
-  // ahead. Ahead mode keeps the authored (damage-forward) order.
-  const DEFENSIVE_ITEMS = new Set(["sterak's gage","spirit visage","death's dance","thornmail",
-    "randuin's omen","frozen heart","zhonya's hourglass","kaenic rookern","force of nature",
-    "warmog's armor","jak'sho, the protean","gargoyle stoneplate","guardian angel",
-    "maw of malmortius","banshee's veil","unending despair","iceborn gauntlet","sunfire aegis",
-    "abyssal mask","spirit visage"]);
-  const orderCore = (items) => {
-    if (mode !== "behind" || items.length < 3) return items;
-    const di = items.findIndex((n, i) => i > 0 && DEFENSIVE_ITEMS.has(n.toLowerCase()) && !BOOTS_SET.has(n.toLowerCase()));
-    if (di <= 1) return items;                 // already an early defensive buy
-    const out = [...items]; const [d] = out.splice(di, 1); out.splice(1, 0, d); return out;
-  };
+  // "Survive & Scale" (behind) mode moves the first defensive item up to item
+  // 2; Ahead keeps the authored, damage-forward order. The boots sit where this
+  // champion-role finishes them (before item 1 for Garen, Darius, Yone...; after
+  // it for most). Both rules live in gamePlan.js, so the build card and the
+  // game plan / exported item set cannot disagree.
+  const bootsTiming = bootsTimingOf(champ.dd, currentRole);
+  const orderCore = (items) => placeBoots(orderCoreFor(items, mode), bootsTiming);
   // Once the Build Forge holds core/boots items it IS the core build path — it
   // replaces the recommended path and takes precedence over the Ahead/Behind
   // reorder, so the toggle can never override the user's authored build.
@@ -1722,12 +1713,29 @@ useEffect(() => {
     && (dispCs.theirTeam || []).some((p) => p.championId > 0);
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
-  // Full enemy-team readout: damage split, threat flags, counters vs MY champ
+  // Full enemy-team readout: damage split, threat flags, the lane opponent highlighted
   // (the one hovered/locked in client, else the one selected in the app).
   const csEnemyAnalysis = dispCs && csEnemiesLocked
     ? analyzeEnemyTeam(dispCs.theirTeam, KEY_TO_DD, POS_ROLE,
         detectedChamp?.dd || champ.dd, csOppDd)
     : null;
+  // ── The game plan (gamePlan.js) ─────────────────────────────────────────
+  // ONE recommendation ordered by phase: the lane answers to the opponent
+  // first, the team's answers as the mid and late layer, shaped by the
+  // Ahead / Even-Behind switch. It replaces the old matchup strip and the
+  // Enemy team panel's "Consider" chips, and the export builds the same plan.
+  // Rune swaps are computed against the live page, so once applied they no
+  // longer match and the strip shows a confirmation instead.
+  const planEnemies = csEnemyAnalysis ? csEnemyAnalysis.members.map((m) => m.dd) : [];
+  const plan = (foeChamp || planEnemies.length >= 2) ? gamePlan({
+    champ, roleName: currentRole,
+    roleData: activeAlt
+      ? { ...activeChampRole, corePath: activeAlt.corePath, sideItems: activeAlt.sideItems || activeChampRole.sideItems }
+      : activeChampRole,
+    enemyClass: openClass, mode, foe: foeChamp, enemies: planEnemies, page: runeSel,
+    curated: !!appliedMatchup,          // a hand-written matchup page already applied
+  }) : null;
+  const planLane = plan?.lane || null;  // the lane opponent's chips and rune swaps
   const preHoverChamp = preHoverOn ? champ : null;
   const csStatus = !csState ? "Connecting to client…"
     : csState.active ? "In champ select"
@@ -1963,7 +1971,8 @@ useEffect(() => {
         const igAlt = imp
           ? (imp.altLabel ? (igChamp.altBuilds?.[igRole] || []).find((a) => a.label === imp.altLabel) || null : null)
           : activeAlt;
-        const igExp = imp ? imp.exp : buildExport(champ, currentRole, openClass, activeAlt, runeSel, null, foeChamp);
+        const igExp = imp ? imp.exp : buildExport(champ, currentRole, openClass, activeAlt, runeSel, null, foeChamp,
+          { mode, enemies: planEnemies });
         const staleFoe = imp && csOppChamp && imp.foe !== csOppChamp.display ? csOppChamp.display : null;
         return (
           <div style={{ position:"fixed", inset:0, zIndex:110, overflowY:"auto",
@@ -2307,7 +2316,7 @@ useEffect(() => {
                     automatic import, so client-side edits are never overwritten
                     unprompted. */}
                 {foeChamp && csActive && (
-                  <button onClick={() => sendToLeague()} disabled={applyState === "sending"}
+                  <button onClick={() => sendToLeague(null, planEnemies)} disabled={applyState === "sending"}
                     title={`Import the rune page and item set for ${foeChamp.display} into the League client`}
                     style={{
                       cursor: applyState === "sending" ? "wait" : "pointer",
@@ -2326,78 +2335,102 @@ useEffect(() => {
               </span>
             )}
 
-            {/* Matchup adjustments: what the class page misses about THIS
-                opponent (matchupAdjust.js). Its own full-width row so it wraps
-                under the readout. Items are proposals that also ride along in
-                the exported item set; rune swaps apply on one click and never
-                touch the page unprompted. */}
-            {detectedChamp && matchupAdj && (matchupAdj.items.length > 0 || matchupAdj.runes.length > 0 || vsApplied) && (
-              <div style={{ flexBasis:"100%", display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
-                <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
-                  color:S.goldDim, flexShrink:0 }}>Vs {matchupAdj.foe}</span>
-                {matchupAdj.chips.map((c) => (
-                  <span key={c.key} style={{ fontSize:"10.5px", padding:"1px 8px", borderRadius:"10px",
-                    border:"1px solid rgba(255,255,255,.14)", color:"rgba(255,255,255,.72)" }}>{c.label}</span>
-                ))}
-                {matchupAdj.items.map((i) => {
-                  const ek = `vs-${i.to}`;
-                  const src = itemImg(i.to, itemMap);
-                  return (
-                    <span key={ek} title={`${i.why}. Included in the exported item set.`}
-                      style={{ display:"flex", alignItems:"center", gap:"6px", padding:"2px 9px 2px 3px",
-                        borderRadius:"16px", border:`1px solid ${S.gold}33`, background:"rgba(212,175,55,.06)" }}>
-                      <span style={{ width:"20px", height:"20px", borderRadius:"4px", overflow:"hidden",
-                        background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                        {src && !imgFail(ek)
-                          ? <img src={src} alt={i.to} onError={() => onErr(ek)}
-                              style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                          : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
-                      </span>
-                      <span style={{ fontSize:"11.5px", color:"#e9ebee" }}>
-                        {i.from && <span style={{ color:"rgba(255,255,255,.45)" }}>{i.from} → </span>}
-                        {!i.from && <span style={{ color:"rgba(255,255,255,.45)" }}>add </span>}
-                        <b style={{ fontWeight:600 }}>{i.to}</b>
-                      </span>
+            {/* The game plan (gamePlan.js): ONE item recommendation ordered by
+                phase, merging the lane answers to the opponent and the team's
+                answers. It replaced the old "Vs <opponent>" strip here and the
+                "Consider" chips in the Enemy team panel. Its own full-width row,
+                so it wraps under the readout. The exported item set carries the
+                same Lane / Mid game / Late game blocks; rune swaps apply on one
+                click and never touch the page unprompted. */}
+            {detectedChamp && plan && plan.phases.length > 0 && (() => {
+              const tagColor = { lane: S.orange, team: "#6db4e6" };
+              const tags = new Set(plan.phases.flatMap((p) => p.items.map((e) => e.by || e.tag)));
+              const chip = (e, k) => {
+                const ek = `plan-${e.name}`;
+                const src = itemImg(e.name, itemMap);
+                const col = tagColor[e.by || e.tag];
+                return (
+                  <span key={`${e.name}-${k}`} title={e.why ? e.why.charAt(0).toUpperCase() + e.why.slice(1) : e.name}
+                    style={{ display:"flex", alignItems:"center", gap:"6px", padding:"2px 9px 2px 3px",
+                      borderRadius:"16px", border:`1px solid ${col ? col + "99" : "rgba(255,255,255,.12)"}`,
+                      background: col ? `${col}14` : "rgba(255,255,255,.03)" }}>
+                    <span style={{ width:"20px", height:"20px", borderRadius:"4px", overflow:"hidden",
+                      background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                      {src && !imgFail(ek)
+                        ? <img src={src} alt={e.name} onError={() => onErr(ek)}
+                            style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                        : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
                     </span>
-                  );
-                })}
-                {matchupAdj.runes.length > 0 && (
-                  <>
-                    <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
-                      color:S.goldDim, marginLeft:"4px" }}>Runes</span>
-                    {matchupAdj.runes.map((r) => (
-                      <span key={`${r.from}-${r.to}`} title={r.why} style={{ fontSize:"11.5px", padding:"2px 9px",
-                        borderRadius:"16px", border:"1px solid rgba(255,255,255,.14)", color:"#e9ebee" }}>
-                        <span style={{ color:"rgba(255,255,255,.45)" }}>{r.from} → </span><b style={{ fontWeight:600 }}>{r.to}</b>
-                      </span>
-                    ))}
-                    <button
-                      onClick={() => {
-                        setRuneSel(matchupAdj.page);
-                        setVsApplied(true);
-                        if (csActive && isDesktop) sendToLeague(matchupAdj.page);
-                      }}
-                      disabled={applyState === "sending"}
-                      title={csActive && isDesktop
-                        ? "Apply these rune swaps and import the page and item set into the League client"
-                        : "Apply these rune swaps to the rune page below"}
-                      style={{ cursor: applyState === "sending" ? "wait" : "pointer", fontFamily:"inherit",
-                        fontSize:"11px", letterSpacing:".4px", padding:"3px 10px", borderRadius:"6px",
-                        border:`1px solid ${S.gold}73`, background:`${S.gold}1f`, color:S.gold }}>
-                      {csActive && isDesktop ? "Apply + import" : "Apply to rune page"}
-                    </button>
-                  </>
-                )}
-                {vsApplied && matchupAdj.runes.length === 0 && (
-                  <span style={{ fontSize:"11px", color: applyState?.ok === false ? "#f0b8b0" : "#8fe0b4" }}>
-                    {applyState === "sending" ? "Importing…"
-                      : applyState?.ok === false ? applyState.msg
-                      : applyState?.ok ? `Matchup runes applied and imported`
-                      : "Matchup runes applied"}
+                    <span style={{ fontSize:"11.5px", color:"#e9ebee" }}>
+                      {e.from && <span style={{ color:"rgba(255,255,255,.45)" }}>{e.from} → </span>}
+                      <b style={{ fontWeight:600 }}>{e.name}</b>
+                    </span>
                   </span>
-                )}
-              </div>
-            )}
+                );
+              };
+              const label = { fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim, flexShrink:0 };
+              const swaps = planLane?.runes || [];
+              return (
+                <div style={{ flexBasis:"100%", display:"flex", flexDirection:"column", gap:"6px" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
+                    <span style={label}>{planLane ? `Plan vs ${planLane.foe}` : "Plan vs their team"}</span>
+                    {(planLane?.chips || []).map((c) => (
+                      <span key={c.key} style={{ fontSize:"10.5px", padding:"1px 8px", borderRadius:"10px",
+                        border:"1px solid rgba(255,255,255,.14)", color:"rgba(255,255,255,.72)" }}>{c.label}</span>
+                    ))}
+                    {(tags.has("lane") || tags.has("team")) && (
+                      <span style={{ marginLeft:"auto", display:"flex", gap:"10px", fontSize:"10.5px", color:"rgba(255,255,255,.55)" }}>
+                        {tags.has("lane") && <span style={{ display:"flex", alignItems:"center", gap:"5px" }}><i style={{ width:"8px", height:"8px", borderRadius:"50%", background:tagColor.lane }} />{planLane?.foe}</span>}
+                        {tags.has("team") && <span style={{ display:"flex", alignItems:"center", gap:"5px" }}><i style={{ width:"8px", height:"8px", borderRadius:"50%", background:tagColor.team }} />Their team</span>}
+                      </span>
+                    )}
+                  </div>
+                  {plan.phases.map((ph) => (
+                    <div key={ph.key} style={{ display:"flex", alignItems:"center", gap:"6px", flexWrap:"wrap" }}>
+                      <span style={{ ...label, width:"76px" }}>{ph.title}</span>
+                      {ph.items.map(chip)}
+                    </div>
+                  ))}
+                  {plan.conflicts.map((c) => (
+                    <span key={c} style={{ fontSize:"11.5px", color:"#e9ebee", paddingLeft:"82px" }}>{c}</span>
+                  ))}
+                  {swaps.length > 0 && (
+                    <div style={{ display:"flex", alignItems:"center", gap:"6px", flexWrap:"wrap" }}>
+                      <span style={{ ...label, width:"76px" }}>Runes</span>
+                      {swaps.map((r) => (
+                        <span key={`${r.from}-${r.to}`} title={r.why} style={{ fontSize:"11.5px", padding:"2px 9px",
+                          borderRadius:"16px", border:"1px solid rgba(255,255,255,.14)", color:"#e9ebee" }}>
+                          <span style={{ color:"rgba(255,255,255,.45)" }}>{r.from} → </span><b style={{ fontWeight:600 }}>{r.to}</b>
+                        </span>
+                      ))}
+                      <button
+                        onClick={() => {
+                          setRuneSel(planLane.page);
+                          setVsApplied(true);
+                          if (csActive && isDesktop) sendToLeague(planLane.page, planEnemies);
+                        }}
+                        disabled={applyState === "sending"}
+                        title={csActive && isDesktop
+                          ? "Apply these rune swaps and import the page and item set into the League client"
+                          : "Apply these rune swaps to the rune page below"}
+                        style={{ cursor: applyState === "sending" ? "wait" : "pointer", fontFamily:"inherit",
+                          fontSize:"11px", letterSpacing:".4px", padding:"3px 10px", borderRadius:"6px",
+                          border:`1px solid ${S.gold}73`, background:`${S.gold}1f`, color:S.gold }}>
+                        {csActive && isDesktop ? "Apply + import" : "Apply to rune page"}
+                      </button>
+                    </div>
+                  )}
+                  {vsApplied && swaps.length === 0 && (
+                    <span style={{ fontSize:"11px", paddingLeft:"82px", color: applyState?.ok === false ? "#f0b8b0" : "#8fe0b4" }}>
+                      {applyState === "sending" ? "Importing…"
+                        : applyState?.ok === false ? applyState.msg
+                        : applyState?.ok ? "Matchup runes applied and imported"
+                        : "Matchup runes applied"}
+                    </span>
+                  )}
+                </div>
+              );
+            })()}
 
             {csActive && !detectedChamp && (
               <span style={{ fontSize:"12px", color:"rgba(255,255,255,.45)" }}>
@@ -2444,7 +2477,7 @@ useEffect(() => {
 
       {/* ── VERSUS TEAM PANEL (desktop, once enemies lock in) ── */}
       {isDesktop && csEnemyAnalysis && (() => {
-        const { members, split, flags, counters } = csEnemyAnalysis;
+        const { members, split, flags } = csEnemyAnalysis;
         const AD_C = "#e8935c", AP_C = "#6db4e6";
         const flagColor = { cc:"#c9a3e0", dive:"#e88a8a", shield:"#6db4e6", heal:"#7fd6a2", poke:"#e0c56b" };
         return (
@@ -2542,35 +2575,6 @@ useEffect(() => {
                     );
                   })}
                 </div>
-
-                {/* counter items vs this comp */}
-                {counters.length > 0 && (
-                  <div style={{ display:"flex", alignItems:"center", gap:"9px", flexWrap:"wrap", marginTop:"9px" }}>
-                    <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase",
-                      color:S.goldDim, flexShrink:0 }}>Consider</span>
-                    {counters.map((c) => {
-                      const ek = `counter-${c.name}`;
-                      const src = itemImg(c.name, itemMap);
-                      return (
-                        <span key={ek} title={c.why} style={{ display:"flex", alignItems:"center", gap:"7px",
-                          padding:"3px 10px 3px 4px", borderRadius:"18px",
-                          border:`1px solid ${S.gold}33`, background:"rgba(212,175,55,.06)" }}>
-                          <span style={{ width:"24px", height:"24px", borderRadius:"5px", overflow:"hidden",
-                            background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                            {src && !imgFail(ek)
-                              ? <img src={src} alt={c.name} onError={() => onErr(ek)}
-                                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                              : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
-                          </span>
-                          <span style={{ display:"flex", flexDirection:"column", lineHeight:1.15 }}>
-                            <span style={{ fontSize:"11.5px", fontWeight:"600", color:"#e9ebee" }}>{c.name}</span>
-                            <span style={{ fontSize:"9px", color:"rgba(255,255,255,.45)" }}>{c.why}</span>
-                          </span>
-                        </span>
-                      );
-                    })}
-                  </div>
-                )}
 
                 {/* Lane counter — how you fare vs the enemy laner + best picks into them */}
                 {csOppDd && csMyRole && (() => {
@@ -3054,7 +3058,7 @@ useEffect(() => {
               textTransform:"uppercase" }}>Core Build Path</span>
             {isDesktop && (
               <button
-                onClick={() => sendToLeague()}
+                onClick={() => sendToLeague(null, planEnemies)}
                 disabled={applyState === "sending"}
                 className="frge-cta"
                 title="Import this rune page + item set into the running League client"

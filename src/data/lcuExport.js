@@ -7,7 +7,8 @@
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
 import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS } from "./lcuData.js";
-import { isRanged, matchupAdvice } from "./matchupAdjust.js";
+import { isRanged } from "./matchupAdjust.js";
+import { gamePlan, bootsTimingOf } from "./gamePlan.js";
 import { counterInteractions } from "./abilityInteractions.js";
 import { tagsOf } from "./counterPicker.js";
 import { classOf } from "./champClasses.js";
@@ -273,7 +274,12 @@ function supportFinishers(coreNoBoots) {
 //  in-game view shows them instead. The set's own title keeps champion, role and
 //  opponent ("FRGE.GG — Pantheon Top vs Mordekaiser"); the user may want short
 //  forms later ("Panth vs Morde"), undecided.
-export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null, champName = null) {
+//
+//  opts.mode ("ahead" | "behind") and opts.enemies (DDragon ids of the enemy
+//  team) feed the game plan (gamePlan.js): the Lane / Mid game / Late game
+//  blocks are the same ordered recommendation the app shows.
+export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null, champName = null, opts = {}) {
+  const mode = opts.mode === "ahead" ? "ahead" : "behind";
   const who = champName || champDd;
   const hasCustom = customItems &&
     ((customItems.starter?.length || 0) + (customItems.core?.length || 0) + (customItems.boots?.length || 0) + (customItems.situational?.length || 0) > 0);
@@ -290,7 +296,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
       title: `FRGE.GG — ${who} ${roleName} (forged)`,
       type: "custom", map: "any", mode: "any", sortrank: 1, startedFrom: "blank",
       associatedMaps: [11, 12], associatedChampions: key ? [key] : [], blocks,
-      notes: { start: null, foe: null, traits: [], swaps: [] },
+      notes: { start: null, foe: null, traits: [], swaps: [], plan: null },
     };
   }
 
@@ -301,7 +307,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const firstBack = firstCore ? FIRST_BACK[firstCore] : null;
   const prof = PROFILE[profileOf(champDd, coreNoBoots)];
   const situational = roleData.sideItems || [];
-  const ahead = (roleData.data?.[enemyClass]?.ahead || []).map((e) => e?.name).filter(Boolean);
+  // The class page's list for the current mode (it used to be the Ahead list
+  // whatever the switch said).
+  const classList = (roleData.data?.[enemyClass]?.[mode] || []).map((e) => e?.name).filter(Boolean);
 
   // Jungle starts with a smite pet; support starts with the World Atlas quest
   // item and finishes into a support item — never a Doran's/laning start.
@@ -360,27 +368,29 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
           : []),
       ];
 
-  // Items tuned to the lane opponent (matchupAdjust.js): the answers to their
-  // damage type, healing, health stacking and shields that the class list misses.
-  const advice = foe
-    ? matchupAdvice({ champ: { dd: champDd }, roleName, roleData, enemyClass, page: null, foe })
-    : null;
-  const vsItems = (advice?.items || []).map((i) => i.to);
-  const vsBlock = vsItems.length ? itemBlock(`Vs ${foe.display}`, vsItems) : null;
+  // The one game plan (gamePlan.js): the core, the boots at this champion's own
+  // timing, the answers to the lane opponent and to the enemy team, ordered by
+  // phase for the Ahead / Even-Behind switch.
+  const plan = gamePlan({ champ: { dd: champDd, display: who }, roleName, roleData, enemyClass, mode,
+    foe, enemies: opts.enemies || [] });
+  const timing = bootsTimingOf(champDd, roleName);
+  // Tier-1 Boots on the first back only where most games buy them by 10
+  // minutes (or finish them before item 1); elsewhere they come after item 1.
+  const t1Boots = !timing.none && (timing.t1 || timing.first) ? "Boots" : null;
+  const phaseBlocks = (plan?.phases || []).map((p) => itemBlock(p.title, p.items.map((e) => e.name)));
   const blocks = onceEach([
     ...startBlocks,
     // First back: ~900-1300g. The first core item's real building block, a
     // damage-type-appropriate filler (never a Long Sword on an AP champ), the
     // greedy stacking option where it applies, then boots and a ward.
     itemBlock("First back", isSupport
-      ? [supFin[0], "Boots", "Control Ward"]
-      : [firstBack, prof.filler, prof.greedy, "Boots", "Control Ward"]),
-    itemBlock("Core", coreNoBoots),
-    itemBlock("Boots", [boots, ...BOOTS]),
-    ...(vsBlock ? [vsBlock] : []),
-    itemBlock("Situational", [...ahead, ...situational]),
+      ? [supFin[0], t1Boots, "Control Ward"]
+      : [firstBack, prof.filler, prof.greedy, t1Boots, "Control Ward"]),
+    ...phaseBlocks,
+    ...(timing.none && !boots ? [] : [itemBlock("Other boots", [boots, ...BOOTS])]),
+    itemBlock("Situational", [...(plan?.extra || []), ...classList, ...situational]),
     itemBlock("Vision", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
-  ], vsBlock);
+  ]);
 
   const key = CHAMP_KEYS[champDd];
   return {
@@ -395,12 +405,20 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     associatedChampions: key ? [key] : [],
     blocks,
     // For the app only, never sent: why the start was chosen, who it was
-    // chosen against, their traits, and which core items the matchup swaps.
+    // chosen against, their traits, which items the matchup swapped, and the
+    // plan itself (each item tagged core / boots / lane / team) with any note
+    // where lane and team disagree.
     notes: {
       start: startWhy || null,
       foe: foe ? foe.display : null,
-      traits: (advice?.chips || []).map((c) => c.label),
-      swaps: (advice?.items || []).filter((i) => i.from).map((i) => ({ from: i.from, to: i.to })),
+      traits: (plan?.lane?.chips || []).map((c) => c.label),
+      swaps: (plan?.phases || []).flatMap((p) => p.items).filter((e) => e.from).map((e) => ({ from: e.from, to: e.name })),
+      plan: plan ? {
+        mode,
+        phases: plan.phases.map((p) => ({ key: p.key, title: p.title,
+          items: p.items.map((e) => ({ name: e.name, tag: e.by || e.tag, from: e.from || null })) })),
+        conflicts: plan.conflicts,
+      } : null,
     },
   };
 }
@@ -412,7 +430,8 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
 //  runesOverride (optional): the live, possibly user-edited rune page from the UI.
 //  When present it wins over both the alt build and the data recommendation, so
 //  the export is exactly the (editable) rune page the user sees — WYSIWYG import.
-export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null, foe = null) {
+//  opts (optional): { mode, enemies } for the game plan, see buildItemSet.
+export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null, foe = null, opts = {}) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
     ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems,
@@ -428,7 +447,7 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
   // Bans fall back to champ level, the same way the Recommended Ban tiles read them.
   const itemRole = { ...(roleData || {}), bans: roleData?.bans || champ.bans || [] };
   // notes are for the app; the client gets the item set without them.
-  const { notes, ...itemSet } = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe, champ.display);
+  const { notes, ...itemSet } = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe, champ.display, opts);
   return {
     champion: champ.display,
     role: roleName,
