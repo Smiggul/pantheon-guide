@@ -81,6 +81,19 @@ for (const [name, where] of uses) {
   else if (ITEM_IDS[name.toLowerCase()] == null) noExportId.push([name, where]);
 }
 
+// The ID sent must be the Rift version too, not just the name. Several items
+// share a name across modes: "Stealth Ward" is both 2056 (another mode's ward,
+// a green eye) and 3340 (the Rift trinket). The name check above passed while
+// every exported set carried 2056 (found 2026-10-22, with Bloodletter's Curse
+// 4010 vs 8010 and Gargoyle Stoneplate 3193 vs 663193). This covers every
+// exported id, including starters and wards the roster data never names.
+const wrongId = [];
+for (const [name, id] of Object.entries(ITEM_IDS)) {
+  if (items[id]?.maps?.["11"]) continue;
+  const rift = Object.entries(items).filter(([, it]) => it.name.toLowerCase() === name && it.maps?.["11"]).map(([i]) => i);
+  wrongId.push([name, new Set([`exports ${id}, Rift version ${rift.join("/") || "none"}`])]);
+}
+
 const show = (list, head, extra) => {
   if (!list.length) return;
   console.log(`\n${head}`);
@@ -95,5 +108,6 @@ console.log(`check-sr-items: ${uses.size} distinct item names across the roster,
 show(notOnRift, "NOT sold on Summoner's Rift:", true);
 show(unknown, "Not an item at all (typo or removed):", false);
 show(noExportId, "No client export id (run: node helpers/gen-lcu-data.mjs):", false);
-if (notOnRift.length || unknown.length || noExportId.length) process.exit(1);
-console.log("  every recommended item is available on the Rift and resolves for the client export");
+show(wrongId, "Exported id is not the Summoner's Rift item (fix gen-lcu-data's id choice):", false);
+if (notOnRift.length || unknown.length || noExportId.length || wrongId.length) process.exit(1);
+console.log("  every recommended item is available on the Rift, and every exported id is the Rift version");

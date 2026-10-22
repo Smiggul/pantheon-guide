@@ -5,7 +5,7 @@ import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { DD_OVERRIDES, toDD, toDDKey } from "./data/ddOverrides.js";
 import { matchup, bestCountersVs, bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { buildExport } from "./data/lcuExport.js";
-import { CHAMP_KEYS, DDRAGON_VERSION } from "./data/lcuData.js";
+import { CHAMP_KEYS, DDRAGON_VERSION, ITEM_IDS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
 import { counterCategoryOf } from "./data/itemCounters.js";
 import { PET_INFO, petFor } from "./data/junglePets.js";
@@ -628,6 +628,10 @@ useEffect(() => {
         if (!(key in map)) map[key] = id;
         names[id] = item.name;
       });
+      // The lowest id per name is not always the Rift item ("Stealth Ward" 2056
+      // is another mode's green-eye ward; the Rift trinket is 3340). For every
+      // name the export knows, show exactly the item the client is sent.
+      for (const [name, id] of Object.entries(ITEM_IDS)) map[name] = String(id);
       setItemMap(map);
       setItemNames(names);
       // Build Forge picker: only offer items actually purchasable on Summoner's

@@ -52,7 +52,16 @@ const RANGE = {}; for (const v of Object.values(champs)) RANGE[v.id] = v.stats.a
 // starter call: Doran's Ring restores Mana, so it only fits champions who use it.
 const PAR = {}; for (const v of Object.values(champs)) PAR[v.id] = v.partype;
 
-const idByName = {}; for (const [id, v] of Object.entries(full)) if (!(v.name in idByName)) idByName[v.name] = id;
+// The id the client gets for a name. Several items share a name across modes
+// ("Stealth Ward" is 2056, another mode's green-eye ward, and 3340, the Rift
+// trinket), so the Summoner's Rift version wins, then the lowest id. Taking the
+// first id alone sent 2056 in every exported set (fixed 2026-10-22).
+const onRift = (id) => !!full[id]?.maps?.["11"];
+const idByName = {};
+for (const [id, v] of Object.entries(full)) {
+  const cur = idByName[v.name];
+  if (!cur || (onRift(id) && !onRift(cur))) idByName[v.name] = id;
+}
 
 // gather every build item + first-core item used across the roster (+ each
 // champion's in-file alt builds — champ.altBuilds:{ Role:[{corePath,sideItems}] })
