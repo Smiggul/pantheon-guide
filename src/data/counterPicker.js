@@ -182,6 +182,16 @@ const buildTextOf = (c) => {
 // with a class or threat that actually engages. Healing counts as heavy when it
 // appears in two or more separate abilities, which is what separates a sustain
 // champion from one with an incidental heal.
+//
+// The patterns follow Riot's own tooltip wording, which abilities.js carries
+// since 2026-10-22: healing reads "Heals", "restores 40 (+55% AP) Health" or
+// "Life Steal"; a gap-closer reads "dashes", "leaps", "lunges", "teleports",
+// "charges forward", "rams into", "pulls himself to". A bare "restores" is not
+// enough ("restores 40 Mana"), so the word Health must follow in the same
+// sentence (a decimal point does not end one: "restores 1.8–5.5% max Health").
+// "healed" stays out: "when Lucian is healed by an ally" is not a heal he gives.
+const HEAL_TEXT = /\bheal(?:s|ing)?\b|\blife ?steal\b|\bomnivamp\b|\brestor(?:e|es|ing)\b(?:(?!\bmana\b|\benergy\b)(?:[^.]|\.(?=\d))){0,140}?\bhealth\b/i;
+const sentences = (s) => (s || "").split(/(?<=[.!?])\s+(?=[A-Z])/);
 const abilityTextOf = (dd) => {
   const a = ABILITIES[dd];
   if (!a) return "";
@@ -191,7 +201,7 @@ const healAbilityCount = (dd) => {
   const a = ABILITIES[dd];
   if (!a) return 0;
   return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
-    .filter((x) => /\bheal(?:s|ing)?\b|lifesteal|omnivamp/i.test(x.desc || "")).length;
+    .filter((x) => HEAL_TEXT.test(x.desc || "")).length;
 };
 // Shields an ALLY, not merely the caster: self-shielding is personal sustain and
 // says nothing about enabling a carry, so self-only wording stays out.
@@ -203,14 +213,19 @@ const shieldsAllies = (dd) => {
   return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
     .some((x) => SHIELD_WORD.test(x.desc || "") && ALLY_WORD.test(x.desc || ""));
 };
-const HEAL_WORD = /\bheals?\b|\bhealing\b/i;
+// The heal and the ally have to share a sentence: Karma's Mantra text heals
+// Karma in one sentence and shields allies in another.
 const healsAllies = (dd) => {
   const a = ABILITIES[dd];
   if (!a) return false;
   return [a.passive, a.Q, a.W, a.E, a.R].filter(Boolean)
-    .some((x) => HEAL_WORD.test(x.desc || "") && ALLY_WORD.test(x.desc || ""));
+    .some((x) => sentences(x.desc).some((s) => HEAL_TEXT.test(s) && ALLY_WORD.test(s)));
 };
-const HAS_DASH = /\bdash(?:es|ing)?\b|\bblinks?\b|\bleaps?\b/i;
+const HAS_DASH = new RegExp([
+  /\bdash(?:es|ing)?\b|\bblinks?\b|\bleaps?\b|\blunges?\b|\bteleports?\b|\brams into\b/.source,
+  /\bcharges(?: unstoppably)? (?:forward|at|toward|an enemy|in a direction)\b|\bcharges,/.source,
+  /\b(?:pull|drag|launch)(?:s|es|ing)? (?:him|her|it)self\b|\bflying to\b/.source,
+].join("|"), "i");
 const ENGAGING = new Set(["DIVER", "ASSASSIN", "SKIRMISHER", "VANGUARD"]);
 
 const DAMAGE = new Map();   // dd -> ["ad"|"ap", ...("auto")]

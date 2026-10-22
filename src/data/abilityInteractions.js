@@ -1177,8 +1177,9 @@ export const INTERACTIONS = [
   },
   // ── Batch: the 13 champions that had no kit reasoning of their own ─────────
   // Every claim below was read off src/data/abilities.js. Locke, Zaahen and
-  // Yunara ship with Riot's numbers stripped from the ability text, so their
-  // entries describe mechanisms only and carry no damage figures.
+  // Yunara were written while their text still lacked Riot's numbers, so their
+  // entries describe mechanisms only; the mechanisms were re-checked against
+  // the 16.21 text (numbers included) on 2026-10-22 and still hold.
   {
     a: "Shyvana", bTag: "tank", kind: "counter", weight: 2,
     abilities: ["Molten Burst (E)"],

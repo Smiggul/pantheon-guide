@@ -97,12 +97,14 @@ jobs:
             cat patch-notes.md >> patch-report.md
           fi
 
-      # Ability prose comes from Meraki, a third party with no per-patch data
-      # (see gen-abilities.mjs); cooldown, cost and range come from Data Dragon.
-      # The generator refuses to write a degraded file, so a Meraki outage keeps
-      # the previous abilities.js and says so in the PR instead of failing the
-      # whole update. It runs here, not beside the generators above, because it
-      # reports into patch-report.md, which the diff step creates.
+      # Ability text is Riot's tooltip text with its numbers resolved from the
+      # game data, both read from CommunityDragon's folder for this patch (see
+      # gen-abilities.mjs); cooldown, cost and range come from Data Dragon.
+      # The generator refuses to write a degraded file, so a CommunityDragon
+      # outage, or a patch folder it has not published yet, keeps the previous
+      # abilities.js and says so in the PR instead of failing the whole update.
+      # It runs here, not beside the generators above, because it reports into
+      # patch-report.md, which the diff step creates.
       - name: Regenerate ability text
         if: steps.check.outputs.outdated == 'true'
         run: |
