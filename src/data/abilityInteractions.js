@@ -24,9 +24,11 @@ import { CHAMPS } from "./champs/index.js";
 //  weight is how decisive the interaction is: 1 notable, 2 strong, 3 lane-defining.
 //
 //  phase ("early" | "late", omitted = the whole game) marks matchups that INVERT
-//  rather than settle. Pantheon beats Jax early and loses to him late; encoding
-//  both sides nets the score to even, which is honest, while the reasoning still
-//  tells the player which half of the game is theirs.
+//  rather than settle (Renekton's early lanes below). Encoding both sides nets
+//  the score to even, which is honest, while the reasoning still tells the
+//  player which half of the game is theirs. Check a claimed inversion against
+//  win rate by game length first: Pantheon into Jax was encoded this way and the
+//  data showed no late inversion at all (removed 2026-10-22).
 //
 //  cue is the part that changes how you actually play: what to watch for, which
 //  cooldown to bait, and when the window opens.
@@ -513,17 +515,19 @@ export const INTERACTIONS = [
   // Some lanes are not "X counters Y" at all — they invert. Encoding both sides
   // with a phase nets the score to even, which is honest, while the reasoning
   // still tells the player which half of the game is theirs.
+  // Pantheon into Jax used to be the example here (Pantheon early, Jax late).
+  // Data does not support the late half (2026-10-22, Emerald+ 16.20 and 30-day
+  // lolalytics): Pantheon wins ~55% at every game length up to 40 minutes, and
+  // only the 40+ bucket (3.5% of games, 223 games) dips to 48%, within noise.
+  // He is +452 gold at 15 (u.gg, 2,914 games) and takes 56% of lane kills
+  // (OP.GG, 2,541). So one whole-game entry; the Jax-wins-late entry is gone.
+  // Text checked against Riot 16.21.1: Counter Strike dodges attacks and cuts
+  // area damage by 25%, so Comet Spear and Shield Vault's dash and stun land.
   {
-    a: "Pantheon", b: "Jax", kind: "counter", weight: 2, phase: "early",
-    abilities: ["Spear Shot (Q)", "Aegis Assault (E)", "Mortal Will (P)"],
-    why: "Early this is Pantheon's lane outright. Spear Shot pokes from outside Jax's range for free, Mortal Will turns every fifth input into an empowered hit, and Aegis Assault blocks the damage of the Q-leap-into-autos that is Jax's only way to trade back. Denying him farm and levels is the entire game plan, because it does not last.",
-    cue: "Trade while his Counter Strike (E) is down — it has a long cooldown pre-6 and is his only answer to your all-in. Once he lands Q on a minion to leap, he is committed: brace Aegis toward him and he gets nothing.",
-  },
-  {
-    a: "Jax", b: "Pantheon", kind: "counter", weight: 2, phase: "late",
-    abilities: ["Counter Strike (E)", "Grandmaster's Might (R)"],
-    why: "The lane inverts once Jax has levels and items. Pantheon is a short burst-combo champion with no sustained output, and Grandmaster's Might gives Jax resists exactly as extended fights start mattering. Past the early game Jax out-duels him and out-split-pushes him, so Pantheon has to have converted the lead already.",
-    cue: "If Pantheon has not killed you or taken plates by roughly level 6-9, the lane is won. Hold Counter Strike for his Aegis channel — he cannot cancel it, and stunning him out of it wastes his longest cooldown.",
+    a: "Pantheon", b: "Jax", kind: "counter", weight: 2,
+    abilities: ["Comet Spear (Q)", "Shield Vault (W)", "Aegis Assault (E)"],
+    why: "Pantheon's lane. Counter Strike only dodges attacks, so Comet Spear and Shield Vault's stun still land, and Aegis Assault blocks the leap-into-attacks that is Jax's main trade.",
+    cue: "Trade while Counter Strike (E) is on cooldown. Once he leaps onto a minion with Q he is committed: brace Aegis toward him.",
   },
 
   // ── Top lane: kits that decide the matchup ───────────────────────────────

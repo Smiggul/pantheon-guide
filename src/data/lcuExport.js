@@ -18,13 +18,33 @@ import { petFor } from "./junglePets.js";
 export const itemId = (name) =>
   name == null ? null : (ITEM_IDS[String(name).trim().toLowerCase()] ?? null);
 
-const itemBlock = (type, names) => ({
-  type,
-  items: [...new Set(names.filter(Boolean))]
-    .map(itemId)
-    .filter((id) => id != null)
-    .map((id) => ({ id: String(id), count: 1 })),
-});
+// names: item names, or [name, count] pairs (two Health Potions with Doran's Ring).
+const itemBlock = (type, names) => {
+  const counts = new Map();
+  for (const n of names.filter(Boolean)) {
+    const [name, count] = Array.isArray(n) ? n : [n, 1];
+    counts.set(name, Math.max(counts.get(name) || 0, count));
+  }
+  return {
+    type,
+    items: [...counts]
+      .map(([name, count]) => [itemId(name), count])
+      .filter(([id]) => id != null)
+      .map(([id, count]) => ({ id: String(id), count })),
+  };
+};
+
+// The whole 500 gold of a lane start, as players buy it. Doran's Ring is 400g,
+// so it goes with two Health Potions (Mordekaiser: Ring + 2 Potions in 68.5% of
+// OP.GG 16.21 games); Dark Seal is 350g and goes with a Refillable Potion
+// (Katarina: 33-36%). The 450g starts leave room for one potion.
+const startKit = (item) => [
+  item,
+  item === "Doran's Ring" ? ["Health Potion", 2]
+    : item === "Dark Seal" ? "Refillable Potion"
+    : "Health Potion",
+  "Stealth Ward",
+];
 
 // Every item appears once in an exported set (the user's rule, 2026-10-21).
 // Before this, 9,844 of 9,945 roster sets listed some item twice: core items
@@ -217,9 +237,9 @@ const PROFILE = {
 // champions whose own data says otherwise are listed:
 const MANALESS_START = {
   "Kennen:Top":   "Doran's Blade", // Blade 52%, Ring 27%, Bow 17% (51.6k games)
-  // Dark Seal 36%, Blade 30%, Shield 14%, Ring 13% (183k games). Dark Seal stays
-  // listed as the AP profile's "Start, greedy" block.
-  "Katarina:Mid": "Doran's Blade",
+  // Dark Seal 36% (53.9% WR), Blade 30% (51.0%), Shield 14%, Ring 13% (183k
+  // games): Dark Seal is her most common start and wins more, so it leads.
+  "Katarina:Mid": "Dark Seal",
 };
 const startFor = (champDd, roleName, prof) =>
   (prof.start === "Doran's Ring" && PARTYPE[champDd] !== "Mana" &&
@@ -235,8 +255,10 @@ const startFor = (champDd, roleName, prof) =>
 //                                seconds" — built for a lane of being poked.
 //   vs a curated worst matchup -> Doran's Shield, to survive a lane you are not
 //                                going to win — UNLESS you hold an early-phase
-//                                edge on them (Pantheon beats Jax early and loses
-//                                late), because a starter is an early-game call.
+//                                edge on them (a phase:"early" counter
+//                                interaction), because a starter is an early-game
+//                                call. Pantheon into Jax used to be that case; Jax
+//                                is no longer in his bans' data story (2026-10-22).
 //
 // Deliberately NOT driven by the counter engine's matchup score: it rates
 // Pantheon +4 into Gangplank, his #2 curated ban, because GP is melee by auto
@@ -255,6 +277,9 @@ export function laneStartFor(champDd, roleName, roleData, foe) {
   }
   const worst = roleData?.bans || [];
   if (worst.includes(foe.display)) {
+    // Only an explicitly early edge exempts a worst matchup. Counting whole-game
+    // interactions too was tried on 2026-10-22: it flipped 18 ban matchups across
+    // the roster to the normal start without data behind any of them.
     const earlyEdge = counterInteractions(champDd, foe.dd, tagsOf(foe.dd))
       .some((e) => e.phase === "early");
     if (!earlyEdge) return { item: "Doran's Shield", label: "worst matchup: survive lane" };
@@ -370,22 +395,23 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
         // the generic alternatives next to it would undo the decision (the user's
         // call, 2026-10-21: "only one starter vs Morde, not 3").
         tailored
-          ? itemBlock(`Start vs ${foe.display}`, [tailored.item, "Health Potion", "Stealth Ward"])
-          : itemBlock(standardTitle, [start, "Health Potion", "Stealth Ward"]),
+          ? itemBlock(`Start vs ${foe.display}`, startKit(tailored.item))
+          : itemBlock(standardTitle, startKit(start)),
       ]
     : [
         // Nobody to plan against yet (or a lane the start logic does not judge):
         // each laning start as a complete buy, the standard first, then the swaps.
-        itemBlock(standardTitle, [start, "Health Potion", "Stealth Ward"]),
+        itemBlock(standardTitle, startKit(start)),
         ...(start !== "Doran's Shield"
-          ? [itemBlock("Start vs poke", ["Doran's Shield", "Health Potion", "Stealth Ward"])]
+          ? [itemBlock("Start vs poke", startKit("Doran's Shield"))]
           : []),
-        itemBlock("Start, tanky", ["Doran's Helm", "Health Potion", "Stealth Ward"]),
-        ...(prof.greedy
-          ? [itemBlock("Start, greedy", [prof.greedy, "Health Potion", "Stealth Ward"])]
+        itemBlock("Start, tanky", startKit("Doran's Helm")),
+        // (skipped when the greedy item already IS the start: Katarina's Dark Seal)
+        ...(prof.greedy && prof.greedy !== start
+          ? [itemBlock("Start, greedy", startKit(prof.greedy))]
           : []),
         ...(profileOf(champDd, coreNoBoots) === "AD_RANGED"
-          ? [itemBlock("Start, on-hit", ["Doran's Bow", "Health Potion", "Stealth Ward"])]
+          ? [itemBlock("Start, on-hit", startKit("Doran's Bow"))]
           : []),
       ];
 

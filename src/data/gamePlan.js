@@ -239,8 +239,20 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
     const at = seq.findIndex((e) => e.name === n);
     if (at > slot) { const [e] = seq.splice(at, 1); seq.splice(slot, 0, e); }
   });
-  const kept = seq.slice(0, CAP);
-  const extra = seq.slice(CAP).map((e) => e.name);
+  // The authored core always stays in the plan (the user's call, 2026-10-22):
+  // answers fill the slots the core leaves, and never push a core item out to
+  // Situational. A lane swap stands in its core item's slot, and the boots and
+  // both items of a conflict note are kept too.
+  const protectedSlot = (e) => e.tag === "core" || e.tag === "boots"
+    || (e.from && core.includes(e.from)) || conflictPair.includes(e.name);
+  let owed = seq.filter(protectedSlot).length;
+  const kept = [], spill = [];
+  for (const e of seq) {
+    if (protectedSlot(e)) { kept.push(e); owed--; }
+    else if (kept.length + owed < CAP) kept.push(e);
+    else spill.push(e);
+  }
+  const extra = spill.map((e) => e.name);
   const laneLen = open.length + (mode === "behind" && kept.length > open.length && isDef(kept[open.length]?.name) ? 1 : 0);
   const phases = [
     { key: "lane", title: "Lane", items: kept.slice(0, laneLen) },
