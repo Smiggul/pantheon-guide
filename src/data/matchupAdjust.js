@@ -74,22 +74,22 @@ const VS_PHYSICAL = {
   "Spirit Visage":      { TANK: "Randuin's Omen" },
 };
 const answers = (table) => new Set(Object.values(table).flatMap((m) => Object.values(m)));
-const MR_ITEMS = new Set([...answers(VS_MAGIC), "Spirit Visage", "Wit's End", "Mercurial Scimitar",
+export const MR_ITEMS = new Set([...answers(VS_MAGIC), "Spirit Visage", "Wit's End", "Mercurial Scimitar",
   "Abyssal Mask", "Jak'Sho, The Protean", "Verdant Barrier", "Mercury's Treads"]);
-const ARMOR_SET = new Set([...answers(VS_PHYSICAL), ...ARMOR_ITEMS]);
+export const ARMOR_SET = new Set([...answers(VS_PHYSICAL), ...ARMOR_ITEMS]);
 
 // What to ADD when nothing already covers a need, by your own profile.
-const ADD = {
+export const ADD = {
   mr:       { AD: "Maw of Malmortius", AD_RANGED: "Mercurial Scimitar", AP: "Banshee's Veil", TANK: "Force of Nature" },
   armor:    { AD: "Death's Dance", AD_RANGED: "Guardian Angel", AP: "Zhonya's Hourglass", TANK: "Randuin's Omen" },
   antiheal: { AD: "Chempunk Chainsword", AD_RANGED: "Mortal Reminder", AP: "Morellonomicon", TANK: "Thornmail" },
   shred:    { AD: "Black Cleaver", AD_RANGED: "Lord Dominik's Regards", AP: "Liandry's Torment", TANK: null },
 };
-const ANTIHEAL_ITEMS = new Set(["Chempunk Chainsword", "Executioner's Calling", "Mortal Reminder", "Morellonomicon",
+export const ANTIHEAL_ITEMS = new Set(["Chempunk Chainsword", "Executioner's Calling", "Mortal Reminder", "Morellonomicon",
   "Oblivion Orb", "Thornmail", "Bramble Vest"]);
 const SHRED_ITEMS = new Set(["Black Cleaver", "Lord Dominik's Regards", "Serylda's Grudge", "Mortal Reminder",
   "Void Staff", "Liandry's Torment", "Blade of The Ruined King", "Terminus", "Cryptbloom", "Bloodletter's Curse"]);
-const LETHALITY = new Set(["Voltaic Cyclosword", "Youmuu's Ghostblade", "Edge of Night", "Serylda's Grudge",
+export const LETHALITY = new Set(["Voltaic Cyclosword", "Youmuu's Ghostblade", "Edge of Night", "Serylda's Grudge",
   "Profane Hydra", "Axiom Arc", "Umbral Glaive", "Hubris", "Opportunity", "Bastionbreaker", "The Collector"]);
 
 const split = (p) => String(p || "").split("›").map((s) => s.trim()).filter(Boolean);

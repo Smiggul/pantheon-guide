@@ -15,7 +15,8 @@
     "dist:win": "vite build && electron-builder --win",
     "check:runes": "node helpers/check-rune-rows.mjs",
     "check:items": "node helpers/check-sr-items.mjs",
-    "audit:builds": "node helpers/audit-builds.mjs"
+    "audit:builds": "node helpers/audit-builds.mjs",
+    "gen:boots": "node helpers/gen-boots-timing.mjs"
   },
   "build": {
     "appId": "gg.frge.app",

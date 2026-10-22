@@ -26,10 +26,17 @@ export default function InGameView({
   const pad = wide ? 20 : 18;
   const blocks = exp?.itemSet?.blocks || [];
   const notes = exp?.notes || {};
+  // The game plan's blocks (gamePlan.js via lcuExport): each item is tagged
+  // core / boots / lane (answers the opponent) / team (answers their team).
+  // An import made before the plan existed has a "Vs <opponent>" block instead.
+  const PHASES = new Set(["Lane", "Mid game", "Late game"]);
+  const planItems = (notes.plan?.phases || []).flatMap((p) => p.items);
+  const answer = (name) => ["lane", "team"].includes(planItems.find((e) => e.name === name)?.tag);
   const vsBlock = blocks.find((b) => /^Vs /.test(b.type));
   const swaps = notes.swaps || [];
-  const adds = (vsBlock?.items || []).map((i) => itemName(i.id))
+  const adds = (vsBlock ? vsBlock.items.map((i) => itemName(i.id)) : planItems.filter((e) => answer(e.name)).map((e) => e.name))
     .filter((n) => n && !swaps.some((s) => s.to === n));
+  const conflicts = notes.plan?.conflicts || [];
   const cap1 = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
   const card = { background: T.surface, borderRadius: T.radiusCard, padding: `${pad}px`, minWidth: 0 };
@@ -61,21 +68,27 @@ export default function InGameView({
   const blockBody = (b, i) => {
     const vs = /^Vs /.test(b.type);
     const isStart = /^Start/.test(b.type) && i === blocks.findIndex((x) => /^Start/.test(x.type));
-    const isCore = b.type === "Core";
+    const isPhase = PHASES.has(b.type);
+    const isCore = b.type === "Core" || isPhase;
     const title = vs ? `For ${notes.foe || b.type.slice(3)}` : b.type;
-    const coreSwaps = isCore ? swaps.filter((s) => b.items.some((it) => itemName(it.id) === s.from)) : [];
+    // A swap is noted under the block that holds the item it brings in (the
+    // old Core block held the item it replaced).
+    const coreSwaps = isCore ? swaps.filter((s) => b.items.some((it) => itemName(it.id) === (isPhase ? s.to : s.from))) : [];
     return (
       <>
         <h3 style={{ margin: 0, fontSize: "14px", lineHeight: "20px", fontWeight: 600, color: vs ? T.accent : T.text }}>{title}</h3>
         {isCore ? (
           <div style={{ display: "grid", gridTemplateColumns: mode === "docked" ? "repeat(2, minmax(0, 1fr))" : "minmax(0, 1fr)",
             gap: "8px 12px", marginTop: wide ? "8px" : "6px" }}>
-            {b.items.map((it, k) => (
-              <div key={k} style={{ display: "flex", gap: "10px", alignItems: "center", minWidth: 0 }}>
-                {itemIcon(it, false)}
-                <span style={{ minWidth: 0, lineHeight: "18px", color: T.text }}>{itemName(it.id)}</span>
-              </div>
-            ))}
+            {b.items.map((it, k) => {
+              const hit = isPhase && answer(itemName(it.id));
+              return (
+                <div key={k} style={{ display: "flex", gap: "10px", alignItems: "center", minWidth: 0 }}>
+                  {itemIcon(it, hit)}
+                  <span style={{ minWidth: 0, lineHeight: "18px", color: hit ? T.accent : T.text }}>{itemName(it.id)}</span>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: wide ? "8px" : "6px" }}>
@@ -238,17 +251,20 @@ export default function InGameView({
   const finding = notes.foe && traits.length ? (
     <p style={{ margin: "12px 0 0", fontSize: "15px", lineHeight: "22px", color: T.text }}>
       {notes.foe}: {traits.length > 1 ? `${traits.slice(0, -1).join(", ")} and ${traits.at(-1)}` : traits[0]}.{" "}
-      {swaps.map((s, k) => (
+      {/* The plan's blocks already accent each answer and note each swap, so
+          this sentence only lists them for an import with the older Vs block. */}
+      {vsBlock && swaps.map((s, k) => (
         <span key={s.to}>{k ? "; " : ""}<b style={{ color: T.accent, fontWeight: 600 }}>{s.to}</b> replaces {s.from}</span>
       ))}
-      {adds.length > 0 && (
+      {vsBlock && adds.length > 0 && (
         <>
           {swaps.length ? ", and " : ""}
           {adds.map((a, k) => <span key={a}>{k ? " and " : ""}<b style={{ color: T.accent, fontWeight: 600 }}>{a}</b></span>)}
           {adds.length > 1 ? " are" : " is"} added.
         </>
       )}
-      {!adds.length && swaps.length > 0 && "."}
+      {vsBlock && !adds.length && swaps.length > 0 && "."}
+      {conflicts.map((c) => <span key={c} style={{ display: "block", marginTop: "4px", color: T.muted }}>{c}.</span>)}
     </p>
   ) : null;
 
