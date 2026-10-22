@@ -16,7 +16,8 @@
     "check:runes": "node helpers/check-rune-rows.mjs",
     "check:items": "node helpers/check-sr-items.mjs",
     "audit:builds": "node helpers/audit-builds.mjs",
-    "gen:boots": "node helpers/gen-boots-timing.mjs"
+    "gen:boots": "node helpers/gen-boots-timing.mjs",
+    "gen:starts": "node helpers/gen-matchup-starts.mjs"
   },
   "build": {
     "appId": "gg.frge.app",

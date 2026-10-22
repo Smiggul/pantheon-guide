@@ -31,8 +31,8 @@ import { ATTACK_RANGE } from "./lcuData.js";
 // Melee tops out at 225 and ranged starts at 300, a clean gap. Riot's
 // attackrange is the DEFAULT form: Mini Gnar lanes at range and Jayce pokes from
 // cannon form, so for a laning-phase call they count as ranged. Kayle's 175 is
-// right as listed, since she is melee until level 6. Also used by
-// lcuExport.laneStartFor.
+// right as listed, since she is melee until level 6. (lcuExport's lane start
+// used it too until the start data replaced its rules, 2026-10-22.)
 const RANGED_FROM = 300;
 const LANES_RANGED = new Set(["Gnar", "Jayce"]);
 export const isRanged = (dd) => LANES_RANGED.has(dd) || (ATTACK_RANGE[dd] ?? 0) >= RANGED_FROM;
