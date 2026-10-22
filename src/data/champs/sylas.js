@@ -32,7 +32,9 @@ export default {
     Mid:[{
       label:"Stormraider's vs two-rotation targets", tag:"alt",
       corePath:"Hextech Rocketbelt  ›  Ionian Boots of Lucidity  ›  Riftmaker  ›  Zhonya's Hourglass",
-      coreNote:"A high-elo one-trick rune page, taken into matchups Sylas cannot kill in one rotation — Anivia, Galio, Yone, Yasuo. Blow the full combo, then use Stormraider's movement speed to back off and take less in return while cooldowns come back. The rule of thumb: if the target needs two rotations, take Stormraider's; if one rotation kills, Electrocute is better. Items are unchanged from his standard build. Note that 26.20 nerfed Rocketbelt and it is underperforming on Sylas this patch; Dusk and Dawn is being tried but does not yet have enough games to recommend.",
+      // Research: A high-elo one-trick rune page. 26.20 nerfed Rocketbelt and it is underperforming on Sylas this patch;
+      //   Dusk and Dawn is being tried but does not yet have enough games to recommend.
+      coreNote:"Take this page into matchups you cannot kill in one rotation, such as Anivia, Galio, Yone or Yasuo. Blow the full combo, then use Stormraider's move speed to back off and take less in return while cooldowns come back. Rule of thumb: if the target needs two rotations, take Stormraider's; if one rotation kills, Electrocute is better. Items are unchanged from the standard build.",
       runes:{
         keystone:"Stormraider's Surge", primary:"Sorcery",
         primaryRunes:["Manaflow Band","Absolute Focus","Scorch"],
@@ -71,7 +73,8 @@ export default {
       skillOrder:["W","E","Q"], // Jungle Sylas maxes W (Kingslayer) first for sustain/dueling; Mid maxes Q (global Q>E>W)
       role:"Ult-Thief Skirmish Jungler",
       corePath:"Hextech Rocketbelt  ›  Sorcerer's Shoes  ›  Riftmaker  ›  Zhonya's Hourglass",
-      coreNote:"Jungle Sylas is the #1 jungler on current data — his W heals through camps, his E clears from range, and every gank arrives with a stolen ultimate in the back pocket. Hextech Rocketbelt guarantees the chain-stun engage on ganks, Riftmaker fuels the extended counter-jungle brawls he wins by default, and Zhonya's Hourglass covers the deep dives his tempo demands. Draft note: his jungle power scales with how good the enemy team's ultimates are — check what Hijack buys before locking.",
+      // Research: Jungle Sylas is the #1 jungler on current data.
+      coreNote:"Jungle Sylas: his W heals through camps, his E clears from range, and every gank arrives with a stolen ultimate in the back pocket. Hextech Rocketbelt makes the chain-stun engage land on ganks, Riftmaker fuels the extended counter-jungle brawls you win by default, and Zhonya's Hourglass covers the deep dives your tempo demands. His jungle power scales with how good the enemy team's ultimates are: check what Hijack buys before locking in.",
       sideItems:["Rabadon's Deathcap","Void Staff","Banshee's Veil","Cosmic Drive","Spirit Visage","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","Out-sustain them in every jungle brawl."),I("Hextech Rocketbelt","Dash spacing controls the skirmish tempo."),I("Rabadon's Deathcap","More AP = more W healing and burst.")],behind:[I("Zhonya's Hourglass","Stasis breaks their invade all-in."),I("Spirit Visage","Amplify your healing against their damage."),I("Void Staff","Pen keeps chain damage real.")],runes:{...SYLAS_JGL_DEFAULT_RUNES}},

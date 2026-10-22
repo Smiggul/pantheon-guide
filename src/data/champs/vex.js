@@ -22,7 +22,9 @@ export default {
     Mid:[{
       label:"Stormsurge burst", tag:"alt",
       corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Zhonya's Hourglass",
-      coreNote:"The burst line: Stormsurge second instead of Shadowflame. It is about a fifth of Vex games on 26.20, with a slightly higher win rate than the main build. Stormsurge's flat penetration lands before mid laners build magic resist, and its storm finishes anyone her combo leaves low, so it suits a lane you are winning against squishy targets. Into a hard-engage team, the main build's Shadowflame and Zhonya's are the safer pair.",
+      // Research: The burst line, about a fifth of Vex games on 26.20, with a slightly higher win rate than the main
+      //   build.
+      coreNote:"Stormsurge second instead of Shadowflame, which wins slightly more often than the main build. Stormsurge's flat penetration lands before mid laners build magic resist, and its storm finishes anyone your combo leaves low, so it suits a lane you are winning against squishy targets. Into a hard-engage team, the main build's Shadowflame and Zhonya's are the safer pair.",
       runes:{...VEX_MID_DEFAULT_RUNES},
       sideItems:["Shadowflame","Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon"],
     }],
@@ -32,7 +34,9 @@ export default {
       bans:["Taliyah","Hwei","Vladimir"], replacements:["Lux","Syndra","Lissandra"],
       role:"Anti-Dash Fear Mage",
       corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Zhonya's Hourglass",
-      coreNote:"Vex is the anti-mobility answer: every enemy dash procs her Gloom fear, turning dive comps into feeding comps. Luden's Echo is her first item in almost nine games in ten, and on 26.20 Shadowflame is the most common second item by a wide margin, with Zhonya's Hourglass the usual third. Luden's adds burst to the Electrocute rotation, Shadowflame turns feared, low-health targets into executes, and Zhonya's lets her dive on her R reset and stasis while her team follows up. R resets on takedown, so one pick becomes a chain. Draft her into Yasuo, Zed and Lee Sin. Stormsurge second is the burst alternative — see the alternate.",
+      // Research: Luden's is her first item in almost nine games in ten, and on 26.20 Shadowflame is the most common
+      //   second item by a wide margin, with Zhonya's the usual third.
+      coreNote:"Vex is the anti-mobility answer: every enemy dash procs her Gloom fear, turning dive comps into feeding comps. Luden's Echo first adds burst to the Electrocute rotation, Shadowflame second turns feared, low-health targets into executes, and Zhonya's Hourglass third lets you dive on your R reset and stasis while your team follows up. R resets on takedown, so one pick becomes a chain. Draft her into Yasuo, Zed and Lee Sin. Stormsurge second is the burst alternative.",
       sideItems:["Stormsurge","Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon","Mejai's Soulstealer"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke them off every wave — no dash means no answer."),I("Shadowflame","Pen punishes their low MR."),I("Rabadon's Deathcap","Scale the poke into real chunks.")],behind:[I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the gloom real."),I("Cosmic Drive","Speed to hold the spacing.")],runes:{...VEX_MID_DEFAULT_RUNES}},

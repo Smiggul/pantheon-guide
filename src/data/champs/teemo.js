@@ -57,7 +57,8 @@ export default {
       Top:{
         bans:["Pantheon","Irelia","Sion"], replacements:["Quinn","Kennen","Vayne"],
         corePath: "Statikk Shiv  ›  Liandry's Torment  ›  Malignance  ›  Rylai's Crystal Scepter",
-        coreNote: "Current meta replaces the old Nashor's Tooth rush with Statikk Shiv — the on-hit lightning proc clears waves instantly, freeing Teemo to hit towers earlier and set up R shrooms sooner. Liandry's still burns tanks, Malignance still amplifies mushroom map control; Nashor's Tooth remains a fine situational pick when the lane calls for pure sustained DPS instead of wave-clear speed.",
+        // Research: Current meta replaces the old Nashor's Tooth rush with Statikk Shiv.
+        coreNote: "Statikk Shiv first: the on-hit lightning clears waves instantly, so you hit towers earlier and set up R shrooms sooner. Liandry's burns tanks, and Malignance amplifies mushroom map control. Nashor's Tooth is a fine situational pick when the lane calls for sustained DPS over wave-clear speed.",
         sideItems: ["Sorcerer's Shoes","Plated Steelcaps","Mercury's Treads","Nashor's Tooth","Morellonomicon","Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Demonic Embrace","Cosmic Drive"],
 
         data: {
@@ -132,7 +133,10 @@ export default {
       Jungle:{
         bans:["Warwick","Udyr","Elise"], replacements:["Lillia","Nidalee","Shyvana"],
         corePath: "Statikk Shiv  ›  Liandry's Torment  ›  Malignance  ›  Shadowflame",
-        coreNote: "Teemo jungle plays for fast clears and map control, then turns the mushroom field into a kill zone. On 26.20 Statikk Shiv is the most common opener (about 40% of games, ahead of Nashor's Tooth at about a third), and Statikk Shiv into Liandry's Torment into Malignance is the most common three-item set. Statikk Shiv's chain lightning applies on-hit effects, so it spreads Toxic Shot across a whole camp and speeds up the clear; Liandry's Torment burns through tanks and lingers on anyone who steps on a mushroom; Malignance cuts the ultimate cooldown so more mushrooms go down around objectives, and its burn shreds magic resist. Shadowflame is the usual fourth item. Nashor's Tooth first is the main alternative opener when you want more sustained on-hit damage. Sorcerer's Shoes are the usual boots.",
+        // Research: On 26.20 Statikk Shiv is the most common opener (about 40% of games, ahead of Nashor's at about a
+        //   third), and Statikk into Liandry's into Malignance is the most common three-item set. Shadowflame is the
+        //   usual fourth item and Sorcerer's the usual boots.
+        coreNote: "Teemo Jungle clears fast, controls the map, then turns the mushroom field into a kill zone. Statikk Shiv first: its chain lightning applies on-hit, spreading Toxic Shot across a camp. Liandry's Torment second burns tanks and lingers on anyone who steps on a mushroom; Malignance third cuts your ult cooldown so more mushrooms go down around objectives. Shadowflame fourth, on Sorcerer's Shoes. Nashor's Tooth first is the alternative for more sustained on-hit damage.",
         sideItems: ["Sorcerer's Shoes","Nashor's Tooth","Rylai's Crystal Scepter","Rabadon's Deathcap","Void Staff","Zhonya's Hourglass","Morellonomicon","Banshee's Veil"],
 
         data: {

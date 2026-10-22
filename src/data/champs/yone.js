@@ -33,7 +33,10 @@ export default {
       bans:["Malzahar","Riven","Ekko"], replacements:["Yasuo","Ahri","Katarina"],
       role:"Skirmisher / Hybrid Duelist",
       corePath:"Immortal Shieldbow  ›  Berserker's Greaves  ›  Infinity Edge  ›  Death's Dance",
-      coreNote:"Yone deals hybrid physical and magic damage through Soul Unbound. Since Riot cut the crit penalty on Yasuo and Yone by 5% in 26.17, a two-item 100% crit spike is reachable, and Immortal Shieldbow into Infinity Edge is now his most common mid build: Shieldbow is the first item in about half of Emerald+ mid Yone games on 26.20, against just under 40% for Blade of The Ruined King. The reason is tempo, not raw damage: Ruined King takes longer to reach full crit, which pushes Death's Dance and Jak'Sho deeper into the game, while Shieldbow's lifeline survives exactly the burst mid laners open with and lets you outlast them in the extended fight. Ruined King first is still a common, valid start, best when the enemy is stacking health.",
+      // Research: Riot cut the crit penalty on Yasuo and Yone by 5% in 26.17. Shieldbow is the first item in about half of
+      //   Emerald+ mid Yone games on 26.20, against just under 40% for Ruined King, and Shieldbow into IE is now
+      //   his most common mid build. Ruined King first is still a common start.
+      coreNote:"Yone deals hybrid damage through Soul Unbound and can reach a two-item 100% crit spike. Immortal Shieldbow into Infinity Edge, for tempo rather than raw damage: Ruined King takes longer to reach full crit and pushes Death's Dance and Jak'Sho later, while Shieldbow's lifeline survives the burst mid laners open with and lets you outlast them. Blade of The Ruined King first is still valid when the enemy stacks health.",
       sideItems:["Blade of The Ruined King","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YONE_MID_DEFAULT_RUNES}},
@@ -55,7 +58,9 @@ export default {
       bans:["Jax","Vex","Ekko"], replacements:["Renekton","Sett","Darius"],
       role:"Skirmisher / Hybrid Duelist",
       corePath:"Blade of The Ruined King  ›  Berserker's Greaves  ›  Immortal Shieldbow  ›  Infinity Edge",
-      coreNote:"Top Yone plays as a mobile bruiser duelist rather than Mid's poke-into-all-in pattern, and unlike Mid he still opens Blade of The Ruined King. It is the first item in about 70% of Emerald+ top Yone games on 26.20, and most of those go straight into Immortal Shieldbow and then Infinity Edge. Ruined King's current-health damage and life steal win the long top-lane duels against bruisers and tanks. Top is a long lane, so the early chase and level-two all-in decide it — Lethal Tempo with Doran's Blade wins most levels one and two, and Flash plus Exhaust makes the first duel very hard to lose. Go Sterak's Gage or Death's Dance earlier against lane bullies. Avoid Jax and Renekton; both cut off your all-in.",
+      // Research: Unlike Mid, he still opens Ruined King: the first item in about 70% of Emerald+ top Yone games on 26.20,
+      //   and most of those go straight into Shieldbow and then IE.
+      coreNote:"Top Yone is a mobile bruiser duelist. Blade of The Ruined King first, then Immortal Shieldbow and Infinity Edge: Ruined King's current-health damage and lifesteal win long duels against bruisers and tanks. The early chase and level-two all-in decide the lane: Lethal Tempo with Doran's Blade wins most early levels, and Flash plus Exhaust make the first duel hard to lose. Sterak's Gage or Death's Dance earlier against lane bullies. Avoid Jax and Renekton; both cut off your all-in.",
       sideItems:["Death's Dance","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Wit's End","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Infinity Edge","Crit damage wins the trade outright."),I("Maw of Malmortius","Shield vs their all-in.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Mercury's Treads","Shorter CC before the kill."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...YONE_TOP_DEFAULT_RUNES}},

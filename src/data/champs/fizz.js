@@ -33,7 +33,10 @@ export default {
       bans:["Xerath","Lissandra","Galio"], replacements:["Katarina","Ahri","Zed"],
       role:"Assassin / Untargetable Dodge-and-Burst",
       corePath:"Lich Bane  ›  Zhonya's Hourglass  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Fizz plays for a dodge-and-burst all-in — Playful/Trickster hops him untargetable through a skillshot, Seastone Trident procs on-hit true damage, and Chum the Waters zones or finishes. Lich Bane is his first item in about seven games in ten on 26.20, and Zhonya's Hourglass is now the most common second item: Lich Bane into Zhonya's is 35% of opening pairs, against 20% for Lich Bane into Shadowflame. Lich Bane's spellblade proc on the auto he weaves between spells adds a burst to every combo. Zhonya's comes second because the all-in puts him in the middle of the enemy team: the hop dodges one spell and stasis covers the rest of the counter-burst. Shadowflame third turns low-health targets into executes, and Rabadon's Deathcap is the usual fourth.",
+      // Research: Lich Bane is his first item in about seven games in ten on 26.20, and Zhonya's is now the most common
+      //   second item: Lich Bane into Zhonya's is 35% of opening pairs, against 20% for Lich Bane into
+      //   Shadowflame. Rabadon's is the usual fourth.
+      coreNote:"Fizz plays for a dodge-and-burst all-in: Playful/Trickster hops untargetable through a skillshot, Seastone Trident adds on-hit true damage, and Chum the Waters zones or finishes. Lich Bane first adds spellblade burst to the auto you weave between spells. Zhonya's Hourglass second: the all-in puts you inside their team, so the hop dodges one spell and stasis covers the rest. Shadowflame third executes low-health targets, then Rabadon's Deathcap.",
       sideItems:["Sorcerer's Shoes","Stormsurge","Void Staff","Banshee's Veil","Morellonomicon","Hextech Rocketbelt","Ionian Boots of Lucidity"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Lich Bane","Sheen proc adds up over the trade."),I("Rabadon's Deathcap","Scaling burst ends the trade outright.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Void Staff","Pen remains effective regardless of gold lead.")],runes:{...FIZZ_MID_DEFAULT_RUNES}},

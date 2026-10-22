@@ -42,7 +42,11 @@ export default {
     Mid:[{
       label:"Luden's Echo burst", tag:"alt",
       corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Rabadon's Deathcap",
-      coreNote:"The burst line, and close to half of Mid Veigar games: Luden's Echo first in about 41% on 26.20, narrowly behind Rod of Ages. Stormsurge is now its most common second item, at about 18% of all opening pairs, and Rabadon's Deathcap follows in about seven games in ten from there. It trades Rod of Ages' health and mana for an earlier damage spike: Luden's adds burst to each combo, and Stormsurge's flat penetration and delayed storm finish targets caught in Event Horizon. It is the minority line by a few points, and he is squishier on it, so play lane more carefully. The page here is Arcane Comet, his second most common keystone. Luden's Echo players split close to evenly between Comet and First Strike, so the main page also works.",
+      // Research: Close to half of Mid Veigar games: Luden's first in about 41% on 26.20, narrowly behind Rod of Ages, so
+      //   the minority line by a few points. Stormsurge is now its most common second item, at about 18% of all
+      //   opening pairs, and Rabadon's follows in about seven games in ten from there. Arcane Comet is his second
+      //   most common keystone; Luden's players split close to evenly between Comet and First Strike.
+      coreNote:"The burst line: Luden's Echo first, then Stormsurge, then Rabadon's Deathcap. It trades Rod of Ages' health and mana for an earlier damage spike: Luden's adds burst to each combo, and Stormsurge's flat penetration and delayed storm finish targets caught in Event Horizon. You are squishier on it, so play lane more carefully. The page here is Arcane Comet; the main First Strike page works too.",
       runes:{...VEIGAR_MID_COMET_RUNES},
       sideItems:["Zhonya's Hourglass","Shadowflame","Void Staff","Banshee's Veil","Rod of Ages","Archangel's Staff","Cosmic Drive"],
     }],
@@ -52,7 +56,11 @@ export default {
       bans:["Zed","Qiyana","Akali"], replacements:["Katarina","Ahri","Xerath"],
       role:"Burst Mage / Stacking Cage-and-Kill",
       corePath:"Rod of Ages  ›  Sorcerer's Shoes  ›  Archangel's Staff  ›  Rabadon's Deathcap",
-      coreNote:"Veigar plays a scaling stack-and-burst pattern — Baleful Strike last hits and champion takedowns grow his AP permanently, and once he's ahead nobody survives an Event Horizon cage into full combo. Rod of Ages is now his most common first item on 26.20, narrowly ahead of Luden's Echo (about 45% to 41%), and Rod of Ages into Archangel's Staff is the most common opening pair by a wide margin, at almost 30%. The two mana items pay for the Q spam his stacking runs on while he farms. Rod of Ages adds health that keeps him safe in lane and grows for its first ten minutes, and Archangel's turns his growing mana into AP and later becomes Seraph's Embrace. Rabadon's Deathcap then multiplies every stacked point of AP into a one-rotation kill threat, and Zhonya's Hourglass is the most common fourth item. Luden's Echo into Stormsurge is the burst line and nearly as common as a first item; see the alternate.",
+      // Research: Rod of Ages is now his most common first item on 26.20, narrowly ahead of Luden's (about 45% to 41%),
+      //   and Rod into Archangel's is the most common opening pair by a wide margin, at almost 30%. Zhonya's is
+      //   the most common fourth item. Luden's into Stormsurge is nearly as common as a first item (the
+      //   alternate).
+      coreNote:"Veigar stacks and bursts: last hits with Baleful Strike and takedowns grow your AP permanently, and once ahead nobody survives an Event Horizon cage into full combo. Rod of Ages into Archangel's Staff pays for the Q spam your stacking runs on; Rod adds health that keeps you safe in lane, and Archangel's turns your growing mana into AP and later Seraph's Embrace. Rabadon's Deathcap multiplies every stacked point, then Zhonya's Hourglass. Luden's Echo into Stormsurge is the burst alternative.",
       sideItems:["Zhonya's Hourglass","Luden's Echo","Shadowflame","Stormsurge","Void Staff","Banshee's Veil","Ionian Boots of Lucidity","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","Burst low-MR Juggernauts from range."),I("Luden's Echo","Poke wears them down before the fight starts."),I("Rabadon's Deathcap","Scaling burst ends the trade outright.")],behind:[I("Zhonya's Hourglass","Stall their all-in window entirely."),I("Banshee's Veil","Block their engage tool."),I("Void Staff","Pen remains effective regardless of gold lead.")],runes:{...VEIGAR_MID_DEFAULT_RUNES}},

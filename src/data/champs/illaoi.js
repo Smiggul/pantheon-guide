@@ -22,7 +22,11 @@ export default {
     Top:[{
       label:"Sterak's second", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Sterak's Gage  ›  Death's Dance",
-      coreNote:"Same Black Cleaver rush, but Sterak's Gage second instead of Iceborn Gauntlet. After Cleaver, about a quarter of Illaoi players take Sterak's next (half take Iceborn), and it wins more often (57.2% vs 54.3% as the second item). The trade-off is that you give up Iceborn's slow for a bigger shield in the all-in. Death's Dance is the most common third item on this path, with Spirit Visage and Iceborn after it. Mercury's Treads replace Plated Steelcaps into AP or heavy CC; the highest win-rate version of this core runs them. Grasp stays the keystone in melee matchups, Conqueror into ranged or tankier lanes. Source: lolalytics, patch 26.20, Emerald+.",
+      // Research: After Cleaver, about a quarter of Illaoi players take Sterak's next (half take Iceborn), and it wins
+      //   more often (57.2% vs 54.3% as the second item). Death's Dance is the most common third item on this
+      //   path. The highest win-rate version of this core runs Mercury's Treads. Source: lolalytics, patch 26.20,
+      //   Emerald+.
+      coreNote:"Same Black Cleaver rush, but Sterak's Gage second instead of Iceborn Gauntlet: you give up Iceborn's slow for a bigger shield in the all-in. It has won a few points more often than Iceborn second. Death's Dance third, with Spirit Visage and Iceborn after it. Take Mercury's Treads over Plated Steelcaps into AP or heavy CC. Grasp stays the keystone in melee matchups, Conqueror into ranged or tankier lanes.",
       runes:{...ILLAOI_TOP_DEFAULT_RUNES},
       sideItems:["Spirit Visage","Iceborn Gauntlet","Mercury's Treads","Thornmail","Randuin's Omen","Dead Man's Plate","Force of Nature"],
     }],

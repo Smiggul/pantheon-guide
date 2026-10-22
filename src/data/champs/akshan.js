@@ -23,7 +23,11 @@ export default {
       bans:["Malphite","Riven","Annie"], replacements:["Yasuo","Yone","Zed"],
       role:"Grapple-Swing Revive Marksman",
       corePath:"The Collector  ›  Berserker's Greaves  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Akshan is a marksman playing assassin hours: camouflage flanks, E-swing sprays around terrain, and Comeuppance executes reset his kills into chain-kills. The Collector is now the standard opener, in nearly three games in four: its lethality and crit fit his short burst trades, and its execute finishes the low-health targets Comeuppance leaves behind. Infinity Edge comes second in most games for crit damage, then Lord Dominik's Regards in about three quarters of those. Berserker's Greaves are his most common boots, in more than half of games. Kraken Slayer, which this guide used to open with, is now about one game in nine. The hidden win condition is Scoundrel marks: killing whoever downed a teammate revives them — a mechanic that flips lost teamfights. Swing in, spray, revive your team, swing out.",
+      // Research: The Collector is now the standard opener, in nearly three games in four; Infinity Edge second in most
+      //   games, then Lord Dominik's in about three quarters of those. Berserker's Greaves are his most common
+      //   boots, in more than half of games. Kraken Slayer, which this guide used to open with, is now about one
+      //   game in nine.
+      coreNote:"Akshan is a marksman who plays like an assassin: camouflage flanks, E-swing sprays around terrain, and Comeuppance executes chain his kills. The Collector first: lethality and crit fit his short burst trades, and its execute finishes what Comeuppance leaves. Infinity Edge second, then Lord Dominik's Regards, on Berserker's Greaves. Scoundrel marks are the hidden win condition: killing whoever downed a teammate revives them, which flips lost teamfights.",
       sideItems:["Kraken Slayer","Hexoptics C44","Rapid Firecannon","Gluttonous Greaves","Immortal Shieldbow","Guardian Angel","Bloodthirster","Mercurial Scimitar"],
       data:{
         JUGGERNAUT:{ahead:[I("Kraken Slayer","Missing-health bonus damage finishes HP stackers at range."),I("Lord Dominik's Regards","Giant slayer through the armor curve."),I("Phantom Dancer","Kite speed they never answer.")],behind:[I("Phantom Dancer","Speed to farm outside their reach."),I("Guardian Angel","Insurance when they finally connect."),I("Bloodthirster","Sustain the chip war.")],runes:{...AKSHAN_MID_DEFAULT_RUNES}},

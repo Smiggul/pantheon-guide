@@ -23,7 +23,8 @@ export default {
       bans:["Aatrox","Talon","Udyr"], replacements:["Zac","Amumu","Karthus"],
       role:"Snowball AP Burst Ganker",
       corePath:"Hextech Rocketbelt  ›  Sorcerer's Shoes  ›  Stormsurge  ›  Shadowflame",
-      coreNote:"Meta Nunu builds full AP burst: the biggest snowball in the game arrives with a Rocketbelt dash, a Stormsurge proc, and a Consume that chunks half a squishy's HP bar. Shadowflame converts the chunked into the deleted, and Zhonya's Hourglass covers the point-blank Absolute Zero channels. His objective control is still the best in the game — Consume secures every dragon smite-fight — but the win condition is snowball-gank mid until their carry rage-quits. Roll from fog, never from lane sight.",
+      // Research: "Meta Nunu builds full AP burst." His objective control is still the best in the game.
+      coreNote:"Nunu builds full AP burst: the biggest snowball in the game arrives with a Rocketbelt dash, a Stormsurge proc, and a Consume that chunks half a squishy's health bar. Shadowflame converts the chunked into the deleted, and Zhonya's Hourglass covers the point-blank Absolute Zero channels. Consume secures every dragon smite-fight, but the win condition is snowball-ganking mid. Roll from fog, never from lane sight.",
       sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Void Staff","Rylai's Crystal Scepter","Banshee's Veil","Mejai's Soulstealer"],
       data:{
         JUGGERNAUT:{ahead:[I("Stormsurge","Burst them before the brawl starts."),I("Shadowflame","Pen punishes their low MR."),I("Rylai's Crystal Scepter","Slow their walk-down forever.")],behind:[I("Rylai's Crystal Scepter","Kite their invades with slows."),I("Zhonya's Hourglass","Stasis escapes the caught clear."),I("Void Staff","Pen keeps the burst real.")],runes:{...NUNU_JGL_DEFAULT_RUNES}},

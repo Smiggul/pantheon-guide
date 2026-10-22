@@ -49,20 +49,21 @@ export default {
       tag:"alt",
       skillOrder:["R","E","W","Q"],
       corePath:"Malignance  ›  Boots of Swiftness  ›  Liandry's Torment  ›  Riftmaker",
-      coreNote:"Swaps the AD Shojin bruiser for an AP stance-dancer that still frontlines. Malignance leads — its haste and Solstice passive both proc off Wingborne Storm (R counts as Udyr's ultimate); Liandry's Torment turns the storm into a %-HP burn that melts tanks; Riftmaker's omnivamp + true-damage ramp keep him alive in the extended fights he wants. Boots of Swiftness for permanent kite resist. R is maxed first as the entire damage profile and E second for the Blazing Stampede stun — the last two stances are near-filler on AP, so W (peel/sustain) vs Q flexes by matchup.",
+      // Research: The last two stances are near-filler on AP.
+      coreNote:"An AP stance-dancer that still frontlines. Malignance first: its haste and passive proc off Wingborne Storm, which counts as Udyr's ultimate. Liandry's Torment turns the storm into a percent-health burn that melts tanks, and Riftmaker's omnivamp and true-damage ramp keep you alive in long fights. Boots of Swiftness against slows. Max R first, E second for the Blazing Stampede stun; W (peel and sustain) or Q last, by matchup.",
       runes:{...UDYR_JGL_AP_RUNES},
       sideItems:["Rylai's Crystal Scepter","Dead Man's Plate","Spirit Visage","Zhonya's Hourglass","Void Staff","Mercury's Treads"],
     }],
     Top:[{
       label:"AP DPS", tag:"alt",
       corePath:"Nashor's Tooth  ›  Sorcerer's Shoes  ›  Lich Bane  ›  Rabadon's Deathcap",
-      coreNote:"A higher-damage answer to the bruiser stance-dancer — trade the Liandry's/Riftmaker durability for on-hit AP burst. Nashor's Tooth turns every Q-Awaken empowered auto into big on-hit magic damage (and its attack speed means more Awaken autos + faster stance cycling); Lich Bane procs a spellblade on each stance swap, so Wingborne Storm (R) into stance-dancing genuinely shreds. Rabadon's multiplies it all. Take Lethal Tempo for the attack-speed on-hit ramp (Conqueror is the more forgiving, self-healing option into hard lanes). Much squishier than the bruiser build — play it ahead or into a lane you can bully, and pull Zhonya's / Banshee's from the side list vs burst.",
+      coreNote:"On-hit AP burst instead of Liandry's and Riftmaker durability. Nashor's Tooth turns every Q-Awaken auto into big on-hit magic damage and speeds stance cycling; Lich Bane procs a spellblade on each stance swap, so Wingborne Storm into stance-dancing shreds. Rabadon's multiplies it all. Lethal Tempo for the attack-speed ramp, Conqueror into hard lanes. Much squishier than the bruiser build: play it ahead or into a lane you can bully, and add Zhonya's or Banshee's against burst.",
       runes:{ keystone:"Lethal Tempo", primary:"Precision", primaryRunes:["Triumph","Legend: Alacrity","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Lethal Tempo maximises the on-hit core — every stack is more Nashor's/Lich Bane damage per Q-Awaken auto, and the attack speed lets you weave more autos between stance swaps. Legend: Alacrity + the attack-speed shard push that further; Transcendence and Gathering Storm scale the AP that R and Lich Bane burst with." },
       sideItems:["Shadowflame","Void Staff","Zhonya's Hourglass","Cosmic Drive","Banshee's Veil"],
     },{
       label:"AD Bruiser", tag:"alt",
       corePath:"Trinity Force  ›  Boots of Swiftness  ›  Spear of Shojin  ›  Death's Dance",
-      coreNote:"The AD lane-bully alternative to the two AP builds — a Trinity Force stance-dancer that walks people down with Q-Awaken empowered autos. Trinity's Spellblade procs on every stance activation, Spear of Shojin ramps ability haste for more Awaken uses + faster form swaps, and Death's Dance smooths the sustained trades. Tankier and more forgiving than AP DPS but with less waveclear and burst — a stat-check duelist best into melee bruiser lanes you can out-sustain. Grasp fits the sustained-trade lane pattern; stance priority follows the standard (R for the storm, E for the stun).",
+      coreNote:"The AD lane-bully option: a Trinity Force stance-dancer that walks people down with Q-Awaken autos. Trinity's Spellblade procs on every stance activation, Spear of Shojin ramps haste for more Awaken uses and faster swaps, and Death's Dance smooths long trades. Tankier than AP DPS, with less wave clear and burst: a duelist for melee bruiser lanes you can out-sustain. Grasp for the sustained trades; stance priority stays R for the storm, E for the stun.",
       runes:{...UDYR_TOP_DEFAULT_RUNES},
       sideItems:["Sterak's Gage","Spirit Visage","Black Cleaver","Experimental Hexplate","Thornmail","Plated Steelcaps"],
     }],
@@ -96,7 +97,8 @@ export default {
       role:"AP Stance-Dancer (off-meta)",
       skillOrder:["R","E","W","Q"],
       corePath:"Boots of Swiftness  ›  Malignance  ›  Liandry's Torment  ›  Riftmaker",
-      coreNote:"Top Udyr swaps the AD Shojin/Hexplate bruiser build for an AP stance-dancer — Malignance and Liandry's Torment turn Phoenix stance procs and E stuns into real magic damage, and Riftmaker's omnivamp keeps him healthy through extended trades. This is the weaker of his two lanes (currently D tier); it's viable but Jungle remains the stronger seat.",
+      // Research: Top is currently D tier.
+      coreNote:"Top Udyr swaps the AD Shojin and Hexplate bruiser build for an AP stance-dancer: Malignance and Liandry's Torment turn Phoenix stance procs and E stuns into real magic damage, and Riftmaker's omnivamp keeps you healthy through extended trades. This is the weaker of his two lanes: viable, but Jungle is stronger.",
       sideItems:["Rylai's Crystal Scepter","Zhonya's Hourglass","Banshee's Veil","Void Staff","Spirit Visage","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn scales off their HP stacking."),I("Riftmaker","Omnivamp wins the sustained trade."),I("Malignance","Haste = more E stuns to interrupt their combo.")],behind:[I("Zhonya's Hourglass","Stall their all-in window."),I("Mercury's Treads","Shorter CC before the kill."),I("Spirit Visage","Amplify your own sustain.")],runes:{...UDYR_TOP_DEFAULT_RUNES}},

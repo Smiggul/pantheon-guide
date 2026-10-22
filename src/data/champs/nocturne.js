@@ -33,7 +33,11 @@ export default {
     Jungle:[{
       label:"Hexplate bruiser", tag:"alt",
       corePath:"Experimental Hexplate  ›  Stridebreaker  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"The bruiser line, played in close to half of Nocturne games on 26.20 and so only just the minority. Experimental Hexplate is actually the single most common first item (about a third of games, with Stridebreaker first adding about an eighth), but the follow-ups scatter, so no single bruiser path is close to as common as Profane Hydra into Axiom Arc into Voltaic Cyclosword. Most Conqueror and Lethal Tempo players build this. Hexplate's ultimate haste, and the attack and move speed it grants after Paranoia, arrive exactly when you land; Stridebreaker's slow keeps the target inside the passive cleave; Black Cleaver shreds while you auto; Death's Dance turns their counter-burst into a bleed. Take it into frontlines, and into teams with the peel to survive a one-rotation burst. Hexplate into Stridebreaker is the usual order; Stridebreaker first is the common variant.",
+      // Research: Played in close to half of Nocturne games on 26.20, so only just the minority. Hexplate is actually the
+      //   single most common first item (about a third of games, with Stridebreaker first adding about an eighth),
+      //   but the follow-ups scatter, so no single bruiser path is close to as common as Profane Hydra into Axiom
+      //   Arc into Voltaic Cyclosword. Most Conqueror and Lethal Tempo players build this.
+      coreNote:"The bruiser line. Experimental Hexplate's ultimate haste, and the attack and move speed it grants after Paranoia, arrive exactly when you land; Stridebreaker's slow keeps the target inside your passive cleave; Black Cleaver shreds while you auto; Death's Dance turns their counter-burst into a bleed. Hexplate into Stridebreaker is the usual order, Stridebreaker first the common variant. Take it into front lines, and into teams with the peel to survive a one-rotation burst.",
       runes:{...NOCTURNE_JGL_BRUISER_RUNES},
       sideItems:["Guardian Angel","Sterak's Gage","Maw of Malmortius","Wit's End","Serylda's Grudge","Plated Steelcaps","Mercury's Treads"],
     }],
@@ -43,7 +47,12 @@ export default {
       bans:["Udyr","Viego","Gragas"], replacements:["Briar","Warwick","Rek'Sai"],
       role:"Diver / Assassin",
       corePath:"Profane Hydra  ›  Axiom Arc  ›  Voltaic Cyclosword  ›  Lord Dominik's Regards",
-      coreNote:"Lethality Nocturne — Paranoia from fog, three Hail of Blades autos and a Profane Hydra active, and the target is dead before Unspeakable Horror's fear finishes. On 26.20 Nocturne splits almost evenly between this line and the Hexplate bruiser build (kept as the alternate), but this is the most common single path: Profane Hydra into Axiom Arc is the top two-item start (about 27%) and Voltaic Cyclosword third is the most common three-item set (about 20%). Profane Hydra adds a burst cleave to the opener and speeds up the clear; Axiom Arc refunds part of Paranoia's cooldown whenever a champion you damaged dies, so a won fight puts the next R up much sooner; Voltaic Cyclosword turns the first ability hit into an Energized attack that chunks by current health. Lord Dominik's Regards is the usual fourth item, Guardian Angel the safer one. Boots are Plated Steelcaps or Ionian Boots of Lucidity, depending on their damage. The kill pattern is always the same: R from fog, W the obvious answer spell, E fear if they run, walk out with the shutdown.",
+      // Research: On 26.20 Nocturne splits almost evenly between this line and the Hexplate bruiser build (the alternate),
+      //   but this is the most common single path: Profane Hydra into Axiom Arc is the top two-item start (about
+      //   27%) and Voltaic third is the most common three-item set (about 20%). Lord Dominik's is the usual fourth
+      //   item, Guardian Angel the safer one. Profane Hydra also speeds up the clear. Cut for length: "R from fog,
+      //   W the obvious answer spell, E fear if they run, walk out with the shutdown."
+      coreNote:"Lethality Nocturne: Paranoia from fog, three Hail of Blades autos and a Profane Hydra active kill the target before the fear finishes. Axiom Arc refunds part of Paranoia's cooldown when a champion you damaged dies, so a won fight brings R back sooner; Voltaic Cyclosword turns your first ability hit into an Energized attack that chunks by current health. Lord Dominik's Regards fourth, Guardian Angel to play safer. Plated Steelcaps or Ionian Boots, by their damage.",
       sideItems:["Guardian Angel","The Collector","Death's Dance","Edge of Night","Maw of Malmortius","Plated Steelcaps","Ionian Boots of Lucidity","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor stack while Tempo ramps."),I("Stridebreaker","Slow so they can't walk away from the duel."),I("Death's Dance","Their damage becomes bleed you out-sustain.")],behind:[I("Sterak's Gage","Shield when the dive goes wrong."),I("Death's Dance","Survive their counter-pressure."),I("Plated Steelcaps","Auto reduction on their walk-down.")],runes:{...NOCTURNE_JGL_DEFAULT_RUNES}},

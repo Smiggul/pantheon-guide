@@ -23,7 +23,7 @@ export default {
       bans:["Zyra","Xerath","Karma"], replacements:["Braum","Alistar","Rell"],
       role:"Bastion Invuln Guardian",
       corePath:"Solstice Sleigh  ›  Plated Steelcaps  ›  Locket of the Iron Solari  ›  Winter's Approach",
-      coreNote:"Taric wins fights with one button: Cosmic Radiance makes his whole team invulnerable for the seconds that decide a teamfight. Solstice Sleigh feeds his roam-and-peel pattern, Locket stacks a team shield onto the invuln package, Winter's Approach converts his Q mana-spam into a Fimbulwinter shield engine, and Knight's Vow doubles down on the bodyguard identity. E through your bastion-linked ally for angle-bent stuns nobody expects. Play for R timings — a well-placed Radiance beats any wombo the enemy drafted.",
+      coreNote:"Taric wins fights with one button: Cosmic Radiance makes his whole team invulnerable for the seconds that decide a teamfight. Solstice Sleigh feeds your roam-and-peel pattern, Locket stacks a team shield onto the invulnerability, Winter's Approach turns your Q mana spam into a Fimbulwinter shield engine, and Knight's Vow doubles down on bodyguarding. E through your Bastion-linked ally for angled stuns nobody expects. Play for R timings.",
       sideItems:["Knight's Vow","Frozen Heart","Redemption","Thornmail","Randuin's Omen","Zeke's Convergence"],
       data:{
         JUGGERNAUT:{ahead:[I("Locket of the Iron Solari","Shield the carry they walk toward."),I("Winter's Approach","Q spam sustains the kite-down."),I("Thornmail","Anti-heal their sustain trades.")],behind:[I("Thornmail","Cut their healing on every dive."),I("Knight's Vow","Split their damage off your carry."),I("Redemption","Heal the extended fight.")],runes:{...TARIC_SUP_DEFAULT_RUNES}},

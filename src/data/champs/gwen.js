@@ -32,7 +32,11 @@ export default {
     Mid:[{
       label:"Lich Bane burst", tag:"alt",
       corePath:"Lich Bane  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"The minority opener, and the old main build: Lich Bane first in about 27% of Mid Gwen games on 26.20, against Dusk and Dawn's 70%. Lich Bane into Shadowflame into Rabadon's Deathcap is about 16% of three-item starts. Lich Bane trades Dusk and Dawn's health, attack speed and double on-hit for more AP and move speed, so the spellblade auto between snips hits harder but she is squishier. On this small sample its first-item win rate is a little higher than Dusk and Dawn's (56.6% against 54.2%), which makes it a fair choice into squishy lanes where she can end the trade in one rotation. First Strike is the most common page on this line too.",
+      // Research: The minority opener, and the old main build: Lich Bane first in about 27% of Mid Gwen games on 26.20,
+      //   against Dusk and Dawn's 70%. Lich Bane into Shadowflame into Rabadon's is about 16% of three-item
+      //   starts. First-item win rate 56.6% against 54.2% for Dusk and Dawn, on a small sample. First Strike is
+      //   the most common page on this line too.
+      coreNote:"Lich Bane first instead of Dusk and Dawn. It trades Dusk and Dawn's health, attack speed and double on-hit for more AP and move speed, so the spellblade auto between snips hits harder but you are squishier. It has won slightly more often than Dusk and Dawn first, in a small pool, which makes it a fair choice into squishy lanes where you can end the trade in one rotation. Lich Bane into Shadowflame into Rabadon's Deathcap, on the First Strike page.",
       runes:{...GWEN_MID_DEFAULT_RUNES},
       sideItems:["Void Staff","Dusk and Dawn","Malignance","Zhonya's Hourglass","Banshee's Veil","Nashor's Tooth"],
     }],
@@ -64,7 +68,11 @@ export default {
       bans:["Ekko","Fizz","Zed"], replacements:["Akali","Katarina","Sylas"],
       role:"Spellblade Burst Duelist",
       corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Mid Gwen now buys the same items as Top: Dusk and Dawn first in about 70% of Mid games on 26.20, and Dusk and Dawn into Shadowflame into Rabadon's Deathcap is the most common three-item start, at about 44%. What separates the lanes is the rune page. Top runs Conqueror for long duels, while Mid's most common page is First Strike, which suits a champion who plays for one burst rotation. Dusk and Dawn's spellblade auto applies on-hit effects twice, so the auto she weaves between snips lands her passive's max-health damage twice, and its health and attack speed help a melee mage survive lane. Shadowflame executes chunked targets, Rabadon's Deathcap multiplies everything her kit touches, and Void Staff is the usual fourth. Hallowed Mist matters more here than it does Top, because mid-lane ganks come from both sides and the Mist blocks everything originating outside it. Be honest about the sample: about 14,000 games at roughly 0.6% pick rate, so this is a strong pocket pick rather than a lane your opponent will know well. Lich Bane first is about a quarter of games; see the alternate.",
+      // Research: Dusk and Dawn first in about 70% of Mid games on 26.20; Dusk and Dawn into Shadowflame into Rabadon's is
+      //   the most common three-item start, at about 44%; Void Staff is the usual fourth. First Strike is Mid's
+      //   most common page. Sample: about 14,000 games at roughly 0.6% pick rate, so a strong pocket pick rather
+      //   than a lane your opponent will know well. Lich Bane first is about a quarter of games (the alternate).
+      coreNote:"Mid Gwen buys Top's items: Dusk and Dawn, Shadowflame, Rabadon's Deathcap, then Void Staff. The rune page differs: First Strike for one burst rotation, where Top's Conqueror suits long duels. Dusk and Dawn's spellblade auto applies on-hit twice, so the auto between snips lands her max-health passive twice, and its health and attack speed help you survive lane. Hallowed Mist matters more here: mid ganks come from both sides, and the Mist blocks everything from outside it.",
       sideItems:["Void Staff","Lich Bane","Malignance","Zhonya's Hourglass","Riftmaker","Nashor's Tooth","Banshee's Veil"],
       data:{
         JUGGERNAUT:{ahead:[I("Shadowflame","True-damage snips plus pen ignores the health they stacked."),I("Lich Bane","Spellblade turns each trade into a real chunk."),I("Rabadon's Deathcap","Scale the melt.")],behind:[I("Zhonya's Hourglass","Stasis answers the one all-in they get."),I("Riftmaker","Sustain back through the extended fight."),I("Void Staff","Pen stays useful without a lead.")],runes:{...GWEN_MID_DEFAULT_RUNES}},

@@ -23,7 +23,7 @@ export default {
       bans:["Blitzcrank","Leona","Rakan"], replacements:["Xerath","Lux","Zyra"],
       role:"True-Damage Artillery Support",
       corePath:"Zaz'Zak's Realmspike  ›  Sorcerer's Shoes  ›  Luden's Echo  ›  Shadowflame",
-      coreNote:"Vel'Koz support is a second mid-laner with a geometry degree: Q's split angles hit from positions no one respects, and his passive's true damage means even tank supports melt to three full rotations. Zaz'Zak's Realmspike procs off his constant poke, Luden's Echo turns the poke into real burst, and Shadowflame converts chunked targets into R executes. Zhonya's Hourglass covers the stationary ult channel. His damage output embarrasses most carries — the support seat is just where the geometry lives cheapest.",
+      coreNote:"Vel'Koz support is a second mid laner with a geometry degree: Q's split angles hit from positions no one respects, and his passive's true damage means even tank supports melt to three full rotations. Zaz'Zak's Realmspike procs off your constant poke, Luden's Echo turns the poke into real burst, and Shadowflame converts chunked targets into R executes. Zhonya's Hourglass covers the stationary ult channel.",
       sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Void Staff","Liandry's Torment","Banshee's Veil","Horizon Focus"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke them off every wave from range."),I("Shadowflame","Passive true damage + pen melts their MR."),I("Void Staff","Shred whatever MR they buy anyway.")],behind:[I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Liandry's Torment","Burn scales off their HP even behind."),I("Void Staff","Pen keeps the poke honest.")],runes:{...VELKOZ_DEFAULT_RUNES}},

@@ -22,7 +22,8 @@ export default {
     Support:[{
       label:"Rocketbelt playmaker", tag:"alt",
       corePath:"Bloodsong  ›  Boots of Swiftness  ›  Hextech Rocketbelt  ›  Zeke's Convergence",
-      coreNote:"A pure solo-carry Bard setup from a high-elo Bard specialist. Rocketbelt amplifies his catch power and roams and lets him put out real damage in skirmishes, and at 2,650 gold it is reachable early for a support. Zeke's Convergence follows because, although ranged, Bard wants to get close and auto when he fights, and Zeke's slow keeps him on the target. Do not drop Dead Man's Plate entirely: into a full AD team its value is too high. Use this line into mixed or AP-heavy teams.",
+      // Research: "A pure solo-carry Bard setup from a high-elo Bard specialist."
+      coreNote:"A solo-carry Bard setup. Rocketbelt amplifies your catches and roams and gives you real skirmish damage, and at 2,650 gold it arrives early for a support. Zeke's Convergence follows: although ranged, you want to get close and auto when you fight, and its slow keeps you on the target. Do not drop Dead Man's Plate entirely; into a full AD team its value is too high. Use this line into mixed or AP-heavy teams.",
       runes:{...BARD_SUP_DEFAULT_RUNES},
       sideItems:["Dead Man's Plate","Locket of the Iron Solari","Knight's Vow","Redemption","Mercury's Treads"],
     }],
@@ -32,7 +33,8 @@ export default {
       bans:["Maokai","Taric","Senna"], replacements:["Thresh","Rakan","Pyke"],
       role:"Chime-Roam Pick Support",
       corePath:"Bloodsong  ›  Boots of Swiftness  ›  Dead Man's Plate  ›  Locket of the Iron Solari",
-      coreNote:"Bard plays the whole map at once: chimes fund permanent roaming, Q stuns through walls, and Magical Journey turns dead-end jungle into highway. Bloodsong amps his carry's damage after every Q pick, Dead Man's Plate adds the speed-and-slam his roam-collision pattern loves, Locket shields the teamfights his Tempered Fate starts, and Bandlepipes is the new-season Bard-flavored closer. His ult is the highest-skill spell in the game — freeze the diving tower, the enemy team, or your own mistake, and never tell anyone which one you meant.",
+      // Research: Bandlepipes was described as the new-season Bard item.
+      coreNote:"Bard plays the whole map: chimes fund permanent roaming, Q stuns through walls, and Magical Journey turns dead-end jungle into a highway. Bloodsong amps your carry's damage after every Q pick, Dead Man's Plate adds the speed and slam your roams want, Locket shields the teamfights Tempered Fate starts, and Bandlepipes closes the build. Tempered Fate can freeze the diving tower, the enemy team, or your own mistake.",
       sideItems:["Bandlepipes","Knight's Vow","Redemption","Zeke's Convergence","Randuin's Omen","Mikael's Blessing"],
       data:{
         JUGGERNAUT:{ahead:[I("Bloodsong","Q pick, amp the carry, kite the juggernaut forever."),I("Dead Man's Plate","Speed to stay untouchable while roaming."),I("Locket of the Iron Solari","Shield the carry they walk toward.")],behind:[I("Locket of the Iron Solari","Shield the target of their press."),I("Redemption","Heal the extended fight."),I("Knight's Vow","Split their damage off your carry.")],runes:{...BARD_SUP_DEFAULT_RUNES}},

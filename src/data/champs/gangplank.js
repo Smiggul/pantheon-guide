@@ -23,7 +23,8 @@ export default {
       bans:["Irelia","Renekton","Darius"], replacements:["Jax","Fiora","Jayce"],
       role:"Barrel-Chain Crit Scourge",
       corePath:"Essence Reaver  ›  Plated Steelcaps  ›  The Collector  ›  Infinity Edge",
-      coreNote:"Gangplank is rank-6 top on real data: barrels convert his crit items into AoE armor-shredding nukes, and one clean triple-chain deletes an entire teamfight. Essence Reaver refunds mana on every Parrrley, The Collector executes whoever the barrel leaves at 5%, Infinity Edge multiplies the barrel crits into one-shot territory, and Lord Dominik's finishes tanks. His W eats every form of CC — bait the lockdown, oranges it, and barrel the puddle they're standing in. Global ult wins fights he never attends.",
+      // Research: Gangplank is rank-6 top on real data.
+      coreNote:"Barrels turn Gangplank's crit items into AoE armor-shredding nukes, and one clean triple-chain deletes a teamfight. Essence Reaver refunds mana on every Parrrley, The Collector executes whoever the barrel leaves at 5%, Infinity Edge multiplies the barrel crits, and Lord Dominik's finishes tanks. His W removes every form of CC: bait the lockdown, eat an orange, and barrel the spot they are standing in. His global ult wins fights he never attends.",
       sideItems:["Lord Dominik's Regards","Bloodthirster","Guardian Angel","Maw of Malmortius","Serylda's Grudge","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Essence Reaver","Q-poke them off CS forever — never trade in melee."),I("The Collector","Execute beats their HP stacking."),I("Lord Dominik's Regards","Barrel crits through the armor curve.")],behind:[I("Guardian Angel","Insurance when they finally connect."),I("Maw of Malmortius","Vs mixed-damage juggernauts."),I("Sterak's Gage","Survive the all-in and barrel the retreat.")],runes:{...GANGPLANK_TOP_DEFAULT_RUNES}},

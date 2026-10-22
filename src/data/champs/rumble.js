@@ -23,7 +23,8 @@ export default {
       bans:["Kennen","Kayle","Shen"], replacements:["Teemo","Kennen","Aurora"],
       role:"Danger-Zone Flame Battlemage",
       corePath:"Liandry's Torment  ›  Sorcerer's Shoes  ›  Bloodletter's Curse  ›  Zhonya's Hourglass",
-      coreNote:"Rumble is a danger-zone game: keep heat in the yellow band and his flamespitter melts entire waves and health bars alike. Liandry's Torment triple-stacks the burn identity, Bloodletter's Curse is the current core — its MR shred amplifies every flame tick and Equalizer second — and Zhonya's Hourglass covers the point-blank spraying his damage profile demands. Rabadon's closes the scaling. The Equalizer is a teamfight-deciding wall of fire: cast it across the choke they must cross, not on where they stand.",
+      // Research: Bloodletter's Curse is the current core.
+      coreNote:"Keep Rumble's heat in the yellow band and his flamespitter melts waves and health bars alike. Liandry's Torment stacks another burn, Bloodletter's Curse shreds MR so every flame tick and the Equalizer hit harder, and Zhonya's Hourglass covers the point-blank spraying your damage demands. Rabadon's closes the scaling. The Equalizer decides teamfights: cast it across the choke they must cross, not where they stand.",
       sideItems:["Rabadon's Deathcap","Void Staff","Rylai's Crystal Scepter","Morellonomicon","Banshee's Veil","Spirit Visage"],
       data:{
         JUGGERNAUT:{ahead:[I("Liandry's Torment","Burn scales off their HP as they walk the flames."),I("Bloodletter's Curse","Shred amplifies every tick."),I("Rylai's Crystal Scepter","Slowed juggernauts roast longer.")],behind:[I("Rylai's Crystal Scepter","Kite their walk-down with flame slows."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the burn real.")],runes:{...RUMBLE_TOP_DEFAULT_RUNES}},

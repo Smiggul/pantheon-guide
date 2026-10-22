@@ -32,7 +32,11 @@ export default {
     Mid:[{
       label:"Abyssal Mask magic amp", tag:"alt",
       corePath:"Abyssal Mask  ›  Mercury's Treads  ›  Imperial Mandate  ›  Zhonya's Hourglass",
-      coreNote:"Abyssal Mask in place of Hextech Rocketbelt: it amplifies the magic damage enemies around you take, and Imperial Mandate on top marks whoever you taunt or ult for your team's follow-up. Only about 2-3% of Galio mids rush it, but on lolalytics it has won 3-5 points more than Rocketbelt-first at the same item count on both 26.19 and 26.20. That is on roughly 1,000-2,000 games per patch, so it is a consistent lean rather than proof. Most players who rush it go Mercury's Treads and Imperial Mandate into Zhonya's, the same path as the main build. Take it only when your team deals magic damage, such as a mage bot or an AP top or jungle; into an all-physical team, Rocketbelt or Hollow Radiance is better.",
+      // Research: Only about 2-3% of Galio mids rush it, but on lolalytics it has won 3-5 points more than
+      //   Rocketbelt-first at the same item count on both 26.19 and 26.20, on roughly 1,000-2,000 games per patch:
+      //   a consistent lean rather than proof. Most players who rush it go Mercury's Treads and Imperial Mandate
+      //   into Zhonya's.
+      coreNote:"Abyssal Mask instead of Hextech Rocketbelt: it amplifies the magic damage enemies around you take, and Imperial Mandate marks whoever you taunt or ult. It has won a few points more than Rocketbelt first, though few players run it. The rest follows the main build: Mercury's Treads and Imperial Mandate into Zhonya's. Take it only when your team deals magic damage (a mage bot, an AP top or jungle); into an all-physical team, Rocketbelt or Hollow Radiance is better.",
       runes:{...GALIO_MID_DEFAULT_RUNES},
       sideItems:["Riftmaker","Hollow Radiance","Kaenic Rookern","Thornmail","Plated Steelcaps"],
     }],
@@ -42,7 +46,9 @@ export default {
       bans:["Zed","Talon","Yasuo"], replacements:["Lissandra","Vex","Annie"],
       role:"Anti-Magic Roam Colossus",
       corePath:"Hextech Rocketbelt  ›  Mercury's Treads  ›  Imperial Mandate  ›  Zhonya's Hourglass",
-      coreNote:"Galio is the teamfight-first mid: taunt is the best engage-and-peel spell in the lane, and Hero's Entrance turns every side-lane skirmish into a 5v4. Hextech Rocketbelt guarantees the Flash-less taunt engage, Imperial Mandate converts his constant CC into team damage, and Zhonya's covers the always-in-the-middle positioning. Riftmaker closes the drain-fight scaling. Hollow Radiance is the other common first item, about as popular as Rocketbelt and a point or two behind it at equal item counts: take it when the enemy mid and jungle both deal magic damage. Shove mid, watch the map, and arrive from the sky whenever anyone anywhere starts a fight.",
+      // Research: Hollow Radiance is the other common first item, about as popular as Rocketbelt and a point or two behind
+      //   it at equal item counts.
+      coreNote:"Galio is a teamfight-first mid: taunt is the best engage-and-peel spell in the lane, and Hero's Entrance turns side-lane skirmishes into a 5v4. Hextech Rocketbelt lets you taunt-engage without Flash, Imperial Mandate turns your CC into team damage, and Zhonya's covers the always-in-the-middle positioning; Riftmaker closes. Take Hollow Radiance first instead when the enemy mid and jungle both deal magic damage. Shove mid, watch the map, and fly in when a fight starts.",
       sideItems:["Hollow Radiance","Riftmaker","Spirit Visage","Thornmail","Force of Nature","Rabadon's Deathcap","Kaenic Rookern"],
       data:{
         JUGGERNAUT:{ahead:[I("Imperial Mandate","Taunt-proc them for your whole team."),I("Riftmaker","Out-sustain the brawl they want."),I("Hextech Rocketbelt","Dash spacing controls the trade tempo.")],behind:[I("Thornmail","Anti-heal their sustain trades."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Spirit Visage","Amplify your shield-heal loop.")],runes:{...GALIO_MID_DEFAULT_RUNES}},
@@ -65,7 +71,7 @@ export default {
       skillOrder:["W","E","Q"], // Support Galio maxes W (shield) first; Mid maxes Q (global Q>W>E)
       role:"Taunt Engage Support",
       corePath:"Celestial Opposition  ›  Plated Steelcaps  ›  Locket of the Iron Solari  ›  Imperial Mandate",
-      coreNote:"Support Galio is the engage-tank version of the colossus: E knockup into W taunt is a two-man wombo, and Hero's Entrance means his bot lane never fights alone. Celestial Opposition blunts the counter-burst his dives absorb, Locket shields the team through the follow-up, Imperial Mandate converts every taunt into team damage, and Thornmail closes against lifesteal carries. His passive shield plus Aftershock makes him absurdly durable for a support — engage like it's free, because for him it nearly is.",
+      coreNote:"Support Galio is the engage-tank version: E knockup into W taunt is a two-man combo, and Hero's Entrance means your bot lane never fights alone. Celestial Opposition blunts the counter-burst your dives absorb, Locket shields the team through the follow-up, Imperial Mandate turns every taunt into team damage, and Thornmail closes against lifesteal carries. His passive shield plus Aftershock makes him very durable for a support, so engage freely.",
       sideItems:["Thornmail","Knight's Vow","Redemption","Kaenic Rookern","Randuin's Omen","Zeke's Convergence"],
       data:{
         JUGGERNAUT:{ahead:[I("Imperial Mandate","Taunt-proc them for your carry."),I("Locket of the Iron Solari","Shield the target they walk down."),I("Thornmail","Anti-heal their sustain.")],behind:[I("Thornmail","Cut their healing on every dive."),I("Knight's Vow","Split their damage off your carry."),I("Redemption","Heal the extended fight.")],runes:{...GALIO_SUP_DEFAULT_RUNES}},

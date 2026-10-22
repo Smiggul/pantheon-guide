@@ -31,20 +31,32 @@ export default {
     Top:[{
       label:"Eclipse short trades", tag:"alt",
       corePath:"Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Swap Blade of The Ruined King for Eclipse and play for repeated short trades: Q into auto lands Eclipse's proc and shield in one window, so you can trade without committing your HP bar to a full Frenzy. After Eclipse the path is the same as the standard build (Black Cleaver, then Death's Dance). Endless Hunger is an occasional third item, not the norm. Treat this as a thin-sample option. Eclipse is the first item in about 6-7% of Briar Top games and wins more often than the BotRK rush (52.7% vs 50.4% over ~1,900 all-rank games, 53.3% vs 50.7% over ~470 Emerald+ games), but Briar Top itself is under 0.5% pick rate. Source: lolalytics, patch 26.20.",
+      // Research: Endless Hunger is an occasional third item, not the norm. Eclipse is the first item in about 6-7% of
+      //   Briar Top games and wins more often than the BotRK rush (52.7% vs 50.4% over ~1,900 all-rank games,
+      //   53.3% vs 50.7% over ~470 Emerald+ games), but Briar Top itself is under 0.5% pick rate. Source:
+      //   lolalytics, patch 26.20.
+      coreNote:"Swap Blade of The Ruined King for Eclipse and play for repeated short trades: Q into auto lands Eclipse's proc and shield in one window, so you can trade without committing your HP bar to a full Frenzy. After Eclipse the path is the same as the standard build: Black Cleaver, then Death's Dance. It has won slightly more often than the Ruined King rush, but on very few matches, so treat it as a thin-sample option.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Coup de Grace"], secondary:"Resolve", secondaryRunes:["Second Wind","Unflinching"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Press the Attack front-loads Briar's short-trade pattern — the Q→auto lands the third hit fast for the amp, and Eclipse's proc lands in the same window. Legend: Haste keeps her spells and Eclipse's 6s proc up; Coup de Grace executes. Resolve's Second Wind + Unflinching sustain the ranged-matchup laning this build is built to survive." },
       sideItems:["Endless Hunger","Sterak's Gage","Spirit Visage","Guardian Angel","Mercury's Treads"],
     }],
     Jungle:[{
       label:"Hail of Blades burst", tag:"alt",
       corePath:"The Collector  ›  Plated Steelcaps  ›  Profane Hydra  ›  Lord Dominik's Regards",
-      coreNote:"The burst page. About a quarter of Briar junglers run Hail of Blades instead of Press the Attack (26% of games, both win 53.1-53.2%), so this is a co-equal choice, not an off-meta gimmick. Hail of Blades makes Briar's opening W-dive autos hit hard, which suits a gank-heavy, pick-off jungle. The items stay close to the standard build: The Collector first in two thirds of these games, then Profane Hydra or Titanic Hydra (Profane's active adds a dash-in burst), then Lord Dominik's Regards. Hubris first is the main variant (about 13% of Hail of Blades games, 55% win rate). Source: lolalytics, patch 26.20, Emerald+, filtered to Hail of Blades (28,760 games).",
+      // Research: About a quarter of Briar junglers run Hail of Blades instead of Press the Attack (26% of games, both win
+      //   53.1-53.2%), so this is a co-equal choice, not an off-meta gimmick. The Collector first in two thirds of
+      //   these games. Hubris first is about 13% of Hail of Blades games at a 55% win rate. Source: lolalytics,
+      //   patch 26.20, Emerald+, filtered to Hail of Blades (28,760 games).
+      coreNote:"The burst page. Hail of Blades makes Briar's opening W-dive autos hit hard, which suits a gank-heavy, pick-off jungle. It wins as often as Press the Attack, so choose it for the playstyle. The items stay close to the standard build: The Collector first, then Profane Hydra or Titanic Hydra (Profane's active adds a dash-in burst), then Lord Dominik's Regards. Hubris first is the main variant.",
       runes:{ keystone:"Hail of Blades", primary:"Domination", primaryRunes:["Sudden Impact","Sixth Sense","Treasure Hunter"], secondary:"Inspiration", secondaryRunes:["Cash Back","Triple Tonic"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"The most-picked Hail of Blades page on 26.20. Hail of Blades front-loads attack speed into the first three autos after a W dive, and Sudden Impact adds lethality off every dash. Sixth Sense periodically reveals nearby wards, which keeps gank paths hidden, and Treasure Hunter funds the snowball from kill participation. The Inspiration secondary (Cash Back + Triple Tonic) trades the Precision rows for economy: gold back on each Legendary item, plus stronger potions in the early clear." },
       sideItems:["Hubris","Titanic Hydra","Infinity Edge","Death's Dance","Guardian Angel","Edge of Night","Mercury's Treads"],
     },{
       label:"Titanic Hydra bruiser", tag:"alt",
       corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"The bruiser path, and the main build before The Collector took over. It is still the second most common start (about 18% of games) and wins slightly more often than the Collector rush (53.3% vs 52.1% as the first item). It is also a very consistent path: Titanic Hydra into Black Cleaver in 84% of these games, then Death's Dance in 70%. Titanic's health-scaling AoE proc fires on every Frenzy auto, Black Cleaver shreds while Frenzy stacks it instantly, and Death's Dance turns burst into a bleed your passive out-heals. Take it into tanky or bruiser-heavy teams, or when you want to frontline rather than one-shot. Endless Hunger is the higher win-rate but rarer third item. Source: lolalytics, patch 26.20, Emerald+.",
+      // Research: The main build before The Collector took over. Still the second most common start (about 18% of games)
+      //   and wins slightly more often than the Collector rush (53.3% vs 52.1% as the first item). Very
+      //   consistent: Titanic Hydra into Black Cleaver in 84% of these games, then Death's Dance in 70%. Source:
+      //   lolalytics, patch 26.20, Emerald+.
+      coreNote:"The bruiser path: Titanic Hydra into Black Cleaver, then Death's Dance. Titanic's health-scaling AoE proc fires on every Frenzy auto, Black Cleaver shreds while Frenzy stacks it instantly, and Death's Dance turns burst into a bleed your passive out-heals. Take it into tanky or bruiser-heavy teams, or when you want to frontline rather than one-shot. Endless Hunger is a rarer third item that has won more often.",
       runes:{...BRIAR_JGL_DEFAULT_RUNES},
       sideItems:["Endless Hunger","Spirit Visage","Sterak's Gage","Guardian Angel","Mercury's Treads"],
     }],
@@ -57,7 +69,11 @@ export default {
       // duelist, so Scorchclaw's bonus damage snowballs her invades/ganks/clear.
       pet:"Scorchclaw Pup",
       corePath:"The Collector  ›  Plated Steelcaps  ›  Titanic Hydra  ›  Lord Dominik's Regards",
-      coreNote:"The Collector is now Briar's standard first item, in about half of all games and nearly three times as often as Titanic Hydra. Its execute closes out targets that Frenzy has drained low, and the lethality spikes her early ganks. Plated Steelcaps keep you alive through counter-ganks (Mercury's Treads into AP or heavy CC). Titanic Hydra second adds the health-scaling AoE proc on every Frenzy auto, with Profane Hydra as the burstier swap. Lord Dominik's Regards third shreds the armor of whoever stacks it against you. Death's Dance is the usual fourth item and Guardian Angel the late-game buy. The old Titanic Hydra into Black Cleaver bruiser path is kept as an alternative. Source: lolalytics, patch 26.20, Emerald+: Collector first in 51% of games, then Titanic in 52%, then Lord Dominik's in 60%.",
+      // Research: The Collector is now Briar's standard first item, in about half of all games and nearly three times as
+      //   often as Titanic Hydra. The old Titanic Hydra into Black Cleaver bruiser path is kept as an alternative.
+      //   Source: lolalytics, patch 26.20, Emerald+: Collector first in 51% of games, then Titanic in 52%, then
+      //   Lord Dominik's in 60%.
+      coreNote:"The Collector first: its execute closes out targets Frenzy has drained low, and the lethality spikes your early ganks. Plated Steelcaps keep you alive through counter-ganks (Mercury's Treads into AP or heavy CC). Titanic Hydra second adds a health-scaling AoE proc on every Frenzy auto, with Profane Hydra as the burstier swap. Lord Dominik's Regards third shreds whoever stacks armor against you. Death's Dance is the usual fourth item and Guardian Angel the late-game buy.",
       sideItems:["Death's Dance","Guardian Angel","Black Cleaver","Profane Hydra","Infinity Edge","Mercury's Treads","Spirit Visage","Wit's End","Maw of Malmortius","Randuin's Omen","Serylda's Grudge"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Frenzy autos shred their armor in seconds."),I("Titanic Hydra","AoE proc on their stacked health."),I("Spirit Visage","Amps passive + E healing — you out-sustain a Juggernaut.")],behind:[I("Sterak's Gage","Shield when the stat-check goes their way."),I("Spirit Visage","Healing keeps the war of attrition close."),I("Plated Steelcaps","Auto reduction on their walk-down.")],runes:{...BRIAR_JGL_DEFAULT_RUNES}},
@@ -79,7 +95,10 @@ export default {
       bans:["Jax","Trundle","Warwick"], replacements:["Sett","Renekton","Volibear"],
       role:"Skirmisher / Bruiser",
       corePath:"Blade of The Ruined King  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Blade of The Ruined King is the most common Briar Top rush. Its percent-current-health damage and lifesteal on every Frenzy auto win the extended trades she wants, and the slow helps her stick. Black Cleaver second shreds while Frenzy stacks it instantly, and Death's Dance third turns their burst into a bleed your passive heals through. The Collector or Titanic Hydra first are the other common starts. Same rule as jungle: her HP bar is a resource, so spend it, heal it back, repeat. Data is thin, because Briar Top is under 0.5% pick rate. Source: lolalytics, patch 26.20: BotRK first in about 30% of games, then Black Cleaver in 55%, then Death's Dance in 55%. Emerald+ and all-rank data agree, and patch 26.19 shows the same core.",
+      // Research: BotRK is the most common Briar Top rush. Data is thin: Briar Top is under 0.5% pick rate. Source:
+      //   lolalytics, patch 26.20: BotRK first in about 30% of games, then Black Cleaver in 55%, then Death's
+      //   Dance in 55%. Emerald+ and all-rank data agree, and patch 26.19 shows the same core.
+      coreNote:"Blade of The Ruined King first: its current-health damage and lifesteal on every Frenzy auto win the extended trades Briar wants, and the slow helps you stick. Black Cleaver second shreds while Frenzy stacks it instantly, and Death's Dance third turns their burst into a bleed your passive heals through. The Collector or Titanic Hydra first are the other common starts. Same rule as jungle: your HP bar is a resource, so spend it, heal it back, repeat.",
       sideItems:["The Collector","Titanic Hydra","Lord Dominik's Regards","Guardian Angel","Spirit Visage","Sterak's Gage","Mercury's Treads","Wit's End","Maw of Malmortius","Randuin's Omen","Thornmail","Stridebreaker"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Frenzy autos shred their armor stack."),I("Spirit Visage","Out-sustain the sustain class."),I("Stridebreaker","They can never disengage the losing fight.")],behind:[I("Sterak's Gage","Shield their walk-down."),I("Thornmail","GW cuts Darius/Mundo regen."),I("Plated Steelcaps","Auto reduction.")],runes:{...BRIAR_TOP_DEFAULT_RUNES}},

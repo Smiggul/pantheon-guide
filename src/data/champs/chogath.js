@@ -48,7 +48,10 @@ export default {
       label: "Full Tank",
       tag: "alt",
       corePath: "Heartsteel  ›  Plated Steelcaps  ›  Thornmail  ›  Hollow Radiance",
-      coreNote: "Full-tank Cho'Gath — you become an HP monster the enemy simply can't kill, while Feast still executes for a flat chunk and your R and Q keep their base damage. On 26.20 this is close to an even split with the main build rather than a minority line: Heartsteel is the first item in about 54% of Cho'Gath Top games, against about 35% for Hextech Rocketbelt, but Hail of Blades is still the most common keystone (about 53%), so the AP line stays the default. After Heartsteel, Thornmail and Hollow Radiance are a near tie for second. Take it into AD-heavy teams, or when you would rather be the frontline than the burst.",
+      // Research: On 26.20 this is close to an even split with the main build: Heartsteel is the first item in about 54%
+      //   of Cho'Gath Top games, against about 35% for Hextech Rocketbelt, but Hail of Blades is still the most
+      //   common keystone (about 53%), so the AP line stays the default.
+      coreNote: "Full-tank Cho'Gath: you become a health monster the enemy can't kill, while Feast still executes for a flat chunk and R and Q keep their base damage. It is about as common as the AP line. Heartsteel first, then Thornmail or Hollow Radiance, which are a near tie. Take it into AD-heavy teams, or when you would rather be the frontline than the burst.",
       runes: {...CHOGATH_TOP_TANK_RUNES},
       sideItems: ["Unending Despair", "Sunfire Aegis", "Jak'Sho, The Protean", "Kaenic Rookern", "Dead Man's Plate", "Spirit Visage", "Randuin's Omen", "Mercury's Treads"],
     }],
@@ -58,7 +61,9 @@ export default {
       bans:["Fiora","Vayne","Gwen"], replacements:["Sion","Dr. Mundo","Malphite"],
       role:"Feast-Stacking AP Terror",
       corePath:"Hextech Rocketbelt  ›  Boots of Swiftness  ›  Riftmaker  ›  Dead Man's Plate",
-      coreNote:"Cho'Gath scales infinitely and this build weaponizes the journey: Hextech Rocketbelt guarantees the Rupture-Scream combo lands, Riftmaker converts the AP-tank statline into true-damage drain, Dead Man's Plate feeds the roam-slam pattern, and Jak'Sho ramps the resists his Feast HP multiplies. Every Feast is permanent HP and a true-damage execute — eat the enemy top laner at six, eat their carry at every teamfight, and by forty minutes he's a raid boss with a dinner bell. On 26.20 the Full Tank line (Heartsteel first) is the slightly more common opener, about 54% against 35%, but Hail of Blades is still the most common keystone, so this stays the default; see the alternate.",
+      // Research: On 26.20 the Full Tank line (Heartsteel first) is the slightly more common opener, about 54% against
+      //   35%, but Hail of Blades is still the most common keystone, so this stays the default.
+      coreNote:"Cho'Gath scales without limit, and this build weaponizes it: Hextech Rocketbelt makes the Rupture-Scream combo land, Riftmaker converts the AP-tank stats into true-damage drain, Dead Man's Plate feeds the roam-and-slam pattern, and Jak'Sho ramps the resists his Feast health multiplies. Every Feast is permanent health and a true-damage execute: eat the enemy top laner at six, then their carry in every teamfight. The Full Tank alternate (Heartsteel first) is the more common opener.",
       sideItems:["Jak'Sho, The Protean","Rabadon's Deathcap","Kaenic Rookern","Thornmail","Spirit Visage","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Riftmaker","True-damage drain wins the brawl — Feast finishes it."),I("Rabadon's Deathcap","Scale the combo past their HP."),I("Thornmail","Anti-heal their sustain.")],behind:[I("Thornmail","Cut their healing before comparing bars."),I("Jak'Sho, The Protean","Resist ramp evens the brawl."),I("Spirit Visage","Amplify your carnivore healing.")],runes:{...CHOGATH_TOP_DEFAULT_RUNES}},
@@ -80,7 +85,9 @@ export default {
       bans:["Master Yi","Lillia","Kha'Zix"], replacements:["Sejuani","Zac","Rammus"],
       role:"Feast-Stacking Tank Jungler",
       corePath:"Heartsteel  ›  Boots of Swiftness  ›  Dead Man's Plate  ›  Force of Nature",
-      coreNote:"Added in the 26.18 sweep — Cho'Gath Jungle is S/S+ on live data (51-53% WR, rank 2 of 78, ~113k Emerald+ games) and is no longer an off-meta curiosity. It is a different champion from the Top page: there you are an AP burst mage, here you are a frontline tank whose selling point is clear speed. An optimised Cho clear finishes around 2:36, faster than 95% of junglers, so you are out on the map making plays while other tanks are still farming. Heartsteel turns every gank into permanent health on top of Feast stacks, Boots of Swiftness beat the slows that punish a big slow target, Dead Man's Plate converts that into engage speed, and Force of Nature answers the AP junglers who otherwise kite you. Keep Hail of Blades — the three fast autos are what make the clear, not a trade tool. Swap to the Rocketbelt AP line when the enemy team is mostly squishy and you want to delete a carry rather than soak for yours.",
+      // Research: Added in the 26.18 sweep: Cho'Gath Jungle is S/S+ on live data (51-53% WR, rank 2 of 78, ~113k Emerald+
+      //   games), no longer an off-meta curiosity. An optimised clear around 2:36 is faster than 95% of junglers.
+      coreNote:"Jungle Cho'Gath is a frontline tank built for clear speed, not the Top page's AP burst mage. A clean clear finishes around 2:36, so you are on the map while other tanks farm. Heartsteel adds permanent health every gank on top of Feast, Boots of Swiftness beat the slows that punish a big target, Dead Man's Plate adds engage speed, and Force of Nature answers AP junglers who kite you. Keep Hail of Blades: its fast autos make the clear. Into mostly squishy teams, swap to the Rocketbelt AP line.",
       sideItems:["Thornmail","Jak'Sho, The Protean","Kaenic Rookern","Spirit Visage","Randuin's Omen","Sunfire Aegis","Hollow Radiance"],
       data:{
         JUGGERNAUT:{ahead:[I("Thornmail","Anti-heal lands before their sustain out-scales your HP."),I("Dead Man's Plate","Speed to catch them between waves."),I("Randuin's Omen","Blunt the auto-weave they brawl with.")],behind:[I("Thornmail","Cut the healing before comparing health bars."),I("Jak'Sho, The Protean","Resists ramp across a long brawl."),I("Spirit Visage","Amplify what little sustain you have.")],runes:{...CHOGATH_JGL_DEFAULT_RUNES}},

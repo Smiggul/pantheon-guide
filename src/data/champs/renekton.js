@@ -107,7 +107,8 @@ export default {
           replacements: ["Wukong","Sett","Volibear"],
           role:"Diver / Bruiser (off-meta)",
           corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Spirit Visage",
-          coreNote: "Renekton Jungle is a rare, weak pick (D tier, near-zero pick rate) — playable but clearly worse than his top lane identity. Eclipse gives the early gank burst spike; Black Cleaver shreds through skirmishes; Death's Dance and Spirit Visage sustain through the empowered-W all-in pattern that carries over from top lane.",
+          // Research: A rare, weak pick: D tier, near-zero pick rate.
+          coreNote: "Renekton Jungle is playable but clearly weaker than his top lane. Eclipse gives the early gank burst spike; Black Cleaver shreds through skirmishes; Death's Dance and Spirit Visage sustain through the empowered-W all-in pattern that carries over from top lane.",
           sideItems: ["Plated Steelcaps","Mercury's Treads","Sterak's Gage","Randuin's Omen","Maw of Malmortius","Frozen Heart"],
           data: {
             JUGGERNAUT: {

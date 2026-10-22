@@ -43,7 +43,9 @@ export default {
       bans:["Kayn","Elise","Nocturne"], replacements:["Wukong","Sett","Warwick"],
       role:"Skirmisher / Attack-Speed Snowball",
       corePath:"Kraken Slayer  ›  Gluttonous Greaves  ›  Guinsoo's Rageblade  ›  Experimental Hexplate",
-      coreNote:"Master Yi plays for an untouchable auto-attack snowball — Alpha Strike dodges damage and resets on takedown, Wuju Style adds true damage, and Highlander removes all slows while accelerating everything else. Kraken Slayer's true damage proc and Guinsoo's Rageblade's attack-speed stacking both reward the auto-heavy playstyle; Experimental Hexplate adds burst and haste for more frequent all-ins; Death's Dance lets him commit fully to a fight.",
+      // Research: The original note called Kraken Slayer's proc "true damage"; cut, since it deals bonus physical damage
+      //   (CLAUDE.md 26.20 audit).
+      coreNote:"Master Yi plays for an untouchable auto-attack snowball: Alpha Strike dodges damage and resets on takedown, Wuju Style adds true damage, and Highlander removes all slows while accelerating everything else. Kraken Slayer's proc and Guinsoo's Rageblade's attack-speed stacking both reward the auto-heavy playstyle; Experimental Hexplate adds burst and haste for more frequent all-ins; Death's Dance lets you commit fully to a fight.",
       sideItems:["Death's Dance","Guardian Angel","Mercury's Treads","Wit's End","Sterak's Gage","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Kraken Slayer","The third-hit bonus grows as they drop — pair it with armor pen into armor stacking."),I("Guinsoo's Rageblade","AS stacking wins the sustained trade."),I("Death's Dance","Outlast their sustain with your own.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Gluttonous Greaves","Lifesteal to survive.")],runes:{...MASTERYI_JGL_DEFAULT_RUNES}},

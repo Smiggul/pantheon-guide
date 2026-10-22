@@ -23,7 +23,9 @@ export default {
       bans:["Braum","Vel'Koz","Sona"], replacements:["Nami","Karma","Milio"],
       role:"Enchanter / Peel-Playmaker",
       corePath:"Dream Maker  ›  Ardent Censer  ›  Moonstone Renewer  ›  Redemption",
-      coreNote:"Lulu enables her ADC's damage and denies enemy dive with Whimsy's polymorph. Dream Maker is now the standard rush item — it amplifies shields/heals onto her carry the same way Staff of Flowing Water used to, but with better scaling. Ardent Censer and Moonstone Renewer stack heal/shield power further; Redemption turns teamfights around with a global heal.",
+      // Research: Dream Maker is now the standard rush item: it amplifies shields/heals onto her carry the way Staff of
+      //   Flowing Water used to, with better scaling.
+      coreNote:"Lulu enables her ADC's damage and denies enemy dive with Whimsy's polymorph. Dream Maker first amplifies the shields and heals you put on your carry. Ardent Censer and Moonstone Renewer stack heal and shield power further; Redemption turns teamfights around with a global heal.",
       sideItems:["Mercury's Treads","Staff of Flowing Water","Zeke's Convergence","Shurelya's Battlesong","Chemtech Putrifier","Mikael's Blessing"],
       data:{
         JUGGERNAUT:{ahead:[I("Locket of the Iron Solari","Shield covers the walk-down window."),I("Staff of Flowing Water","Amplify the shield further."),I("Redemption","Global save if they still connect.")],behind:[I("Locket of the Iron Solari","Core defensive value vs their press."),I("Redemption","Offsets chip damage over the lane."),I("Mercury's Treads","Reduce any CC they carry.")],runes:{...LULU_SUP_DEFAULT_RUNES}},

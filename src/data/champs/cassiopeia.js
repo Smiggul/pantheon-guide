@@ -26,7 +26,10 @@ export default {
     Bot:[{
       label:"Rod of Ages scaling", tag:"alt",
       corePath:"Rod of Ages  ›  Boots of Swiftness  ›  Archangel's Staff  ›  Rylai's Crystal Scepter",
-      coreNote:"The minority line on Bot, and the same build as Mid: Rod of Ages first in about a quarter of games, against about half for Blackfire Torch. Rod of Ages adds health, mana and ability power that grow for its first ten minutes, and Archangel's Staff, which follows it in about four games in five, turns into Seraph's Embrace for a mana pool and low-health shield that pay for E spam all game. It is a slower, tankier curve than the double-burn opener and wins slightly less often as a first item (about 49% against 50%), on a small sample.",
+      // Research: The minority line on Bot: Rod of Ages first in about a quarter of games, against about half for
+      //   Blackfire Torch. Archangel's follows it in about four games in five. About 49% against 50% as a first
+      //   item, on a small sample.
+      coreNote:"The Mid build on Bot: Rod of Ages first. It adds health, mana and ability power that grow for its first ten minutes, and Archangel's Staff, which usually follows, turns into Seraph's Embrace for a mana pool and low-health shield that pay for E spam all game. It is a slower, tankier curve than the double-burn opener and wins slightly less often as a first item.",
       runes:{...CASSIOPEIA_DEFAULT_RUNES},
       sideItems:["Zhonya's Hourglass","Blackfire Torch","Liandry's Torment","Rabadon's Deathcap","Void Staff","Banshee's Veil"],
     }],
@@ -36,7 +39,9 @@ export default {
       bans:["Fizz","Zed","Irelia"], replacements:["Vladimir","Ryze","Kassadin"],
       role:"Machine-Gun Poison Battlemage",
       corePath:"Rod of Ages  ›  Boots of Swiftness  ›  Archangel's Staff  ›  Rylai's Crystal Scepter",
-      coreNote:"Cassiopeia is a DPS mage wearing a control mage's clothes: land Q or W poison, then E every half-second until something dies. Rod of Ages gives the HP-mana-AP curve her sustained-fight identity needs, Archangel's into Seraph's solves the E mana bill forever, and Rylai's Crystal Scepter makes every poison tick a slow nothing melee escapes. Boots of Swiftness are her most common boots, about half her games: her passive makes every move-speed bonus stronger on her, so they buy more kiting than they would on anyone else. Zhonya's Hourglass is the usual next item, for the point-blank Petrifying Gaze plays.",
+      // Research: Boots of Swiftness are her most common boots, about half her games. Zhonya's Hourglass is the usual next
+      //   item.
+      coreNote:"Cassiopeia is a DPS mage: land Q or W poison, then E every half-second until something dies. Rod of Ages gives the health-mana-AP curve her long fights need, Archangel's into Seraph's solves the E mana bill, and Rylai's Crystal Scepter makes every poison tick a slow no melee escapes. Take Boots of Swiftness: her passive makes every move-speed bonus stronger on her, so they buy more kiting than on anyone else. Zhonya's Hourglass next, for point-blank Petrifying Gaze plays.",
       sideItems:["Zhonya's Hourglass","Seraph's Embrace","Liandry's Torment","Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon","Sorcerer's Shoes"],
       data:{
         JUGGERNAUT:{ahead:[I("Rylai's Crystal Scepter","Perma-slow poison — they never reach you."),I("Liandry's Torment","Triple DoT scales off their HP bar."),I("Seraph's Embrace","E forever while they walk in place.")],behind:[I("Rylai's Crystal Scepter","Kite the walk-down even from behind."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the fangs honest.")],runes:{...CASSIOPEIA_DEFAULT_RUNES}},
@@ -58,7 +63,12 @@ export default {
       bans:["Draven","Lucian","Caitlyn"], replacements:["Ziggs","Seraphine","Smolder"],
       role:"Lane-Mage Carry (Bot flex)",
       corePath:"Blackfire Torch  ›  Boots of Swiftness  ›  Liandry's Torment  ›  Rylai's Crystal Scepter",
-      coreNote:"Bot Cassiopeia is the mage-ADC flex: same rune page as Mid, but duo-lane support changes the pattern — her W zone plus a catcher or engage support turns bot into a kill lane most ADCs can't answer. Bot now builds differently from Mid. Blackfire Torch is the most common opener, in about half of games, and Liandry's Torment follows it about two thirds of the time: two burn items that tick on every poisoned target, with Blackfire's mana and ability haste covering the E spam. Rylai's Crystal Scepter makes every poison tick a slow, and Zhonya's Hourglass is the usual fourth for point-blank Petrifying Gaze plays. Boots of Swiftness lead her boots here too (about 41%, Sorcerer's Shoes about 31%); her passive makes their move speed stronger on her. The sample is small (about 7,400 games on 26.20), so treat the order as a lean rather than settled. Rod of Ages into Archangel's Staff, the Mid build this guide used to show here, is still about a quarter of games; see the alternate build. The lane risk is real (short range, skillshot-reliant) but the mid-game reward is a carry that melts tanks and towers alike.",
+      // Research: Blackfire Torch is the most common opener, in about half of games, and Liandry's follows it about two
+      //   thirds of the time. Boots of Swiftness lead her boots here too (about 41%, Sorcerer's Shoes about 31%).
+      //   The sample is small (about 7,400 games on 26.20), so the order is a lean rather than settled. Rod of
+      //   Ages into Archangel's Staff, the Mid build this guide used to show here, is still about a quarter of
+      //   games (the alternate build).
+      coreNote:"Bot Cassiopeia runs the Mid page; a catcher or engage support plus her W zone makes bot a kill lane. Build Blackfire Torch into Liandry's Torment: two burns that tick on every poisoned target, with Blackfire's mana and haste paying for E spam. Rylai's makes poison ticks slow, and Zhonya's Hourglass fourth covers point-blank Petrifying Gaze plays. Boots of Swiftness, since her passive strengthens their speed. Short range makes the lane risky, but mid game she melts tanks and towers.",
       sideItems:["Zhonya's Hourglass","Sorcerer's Shoes","Rod of Ages","Archangel's Staff","Rabadon's Deathcap","Void Staff","Banshee's Veil","Bloodletter's Curse"],
       data:{
         JUGGERNAUT:{ahead:[I("Rylai's Crystal Scepter","Perma-slow poison — they never reach you."),I("Liandry's Torment","Triple DoT scales off their HP bar."),I("Seraph's Embrace","E forever while they walk in place.")],behind:[I("Rylai's Crystal Scepter","Kite the walk-down even from behind."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the fangs honest.")],runes:{...CASSIOPEIA_DEFAULT_RUNES}},

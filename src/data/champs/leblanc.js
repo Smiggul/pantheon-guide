@@ -22,7 +22,8 @@ export default {
     Mid:[{
       label:"Hextech Gunblade", tag:"alt",
       corePath:"Hextech Gunblade  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"A Challenger one-trick setup that replaces the standard Luden's rush. Gunblade's active slow is the point: when LeBlanc dives, Ethereal Chains is the spell most likely to miss, and a slowed target almost cannot dodge it, so her catch-and-burst becomes far more consistent. Shadowflame second gives a strong two-item one-shot. Gunblade's 10% omnivamp also lets her heal off waves, which strengthens her side-lane threat in the mid game. It gives no mana, so Manaflow Band stops being optional.",
+      // Research: A Challenger one-trick setup.
+      coreNote:"Replaces the standard Luden's rush. Gunblade's active slow is the point: when LeBlanc dives, Ethereal Chains is the spell most likely to miss, and a slowed target can barely dodge it, so your catch-and-burst becomes far more consistent. Shadowflame second gives a strong two-item one-shot. Gunblade's 10% omnivamp also lets you heal off waves, which strengthens your side-lane threat mid game. It gives no mana, so Manaflow Band stops being optional.",
       runes:{...LEBLANC_MID_DEFAULT_RUNES, secondaryRunes:["Manaflow Band","Transcendence"], reason:"Her standard Electrocute page with Manaflow Band brought into the Sorcery secondary in place of Gathering Storm, because Gunblade gives no mana and the source names Manaflow as essential."},
       sideItems:["Luden's Echo","Zhonya's Hourglass","Void Staff","Banshee's Veil","Mejai's Soulstealer"],
     }],
@@ -32,7 +33,7 @@ export default {
       bans:["Kassadin","Galio","Malzahar"], replacements:["Ahri","Zed","Katarina"],
       role:"Deceiver Burst Assassin-Mage",
       corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"LeBlanc's game is short trades that end before retaliation starts — W in, full combo, W back out. Luden's Echo frontloads the poke burst, Shadowflame executes anyone her chain has already chunked, and Rabadon's Deathcap turns the mid-game pick pattern into true one-shots. Zhonya's Hourglass closes the build for the games where they finally learn to jump the real one.",
+      coreNote:"LeBlanc's game is short trades that end before retaliation starts: W in, full combo, W back out. Luden's Echo frontloads the poke burst, Shadowflame executes anyone your chain has already chunked, and Rabadon's Deathcap turns the mid-game pick pattern into true one-shots. Zhonya's Hourglass closes the build for when they finally learn to jump the real one.",
       sideItems:["Zhonya's Hourglass","Void Staff","Banshee's Veil","Stormsurge","Mejai's Soulstealer","Morellonomicon"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke them out from a range they can't answer."),I("Shadowflame","Flat pen hurts their low-MR frame."),I("Rabadon's Deathcap","Chunk half their HP per rotation.")],behind:[I("Zhonya's Hourglass","Stasis covers the one gap-close they have."),I("Void Staff","Keep burst real once they buy MR."),I("Banshee's Veil","Blocks the pull/engage tool.")],runes:{...LEBLANC_MID_DEFAULT_RUNES}},

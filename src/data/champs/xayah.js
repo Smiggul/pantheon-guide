@@ -22,7 +22,9 @@ export default {
     Bot:[{
       label:"Stormrazor rush", tag:"alt",
       corePath:"Stormrazor  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"A setup several EUW Xayah one-tricks run in place of Yun Tal Wildarrows. Stormrazor has one of the highest win rates of any first item on her, but it opens only about 3% of games, so it is not proven better than Yun Tal. The real difference is timing: Stormrazor is the stronger one-item burst and movement spike, while Yun Tal is the steadier attack-speed and crit item. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Yun Tal with an enchanter who wants a longer game.",
+      // Research: A setup several EUW Xayah one-tricks run. Stormrazor has one of the highest win rates of any first item
+      //   on her, but it opens only about 3% of games.
+      coreNote:"Stormrazor first in place of Yun Tal Wildarrows. Few players open it, so it is not proven better. The real difference is timing: Stormrazor is the stronger one-item burst and movement spike, while Yun Tal is the steadier attack-speed and crit item. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Yun Tal with an enchanter who wants a longer game.",
       runes:{...XAYAH_BOT_DEFAULT_RUNES},
       sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercurial Scimitar"],
     }],
@@ -32,7 +34,10 @@ export default {
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Feather-Root Carry",
       corePath:"Yun Tal Wildarrows  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Xayah plays for a feather-carpeted zone that roots anyone standing on 3+ blades — Bladecaller confirms the root, and Featherstorm both dodges and recalls every feather thrown. Yun Tal Wildarrows is now the standard opener, in nearly three games in four: every attack adds permanent crit chance, and its Flurry attack-speed burst stacks with Deadly Plumage. Navori Flickerblade comes second in most games, its attacks cutting her ability cooldowns so she throws and recalls feathers more often, then Infinity Edge for crit damage; Lord Dominik's Regards is the usual fourth item and shreds the enemy front line. Essence Reaver is the other real opener, at about a fifth of games, when you want mana and ability haste first. Guinsoo's Rageblade, which this guide used to open with, barely appears as a first item.",
+      // Research: Yun Tal is now the standard opener, in nearly three games in four; Navori second in most games; Lord
+      //   Dominik's the usual fourth. Essence Reaver is the other real opener, at about a fifth of games.
+      //   Guinsoo's Rageblade, which this guide used to open with, barely appears as a first item.
+      coreNote:"Xayah roots anyone standing on three or more feathers: Bladecaller confirms the root, and Featherstorm dodges and recalls every feather. Yun Tal Wildarrows first: every attack adds permanent crit chance, and its Flurry stacks with Deadly Plumage. Navori Flickerblade second cuts your cooldowns so you throw and recall feathers more often, then Infinity Edge, and Lord Dominik's Regards fourth to shred the front line. Open Essence Reaver instead for mana and haste first.",
       sideItems:["Berserker's Greaves","Essence Reaver","Guinsoo's Rageblade","Mortal Reminder","Guardian Angel","Bloodthirster","Mercury's Treads","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("Navori Flickerblade","Haste means more root windows."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...XAYAH_BOT_DEFAULT_RUNES}},

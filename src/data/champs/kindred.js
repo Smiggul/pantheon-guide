@@ -23,7 +23,9 @@ export default {
       bans:["Kha'Zix","Rengar","Lee Sin"], replacements:["Warwick","Rek'Sai","Shyvana"],
       role:"Marksman Jungler / Mark-and-Kite",
       corePath:"Kraken Slayer  ›  Plated Steelcaps  ›  The Collector  ›  Lord Dominik's Regards",
-      coreNote:"Kindred plays a hit-and-run kiting pattern — mark a target with E, poke it down, dash away with Q, and let Mounting Dread's bonus damage finish the job. Kraken Slayer's true damage proc rewards the attack-speed-heavy kiting style; Plated Steelcaps blunts early jungle-invade trades; The Collector executes marked targets outright; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
+      // Research: The original note called Kraken Slayer's proc "true damage"; cut, since it deals bonus physical damage
+      //   (CLAUDE.md 26.20 audit).
+      coreNote:"Kindred plays a hit-and-run kiting pattern: mark a target with E, poke it down, dash away with Q, and let Mounting Dread's bonus damage finish the job. Kraken Slayer's proc rewards the attack-speed-heavy kiting style; Plated Steelcaps blunt early jungle-invade trades; The Collector executes marked targets outright; Lord Dominik's Regards keeps damage relevant into tankier late-game targets.",
       sideItems:["Berserker's Greaves","Infinity Edge","Guardian Angel","Bloodthirster","Mercury's Treads","Rapid Firecannon"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacking."),I("Kraken Slayer","The third-hit proc keeps scaling as they drop — add armor pen."),I("The Collector","Execute finishes marked targets.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...KINDRED_JGL_DEFAULT_RUNES}},
