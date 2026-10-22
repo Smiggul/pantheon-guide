@@ -226,7 +226,7 @@ const L = [];
 // summary. The numbers are computed above, which is why the script emits this
 // rather than the workflow (a step cannot read its own outputs).
 if (FROM && TO) {
-  L.push(`Automated patch sweep — bundled Data Dragon assets go from \`${FROM}\` to **\`${TO}\`**, and \`src/data/lcuData.js\` is regenerated.`, "",
+  L.push(`Automated patch sweep — bundled Data Dragon assets go from \`${FROM}\` to **\`${TO}\`**, and the files generated from them are regenerated: \`src/data/lcuData.js\`, \`src/data/champSkins.js\`, \`src/data/abilities.js\` (unless a section below says otherwise), \`public/ddragon/data/sr-items.json\` and \`summonerSpells.json\`.`, "",
     "| | |", "| --- | --- |",
     `| Items changed | ${changed.length} |`,
     `| Champion-roles to review | ${affectedSorted.length} |`,

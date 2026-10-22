@@ -73,7 +73,14 @@ npm run dist:win     # → release/FRGE.GG Setup 0.3.1.exe  +  release/FRGE.GG 0
 
 ```bash
 python helpers/setup_ddragon.py     # pulls the latest Data Dragon assets (incremental)
+node helpers/gen-lcu-data.mjs       # then regenerate what is derived from them,
+node helpers/gen-sr-items.mjs       # all pinned to public/ddragon/version.txt
+node helpers/gen-summoner-spells.mjs
+node helpers/gen-champ-skins.mjs
+node helpers/gen-abilities.mjs
 ```
+
+The scheduled patch workflow (`.github/workflows/patch-update.yml`) runs the same sequence and opens a PR.
 
 ---
 

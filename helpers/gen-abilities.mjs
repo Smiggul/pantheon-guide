@@ -6,7 +6,13 @@
 //  {{ placeholders }}); icons, cooldown and cost come from Data Dragon (pinned
 //  to public/ddragon/version.txt). If Meraki is unreachable for a champion we
 //  fall back to a cleaned Data Dragon tooltip so the entry is never blank.
-//  Run after a patch:  node helpers/gen-abilities.mjs
+//
+//  Meraki is a third party with no per-patch paths: only `latest` exists (a
+//  /resources/16.21.1/ URL 404s), so the TEXT cannot be pinned, only the Data
+//  Dragon numbers can. As of 16.21.1 its newest data is from patch 25.15 and it
+//  has no entry for Locke, Yunara or Zaahen, so recent kit changes show up in
+//  cd/cost/range but not in the prose.
+//  Run after a patch:  node helpers/gen-abilities.mjs  (the patch workflow runs it)
 // ─────────────────────────────────────────────────────────────────────────────
 import fs from "fs";
 import path from "path";
@@ -71,10 +77,15 @@ const KEYS = ["Q", "W", "E", "R"];
 const USE_RIOT_TEXT = new Set(["Cassiopeia.P"]);
 const meraki = (dd, key, arr) => (USE_RIOT_TEXT.has(`${dd}.${key}`) ? null : merakiDesc(arr));
 
-async function fetchJson(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${r.status}`);
-  return r.json();
+// Retries network errors and 5xx; a 4xx (Meraki has no file for the champion)
+// is an answer, not a blip, so it fails at once.
+async function fetchJson(url, tries = 3) {
+  for (let i = 1; ; i++) {
+    let r;
+    try { r = await fetch(url); } catch (e) { if (i >= tries) throw e; continue; }
+    if (r.ok) return r.json();
+    if (r.status < 500 || i >= tries) throw new Error(`${r.status}`);
+  }
 }
 
 async function fetchChamp(dd) {
@@ -104,14 +115,30 @@ async function fetchChamp(dd) {
 
 const map = {};
 let noMeraki = [];
+const failed = [];
 const batch = 8;
 for (let i = 0; i < dds.length; i += batch) {
   const slice = dds.slice(i, i + batch);
   const res = await Promise.allSettled(slice.map(fetchChamp));
   slice.forEach((dd, j) => {
     if (res[j].status === "fulfilled") { map[dd] = res[j].value.out; if (!res[j].value.meraki) noMeraki.push(dd); }
-    else console.error("!!", dd, res[j].reason?.message);
+    else { failed.push(dd); console.error("!!", dd, res[j].reason?.message); }
   });
+}
+
+// Never write a degraded file; keep the previous one. This runs unattended in
+// the patch workflow, where both of these used to pass silently with exit 0:
+//  • a Data Dragon failure dropped the champion from the file outright, and
+//  • a Meraki outage swapped resolved text for stripped tooltips roster-wide.
+// Meraki currently lacks 3 roster champions (see the header). Far more than
+// that falling back at once means Meraki is down or has moved, not that it
+// skipped a few new releases.
+const MAX_MERAKI_FALLBACKS = 10;
+if (failed.length || noMeraki.length > MAX_MERAKI_FALLBACKS) {
+  if (failed.length) console.error(`gen-abilities: Data Dragon failed for ${failed.length} champion(s): ${failed.join(", ")}`);
+  if (noMeraki.length > MAX_MERAKI_FALLBACKS) console.error(`gen-abilities: Meraki had no data for ${noMeraki.length} champions (limit ${MAX_MERAKI_FALLBACKS}): ${noMeraki.join(", ")}`);
+  console.error("gen-abilities: src/data/abilities.js left unchanged.");
+  process.exit(1);
 }
 
 const body = `// ─────────────────────────────────────────────────────────────────────────────
