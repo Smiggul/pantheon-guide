@@ -8,6 +8,7 @@ A League of Legends pre-game itemization and rune guide. Single-page React app (
 - 100% inline styles + src/theme.js for style tokens
 - No CSS framework, no Redux, no external UI libraries
 - Run: `npm run dev` from project root
+- **Working files go on D:, in `.scratch/`** (gitignored): downloads, test scripts, screenshots, research output. Never the C: temp scratchpad; C: is the small system drive (the user, 2026-10-22). Agent worktrees live in `.claude/worktrees/`, also gitignored.
 
 ## Key files
 - `src/App.jsx` — all UI (~1670 lines): helpers, CLASSES, RUNE_TREES, RunePage, panels

@@ -36,3 +36,8 @@ __pycache__/
 
 # taste-skill working files (direction sheet, inspector screenshots, mockups)
 .taste-skill/
+
+# Working files (downloads, test scripts, screenshots). Kept on D: because C: is small.
+.scratch/
+# Agent worktrees
+.claude/worktrees/
