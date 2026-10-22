@@ -7,12 +7,10 @@
 //  DDragon — canonical Riot ids, which the LCU requires). See that file's header.
 // ─────────────────────────────────────────────────────────────────────────────
 import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS, PARTYPE } from "./lcuData.js";
-import { isRanged } from "./matchupAdjust.js";
 import { gamePlan, bootsTimingOf } from "./gamePlan.js";
-import { counterInteractions } from "./abilityInteractions.js";
-import { tagsOf } from "./counterPicker.js";
 import { classOf } from "./champClasses.js";
 import { petFor } from "./junglePets.js";
+import { MATCHUP_STARTS, START_SETS } from "./matchupStarts.js";
 
 // item name -> canonical id (case-insensitive; unknown -> null)
 export const itemId = (name) =>
@@ -34,10 +32,10 @@ const itemBlock = (type, names) => {
   };
 };
 
-// The whole 500 gold of a lane start, as players buy it. Doran's Ring is 400g,
-// so it goes with two Health Potions (Mordekaiser: Ring + 2 Potions in 68.5% of
-// OP.GG 16.21 games); Dark Seal is 350g and goes with a Refillable Potion
-// (Katarina: 33-36%). The 450g starts leave room for one potion.
+// The whole 500 gold of a lane start, for the FALLBACK only (a role the start
+// data does not cover; see dataStartsFor). Doran's Ring is 400g, so it goes with
+// two Health Potions; Dark Seal is 350g and goes with a Refillable Potion. The
+// 450g starts leave room for one potion.
 const startKit = (item) => [
   item,
   item === "Doran's Ring" ? ["Health Potion", 2]
@@ -225,7 +223,10 @@ const PROFILE = {
   TANK:      { start: "Doran's Shield", startLabel: "durable", filler: "Ruby Crystal",    greedy: null },
 };
 
-// ── Doran's Ring without Mana ───────────────────────────────────────────────
+// ── Doran's Ring without Mana (fallback start only) ─────────────────────────
+// Since 2026-10-22 a covered role's start comes from the start data (see
+// dataStartsFor), which already holds both cases below; this table only shapes
+// the PROFILE start, i.e. the fallback for a role the data does not cover.
 // Ring's Drain restores Mana, and "If you can't gain Mana, heal for 45% of this
 // value instead" (Riot 16.21.1). A champion without Mana (PARTYPE: Energy,
 // Shield, Heat, None, ...) still gets its 18 AP and 90 Health, and heals 0.45
@@ -245,47 +246,43 @@ const startFor = (champDd, roleName, prof) =>
   (prof.start === "Doran's Ring" && PARTYPE[champDd] !== "Mana" &&
     MANALESS_START[`${champDd}:${roleName}`]) || prof.start;
 
-// ── Matchup-aware lane start ──────────────────────────────────────────────────────────
-// The PROFILE start above is chosen by who YOU are. Which Doran's to open with
-// also depends on who you are laning against, so once the opponent is known two
-// calls with strong consensus can override it. Both are Top only, and only for
-// a melee champion:
-//   vs a ranged laner         -> Doran's Shield. Riot's own text: "after taking
-//                                damage from a champion, restore Health over 8
-//                                seconds" — built for a lane of being poked.
-//   vs a curated worst matchup -> Doran's Shield, to survive a lane you are not
-//                                going to win — UNLESS you hold an early-phase
-//                                edge on them (a phase:"early" counter
-//                                interaction), because a starter is an early-game
-//                                call. Pantheon into Jax used to be that case; Jax
-//                                is no longer in his bans' data story (2026-10-22).
-//
-// Deliberately NOT driven by the counter engine's matchup score: it rates
-// Pantheon +4 into Gangplank, his #2 curated ban, because GP is melee by auto
-// range while his lane is ranged Q poke. The curated bans are more trustworthy.
-//
-// Mid and Bot are left alone on purpose. Melee mids vs ranged mages split by
-// champion (Yasuo often Shield, Zed and Yone Blade), and every Bot opponent is
-// ranged, so range carries no matchup information there.
-// isRanged (melee vs ranged, with the Gnar/Jayce laning-form exceptions) lives
-// in matchupAdjust.js, which uses the same rule for the matchup proposals.
-
-export function laneStartFor(champDd, roleName, roleData, foe) {
-  if (!foe || roleName !== "Top" || isRanged(champDd)) return null;
-  if (isRanged(foe.dd)) {
-    return { item: "Doran's Shield", label: "ranged: sustain the poke" };
-  }
-  const worst = roleData?.bans || [];
-  if (worst.includes(foe.display)) {
-    // Only an explicitly early edge exempts a worst matchup. Counting whole-game
-    // interactions too was tried on 2026-10-22: it flipped 18 ban matchups across
-    // the roster to the normal start without data behind any of them.
-    const earlyEdge = counterInteractions(champDd, foe.dd, tagsOf(foe.dd))
-      .some((e) => e.phase === "early");
-    if (!earlyEdge) return { item: "Doran's Shield", label: "worst matchup: survive lane" };
-  }
-  return null;
+// ── Lane starts from data ───────────────────────────────────────────────────
+// For Top, Mid and Bot the start is what players actually buy: matchupStarts.js,
+// generated by helpers/gen-matchup-starts.mjs from lolalytics' raw build and
+// matchup pages (Emerald+, 30 days, the Starting Item Sets table, sets exactly as
+// bought: Doran's Ring comes with two Health Potions, Dark Seal with a
+// Refillable Potion). It replaced two rules for melee Top laners on 2026-10-22,
+// "ranged opponent -> Doran's Shield" and "curated worst matchup -> Doran's
+// Shield", which the data contradicted: Pantheon starts Doran's Blade into every
+// opponent checked and wins as much or more with it (into Gangplank, his #2 ban:
+// Blade 79% of games at 49.9% vs Shield 11% at 45.0%). The bans no longer touch
+// the start.
+//   own   the champion-role's most common start, then up to two common
+//         alternatives with a different main item
+//   pair  the most common start against this lane opponent, when the pair is
+//         among the role's most played (300+ games); null otherwise
+// null when the role is not covered. Called for laners only: Jungle keeps its
+// pet + Health Potion start (junglePets.js picks the pet) and Support the World
+// Atlas start (supportStart).
+export function dataStartsFor(champDd, roleName, foeDd = null) {
+  const row = MATCHUP_STARTS[`${champDd}|${roleName}`];
+  const own = (row?.own || []).map(([s]) => START_SETS[s]).filter(Boolean);
+  if (!own.length) return null;
+  const pair = foeDd ? row.vs?.[foeDd] : null;
+  return { own, pair: pair ? START_SETS[pair[0]] || null : null };
 }
+
+// The support start: the role's most common World Atlas set from the data, or
+// World Atlas + 2 Health Potions (what 48 of 49 support roles buy) without it.
+const supportStart = (champDd) => {
+  const own = MATCHUP_STARTS[`${champDd}|Support`]?.own?.[0];
+  const set = own ? START_SETS[own[0]] : null;
+  return set && set.some((n) => n === "World Atlas") ? set : ["World Atlas", ["Health Potion", 2]];
+};
+
+// The items of a start that are not potions or wards: what makes two starts
+// different ("Doran's Ring + 2 Potions" and "Doran's Ring + 1 Potion" are the same).
+const mainOf = (set) => (set || []).map((n) => (Array.isArray(n) ? n[0] : n)).filter((n) => !REBUY.includes(n));
 
 // Support quest line (World Atlas → Runic Compass) finishes into one of these.
 // Pick the one that matches the build, but list them all so the player can swap.
@@ -306,8 +303,9 @@ function supportFinishers(coreNoBoots) {
 //  customItems (optional): a Build Forge set { starter, core, situational } —
 //  when present it replaces the recommended item blocks so the exported/imported
 //  set is exactly what the user forged (runes still come from the rune page).
-//  foe (optional): the lane opponent's champ object, when known. Tailors the
-//  recommended starter (see laneStartFor) and names them in the set title.
+//  foe (optional): the lane opponent's champ object, when known. Picks the
+//  start players buy against them (see dataStartsFor) and names them in the
+//  set title.
 //
 //  champName (optional): the display name for the set title (falls back to the
 //  Data Dragon key, which reads wrong for Wukong: "MonkeyKing").
@@ -323,6 +321,8 @@ function supportFinishers(coreNoBoots) {
 //  opts.mode ("ahead" | "behind") and opts.enemies (DDragon ids of the enemy
 //  team) feed the game plan (gamePlan.js): the Lane / Mid game / Late game
 //  blocks are the same ordered recommendation the app shows.
+//  opts.primaryCorePath: the role's primary corePath when roleData carries an
+//  alternate's, so the start data is only used for an alternate of the same kind.
 export function buildItemSet(champDd, roleName, enemyClass, roleData, customItems = null, foe = null, champName = null, opts = {}) {
   const mode = opts.mode === "ahead" ? "ahead" : "behind";
   const who = champName || champDd;
@@ -362,18 +362,23 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   const pet = roleName === "Jungle" ? petFor(champDd, roleData, null) : null;
   const isSupport = roleName === "Support" && !pet;
   const supFin = isSupport ? supportFinishers(coreNoBoots) : null;
-  // Only meaningful for a laner; null when it would just repeat the standard start.
-  const tailoredRaw = !pet && !isSupport ? laneStartFor(champDd, roleName, roleData, foe) : null;
-  const tailored = tailoredRaw && tailoredRaw.item !== start ? tailoredRaw : null;
-  // When the opponent WAS checked (Top, melee) and the usual start still holds,
-  // the title still names them, so it never looks like it ignored who you are
-  // laning against. Pantheon into Mordekaiser is the case: 88% of Emerald+ games
-  // start Doran's Blade there.
-  const startChecked = !pet && !isSupport && !!foe && roleName === "Top" && !isRanged(champDd);
-  const standardTitle = startChecked && !tailored ? `Start vs ${foe.display}` : "Start";
-  // A reason only when the start CHANGED for the opponent. "Your usual start
-  // holds" was cut as noise (the user, 2026-10-21: "completely unnecessary").
-  const startWhy = tailored ? tailored.label : null;
+  // A laner's start comes from the start data (dataStartsFor). The data mixes
+  // every build players run on the champion-role, so it stands for the primary
+  // build and any alternate of the same kind; an alternate of another kind (Shen
+  // Top's full-AP line, Cho'Gath Top's full-tank line: 6 Top alternates) keeps
+  // the profile start below, as does a role the data does not cover.
+  const primaryCore = opts.primaryCorePath == null ? null
+    : String(opts.primaryCorePath).split("›").map((s) => s.trim()).filter((n) => n && !BOOTS_LOWER.has(n.toLowerCase()));
+  const sameKind = !primaryCore || profileOf(champDd, primaryCore) === profileOf(champDd, coreNoBoots);
+  const data = !pet && !isSupport && sameKind ? dataStartsFor(champDd, roleName, foe?.dd) : null;
+  const kit = (set) => [...set, "Stealth Ward"];
+  // A note only when the start against this opponent differs from the usual
+  // one, naming what it replaces ("Your usual start holds" was cut as noise by
+  // the user on 2026-10-21; the reasons behind a start are not the player's
+  // business, see the player-facing-text skill).
+  const usual = data ? mainOf(data.own[0]) : [];
+  const startWhy = data?.pair && mainOf(data.pair).join() !== usual.join() && usual.length
+    ? `instead of ${usual.join(" + ")}` : null;
   const startBlocks = pet
     ? [
         // Pet (450g) + Health Potion (50g) = exactly the 500g start; Refillable
@@ -385,23 +390,30 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     ? [
         // Support quest item (World Atlas → Runic Compass) + the finished support
         // items it upgrades into — recommended finisher first, then the rest.
-        itemBlock("Start", ["World Atlas", "Health Potion", "Stealth Ward"]),
+        // What goes beside World Atlas comes from the start data: two Health
+        // Potions (the full 500g) in 48 of 49 support roles, 94% of support games;
+        // Yuumi takes a Control Ward. It used to be one potion, 450g.
+        itemBlock("Start", kit(supportStart(champDd))),
         itemBlock("Support item", supFin),
       ]
-    : startChecked
+    : data?.pair
     ? [
-        // The opponent was checked, so there is ONE start, chosen for them: the
-        // tailored one, or the usual one titled with the opponent. Offering
-        // the generic alternatives next to it would undo the decision (the user's
-        // call, 2026-10-21: "only one starter vs Morde, not 3").
-        tailored
-          ? itemBlock(`Start vs ${foe.display}`, startKit(tailored.item))
-          : itemBlock(standardTitle, startKit(start)),
+        // The opponent is known and the pair has data: ONE start, the one players
+        // buy against them. Offering alternatives next to it would undo the
+        // decision (the user's call, 2026-10-21: "only one starter vs Morde, not 3").
+        itemBlock(`Start vs ${foe.display}`, kit(data.pair)),
+      ]
+    : data
+    ? [
+        // No opponent yet, or a pair without enough games: the champion-role's
+        // own most common start, then its common alternatives.
+        itemBlock("Start", kit(data.own[0])),
+        ...data.own.slice(1).map((s) => itemBlock("Start, alt", kit(s))),
       ]
     : [
-        // Nobody to plan against yet (or a lane the start logic does not judge):
-        // each laning start as a complete buy, the standard first, then the swaps.
-        itemBlock(standardTitle, startKit(start)),
+        // Fallback, a role the start data does not cover: the profile start as a
+        // complete buy, then the usual swaps.
+        itemBlock("Start", startKit(start)),
         ...(start !== "Doran's Shield"
           ? [itemBlock("Start vs poke", startKit("Doran's Shield"))]
           : []),
@@ -498,10 +510,11 @@ export function buildExport(champ, roleName, enemyClass, altBuild = null, runesO
       : (data[enemyClass]?.runes || data[Object.keys(data)[0]]?.runes || {}));
   const label = altBuild ? `${champ.display} ${altBuild.label}` : `${champ.display} ${roleName}`;
   const rune = buildRunePayload(runes, `FRGE ${label}`);
-  // Bans fall back to champ level, the same way the Recommended Ban tiles read them.
-  const itemRole = { ...(roleData || {}), bans: roleData?.bans || champ.bans || [] };
-  // notes are for the app; the client gets the item set without them.
-  const { notes, ...itemSet } = buildItemSet(champ.dd, roleName, enemyClass, itemRole, customItems, foe, champ.display, opts);
+  // notes are for the app; the client gets the item set without them. (The
+  // role's bans used to ride along for the start rules; the start data replaced
+  // those on 2026-10-22, so nothing in the item set reads them.)
+  const { notes, ...itemSet } = buildItemSet(champ.dd, roleName, enemyClass, roleData || {}, customItems, foe, champ.display,
+    altBuild ? { ...opts, primaryCorePath: base?.corePath || "" } : opts);
   return {
     champion: champ.display,
     role: roleName,

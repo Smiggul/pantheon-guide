@@ -67,6 +67,14 @@ for (const c of CHAMPS) {
   }
 }
 
+// The data-driven lane starts (matchupStarts.js) are exported as well.
+const { START_SETS, MATCHUP_STARTS } = await import(pathToFileURL(path.join(ROOT, "src", "data", "matchupStarts.js")).href);
+START_SETS.forEach((set, i) => {
+  const at = Object.entries(MATCHUP_STARTS).find(([, r]) =>
+    r.own.some(([s]) => s === i) || Object.values(r.vs).some(([s]) => s === i))?.[0] || "unused";
+  for (const n of set) note(Array.isArray(n) ? n[0] : n, `start set ${i} (${at})`);
+});
+
 // The client export resolves names through lcuData's ITEM_IDS, which
 // gen-lcu-data only fills with names the roster used WHEN IT LAST RAN. A newly
 // recommended item (Yun Tal Wildarrows, on 26.20) passes every other check and

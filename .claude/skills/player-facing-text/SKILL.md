@@ -42,7 +42,7 @@ If not, cut it. If it only explains how or why the app decided something, the ex
 - **Subheadings and block titles: a few words, about 24 characters at most.** The in-game shop cuts long ones off. Use "Start vs Mordekaiser", "First back", "Core", "Boots", "Vs Mordekaiser", "Situational", "Vision".
 - **Top titles** may carry champion, role and opponent: "FRGE.GG — Pantheon Top vs Mordekaiser". Keep the "FRGE.GG" prefix, because `main.cjs` replaces earlier sets by it. Short forms ("Panth vs Morde") are an open idea; ask before adopting one.
 - **Buttons:** 1 to 3 words, naming the action ("Import matchup build", "Full guide").
-- **Notes and warnings:** one short clause, and only when there is something to act on. For example, "Ranged: sustain the poke" when the start switched to Doran's Shield.
+- **Notes and warnings:** one short clause, and only when there is something to act on. For example, "Instead of Doran's Ring" when the start against this opponent differs from the champion's usual one (Mordekaiser into Teemo opens Doran's Shield).
 - **Tooltips:** one line that says what clicking does, not how the feature works.
 - **Long text** (coreNote, playTips) sits behind "Read all" or a tap. It is still about playing the champion, never about how the build was researched.
 

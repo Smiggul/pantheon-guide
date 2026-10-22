@@ -7,6 +7,7 @@
 //  the recommendation and the import always agree.
 // ─────────────────────────────────────────────────────────────────────────────
 import { classOf } from "./champClasses.js";
+import { JUNGLE_PETS } from "./matchupStarts.js";
 
 export const PET_INFO = {
   "Scorchclaw Pup": {
@@ -27,12 +28,18 @@ const SCORCH = "Scorchclaw Pup";     // aggressive early — duelists, gankers, 
 const MOSS   = "Mosstomper Seedling"; // durability — tanks, juggernauts, weak-early scalers
 const GUST   = "Gustwalker Hatchling"; // mobility — kite/roam AP, tempo gankers
 
-// Curated pet per jungle champion (DDragon id). Pet choice is playstyle-driven —
-// stats sites don't publish granular pet pick rates, so this is grounded in the
-// meta framework (patch 26.14–26.15): Scorchclaw for aggressive early 1v1s,
-// Mosstomper for durability/scaling frontline, Gustwalker for mobility/kite/roam.
-// A champ file's own `pet` still overrides this (e.g. Briar). Keep the DD keys
-// exact — Wukong is "MonkeyKing", Kha'Zix "Khazix", Bel'Veth "Belveth", etc.
+// Curated pet per jungle champion (DDragon id), grounded in the meta framework
+// (patch 26.14–26.15): Scorchclaw for aggressive early 1v1s, Mosstomper for
+// durability/scaling frontline, Gustwalker for mobility/kite/roam. It was
+// written on the belief that stats sites publish no pet pick rates; they do, in
+// their Starting Item Sets, and on 2026-10-22 (lolalytics, Emerald+, 30 days)
+// 33 of 62 junglers' games mostly start another pet (Zyra Scorchclaw 91% vs
+// Gustwalker 8%, Rengar Gustwalker 89%, Karthus Scorchclaw 83%). So the data
+// (JUNGLE_PETS in matchupStarts.js, npm run gen:starts) wins where a majority
+// of the jungler's games pick one pet; this map stays for near splits (Kayn,
+// Viego, Shen) and junglers without data. A champ file's own `pet` still
+// overrides both (e.g. Briar). Keep the DD keys exact — Wukong is "MonkeyKing",
+// Kha'Zix "Khazix", Bel'Veth "Belveth", etc.
 const PET_BY_CHAMP = {
   // ── Scorchclaw — aggressive early damage / duel / assassinate ──
   Pantheon: SCORCH, Renekton: SCORCH, MonkeyKing: SCORCH, RekSai: SCORCH, Warwick: SCORCH,
@@ -58,9 +65,15 @@ const PET_BY_CLASS = {
   MARKSMAN: GUST, ENCHANTER: GUST, CATCHER: GUST, SPECIALIST: GUST,
 };
 
+// The pet a majority of the jungler's games start with, or null.
+const dataPet = (champDd) => {
+  const d = JUNGLE_PETS[champDd];
+  return d && d[1] >= 50 && PET_INFO[d[0]] ? d[0] : null;
+};
+
 // champDd: DDragon id; roleData: the Jungle role block; alt: the selected alt
-// build. Precedence: alt build's pet › role's own pet › curated per-champ pick ›
-// class fallback › Gustwalker.
+// build. Precedence: alt build's pet › role's own pet › the data's majority pet ›
+// curated per-champ pick › class fallback › Gustwalker.
 export const petFor = (champDd, roleData, alt) =>
-  (alt && alt.pet) || (roleData && roleData.pet) ||
+  (alt && alt.pet) || (roleData && roleData.pet) || dataPet(champDd) ||
   PET_BY_CHAMP[champDd] || PET_BY_CLASS[classOf(champDd)] || GUST;

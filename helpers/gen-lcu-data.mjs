@@ -88,6 +88,15 @@ for (const c of mod.CHAMPS) {
  "World Atlas","Runic Compass","Bloodsong","Solstice Sleigh","Celestial Opposition",
  "Dream Maker","Zaz'Zak's Realmspike"].forEach((n) => used.add(n));
 
+// The lane starts players actually buy (src/data/matchupStarts.js, written by
+// npm run gen:starts) name items no corePath does: Long Sword, Cull, Tear of the
+// Goddess, Doran's Bow, ... Read straight from the file so a regenerated start
+// set can never be dropped from the export for want of an id.
+if (fs.existsSync("src/data/matchupStarts.js")) {
+  const { START_SETS } = await import(pathToFileURL("src/data/matchupStarts.js").href);
+  for (const set of START_SETS) for (const n of set) used.add(Array.isArray(n) ? n[0] : n);
+}
+
 // First-back = the ~1000g building block of the first core item. Take the
 // priciest component within budget; if a component is over budget (e.g. The
 // Brutalizer 1337 under Voltaic Cyclosword), descend into it so we land on the
