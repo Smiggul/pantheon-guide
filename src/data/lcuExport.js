@@ -425,6 +425,13 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
   // minutes (or finish them before item 1); elsewhere they come after item 1.
   const t1Boots = !timing.none && (timing.t1 || timing.first) ? "Boots" : null;
   const phaseBlocks = (plan?.phases || []).map((p) => itemBlock(p.title, p.items.map((e) => e.name)));
+  // The long lists are trimmed (the user's call, 2026-10-22). Other boots: only
+  // the real alternatives, at most two: the champion-role's most common pair when
+  // the plan took another, and the other resist boots, the usual mid-game swap.
+  const planBoots = (plan?.phases || []).flatMap((p) => p.items).find((e) => e.tag === "boots")?.name || boots;
+  const otherBoots = [timing.data?.pair, "Plated Steelcaps", "Mercury's Treads"]
+    .filter((n, i, a) => n && n !== planBoots && a.indexOf(n) === i).slice(0, 2);
+  const SITUATIONAL_MAX = 5;   // its order already puts the plan's spill-over first
   const blocks = onceEach([
     ...startBlocks,
     // First back: ~900-1300g. The first core item's real building block, a
@@ -434,10 +441,10 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
       ? [supFin[0], t1Boots, "Control Ward"]
       : [firstBack, prof.filler, prof.greedy, t1Boots, "Control Ward"]),
     ...phaseBlocks,
-    ...(timing.none && !boots ? [] : [itemBlock("Other boots", [boots, ...BOOTS])]),
+    ...(timing.none && !boots ? [] : [itemBlock("Other boots", otherBoots)]),
     itemBlock("Situational", [...(plan?.extra || []), ...classList, ...situational]),
     itemBlock("Vision", ["Control Ward", "Stealth Ward", "Farsight Alteration", "Oracle Lens"]),
-  ]);
+  ]).map((b) => (b.type === "Situational" ? { ...b, items: b.items.slice(0, SITUATIONAL_MAX) } : b));
 
   const key = CHAMP_KEYS[champDd];
   return {
