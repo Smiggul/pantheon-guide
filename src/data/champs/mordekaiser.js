@@ -18,15 +18,27 @@ export default {
   id:"mordekaiser", display:"Mordekaiser", dd:"Mordekaiser",
   color:"#2a3a2a", glow:"#70c080",
   lanes:["Top","Jungle"],
-  // NOTE: AD/bruiser Morde is NOT viable in 26.14 (AP-only). This alt is the
-  // high-WR aggressive-AP line, distinct from the standard Rylai's/Liandry's path.
+  // NOTE: AD/bruiser Morde is not played (AP only). The Top alternate is the
+  // Riftmaker into Dusk and Dawn line, which skips Rylai's Crystal Scepter.
   altBuilds:{
     Top: [{
-      label: "Dusk & Dawn AP",
+      label: "Dusk and Dawn spellblade",
       tag: "alt",
-      corePath: "Rylai's Crystal Scepter  ›  Plated Steelcaps  ›  Riftmaker  ›  Liandry's Torment",
-      // Research: The highest-win-rate Morde line on Mobalytics 26.14 (60.1% over ~1.5k games).
-      coreNote: "More aggressive than the standard Rylai's and Liandry's tank-mage line. Dusk and Dawn's alternating on-hit and move speed lets you chase inside the Death Realm, Riftmaker turns the long duel into omnivamp true damage, and Experimental Hexplate speeds up and empowers Realm of Death, so you ult more often and hit harder inside it. Spirit Visage amplifies the whole sustain package. Same Conqueror plan, tuned for tempo and ult uptime rather than raw kiting.",
+      corePath: "Riftmaker  ›  Plated Steelcaps  ›  Dusk and Dawn  ›  Hextech Rocketbelt",
+      // Research (lolalytics build-itemset, Emerald+ Top, 16.20, ~144k games; 16.21 has ~10k and agrees):
+      //   Dusk and Dawn is rarely the FIRST item (3.7%), but it is in the first three items of 14.7% of games
+      //   that reach three (OP.GG 16.20: bought in 14.8% of games), almost always beside Riftmaker. The usual
+      //   order is Riftmaker > Dusk and Dawn (4.4% of first-two pairs, 5.6k games), ahead of Rylai's > Dusk
+      //   and Dusk > Riftmaker (1.9% each). Third item after Riftmaker > Dusk: Hextech Rocketbelt 28%,
+      //   Experimental Hexplate 24%, Zhonya's 15% (16.21: Hexplate 24% and Rocketbelt 24%, 251 games).
+      //   Boots: Plated Steelcaps 72%, Mercury's 21%, mostly bought after the first item.
+      //   Runes: Conqueror is 97.9% of Mordekaiser Top games, so this line runs the Most Common page
+      //   (Conqueror/Triumph/Legend: Haste/Last Stand, Revitalize + Bone Plating, Attack Speed shard).
+      //   Win rate at equal item counts, Riftmaker > Dusk vs Rylai's > Riftmaker: 54.7% vs 46.8% at two
+      //   items, 60.0% vs 57.2% at three, 59.9% vs 59.6% at four (five: 192 games, too few).
+      //   The old alternate here repeated the main corePath with no Dusk and Dawn at all; its note
+      //   (Mobalytics 26.14, 60.1%) also claimed move speed and true damage the items do not give.
+      coreNote: "After every Q or E, land an auto: Dusk and Dawn heals you and applies your passive's on-hit damage twice. Rocketbelt catches kiters; swap it for Experimental Hexplate to ult more often, or Zhonya's Hourglass into burst. It is strongest at two items, so force fights then.",
       runes: {
         keystone: "Conqueror",
         primary: "Precision",
@@ -34,9 +46,9 @@ export default {
         secondary: "Resolve",
         secondaryRunes: ["Bone Plating", "Revitalize"],
         shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
-        reason: "Conqueror stacks fully inside one Death Realm duel and converts to healing off his passive; Legend: Haste feeds the ability spam Experimental Hexplate accelerates, Last Stand rewards the low-HP realm brawls, and Bone Plating + Revitalize survive the trades and amplify the Riftmaker/Spirit Visage sustain.",
+        reason: "Conqueror heals you once it fills in a Death Realm duel. Take the Attack Speed shard for the autos between spells.",
       },
-      sideItems: ["Spirit Visage", "Zhonya's Hourglass", "Rylai's Crystal Scepter", "Liandry's Torment", "Kaenic Rookern", "Thornmail"],
+      sideItems: ["Experimental Hexplate", "Zhonya's Hourglass", "Spirit Visage", "Randuin's Omen", "Thornmail", "Rylai's Crystal Scepter"],
     }],
   },
   roles:{
