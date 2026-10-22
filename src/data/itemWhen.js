@@ -83,6 +83,7 @@ export const ITEM_WHEN = {
   "Oblivion Orb":              "early vs healing",
   "Overlord's Bloodmail":      "when you stack health",
   "Phantom Dancer":            "vs dive",
+  "Plated Steelcaps":          "vs auto-attacks and AD",
   "Profane Hydra":             "for burst and waveclear",
   "Protoplasm Harness":        "when you get focused",
   "Rabadon's Deathcap":        "when you already have AP",

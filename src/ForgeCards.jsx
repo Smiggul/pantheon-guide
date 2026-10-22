@@ -48,7 +48,8 @@ function ItemIcon({ id, name, size, tag, count, hover }) {
   return (
     <span title={hover ? undefined : name} {...(hover ? hover(name) : {})}
       style={{ width: size, height: size, borderRadius: T.radiusIcon, position: "relative", flex: "none",
-        background: T.raised, outline: ring ? `2px solid ${ring}` : "none", outlineOffset: "1px", display: "block" }}>
+        background: !src || bad ? T.raised : "transparent",   // a placeholder only when the art is missing
+        outline: ring ? `2px solid ${ring}` : "none", outlineOffset: "1px", display: "block" }}>
       {src && !bad && (
         <img src={src} alt={name || ""} draggable={false} onError={() => setBad(true)}
           style={{ width: size, height: size, borderRadius: T.radiusIcon, display: "block" }} />

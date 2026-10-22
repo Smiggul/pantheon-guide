@@ -1921,7 +1921,9 @@ useEffect(() => {
             fontSize:"13px", fontWeight:600 }}>Jungle</span>
         </button>
       )}
-      {view === "build" && (
+      {/* Mounted for the Jungle role (so it keeps its slide-in) or when opened
+          from the top bar; off-canvas it was still in every page's DOM. */}
+      {view === "build" && (currentRole === "Jungle" || jungleOpen) && (
         <JunglePanel S={S} champDd={champ.dd} champName={champ.display}
           open={jungleOpen} onClose={() => setJungleOpen(false)} />
       )}
@@ -2486,8 +2488,9 @@ useEffect(() => {
           page, skills and spells, and the situational items beside or below it.
           The 13 class tiles moved to How to Play ("Vs each class"), the ban /
           replacement / synergy tiles to Draft Coach and the champ-select bar,
-          and the long "why" text to How to Play. */}
-      {(() => {
+          and the long "why" text to How to Play. Not rendered under the
+          in-game view, which covers it completely. */}
+      {!inGameViewOn && (() => {
         const notes = shownExp.notes || {};
         const blocks = shownExp.itemSet?.blocks || [];
         const sitBlock = blocks.find((b) => b.type === "Situational");
