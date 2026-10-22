@@ -12,6 +12,9 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Changed
+- **Ability descriptions match the live patch.** How to Play now shows Riot's own tooltip text for the bundled patch, numbers included, for all 173 champions. The old source had stopped a year of patches back, so reworked kits read as they used to (Cassiopeia's passive still forbade boots) and Locke, Yunara and Zaahen had no numbers at all.
+
 ## [0.17.0] — 2026-09-04
 
 ### Added
