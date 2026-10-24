@@ -3,12 +3,9 @@ import { createPortal } from "react-dom";
 import { CHAMPS } from "./data/champs/index.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
 import { DD_OVERRIDES, toDD, toDDKey } from "./data/ddOverrides.js";
-import { matchup, bestCountersVs, bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { buildExport } from "./data/lcuExport.js";
 import { CHAMP_KEYS, DDRAGON_VERSION, ITEM_IDS } from "./data/lcuData.js";
 import { classOf } from "./data/champClasses.js";
-import { counterCategoryOf } from "./data/itemCounters.js";
-import { PET_INFO, petFor } from "./data/junglePets.js";
 import { skillOrderOf, skillSequenceOf, NO_ULT } from "./data/skillOrders.js";
 import { encodeBuild, decodeBuild } from "./data/buildCodec.js";
 import TierList from "./TierList.jsx";
@@ -20,11 +17,14 @@ import InGameView from "./InGameView.jsx";
 import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
-import { gamePlan, orderCore as orderCoreFor, placeBoots, bootsTimingOf } from "./data/gamePlan.js";
+import { gamePlan } from "./data/gamePlan.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
 import { samplePaletteFromUrl } from "./data/samplePalette.js";
+import { inGame as T } from "./theme.js";
+import { Seg, ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding } from "./ForgeCards.jsx";
+import { champColours, layoutOf, LANE, card as cardStyle, h2 as h2Style, head as headStyle, textBtn } from "./forgeStyle.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
 const KEY_TO_DD = {};            // riot numeric key -> DDragon id
@@ -56,22 +56,19 @@ const THEMES = [
 ];
 const THEME_IDS = new Set(THEMES.map((t) => t.id));
 // Settings popout tabs (kept intentionally simple — see the roadmap for the
-// deeper vision). Order matches the top tab bar.
+// deeper vision). Order matches the top tab bar. The Display tab (the theme
+// picker) is hidden while Forge is the only active look (the 2026-10-22
+// redesign); proper theme switching comes back later, so THEMES and loadTheme
+// stay for that.
 const SETTINGS_TABS = [
-  { id: "display",      label: "Display" },
   { id: "general",      label: "General" },
   { id: "integrations", label: "Integrations" },
   { id: "account",      label: "Account" },
 ];
+// eslint-disable-next-line no-unused-vars
 const loadTheme = () => {
   try { const t = localStorage.getItem("frge-theme"); if (t && THEME_IDS.has(t)) return t; } catch { /* ignore */ }
   return "forge";
-};
-// Skill-order layout preference: "grid" (u.gg ability × level matrix) or
-// "strip" (single Pantheon-style level row). Persisted like the theme.
-const loadSkillView = () => {
-  try { const v = localStorage.getItem("frge-skillview"); if (v === "grid" || v === "strip") return v; } catch { /* ignore */ }
-  return "grid";
 };
 
 // Master switch for the ad zones. Off until a real ad network is wired up —
@@ -224,7 +221,6 @@ const IC = {
   "Wit's End":"#40e0d0","Sorcerer's Shoes":"#7986cb",
   "Boots of Swiftness":"#80cbc4",
 };
-const ic = (n) => IC[n] || "#aaaaaa";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  ENEMY CLASSES
@@ -457,26 +453,39 @@ export default function App() {
       return next;
     });
   };
-  const [activeRole,   setActiveRole]   = useState(null); 
-  const [openClass,    setOpenClass]    = useState(null);
+  const [activeRole,   setActiveRole]   = useState(null);
+  // The enemy class follows the lane opponent (the 13 class tiles left the build
+  // page in the 2026-10-22 redesign; browsing a class lives in How to Play).
+  // classPick only carries the class of a decoded build code.
+  const [classPick,    setClassPick]    = useState(null);
   const [mode,         setMode]         = useState("behind");
   const [imgErr,       setImgErr]       = useState({});
-  const [showCore,     setShowCore]     = useState(false);
   const [altBuildIdx,  setAltBuildIdx]  = useState(-1); // -1 = primary build; 0+ = ALT_BUILDS index
   // Display name of the lane opponent, for per-enemy rune pages. Set from the
-  // champ-select opponent further down (see csOppDisplay); declared here because
-  // the rune recommendation below is computed before that state exists.
+  // champ-select opponent, or the header's "vs" picker outside champ select,
+  // further down (see foeDisplayNow); declared here because the rune
+  // recommendation below is computed before that state exists.
   const [matchupFoe,   setMatchupFoe]   = useState(null);
   const foeChamp = matchupFoe ? CHAMPS.find((c) => c.display === matchupFoe) || null : null;
-  // Track window width so the items|runes workspace can stack to one column on
-  // narrow/half-screen windows (side-by-side squeezes the fixed-size rune page).
+  const openClass = (foeChamp && classOf(foeChamp.dd)) || classPick;
+  // The header's "vs" picker (outside champ select only; in champ select the
+  // Enemy team panel is the one place the opponent is chosen). DDragon id.
+  const [vsPick, setVsPick] = useState(null);
+  const [vsOpen, setVsOpen] = useState(false);
+  const [vsQuery, setVsQuery] = useState("");
+  const [runeEditorOpen, setRuneEditorOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);       // section links, docked
+  // Track window width: the build page lays out wide (>= 1200), docked beside
+  // League (641-1199) or as one column.
   const [winW, setWinW] = useState(typeof window !== "undefined" ? window.innerWidth : 1440);
   useEffect(() => {
     const onResize = () => setWinW(window.innerWidth);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-  const narrowWorkspace = winW < 1080;
+  const L = layoutOf(winW);
+  const wideL = L === "wide";
+  const gutter = wideL ? 32 : 16;
 
   // ── Ads / VIP ───────────────────────────────────────────────────────────
   // isVip will come from the account system later (see CLAUDE.md roadmap);
@@ -485,30 +494,28 @@ export default function App() {
   const [adBottomOpen, setAdBottomOpen] = useState(true);
 
   // ── Theme + Settings ────────────────────────────────────────────────────
-  const [frgeTheme, setFrgeTheme] = useState(loadTheme);
+  // Forge is the only active look for now (the owner, 2026-10-22). The theme
+  // code stays (THEMES, loadTheme, the CSS per theme) for when switching
+  // returns; a saved choice in localStorage is left untouched for that day.
+  const frgeTheme = "forge";
   // Forge skin backdrop: pick a random splash-bearing skin per champion, re-rolled
   // whenever the selected champion changes.
   const [skinRoll, setSkinRoll] = useState(() => randomSkinNum(champ.dd));
   useEffect(() => { setSkinRoll(randomSkinNum(champ.dd)); }, [champ.dd]);
   const [view, setView] = useState("build");                 // "build" | "tiers"
   const [jungleOpen, setJungleOpen] = useState(false);        // right-side Jungle Coach drawer
-  const [skillView, setSkillView] = useState(loadSkillView); // "grid" | "strip"
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [acctInfo, setAcctInfo] = useState(false); // account "coming soon" note
   const [startupOn, setStartupOn] = useState(false); // launch-on-startup (desktop)
   useEffect(() => {
     document.documentElement.setAttribute("data-frge-theme", frgeTheme);
-    try { localStorage.setItem("frge-theme", frgeTheme); } catch { /* ignore */ }
   }, [frgeTheme]);
-  useEffect(() => {
-    try { localStorage.setItem("frge-skillview", skillView); } catch { /* ignore */ }
-  }, [skillView]);
   // Reflect the actual OS login-item state (desktop only).
   useEffect(() => {
     if (typeof window === "undefined" || !window.frge?.getStartup) return;
     window.frge.getStartup().then((v) => setStartupOn(!!v)).catch(() => {});
   }, []);
-  const [settingsTab, setSettingsTab] = useState("display");
+  const [settingsTab, setSettingsTab] = useState("general");
   // ── Auto-update status (desktop) ──
   const [update, setUpdate] = useState(null); // { state, version, percent, message }
   const [appVersion, setAppVersion] = useState(null);
@@ -531,21 +538,7 @@ export default function App() {
     : update?.state === "downloaded" ? "Downloaded — restart to apply"
     : update?.state === "error"      ? "Update check failed"
     : "Up to date";
-  // Small champion portrait for the live matchup readout.
-  const csChampIcon = (dd, ring) => {
-    const ek = `csico-${dd}`;
-    const src = champImg(dd);
-    return (
-      <span style={{ width:"22px", height:"22px", borderRadius:"5px", overflow:"hidden",
-        border:`1.5px solid ${ring}66`, background:"#1B1B1E", flexShrink:0,
-        display:"inline-flex", alignItems:"center", justifyContent:"center", verticalAlign:"middle" }}>
-        {src && !imgFail(ek)
-          ? <img src={src} alt="" onError={() => onErr(ek)}
-              style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-          : null}
-      </span>
-    );
-  };
+  // (The champ-select readout's portraits are drawn in the champ-select strip.)
   const toggleStartup = async () => {
     if (!window.frge?.setStartup) return;
     const next = !startupOn;
@@ -582,8 +575,8 @@ export default function App() {
   // Only show the side rails when the empty gutter beside the centred content
   // is genuinely wide enough — otherwise they'd cover the app.
   const contentW = Math.min(winW * 0.96, 1900);
-  const gutter = (winW - contentW) / 2;
-  const showSideAds = showAds && gutter >= 176;
+  const adGutter = (winW - contentW) / 2;
+  const showSideAds = showAds && adGutter >= 176;
   // Lane selector state: null = show lane buttons, string = show champs for that lane
   const [showPicker,      setShowPicker]      = useState(false);
   const [champSearch,     setChampSearch]     = useState("");
@@ -609,8 +602,6 @@ export default function App() {
     const showTip = (title, body, e) => setTip({ title, body, x: e.clientX, y: e.clientY });
     const trackTip = (e) => { const { clientX: x, clientY: y } = e; setTip(t => t ? { ...t, x, y } : null); };
     const hideTip = () => setTip(null);
-    const itemTip = (name, e, fallback = "Situational pickup — buy it when the enemy comp calls for it.") =>
-      showTip(name, ITEM_RATIONALE[name] || fallback, e);
 
 useEffect(() => {
   // Full item.json → name→ID map. This must stay complete so ANY corePath item
@@ -689,9 +680,6 @@ useEffect(() => {
   const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
   const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
-  // Jungle companion (smite pet) for the current build — only in the Jungle role.
-  const buildPet = currentRole === "Jungle"
-    ? petFor(champ.dd, activeChampRole, activeAlt) : null;
   // Ability max-priority order (R implied at 6/11/16). null → hide the row.
   const buildSkillOrder = skillOrderOf(champ.dd, activeChampRole, activeAlt);
   const buildNoUlt = NO_ULT.has(champ.dd); // Udyr — 4 stances, no 6/11/16 ult
@@ -703,7 +691,9 @@ useEffect(() => {
     const s = spellFor(letter);
     if (s) showTip(`${letter} · ${s.name}`, s.description, e);
   };
-  const abilMove = trackTip;
+  // Hover handlers for the skill keys and item icons on the build page cards.
+  const keyHover = (k) => ({ onMouseEnter: (e) => abilEnter(k, e), onMouseMove: trackTip, onMouseLeave: hideTip });
+  const itemHover = (name) => ({ onMouseEnter: (e) => showTip(name, ITEM_RATIONALE[name] || "", e), onMouseMove: trackTip, onMouseLeave: hideTip });
 
   // ── Live rune page (lifted out of RunePage so it's the single source of truth
   //    for BOTH the always-visible editable page AND what gets imported) ────────
@@ -732,6 +722,15 @@ useEffect(() => {
   // Holds runes from an imported build code so they survive the reset effect
   // that fires when importBuild() switches champ/role/class.
   const pendingRunesRef = useRef(null);
+  // The recommended page as an editable selection (also the editor's "Reset").
+  const pageFrom = (r) => (r ? {
+    primary:        r.primary || "Precision",
+    keystone:       r.keystone || "",
+    primaryRunes:   r.primaryRunes   ? [...r.primaryRunes]   : [null, null, null],
+    secondary:      r.secondary || "",
+    secondaryRunes: r.secondaryRunes ? [...r.secondaryRunes] : [],
+    shards:         r.shards         ? [...r.shards]         : [null, null, null],
+  } : EMPTY_RUNES);
   // Reset the editable page to the recommendation whenever the matchup changes.
   useEffect(() => {
     if (pendingRunesRef.current) {           // an import just navigated us here
@@ -739,15 +738,7 @@ useEffect(() => {
       pendingRunesRef.current = null;
       return;
     }
-    const r = recommendedRunes;
-    setRuneSel(r ? {
-      primary:        r.primary || "Precision",
-      keystone:       r.keystone || "",
-      primaryRunes:   r.primaryRunes   ? [...r.primaryRunes]   : [null, null, null],
-      secondary:      r.secondary || "",
-      secondaryRunes: r.secondaryRunes ? [...r.secondaryRunes] : [],
-      shards:         r.shards         ? [...r.shards]         : [null, null, null],
-    } : EMPTY_RUNES);
+    setRuneSel(pageFrom(recommendedRunes));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [champ.id, currentRole, openClass, altBuildIdx, appliedMatchup]);
 
@@ -840,7 +831,7 @@ useEffect(() => {
     pickChamp(target);
     setActiveRole((b.role && target.roles?.[b.role]) ? b.role
       : (target.roles ? Object.keys(target.roles)[0] : null));
-    setOpenClass(b.enemyClass || null);
+    setClassPick(b.enemyClass || null);
     if (b.items && typeof b.items === "object") {
       setForgeItems({ starter: b.items.starter || [], core: b.items.core || [], boots: (b.items.boots || []).slice(0, 1), situational: b.items.situational || [] });
       setForgeOpen(true);
@@ -1053,13 +1044,9 @@ useEffect(() => {
         setChamp((prev) => (prev.id === target.id ? prev : target));
         const resolvedRole = roleForPosition(target, data.assignedPosition);
         setActiveRole(resolvedRole);
-        // Auto-match the lane opponent's class. A manual pick WINS over the
-        // guess here — this runs on every poll (~1.5s), so without the override
-        // the user's choice would be overwritten a second after they made it.
-        const oppDd = oppOverrideRef.current
-          || opponentDd(data.theirTeam, data.assignedPosition, resolvedRole);
-        const oc = oppDd ? classOf(oppDd) : null;
-        if (oc) setOpenClass(oc);
+        // The enemy class follows the lane opponent on its own (openClass is
+        // derived from it), and a manual pick in the Enemy team panel wins
+        // over the guess there (csOppDd), so nothing is set here.
       }
     });
     return unsub;
@@ -1071,8 +1058,7 @@ useEffect(() => {
   const pickChamp = (c) => {
     setChamp(c);
     setActiveRole(c.roles ? Object.keys(c.roles)[0] : null);
-    setOpenClass(null);
-    setShowCore(false);
+    setClassPick(null);
     setShowPicker(false);       // close the floating picker
     setChampSearch("");         // reset search
     setChampRoleFilter("All");  // reset filter
@@ -1107,36 +1093,10 @@ useEffect(() => {
     } catch (e) { setCsMsg(`Ban failed: ${e.message}`); }
   };
 
-  const classEntry = openClass ? CLASSES[openClass] : null;
-  // Filter out the currently selected champion from the opponent list
-  const classItems = openClass
-  ? (activeChampRole.data?.[openClass]?.[mode]
-     || champ.data?.[openClass]?.[mode]
-     || [])
-  : [];
-  const classChamps = classEntry
-    ? classEntry.champions.filter(c => c !== champ.display)
-    : [];
-
-  // "Survive & Scale" (behind) mode moves the first defensive item up to item
-  // 2; Ahead keeps the authored, damage-forward order. The boots sit where this
-  // champion-role finishes them (before item 1 for Garen, Darius, Yone...; after
-  // it for most). Both rules live in gamePlan.js, so the build card and the
-  // game plan / exported item set cannot disagree.
-  const bootsTiming = bootsTimingOf(champ.dd, currentRole);
-  const orderCore = (items) => placeBoots(orderCoreFor(items, mode), bootsTiming);
-  // Once the Build Forge holds core/boots items it IS the core build path — it
-  // replaces the recommended path and takes precedence over the Ahead/Behind
-  // reorder, so the toggle can never override the user's authored build.
-  const forgeCore = (() => {
-    const core = [...(forgeItems.core || [])];
-    if (forgeItems.boots?.length) core.splice(Math.min(1, core.length), 0, forgeItems.boots[0]);
-    return core;
-  })();
-  const buildLocked = forgeCore.length > 0;                 // user's forge drives the core
-  const coreArrow = buildLocked
-    ? forgeCore
-    : orderCore(buildCorePath.split("›").map(s => s.trim()));
+  // Once the Build Forge holds core/boots items it IS the item set — the export
+  // replaces the recommended blocks with it, so the Ahead / Even-Behind switch
+  // (which only reorders the recommended plan) is disabled while it does.
+  const buildLocked = (forgeItems.core?.length || 0) + (forgeItems.boots?.length || 0) > 0;
 
   // ── Colour helpers ────────────────────────────────────────────────────────
   // Shared style tokens. The accent trio is THEME-DEPENDENT: ~120 inline styles
@@ -1154,83 +1114,7 @@ useEffect(() => {
   };
 
 
-  // ── Reusable: portrait chip ───────────────────────────────────────────────
-  const ChampChip = ({ name, size = 56 }) => {
-    const ek = `chip-${name}`;
-    return (
-      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"5px" }}>
-        <div style={{
-          width:size, height:size, borderRadius:"8px", overflow:"hidden",
-          border:`1.5px solid rgba(255,255,255,.14)`,
-          background:"#2A2F38",
-        }}>
-          {!imgFail(ek)
-            ? <img src={champImg(name)} alt={name} onError={() => onErr(ek)}
-                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-            : <div style={{ width:"100%", height:"100%", display:"flex",
-                alignItems:"center", justifyContent:"center",
-                fontSize:size*0.35, color:"#5c6a7a" }}>{name[0]}</div>
-          }
-        </div>
-        <span style={{
-          fontSize:"11px", color:"#D4AF37", textAlign:"center",
-          maxWidth:size+10, lineHeight:1.2,
-          overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap",
-        }}>{name}</span>
-      </div>
-    );
-  };
 
-  // ── Reusable: item card ───────────────────────────────────────────────────
-  const ItemCard = ({ item, rank, glow }) => {
-    const col = ic(item.name);
-    const ek  = `item-${item.name}`;
-    const src = itemImg(item.name, itemMap);
-    const rationale = ITEM_RATIONALE[item.name];
-    return (
-      <div className="frge-card" style={{
-        background:"rgba(255,255,255,.04)",
-        border:`1px solid rgba(255,255,255,.08)`,
-        borderLeft:`4px solid ${col}`,
-        borderRadius:"9px", padding:"12px 14px",
-        display:"flex", gap:"14px", alignItems:"flex-start",
-      }}>
-        <div style={{
-          width:"52px", height:"52px", flexShrink:0,
-          borderRadius:"8px", overflow:"hidden",
-          border:`1.5px solid ${col}55`, background:`${col}18`,
-          display:"flex", alignItems:"center", justifyContent:"center",
-          boxShadow:`0 0 10px ${col}30`,
-        }}>
-          {src && !imgFail(ek)
-            ? <img src={src} alt={item.name} onError={() => onErr(ek)}
-                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-            : <div style={{ width:"12px", height:"12px", borderRadius:"50%",
-                background:col, boxShadow:`0 0 8px ${col}` }} />
-          }
-        </div>
-        <div style={{ flex:1 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"4px" }}>
-            <span className="frge-item-name" style={{ fontWeight:"bold", fontSize:"14px", color:col }}>{item.name}</span>
-            <span style={{
-              fontSize:"10px", color:glow, marginLeft:"auto", flexShrink:0,
-              background:`${glow}14`, border:`1px solid ${glow}30`,
-              borderRadius:"4px", padding:"2px 6px", letterSpacing:"1px",
-            }}>#{rank}</span>
-          </div>
-          <p style={{ margin:0, fontSize:"12px", color:"#c7ccd1", lineHeight:1.6 }}>{item.why}</p>
-          {rationale && (
-            <div style={{ margin:"6px 0 0", paddingTop:"6px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
-              <span style={{ fontSize:"8.5px", fontWeight:800, letterSpacing:"1px",
-                textTransform:"uppercase", color:S.goldDim }}>When to build</span>
-              <p style={{ margin:"2px 0 0", fontSize:"11px", color:"rgba(200,204,209,.55)",
-                lineHeight:1.5, fontStyle:"italic" }}>{rationale}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
 
  // Controlled: the selection (`sel`) and its setter live in App, so this page is
  // always the single source of truth for what gets imported (WYSIWYG), and its
@@ -1694,8 +1578,12 @@ useEffect(() => {
   // the 1.5s champ-select poll — which rebuilds dispCs every tick — does not
   // re-fire it. A manual pick from the opponent picker flows through here too.
   const csOppDisplay = csOppDd ? DD_TO_CHAMP[csOppDd]?.display || null : null;
-  useEffect(() => { setMatchupFoe(csOppDisplay); }, [csOppDisplay]);
   const inChampSelect = !!dispCs;
+  // Outside champ select the header's "vs" picker names the opponent; inside
+  // it, the Enemy team panel does (csOppDd), and the picker is a readout.
+  const vsPickDisplay = vsPick ? DD_TO_CHAMP[vsPick]?.display || null : null;
+  const foeDisplayNow = inChampSelect ? csOppDisplay : vsPickDisplay;
+  useEffect(() => { setMatchupFoe(foeDisplayNow); }, [foeDisplayNow]);
   useEffect(() => {
     if (!inChampSelect) setOppOverride(null);
   }, [inChampSelect]);
@@ -1740,13 +1628,17 @@ useEffect(() => {
     curated: !!appliedMatchup,          // a hand-written matchup page already applied
   }) : null;
   const planLane = plan?.lane || null;  // the lane opponent's chips and rune swaps
-  const preHoverChamp = preHoverOn ? champ : null;
   const csStatus = !csState ? "Connecting to client…"
     : csState.active ? "In champ select"
-    : csInGame ? "In game — build reference"
+    : csInGame ? "In game"
     : csState.reason === "no-client" ? "League client not detected"
-    : csState.reason === "not-in-select" ? "Waiting for champ select…"
+    : csState.reason === "not-in-select" ? "Waiting for champ select"
     : "Client idle";
+  // The build page shows exactly what the Import button sends: the same
+  // buildExport() call with the same arguments as sendToLeague().
+  const shownExp = buildExport(champ, forgeHasItems ? forgeRoleEff : currentRole, openClass, activeAlt,
+    runeSel, forgeHasItems ? forgeItems : null, foeChamp, { mode, enemies: planEnemies });
+  const itemNameOf = (id) => itemNames[id] || "";
 
   // ── Forge per-champion skin theme (palette sampled from the skin splash) ──
   // skinThemeOf() is one FIXED palette per champion, but the Forge theme rolls a
@@ -1767,6 +1659,15 @@ useEffect(() => {
   const skinP = sampled?.m || activeSkin?.m || "#FF6B35";   // primary
   const skinH = sampled?.h || activeSkin?.h || "#FFB347";   // highlight
   const skinA = sampled?.a || activeSkin?.a || "#D4AF37";   // accent
+  // Colour option C: the champion's colour, made readable on the dark cards.
+  const colours = champColours(skinP);
+  // Escape closes the build page's popovers (the vs picker, the rune editor, the menu).
+  useEffect(() => {
+    if (!vsOpen && !runeEditorOpen && !menuOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") { setVsOpen(false); setRuneEditorOpen(false); setMenuOpen(false); } };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [vsOpen, runeEditorOpen, menuOpen]);
   const clientLive = isDesktop && !!csState && (csState.active || csInGame); // League client connected
   // Fixed skin-splash backdrop for the champion-specific full-page tabs (How to
   // Play / Counter Picker), so the champion's art shows behind them too. Stays
@@ -1781,6 +1682,18 @@ useEffect(() => {
     </div>
   ) : null;
 
+  // ── Top bar pieces ───────────────────────────────────────────────────────
+  const navLinks = [
+    { id:"forge",   label:"Build Forge",    on:forgeOpen,          act:() => setForgeOpen(true) },
+    { id:"howto",   label:"How to play",    on:view === "howto",   act:() => setView("howto") },
+    { id:"counter", label:"Counter picker", on:view === "counter", act:() => setView("counter") },
+    { id:"draft",   label:"Draft coach",    on:view === "draft",   act:() => setView("draft") },
+    { id:"tiers",   label:"Tier list",      on:view === "tiers",   act:() => setView("tiers") },
+    { id:"jungle",  label:"Jungle coach",   on:jungleOpen,         act:() => { setView("build"); setJungleOpen(true); } },
+  ];
+  const barBtn = (on = false) => ({ border:0, background:"transparent", color: on ? T.text : T.muted,
+    font:`500 13px ${T.font}`, cursor:"pointer", padding:"6px 2px", whiteSpace:"nowrap" });
+
   // ────────────────────────────────────────────────────────────────────────
   return (
     <div style={{
@@ -1790,20 +1703,16 @@ useEffect(() => {
       "--skin-primary": skinP,
       "--skin-hi": skinH,
       "--skin-accent": skinA,
-      background: frgeTheme === "forge"
-        ? `radial-gradient(1100px 520px at 50% -6%, ${skinP}26 0%, ${skinP}00 58%), radial-gradient(900px 700px at 12% 0%, #241f1b 0%, rgba(36,31,27,0) 55%), linear-gradient(180deg,#1B1B1E 0%,#141416 62%,#0F0F11 100%)`
-        : "radial-gradient(ellipse at 15% 5%,#2A2F38 0%,#1B1B1E 55%,#161618 100%)",
-      fontFamily: frgeTheme === "forge"
-        ? "'Chakra Petch','Spartan MB','Arial Black',sans-serif"
-        : "'Spartan MB','Cinzel','Arial Black',sans-serif",
-      color:"#F5F5F5",
+      background: T.ground,
+      fontFamily: T.font,
+      color: T.text,
       }}>
 
       {/* Per-champion skin splash — a FIXED, full-screen backdrop that stays put
-          as the app scrolls (visible throughout, not just the hero). A random
-          splash-bearing skin is pulled from the CDN for variety; on error it
-          falls back to the bundled base splash (offline-safe). Scrimmed so it
-          never obscures the build/rune content. Forge theme only. */}
+          as the app scrolls. A random splash-bearing skin is pulled from the CDN
+          for variety; on error it falls back to the bundled base splash
+          (offline-safe). Under a flat neutral scrim, as in the redesign mock, so
+          it never obscures the build. */}
       {activeSkin && (
         <div aria-hidden="true" style={{
           position:"fixed", inset:0, zIndex:-1, pointerEvents:"none", overflow:"hidden" }}>
@@ -1816,98 +1725,77 @@ useEffect(() => {
             }}
             alt=""
             style={{ position:"absolute", inset:0, width:"100%", height:"100%",
-              objectFit:"cover", objectPosition:"center 20%",
-              opacity:0.32, filter:"saturate(1.12)" }}/>
-          <div style={{ position:"absolute", inset:0, background:
-            "linear-gradient(180deg, rgba(16,15,17,.56) 0%, rgba(16,15,17,.7) 55%, rgba(16,15,17,.82) 100%)" }}/>
-          <div style={{ position:"absolute", inset:0, background:
-            `radial-gradient(1200px 700px at 50% 0%, ${skinP}22 0%, transparent 60%)` }}/>
+              objectFit:"cover", objectPosition:"70% 20%" }}/>
+          <div style={{ position:"absolute", inset:0, background:"rgba(27,27,30,.84)" }}/>
         </div>
       )}
 
-      {/* ── TOP NAV BAR — wordmark · sections · search · client · settings ── */}
-      <div style={{ position:"sticky", top:0, zIndex:70,
-        background: frgeTheme === "forge" ? "rgba(16,15,17,.82)" : "rgba(20,20,23,.82)",
-        backdropFilter:"blur(10px)",
-        borderBottom:`1px solid ${frgeTheme === "forge" ? "rgba(255,107,53,.16)" : S.border}` }}>
-        <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", padding:"10px 24px",
-          display:"flex", alignItems:"center", gap:"18px", flexWrap:"wrap" }}>
-          {/* wordmark */}
-          <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-            <div style={{ width:"32px", height:"32px", borderRadius:"9px", flexShrink:0,
-              display:"flex", alignItems:"center", justifyContent:"center",
-              background:"linear-gradient(145deg,#26201b,#141215)", border:`1px solid ${S.orange}66`,
-              boxShadow:`0 0 14px ${S.orange}40` }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={skinH} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2l2.4 5.2L20 8l-4 3.7L17 18l-5-3-5 3 1-6.3L4 8l5.6-.8z"/></svg>
-            </div>
-            <div className="frge-display" style={{ fontSize:"18px", letterSpacing:".02em", color:"#F5F1EA" }}>
-              FRGE<span style={{ color:S.orange }}>.GG</span></div>
-          </div>
-          {/* section links */}
-          <div style={{ display:"flex", gap:"2px", marginLeft:"4px" }}>
-            {[
-              { id:"forge",   label:"Build Forge",    on:forgeOpen,          act:() => setForgeOpen(true) },
-              { id:"howto",   label:"How to Play",    on:view === "howto",   act:() => setView("howto") },
-              { id:"counter", label:"Counter Picker", on:view === "counter", act:() => setView("counter") },
-              { id:"draft",   label:"Draft Coach",    on:view === "draft",   act:() => setView("draft") },
-              { id:"tiers",   label:"Tier List",      on:view === "tiers",   act:() => setView("tiers") },
-              { id:"jungle",  label:"Jungle Coach",   on:jungleOpen,         act:() => { setView("build"); setJungleOpen(true); } },
-            ].map(n => (
-              <button key={n.id} onClick={n.act} title={n.title || n.label}
-                style={{ background:"none", border:"none", cursor:"pointer", padding:"8px 12px",
-                  fontFamily:"inherit", fontSize:"12.5px", fontWeight:700, letterSpacing:".02em", whiteSpace:"nowrap",
-                  color: n.on ? "#F5F1EA" : "#8A8078", position:"relative",
-                  borderBottom: n.on ? `2px solid ${S.orange}` : "2px solid transparent",
-                  transition:"color .15s" }}
-                onMouseEnter={(e) => { if (!n.on) e.currentTarget.style.color = "#c7c0b6"; }}
-                onMouseLeave={(e) => { if (!n.on) e.currentTarget.style.color = "#8A8078"; }}>
-                {n.label}
-              </button>
+      {/* ── TOP BAR — wordmark · sections · search · client status · settings ── */}
+      <header style={{ height:"48px", display:"flex", alignItems:"center", gap: wideL ? "28px" : "16px",
+        maxWidth:"1920px", margin:"0 auto", padding:`0 ${gutter}px`, position:"relative", zIndex:70,
+        boxSizing:"border-box" }}>
+        <span style={{ fontFamily:T.display, fontWeight:800, fontSize:"18px", letterSpacing:"-.01em",
+          color:T.text, whiteSpace:"nowrap" }}>FRGE<span style={{ color:T.gold }}>.GG</span></span>
+        {wideL && (
+          <nav aria-label="Main" style={{ display:"flex", gap:"22px" }}>
+            {navLinks.map((n) => (
+              <button key={n.id} type="button" onClick={n.act} aria-current={n.on ? "page" : undefined}
+                style={{ border:0, background:"none", padding:0, font:`500 14px ${T.font}`, cursor:"pointer",
+                  whiteSpace:"nowrap", color: n.on ? T.text : T.muted }}>{n.label}</button>
             ))}
-          </div>
-          <div style={{ flex:1, minWidth:"12px" }} />
-          {/* search */}
-          <button onClick={() => setShowPicker(true)} title="Search champions"
-            className="frge-pill"
-            style={{ display:"flex", alignItems:"center", gap:"8px", cursor:"pointer", fontFamily:"inherit",
-              border:`1px solid ${S.border}`, background:"rgba(255,255,255,.04)", borderRadius:"9px",
-              padding:"7px 12px", color:"#8A8078" }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-            <span style={{ fontSize:"12px" }}>Search champion…</span>
+          </nav>
+        )}
+        <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap: L === "narrow" ? "12px" : "16px",
+          color:T.muted, fontSize:"13px", minWidth:0 }}>
+          <button type="button" onClick={() => setShowPicker(true)} style={barBtn()}>
+            {wideL ? "Search champion" : "Search"}
           </button>
-          {/* client-live */}
-          <div title={csStatus} style={{ display:"flex", alignItems:"center", gap:"7px", borderRadius:"9px", padding:"7px 11px",
-            border:`1px solid ${clientLive ? "rgba(87,217,119,.4)" : S.border}`,
-            background: clientLive ? "rgba(87,217,119,.1)" : "rgba(255,255,255,.03)" }}>
-            <span style={{ width:"7px", height:"7px", borderRadius:"50%",
-              background: clientLive ? "#57d977" : "#7a8288", boxShadow: clientLive ? "0 0 8px #57d977" : "none" }} />
-            <span style={{ fontSize:"11px", fontWeight:700, letterSpacing:".04em", color: clientLive ? "#8fe6a8" : "#8A8078" }}>
-              {clientLive ? "CLIENT LIVE" : "CLIENT"}</span>
-          </div>
+          {isDesktop && (
+            <span title={csStatus} style={{ display:"flex", alignItems:"center", gap:"8px", whiteSpace:"nowrap" }}>
+              <i style={{ width:"8px", height:"8px", borderRadius:"50%", flex:"none",
+                background: clientLive ? T.live : T.faint }} />
+              {(wideL || (clientLive && L === "docked")) && <span>{csStatus}</span>}
+            </span>
+          )}
           {/* update pill (desktop, only when an update exists) */}
           {isDesktop && update && ["available","downloading","downloaded"].includes(update.state) && (
-            <button onClick={onUpdateAction} disabled={update.state === "downloading"} className="frge-cta"
-              title={update.state === "available" ? "Download the update" : update.state === "downloading" ? "Downloading…" : "Restart to finish updating"}
-              style={{ height:"34px", borderRadius:"9px", padding:"0 13px", cursor: update.state === "downloading" ? "default" : "pointer",
-                display:"flex", alignItems:"center", gap:"7px", fontSize:"12px", fontWeight:"bold", fontFamily:"inherit",
-                border:`1px solid ${S.orange}`, whiteSpace:"nowrap",
-                background: update.state === "downloaded" ? S.orange : "rgba(249,115,22,.16)",
-                color: update.state === "downloaded" ? "#151517" : S.orange }}>
-              {update.state === "available" && <>⬇ Update{update.version ? ` v${update.version}` : ""}</>}
+            <button type="button" onClick={onUpdateAction} disabled={update.state === "downloading"}
+              title={update.state === "available" ? "Download the update" : update.state === "downloading" ? "Downloading" : "Restart to finish updating"}
+              style={{ height:"32px", borderRadius:"999px", padding:"0 14px", border:0, whiteSpace:"nowrap",
+                cursor: update.state === "downloading" ? "default" : "pointer", font:`600 13px ${T.font}`,
+                background: update.state === "downloaded" ? colours.primary : T.raised,
+                color: update.state === "downloaded" ? colours.ink : T.text }}>
+              {update.state === "available" && <>Update{update.version ? ` v${update.version}` : ""}</>}
               {update.state === "downloading" && <>Downloading {update.percent ?? 0}%</>}
-              {update.state === "downloaded" && <>↻ Restart &amp; update</>}
+              {update.state === "downloaded" && <>Restart to update</>}
             </button>
           )}
-          {/* settings gear */}
-          <button onClick={() => setSettingsOpen(v => !v)} className="frge-pill" aria-label="Settings" aria-expanded={settingsOpen} title="Settings"
-            style={{ width:"34px", height:"34px", borderRadius:"9px", cursor:"pointer", flexShrink:0,
-              display:"flex", alignItems:"center", justifyContent:"center",
-              border:`1px solid ${settingsOpen ? S.gold : "rgba(255,255,255,.15)"}`,
-              background: settingsOpen ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.04)",
-              color: settingsOpen ? S.gold : "#9aa0a6", fontSize:"16px" }}>⚙</button>
+          <button type="button" onClick={() => setSettingsOpen(v => !v)} aria-expanded={settingsOpen}
+            style={barBtn(settingsOpen)}>Settings</button>
+          {view === "build" && !inGameViewOn && (
+            <FeedbackBubble S={S} appVersion={appVersion} patch={GAME_PATCH} champ={champ?.display} role={currentRole}
+              inline buttonStyle={barBtn()} />
+          )}
+          {!wideL && (
+            <button type="button" onClick={() => setMenuOpen(v => !v)} aria-expanded={menuOpen}
+              style={barBtn(menuOpen)}>Menu</button>
+          )}
         </div>
-      </div>
+        {menuOpen && !wideL && (
+          <>
+            <div onClick={() => setMenuOpen(false)} style={{ position:"fixed", inset:0, zIndex:69 }} />
+            <nav aria-label="Main" style={{ position:"absolute", top:"44px", right:`${gutter}px`, zIndex:71,
+              background:T.raised, borderRadius:"12px", padding:"6px", display:"flex", flexDirection:"column",
+              minWidth:"200px", boxShadow:"0 12px 32px rgba(0,0,0,.5)" }}>
+              {navLinks.map((n) => (
+                <button key={n.id} type="button" onClick={() => { setMenuOpen(false); n.act(); }}
+                  style={{ border:0, background:"none", textAlign:"left", padding:"9px 12px", borderRadius:"8px",
+                    font:`500 14px ${T.font}`, cursor:"pointer", color: n.on ? T.text : T.muted }}>{n.label}</button>
+              ))}
+            </nav>
+          </>
+        )}
+      </header>
 
       {/* ── TIER LIST — full-page overlay ── */}
       {view === "tiers" && (
@@ -1944,6 +1832,11 @@ useEffect(() => {
           <div style={{ position:"relative", zIndex:1 }}>
             <DraftCoach champ={champ} role={currentRole} champImg={champImg} S={S}
               liveEnemies={liveEnemies} isLive={csActive && liveEnemies.length > 0}
+              laneFoe={csOppChamp || foeChamp}
+              bans={activeChampRole?.bans || champ.bans || []}
+              replacements={activeChampRole?.replacements || champ.replacements || []}
+              synergies={activeChampRole?.synergies || champ.synergies || synergiesFor(champ.dd, champ.display, currentRole) || []}
+              onBan={isDesktop ? banHover : null}
               onClose={() => setView("build")}
               onPick={(c) => { pickChamp(c); setView("build"); }} />
           </div>
@@ -1958,6 +1851,7 @@ useEffect(() => {
           <div style={{ position:"relative", zIndex:1 }}>
             <HowToPlay champ={champ} role={currentRole} activeChampRole={activeChampRole}
               buildCorePath={buildCorePath} buildCoreNote={buildCoreNote} buildSideItems={buildSideItems}
+              activeAlt={activeAlt} classes={CLASSES} startClass={openClass}
               runeInfo={recommendedRunes} champImg={champImg} itemImg={itemImg} itemMap={itemMap} S={S}
               onClose={() => setView("build")} />
           </div>
@@ -1978,23 +1872,36 @@ useEffect(() => {
         const igExp = imp ? imp.exp : buildExport(champ, currentRole, openClass, activeAlt, runeSel, null, foeChamp,
           { mode, enemies: planEnemies });
         const staleFoe = imp && csOppChamp && imp.foe !== csOppChamp.display ? csOppChamp.display : null;
+        // Colour option C for the champion in this game (the app's champion
+        // almost always; the bundled palette when the import was another one).
+        const igColours = igChamp.dd === champ.dd ? colours : champColours(skinThemeOf(igChamp.dd)?.m);
         return (
-          <div style={{ position:"fixed", inset:0, zIndex:110, overflowY:"auto",
-            background: frgeTheme === "forge" ? "#121013" : "#1B1B1E" }}>
-            {frgeTheme === "forge" && skinFixedLayer(0.24)}
+          <div style={{ position:"fixed", inset:0, zIndex:110, overflowY:"auto", background:T.ground }}>
+            {activeSkin && igChamp.dd === champ.dd && (
+              <div aria-hidden="true" style={{ position:"fixed", inset:0, zIndex:0, pointerEvents:"none", overflow:"hidden" }}>
+                <img key={`${champ.dd}-${skinRoll}`} src={`${SPLASH_CDN}/${champ.dd}_${skinRoll}.jpg`}
+                  onError={(e) => { const fb = `${DD_SKINS}/${activeSkin.splash}.jpg`; if (!e.currentTarget.src.endsWith(`${activeSkin.splash}.jpg`)) e.currentTarget.src = fb; }}
+                  alt="" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"70% 20%" }}/>
+                <div style={{ position:"absolute", inset:0, background:"rgba(27,27,30,.84)" }}/>
+              </div>
+            )}
             <div style={{ position:"relative", zIndex:1 }}>
               <InGameView champ={igChamp} roleName={igRole} alt={igAlt}
                 foe={csOppChamp} foeClass={csOppClass}
                 exp={igExp} runes={imp ? imp.runes : runeSel}
                 imported={!!imp} staleFoe={staleFoe}
-                itemName={(id) => itemNames[id]} itemSrc={(id) => `${DD}/img/item/${id}.png`}
-                runeSrc={(n) => runeImg(n, runeMap)} shardSrc={shardImg} spellSrc={(n) => spellImg(n, spellMap)}
-                champImg={champImg}
+                itemName={(id) => itemNames[id] || ""}
+                runeSrc={(n) => runeImg(n, runeMap)} spellSrc={(n) => spellImg(n, spellMap)}
+                champImg={champImg} colours={igColours}
                 skills={{ max: skillOrderOf(igChamp.dd, igRoleData, igAlt),
                   seq: skillSequenceOf(igChamp.dd, igRoleData, igAlt), noUlt: NO_ULT.has(igChamp.dd) }}
                 spells={spellsFor(igChamp.dd, igRole)}
-                coreNote={igAlt ? igAlt.coreNote : igRoleData?.coreNote}
                 width={winW}
+                feedback={
+                  <FeedbackBubble S={S} appVersion={appVersion} patch={GAME_PATCH} champ={igChamp.display} role={igRole}
+                    inline buttonStyle={{ border:0, background:"transparent", color:T.muted, font:`500 13px ${T.font}`,
+                      cursor:"pointer", padding:"6px 2px", whiteSpace:"nowrap" }} />
+                }
                 onShowGuide={() => setInGameGuide(true)} />
             </div>
           </div>
@@ -2003,20 +1910,20 @@ useEffect(() => {
 
       {/* ── JUNGLE COACH — right-edge tab that slides out a drawer ── */}
       {view === "build" && currentRole === "Jungle" && !jungleOpen && (
-        <button onClick={() => setJungleOpen(true)} title="Jungle coach — clear route + macro tips"
+        <button onClick={() => setJungleOpen(true)} title="Open the jungle coach: clear route and macro tips"
           style={{ position:"fixed", right:0, top:"50%", transform:"translateY(-50%)", zIndex:60,
             padding:"14px 8px", borderRadius:"11px 0 0 11px", cursor:"pointer",
             display:"flex", flexDirection:"column", alignItems:"center", gap:"8px",
-            color:"#15181d", background:`linear-gradient(180deg, ${S.gold}, ${S.orange})`,
-            border:"1px solid rgba(255,255,255,.18)", borderRight:"none",
-            boxShadow:`-4px 0 16px ${S.orange}3d` }}>
+            color:colours.ink, background:colours.primary, border:0 }}>
           <img src={roleIcon("Jungle")} alt="" draggable={false}
-            style={{ width:"22px", height:"22px", filter:"brightness(0)", opacity:.82 }} />
+            style={{ width:"22px", height:"22px", filter: colours.ink === T.ground ? "brightness(0)" : "brightness(0) invert(1)", opacity:.85 }} />
           <span style={{ writingMode:"vertical-rl", textOrientation:"mixed",
-            fontSize:"11.5px", fontWeight:800, letterSpacing:".9px", textTransform:"uppercase" }}>Jungle</span>
+            fontSize:"13px", fontWeight:600 }}>Jungle</span>
         </button>
       )}
-      {view === "build" && (
+      {/* Mounted for the Jungle role (so it keeps its slide-in) or when opened
+          from the top bar; off-canvas it was still in every page's DOM. */}
+      {view === "build" && (currentRole === "Jungle" || jungleOpen) && (
         <JunglePanel S={S} champDd={champ.dd} champName={champ.display}
           open={jungleOpen} onClose={() => setJungleOpen(false)} />
       )}
@@ -2063,45 +1970,16 @@ useEffect(() => {
             {/* tab content */}
             <div style={{ padding:"14px 16px 16px", overflowY:"auto" }}>
 
-              {/* ── DISPLAY / THEMES ── */}
-              {settingsTab === "display" && (
-                <>
-                  <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
-                    {THEMES.map(t => {
-                      const on = frgeTheme === t.id;
-                      const locked = t.vip && !isVip;
-                      return (
-                        <button key={t.id}
-                          onClick={() => { if (!locked) setFrgeTheme(t.id); }}
-                          disabled={locked} aria-pressed={on}
-                          className={locked ? "" : "frge-pill"}
-                          style={{
-                            textAlign:"left", cursor: locked ? "not-allowed" : "pointer",
-                            borderRadius:"9px", padding:"9px 11px",
-                            border:`1px solid ${on ? S.gold : "rgba(255,255,255,.1)"}`,
-                            background: on ? "rgba(212,175,55,.14)" : "rgba(255,255,255,.03)",
-                            opacity: locked ? 0.55 : 1,
-                          }}>
-                          <div style={{ display:"flex", alignItems:"center", gap:"7px" }}>
-                            <span style={{ fontSize:"12.5px", fontWeight:"bold",
-                              color: on ? S.gold : "#e7e2d4" }}>{t.name}</span>
-                            {on && <span style={{ fontSize:"9px", color:S.gold }}>● active</span>}
-                            {locked && <span style={{ marginLeft:"auto", fontSize:"9px",
-                              color:S.goldDim, letterSpacing:".5px" }}>🔒 VIP</span>}
-                          </div>
-                          <div style={{ fontSize:"10.5px", color:"#8a9096", marginTop:"2px" }}>{t.desc}</div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div style={{ fontSize:"9.5px", color:"rgba(200,204,209,.32)", marginTop:"12px",
-                    lineHeight:1.5 }}>
-                    More themes — including VIP-exclusive looks — are on the way.
-                  </div>
-                </>
-              )}
+              {/* The Display tab (theme picker) is hidden while Forge is the only look. */}
 
               {/* ── GENERAL ── */}
+              {/* The startup champion (it was a star beside the name; the
+                  redesign's header has no room for an unapproved icon). */}
+              {settingsTab === "general" && settingToggle({
+                label:`Open on ${champ.display}`, on: favId === champ.id, onClick: () => toggleFav(champ),
+                desc: favId && favId !== champ.id
+                  ? `Opens on ${CHAMPS.find((c) => c.id === favId)?.display || favId} now.`
+                  : "The app starts on this champion." })}
               {settingsTab === "general" && (
                 isDesktop ? (
                   <>
@@ -2177,7 +2055,6 @@ useEffect(() => {
                   <div style={{ background:"rgba(88,101,242,.06)", border:"1px solid rgba(88,101,242,.25)",
                     borderRadius:"9px", padding:"9px 11px" }}>
                     <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
-                      <span style={{ fontSize:"14px" }}>🎮</span>
                       <span style={{ fontSize:"12px", fontWeight:"bold", color:"#c7ccd1" }}>Discord</span>
                       <span style={{ marginLeft:"auto", fontSize:"9px", color:"#8a9096",
                         letterSpacing:".5px" }}>PLANNED</span>
@@ -2201,10 +2078,6 @@ useEffect(() => {
                   <div style={{ display:"flex", alignItems:"center", gap:"10px",
                     background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
                     borderRadius:"9px", padding:"9px 11px" }}>
-                    <div style={{ width:"30px", height:"30px", borderRadius:"50%", flexShrink:0,
-                      display:"flex", alignItems:"center", justifyContent:"center",
-                      background:"rgba(212,175,55,.12)", border:"1px solid rgba(212,175,55,.25)",
-                      fontSize:"15px" }}>👤</div>
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ fontSize:"12px", fontWeight:"bold", color:"#e7e2d4" }}>Guest</div>
                       <div style={{ fontSize:"10px", color:"#8a9096" }}>Not signed in</div>
@@ -2245,615 +2118,173 @@ useEffect(() => {
         </div>
       )}
 
-      {/* Page header removed — the hero (Playing-as bar) now carries the champion
-          name + role. VIP ad-preview toggle (ADS_ENABLED only) lives in Settings. */}
-
-      {/* ── LIVE CHAMP SELECT BAR (desktop only) ── */}
-      {isDesktop && (
-        <div style={{
-          background: csActive ? "rgba(20,40,30,.55)" : csInGame ? "rgba(28,30,46,.6)" : "rgba(0,0,0,.5)",
-          borderBottom:`1px solid ${csActive ? "rgba(76,175,125,.35)" : csInGame ? "rgba(120,140,220,.32)" : "rgba(212,175,55,.14)"}`,
-          padding:"9px 24px",
-        }}>
-          <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", display:"flex",
-            alignItems:"center", gap:"14px", flexWrap:"wrap", fontFamily:"inherit" }}>
-
-            {/* status dot + label */}
-            <span style={{ display:"flex", alignItems:"center", gap:"7px", flexShrink:0 }}>
-              <span style={{ width:"9px", height:"9px", borderRadius:"50%",
-                background: csActive ? "#4caf7d" : csInGame ? "#7f8fe0" : csState?.reason === "no-client" ? "#d9564f" : "#D4AF37",
-                boxShadow:`0 0 8px ${csActive ? "#4caf7d" : csInGame ? "#7f8fe0" : "transparent"}` }} />
-              <span style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase",
-                color: csActive ? "#8fe0b4" : csInGame ? "#aeb6ea" : S.goldDim }}>{csStatus}</span>
+      {/* ── CHAMP SELECT (desktop) ──────────────────────────────────────────
+          The You-vs readout (display-only: the opponent is chosen in the Enemy
+          team panel underneath, the one place it is set), "Import matchup
+          build", the ban / replacement / synergy tiles while your pick is still
+          open, and the Enemy team panel. The plan strip that used to sit here
+          is gone: the item set card holds the same plan, so every item shows
+          once on screen. The lane-counter picks moved to Draft Coach. The status
+          sits in the top bar. */}
+      {isDesktop && inChampSelect && (() => {
+        const row = { display:"inline-flex", alignItems:"center", gap:"8px" };
+        const portrait = (dd, size, ek, round = false) => {
+          const src = champImg(dd);
+          return (
+            <span style={{ width:size, height:size, borderRadius: round ? "50%" : "6px", overflow:"hidden",
+              background:T.raised, flex:"none", display:"block" }}>
+              {src && !imgFail(ek)
+                ? <img src={src} alt="" onError={() => onErr(ek)}
+                    style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+                : null}
             </span>
-            {/* Back from the full guide to the in-game view. */}
-            {csInGame && inGameGuide && (
-              <button onClick={() => setInGameGuide(false)}
-                title="Show only the build you imported for this game"
-                style={{ cursor:"pointer", fontFamily:"inherit", fontSize:"11px", letterSpacing:".4px",
-                  padding:"3px 10px", borderRadius:"6px", border:"1px solid rgba(120,140,220,.45)",
-                  background:"rgba(120,140,220,.12)", color:"#aeb6ea" }}>
-                In-game view
-              </button>
-            )}
-
-            {/* live matchup readout (persists in-game) */}
-            {detectedChamp && (
-              <span style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap",
-                fontSize:"13px", color:"#d7e8dd" }}>
-                <span style={{ color:"rgba(255,255,255,.5)" }}>You:</span>
-                {csChampIcon(detectedChamp.dd, "#ffffff")}
-                <b style={{ color:"#fff" }}>{detectedChamp.display}</b>
-                {detectedRole && <span style={{ color:"rgba(255,255,255,.5)" }}>({detectedRole})</span>}
-                <span style={{ color:"rgba(255,255,255,.35)", margin:"0 2px" }}>vs</span>
-                {/* Read-only. The opponent is a guess (opponentDd() falls back to
-                    "first locked enemy"), so it must be correctable, but there is
-                    ONE place to correct it: the Enemy team panel below (the
-                    user's call, 2026-10-21; two pickers was double control). */}
-                <span
-                  title="Change it in the Enemy team panel"
-                  style={{ display:"flex", alignItems:"center", gap:"6px", color:"#f0b8b0" }}>
-                  {csOppChamp ? (
-                    <>
-                      {csChampIcon(csOppChamp.dd, "#f0b8b0")}
-                      <b style={{ color:"#f0b8b0" }}>{csOppChamp.display}</b>
-                      {csOppClass && <span style={{ color:"rgba(255,255,255,.5)" }}>— {csOppClass.replace(/_/g," ").toLowerCase()}</span>}
-                    </>
-                  ) : (
-                    <span style={{ color:"rgba(255,255,255,.45)" }}>
-                      {csEnemiesLocked ? "no clear opponent — pick one under Enemy team" : "waiting for enemy picks…"}
-                    </span>
-                  )}
-                  {csOppChamp && (
-                    <span style={{ fontSize:"9px", letterSpacing:"1px", color:"rgba(255,255,255,.35)" }}>
-                      {oppOverride ? "MANUAL" : "AUTO"}
-                    </span>
-                  )}
-                </span>
-                {/* One click to push the build for THIS opponent. Auto-import
-                    fires once, at pre-hover, before the opponent has usually
-                    locked, so without this the client keeps the generic build.
-                    Shown for ANY known opponent, not only those with a curated
-                    rune page: the item set changes for every opponent (the start
-                    and the "Vs" block), and the button used to vanish when the
-                    user picked an opponent without one. A button, not a second
-                    automatic import, so client-side edits are never overwritten
-                    unprompted. */}
-                {foeChamp && csActive && (
-                  <button onClick={() => sendToLeague(null, planEnemies)} disabled={applyState === "sending"}
-                    title={`Import the rune page and item set for ${foeChamp.display} into the League client`}
-                    style={{
-                      cursor: applyState === "sending" ? "wait" : "pointer",
-                      fontFamily:"inherit", fontSize:"11px", letterSpacing:".4px",
-                      padding:"3px 10px", borderRadius:"6px",
-                      border:`1px solid ${applyState?.ok ? "rgba(76,175,125,.55)" : S.gold + "73"}`,
-                      background: applyState?.ok ? "rgba(76,175,125,.14)" : `${S.gold}1f`,
-                      color: applyState?.ok ? "#8fe0b4" : S.gold,
-                    }}>
-                    {applyState === "sending" ? "Importing…"
-                      : applyState?.ok ? "Matchup build imported"
-                      : applyState && applyState.ok === false ? "Retry matchup import"
-                      : "Import matchup build"}
-                  </button>
-                )}
-              </span>
-            )}
-
-            {/* The game plan (gamePlan.js): ONE item recommendation ordered by
-                phase, merging the lane answers to the opponent and the team's
-                answers. It replaced the old "Vs <opponent>" strip here and the
-                "Consider" chips in the Enemy team panel. Its own full-width row,
-                so it wraps under the readout. The exported item set carries the
-                same Lane / Mid game / Late game blocks; rune swaps apply on one
-                click and never touch the page unprompted. */}
-            {detectedChamp && plan && plan.phases.length > 0 && (() => {
-              const tagColor = { lane: S.orange, team: "#6db4e6" };
-              const tags = new Set(plan.phases.flatMap((p) => p.items.map((e) => e.by || e.tag)));
-              const chip = (e, k) => {
-                const ek = `plan-${e.name}`;
-                const src = itemImg(e.name, itemMap);
-                const col = tagColor[e.by || e.tag];
-                return (
-                  <span key={`${e.name}-${k}`} title={e.why ? e.why.charAt(0).toUpperCase() + e.why.slice(1) : e.name}
-                    style={{ display:"flex", alignItems:"center", gap:"6px", padding:"2px 9px 2px 3px",
-                      borderRadius:"16px", border:`1px solid ${col ? col + "99" : "rgba(255,255,255,.12)"}`,
-                      background: col ? `${col}14` : "rgba(255,255,255,.03)" }}>
-                    <span style={{ width:"20px", height:"20px", borderRadius:"4px", overflow:"hidden",
-                      background:"#1B1B1E", flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                      {src && !imgFail(ek)
-                        ? <img src={src} alt={e.name} onError={() => onErr(ek)}
-                            style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                        : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
-                    </span>
-                    <span style={{ fontSize:"11.5px", color:"#e9ebee" }}>
-                      {e.from && <span style={{ color:"rgba(255,255,255,.45)" }}>{e.from} → </span>}
-                      <b style={{ fontWeight:600 }}>{e.name}</b>
-                    </span>
-                  </span>
-                );
-              };
-              const label = { fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim, flexShrink:0 };
-              const swaps = planLane?.runes || [];
-              return (
-                <div style={{ flexBasis:"100%", display:"flex", flexDirection:"column", gap:"6px" }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
-                    <span style={label}>{planLane ? `Plan vs ${planLane.foe}` : "Plan vs their team"}</span>
-                    {(planLane?.chips || []).map((c) => (
-                      <span key={c.key} style={{ fontSize:"10.5px", padding:"1px 8px", borderRadius:"10px",
-                        border:"1px solid rgba(255,255,255,.14)", color:"rgba(255,255,255,.72)" }}>{c.label}</span>
-                    ))}
-                    {(tags.has("lane") || tags.has("team")) && (
-                      <span style={{ marginLeft:"auto", display:"flex", gap:"10px", fontSize:"10.5px", color:"rgba(255,255,255,.55)" }}>
-                        {tags.has("lane") && <span style={{ display:"flex", alignItems:"center", gap:"5px" }}><i style={{ width:"8px", height:"8px", borderRadius:"50%", background:tagColor.lane }} />{planLane?.foe}</span>}
-                        {tags.has("team") && <span style={{ display:"flex", alignItems:"center", gap:"5px" }}><i style={{ width:"8px", height:"8px", borderRadius:"50%", background:tagColor.team }} />Their team</span>}
-                      </span>
-                    )}
-                  </div>
-                  {plan.phases.map((ph) => (
-                    <div key={ph.key} style={{ display:"flex", alignItems:"center", gap:"6px", flexWrap:"wrap" }}>
-                      <span style={{ ...label, width:"76px" }}>{ph.title}</span>
-                      {ph.items.map(chip)}
-                    </div>
-                  ))}
-                  {plan.conflicts.map((c) => (
-                    <span key={c} style={{ fontSize:"11.5px", color:"#e9ebee", paddingLeft:"82px" }}>{c}</span>
-                  ))}
-                  {swaps.length > 0 && (
-                    <div style={{ display:"flex", alignItems:"center", gap:"6px", flexWrap:"wrap" }}>
-                      <span style={{ ...label, width:"76px" }}>Runes</span>
-                      {swaps.map((r) => (
-                        <span key={`${r.from}-${r.to}`} title={r.why} style={{ fontSize:"11.5px", padding:"2px 9px",
-                          borderRadius:"16px", border:"1px solid rgba(255,255,255,.14)", color:"#e9ebee" }}>
-                          <span style={{ color:"rgba(255,255,255,.45)" }}>{r.from} → </span><b style={{ fontWeight:600 }}>{r.to}</b>
-                        </span>
-                      ))}
-                      <button
-                        onClick={() => {
-                          setRuneSel(planLane.page);
-                          setVsApplied(true);
-                          if (csActive && isDesktop) sendToLeague(planLane.page, planEnemies);
-                        }}
-                        disabled={applyState === "sending"}
-                        title={csActive && isDesktop
-                          ? "Apply these rune swaps and import the page and item set into the League client"
-                          : "Apply these rune swaps to the rune page below"}
-                        style={{ cursor: applyState === "sending" ? "wait" : "pointer", fontFamily:"inherit",
-                          fontSize:"11px", letterSpacing:".4px", padding:"3px 10px", borderRadius:"6px",
-                          border:`1px solid ${S.gold}73`, background:`${S.gold}1f`, color:S.gold }}>
-                        {csActive && isDesktop ? "Apply + import" : "Apply to rune page"}
-                      </button>
-                    </div>
-                  )}
-                  {vsApplied && swaps.length === 0 && (
-                    <span style={{ fontSize:"11px", paddingLeft:"82px", color: applyState?.ok === false ? "#f0b8b0" : "#8fe0b4" }}>
-                      {applyState === "sending" ? "Importing…"
-                        : applyState?.ok === false ? applyState.msg
-                        : applyState?.ok ? "Matchup runes applied and imported"
-                        : "Matchup runes applied"}
-                    </span>
-                  )}
-                </div>
-              );
-            })()}
-
-            {csActive && !detectedChamp && (
-              <span style={{ fontSize:"12px", color:"rgba(255,255,255,.45)" }}>
-                Hover or lock a champion…
-              </span>
-            )}
-
-            {/* controls */}
-            <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap:"10px" }}>
-              {csMsg && <span style={{ fontSize:"11px", color:"#8fe0b4" }}>{csMsg}</span>}
-
-              {/* pre-hover (auto-hovers the selected champ on entering champ select,
-                  then imports its build — skips if the champ is banned) */}
-              <button
-                onClick={() => setPreHoverOn((v) => !v)}
-                title="When ON, the champion selected here is auto-hovered the instant champ select opens, then its build is imported (unless it's banned)"
-                style={{
-                  cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
-                  letterSpacing:".5px",
-                  border:`1px solid ${preHoverOn ? "#D4AF37" : "rgba(255,255,255,.15)"}`,
-                  background: preHoverOn ? "rgba(212,175,55,.15)" : "rgba(255,255,255,.03)",
-                  color: preHoverOn ? S.gold : "#9aa0a6",
-                }}>
-                {preHoverOn ? `⚑ Pre-hover: ${champ.display}` : "⚑ Pre-hover OFF"}
-              </button>
-
-              {/* auto-sync toggle */}
-              <button
-                onClick={() => setCsSync((v) => !v)}
-                title="Auto-follow the champion you hover/lock and auto-match the enemy laner"
-                style={{
-                  cursor:"pointer", borderRadius:"20px", padding:"5px 12px", fontSize:"11px",
-                  letterSpacing:".5px",
-                  border:`1px solid ${csSync ? "#4caf7d" : "rgba(255,255,255,.15)"}`,
-                  background: csSync ? "rgba(76,175,125,.15)" : "rgba(255,255,255,.03)",
-                  color: csSync ? "#6bd6a0" : "#9aa0a6",
-                }}>
-                {csSync ? "⟳ Auto-sync ON" : "⟳ Auto-sync OFF"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── VERSUS TEAM PANEL (desktop, once enemies lock in) ── */}
-      {isDesktop && csEnemyAnalysis && (() => {
-        const { members, split, flags } = csEnemyAnalysis;
-        const AD_C = "#e8935c", AP_C = "#6db4e6";
-        const flagColor = { cc:"#c9a3e0", dive:"#e88a8a", shield:"#6db4e6", heal:"#7fd6a2", poke:"#e0c56b" };
+          );
+        };
+        const pillBtn = (on) => ({ border:0, borderRadius:"999px", padding:"6px 12px", cursor:"pointer",
+          whiteSpace:"nowrap", font:`500 13px ${T.font}`, background: on ? colours.active : T.raised,
+          color: on ? T.text : T.muted });
+        // Draft tiles only while your pick is open: after you lock in they no
+        // longer decide anything.
+        const draftOpen = csActive && !dispCs.pickCompleted;
+        const tiles = draftOpen ? [
+          { label:"Ban", kind:"ban", names: activeChampRole?.bans || champ.bans },
+          { label:"If banned", kind:"pick", names: activeChampRole?.replacements || champ.replacements },
+          { label:"Synergy", kind:"none", names: activeChampRole?.synergies || champ.synergies
+            || synergiesFor(champ.dd, champ.display, currentRole) },
+        ].filter((t) => t.names?.length) : [];
         return (
-        <div style={{
-          background:"rgba(0,0,0,.42)",
-          borderBottom:`1px solid rgba(212,175,55,.14)`,
-          padding:"8px 24px",
-        }}>
-          <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto", fontFamily:"inherit" }}>
-
-            {/* header: toggle + damage split + threat flags */}
-            <div style={{ display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap" }}>
-              <button
-                onClick={() => setEnemyPanelOpen((v) => !v)}
-                style={{ cursor:"pointer", background:"none", border:"none", padding:0,
-                  display:"flex", alignItems:"center", gap:"6px", fontSize:"10px",
-                  letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim }}>
-                <span style={{ fontSize:"9px" }}>{enemyPanelOpen ? "▾" : "▸"}</span>
-                Enemy team
-              </button>
-              <span style={{ display:"flex", alignItems:"center", gap:"9px", fontSize:"12px" }}>
-                <span style={{ color:"rgba(255,255,255,.4)" }}>⚔</span>
-                {split.ad > 0 && <b style={{ color:AD_C }}>{split.ad} AD</b>}
-                {split.ap > 0 && <><span style={{ color:"rgba(255,255,255,.25)" }}>·</span><b style={{ color:AP_C }}>{split.ap} AP</b></>}
-                {split.mixed > 0 && <><span style={{ color:"rgba(255,255,255,.25)" }}>·</span><b style={{ color:S.gold }}>{split.mixed} hybrid</b></>}
-                {split.tank > 0 && <span style={{ color:"rgba(255,255,255,.4)" }}>· {split.tank} tank</span>}
-              </span>
-              {flags.map((f) => (
-                <span key={f.key} style={{ fontSize:"10.5px", letterSpacing:".5px",
-                  color: flagColor[f.key] || S.gold, border:`1px solid ${(flagColor[f.key] || S.gold)}44`,
-                  borderRadius:"10px", padding:"1px 8px", textTransform:"capitalize" }}>
-                  {f.label}
-                </span>
-              ))}
-              {/* This panel is the one place the lane opponent is set. */}
-              {enemyPanelOpen && (
-                <span style={{ fontSize:"11px", color:"rgba(255,255,255,.45)" }}>
-                  Click an enemy to set your lane opponent
-                </span>
-              )}
-              {oppOverride && (
-                <button onClick={() => setOppOverride(null)}
-                  style={{ cursor:"pointer", fontFamily:"inherit", fontSize:"10px",
-                    padding:"3px 9px", borderRadius:"5px", border:"1px solid rgba(255,255,255,.14)",
-                    background:"rgba(255,255,255,.04)", color:"#9aa0a6" }}>
-                  Back to auto-detect
+          <div style={{ maxWidth:"1920px", margin:"0 auto", padding:`0 ${gutter}px`, boxSizing:"border-box" }}>
+            <div style={{ background:T.surface, borderRadius:T.radiusCard, padding:"8px 14px", display:"flex",
+              flexWrap:"wrap", alignItems:"center", gap:"8px 16px", fontSize:"13px", lineHeight:"20px", color:T.muted }}>
+              {/* Back from the full guide to the in-game view. */}
+              {csInGame && inGameGuide && (
+                <button type="button" onClick={() => setInGameGuide(false)}
+                  title="Show only the build you imported for this game" style={pillBtn(false)}>
+                  In-game view
                 </button>
               )}
-            </div>
-
-            {enemyPanelOpen && (
-              <>
-                {/* 5 enemy cards — stacked in a column */}
-                <div style={{ display:"flex", flexDirection:"column", gap:"6px", marginTop:"9px",
-                  width:"min(340px, 100%)" }}>
-                  {members.map((m, i) => {
-                    const ek = `enemy-${m.dd}-${i}`;
-                    const src = champImg(m.dd);
-                    const dc = m.dmg === "AP" ? AP_C : m.dmg === "Mixed" ? S.gold : AD_C;
-                    return (
-                      <div key={ek}
-                        onClick={() => {
-                          if (m.isOpp) return;              // already the opponent
-                          setOppOverride(m.dd);
-                          const oc = classOf(m.dd);
-                          if (oc) setOpenClass(oc);         // build follows the correction
-                        }}
-                        title={m.isOpp ? "Your lane opponent" : `Set ${(DD_TO_CHAMP[m.dd]?.display) || m.dd} as your lane opponent`}
-                        style={{ display:"flex", alignItems:"center", gap:"8px",
-                          cursor: m.isOpp ? "default" : "pointer",
-                          padding:"5px 10px 5px 6px", borderRadius:"9px",
-                          border:`1px solid ${m.isOpp ? S.orange : "rgba(255,255,255,.1)"}`,
-                          background: m.isOpp ? "rgba(249,115,22,.1)" : "rgba(255,255,255,.03)",
-                          boxShadow: m.isOpp ? `0 0 12px ${S.orange}33` : "none" }}>
-                        <div style={{ width:"34px", height:"34px", borderRadius:"7px", overflow:"hidden",
-                          border:`1.5px solid ${dc}66`, background:"#1B1B1E", flexShrink:0,
-                          display:"flex", alignItems:"center", justifyContent:"center" }}>
-                          {src && !imgFail(ek)
-                            ? <img src={src} alt={m.dd} onError={() => onErr(ek)}
-                                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                            : <span style={{ fontSize:"9px", color:"#666" }}>?</span>}
-                        </div>
-                        <div style={{ display:"flex", flexDirection:"column", gap:"1px", lineHeight:1.2 }}>
-                          <span style={{ fontSize:"12.5px", fontWeight:"700", color:"#e9ebee",
-                            display:"flex", alignItems:"center", gap:"5px" }}>
-                            {(DD_TO_CHAMP[m.dd]?.display) || m.dd}
-                            {m.role && <img src={roleIcon(m.role)} alt={m.role} title={m.role}
-                              style={{ width:"13px", height:"13px", opacity:.65, filter:"invert(.85)" }} />}
-                          </span>
-                          <span style={{ fontSize:"9.5px", letterSpacing:".3px", color:dc }}>
-                            {(m.cls || "").replace(/_/g," ").toLowerCase()}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Lane counter — how you fare vs the enemy laner + best picks into them */}
-                {csOppDd && csMyRole && (() => {
-                  const myDd = detectedChamp?.dd || champ.dd;
-                  const foe = (DD_TO_CHAMP[csOppDd]?.display) || csOppDd;
-                  const mu = matchup(myDd, csOppDd);
-                  const cand = CHAMPS.filter((c) => (c.roles ? Object.keys(c.roles) : (c.lanes || [])).includes(csMyRole)).map((c) => c.dd);
-                  const recs = bestCountersVs(csOppDd, cand).filter((r) => r.score > 0).slice(0, 5);
-                  return (
-                    <div style={{ marginTop:"10px", paddingTop:"9px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
-                      <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap", marginBottom:"6px" }}>
-                        <span style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim }}>Lane counter</span>
-                        <span style={{ fontSize:"11px", color:"rgba(255,255,255,.5)" }}>vs {foe}</span>
-                      </div>
-                      <div style={{ display:"flex", gap:"18px", flexWrap:"wrap", fontSize:"11px", marginBottom:recs.length ? "8px" : 0, lineHeight:1.5 }}>
-                        <span><b style={{ color:"#7fd6a2" }}>You handle:</b> <span style={{ color:"rgba(255,255,255,.75)" }}>{mu.youCounter.length ? mu.youCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
-                        <span><b style={{ color:"#e88a8a" }}>They punish:</b> <span style={{ color:"rgba(255,255,255,.75)" }}>{mu.theyCounter.length ? mu.theyCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
-                      </div>
-                      {recs.length > 0 && (
-                        <div style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap" }}>
-                          <span style={{ fontSize:"10px", color:S.goldDim, letterSpacing:".5px", flexShrink:0 }}>Best picks</span>
-                          {recs.map((r) => {
-                            const rc = DD_TO_CHAMP[r.dd]; if (!rc) return null;
-                            const ek = `lc-${r.dd}`; const src = champImg(rc.display);
-                            return (
-                              <button key={r.dd} onClick={() => pickChamp(rc)}
-                                title={`${rc.display} handles their ${r.youCounter.map((t) => THREAT_LABEL[t]).join(", ") || "kit"} — click to pick`}
-                                style={{ display:"flex", alignItems:"center", gap:"5px", padding:"2px 9px 2px 3px", borderRadius:"16px",
-                                  cursor:"pointer", border:`1px solid ${S.gold}40`, background:"rgba(212,175,55,.07)", color:"#e9ebee" }}>
-                                <span style={{ width:"22px", height:"22px", borderRadius:"50%", overflow:"hidden", background:"#1B1B1E", flexShrink:0,
-                                  display:"flex", alignItems:"center", justifyContent:"center" }}>
-                                  {src && !imgFail(ek)
-                                    ? <img src={src} alt="" onError={() => onErr(ek)} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                                    : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
-                                </span>
-                                <span style={{ fontSize:"11px", fontWeight:600 }}>{rc.display}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()}
-
-                {/* Best pick vs the WHOLE enemy comp — counters the most of the team */}
-                {csMyRole && members.length >= 2 && (() => {
-                  const enemyDds = members.map((m) => m.dd);
-                  const cand = CHAMPS.filter((c) => (c.roles ? Object.keys(c.roles) : (c.lanes || [])).includes(csMyRole)).map((c) => c.dd);
-                  const recs = bestCountersVsComp(enemyDds, cand).filter((r) => r.score > 0).slice(0, 5);
-                  if (!recs.length) return null;
-                  const fmt = (h) => Object.entries(h).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t, n]) => `${n}× ${THREAT_LABEL[t]}`).join(", ");
-                  return (
-                    <div style={{ marginTop:"10px", paddingTop:"9px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
-                      <div style={{ fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:S.goldDim, marginBottom:"7px" }}>
-                        Best {csMyRole} vs their comp
-                      </div>
-                      <div style={{ display:"flex", alignItems:"center", gap:"7px", flexWrap:"wrap" }}>
-                        {recs.map((r) => {
-                          const rc = DD_TO_CHAMP[r.dd]; if (!rc) return null;
-                          const ek = `cc-${r.dd}`; const src = champImg(rc.display);
-                          return (
-                            <button key={r.dd} onClick={() => pickChamp(rc)}
-                              title={`${rc.display} handles ${fmt(r.handles) || "their kit"} — click to pick`}
-                              style={{ display:"flex", alignItems:"center", gap:"5px", padding:"2px 9px 2px 3px", borderRadius:"16px",
-                                cursor:"pointer", border:`1px solid ${S.gold}40`, background:"rgba(212,175,55,.07)", color:"#e9ebee" }}>
-                              <span style={{ width:"22px", height:"22px", borderRadius:"50%", overflow:"hidden", background:"#1B1B1E", flexShrink:0,
-                                display:"flex", alignItems:"center", justifyContent:"center" }}>
-                                {src && !imgFail(ek)
-                                  ? <img src={src} alt="" onError={() => onErr(ek)} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                                  : <span style={{ fontSize:"8px", color:"#666" }}>?</span>}
-                              </span>
-                              <span style={{ fontSize:"11px", fontWeight:600 }}>{rc.display}</span>
-                              <span style={{ fontSize:"9px", color:"#7fd6a2", fontWeight:700 }}>+{r.score}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })()}
-              </>
-            )}
-          </div>
-        </div>
-        );
-      })()}
-
-      {/* ── CHAMPION SELECTOR BAR ── */}
-      <div style={{
-        background:"rgba(0,0,0,.45)",
-        borderBottom:`1px solid rgba(212,175,55,.14)`,
-        padding:"7px 24px",
-      }}>
-        <div style={{
-          maxWidth:"min(96vw,1900px)", margin:"0 auto",
-          display:"flex", alignItems:"center", gap:"16px", flexWrap:"wrap",
-        }}>
-
-          {/* Active portrait — clicking opens the picker */}
-          <div
-            onClick={() => setShowPicker(true)}
-            title="Click to change champion"
-            style={{
-              width:"84px", height:"84px", borderRadius:"12px", overflow:"hidden",
-              border:`2.5px solid ${activeSkin ? skinP : champ.glow}`,
-              boxShadow:`0 0 20px ${activeSkin ? skinP : champ.glow}60`, background:"#1B1B1E",
-              flexShrink:0, cursor:"pointer", position:"relative",
-              transition:"all .18s",
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.boxShadow = `0 0 26px ${champ.glow}90`;
-              e.currentTarget.style.filter = "brightness(1.15)";
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.boxShadow = `0 0 18px ${champ.glow}60`;
-              e.currentTarget.style.filter = "none";
-            }}
-          >
-            {!imgFail(`me-${champ.dd}`)
-              ? <img src={champImg(champ.dd)} alt={champ.display}
-                  onError={() => onErr(`me-${champ.dd}`)}
-                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-              : <div style={{ width:"100%", height:"100%", display:"flex",
-                  alignItems:"center", justifyContent:"center",
-                  fontSize:"20px", color:champ.glow }}>{champ.display[0]}</div>
-            }
-            {/* Small swap hint icon */}
-            <div style={{
-              position:"absolute", bottom:2, right:2,
-              background:"rgba(0,0,0,.7)", borderRadius:"3px",
-              padding:"1px 3px", fontSize:"9px", lineHeight:1,
-            }}>⇄</div>
-          </div>
-
-          {/* Favourite star — sets this champ as the app's startup champion */}
-          <button
-            onClick={() => toggleFav(champ)}
-            aria-pressed={favId === champ.id}
-            title={favId === champ.id
-              ? `${champ.display} is your startup favourite — click to unset`
-              : `Favourite ${champ.display} — the app will open to it`}
-            className="frge-pill"
-            style={{ flexShrink:0, cursor:"pointer", background:"none", border:"none",
-              padding:"2px 3px", fontSize:"22px", lineHeight:1, alignSelf:"center",
-              color: favId === champ.id ? S.gold : "rgba(255,255,255,.28)",
-              filter: favId === champ.id ? `drop-shadow(0 0 6px ${S.gold}88)` : "none" }}>
-            {favId === champ.id ? "★" : "☆"}
-          </button>
-
-          {/* Name + role subtitle + role icons */}
-          <div>
-            <div className="frge-display" style={{ fontSize:"30px", lineHeight:1, letterSpacing:".01em",
-              color: activeSkin ? skinH : champ.glow, marginBottom:"3px",
-              textShadow: activeSkin ? `0 0 30px ${skinP}55` : "none" }}>
-              {champ.display}
-            </div>
-            <div style={{ fontSize:"11px", color:"rgba(245,241,234,.5)", letterSpacing:".4px", marginBottom:"9px" }}>
-              {activeChampRole.role}
-            </div>
-            {champ.roles ? (
-              <div style={{ display:"flex", gap:"6px" }}>
-                {Object.keys(champ.roles).map(roleKey => {
-                  const isActive = currentRole === roleKey;
-                  const ek = `role-${roleKey}`;
-                  return (
-                    <div key={roleKey} onClick={() => setActiveRole(roleKey)} title={roleKey}
-                      style={{
-                        width:"30px", height:"30px", borderRadius:"6px", overflow:"hidden",
-                        cursor:"pointer",
-                        border: isActive ? `2px solid ${champ.glow}` : "1px solid rgba(255,255,255,.15)",
-                        background: isActive ? `${champ.color}30` : "#1B1B1E",
-                        boxShadow: isActive ? `0 0 10px ${champ.glow}60` : "none",
-                        opacity: isActive ? 1 : 0.4,
-                        transition:"all .15s",
-                        display:"flex", alignItems:"center", justifyContent:"center",
-                      }}>
-                      {!imgFail(ek)
-                        ? <img src={roleIcon(roleKey)} alt={roleKey} onError={() => onErr(ek)}
-                            style={{ width:"20px", height:"20px", objectFit:"contain",
-                              filter: isActive ? "brightness(1)" : "grayscale(80%) brightness(0.5)" }} />
-                        : <span style={{ fontSize:"9px", fontWeight:"bold",
-                            color: isActive ? champ.glow : "#555" }}>{roleKey[0]}</span>
-                      }
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div style={{ fontSize:"11px", color:S.textDim }}>{champ.lanes.join(" · ")}</div>
-            )}
-          </div>
-
-          {/* ── DRAFT TILES: recommended ban + replacement if banned ── */}
-          <div style={{ display:"flex", gap:"10px", marginLeft:"auto", flexWrap:"wrap" }}>
-            {[
-              // Bans are ordered worst-matchup first — index 0 is the priority ban.
-              { label:"Recommended Ban", kind:"ban", accent:"#e74c3c",
-                names: activeChampRole?.bans         || champ.bans },
-              { label:"Recommended Replacement", kind:"pick", accent:"#27ae60",
-                names: activeChampRole?.replacements || champ.replacements },
-              { label:"Synergies", kind:"none", accent:"#3a9bd4",
-                names: activeChampRole?.synergies || champ.synergies
-                  || synergiesFor(champ.dd, champ.display, currentRole) },
-            ].map(tile => tile.names?.length ? (
-              <div key={tile.label} style={{
-                background:"rgba(255,255,255,.02)",
-                border:`1px solid ${tile.accent}30`,
-                borderRadius:"10px", padding:"7px 10px 6px",
-              }}>
-                <div style={{ fontSize:"9px", letterSpacing:"2px", color:tile.accent,
-                  textTransform:"uppercase", marginBottom:"6px", opacity:.85 }}>
-                  {tile.label}
-                  {tile.kind === "ban" && isDesktop &&
-                    <span style={{ opacity:.6, marginLeft:"6px", letterSpacing:".5px" }}>· click to ban</span>}
-                </div>
-                <div style={{ display:"flex", gap:"8px" }}>
+              {/* live matchup readout (persists in-game). Read-only: the opponent
+                  is a guess (opponentDd() falls back to "first locked enemy"),
+                  so it must be correctable, but there is ONE place to correct
+                  it: the Enemy team panel (the user's call, 2026-10-21). */}
+              {detectedChamp ? (
+                <span title="Change it in the Enemy team panel" style={{ ...row, flexWrap:"wrap", color:T.text }}>
+                  {portrait(detectedChamp.dd, 24, `csme-${detectedChamp.dd}`)}
+                  <b style={{ fontWeight:600 }}>{detectedChamp.display}</b>
+                  {detectedRole && <span style={{ color:T.muted }}>{detectedRole}</span>}
+                  <span style={{ color:T.muted }}>vs</span>
+                  {csOppChamp ? (
+                    <>
+                      {portrait(csOppChamp.dd, 24, `csopp-${csOppChamp.dd}`)}
+                      <b style={{ fontWeight:600 }}>{csOppChamp.display}</b>
+                      <span style={{ color:T.muted }}>{oppOverride ? "Set by you" : "Auto"}</span>
+                    </>
+                  ) : (
+                    <span style={{ color:T.muted }}>
+                      {csEnemiesLocked ? "no clear opponent: pick one under Enemy team" : "waiting for enemy picks"}
+                    </span>
+                  )}
+                </span>
+              ) : csActive ? <span>Hover or lock a champion</span> : null}
+              {/* One click to push the build for THIS opponent. Auto-import
+                  fires once, at pre-hover, before the opponent has usually
+                  locked, so without this the client keeps the generic build.
+                  A button, not a second automatic import, so client-side edits
+                  are never overwritten unprompted. */}
+              {foeChamp && csActive && (
+                <button type="button" onClick={() => sendToLeague(null, planEnemies)} disabled={applyState === "sending"}
+                  title={`Import the rune page and item set for ${foeChamp.display} into the League client`}
+                  style={{ ...pillBtn(!!applyState?.ok), color:T.text, cursor: applyState === "sending" ? "wait" : "pointer" }}>
+                  {applyState === "sending" ? "Importing…"
+                    : applyState?.ok ? "Matchup build imported"
+                    : applyState && applyState.ok === false ? "Retry matchup import"
+                    : "Import matchup build"}
+                </button>
+              )}
+              {/* Recommended ban (worst matchup first), replacement and synergy. */}
+              {tiles.map((tile) => (
+                <span key={tile.kind} style={row}>
+                  <span>{tile.label}</span>
                   {tile.names.map((name, idx) => {
-                    const ek     = `draft-${tile.kind}-${name}`;
-                    const roster = CHAMPS.find(c => c.display === name);
-                    const priority = tile.kind === "ban" && idx === 0;
-                    // Per-tile click: ban → pre-select in ban phase; replacement →
-                    // switch to that champ; synergies → not clickable.
-                    const clickable = tile.kind === "ban" ? isDesktop
-                      : tile.kind === "pick" ? (roster && roster !== champ) : false;
+                    const roster = CHAMPS.find((c) => c.display === name);
+                    const clickable = tile.kind === "ban" || (tile.kind === "pick" && roster && roster !== champ);
                     const onClick = tile.kind === "ban" ? () => banHover(name)
                       : tile.kind === "pick" ? () => pickChamp(roster) : undefined;
                     const title = tile.kind === "ban"
-                      ? (isDesktop ? `${name} — ${priority ? "priority ban; " : ""}click to pre-select in the ban phase`
-                                   : `${name} — ${priority ? "priority ban" : "recommended ban"}`)
-                      : tile.kind === "pick" ? (roster ? `${name} — in your pool, click to play` : name)
-                      : (roster ? `${name} — synergises with ${champ.display}` : name);
-                    return (
-                      <div key={name}
-                        onClick={clickable ? onClick : undefined}
-                        title={title}
-                        style={{ display:"flex", flexDirection:"column", alignItems:"center",
-                          gap:"3px", width:"46px", position:"relative",
-                          cursor: clickable ? "pointer" : "default" }}>
-                        <div style={{
-                          width:"34px", height:"34px", borderRadius:"6px", overflow:"hidden",
-                          border:`${priority ? 2 : 1.5}px solid ${tile.accent}${priority ? "" : "50"}`,
-                          background:"#2A2F38",
-                          boxShadow: priority ? `0 0 9px ${tile.accent}80`
-                            : (tile.kind !== "none" && roster) ? `0 0 6px ${tile.accent}40` : "none",
-                        }}>
-                          {!imgFail(ek)
-                            ? <img src={champImg(name)} alt={name} onError={() => onErr(ek)}
-                                style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                            : <div style={{ width:"100%", height:"100%", display:"flex",
-                                alignItems:"center", justifyContent:"center",
-                                fontSize:"12px", color:"#5c6a7a" }}>{name[0]}</div>
-                          }
-                        </div>
-                        {/* rank badge on bans — conveys the ban priority order */}
-                        {tile.kind === "ban" &&
-                          <span style={{ position:"absolute", top:"-4px", left:"-4px",
-                            width:"15px", height:"15px", borderRadius:"50%",
-                            background: priority ? tile.accent : "#3a3f47",
-                            color:"#fff", fontSize:"9px", fontWeight:"700",
-                            display:"flex", alignItems:"center", justifyContent:"center",
-                            boxShadow: priority ? `0 0 6px ${tile.accent}` : "none" }}>{idx + 1}</span>}
-                        <span style={{ fontSize:"9px", color:"#D4AF37", textAlign:"center",
-                          lineHeight:1.15, maxWidth:"46px", overflow:"hidden",
-                          textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{name}</span>
-                      </div>
-                    );
+                      ? `${name}: ${idx === 0 ? "priority ban, " : ""}click to pre-select in the ban phase`
+                      : tile.kind === "pick" ? (roster ? `Play ${name}` : name) : name;
+                    const ek = `cs-${tile.kind}-${name}`;
+                    return clickable ? (
+                      <button key={name} type="button" onClick={onClick} title={title}
+                        style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block" }}>
+                        {portrait(toDDKey(name), 28, ek)}
+                      </button>
+                    ) : <span key={name} title={title}>{portrait(toDDKey(name), 28, ek)}</span>;
                   })}
-                </div>
-              </div>
-            ) : null)}
+                </span>
+              ))}
+              {/* controls */}
+              <span style={{ ...row, marginLeft:"auto", flexWrap:"wrap" }}>
+                {csMsg && <span style={{ color:T.text }}>{csMsg}</span>}
+                <button type="button" aria-pressed={preHoverOn} onClick={() => setPreHoverOn((v) => !v)}
+                  title={`Hover ${champ.display} as soon as champ select opens, then import its build (skipped if banned)`}
+                  style={pillBtn(preHoverOn)}>
+                  {preHoverOn ? "Pre-hover on" : "Pre-hover off"}
+                </button>
+                <button type="button" aria-pressed={csSync} onClick={() => setCsSync((v) => !v)}
+                  title="Follow the champion you hover or lock, and your lane opponent"
+                  style={pillBtn(csSync)}>
+                  {csSync ? "Auto-sync on" : "Auto-sync off"}
+                </button>
+              </span>
+              {/* ── ENEMY TEAM — the one place the lane opponent is set ── */}
+              {csEnemyAnalysis && (() => {
+                const { members, split, flags } = csEnemyAnalysis;
+                const dmg = [split.ad > 0 && `${split.ad} AD`, split.ap > 0 && `${split.ap} AP`,
+                  split.mixed > 0 && `${split.mixed} hybrid`, split.tank > 0 && `${split.tank} tank`].filter(Boolean);
+                // The threat flags read in line on a wide window; docked, they
+                // ride on the damage split's tooltip so the panel stays one row.
+                const flagText = flags.map((f) => f.label).join(" · ");
+                return (
+                  <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"8px 12px" }}>
+                    <button type="button" aria-expanded={enemyPanelOpen} onClick={() => setEnemyPanelOpen((v) => !v)}
+                      style={{ border:0, background:"none", padding:0, cursor:"pointer", color:T.text,
+                        font:`600 13px ${T.font}`, whiteSpace:"nowrap" }}>
+                      Enemy team {enemyPanelOpen ? "▾" : "▸"}
+                    </button>
+                    {dmg.length > 0 && (
+                      <span title={wideL ? undefined : flagText || undefined} style={{ whiteSpace:"nowrap" }}>
+                        {dmg.join(" · ")}{wideL && flagText ? ` · ${flagText}` : ""}
+                      </span>
+                    )}
+                    {enemyPanelOpen && members.map((m, i) => {
+                      const name = DD_TO_CHAMP[m.dd]?.display || m.dd;
+                      const ek = `enemy-${m.dd}-${i}`;
+                      return (
+                        <button key={ek} type="button" aria-pressed={!!m.isOpp}
+                          onClick={() => { if (!m.isOpp) setOppOverride(m.dd); }}
+                          title={m.isOpp ? "Your lane opponent" : `Set ${name} as your lane opponent`}
+                          style={{ display:"inline-flex", alignItems:"center", gap:"6px", padding:"4px 12px 4px 4px",
+                            borderRadius:"999px", border:0, cursor: m.isOpp ? "default" : "pointer", whiteSpace:"nowrap",
+                            background: m.isOpp ? colours.active : T.raised, color:T.text, font:`500 13px ${T.font}` }}>
+                          {portrait(m.dd, 24, ek, true)}
+                          {name}
+                        </button>
+                      );
+                    })}
+                    {oppOverride && (
+                      <button type="button" onClick={() => setOppOverride(null)} style={pillBtn(false)}>
+                        Back to auto-detect
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
           </div>
+        );
+      })()}
 
-        </div>
-      </div>
 
       {/* ── FLOATING CHAMPION PICKER MODAL ── */}
       {showPicker && (
@@ -3050,243 +2481,243 @@ useEffect(() => {
         </>
       )}
 
-      {/* ── CORE BUILD PATH ── */}
-      <div style={{ maxWidth:"min(96vw,1900px)", margin:"8px auto 0", padding:"0 24px" }}>
-        <div className="frge-panel" style={{
-          background:"rgba(27,27,30,.985)",   // slightly more opaque than S.panelBg — the build path stays legible over splash art
-          padding:"11px 18px",
-        }}>
-          <div style={{ display:"flex", alignItems:"center",
-            marginBottom: showCore ? "14px" : "0" }}>
-            <span style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-              textTransform:"uppercase" }}>Core Build Path</span>
-            {isDesktop && (
-              <button
-                onClick={() => sendToLeague(null, planEnemies)}
-                disabled={applyState === "sending"}
-                className="frge-cta"
-                title="Import this rune page + item set into the running League client"
-                style={{
-                  marginLeft:"auto",
-                  cursor: applyState === "sending" ? "default" : "pointer",
-                  borderRadius:"20px", padding:"5px 14px", fontSize:"11px",
-                  letterSpacing:".5px", fontWeight:"bold",
-                  border:`1px solid ${
-                    applyState && applyState !== "sending"
-                      ? (applyState.ok ? "#4caf7d" : "#d9564f")
-                      : `${S.orange}aa`}`,
-                  background:
-                    applyState && applyState !== "sending"
-                      ? (applyState.ok ? "rgba(76,175,125,.15)" : "rgba(217,86,79,.15)")
-                      : `${S.orange}22`,
-                  color:
-                    applyState === "sending" ? S.textDim
-                      : applyState ? (applyState.ok ? "#6bd6a0" : "#f08a84")
-                      : S.orange,
-                  transition:"all .15s",
-                }}>
-                {applyState === "sending" ? "Importing…"
-                  : applyState ? (applyState.ok ? "✓ " : "✕ ") + applyState.msg
-                  : "⚡ Import to League"}
-              </button>
+      {/* ── BUILD PAGE (the 2026-10-22 redesign, .taste-skill/mock/forge.html) ──
+          Who, against whom, the game state and the one action on one row; the
+          finding (what this opponent and their team change) once, in one
+          sentence; the build tabs; then the item set as the hero, with the rune
+          page, skills and spells, and the situational items beside or below it.
+          The 13 class tiles moved to How to Play ("Vs each class"), the ban /
+          replacement / synergy tiles to Draft Coach and the champ-select bar,
+          and the long "why" text to How to Play. Not rendered under the
+          in-game view, which covers it completely. */}
+      {!inGameViewOn && (() => {
+        const notes = shownExp.notes || {};
+        const blocks = shownExp.itemSet?.blocks || [];
+        const sitBlock = blocks.find((b) => b.type === "Situational");
+        const roles = champ.roles ? Object.keys(champ.roles) : [currentRole].filter(Boolean);
+        const vsChamp = inChampSelect ? csOppChamp : foeChamp;
+        const vsClass = vsChamp ? classOf(vsChamp.dd) : null;
+        const clsLabel = (c) => (c ? c.charAt(0) + c.slice(1).toLowerCase().replace(/_/g, " ") : "");
+        const builds = [{ key:"-1", label: activeChampRole.buildLabel || "Standard" },
+          ...altList.map((b, i) => ({ key:String(i), label:b.label, title: b.tag === "off-meta" ? "Off-meta build" : undefined }))];
+        const importLabel = applyState === "sending" ? "Importing…"
+          : applyState?.ok ? "Imported"
+          : applyState && applyState.ok === false ? "Retry import"
+          : "Import to client";
+        const runeSwaps = planLane?.runes || [];
+        const pill = { display:"inline-flex", alignItems:"center", gap:"10px", height:"40px", padding:"0 14px 0 6px",
+          borderRadius:"999px", background:T.surface, border:0, color:T.text, font:`500 14px ${T.font}`, whiteSpace:"nowrap" };
+        const foeFace = (c) => (
+          <span style={{ width:28, height:28, borderRadius:"50%", overflow:"hidden", background:T.raised, flex:"none", display:"block" }}>
+            {c && <img src={champImg(c.dd)} alt="" draggable={false} style={{ width:28, height:28, display:"block" }} />}
+          </span>
+        );
+        const vsBody = (
+          <>
+            {foeFace(vsChamp)}
+            <span>{vsChamp ? `vs ${vsChamp.display}` : inChampSelect ? (csEnemiesLocked ? "Pick your opponent" : "Waiting for picks") : "Choose opponent"}</span>
+            {vsClass && <span style={{ color:T.muted }}>{clsLabel(vsClass)}</span>}
+          </>
+        );
+        // The likely lane opponents first (champions who play this role); a
+        // search reaches the whole roster.
+        const q = vsQuery.trim().toLowerCase();
+        const vsCands = (q
+          ? CHAMPS.filter((c) => c.display.toLowerCase().includes(q))
+          : CHAMPS.filter((c) => (c.lanes || []).includes(currentRole)))
+          .filter((c) => c.id !== champ.id)
+          .sort((a, b) => a.display.localeCompare(b.display));
+        const vsPill = inChampSelect ? (
+          // In champ select the opponent is set in the Enemy team panel only.
+          <span title="Change it in the Enemy team panel" style={pill}>{vsBody}</span>
+        ) : (
+          <span style={{ position:"relative", display:"inline-flex" }}>
+            <button type="button" aria-haspopup="dialog" aria-expanded={vsOpen}
+              onClick={() => { setVsOpen((v) => !v); setVsQuery(""); }}
+              title="Choose who you are laning against" style={{ ...pill, cursor:"pointer" }}>{vsBody}</button>
+            {vsOpen && (
+              <>
+                <div onClick={() => setVsOpen(false)} style={{ position:"fixed", inset:0, zIndex:80 }} />
+                <div role="dialog" aria-label="Choose opponent"
+                  style={{ position:"absolute", top:"46px", left:0, zIndex:81, width:"min(360px, calc(100vw - 32px))",
+                    background:T.raised, borderRadius:"12px", padding:"10px", boxSizing:"border-box",
+                    boxShadow:"0 12px 32px rgba(0,0,0,.5)" }}>
+                  <input autoFocus value={vsQuery} onChange={(e) => setVsQuery(e.target.value)}
+                    placeholder="Search champion" aria-label="Search champion"
+                    style={{ width:"100%", boxSizing:"border-box", padding:"8px 12px", borderRadius:"8px", border:0,
+                      background:T.surface, color:T.text, font:`500 14px ${T.font}`, outline:"none" }} />
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(68px, 1fr))", gap:"6px",
+                    marginTop:"10px", maxHeight:"264px", overflowY:"auto" }}>
+                    {vsCands.map((c) => (
+                      <button key={c.id} type="button" title={c.display}
+                        onClick={() => { setVsPick(c.dd); setVsOpen(false); }}
+                        style={{ border:0, borderRadius:"8px", padding:"6px 2px", cursor:"pointer", minWidth:0,
+                          background: vsPick === c.dd ? colours.active : "transparent", color:T.text,
+                          font:`500 12px ${T.font}`, display:"flex", flexDirection:"column", alignItems:"center", gap:"4px" }}>
+                        <img src={champImg(c.dd)} alt="" loading="lazy" draggable={false}
+                          style={{ width:40, height:40, borderRadius:"8px", display:"block" }} />
+                        <span style={{ maxWidth:"100%", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{c.display}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {vsPick && (
+                    <button type="button" onClick={() => { setVsPick(null); setVsOpen(false); }}
+                      style={{ ...textBtn, marginTop:"10px" }}>Clear opponent</button>
+                  )}
+                </div>
+              </>
             )}
-            <button onClick={() => setShowCore(v => !v)} style={{
-              marginLeft: isDesktop ? "12px" : "auto", background:"none", border:"none",
-              cursor:"pointer", color:S.textDim, fontSize:"11px", letterSpacing:"1px",
-            }}>
-              {showCore ? "▲ Hide" : "▼ Why?"}
+          </span>
+        );
+
+        // The matchup's same-row rune swaps, one click to apply (and import in
+        // champ select). Never applied unprompted.
+        const runeSwapLine = runeSwaps.length > 0 ? (
+          <div style={{ marginTop:"12px", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 12px",
+            fontSize:"13px", color:T.muted }}>
+            <span>vs {planLane.foe}:</span>
+            {runeSwaps.map((r) => (
+              <span key={`${r.from}-${r.to}`} title={r.why} style={{ color:T.text }}>
+                {r.from} <span aria-hidden="true">→</span> <b style={{ color:LANE, fontWeight:600 }}>{r.to}</b>
+              </span>
+            ))}
+            <button type="button" disabled={applyState === "sending"}
+              onClick={() => {
+                setRuneSel(planLane.page);
+                setVsApplied(true);
+                if (csActive && isDesktop) sendToLeague(planLane.page, planEnemies);
+              }}
+              title={csActive && isDesktop ? "Apply these swaps and import the page and item set" : "Apply these swaps to the rune page"}
+              style={{ ...textBtn, marginLeft:"auto" }}>
+              {csActive && isDesktop ? "Apply and import" : "Apply"}
             </button>
           </div>
+        ) : vsApplied ? (
+          <p style={{ margin:"12px 0 0", fontSize:"13px", color: applyState?.ok === false ? LANE : T.muted }}>
+            {applyState === "sending" ? "Importing…"
+              : applyState?.ok === false ? applyState.msg
+              : applyState?.ok ? "Matchup runes applied and imported"
+              : "Matchup runes applied"}
+          </p>
+        ) : null;
 
-          {/* Summoner spells for this role */}
-          <div style={{ display:"flex", alignItems:"center", gap:"10px", marginTop:"12px" }}>
-            <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
-              textTransform:"uppercase", flexShrink:0 }}>Summoners</span>
-            {buildSpells.map(spell => {
-              const ek = `spell-${spell}`;
-              const src = spellImg(spell, spellMap);
-              return (
-                <div key={spell} style={{ display:"flex", alignItems:"center", gap:"6px" }}>
-                  <div style={{
-                    width:"28px", height:"28px", borderRadius:"6px", overflow:"hidden",
-                    border:`1px solid ${S.orange}55`, background:`${S.orange}12`,
-                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
-                  }}>
-                    {src && !imgFail(ek)
-                      ? <img src={src} alt={spell} onError={() => onErr(ek)}
-                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                      : <div style={{ width:"9px", height:"9px", borderRadius:"50%", background:S.orange }} />
-                    }
-                  </div>
-                  <span style={{ fontSize:"12px", fontWeight:"600", color:"#d7d9dd",
-                    whiteSpace:"nowrap" }}>{spell}</span>
+        const area = (a) => (wideL ? { gridArea:a } : undefined);
+        const setCard = (
+          <ItemSetCard blocks={blocks} notes={notes} itemName={itemNameOf} colours={colours} layout={L}
+            itemHover={itemHover} sub={forgeHasItems ? "From Build Forge" : null} style={area("set")} />
+        );
+        const runesCard = (
+          <RunesCard runes={runeSel} runeSrc={(n) => runeImg(n, runeMap)} layout={L} style={area("runes")}
+            action={<button type="button" style={textBtn} onClick={() => setRuneEditorOpen(true)}>Edit runes</button>}>
+            {runeSwapLine}
+          </RunesCard>
+        );
+        const skillsCard = (
+          <SkillsCard skills={{ max: buildSkillOrder, seq: buildSkillSeq, noUlt: buildNoUlt }} spells={buildSpells}
+            spellSrc={(n) => spellImg(n, spellMap)} colours={colours} layout={L} keyHover={keyHover} style={area("skills")} />
+        );
+        const sitCard = (
+          <SituationalCard block={sitBlock} itemName={itemNameOf} layout={L} itemHover={itemHover} style={area("sit")} />
+        );
+
+        return (
+          <main style={{ maxWidth:"1920px", margin:"0 auto", padding:`${wideL ? 12 : 10}px ${gutter}px 8px`, boxSizing:"border-box",
+            fontSize:"14px", lineHeight:"20px", color:T.text, WebkitFontSmoothing:"antialiased" }}>
+            {/* who, against whom, the game state and the one action */}
+            <div style={{ display:"flex", alignItems:"center", gap: wideL ? "16px" : "8px 16px", flexWrap:"wrap" }}>
+              <button type="button" onClick={() => setShowPicker(true)} title="Change champion"
+                style={{ border:0, padding:0, background:"none", cursor:"pointer", flex:"none", borderRadius:"12px" }}>
+                {!imgFail(`me-${champ.dd}`)
+                  ? <img src={champImg(champ.dd)} alt="" onError={() => onErr(`me-${champ.dd}`)} draggable={false}
+                      style={{ width:52, height:52, borderRadius:"12px", objectFit:"cover", display:"block" }} />
+                  : <span style={{ width:52, height:52, borderRadius:"12px", background:T.raised, display:"block" }} />}
+              </button>
+              <h1 style={{ margin:0, fontFamily:T.display, fontSize:"28px", lineHeight:"32px", letterSpacing:"-.02em",
+                fontWeight:800, color:T.text }}>{champ.display}</h1>
+              <Seg label="Role" items={roles.map((r) => ({ key:r, label:r }))} value={currentRole}
+                onPick={(r) => setActiveRole(r)} colours={colours} />
+              <div style={{ display:"flex", alignItems:"center", gap:"14px", flexWrap:"wrap", minWidth:0,
+                ...(wideL ? { marginLeft:"auto" } : { order:1, flexBasis:"100%" }) }}>
+                {vsPill}
+                <div style={L === "docked" ? { marginLeft:"auto" } : undefined}>
+                  <Seg label="Game state" value={mode} onPick={setMode} colours={colours} disabled={buildLocked}
+                    title={buildLocked ? "Clear the Build Forge set to switch game state" : undefined}
+                    items={[{ key:"ahead", label:"Ahead" }, { key:"behind", label:"Even / Behind" }]} />
                 </div>
-              );
-            })}
-
-            {/* Jungle companion (pet) — jungle role only */}
-            {buildPet && (() => {
-              const ek = `pet-${buildPet}`;
-              const src = itemImg(buildPet, itemMap);
-              const info = PET_INFO[buildPet];
-              return (
-                <div style={{ display:"flex", alignItems:"center", gap:"7px",
-                  marginLeft:"6px", paddingLeft:"12px",
-                  borderLeft:"1px solid rgba(255,255,255,.1)" }}
-                  title={info ? `Jungle pet — ${info.tag}: ${info.why}` : `Jungle pet: ${buildPet}`}>
-                  <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
-                    textTransform:"uppercase", flexShrink:0 }}>Pet</span>
-                  <div style={{
-                    width:"28px", height:"28px", borderRadius:"6px", overflow:"hidden",
-                    border:`1px solid ${S.gold}55`, background:`${S.gold}12`,
-                    display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
-                  }}>
-                    {src && !imgFail(ek)
-                      ? <img src={src} alt={buildPet} onError={() => onErr(ek)}
-                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                      : <div style={{ width:"9px", height:"9px", borderRadius:"50%", background:S.gold }} />
-                    }
-                  </div>
-                  <span style={{ fontSize:"12px", fontWeight:"600", color:"#d7d9dd",
-                    whiteSpace:"nowrap" }}>{buildPet}</span>
-                  {info && <span style={{ fontSize:"9px", color:S.goldDim, letterSpacing:".5px",
-                    border:`1px solid ${S.gold}30`, borderRadius:"10px", padding:"1px 6px" }}>{info.tag}</span>}
-                </div>
-              );
-            })()}
-          </div>
-
-          {/* Ability level order — max-priority header row + optional 18-level grid/strip */}
-          {buildSkillOrder && (
-            <div style={{ marginTop:"12px" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap" }}>
-                <span style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
-                  textTransform:"uppercase", flexShrink:0 }}>Skill order</span>
-                {/* ultimate first — hidden for no-ult champs (Udyr's 4 stances) */}
-                {!buildNoUlt && (
-                  <>
-                    <span style={{ display:"inline-flex", alignItems:"center", gap:"5px" }}>
-                      <span style={{ width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
-                        display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
-                        border:`1px solid ${S.gold}`, background:`${S.gold}1e`, color:S.gold }}>R</span>
-                      <span style={{ fontSize:"9px", color:"rgba(255,255,255,.4)" }}>6·11·16</span>
-                    </span>
-                    <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>
-                  </>
-                )}
-                {buildSkillOrder.map((ab, i) => (
-                  <span key={ab} style={{ display:"inline-flex", alignItems:"center", gap:"8px" }}>
-                    <span style={{ position:"relative", width:"26px", height:"26px", borderRadius:"6px", flexShrink:0,
-                      display:"flex", alignItems:"center", justifyContent:"center", fontSize:"12px", fontWeight:"800",
-                      border:`1px solid ${S.orange}66`, background:`${S.orange}14`, color:"#f0b070" }}>
-                      {ab}
-                      <span style={{ position:"absolute", top:"-5px", right:"-5px", width:"13px", height:"13px",
-                        borderRadius:"50%", background:"#2a2f38", color:"#c7ccd1", fontSize:"8px", fontWeight:"700",
-                        display:"flex", alignItems:"center", justifyContent:"center" }}>{i + 1}</span>
-                    </span>
-                    {i < buildSkillOrder.length - 1 && <span style={{ color:"rgba(255,255,255,.25)", fontSize:"13px" }}>›</span>}
-                  </span>
-                ))}
-                <span style={{ fontSize:"9.5px", color:"rgba(255,255,255,.32)", marginLeft:"2px" }}>
-                  {buildNoUlt ? "stance priority (no ultimate)" : "max order"}
-                </span>
-                {/* grid ↔ strip layout toggle — only when a level sequence exists */}
-                {buildSkillSeq && (
-                  <div style={{ marginLeft:"auto", display:"inline-flex", borderRadius:"6px",
-                    overflow:"hidden", border:`1px solid ${S.gold}25` }}>
-                    {["grid", "strip"].map((v) => {
-                      const on = skillView === v;
-                      return (
-                        <button key={v} onClick={() => setSkillView(v)} title={`Show skill order as a ${v}`}
-                          style={{ padding:"3px 9px", fontSize:"9px", fontWeight:"700", letterSpacing:".5px",
-                            textTransform:"uppercase", cursor:"pointer", border:"none",
-                            background: on ? `${S.gold}22` : "transparent",
-                            color: on ? S.gold : "rgba(255,255,255,.4)" }}>{v}</button>
-                      );
-                    })}
-                  </div>
-                )}
               </div>
-
-              {/* GRID — abilities (Q/W/E/R) × 18 level columns */}
-              {buildSkillSeq && skillView === "grid" && (
-                <div style={{ marginTop:"10px", overflowX:"auto", paddingBottom:"2px" }}>
-                  <div style={{ display:"inline-block", minWidth:"min-content" }}>
-                    <div style={{ display:"flex", gap:"3px", marginBottom:"4px", paddingLeft:"25px" }}>
-                      {buildSkillSeq.map((_, i) => (
-                        <span key={"ln" + i} style={{ width:"20px", textAlign:"center", fontSize:"8px",
-                          color:"rgba(255,255,255,.38)" }}>{i + 1}</span>
-                      ))}
-                    </div>
-                    {["Q", "W", "E", "R"].map((ab) => {
-                      const isUlt = ab === "R";
-                      const accent = isUlt ? S.gold : S.orange;
-                      return (
-                        <div key={ab} style={{ display:"flex", gap:"3px", alignItems:"center", marginBottom:"3px" }}>
-                          <span onMouseEnter={e => abilEnter(ab, e)} onMouseMove={abilMove} onMouseLeave={hideTip}
-                            style={{ position:"relative", width:"22px", height:"20px", flexShrink:0, borderRadius:"5px", overflow:"hidden",
-                            display:"flex", alignItems:"center", justifyContent:"center", fontSize:"10px", fontWeight:"800",
-                            border:`1px solid ${accent}66`, background:`${accent}14`, color: isUlt ? S.gold : "#f0b070",
-                            cursor: spellFor(ab) ? "help" : "default" }}>
-                            {spellFor(ab)
-                              ? <img src={`/ddragon/img/spell/${spellFor(ab).image}`} alt={ab} draggable={false}
-                                  style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                              : ab}
-                          </span>
-                          {buildSkillSeq.map((lv, i) => {
-                            const on = lv === ab;
-                            return (
-                              <span key={ab + i} style={{ width:"20px", height:"20px", flexShrink:0, borderRadius:"4px",
-                                display:"flex", alignItems:"center", justifyContent:"center", fontSize:"9px", fontWeight:"800",
-                                background: on ? accent : "rgba(255,255,255,.035)",
-                                color: on ? "#15181d" : "transparent",
-                                border: on ? "none" : "1px solid rgba(255,255,255,.05)" }}>{on ? i + 1 : ""}</span>
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* STRIP — single Pantheon-style row of 18 level pills */}
-              {buildSkillSeq && skillView === "strip" && (
-                <div style={{ marginTop:"10px", overflowX:"auto", paddingBottom:"2px" }}>
-                  <div style={{ display:"inline-flex", gap:"3px" }}>
-                    {buildSkillSeq.map((lv, i) => {
-                      const isUlt = !buildNoUlt && lv === "R"; // no-ult champs (Udyr) have no ult to highlight
-                      const accent = isUlt ? S.gold : S.orange;
-                      return (
-                        <span key={i} style={{ display:"inline-flex", flexDirection:"column", alignItems:"center", gap:"2px" }}>
-                          <span onMouseEnter={e => abilEnter(lv, e)} onMouseMove={abilMove} onMouseLeave={hideTip}
-                            style={{ position:"relative", width:"22px", height:"22px", borderRadius:"5px", flexShrink:0, overflow:"hidden",
-                            display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", fontWeight:"800",
-                            border:`1px solid ${isUlt ? S.gold : accent + "66"}`,
-                            background: isUlt ? `${S.gold}22` : `${accent}12`,
-                            color: isUlt ? S.gold : "#f0b070",
-                            boxShadow: isUlt ? `0 0 6px ${S.gold}55` : "none",
-                            cursor: spellFor(lv) ? "help" : "default" }}>
-                            {spellFor(lv)
-                              ? <img src={`/ddragon/img/spell/${spellFor(lv).image}`} alt={lv} draggable={false}
-                                  style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                              : lv}
-                            <span style={{ position:"absolute", bottom:0, right:1, fontSize:"7px", fontWeight:"800",
-                              color: isUlt ? S.gold : "#f0b070", textShadow:"0 0 3px #000,0 0 3px #000", pointerEvents:"none" }}>{lv}</span>
-                          </span>
-                          <span style={{ fontSize:"8px", color:"rgba(255,255,255,.3)" }}>{i + 1}</span>
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
+              {isDesktop && (
+                <button type="button" onClick={() => sendToLeague(null, planEnemies)} disabled={applyState === "sending"}
+                  title="Import the rune page and item set below into the League client"
+                  style={{ height:"40px", padding:"0 22px", border:0, borderRadius:"999px", whiteSpace:"nowrap",
+                    background:colours.primary, color:colours.ink, font:`600 14px ${T.font}`,
+                    cursor: applyState === "sending" ? "wait" : "pointer",
+                    ...(wideL ? {} : L === "docked" ? { marginLeft:"auto" } : { width:"100%", order:2 }) }}>
+                  {importLabel}
+                </button>
               )}
             </div>
-          )}
+            {applyState && applyState !== "sending" && applyState.ok === false && (
+              <p style={{ margin:"8px 0 0", fontSize:"13px", color:LANE }}>{applyState.msg}</p>
+            )}
 
+            <Finding notes={notes} style={wideL ? undefined : { marginTop:"10px", fontSize:"14px", lineHeight:"20px" }} />
 
-          {/* Build Forge now opens from the top nav; the authoring modal renders below. */}
+            {/* the role's builds are alternative item sets: one row of tabs */}
+            {altList.length > 0 && (
+              <div style={{ display:"flex", alignItems:"center", gap:"12px", marginTop: wideL ? "12px" : "10px", minWidth:0 }}>
+                <span style={{ color:T.faint, fontSize:"13px", flex:"none" }}>Build</span>
+                <Seg label="Build" items={builds} value={String(altBuildIdx)} colours={colours}
+                  onPick={(k) => setAltBuildIdx(Number(k))} />
+              </div>
+            )}
 
+            {wideL ? (
+              <div style={{ display:"grid", gap:"24px", marginTop:"12px", alignItems:"start",
+                gridTemplateColumns:"repeat(3, minmax(0, 1fr))", gridTemplateAreas:"'set set set' 'runes skills sit'" }}>
+                {setCard}{runesCard}{skillsCard}{sitCard}
+              </div>
+            ) : (
+              <div style={{ display:"grid", gap:"12px", marginTop:"10px", alignItems:"start",
+                gridTemplateColumns: L === "docked" ? "minmax(0, 1.25fr) minmax(0, 1fr)" : "minmax(0, 1fr)" }}>
+                {setCard}
+                <div style={{ display:"flex", flexDirection:"column", gap:"12px", minWidth:0 }}>
+                  {runesCard}{skillsCard}{sitCard}
+                </div>
+              </div>
+            )}
+          </main>
+        );
+      })()}
+
+      {/* ── RUNE EDITOR — the full page, behind "Edit runes" ── The compact card
+          above shows the same selection (runeSel), and the import path is
+          unchanged: whatever is selected here is what gets imported. */}
+      {runeEditorOpen && typeof document !== "undefined" && createPortal(
+        <div onClick={() => setRuneEditorOpen(false)}
+          style={{ position:"fixed", inset:0, zIndex:200, display:"flex", alignItems:"flex-start", justifyContent:"center",
+            padding:"40px 16px", background:"rgba(10,10,12,.72)", overflowY:"auto", boxSizing:"border-box" }}>
+          <div role="dialog" aria-label="Edit runes" onClick={(e) => e.stopPropagation()}
+            style={{ ...cardStyle(20), width:"min(760px, 100%)", fontFamily:T.font, color:T.text }}>
+            <div style={{ ...headStyle, alignItems:"center", marginBottom:"14px" }}>
+              <h2 style={h2Style}>Edit runes</h2>
+              <span style={{ display:"inline-flex", gap:"16px", alignItems:"center" }}>
+                <button type="button" style={{ ...textBtn, color:T.muted }} onClick={() => setRuneSel(pageFrom(recommendedRunes))}>Reset</button>
+                <button type="button" onClick={() => setRuneEditorOpen(false)}
+                  style={{ height:"36px", padding:"0 18px", border:0, borderRadius:"999px", cursor:"pointer",
+                    background:colours.primary, color:colours.ink, font:`600 14px ${T.font}` }}>Done</button>
+              </span>
+            </div>
+            <RunePage
+              sel={runeSel} setSel={setRuneSel}
+              recommended={recommendedRunes}
+              enemyChamp={appliedMatchup || ""}
+            />
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ── BUILD FORGE — author a custom item set (opens from the top bar) ── */}
           {forgeOpen && typeof document !== "undefined" && createPortal(
             <div onClick={() => setForgeOpen(false)}
               style={{ position:"fixed", inset:0, zIndex:200, display:"flex", alignItems:"center",
@@ -3297,7 +2728,6 @@ useEffect(() => {
                   background:"rgba(20,19,22,.98)", border:`1px solid ${S.gold}55`, borderRadius:"16px",
                   boxShadow:"0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(212,175,55,.08)", padding:"22px 24px" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"3px" }}>
-                  <span style={{ fontSize:"20px" }}>🔨</span>
                   <div className="frge-display" style={{ fontSize:"19px", fontWeight:"800", color:S.gold, letterSpacing:".5px" }}>Build Forge</div>
                   <div style={{ flex:1 }} />
                   <button onClick={() => setForgeOpen(false)} title="Close"
@@ -3369,7 +2799,7 @@ useEffect(() => {
                         <button onClick={() => { setForgeSlot(key); setForgeQuery(""); }}
                           style={{ padding:"3px 9px", fontSize:"10.5px", fontWeight:"700", cursor:"pointer", borderRadius:"7px",
                             border:"1px dashed rgba(255,255,255,.2)", background:"transparent", color:"rgba(255,255,255,.55)" }}>
-                          ⇄ change
+                          Change
                         </button>
                       )}
                     </div>
@@ -3405,13 +2835,13 @@ useEffect(() => {
                   <button onClick={shareBuild} title="Copy a shareable code for this champ, role and rune page"
                     style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
                       borderRadius:"7px", border:`1px solid ${S.gold}55`, background:`${S.gold}18`, color:S.gold }}>
-                    🔗 Share build
+                    Share build
                   </button>
                   {nameDraft === null ? (
                     <button onClick={() => setNameDraft("")} title="Name and save this build to your local builds"
                       style={{ padding:"5px 12px", fontSize:"11px", fontWeight:"700", cursor:"pointer", whiteSpace:"nowrap",
                         borderRadius:"7px", border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"#e8e8ea" }}>
-                      💾 Save
+                      Save
                     </button>
                   ) : (
                     <span style={{ display:"inline-flex", alignItems:"center", gap:"0", borderRadius:"7px",
@@ -3465,7 +2895,7 @@ useEffect(() => {
                             style={{ background:"none", border:"none", color:"#e8e8ea", cursor:"pointer",
                               fontSize:"11px", fontWeight:"600", padding:0 }}>{sb.name}</button>
                           <button onClick={() => copySavedCode(sb)} title="Copy share code"
-                            style={{ background:"none", border:"none", color:S.goldDim, cursor:"pointer", fontSize:"11px", padding:"0 2px" }}>🔗</button>
+                            style={{ background:"none", border:"none", color:S.goldDim, cursor:"pointer", fontSize:"11px", padding:"0 2px" }}>Copy</button>
                           <button onClick={() => deleteSavedBuild(sb.id)} title="Delete"
                             style={{ background:"none", border:"none", color:"rgba(255,255,255,.35)", cursor:"pointer", fontSize:"12px", padding:"0 2px" }}>×</button>
                         </span>
@@ -3483,444 +2913,6 @@ useEffect(() => {
             </div>,
             document.body
           )}
-
-          {/* Share / Save / Import + Saved builds moved into the Build Forge modal (top nav). */}
-
-          {/* Build toggle — only when an alternate/off-meta build exists for this role */}
-          {altList.length > 0 && (
-            <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"12px" }}>
-              {[{ label: activeChampRole.buildLabel || "Standard", tag:"meta", idx:-1 },
-                ...altList.map((b, i) => ({ label:b.label, tag:b.tag, idx:i }))].map(({ label, tag, idx }) => {
-                const on = altBuildIdx === idx;
-                const off = tag === "off-meta";
-                const accent = off ? "#e08040" : S.gold;
-                return (
-                  <button key={idx} onClick={() => setAltBuildIdx(idx)}
-                    className="frge-pill" aria-pressed={on} style={{
-                    cursor:"pointer", borderRadius:"20px", padding:"4px 12px",
-                    fontSize:"11px", letterSpacing:".5px", fontWeight: on ? "bold" : "normal",
-                    border:`1px solid ${on ? accent : "rgba(255,255,255,.12)"}`,
-                    background: on ? `${accent}22` : "rgba(255,255,255,.03)",
-                    color: on ? accent : "#8a9096", transition:"all .15s",
-                  }}>
-                    {label}
-                    {off && <span style={{ opacity:.7, marginLeft:"5px", fontSize:"9px" }}>OFF-META</span>}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Arrow chain */}
-          <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:"6px",
-            marginTop:"12px", marginBottom: showCore ? "14px" : "0" }}>
-            {coreArrow.map((item, idx) => {
-              const col = ic(item);
-              const ek  = `core-${item}`;
-              const src = itemImg(item, itemMap);
-              return (
-                <div key={idx}
-                  onMouseEnter={e => itemTip(item, e, "Part of the core build path.")}
-                  onMouseMove={trackTip} onMouseLeave={hideTip}
-                  style={{ display:"flex", alignItems:"center", gap:"6px", cursor:"help" }}>
-                  <div style={{
-                    width:"44px", height:"44px", borderRadius:"8px", overflow:"hidden",
-                    border:`2px solid ${col}55`, background:`${col}15`,
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                    boxShadow:`0 0 10px ${col}30`, flexShrink:0,
-                  }}>
-                    {src && !imgFail(ek)
-                      ? <img src={src} alt={item} onError={() => onErr(ek)}
-                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                      : <div style={{ width:"12px", height:"12px", borderRadius:"50%",
-                          background:col, boxShadow:`0 0 6px ${col}` }} />
-                    }
-                  </div>
-                  <span className="frge-item-name" style={{ fontSize:"13px", fontWeight:"600", color:col,
-                    whiteSpace:"nowrap" }}>{item}</span>
-                  {idx < coreArrow.length - 1 && (
-                    <span style={{ color:"rgba(212,175,55,.45)", fontSize:"18px",
-                      margin:"0 2px", fontWeight:"300" }}>›</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {showCore && (
-            <p style={{ margin:0, fontSize:"13px", color:"#b7bcc2", lineHeight:1.7,
-              borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
-              {buildCoreNote}
-            </p>
-          )}
-          {/* How to play an alternate, when its data carries a play pattern
-              (e.g. Pantheon's Stormraider's line). One line per tip, grouped
-              by game phase, with the source credited underneath. */}
-          {showCore && activeAlt?.playTips?.tips?.length > 0 && (
-            <div style={{ display:"flex", flexDirection:"column", gap:"6px",
-              borderTop:`1px solid ${S.border}`, paddingTop:"12px" }}>
-              <span style={{ fontSize:"13px", fontWeight:600, color:S.gold }}>How to play it</span>
-              {activeAlt.playTips.tips.map((t, i) => (
-                <div key={i} style={{ display:"grid", gridTemplateColumns:"84px 1fr", gap:"10px",
-                  fontSize:"13px", lineHeight:1.6 }}>
-                  <span style={{ color:S.goldDim }}>{t.phase}</span>
-                  <span style={{ color:"#c9cdd2" }}>{t.text}</span>
-                </div>
-              ))}
-              {activeAlt.playTips.variant && (
-                <p style={{ margin:"4px 0 0", fontSize:"12.5px", color:"#9aa0a6", lineHeight:1.6 }}>
-                  {activeAlt.playTips.variant}
-                </p>
-              )}
-              {activeAlt.playTips.source && (
-                <span style={{ fontSize:"11.5px", color:"rgba(255,255,255,.4)" }}>
-                  Source: {activeAlt.playTips.source}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── CLASS BUBBLES ── */}
-      <div style={{
-        display:"grid",
-        gridTemplateColumns:"repeat(auto-fit, minmax(116px, 1fr))",
-        gap:"8px", padding:"9px 24px",
-        maxWidth:"min(96vw,1900px)", margin:"0 auto",
-      }}>
-        {Object.keys(CLASSES).map(k => {
-          const d  = CLASSES[k];
-          const on = openClass === k;
-          // First 3 champions in this class, excluding the one we're playing
-          const previewChamps = d.champions
-            .filter(c => c !== champ.display)
-            .slice(0, 3);
-          return (
-            <div key={k} onClick={() => setOpenClass(on ? null : k)}
-              className={`frge-tile${on ? " frge-tile--on" : ""}`}
-              role="button" tabIndex={0} aria-pressed={on}
-              onKeyDown={(ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setOpenClass(on ? null : k); } }}
-              // Per-class colours are passed as CSS custom properties so the
-              // hover/active visuals can live in CSS (inline background/border/
-              // box-shadow/transform would otherwise override the :hover rules).
-              style={{
-              "--tile-bg-on": `radial-gradient(circle at 50% 30%,${d.glow}38 0%,${d.color}22 60%,${d.color}12 100%)`,
-              "--tile-border-on": `${d.glow}90`,
-              "--tile-shadow-on": `0 0 18px ${d.glow}45, inset 0 0 16px ${d.glow}10`,
-              "--tile-hover-border": `${d.glow}66`,
-              "--tile-hover-glow": `${d.glow}33`,
-              cursor:"pointer", borderRadius:"12px",
-              padding:"8px 8px 7px", textAlign:"center",
-            }}>
-              <div style={{ fontSize:"20px", marginBottom:"2px" }}>{d.emoji}</div>
-
-              {/* 3 champion portrait previews */}
-              <div style={{ display:"flex", justifyContent:"center", gap:"3px", marginBottom:"4px" }}>
-                {previewChamps.map(c => {
-                  const ek = `bubble-${c}`;
-                  return (
-                    <div key={c} style={{
-                      width:"23px", height:"23px", borderRadius:"5px", overflow:"hidden",
-                      border:`1px solid rgba(255,255,255,.18)`,
-                      background:"#2A2F38", flexShrink:0,
-                    }}>
-                      {!imgFail(ek)
-                        ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
-                            style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                        : <div style={{ width:"100%", height:"100%", display:"flex",
-                            alignItems:"center", justifyContent:"center",
-                            fontSize:"9px", color:"#5c6a7a" }}>{c[0]}</div>
-                      }
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div style={{ fontSize:"10.5px", fontWeight:"bold", letterSpacing:".6px",
-                color: on ? d.glow : "#D4AF37", textTransform:"uppercase", lineHeight:1.15 }}>
-                {d.label}
-              </div>
-              <div style={{ marginTop:"2px", fontSize:"9px", color:"rgba(200,204,209,.38)" }}>
-                {d.champions.length} champs
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* ── DETAIL PANEL ── */}
-      {/* ── BUILD WORKSPACE — items + runes side by side, always visible ── */}
-      <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 16px", padding:"0 24px" }}>
-        <div className="frge-workspace" style={{
-          background: classEntry   // lower opacity than the build path — lets the splash art show through
-            ? `linear-gradient(135deg,rgba(20,20,26,.86) 0%,${classEntry.color}12 100%)`
-            : "rgba(20,20,26,.80)",
-          border:`1px solid ${classEntry ? `${classEntry.glow}55` : "rgba(212,175,55,.18)"}`,
-          padding:"16px 20px",
-          boxShadow: classEntry ? `0 0 34px ${classEntry.glow}18` : "none",
-          transition:"border-color .2s, box-shadow .2s",
-        }}>
-          {/* key replays the fade-up whenever the matchup or build changes */}
-          <div key={`${champ.id}-${currentRole}-${openClass}-${altBuildIdx}`}
-            className="frge-enter"
-            style={{ display:"grid",
-            gridTemplateColumns: narrowWorkspace ? "1fr" : "minmax(0,1fr) minmax(0,1.05fr)",
-            gap: narrowWorkspace ? "18px" : "28px", alignItems:"start" }}>
-
-            {/* ── LEFT: items ── */}
-            <div>
-              {classEntry ? (
-                <>
-                  <div style={{ display:"flex", alignItems:"center", gap:"11px",
-                    marginBottom:"16px", flexWrap:"wrap" }}>
-                    <span style={{ fontSize:"26px" }}>{classEntry.emoji}</span>
-                    <div style={{ flex:1, minWidth:0 }}>
-                      <h2 style={{ margin:"0 0 2px", fontSize:"16px", color:classEntry.glow,
-                        letterSpacing:"1.5px", textTransform:"uppercase" }}>
-                        {champ.display} vs {classEntry.label}
-                      </h2>
-                      <p style={{ margin:0, fontSize:"11px", color:"#b7bcc2", fontStyle:"italic" }}>
-                        {classEntry.desc}
-                      </p>
-                    </div>
-                    <button onClick={() => setMode(mode === "ahead" ? "behind" : "ahead")} style={{
-                      padding:"10px 15px", cursor:"pointer", border:"1px solid rgba(255,255,255,.1)",
-                      background: mode==="ahead" ? "rgba(212,175,55,.18)" : "rgba(74,111,165,.18)",
-                      color: mode==="ahead" ? "#D4AF37" : "#7eb8f7",
-                      borderRadius:"7px", fontSize:"13px", fontWeight:"bold",
-                      transition:"all .15s", whiteSpace:"nowrap",
-                    }}>
-                      {mode === "ahead" ? "⚔ AHEAD" : "🛡 EVEN / BEHIND"}
-                    </button>
-                  </div>
-
-                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"10px",
-                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
-                    Items · {mode==="ahead" ? "Ahead" : "Even / Behind"}
-                  </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:"8px", marginBottom:"20px" }}>
-                    {classItems.map((item, i) => (
-                      <ItemCard key={i} item={item} rank={i+1} glow={classEntry.glow} />
-                    ))}
-                  </div>
-
-                  <div style={{ fontSize:"10px", letterSpacing:"3px", color:classEntry.glow,
-                    textTransform:"uppercase", marginBottom:"10px",
-                    borderBottom:`1px solid ${classEntry.glow}28`, paddingBottom:"6px" }}>
-                    Champions in class
-                  </div>
-                  <div style={{ display:"grid",
-                    gridTemplateColumns:"repeat(auto-fill, minmax(56px, 1fr))", gap:"8px" }}>
-                    {classChamps.map(c => {
-                      const ek = `cls-${c}`;
-                      return (
-                        <div key={c} style={{
-                          display:"flex", flexDirection:"column", alignItems:"center", gap:"4px",
-                          background:`${classEntry.color}18`,
-                          border:`1px solid ${classEntry.glow}28`,
-                          borderRadius:"7px", padding:"6px 3px 5px",
-                        }}>
-                          <div style={{
-                            width:"42px", height:"42px", borderRadius:"6px", overflow:"hidden",
-                            border:`1.5px solid ${classEntry.glow}45`, background:"#2A2F38",
-                          }}>
-                            {!imgFail(ek)
-                              ? <img src={champImg(c)} alt={c} title={c} onError={() => onErr(ek)}
-                                  style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                              : <div style={{ width:"100%", height:"100%", display:"flex",
-                                  alignItems:"center", justifyContent:"center",
-                                  fontSize:"13px", color:"#5c6a7a" }}>{c[0]}</div>
-                            }
-                          </div>
-                          <span style={{ fontSize:"9px", color:"#D4AF37", textAlign:"center",
-                            lineHeight:1.2, maxWidth:"52px", overflow:"hidden",
-                            textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{c}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              ) : (
-                <div className="frge-empty" style={{ display:"flex", flexDirection:"column", alignItems:"center",
-                  justifyContent:"center", textAlign:"center", height:"100%",
-                  minHeight:"320px", padding:"24px" }}>
-                  <div className="frge-sword" style={{ fontSize:"34px", marginBottom:"12px", opacity:.5 }}>⚔</div>
-                  <div style={{ fontSize:"13px", color:"#b7bcc2", lineHeight:1.6, maxWidth:"280px" }}>
-                    Pick a <b style={{ color:S.gold }}>matchup class</b> above to load {champ.display}'s
-                    ranked item build for that enemy type — the rune page on the right updates to match.
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* ── RIGHT: runes (always visible + editable) ── */}
-            <div style={{ isolation:"isolate" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"12px",
-                paddingBottom:"6px",
-                borderBottom:`1px solid ${classEntry ? `${classEntry.glow}28` : "rgba(212,175,55,.2)"}` }}>
-                <span style={{ fontSize:"10px", letterSpacing:"3px",
-                  color: classEntry ? classEntry.glow : S.gold, textTransform:"uppercase" }}>
-                  ◈ Rune Page{classEntry ? ` · vs ${classEntry.label}` : ""}
-                </span>
-                <span style={{ marginLeft:"auto", fontSize:"9px", color:S.textDim,
-                  letterSpacing:".5px", fontStyle:"italic" }}>
-                  editable — imports exactly as shown
-                </span>
-              </div>
-              <RunePage
-                sel={runeSel} setSel={setRuneSel}
-                recommended={recommendedRunes}
-                enemyChamp={appliedMatchup || ""}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── SITUATIONAL ITEMS STRIP ── */}
-      <div style={{ maxWidth:"min(96vw,1900px)", margin:"0 auto 14px", padding:"0 24px" }}>
-        <div className="frge-panel" style={{
-          background:"rgba(255,255,255,.02)", padding:"16px 20px",
-        }}>
-          <div style={{ fontSize:"10px", letterSpacing:"3px", color:S.goldDim,
-            textTransform:"uppercase", marginBottom:"12px" }}>
-            Common Situational Items — {champ.display}
-          </div>
-          {(() => {
-            const chip = (name) => {
-              const col = ic(name);
-              const ek  = `side-${name}`;
-              const src = itemImg(name, itemMap);
-              return (
-                <div key={name}
-                  onMouseEnter={e => itemTip(name, e)}
-                  onMouseMove={trackTip} onMouseLeave={hideTip}
-                  style={{
-                  display:"flex", alignItems:"center", gap:"7px",
-                  background:"rgba(255,255,255,.03)",
-                  border:`1px solid ${col}30`, borderRadius:"7px",
-                  padding:"6px 10px", cursor:"help",
-                }}>
-                  <div style={{
-                    width:"26px", height:"26px", borderRadius:"4px", overflow:"hidden",
-                    background:`${col}18`, border:`1px solid ${col}40`,
-                    display:"flex", alignItems:"center", justifyContent:"center",
-                    flexShrink:0,
-                  }}>
-                    {src && !imgFail(ek)
-                      ? <img src={src} alt={name} onError={() => onErr(ek)}
-                          style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
-                      : <div style={{ width:"8px", height:"8px", borderRadius:"50%",
-                          background:col }} />
-                    }
-                  </div>
-                  <span style={{ fontSize:"12px", color:col, whiteSpace:"nowrap" }}>{name}</span>
-                </div>
-              );
-            };
-
-            // Group by what each item counters (Anti-Heal, Heavy Shields,
-            // Armor Stacking, ...) — item-level metadata from itemCounters.js,
-            // so this works for every champion without per-champ authoring.
-            const groups = new Map();
-            const leftover = [];
-            for (const name of buildSideItems) {
-              const cat = counterCategoryOf(name);
-              if (cat) {
-                if (!groups.has(cat.label)) groups.set(cat.label, { note: cat.note, items: [] });
-                groups.get(cat.label).items.push(name);
-              } else leftover.push(name);
-            }
-
-            return (
-              <>
-                {[...groups.entries()].map(([label, g]) => (
-                  <div key={label} style={{ marginBottom:"14px" }}>
-                    <div style={{ fontSize:"10px", letterSpacing:"2px", color:"#e08040",
-                      textTransform:"uppercase", marginBottom:"6px" }}>
-                      For {label}
-                    </div>
-                    <div style={{ display:"flex", flexWrap:"wrap", gap:"8px", marginBottom:"6px" }}>
-                      {g.items.map(chip)}
-                    </div>
-                    {g.note && <p style={{ margin:"0 0 4px", fontSize:"11px",
-                      color:"#b7bcc2", lineHeight:1.5 }}>{g.note}</p>}
-                  </div>
-                ))}
-                {leftover.length > 0 && (
-                  <div>
-                    {groups.size > 0 && (
-                      <div style={{ fontSize:"10px", letterSpacing:"2px", color:S.goldDim,
-                        textTransform:"uppercase", marginBottom:"6px" }}>
-                        General
-                      </div>
-                    )}
-                    <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
-                      {leftover.map(chip)}
-                    </div>
-                  </div>
-                )}
-              </>
-            );
-          })()}
-        </div>
-      </div>
-
-      {/* ── FLOATING GAME STATE TOGGLE ── (hidden behind the Jungle/Tier overlays) */}
-      <div style={{
-        position: "fixed",
-        bottom: "30px",
-        right: "25px",
-        zIndex: 9999,
-        // Hidden in the in-game view: the toggle changes the guide, not the build already imported.
-        display: (jungleOpen || view !== "build" || inGameViewOn) ? "none" : "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "12px",
-      }}>
-      
-      {/* SINGLE TOGGLE BUTTON — disabled while a custom Build Forge drives the
-          core, so it can't reorder / override the user's authored build. */}
-      <button
-        onClick={() => { if (!buildLocked) setMode(mode === "ahead" ? "behind" : "ahead"); }}
-        disabled={buildLocked}
-        title={buildLocked ? "Clear the Build Forge to use Ahead / Survive & Scale" : undefined}
-        style={{
-          padding:"16px 22px",
-          cursor: buildLocked ? "not-allowed" : "pointer",
-          opacity: buildLocked ? 0.4 : 1,
-          border:"1px solid rgba(255,255,255,.1)",
-          borderRadius:"10px",
-          background: buildLocked ? "rgba(255,255,255,.06)"
-            : mode === "ahead" ? "rgba(212,175,55,.25)" : "rgba(74,111,165,.25)",
-          color: buildLocked ? "#9aa0a6" : mode === "ahead" ? "#D4AF37" : "#7eb8f7",
-          fontSize:"24px",
-          transition:"all .15s",
-          backdropFilter:"blur(6px)",
-          boxShadow: buildLocked ? "none"
-            : mode === "ahead" ? "0 0 12px rgba(212,175,55,.35)" : "0 0 12px rgba(74,111,165,.35)",
-        }}
-      >
-        {buildLocked ? "🔨" : mode === "ahead" ? "⚔" : "🛡"}
-      </button>
-
-      {/* TEXT UNDERNEATH */}
-      <div style={{
-        fontSize:"16px",
-        color:"rgba(200,204,209,.5)",
-        fontStyle:"italic",
-        textAlign:"center",
-        lineHeight:1.2,
-      }}>
-        {buildLocked
-          ? "Build Forge active"
-          : mode === "ahead"
-          ? "Snowball your lead"
-          : "Survive & Scale"}
-      </div>
-      </div>
 
       {/* ── AD: side rails (only when the gutter is wide enough to not overlap) ── */}
       {showSideAds && (
@@ -3967,11 +2959,16 @@ useEffect(() => {
       {/* Keeps the fixed bottom ad from covering the last of the page content */}
       {showAds && <div style={{ height: adBottomOpen ? "78px" : "22px" }} />}
 
-      {/* Bottom-LEFT so it never fights the game-state toggle bottom-right, and
-          lifted clear of the bottom ad bar when that's expanded. */}
-      <FeedbackBubble S={S} appVersion={appVersion} patch={GAME_PATCH}
-        champ={champ?.display} role={currentRole}
-        offset={showAds ? (adBottomOpen ? 92 : 36) : 26} />
+      {/* The floating Feedback pill, bottom-left, over the full-page views
+          (How to play, Draft coach...) only, lifted clear of the bottom ad bar
+          when that's expanded. On the build page and in game it is a button in
+          the top bar: docked beside League the pill sat on the item set's last
+          row. */}
+      {view !== "build" && !inGameViewOn && (
+        <FeedbackBubble S={S} appVersion={appVersion} patch={GAME_PATCH}
+          champ={champ?.display} role={currentRole}
+          offset={showAds ? (adBottomOpen ? 92 : 36) : 26} />
+      )}
 
       {/* ── THE tooltip ──────────────────────────────────────────────────────
           One portal for runes, ability pills and item chips. Portalled to

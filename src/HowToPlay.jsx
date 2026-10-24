@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { abilitiesOf } from "./data/abilities.js";
 import { otpGuideOf } from "./data/otpGuides.js";
 import { ITEM_RATIONALE } from "./data/itemRationale.js";
@@ -17,7 +18,14 @@ const champByDisplay = (name) => CHAMPS.find((c) => c.display === name);
 // full ability breakdown, skill order, combos + power spikes (from a champion
 // OTP when available), core build & why, runes, situational items, what to look
 // out for (with the hardest matchups), and synergies. Full-page overlay.
-export default function HowToPlay({ champ, role, activeChampRole, buildCorePath, buildCoreNote, buildSideItems, runeInfo, champImg, itemImg, itemMap, onClose, S }) {
+//
+// Since the 2026-10-22 redesign it also holds what left the build page: the
+// long "why" of the build (coreNote, plus an alternate's play tips) and the
+// 13 enemy-class pages ("Vs each class"), which the build page now picks on
+// its own from the lane opponent.
+export default function HowToPlay({ champ, role, activeChampRole, buildCorePath, buildCoreNote, buildSideItems, activeAlt, classes, startClass, runeInfo, champImg, itemImg, itemMap, onClose, S }) {
+  const classKeys = Object.keys(classes || {});
+  const [cls, setCls] = useState(startClass && classes?.[startClass] ? startClass : classKeys[0] || null);
   const ab = abilitiesOf(champ.dd);
   const otp = otpGuideOf(champ.dd);
   const maxOrder = SKILL_MAX[champ.dd] || null;
@@ -171,6 +179,24 @@ export default function HowToPlay({ champ, role, activeChampRole, buildCorePath,
             {otp?.itemNotes && <div style={{ fontSize:"12px", color:"#c7c0b6", lineHeight:1.6, marginTop:"10px",
               padding:"10px 12px", borderRadius:"9px", background:`${gold}0f`, border:`1px solid ${gold}22` }}>
               <b style={{ color:gold }}>Itemization: </b>{otp.itemNotes}</div>}
+            {/* How to play an alternate, when its data carries a play pattern
+                (e.g. Pantheon's Stormraider's line): one line per tip, grouped
+                by game phase. */}
+            {activeAlt?.playTips?.tips?.length > 0 && (
+              <div style={{ marginTop:"14px", borderTop:"1px solid rgba(255,255,255,.06)", paddingTop:"12px",
+                display:"flex", flexDirection:"column", gap:"6px" }}>
+                <div style={{ fontSize:"13px", fontWeight:700, color:gold }}>How to play {activeAlt.label}</div>
+                {activeAlt.playTips.tips.map((t, i) => (
+                  <div key={i} style={{ display:"grid", gridTemplateColumns:"84px 1fr", gap:"10px", fontSize:"12px", lineHeight:1.6 }}>
+                    <span style={{ color:goldDim }}>{t.phase}</span>
+                    <span style={{ color:"#c7c0b6" }}>{t.text}</span>
+                  </div>
+                ))}
+                {activeAlt.playTips.variant && (
+                  <div style={{ fontSize:"12px", color:dim, lineHeight:1.6 }}>{activeAlt.playTips.variant}</div>
+                )}
+              </div>
+            )}
           </Card>
         )}
 
@@ -201,6 +227,79 @@ export default function HowToPlay({ champ, role, activeChampRole, buildCorePath,
             </Card>
           )}
         </div>
+
+        {/* vs each class: the 13 class pages the build page used to browse
+            with tiles; it now follows the lane opponent's class on its own. */}
+        {cls && classes?.[cls] && (() => {
+          const meta = classes[cls];
+          const page = activeChampRole?.data?.[cls] || champ.data?.[cls] || null;
+          const runes = page?.runes || null;
+          const list = (title, items) => (
+            <div>
+              <div style={{ fontSize:"12px", fontWeight:700, color:"#F5F1EA", marginBottom:"8px" }}>{title}</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:"9px" }}>
+                {(items || []).map((it, i) => {
+                  const src = itemImg?.(it.name, itemMap);
+                  return (
+                    <div key={i} style={{ display:"flex", gap:"10px", alignItems:"flex-start" }}>
+                      {src ? <img src={src} alt="" draggable={false} style={{ width:"30px", height:"30px", borderRadius:"6px", flexShrink:0 }} />
+                        : <div style={{ width:"30px", height:"30px", borderRadius:"6px", flexShrink:0, background:"#0f0e10" }} />}
+                      <div style={{ minWidth:0 }}>
+                        <div style={{ fontSize:"12.5px", fontWeight:700, color:"#e7e2d4" }}>{it.name}</div>
+                        {it.why && <div style={{ fontSize:"11.5px", color:dim, lineHeight:1.5 }}>{it.why}</div>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+          return (
+            <Card style={{ marginBottom:"18px" }}>
+              <Eyebrow>Vs each class</Eyebrow>
+              <div role="group" aria-label="Enemy class" style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginBottom:"14px" }}>
+                {classKeys.map((k) => {
+                  const on = k === cls;
+                  return (
+                    <button key={k} type="button" onClick={() => setCls(k)} aria-pressed={on}
+                      style={{ cursor:"pointer", borderRadius:"999px", padding:"5px 12px", fontSize:"12px", fontWeight:600,
+                        fontFamily:"inherit", border:`1px solid ${on ? gold : "rgba(255,255,255,.12)"}`,
+                        background: on ? `${gold}22` : "rgba(255,255,255,.03)", color: on ? gold : "#c7c0b6" }}>
+                      {classes[k].label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{ fontSize:"12.5px", color:"#c7c0b6", lineHeight:1.55, marginBottom:"14px" }}>{meta.desc}</div>
+              {page ? (
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(240px, 1fr))", gap:"18px" }}>
+                  {list("Ahead", page.ahead)}
+                  {list("Even / Behind", page.behind)}
+                  {runes && (
+                    <div>
+                      <div style={{ fontSize:"12px", fontWeight:700, color:"#F5F1EA", marginBottom:"8px" }}>Rune page</div>
+                      <div style={{ fontSize:"12.5px", fontWeight:700, color:gold }}>{runes.keystone}{runes.primary ? ` · ${runes.primary}` : ""}</div>
+                      <div style={{ fontSize:"12px", color:"#c7c0b6", marginTop:"3px" }}>
+                        {[...(runes.primaryRunes || []), ...(runes.secondaryRunes || [])].filter(Boolean).join(", ")}
+                      </div>
+                      {runes.reason && <div style={{ fontSize:"11.5px", color:dim, lineHeight:1.55, marginTop:"6px" }}>{runes.reason}</div>}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div style={{ fontSize:"12px", color:dim }}>No page for this class.</div>
+              )}
+              {meta.champions?.length > 0 && (
+                <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"16px" }}>
+                  {meta.champions.filter((n) => n !== champ.display).map((n) => (
+                    <img key={n} src={champImg(n)} alt={n} title={n} draggable={false}
+                      style={{ width:"30px", height:"30px", borderRadius:"6px", objectFit:"cover" }} />
+                  ))}
+                </div>
+              )}
+            </Card>
+          );
+        })()}
 
         {/* what to look out for */}
         <Card style={{ marginBottom:"18px", borderColor:"rgba(217,83,79,.22)" }}>

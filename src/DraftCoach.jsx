@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { CHAMPS } from "./data/champs/index.js";
-import { compProfile, compInteractions, bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
+import { compProfile, compInteractions, bestCountersVsComp, bestCountersVs, matchup, THREAT_LABEL } from "./data/counterPicker.js";
+import { toDDKey } from "./data/ddOverrides.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  DraftCoach — what the enemy team, as drafted so far, means for YOUR game.
@@ -12,8 +13,15 @@ import { compProfile, compInteractions, bestCountersVsComp, THREAT_LABEL } from 
 //  It fills itself from live champ select when the client is connected, and is
 //  fully usable by hand when it isn't — the enemy slots are clickable either way,
 //  so it works while planning as well as while drafting.
+//
+//  Since the 2026-10-22 redesign it also holds the draft tools that left the
+//  build page: the recommended bans (worst matchup first; a click pre-selects
+//  it in the ban phase on desktop), the replacements if your pick is banned,
+//  the synergies, and the lane counter against your lane opponent (how you
+//  fare and the best picks into them).
 // ─────────────────────────────────────────────────────────────────────────────
-export default function DraftCoach({ champ, role, champImg, onClose, onPick, S, liveEnemies = [], isLive = false }) {
+export default function DraftCoach({ champ, role, champImg, onClose, onPick, S, liveEnemies = [], isLive = false,
+  laneFoe = null, bans = [], replacements = [], synergies = [], onBan = null }) {
   // Enemy slots: seeded from champ select, editable by hand.
   const [manual, setManual] = useState([]);
   const [picking, setPicking] = useState(null);   // slot index being filled
@@ -97,6 +105,76 @@ export default function DraftCoach({ champ, role, champImg, onClose, onPick, S, 
               border:`1px solid ${gold}55`, background:`${gold}18`, color:gold }}>✕ Close</button>
         </div>
         <hr style={{ height:"1px", border:0, background:`linear-gradient(90deg,transparent,${orange}80,${gold}4d,transparent)`, margin:"14px 0 24px" }} />
+
+        {/* Bans and picks + the lane counter (moved here from the build page) */}
+        {(bans.length > 0 || replacements.length > 0 || synergies.length > 0 || laneFoe) && (
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(330px,1fr))", gap:"16px", alignItems:"start", marginBottom:"22px" }}>
+            {(bans.length > 0 || replacements.length > 0 || synergies.length > 0) && Card({ title:"Bans and picks", children: (
+              <div style={{ display:"flex", flexDirection:"column", gap:"14px" }}>
+                {[
+                  { label:"Ban", hint: onBan ? "Worst matchup first. Click to pre-select it in the ban phase." : "Worst matchup first.", names:bans, act: onBan },
+                  { label:"If you are banned", hint:"Click to switch champion.", names:replacements,
+                    act: (n) => { const c = CHAMPS.find((x) => x.display === n); if (c && c.id !== champ.id) onPick?.(c); } },
+                  { label:"Synergy", hint:null, names:synergies, act:null },
+                ].filter((r) => r.names.length).map((r) => (
+                  <div key={r.label}>
+                    <div style={{ fontSize:"12px", color:"#C7C2BA", marginBottom:"7px" }}>
+                      <b style={{ color:"#F5F1EA" }}>{r.label}</b>{r.hint && <span style={{ color:dim }}> · {r.hint}</span>}
+                    </div>
+                    <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
+                      {r.names.map((n) => {
+                        const face = (
+                          <>
+                            <img src={champImg(toDDKey(n))} alt="" style={{ width:"32px", height:"32px", borderRadius:"7px", objectFit:"cover", flexShrink:0 }} />
+                            <span style={{ fontSize:"12px", fontWeight:600, color:"#F5F1EA" }}>{n}</span>
+                          </>
+                        );
+                        const chip = { display:"flex", alignItems:"center", gap:"8px", padding:"4px 10px 4px 4px", borderRadius:"9px",
+                          background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)", fontFamily:"inherit" };
+                        return r.act ? (
+                          <button key={n} type="button" onClick={() => r.act(n)} style={{ ...chip, cursor:"pointer" }}>{face}</button>
+                        ) : <span key={n} style={chip}>{face}</span>;
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) })}
+            {laneFoe && (() => {
+              const mu = matchup(champ.dd, laneFoe.dd);
+              const pool = CHAMPS.filter((c) => lanesOf(c).includes(role)).map((c) => c.dd);
+              const recs = bestCountersVs(laneFoe.dd, pool).filter((r) => r.score > 0).slice(0, 5);
+              return Card({ title:`Lane counter vs ${laneFoe.display}`, children: (
+                <>
+                  <div style={{ display:"flex", flexDirection:"column", gap:"6px", fontSize:"12.5px", lineHeight:1.5, marginBottom: recs.length ? "12px" : 0 }}>
+                    <span><b style={{ color:"#8fe6a8" }}>You handle:</b> <span style={{ color:"#C7C2BA" }}>{mu.youCounter.length ? mu.youCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
+                    <span><b style={{ color:"#f0a39d" }}>They punish:</b> <span style={{ color:"#C7C2BA" }}>{mu.theyCounter.length ? mu.theyCounter.map((t) => THREAT_LABEL[t]).join(", ") : "nothing specific"}</span></span>
+                  </div>
+                  {recs.length > 0 && (
+                    <>
+                      <div style={{ fontSize:"12px", color:dim, marginBottom:"7px" }}>Best {role} picks into {laneFoe.display}. Click to switch champion.</div>
+                      <div style={{ display:"flex", gap:"8px", flexWrap:"wrap" }}>
+                        {recs.map((r) => {
+                          const rc = CHAMPS.find((c) => c.dd === r.dd);
+                          if (!rc) return null;
+                          return (
+                            <button key={r.dd} type="button" onClick={() => rc.id !== champ.id && onPick?.(rc)}
+                              title={`${rc.display} handles their ${r.youCounter.map((t) => THREAT_LABEL[t]).join(", ") || "kit"}`}
+                              style={{ display:"flex", alignItems:"center", gap:"8px", padding:"4px 10px 4px 4px", borderRadius:"9px", cursor:"pointer",
+                                background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)", fontFamily:"inherit" }}>
+                              <img src={champImg(rc.dd)} alt="" style={{ width:"32px", height:"32px", borderRadius:"7px", objectFit:"cover" }} />
+                              <span style={{ fontSize:"12px", fontWeight:600, color:"#F5F1EA" }}>{rc.display}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
+                </>
+              ) });
+            })()}
+          </div>
+        )}
 
         {/* Enemy slots */}
         <div style={{ marginBottom:"22px" }}>

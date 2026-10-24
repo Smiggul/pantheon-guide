@@ -43,7 +43,12 @@ const KINDS = [
     hint: "A build, rune page, matchup or skill order that's out of date." },
 ];
 
-export default function FeedbackBubble({ S, appVersion, patch, champ, role, offset = 26 }) {
+// inline: render the trigger as a plain button in the caller's top bar (styled
+// by buttonStyle) and drop the panel from the top-right. The build page and the
+// in-game view use this since the 2026-10-22 redesign, because a pill floating
+// bottom-left sat on the item set's last row when the app is docked beside
+// League. The floating pill stays for the other full-page views.
+export default function FeedbackBubble({ S, appVersion, patch, champ, role, offset = 26, inline = false, buttonStyle = null }) {
   const [open, setOpen]   = useState(false);
   const [kind, setKind]   = useState("feature");
   const [title, setTitle] = useState("");
@@ -140,8 +145,8 @@ export default function FeedbackBubble({ S, appVersion, patch, champ, role, offs
 
   const panel = (
     <div style={{
-      position: "fixed", left: "22px", bottom: `${offset + 42}px`, zIndex: 9998,
-      width: "min(340px, calc(100vw - 44px))",
+      position: "fixed", zIndex: 9998, width: "min(340px, calc(100vw - 32px))",
+      ...(inline ? { right: "16px", top: "52px" } : { left: "22px", bottom: `${offset + 42}px` }),
     }}>
       <div className="frge-panel" style={{
         background: "rgba(27,27,30,.98)", borderColor: border,
@@ -212,6 +217,18 @@ export default function FeedbackBubble({ S, appVersion, patch, champ, role, offs
       </div>
     </div>
   );
+
+  if (inline) {
+    return (
+      <>
+        <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open}
+          title="Suggest a feature, report a bug or flag a wrong build" style={buttonStyle || undefined}>
+          Feedback
+        </button>
+        {open && typeof document !== "undefined" && createPortal(panel, document.body)}
+      </>
+    );
+  }
 
   return (
     <>
