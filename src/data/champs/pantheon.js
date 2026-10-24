@@ -150,11 +150,10 @@ export default {
 
     roles:{
             Top:    {  
-              // Jax removed 2026-10-22: he is Pantheon's 3rd-best matchup of 36 (lolalytics
-              // 55.1% over 6,373 games, +452 gold at 15), not a worst one. The third ban
-              // waits on the user (by win rate: Yorick 49.0%; Irelia is the biggest lane
-              // gold loss but ~50% overall).
-              bans:["Malphite","Gangplank"], replacements:["Renekton","Sett","Wukong"],
+              // Jax is the user's call (2026-10-24: "Jax is a good ban"), kept despite the
+              // data: lolalytics has him as Pantheon's 3rd-best matchup of 36 (55.1% over
+              // 6,373 games, +452 gold at 15). Bans no longer affect the lane start.
+              bans:["Malphite","Gangplank","Jax"], replacements:["Renekton","Sett","Wukong"],
               skillOrder:["Q","E","W"], // Top maxes Aegis (E) second, not W
                         corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
                         // Research: UI pointers removed: Eclipse "still shows up below in Situational Items"; Chempunk is "below, under
