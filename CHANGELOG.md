@@ -12,9 +12,31 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.0] — 2026-10-24
+
+### Added
+- **A new look.** The build page leads with the item set exactly as it imports, in buying order, beside a compact rune page, the skill order and a Situational list that says when to buy each item. Colours follow your champion's splash art; orange marks what changes for your lane opponent, blue what answers their team.
+- **In-game view.** Once champ select ends, FRGE shows only the build you imported, so you never read a build that is not in your client. "Full guide" brings the rest back.
+- **One game plan.** Lane, Mid game and Late game items, with answers to your lane opponent and to their whole team in one order. Ahead and Even / Behind change the order; boots come when your champion usually buys them.
+- **Builds adjust to your lane opponent:** their damage type, healing, shields and health stacking (Maw of Malmortius instead of Death's Dance into Mordekaiser, for example).
+- **Starting items players actually buy** against your lane opponent, in every lane, with the full 500 gold (Doran's Ring with two potions, Dark Seal with a Refillable Potion).
+- Ability descriptions from Riot's own text for the current patch, numbers included, for all 173 champions.
+- Viktor Bot and Gwen Mid; seven new one-trick alternates and a Stormraider's Pantheon line with play tips.
+- Draft Coach now holds bans, lane counters and best picks; How to Play gains a "Vs each class" section.
+
 ### Changed
-- **Starting items are what players actually buy.** Once your lane opponent is known, the exported Start block is the start most Emerald+ players buy against that champion, in Top, Mid and Bot (it used to be a rule for melee Top laners only, which handed Pantheon a Doran's Shield into Gangplank that loses more often than his usual Doran's Blade). Without an opponent you get your champion's own most common start plus its common alternatives. Supports start World Atlas with two Health Potions, and junglers start the pet most of their games take.
-- **Ability descriptions match the live patch.** How to Play now shows Riot's own tooltip text for the bundled patch, numbers included, for all 173 champions. The old source had stopped a year of patches back, so reworked kits read as they used to (Cassiopeia's passive still forbade boots) and Locke, Yunara and Zaahen had no numbers at all.
+- Builds updated for patches 26.18 to 26.21, including 41 roles whose most common build had moved.
+- Item set subheadings are a few words, so they no longer overrun in the shop.
+- Every item appears once in the item set; the long boots and situational lists are trimmed.
+- Choose your lane opponent in the Enemy team panel; Import stays available for any opponent.
+- "Why this build" text is shorter and about playing, not research.
+- One look (Forge) for now; the theme switcher is off.
+
+### Fixed
+- The item set sent another game mode's Stealth Ward (a green eye) and two other non-Rift items; every item is now the Summoner's Rift version.
+- Items that cannot be bought on the Rift (Duskblade of Draktharr, Vigilant Wardstone) are gone from every build.
+- 17 rune pages that took two runes from one row, which the client could not import.
+- Mordekaiser's Dusk and Dawn alternate listed his main build; it is now a real Dusk and Dawn line.
 
 ## [0.17.0] — 2026-09-04
 
