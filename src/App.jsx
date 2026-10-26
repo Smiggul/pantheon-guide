@@ -18,6 +18,7 @@ import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { laneOpponent } from "./data/laneOpponent.js";
+import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
@@ -529,7 +530,7 @@ export default function App() {
   const [appVersion, setAppVersion] = useState(null);
   useEffect(() => {
     if (typeof window === "undefined" || !window.frge?.onUpdate) return;
-    window.frge.getVersion?.().then((v) => v && setAppVersion(v)).catch(() => {});
+    window.frge.getVersion?.().then((v) => v && setAppVersion(shownVersion(v))).catch(() => {});
     window.frge.getUpdateState?.().then((s) => { if (s) setUpdate(s); }).catch(() => {});
     return window.frge.onUpdate((d) => setUpdate(d));
   }, []);
@@ -541,7 +542,7 @@ export default function App() {
   };
   const updateStatusText =
     update?.state === "checking"    ? "Checking for updates…"
-    : update?.state === "available"  ? `Update available — v${update.version || "?"}`
+    : update?.state === "available"  ? `Update available — v${shownVersion(update.version) || "?"}`
     : update?.state === "downloading" ? `Downloading… ${update.percent ?? 0}%`
     : update?.state === "downloaded" ? "Downloaded — restart to apply"
     : update?.state === "error"      ? "Update check failed"
@@ -1775,7 +1776,7 @@ useEffect(() => {
                 cursor: update.state === "downloading" ? "default" : "pointer", font:`600 13px ${T.font}`,
                 background: update.state === "downloaded" ? colours.primary : T.raised,
                 color: update.state === "downloaded" ? colours.ink : T.text }}>
-              {update.state === "available" && <>Update{update.version ? ` v${update.version}` : ""}</>}
+              {update.state === "available" && <>Update{update.version ? ` v${shownVersion(update.version)}` : ""}</>}
               {update.state === "downloading" && <>Downloading {update.percent ?? 0}%</>}
               {update.state === "downloaded" && <>Restart to update</>}
             </button>

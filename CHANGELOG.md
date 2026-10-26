@@ -2,9 +2,13 @@
 
 All notable changes to **FRGE.GG** are recorded here, newest first.
 
-The project follows [Semantic Versioning](https://semver.org) — `MAJOR.MINOR.PATCH`:
-- **MINOR** (`0.x.0`) — new features, or champions / builds added or removed.
-- **PATCH** (`0.0.x`) — bug fixes, build-data corrections, small tweaks.
+From the release after 0.21.1, versions read `0.<LoL patch>.<features>.<build updates>` (the owner, 2026-10-26):
+- **The second number is League's patch** (26.21, Data Dragon 16.21, is `0.21`). A new patch starts at `.1.1`.
+- **The third number counts feature releases** on that patch (`0.21.2.1`).
+- **The fourth counts champion build updates** (`0.21.1.2`).
+- Season 27 moves the first number to `1`.
+
+The installer and the auto-updater only take three numbers, so a release ships as `0.<patch>.<features × 100 + builds>` (`0.21.1.1` ships as `0.21.101`); the app shows the four-part version.
 
 Every release that ships a new downloadable build gets an entry below and a
 matching GitHub Release. Changes land in **[Unreleased]** as they're made and are
