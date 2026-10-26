@@ -179,21 +179,22 @@ export default function HowToPlay({ champ, role, activeChampRole, buildCorePath,
             {otp?.itemNotes && <div style={{ fontSize:"12px", color:"#c7c0b6", lineHeight:1.6, marginTop:"10px",
               padding:"10px 12px", borderRadius:"9px", background:`${gold}0f`, border:`1px solid ${gold}22` }}>
               <b style={{ color:gold }}>Itemization: </b>{otp.itemNotes}</div>}
-            {/* How to play an alternate, when its data carries a play pattern
-                (e.g. Pantheon's Stormraider's line): one line per tip, grouped
-                by game phase. */}
-            {activeAlt?.playTips?.tips?.length > 0 && (
+            {/* How to play the build, when its data carries a play pattern
+                (e.g. Pantheon Top's Stormraider's line): one line per tip,
+                grouped by game phase. An alternate's own tips, else the main
+                build's. */}
+            {(activeAlt || activeChampRole)?.playTips?.tips?.length > 0 && (
               <div style={{ marginTop:"14px", borderTop:"1px solid rgba(255,255,255,.06)", paddingTop:"12px",
                 display:"flex", flexDirection:"column", gap:"6px" }}>
-                <div style={{ fontSize:"13px", fontWeight:700, color:gold }}>How to play {activeAlt.label}</div>
-                {activeAlt.playTips.tips.map((t, i) => (
+                <div style={{ fontSize:"13px", fontWeight:700, color:gold }}>How to play {activeAlt ? activeAlt.label : `${champ.display} ${role}`}</div>
+                {(activeAlt || activeChampRole).playTips.tips.map((t, i) => (
                   <div key={i} style={{ display:"grid", gridTemplateColumns:"84px 1fr", gap:"10px", fontSize:"12px", lineHeight:1.6 }}>
                     <span style={{ color:goldDim }}>{t.phase}</span>
                     <span style={{ color:"#c7c0b6" }}>{t.text}</span>
                   </div>
                 ))}
-                {activeAlt.playTips.variant && (
-                  <div style={{ fontSize:"12px", color:dim, lineHeight:1.6 }}>{activeAlt.playTips.variant}</div>
+                {(activeAlt || activeChampRole).playTips.variant && (
+                  <div style={{ fontSize:"12px", color:dim, lineHeight:1.6 }}>{(activeAlt || activeChampRole).playTips.variant}</div>
                 )}
               </div>
             )}

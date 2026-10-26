@@ -20,6 +20,8 @@ rolled into a numbered version when a build is cut.
 
 ### Changed
 
+- **Pantheon Top:** the Stormraider's build (Bastionbreaker, Voltaic Cyclosword, Edge of Night) is the main build, with how to play it. The Voltaic Cyclosword build is now the PTA Bruiser alternate.
+- **New role: Darius Jungle**, with Youmuu's Ghostblade, Dead Man's Plate and Stormraider's Surge.
 - **Tier list updated for patch 26.21.** Darius, Miss Fortune and Vel'Koz Support move up; Zyra and Lillia are now OP in the jungle; Viktor, Caitlyn and Zed move down.
 - **Scrollbars match the app.** Thin gold scrollbars instead of the system's grey ones.
 - **Builds updated to how players build them on patch 26.21:**
