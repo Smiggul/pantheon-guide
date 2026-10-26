@@ -2,15 +2,15 @@
 
 All notable changes to **FRGE.GG** are recorded here, newest first.
 
-Since 26.21.1 the version follows the game patch: `26.21.1` is the first release on patch 26.21, and later releases on the same patch count up (`26.21.2`). Before that it was `0.x.y` (the last was 0.21.0), and every 26.x version is higher, so installed apps update across the change.
+The project follows [Semantic Versioning](https://semver.org) — `MAJOR.MINOR.PATCH`:
+- **MINOR** (`0.x.0`) — new features, or champions / builds added or removed.
+- **PATCH** (`0.0.x`) — bug fixes, build-data corrections, small tweaks.
 
 Every release that ships a new downloadable build gets an entry below and a
 matching GitHub Release. Changes land in **[Unreleased]** as they're made and are
 rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
-
-## [26.21.1] — 2026-10-26
 
 ### Fixed
 
