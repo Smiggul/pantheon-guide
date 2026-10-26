@@ -12,6 +12,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Change your lane opponent in game.** Tap "vs" in the in-game view to pick the right one from the enemy team, or go back to auto-detect.
+- **Better lane opponent detection.** FRGE now places the whole enemy team in their lanes at once, so a Top champion who is jungling is no longer taken for your lane opponent.
+- **An opponent you picked by hand no longer carries over** into your next game.
+
 ### Changed
 
 - **Scrollbars match the app.** Thin gold scrollbars instead of the system's grey ones.

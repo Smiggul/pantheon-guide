@@ -17,6 +17,7 @@ import InGameView from "./InGameView.jsx";
 import FeedbackBubble from "./FeedbackBubble.jsx";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
+import { laneOpponent } from "./data/laneOpponent.js";
 import { gamePlan } from "./data/gamePlan.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
@@ -113,9 +114,16 @@ function opponentDd(theirTeam, myPos, myRole) {
     if (m) return KEY_TO_DD[m.championId];
   }
 
-  // 2. Infer from roster lanes. When several enemies *could* play my role,
-  //    prefer the one whose PRIMARY lane is my role (their real main), then any
-  //    who can play it at all — this is the multiple-possible-Tops case.
+  // 2. Give every locked enemy a role at once, from real role shares
+  //    (laneOpponent.js), so a Top-main who is clearly their jungler is not
+  //    taken for the Top laner just because he is listed first.
+  const assigned = laneOpponent(enemies.map((p) => KEY_TO_DD[p.championId]), myRole,
+    (dd) => lanesOf(CHAMP_KEYS[dd]));
+  if (assigned) return assigned;
+
+  // 3. Nobody fits my role yet (champ select, few locked): infer from roster
+  //    lanes. When several enemies *could* play my role, prefer the one whose
+  //    PRIMARY lane is my role (their real main), then any who can play it.
   if (myRole) {
     const canRole = enemies.filter((p) => lanesOf(p.championId).includes(myRole));
     if (canRole.length) {
@@ -124,7 +132,7 @@ function opponentDd(theirTeam, myPos, myRole) {
     }
   }
 
-  // 3. Fallback: first resolvable locked enemy — a guess beats a blank readout.
+  // 4. Fallback: first resolvable locked enemy — a guess beats a blank readout.
   return KEY_TO_DD[enemies[0].championId];
 }
 
@@ -945,7 +953,8 @@ useEffect(() => {
   // Manual "playing vs" pick. opponentDd() guesses, and its last resort is
   // literally "first locked enemy", so it is wrong often enough that the user
   // needs to be able to correct it. null = follow the guess.
-  // Set from the Enemy team panel, the one place the opponent is chosen.
+  // Set from the Enemy team panel, or in game from the in-game view's "vs"
+  // button (the user, 2026-10-26). Lasts the game; a new champ select clears it.
   const [oppOverride, setOppOverride] = useState(null);      // DDragon id
   // Refs so the mount-once champ-select subscription always sees current values.
   const csSyncRef = useRef(csSync);
@@ -1005,8 +1014,9 @@ useEffect(() => {
         return;
       }
       // A new champ select: forget the last game's import, so the in-game view
-      // can never show a build from a previous game.
-      if (!sessionLiveRef.current) { sessionLiveRef.current = true; setLastImport(null); }
+      // can never show a build from a previous game, and the opponent picked by
+      // hand last game (it lasts the whole game, in-game view included).
+      if (!sessionLiveRef.current) { sessionLiveRef.current = true; setLastImport(null); setOppOverride(null); }
 
       // Pre-hover the selected champ once, while your pick is still empty,
       // then auto-import its build — unless the champ is banned.
@@ -1888,8 +1898,10 @@ useEffect(() => {
             <div style={{ position:"relative", zIndex:1 }}>
               <InGameView champ={igChamp} roleName={igRole} alt={igAlt}
                 foe={csOppChamp} foeClass={csOppClass}
+                enemies={(csEnemyAnalysis?.members || []).map((m) => DD_TO_CHAMP[m.dd]).filter(Boolean)}
+                foeManual={!!oppOverride} onFoe={setOppOverride}
                 exp={igExp} runes={imp ? imp.runes : runeSel}
-                imported={!!imp} staleFoe={staleFoe}
+                imported={!!imp} staleFoe={staleFoe} importedFoe={imp?.foe || null}
                 itemName={(id) => itemNames[id] || ""}
                 runeSrc={(n) => runeImg(n, runeMap)} spellSrc={(n) => spellImg(n, spellMap)}
                 champImg={champImg} colours={igColours}
@@ -2165,8 +2177,9 @@ useEffect(() => {
               )}
               {/* live matchup readout (persists in-game). Read-only: the opponent
                   is a guess (opponentDd() falls back to "first locked enemy"),
-                  so it must be correctable, but there is ONE place to correct
-                  it: the Enemy team panel (the user's call, 2026-10-21). */}
+                  so it must be correctable: here in the Enemy team panel (the
+                  user's call, 2026-10-21) and, once the game is running, in the
+                  in-game view (2026-10-26). */}
               {detectedChamp ? (
                 <span title="Change it in the Enemy team panel" style={{ ...row, flexWrap:"wrap", color:T.text }}>
                   {portrait(detectedChamp.dd, 24, `csme-${detectedChamp.dd}`)}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { inGame as T } from "./theme.js";
 import { ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding } from "./ForgeCards.jsx";
 import { LANE, layoutOf } from "./forgeStyle.js";
@@ -15,11 +16,20 @@ import { LANE, layoutOf } from "./forgeStyle.js";
 // exp is a buildExport() result ({ itemSet, notes }). imported says whether it
 // is what was actually sent this game; when false it is the app's current
 // build, and the view says so. colours: champColours() of the champion in game.
+//
+// The lane opponent can be changed here too (the user, 2026-10-26: the guess is
+// wrong often enough that it must be correctable mid-game, without leaving this
+// view). enemies: the enemy team's CHAMPS entries; onFoe(dd) sets the opponent,
+// onFoe(null) goes back to the guess; foeManual says it was set by hand. The
+// build stays the imported one: a changed opponent only adds the warning, since
+// nothing can be imported into a game already running.
 export default function InGameView({
-  champ, roleName, alt, foe, foeClass, exp, runes, imported, staleFoe,
+  champ, roleName, alt, foe, foeClass, exp, runes, imported, staleFoe, importedFoe,
+  enemies = [], foeManual = false, onFoe,
   itemName, runeSrc, spellSrc, champImg, colours,
   skills, spells, width, onShowGuide, feedback,
 }) {
+  const [foeOpen, setFoeOpen] = useState(false);
   const layout = layoutOf(width);
   const wide = layout === "wide";
   const blocks = exp?.itemSet?.blocks || [];
@@ -41,8 +51,15 @@ export default function InGameView({
   const warn = !imported
     ? "Not imported this game: this build is not in your client."
     : staleFoe
-    ? `Imported before your opponent was known: not tuned for ${staleFoe}.`
+    ? importedFoe
+      ? `Imported for ${importedFoe}: not tuned for ${staleFoe}.`
+      : `Imported before your opponent was known: not tuned for ${staleFoe}.`
     : null;
+  const canPick = !!onFoe && enemies.length > 0;
+  const chip = (on) => ({ display: "inline-flex", alignItems: "center", gap: "8px", height: 36, padding: "0 12px 0 4px",
+    borderRadius: "999px", border: 0, cursor: on ? "default" : "pointer", whiteSpace: "nowrap",
+    background: on ? colours?.active || T.raised : T.surface, color: T.text, font: `500 13px ${T.font}` });
+  const pickFoe = (dd) => { onFoe(dd); setFoeOpen(false); };
 
   return (
     <div style={{ fontFamily: T.font, fontSize: "14px", lineHeight: "20px", color: T.text, WebkitFontSmoothing: "antialiased" }}>
@@ -74,15 +91,38 @@ export default function InGameView({
             </h1>
             <p style={{ margin: "2px 0 0", color: T.muted }}>{roleName}{alt ? ` · ${alt.label}` : ""}</p>
           </div>
-          {foe && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "10px", height: 40, padding: "0 14px 0 6px",
-              borderRadius: "999px", background: T.surface, fontWeight: 500 }}>
-              <img src={champImg(foe.dd)} alt="" draggable={false} style={{ width: 28, height: 28, borderRadius: "50%", display: "block" }} />
-              <span>vs {foe.display}</span>
-              {foeClass && <span style={{ color: T.muted }}>{cap1(foeClass.toLowerCase().replace(/_/g, " "))}</span>}
-            </span>
+          {(foe || canPick) && (
+            <button type="button" disabled={!canPick} aria-expanded={canPick ? foeOpen : undefined}
+              onClick={() => setFoeOpen((v) => !v)} title={canPick ? "Change your lane opponent" : undefined}
+              style={{ display: "inline-flex", alignItems: "center", gap: "10px", height: 40, padding: foe ? "0 14px 0 6px" : "0 14px",
+                borderRadius: "999px", border: 0, background: T.surface, color: T.text, font: `500 14px ${T.font}`,
+                cursor: canPick ? "pointer" : "default" }}>
+              {foe && <img src={champImg(foe.dd)} alt="" draggable={false} style={{ width: 28, height: 28, borderRadius: "50%", display: "block" }} />}
+              <span>{foe ? `vs ${foe.display}` : "Choose opponent"}</span>
+              {foe && foeClass && <span style={{ color: T.muted }}>{cap1(foeClass.toLowerCase().replace(/_/g, " "))}</span>}
+              {canPick && <span aria-hidden="true" style={{ color: T.muted }}>{foeOpen ? "▴" : "▾"}</span>}
+            </button>
           )}
         </div>
+        {canPick && foeOpen && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "12px" }}>
+            {enemies.map((e) => {
+              const on = foe?.dd === e.dd;
+              return (
+                <button key={e.dd} type="button" aria-pressed={on} onClick={() => { if (!on) pickFoe(e.dd); }}
+                  title={on ? "Your lane opponent" : `Set ${e.display} as your lane opponent`} style={chip(on)}>
+                  <img src={champImg(e.dd)} alt="" draggable={false} style={{ width: 28, height: 28, borderRadius: "50%", display: "block" }} />
+                  {e.display}
+                </button>
+              );
+            })}
+            {foeManual && (
+              <button type="button" onClick={() => pickFoe(null)} style={chip(false)}>
+                <span style={{ paddingLeft: 8 }}>Back to auto-detect</span>
+              </button>
+            )}
+          </div>
+        )}
         <Finding notes={notes} />
         {warn && (
           <p style={{ margin: "10px 0 0", fontSize: "13px", color: LANE }}>{warn}</p>
