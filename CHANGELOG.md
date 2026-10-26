@@ -16,6 +16,9 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Added
+- **Command menu (Ctrl+K):** jump to any champion and lane ("darius jg", "tf mid") or any page (tier list, draft coach, settings) from anywhere in the app. Arrow keys and Enter, Esc closes. The top bar's Search opens it and shows the shortcut.
+
 ## [0.21.1] — 2026-10-26
 
 ### Fixed

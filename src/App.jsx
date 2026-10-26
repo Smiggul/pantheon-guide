@@ -15,6 +15,8 @@ import DraftCoach from "./DraftCoach.jsx";
 import HowToPlay from "./HowToPlay.jsx";
 import InGameView from "./InGameView.jsx";
 import FeedbackBubble from "./FeedbackBubble.jsx";
+import CommandMenu, { Kbd } from "./CommandMenu.jsx";
+import { commandEntries } from "./data/commandSearch.js";
 import { spellsFor } from "./data/summonerSpells.js";
 import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { laneOpponent } from "./data/laneOpponent.js";
@@ -573,6 +575,18 @@ export default function App() {
       </span>
     </button>
   );
+  // Ctrl+K (Cmd+K on a Mac) opens the command menu from anywhere, even while typing.
+  const [cmdOpen, setCmdOpen] = useState(false);
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   // Close the settings popout on Escape.
   useEffect(() => {
     if (!settingsOpen) return;
@@ -1702,6 +1716,17 @@ useEffect(() => {
     { id:"tiers",   label:"Tier list",      on:view === "tiers",   act:() => setView("tiers") },
     { id:"jungle",  label:"Jungle coach",   on:jungleOpen,         act:() => { setView("build"); setJungleOpen(true); } },
   ];
+  // Ctrl+K command menu: every champion per lane, plus the pages above and Settings
+  const commandPages = [
+    ...navLinks.map((n) => ({ ...n, words: { forge: "items custom edit", howto: "guide tips combos",
+      counter: "counters matchups", draft: "champ select picks bans", tiers: "tiers meta", jungle: "clear pathing" }[n.id] })),
+    { id:"settings", label:"Settings", words:"options preferences startup updates", act:() => setSettingsOpen(true) },
+  ];
+  const pickFromMenu = (c, lane) => {
+    pickChamp(c);
+    if (lane && c.roles?.[lane]) setActiveRole(lane);
+    setView("build");
+  };
   const barBtn = (on = false) => ({ border:0, background:"transparent", color: on ? T.text : T.muted,
     font:`500 13px ${T.font}`, cursor:"pointer", padding:"6px 2px", whiteSpace:"nowrap" });
 
@@ -1758,8 +1783,10 @@ useEffect(() => {
         )}
         <div style={{ marginLeft:"auto", display:"flex", alignItems:"center", gap: L === "narrow" ? "12px" : "16px",
           color:T.muted, fontSize:"13px", minWidth:0 }}>
-          <button type="button" onClick={() => setShowPicker(true)} style={barBtn()}>
+          <button type="button" onClick={() => setCmdOpen(true)} title="Find a champion or page"
+            style={{ ...barBtn(), display:"flex", alignItems:"center", gap:"8px" }}>
             {wideL ? "Search champion" : "Search"}
+            {L !== "narrow" && <span style={{ display:"flex", gap:"3px" }}><Kbd>Ctrl</Kbd><Kbd>K</Kbd></span>}
           </button>
           {isDesktop && (
             <span title={csStatus} style={{ display:"flex", alignItems:"center", gap:"8px", whiteSpace:"nowrap" }}>
@@ -1807,6 +1834,11 @@ useEffect(() => {
           </>
         )}
       </header>
+
+      {cmdOpen && (
+        <CommandMenu entries={commandEntries(CHAMPS, commandPages)} current={champ.id} champImg={champImg}
+          onChamp={pickFromMenu} onClose={() => setCmdOpen(false)} />
+      )}
 
       {/* ── TIER LIST — full-page overlay ── */}
       {view === "tiers" && (
