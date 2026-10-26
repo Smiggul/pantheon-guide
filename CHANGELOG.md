@@ -12,6 +12,10 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Changed
+
+- **Scrollbars match the app.** Thin gold scrollbars instead of the system's grey ones.
+
 ## [0.21.0] — 2026-10-24
 
 ### Added

@@ -112,6 +112,19 @@ p {
   --frge-ease:   cubic-bezier(0.22, 0.61, 0.36, 1); /* ease-out */
 }
 
+/* Scrollbars in the forge's colours: a thin gold thumb on no track, warming to orange
+   under the pointer. Electron is Chromium, so the standard properties cover the app;
+   the -webkit- rules are for the web build in Safari. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.55) transparent;
+}
+*:hover { scrollbar-color: rgba(212, 175, 55, 0.8) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.55); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--frge-orange); }
+
 /* Selectable class tiles. Their full visual state lives here (not inline) so the
    :hover rules aren't overridden by inline styles — the per-class colours come
    in as --tile-* custom properties set on the element. */
