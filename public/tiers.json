@@ -1,8 +1,8 @@
 {
- "patch": "26.20",
- "updated": "2026-10-19",
+ "patch": "26.21",
+ "updated": "2026-10-26",
  "region": "EUW",
- "source": "Skill-Capped 26.20 mid-patch tier list (12 Oct 2026); only the \"all\" bracket is video-sourced — High/Low-Elo brackets remain reasoned seeds",
+ "source": "Skill-Capped 26.21 mid-patch tier list (26 Oct 2026, youtube.com/watch?v=2pC3FmEJAkU): the champions it places by name were moved; the rest of the \"all\" bracket carries over from the 26.20 list, and High/Low-Elo brackets remain reasoned seeds",
  "brackets": {
   "all": {
    "Top": {
@@ -11,13 +11,13 @@
      "Garen"
     ],
     "S": [
-     "Darius",
      "Gangplank",
      "Renekton",
      "Urgot",
      "Zaahen",
      "Nasus",
-     "Mordekaiser"
+     "Mordekaiser",
+     "Darius"
     ],
     "A": [
      "Aatrox",
@@ -33,7 +33,9 @@
      "Yasuo",
      "Cho'Gath",
      "Aurora",
-     "Tahm Kench"
+     "Tahm Kench",
+     "Yone",
+     "Sion"
     ],
     "B": [
      "Fiora",
@@ -61,11 +63,9 @@
     "C": [
      "Teemo",
      "Malphite",
-     "Sion",
      "Tryndamere",
      "Volibear",
      "Gnar",
-     "Yone",
      "Fiddlesticks",
      "Gragas",
      "Udyr",
@@ -115,7 +115,7 @@
      "Fiddlesticks": 48.2,
      "Gragas": 48.6,
      "Heimerdinger": 48.8,
-     "Irelia": 50.0,
+     "Irelia": 50,
      "Jayce": 49.1,
      "Kayle": 48.9,
      "Olaf": 49.4,
@@ -123,7 +123,7 @@
      "Rumble": 49.5,
      "Sejuani": 49.5,
      "Shyvana": 49.8,
-     "Tahm Kench": 50.0,
+     "Tahm Kench": 50,
      "Udyr": 48.5,
      "Varus": 48.4,
      "Vayne": 47.9,
@@ -138,19 +138,19 @@
    "Jungle": {
     "OP": [
      "Rammus",
+     "Zyra",
      "Cho'Gath",
-     "Wukong"
+     "Lillia"
     ],
     "S": [
      "Shyvana",
      "Zac",
-     "Lillia",
-     "Talon",
      "Sylas",
      "Trundle",
      "Sejuani",
      "Master Yi",
-     "Ekko"
+     "Ekko",
+     "Wukong"
     ],
     "A": [
      "Lee Sin",
@@ -167,7 +167,9 @@
      "Viego",
      "Volibear",
      "Nocturne",
-     "Diana"
+     "Diana",
+     "Talon",
+     "Taliyah"
     ],
     "B": [
      "Vi",
@@ -185,9 +187,7 @@
      "Naafiri",
      "Pantheon",
      "Renekton",
-     "Sett",
-     "Taliyah",
-     "Zyra"
+     "Sett"
     ],
     "C": [
      "Elise",
@@ -218,7 +218,7 @@
      "Zac": 50.2,
      "Lillia": 51,
      "Talon": 50.6,
-     "Nasus": 53.0,
+     "Nasus": 53,
      "Lee Sin": 50,
      "Nocturne": 51.6,
      "Kayn": 50.5,
@@ -252,8 +252,8 @@
      "Dr. Mundo": 48.9,
      "Evelynn": 50.6,
      "Fiddlesticks": 49.2,
-     "Fizz": 48.0,
-     "Jax": 50.0,
+     "Fizz": 48,
+     "Jax": 50,
      "Kindred": 50.2,
      "Malphite": 48.3,
      "Master Yi": 50.5,
@@ -281,7 +281,6 @@
      "Ekko"
     ],
     "S": [
-     "Viktor",
      "Ahri",
      "Lissandra",
      "Yasuo",
@@ -292,7 +291,6 @@
      "Yone"
     ],
     "A": [
-     "Zed",
      "Akali",
      "Orianna",
      "Aurelion Sol",
@@ -304,7 +302,8 @@
      "LeBlanc",
      "Qiyana",
      "Syndra",
-     "Kassadin"
+     "Kassadin",
+     "Locke"
     ],
     "B": [
      "Katarina",
@@ -328,7 +327,9 @@
      "Riven",
      "Swain",
      "Vel'Koz",
-     "Galio"
+     "Galio",
+     "Viktor",
+     "Zed"
     ],
     "C": [
      "Ryze",
@@ -336,7 +337,6 @@
      "Cassiopeia",
      "Zoe",
      "Veigar",
-     "Locke",
      "Fiddlesticks",
      "Gragas",
      "Pyke",
@@ -399,7 +399,7 @@
      "Swain": 49.7,
      "Sylas": 50.7,
      "Teemo": 48.6,
-     "Vel'Koz": 50.0,
+     "Vel'Koz": 50,
      "Yone": 50.1,
      "Nasus": 51.6,
      "Gwen": 51.6
@@ -410,34 +410,34 @@
      "Jinx"
     ],
     "S": [
-     "Caitlyn",
      "Kai'Sa",
      "Zeri",
      "Xayah",
      "Seraphine",
-     "Viktor",
-     "Tristana",
-     "Sivir"
+     "Sivir",
+     "Miss Fortune"
     ],
     "A": [
      "Jhin",
-     "Miss Fortune",
      "Nilah",
      "Draven",
      "Aphelios",
-     "Smolder"
+     "Smolder",
+     "Tristana"
     ],
     "B": [
      "Vayne",
      "Twitch",
      "Samira",
-     "Varus",
      "Kog'Maw",
      "Yasuo",
      "Ziggs",
      "Ashe",
      "Yunara",
-     "Lucian"
+     "Lucian",
+     "Caitlyn",
+     "Viktor",
+     "Varus"
     ],
     "C": [
      "Kalista",
@@ -447,7 +447,7 @@
     ],
     "wr": {
      "Xayah": 52,
-     "Seraphine": 51.0,
+     "Seraphine": 51,
      "Viktor": 51.5,
      "Caitlyn": 51,
      "Jinx": 52.8,
@@ -493,7 +493,8 @@
      "Lux",
      "Blitzcrank",
      "Alistar",
-     "Rakan"
+     "Rakan",
+     "Vel'Koz"
     ],
     "A": [
      "Nautilus",
@@ -501,7 +502,8 @@
      "Zilean",
      "Taric",
      "Lulu",
-     "Senna"
+     "Senna",
+     "Zyra"
     ],
     "B": [
      "Pyke",
@@ -509,8 +511,6 @@
      "Janna",
      "Soraka",
      "Karma",
-     "Zyra",
-     "Vel'Koz",
      "Bard",
      "Amumu",
      "Annie",
@@ -578,13 +578,13 @@
      "Fiddlesticks": 49.2,
      "Galio": 49.1,
      "Hwei": 49.7,
-     "Lulu": 51.0,
+     "Lulu": 51,
      "Malphite": 49.3,
      "Pantheon": 48.9,
      "Senna": 50.9,
      "Shen": 48.9,
      "Sion": 48.2,
-     "Tahm Kench": 50.0,
+     "Tahm Kench": 50,
      "Teemo": 48.6,
      "Veigar": 48.9,
      "Zac": 48.8
@@ -667,7 +667,7 @@
      "Darius": 49.8,
      "Gangplank": 51.1,
      "Renekton": 50.1,
-     "Nasus": 53.0,
+     "Nasus": 53,
      "Urgot": 50.9,
      "Aatrox": 49.8,
      "Jax": 50.3,
@@ -683,12 +683,12 @@
      "Riven": 49.5,
      "Ornn": 51,
      "Shen": 51.1,
-     "K'Sante": 50.0,
+     "K'Sante": 50,
      "Yorick": 50.3,
      "Dr. Mundo": 50.7,
      "Cho'Gath": 53.2,
      "Teemo": 50.9,
-     "Malphite": 51.0,
+     "Malphite": 51,
      "Sion": 48.5,
      "Tryndamere": 50.4,
      "Volibear": 50.1,
@@ -709,7 +709,7 @@
      "Rumble": 49.5,
      "Sejuani": 49.5,
      "Shyvana": 49.8,
-     "Tahm Kench": 50.0,
+     "Tahm Kench": 50,
      "Udyr": 48.5,
      "Varus": 48.4,
      "Vayne": 47.9,
@@ -805,7 +805,7 @@
      "Talon": 50.6,
      "Nasus": 52.6,
      "Lee Sin": 50.4,
-     "Nocturne": 52.0,
+     "Nocturne": 52,
      "Kayn": 50.5,
      "Rammus": 53.1,
      "Jarvan IV": 49.7,
@@ -818,7 +818,7 @@
      "Diana": 50,
      "Ekko": 50.2,
      "Hecarim": 50.1,
-     "Warwick": 51.0,
+     "Warwick": 51,
      "Rek'Sai": 52.1,
      "Karthus": 48.3,
      "Skarner": 48.9,
@@ -838,7 +838,7 @@
      "Evelynn": 50.6,
      "Fiddlesticks": 49.2,
      "Fizz": 47.6,
-     "Jax": 50.0,
+     "Jax": 50,
      "Kindred": 50.6,
      "Malphite": 47.9,
      "Master Yi": 50.1,
@@ -957,7 +957,7 @@
      "Ryze": 49.4,
      "Corki": 45.3,
      "Galio": 50.5,
-     "Qiyana": 52.0,
+     "Qiyana": 52,
      "Cassiopeia": 50.5,
      "Zoe": 50,
      "Veigar": 50.6,
@@ -984,7 +984,7 @@
      "Swain": 49.7,
      "Sylas": 51.1,
      "Teemo": 48.2,
-     "Vel'Koz": 50.0,
+     "Vel'Koz": 50,
      "Yone": 49.7,
      "Nasus": 51.2,
      "Gwen": 51.6
@@ -1059,7 +1059,7 @@
      "Senna": 51.2,
      "Cassiopeia": 50.5,
      "Corki": 45.3,
-     "Yasuo": 49.0,
+     "Yasuo": 49,
      "Ziggs": 49.4
     }
    },
@@ -1155,7 +1155,7 @@
      "Neeko": 50,
      "Maokai": 48.7,
      "Swain": 51.7,
-     "Camille": 49.0,
+     "Camille": 49,
      "Amumu": 49.5,
      "Annie": 49.5,
      "Ashe": 48.9,
@@ -1163,13 +1163,13 @@
      "Fiddlesticks": 49.2,
      "Galio": 49.1,
      "Hwei": 49.7,
-     "Lulu": 51.0,
+     "Lulu": 51,
      "Malphite": 48.9,
      "Pantheon": 48.9,
      "Senna": 50.9,
      "Shen": 48.9,
      "Sion": 47.8,
-     "Tahm Kench": 50.0,
+     "Tahm Kench": 50,
      "Teemo": 48.2,
      "Veigar": 48.5,
      "Zac": 48.8
@@ -1287,7 +1287,7 @@
      "Fiddlesticks": 48.2,
      "Gragas": 48.6,
      "Heimerdinger": 48.8,
-     "Irelia": 50.0,
+     "Irelia": 50,
      "Jayce": 49.1,
      "Kayle": 49.3,
      "Olaf": 49.4,
@@ -1295,14 +1295,14 @@
      "Rumble": 49.5,
      "Sejuani": 49.5,
      "Shyvana": 49.8,
-     "Tahm Kench": 50.0,
+     "Tahm Kench": 50,
      "Udyr": 48.5,
      "Varus": 48.4,
      "Vayne": 47.9,
      "Warwick": 49.2,
      "Wukong": 49.5,
      "Xerath": 48.4,
-     "Yasuo": 51.0,
+     "Yasuo": 51,
      "Zaahen": 50.5,
      "Zac": 47.8
     }
@@ -1385,7 +1385,7 @@
      "Shyvana": 51.8,
      "Graves": 51,
      "Bel'Veth": 52.7,
-     "Wukong": 53.0,
+     "Wukong": 53,
      "Zac": 50.2,
      "Lillia": 51,
      "Talon": 50.6,
@@ -1408,13 +1408,13 @@
      "Rek'Sai": 52.1,
      "Karthus": 48.3,
      "Skarner": 48.9,
-     "Elise": 51.0,
+     "Elise": 51,
      "Rengar": 49.6,
      "Nidalee": 49.1,
      "Amumu": 49.9,
      "Maokai": 48.7,
      "Shaco": 51.3,
-     "Trundle": 52.0,
+     "Trundle": 52,
      "Gragas": 51,
      "Olaf": 49.2,
      "Aatrox": 50.8,
@@ -1424,7 +1424,7 @@
      "Evelynn": 50.6,
      "Fiddlesticks": 49.2,
      "Fizz": 48.4,
-     "Jax": 50.0,
+     "Jax": 50,
      "Kindred": 50.2,
      "Malphite": 48.7,
      "Master Yi": 50.9,
@@ -1436,7 +1436,7 @@
      "Sion": 48.6,
      "Sylas": 51.7,
      "Taliyah": 48.9,
-     "Teemo": 49.0,
+     "Teemo": 49,
      "Udyr": 48.5,
      "Volibear": 49.7,
      "Yorick": 48.3,
@@ -1569,10 +1569,10 @@
      "Sion": 48.6,
      "Swain": 49.7,
      "Sylas": 50.7,
-     "Teemo": 49.0,
-     "Vel'Koz": 50.0,
+     "Teemo": 49,
+     "Vel'Koz": 50,
      "Yone": 50.5,
-     "Nasus": 52.0,
+     "Nasus": 52,
      "Gwen": 51.6
     }
    },
@@ -1749,14 +1749,14 @@
      "Fiddlesticks": 49.2,
      "Galio": 49.1,
      "Hwei": 49.7,
-     "Lulu": 51.0,
+     "Lulu": 51,
      "Malphite": 49.7,
      "Pantheon": 48.9,
      "Senna": 50.9,
      "Shen": 48.9,
      "Sion": 48.6,
-     "Tahm Kench": 50.0,
-     "Teemo": 49.0,
+     "Tahm Kench": 50,
+     "Teemo": 49,
      "Veigar": 49.3,
      "Zac": 48.8
     }

@@ -20,6 +20,7 @@ rolled into a numbered version when a build is cut.
 
 ### Changed
 
+- **Tier list updated for patch 26.21.** Darius, Miss Fortune and Vel'Koz Support move up; Zyra and Lillia are now OP in the jungle; Viktor, Caitlyn and Zed move down.
 - **Scrollbars match the app.** Thin gold scrollbars instead of the system's grey ones.
 - **Builds updated to how players build them on patch 26.21:**
   - **Miss Fortune Bot:** Bloodthirster first with Press the Attack. The Hubris and First Strike build is now an alternate.
