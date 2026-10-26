@@ -12,6 +12,8 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.1] — 2026-10-26
+
 ### Fixed
 
 - **Change your lane opponent in game.** Tap "vs" in the in-game view to pick the right one from the enemy team, or go back to auto-detect.
