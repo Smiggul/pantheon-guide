@@ -18,6 +18,19 @@ export default {
   id:"gangplank", display:"Gangplank", dd:"Gangplank",
   color:"#4a2a1a", glow:"#e09040",
   lanes:["Top"],
+  altBuilds:{
+    Top:[{
+      label:"Stormraider's", tag:"alt",
+      corePath:"Essence Reaver  ›  Plated Steelcaps  ›  The Collector  ›  Infinity Edge",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Stormraider's Surge is the keystone in 10.7% of 53,685 games at the best win rate (54.9% vs Deathfire Touch's 52.3%
+      //   at 71.2%). Page from Skill Capped's "10 Most OP One Trick Builds" (22 Oct 2026): Nimbus Cloak, Transcendence,
+      //   Scorch, Legend: Alacrity, Cut Down. Items match the main build (Essence Reaver first 97.1%).
+      coreNote:"Stormraider's Surge instead of Deathfire Touch into melee champions you have to kite: a barrel or Parrrley combo procs it, and the speed and slow resistance keep you out of reach. Keep Deathfire Touch when your barrels already control the lane.",
+      runes:{...GANGPLANK_TOP_DEFAULT_RUNES, keystone:"Stormraider's Surge", secondaryRunes:["Legend: Alacrity","Cut Down"], reason:"Stormraider's Surge fires off a barrel or Parrrley combo and gives the speed and slow resistance to kite melee champions. Nimbus Cloak, Transcendence and Scorch stay as on the main page; Legend: Alacrity and Cut Down for the extended trades."},
+      sideItems:["Lord Dominik's Regards","Bloodthirster","Guardian Angel","Maw of Malmortius","Serylda's Grudge","Sterak's Gage"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Irelia","Renekton","Darius"], replacements:["Jax","Fiora","Jayce"],

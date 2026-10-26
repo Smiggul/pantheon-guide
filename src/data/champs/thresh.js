@@ -18,6 +18,19 @@ export default {
   id:"thresh", display:"Thresh", dd:"Thresh",
   color:"#2c3e50", glow:"#f0e68c",
   lanes:["Support"],
+  altBuilds:{
+    Support:[{
+      label:"Guardian", tag:"alt",
+      corePath:"Locket of the Iron Solari  ›  Knight's Vow  ›  Zeke's Convergence  ›  Frozen Heart",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Guardian is the keystone in 22.5% of 159,080 games (WR 54.0% vs Aftershock's 53.4% at 54.3%). Skill Capped's "New
+      //   Best Solo Carry Champions on 26.21": Aftershock into melee supports, Guardian into ranged or poke lanes. The rest
+      //   of the page is the main build's (Claude's call). Items match the main build.
+      coreNote:"Guardian instead of Aftershock into ranged or poke lanes: it shields your carry from the harass. Keep Aftershock for melee all-ins.",
+      runes:{...THRESH_SUP_DEFAULT_RUNES, keystone:"Guardian", reason:"Guardian shields your carry when the enemy pokes them; the other runes stay as on the main page."},
+      sideItems:["Mercury's Treads","Plated Steelcaps","Randuin's Omen","Force of Nature","Redemption","Abyssal Mask"],
+    }],
+  },
   roles:{
     Support:{
       bans:["Sona","Renata Glasc","Taric"], replacements:["Nautilus","Blitzcrank","Pantheon"],

@@ -18,6 +18,19 @@ export default {
   id:"anivia", display:"Anivia", dd:"Anivia",
   color:"#2a4a6a", glow:"#80d0f0",
   lanes:["Mid"],
+  altBuilds:{
+    Mid:[{
+      label:"Malignance", tag:"alt",
+      corePath:"Rod of Ages  ›  Sorcerer's Shoes  ›  Malignance  ›  Zhonya's Hourglass",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Rod of Ages opens 88.3% of 24,003 games; then Malignance 41.5% of pairs vs Archangel's Staff 34.1% (the main);
+      //   Rod of Ages > Malignance > Zhonya's 19.4%. Skill Capped's "10 Most OP One Trick Builds" (22 Oct 2026) runs it without
+      //   a tear. Same Electrocute page (70.5%).
+      coreNote:"Malignance second instead of Archangel's Staff for earlier damage: its ultimate haste brings Glacial Storm back sooner, and Hatefog burns and shreds whoever stands in it. Then Zhonya's Hourglass.",
+      runes:{...ANIVIA_MID_DEFAULT_RUNES},
+      sideItems:["Liandry's Torment","Rabadon's Deathcap","Void Staff","Rylai's Crystal Scepter","Banshee's Veil","Archangel's Staff"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Zed","Fizz","Kassadin"], replacements:["Orianna","Viktor","Syndra"],

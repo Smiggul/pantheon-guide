@@ -55,6 +55,17 @@ export default {
       runes: {...CHOGATH_TOP_TANK_RUNES},
       sideItems: ["Unending Despair", "Sunfire Aegis", "Jak'Sho, The Protean", "Kaenic Rookern", "Dead Man's Plate", "Spirit Visage", "Randuin's Omen", "Mercury's Treads"],
     }],
+    Jungle:[{
+      label:"Hextech Rocketbelt", tag:"alt",
+      corePath:"Hextech Rocketbelt  ›  Boots of Swiftness  ›  Dead Man's Plate  ›  Riftmaker",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Rocketbelt opens 28.9% of 56,314 games (Heartsteel 69.5%); Rocketbelt > Dead Man's Plate 12.7%, > Riftmaker 8.4%.
+      //   Skill Capped's "New Best Solo Carry Champions on 26.21": Rocketbelt first into squishy teams. Riftmaker fourth is
+      //   Claude's call (the second most common item after Rocketbelt). Same Hail of Blades page.
+      coreNote:"Hextech Rocketbelt first into squishy teams: its dash sets up Rupture and Feral Scream for the burst, then Riftmaker for the longer fights.",
+      runes:{...CHOGATH_JGL_DEFAULT_RUNES},
+      sideItems:["Heartsteel","Force of Nature","Zhonya's Hourglass","Rabadon's Deathcap","Plated Steelcaps","Mercury's Treads"],
+    }],
   },
   roles:{
     Top:{

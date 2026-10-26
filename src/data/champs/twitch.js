@@ -18,6 +18,19 @@ export default {
   id:"twitch", display:"Twitch", dd:"Twitch",
   color:"#3a5a1a", glow:"#9ae040",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"Yun Tal scaling", tag:"alt",
+      corePath:"Yun Tal Wildarrows  ›  Runaan's Hurricane  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Yun Tal opens 25.2% of 59,281 games (The Collector 63.8%); Yun Tal > Hurricane > IE 7.8%, with LDR fourth 5.6%
+      //   (WR 66.2% over 798 games). Skill Capped's "New Best Solo Carry Champions on 26.21": take it with an enchanter or into
+      //   armor stacking; the data supports the build shares, not that pairing. Same runes.
+      coreNote:"Yun Tal Wildarrows and Runaan's Hurricane to scale with an enchanter support, or into a team that stacks armor, where The Collector's burst falls off.",
+      runes:{...TWITCH_BOT_DEFAULT_RUNES},
+      sideItems:["Berserker's Greaves","Guardian Angel","Mercury's Treads","Bloodthirster","Mortal Reminder","Wit's End"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],

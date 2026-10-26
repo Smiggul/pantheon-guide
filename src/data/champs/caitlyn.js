@@ -18,6 +18,18 @@ export default {
   id:"caitlyn", display:"Caitlyn", dd:"Caitlyn",
   color:"#2e8b8b", glow:"#f0d078",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"Collector first", tag:"alt",
+      corePath:"The Collector  ›  Infinity Edge  ›  Lord Dominik's Regards  ›  Rapid Firecannon",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   The Collector opens 35.3% of 136,126 games (Hexoptics 54.5%); Collector > IE 27.7% of first-two pairs, Collector >
+      //   IE > LDR 15.1%. A data finding from the guide sweep, not a video claim. Same Lethal Tempo page (81.2%).
+      coreNote:"The Collector first when you're ahead in lane with kill pressure: its execute ends trades a Headshot has already chunked.",
+      runes:{...CAITLYN_BOT_DEFAULT_RUNES},
+      sideItems:["Hexoptics C44","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercury's Treads","Immortal Shieldbow"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Zeri","Samira"], replacements:["Jinx","Yunara","Ziggs"],

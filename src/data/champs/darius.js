@@ -36,7 +36,7 @@ export default {
       bans:["Cho'Gath","Teemo","Malphite"], replacements:["Renekton","Sett","Wukong"],
       role:"Juggernaut / Lane Bully",
       corePath:"Youmuu's Ghostblade  ›  Plated Steelcaps  ›  Dead Man's Plate  ›  Death's Dance",
-      coreNote:"Darius wants to end the game before scaling comps take over. Stridebreaker's slow keeps targets in Decimate/Apprehend range for the stack-execute pattern; Black Cleaver shreds while Q stacks Hemorrhage bleed; Sterak's and Death's Dance keep him alive to land the Guillotine reset chain.",
+      coreNote:"Darius wants to end the game before scaling comps take over. Youmuu's Ghostblade and Dead Man's Plate give him the speed to reach a target and keep Apprehend and Decimate landing while Hemorrhage stacks; Death's Dance keeps him alive to land the Noxian Guillotine reset chain.",
       sideItems:["Plated Steelcaps","Mercury's Treads","Randuin's Omen","Frozen Heart","Maw of Malmortius","Guardian Angel"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor stack while your bleed racks up."),I("Stridebreaker","Slow sticks you to the mirror matchup."),I("Death's Dance","Outlast their sustain with your own bleed.")],behind:[I("Randuin's Omen","Crit/AS reduction if they build offense."),I("Plated Steelcaps","Reduces auto damage from their all-in."),I("Sterak's Gage","Shield when the walk-down connects.")],runes:{...DARIUS_TOP_DEFAULT_RUNES}},

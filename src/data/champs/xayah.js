@@ -27,6 +27,16 @@ export default {
       coreNote:"Stormrazor first in place of Yun Tal Wildarrows. Few players open it, so it is not proven better. The real difference is timing: Stormrazor is the stronger one-item burst and movement spike, while Yun Tal is the steadier attack-speed and crit item. Take Stormrazor with an aggressive or melee-engage support, where its movement-speed proc helps you peel for yourself while they dive; keep Yun Tal with an enchanter who wants a longer game.",
       runes:{...XAYAH_BOT_DEFAULT_RUNES},
       sideItems:["Yun Tal Wildarrows","Berserker's Greaves","Bloodthirster","Guardian Angel","Mercurial Scimitar"],
+    }, {
+      label:"Conqueror", tag:"alt",
+      corePath:"Yun Tal Wildarrows  ›  Navori Flickerblade  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Conqueror is the keystone in 25.5% of 75,298 games at an equal win rate (53.9% vs Lethal Tempo's 53.6%). From Skill
+      //   Capped's "New Best Solo Carry Champions on 26.21" (high-elo Xayah players). The rest of the page is the main build's
+      //   (Claude's call: neither the video nor the data split rows by keystone). Items match the main build.
+      coreNote:"Conqueror instead of Lethal Tempo: her W and Navori Flickerblade already give her attack speed, so Conqueror's stacking damage pays more in long fights. Best with a melee support who holds enemies in place.",
+      runes:{...XAYAH_BOT_DEFAULT_RUNES, keystone:"Conqueror", reason:"Conqueror stacks on her autos and feathers through a long fight; her W and Navori Flickerblade already cover the attack speed Lethal Tempo would add. The other runes stay as on the main page."},
+      sideItems:["Berserker's Greaves","Essence Reaver","Mortal Reminder","Guardian Angel","Bloodthirster","Mercury's Treads"],
     }],
   },
   roles:{
