@@ -6,7 +6,9 @@ const CAMILLE_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Sudden Impact","Deep Ward","Treasure Hunter"],
   secondary:      "Resolve",
   secondaryRunes: ["Shield Bash","Bone Plating"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  // Research (2026-10-26, 16.21, lolalytics Emerald+, 11,326 games): the page matches the most common one (Hail of Blades
+  //   95.5%); its shards are Adaptive Force (94.6%) and flat Health (92.9%), not Attack Speed and scaling Health.
+  shards:         ["Adaptive Force","Adaptive Force","Health"],
   reason:         "Support Camille runs Hail of Blades — hookshot in, three fast autos with Q true-damage weaved, and the trade is over before their support reacts. Sudden Impact procs on every E landing, Deep Ward sturdies her aggressive vision game, Treasure Hunter pays out the pick pattern, and the Resolve splash (Shield Bash off her passive shield, Bone Plating) survives the counter-burst her dive-range engages absorb. Her R ults the enemy carry into a private room — the ADC's nightmare, her carry's playground.",
 };
 
@@ -27,6 +29,17 @@ const CAMILLE_TOP_DEFAULT_RUNES = {
 export default {
   id:"camille", display:"Camille", dd:"Camille",
   color:"#1a5a5a", glow:"#40c0c0",
+  altBuilds:{
+    Support:[{
+      label:"Sundered Sky first", tag:"alt",
+      corePath:"Bloodsong  ›  Plated Steelcaps  ›  Sundered Sky  ›  Sterak's Gage",
+      // Research (2026-10-26, 16.21): the main build until this date. Bloodsong > Sundered Sky is 16.4% of 11,043 lolalytics
+      //   Emerald+ first-two pairs (Eclipse 30.9%); OP.GG has it in its fifth core row.
+      coreNote:"Sundered Sky first when the lane is a long brawl rather than one all-in: its crit-heal keeps you in the fight.",
+      runes:{...CAMILLE_SUP_DEFAULT_RUNES},
+      sideItems:["Eclipse","Guardian Angel","Knight's Vow","Randuin's Omen","Thornmail","Zeke's Convergence"],
+    }],
+  },
   lanes:["Top","Support"],
   roles:{
     Top:{
@@ -54,10 +67,13 @@ export default {
     Support:{
       bans:["Rell","Taric","Rakan"], replacements:["Leona","Pyke","Alistar"],
       role:"Hookshot Dive Support",
-      corePath:"Bloodsong  ›  Plated Steelcaps  ›  Sundered Sky  ›  Sterak's Gage",
-      // Research: Support Camille is a real meta role at high pick rate.
-      coreNote:"Support Camille is a dive support: Hookshot-stun onto the enemy carry and isolate them with R while your ADC cleans up. Bloodsong amps your carry's damage after every E stun, Sundered Sky gives the crit-heal spike a half-income build needs to survive the dive, and Sterak's plus Guardian Angel insure the always-deepest positioning. Whoever you ult fights alone. Engage on cooldown; the lane is won by tempo, not attrition.",
-      sideItems:["Guardian Angel","Knight's Vow","Randuin's Omen","Thornmail","Dead Man's Plate","Zeke's Convergence"],
+      corePath:"Bloodsong  ›  Plated Steelcaps  ›  Eclipse  ›  Sundered Sky",
+      // Research (2026-10-26, patch 16.21, Emerald+): lolalytics build-itemset, 11,223 games: Bloodsong is the quest item in
+      //   84.5%; first two Bloodsong > Eclipse 30.9%, > Sundered Sky 16.4%, > Umbral Glaive 16.0%, > Experimental Hexplate
+      //   14.4%; first three Bloodsong > Eclipse > Sundered Sky 15.0%. OP.GG core: Eclipse > Sundered Sky > Sterak's 9.2% (top
+      //   row). Sundered Sky first is the appended alternate.
+      coreNote:"Support Camille is a dive support: Hookshot-stun onto the enemy carry and isolate them with R while your ADC cleans up. Bloodsong amps your carry's damage after every E stun. Eclipse's burst and shield land inside the Hookshot all-in, and Sundered Sky's crit-heal wins the follow-up. Whoever you ult fights alone. Engage on cooldown; the lane is won by tempo, not attrition.",
+      sideItems:["Sterak's Gage","Guardian Angel","Knight's Vow","Randuin's Omen","Thornmail","Dead Man's Plate","Zeke's Convergence"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Dive past them — your target is the backline."),I("Bloodsong","Amp the carry kiting them down."),I("Sterak's Gage","Survive their peel damage.")],behind:[I("Knight's Vow","Split their damage off your carry."),I("Randuin's Omen","Slow their walk-down."),I("Thornmail","Anti-heal their sustain.")],runes:{...CAMILLE_SUP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Sundered Sky","Win the engage mirror — E stun opens first."),I("Sterak's Gage","Shield through their counter-dive."),I("Guardian Angel","Commit deeper than they can.")],behind:[I("Knight's Vow","Split the dive damage onto your armor."),I("Randuin's Omen","Slow the whole dive down."),I("Sterak's Gage","Survive the engage trade.")],runes:{...CAMILLE_SUP_DEFAULT_RUNES}},

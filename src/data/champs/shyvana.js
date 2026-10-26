@@ -45,6 +45,15 @@ export default {
       },
       sideItems: ["Nashor's Tooth", "Shadowflame", "Void Staff", "Zhonya's Hourglass", "Riftmaker", "Rylai's Crystal Scepter"],
     }],
+    Top:[{
+      label:"Trinity Force", tag:"alt",
+      corePath:"Trinity Force  ›  Spear of Shojin  ›  Death's Dance  ›  Sundered Sky",
+      // Research (2026-10-26, 16.21): the main build until this date. Opens 19.0% of 2,798 lolalytics Emerald+ games (thin);
+      //   OP.GG core Trinity Force > Shojin > Death's Dance 5.2%.
+      coreNote:"Trinity Force first for the Sheen proc on Q's double strike, when you want more single-target damage in trades.",
+      runes:{...SHYVANA_TOP_DEFAULT_RUNES},
+      sideItems:["Experimental Hexplate","Plated Steelcaps","Mercury's Treads","Jak'Sho, The Protean","Wit's End","Sterak's Gage"],
+    }],
   },
   roles:{
     Jungle:{
@@ -74,11 +83,14 @@ export default {
     Top:{
       bans:["Malphite","Jax","Fiora"], replacements:["Renekton","Wukong","Sett"],
       role:"Skirmisher / Bruiser (off-meta counter-pick)",
-      corePath:"Trinity Force  ›  Spear of Shojin  ›  Death's Dance  ›  Sundered Sky",
-      // Research: "Not a troll build": this alt itemization has posted very strong win rates when the matchup calls for
-      //   it, and it isn't a weak novelty like some off-meta roles.
-      coreNote:"Top Shyvana is an off-meta counter-pick into melee matchups. Build Trinity Force into a haste and sustain core rather than Jungle's on-hit path. Jungle is still her stronger role.",
-      sideItems:["Plated Steelcaps","Mercury's Treads","Jak'Sho, The Protean","Wit's End","Sterak's Gage","Randuin's Omen"],
+      corePath:"Experimental Hexplate  ›  Spear of Shojin  ›  Death's Dance  ›  Sundered Sky",
+      // Research (2026-10-26, patch 16.21, Emerald+): THIN. lolalytics build-itemset, 2,798 games: Experimental Hexplate opens
+      //   48.3%, Trinity Force 19.0%, Dusk and Dawn 10.3%; first two Hexplate > Shojin 37.6%; first three Hexplate > Shojin >
+      //   Death's Dance 22.1%. Changed only because OP.GG agrees: Hexplate > Shojin > Death's Dance 21.4% (top row), Trinity
+      //   Force line 5.2%. Runes left as they were: keystones are split (Press the Attack 32.9%, Grasp 26.9%, Stormraider's
+      //   20.1%) and there is no second source for them. Trinity Force first is the appended alternate.
+      coreNote:"Top Shyvana is an off-meta counter-pick into melee matchups. Build Experimental Hexplate into a haste and sustain core: its ultimate haste brings dragon form back sooner, and every cast of R grants attack and move speed. Jungle is still her stronger role.",
+      sideItems:["Trinity Force","Plated Steelcaps","Mercury's Treads","Jak'Sho, The Protean","Wit's End","Sterak's Gage","Randuin's Omen"],
       data:{
         JUGGERNAUT:{ahead:[I("Death's Dance","Bleed conversion outlasts their sustain."),I("Trinity Force","Sheen proc wins the trade outright."),I("Spear of Shojin","Haste for more Q double-strikes in the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from their all-in."),I("Sterak's Gage","Shield when the walk-down connects."),I("Death's Dance","Survive long enough to bleed them out.")],runes:{...SHYVANA_TOP_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Trinity Force","Win the burst race before their combo lands."),I("Sundered Sky","Crit-heal wins the mirror dive follow-up."),I("Death's Dance","Outlast their engage burst.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Plated Steelcaps","Irelia/Camille auto chains."),I("Mercury's Treads","Shorter CC on their initiation.")],runes:{...SHYVANA_TOP_DEFAULT_RUNES}},

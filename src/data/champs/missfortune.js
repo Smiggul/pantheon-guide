@@ -1,6 +1,20 @@
 import { I } from "../runeHelpers.js";
 
+// Research (2026-10-26, patch 16.21, lolalytics Emerald+, 96,792 games): Press the Attack is the keystone in 55.9% of
+//   games, First Strike 37.1%. Most common page: Presence of Mind (52%), Legend: Bloodline (41%, Alacrity 17%),
+//   Coup de Grace (33%, Cut Down 25%), Sorcery Manaflow Band + Gathering Storm. It goes with the Bloodthirster line;
+//   the First Strike page moved with Hubris to the alternate.
 const MISSFORTUNE_BOT_DEFAULT_RUNES = {
+  keystone:       "Press the Attack",
+  primary:        "Precision",
+  primaryRunes:   ["Presence of Mind","Legend: Bloodline","Coup de Grace"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Manaflow Band","Gathering Storm"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Press the Attack lands on the third auto of a trade, and the target takes more damage from every Love Tap and Double Up after it. Presence of Mind refunds mana for constant Q poke, Legend: Bloodline adds the life steal a Bloodthirster build leans on, and Coup de Grace finishes the low-health targets her passive already punishes. Manaflow Band and Gathering Storm fund and scale the poke.",
+};
+
+const MISSFORTUNE_BOT_FIRST_STRIKE_RUNES = {
   keystone:       "First Strike",
   primary:        "Inspiration",
   primaryRunes:   ["Cash Back","Biscuit Delivery","Jack Of All Trades"],
@@ -18,13 +32,28 @@ export default {
   id:"missfortune", display:"Miss Fortune", dd:"MissFortune",
   color:"#8a1a1a", glow:"#f0c040",
   lanes:["Bot"],
+  altBuilds:{
+    Bot:[{
+      label:"Hubris lethality", tag:"alt",
+      corePath:"Hubris  ›  The Collector  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      // Research (2026-10-26, 16.21): the main build until this date. Still opens 25.6% of 90,714 lolalytics Emerald+ games
+      //   (Hubris > Collector 23.5% of first-two pairs); OP.GG core Hubris > Collector > IE 16.5%. It pairs with First Strike.
+      coreNote:"Hubris first for lanes you can win early: every takedown adds bonus AD for 90 seconds, and First Strike's bonus gold brings The Collector sooner.",
+      runes:{...MISSFORTUNE_BOT_FIRST_STRIKE_RUNES},
+      sideItems:["Bloodthirster","Guardian Angel","Boots of Swiftness","Mercury's Treads","Rapid Firecannon","Edge of Night"],
+    }],
+  },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Wave-Clear Poke Carry",
-      corePath:"Hubris  ›  The Collector  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Miss Fortune plays for a Love Tap poke lane that snowballs into Bullet Time teamfight damage — her passive bonus damage against low-HP targets rewards constant chip pressure. Hubris rewards aggressive early takedowns with permanent AD; The Collector executes anything her Love Tap poke has already chunked; Infinity Edge and Lord Dominik's Regards scale the crit into a real late-game DPS threat.",
-      sideItems:["Boots of Swiftness","Guardian Angel","Mercury's Treads","Bloodthirster","Rapid Firecannon","Berserker's Greaves"],
+      corePath:"Bloodthirster  ›  The Collector  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      // Research (2026-10-26, patch 16.21, Emerald+): lolalytics build-itemset, 90,714 games: Bloodthirster opens 43.8%,
+      //   Hubris 25.6%, The Collector 22.6%; first two Bloodthirster > Collector 36.2%, Hubris > Collector 23.5%; first three
+      //   Bloodthirster > Collector > IE 29.7%. OP.GG core: Bloodthirster > Collector > IE 27.5%, Hubris > Collector > IE 16.5%.
+      //   The Hubris line is the appended alternate.
+      coreNote:"Miss Fortune plays for a Love Tap poke lane that snowballs into Bullet Time teamfight damage, and her passive bonus damage against low-HP targets rewards constant chip pressure. Bloodthirster's life steal and overflow shield let her keep trading without backing; The Collector executes anything her poke has already chunked; Infinity Edge and Lord Dominik's Regards scale the crit into a real late-game threat.",
+      sideItems:["Boots of Swiftness","Guardian Angel","Mercury's Treads","Hubris","Rapid Firecannon","Berserker's Greaves"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("The Collector","Execute finishes what Love Tap chunked."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...MISSFORTUNE_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rapid Firecannon","Range + slow kites the dive."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Boots of Swiftness","Move speed to reposition Bullet Time.")],behind:[I("Boots of Swiftness","Reposition out of their engage range."),I("Mercury's Treads","Shorter CC on their engage."),I("Guardian Angel","Second life.")],runes:{...MISSFORTUNE_BOT_DEFAULT_RUNES}},

@@ -18,6 +18,20 @@ export default {
   id:"aurora", display:"Aurora", dd:"Aurora",
   color:"#4a3a6a", glow:"#b090e0",
   lanes:["Mid","Top"],
+  altBuilds:{
+    Mid:[{
+      label:"Stormsurge burst", tag:"alt",
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, patch 16.21, Emerald+): lolalytics build-itemset, 25,582 games: Stormsurge opens 52.7%, Luden's
+      //   Echo 37.9%; first two Stormsurge > Shadowflame 46.2%, Luden's > Shadowflame 26.5%; first three Stormsurge >
+      //   Shadowflame > Rabadon's 27.9%. OP.GG core: Stormsurge > Shadowflame > Rabadon's 18.9%, plus 9.5% after Dark Seal;
+      //   Luden's lines 6.0% and 4.2%. Added as an alternate, not promoted: the first-item split is close, so under the
+      //   promotion rule Luden's stays main (the owner's call, like Ekko Mid). Same rune page (Electrocute 95.3%).
+      coreNote:"Stormsurge first for more burst: its flat magic penetration hits hardest against a mid laner's low early magic resist, and its Squall finishes targets your rotation already chunked.",
+      runes:{...AURORA_DEFAULT_RUNES},
+      sideItems:["Luden's Echo","Zhonya's Hourglass","Void Staff","Banshee's Veil","Mejai's Soulstealer"],
+    }],
+  },
   roles:{
     Mid:{
       bans:["Katarina","Twisted Fate","Zed"], replacements:["Ahri","Lux","Syndra"],

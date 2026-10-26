@@ -31,12 +31,16 @@ export default {
   altBuilds:{
     Mid:[{
       label:"Stormsurge rush", tag:"alt",
-      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      // Research: Played by a top-ranked EUW Ekko and named again in the 26.20 solo-carry video. Only about 10% of Ekko
-      //   players rush Stormsurge, but it wins around 2% more than the standard first item.
-      coreNote:"Stormsurge first, which wins about 2 points more than the standard first item. Its flat penetration plus upgraded Sorcerer's Shoes is about 35 magic penetration early, against a mid laner on roughly 45 base magic resist, and flat penetration is strongest when the target has little. It also builds smoothly, since it stacks Amplifying Tomes. Skip it into Galio or anyone likely to rush Mercury's Treads, and keep Dusk and Dawn for matchups where you need quick E-Q trades.",
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Dusk and Dawn  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, patch 16.21, Emerald+): no longer a niche line. lolalytics build-itemset, 53,449 games:
+      //   Stormsurge opens 49.0%, Dusk and Dawn 39.1%; first two Stormsurge > Dusk and Dawn 45.0%, Dusk and Dawn > Shadowflame
+      //   28.6%. OP.GG core: Stormsurge > Dusk and Dawn > Rabadon's 16.9%, plus 14.8% after Dark Seal. The path was
+      //   Stormsurge > Shadowflame; players take Dusk and Dawn second. Left as the alternate: the first-item split is close,
+      //   so under the promotion rule the main build stays (the owner's call). It came from a top-ranked EUW Ekko and the
+      //   26.20 solo-carry video; the old "wins about 2 points more" line was dropped as unverified on 16.21.
+      coreNote:"Stormsurge first, then Dusk and Dawn. Its flat penetration plus upgraded Sorcerer's Shoes is about 35 magic penetration early, against a mid laner on roughly 45 base magic resist, and flat penetration is strongest when the target has little. It also builds smoothly, since it stacks Amplifying Tomes. Skip it into Galio or anyone likely to rush Mercury's Treads, and start Dusk and Dawn for matchups where you need quick E-Q trades.",
       runes:{...EKKO_MID_DEFAULT_RUNES},
-      sideItems:["Dusk and Dawn","Zhonya's Hourglass","Void Staff","Banshee's Veil","Lich Bane"],
+      sideItems:["Shadowflame","Zhonya's Hourglass","Void Staff","Banshee's Veil","Lich Bane"],
     }],
   },
   roles:{
@@ -44,7 +48,7 @@ export default {
       bans:["Malzahar","Lissandra","Vladimir"], replacements:["Katarina","Akali","Fizz"],
       role:"Time-Rewind Burst Mage",
       corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Ekko trades in short passive-proc windows and always keeps R as the undo button. Dusk and Dawn is his premier first buy: the move speed and damage proc match his dash-in, dash-out pattern exactly. Shadowflame converts chunked targets into kills, Rabadon's Deathcap scales both the burst and the R heal, and Void Staff closes against MR stacking. Fight, rewind, fight again.",
+      coreNote:"Ekko trades in short passive-proc windows and always keeps R as the undo button. Dusk and Dawn first: the move speed and damage proc match his dash-in, dash-out pattern exactly. Shadowflame converts chunked targets into kills, Rabadon's Deathcap scales both the burst and the R heal, and Void Staff closes against MR stacking. Fight, rewind, fight again.",
       sideItems:["Void Staff","Zhonya's Hourglass","Banshee's Veil","Lich Bane","Hextech Rocketbelt","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Dusk and Dawn","Speed to weave passive procs and leave untouched."),I("Shadowflame","Pen punishes their low MR."),I("Rabadon's Deathcap","Chunk harder each trade window.")],behind:[I("Zhonya's Hourglass","Stasis covers the gap-close you misjudge."),I("Void Staff","Keep proc damage real through MR."),I("Hextech Rocketbelt","Extra dash to stay out of reach.")],runes:{...EKKO_MID_DEFAULT_RUNES}},

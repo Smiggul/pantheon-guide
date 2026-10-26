@@ -1,13 +1,16 @@
 import { I } from "../runeHelpers.js";
 
+// Research (2026-10-26, patch 16.21, lolalytics Emerald+, 126,017 games): Conqueror 91.9%. Coup de Grace 80.8% against Last
+//   Stand 3.2%; Inspiration is the secondary tree in about 75% of games (Magical Footwear 72.6%, Cosmic Insight 74.9%),
+//   Domination about 17%. Both old choices had collapsed.
 const LEESIN_JGL_DEFAULT_RUNES = {
   keystone:       "Conqueror",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
-  secondary:      "Domination",
-  secondaryRunes: ["Sudden Impact","Ultimate Hunter"],
+  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
+  secondary:      "Inspiration",
+  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks fast through Lee Sin's constant Q dash-strike and auto combo, and its Omnivamp keeps him healthy through skirmishes. Legend: Alacrity speeds up his energy-efficient trading pattern. Sudden Impact procs bonus true damage off the Q Resonating Strike dash. Ultimate Hunter reduces Dragon's Rage cooldown for more game-changing kick engages.",
+  reason:         "Conqueror stacks fast through Lee Sin's constant Q dash-strike and auto combo, and its Omnivamp keeps him healthy through skirmishes. Legend: Alacrity speeds up his energy-efficient trading pattern, and Coup de Grace makes the kick-and-chase finish hit harder. Magical Footwear saves the boots gold for his first item, and Cosmic Insight brings Flash back sooner for more Flash kicks.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -17,14 +20,29 @@ const LEESIN_JGL_DEFAULT_RUNES = {
 export default {
   id:"leesin", display:"Lee Sin", dd:"LeeSin",
   color:"#c9a24b", glow:"#f1c40f",
+  altBuilds:{
+    Jungle:[{
+      label:"Sundered Sky", tag:"alt",
+      corePath:"Eclipse  ›  Sundered Sky  ›  Death's Dance  ›  Guardian Angel",
+      // Research (2026-10-26, 16.21): the main build until this date. Eclipse > Sundered Sky is 19.7% of 108,699 lolalytics
+      //   Emerald+ first-two pairs (Black Cleaver 32.2%); OP.GG core Eclipse > Sundered Sky > Death's Dance 7.7%.
+      coreNote:"Sundered Sky second for its crit-heal when you need to win longer skirmishes rather than shred a tank.",
+      runes:{...LEESIN_JGL_DEFAULT_RUNES},
+      sideItems:["Black Cleaver","Plated Steelcaps","Mercury's Treads","Maw of Malmortius","Sterak's Gage","Randuin's Omen"],
+    }],
+  },
   lanes:["Jungle"],
   roles:{
     Jungle:{
       bans:["Nocturne","Warwick","Diana"], replacements:["Rek'Sai","Wukong","Vi"],
       role:"Diver / Skirmisher",
-      corePath:"Eclipse  ›  Sundered Sky  ›  Death's Dance  ›  Guardian Angel",
-      coreNote:"Lee Sin plays for early skirmishes and invades. Eclipse's proc and shield both fire inside a Q-dash all-in, punishing squishies before their combo lands; Sundered Sky's crit-heal wins the follow-up trade. Death's Dance and Guardian Angel keep him alive through the insec-kick all-in pattern.",
-      sideItems:["Plated Steelcaps","Mercury's Treads","Randuin's Omen","Frozen Heart","Maw of Malmortius","Wit's End","Black Cleaver","Sterak's Gage"],
+      corePath:"Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Guardian Angel",
+      // Research (2026-10-26, patch 16.21, Emerald+): lolalytics build-itemset, 119,628 games: Eclipse opens 65.9%; first two
+      //   Eclipse > Black Cleaver 32.2%, Eclipse > Sundered Sky 19.7%, Profane Hydra > Voltaic 14.6%; first three Eclipse >
+      //   Black Cleaver > Death's Dance 21.1%. OP.GG core: Eclipse > Black Cleaver > Death's Dance 19.9% (top row), Eclipse >
+      //   Sundered Sky > Death's Dance 7.7%. Newly flagged by the 26 Oct audit; Sundered Sky second is the appended alternate.
+      coreNote:"Lee Sin plays for early skirmishes and invades. Eclipse's proc and shield both fire inside a Q-dash all-in, punishing squishies before their combo lands; Black Cleaver shreds armor as the combo lands and speeds up the chase. Death's Dance and Guardian Angel keep him alive through the insec-kick all-in pattern.",
+      sideItems:["Plated Steelcaps","Mercury's Treads","Randuin's Omen","Frozen Heart","Maw of Malmortius","Wit's End","Sundered Sky","Sterak's Gage"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor before they can stack HP."),I("Eclipse","Burst wins the skirmish before they close."),I("Death's Dance","Outlast their sustain in the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from a counter-gank."),I("Randuin's Omen","Crit/AS reduction if they build offense."),I("Sterak's Gage","Shield when their walk-down connects.")],runes:{...LEESIN_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Eclipse","Win the burst race before their combo lands."),I("Sundered Sky","Crit-heal wins the mirror dive follow-up."),I("Death's Dance","Outlast their engage burst.")],behind:[I("Sterak's Gage","Survive their engage before yours."),I("Plated Steelcaps","Irelia/Camille auto chains."),I("Mercury's Treads","Shorter CC on their initiation.")],runes:{...LEESIN_JGL_DEFAULT_RUNES}},

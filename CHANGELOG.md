@@ -15,6 +15,13 @@ rolled into a numbered version when a build is cut.
 ### Changed
 
 - **Scrollbars match the app.** Thin gold scrollbars instead of the system's grey ones.
+- **Builds updated to how players build them on patch 26.21:**
+  - **Miss Fortune Bot:** Bloodthirster first with Press the Attack. The Hubris and First Strike build is now an alternate.
+  - **Camille Support:** Eclipse is the first item after Bloodsong. Sundered Sky first is now an alternate.
+  - **Shyvana Top:** Experimental Hexplate first. Trinity Force first is now an alternate.
+  - **Lee Sin Jungle:** Black Cleaver second, and a new rune page: Coup de Grace, with Magical Footwear and Cosmic Insight. Sundered Sky second is now an alternate.
+  - **Ekko Mid:** the Stormsurge alternate now builds Dusk and Dawn second.
+  - **Aurora Mid:** new Stormsurge alternate.
 
 ## [0.21.0] — 2026-10-24
 
