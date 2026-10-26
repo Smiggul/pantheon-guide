@@ -30,26 +30,26 @@ export default {
   lanes:["Mid","Jungle"],
   altBuilds:{
     Mid:[{
-      label:"Stormsurge rush", tag:"alt",
-      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Dusk and Dawn  ›  Rabadon's Deathcap",
-      // Research (2026-10-26, patch 16.21, Emerald+): no longer a niche line. lolalytics build-itemset, 53,449 games:
-      //   Stormsurge opens 49.0%, Dusk and Dawn 39.1%; first two Stormsurge > Dusk and Dawn 45.0%, Dusk and Dawn > Shadowflame
-      //   28.6%. OP.GG core: Stormsurge > Dusk and Dawn > Rabadon's 16.9%, plus 14.8% after Dark Seal. The path was
-      //   Stormsurge > Shadowflame; players take Dusk and Dawn second. Left as the alternate: the first-item split is close,
-      //   so under the promotion rule the main build stays (the owner's call). It came from a top-ranked EUW Ekko and the
-      //   26.20 solo-carry video; the old "wins about 2 points more" line was dropped as unverified on 16.21.
-      coreNote:"Stormsurge first, then Dusk and Dawn. Its flat penetration plus upgraded Sorcerer's Shoes is about 35 magic penetration early, against a mid laner on roughly 45 base magic resist, and flat penetration is strongest when the target has little. It also builds smoothly, since it stacks Amplifying Tomes. Skip it into Galio or anyone likely to rush Mercury's Treads, and start Dusk and Dawn for matchups where you need quick E-Q trades.",
+      label:"Dusk and Dawn", tag:"alt",
+      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, 16.21): the main build until the owner promoted Stormsurge the same day. Dusk and Dawn opens
+      //   39.1% of 53,449 lolalytics Emerald+ games; Dusk and Dawn > Shadowflame is 28.6% of first-two pairs.
+      coreNote:"Dusk and Dawn first for quick E-Q trades and its move speed, and into Galio or anyone likely to rush Mercury's Treads.",
       runes:{...EKKO_MID_DEFAULT_RUNES},
-      sideItems:["Shadowflame","Zhonya's Hourglass","Void Staff","Banshee's Veil","Lich Bane"],
+      sideItems:["Stormsurge","Void Staff","Zhonya's Hourglass","Banshee's Veil","Lich Bane","Cosmic Drive"],
     }],
   },
   roles:{
     Mid:{
       bans:["Malzahar","Lissandra","Vladimir"], replacements:["Katarina","Akali","Fizz"],
       role:"Time-Rewind Burst Mage",
-      corePath:"Dusk and Dawn  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Ekko trades in short passive-proc windows and always keeps R as the undo button. Dusk and Dawn first: the move speed and damage proc match his dash-in, dash-out pattern exactly. Shadowflame converts chunked targets into kills, Rabadon's Deathcap scales both the burst and the R heal, and Void Staff closes against MR stacking. Fight, rewind, fight again.",
-      sideItems:["Void Staff","Zhonya's Hourglass","Banshee's Veil","Lich Bane","Hextech Rocketbelt","Cosmic Drive"],
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Dusk and Dawn  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, patch 16.21, Emerald+): promoted by the owner from the alternate. lolalytics build-itemset,
+      //   53,449 games: Stormsurge opens 49.0%, Dusk and Dawn 39.1%; first two Stormsurge > Dusk and Dawn 45.0%. OP.GG core:
+      //   Stormsurge > Dusk and Dawn > Rabadon's 16.9%, plus 14.8% after Dark Seal. The penetration figures came with the
+      //   alternate (a top-ranked EUW Ekko and the 26.20 solo-carry video). Per-class lists unchanged: same AP burst profile.
+      coreNote:"Ekko trades in short passive-proc windows and always keeps R as the undo button. Stormsurge first: its flat penetration plus upgraded Sorcerer's Shoes is about 35 magic penetration early, against a mid laner on roughly 45 base magic resist, and its Squall finishes a target your combo already chunked. Dusk and Dawn second for the move speed and damage proc that match his dash-in, dash-out pattern, then Rabadon's Deathcap scales both the burst and the R heal. Fight, rewind, fight again.",
+      sideItems:["Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Lich Bane","Cosmic Drive"],
       data:{
         JUGGERNAUT:{ahead:[I("Dusk and Dawn","Speed to weave passive procs and leave untouched."),I("Shadowflame","Pen punishes their low MR."),I("Rabadon's Deathcap","Chunk harder each trade window.")],behind:[I("Zhonya's Hourglass","Stasis covers the gap-close you misjudge."),I("Void Staff","Keep proc damage real through MR."),I("Hextech Rocketbelt","Extra dash to stay out of reach.")],runes:{...EKKO_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Shadowflame","Burst them mid-dive before their combo lands."),I("Dusk and Dawn","Outpace their engage speed."),I("Zhonya's Hourglass","Stasis + R is a double undo.")],behind:[I("Zhonya's Hourglass","Mandatory — stasis buys time for R to come back."),I("Banshee's Veil","Blocks the engage opener."),I("Cosmic Drive","Speed to disengage.")],runes:{...EKKO_MID_DEFAULT_RUNES}},

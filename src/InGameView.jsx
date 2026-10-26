@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { inGame as T } from "./theme.js";
-import { ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding } from "./ForgeCards.jsx";
+import { ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding, EnemyChip } from "./ForgeCards.jsx";
 import { LANE, layoutOf } from "./forgeStyle.js";
 
 // The in-game view. Once champ select ends, the app shows ONLY the build that
@@ -30,6 +30,13 @@ export default function InGameView({
   skills, spells, width, onShowGuide, feedback,
 }) {
   const [foeOpen, setFoeOpen] = useState(false);
+  // Escape closes the opponent picker (a key listener only while it is open)
+  useEffect(() => {
+    if (!foeOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setFoeOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [foeOpen]);
   const layout = layoutOf(width);
   const wide = layout === "wide";
   const blocks = exp?.itemSet?.blocks || [];
@@ -56,9 +63,6 @@ export default function InGameView({
       : `Imported before your opponent was known: not tuned for ${staleFoe}.`
     : null;
   const canPick = !!onFoe && enemies.length > 0;
-  const chip = (on) => ({ display: "inline-flex", alignItems: "center", gap: "8px", height: 36, padding: "0 12px 0 4px",
-    borderRadius: "999px", border: 0, cursor: on ? "default" : "pointer", whiteSpace: "nowrap",
-    background: on ? colours?.active || T.raised : T.surface, color: T.text, font: `500 13px ${T.font}` });
   const pickFoe = (dd) => { onFoe(dd); setFoeOpen(false); };
 
   return (
@@ -106,19 +110,16 @@ export default function InGameView({
         </div>
         {canPick && foeOpen && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "12px" }}>
-            {enemies.map((e) => {
-              const on = foe?.dd === e.dd;
-              return (
-                <button key={e.dd} type="button" aria-pressed={on} onClick={() => { if (!on) pickFoe(e.dd); }}
-                  title={on ? "Your lane opponent" : `Set ${e.display} as your lane opponent`} style={chip(on)}>
-                  <img src={champImg(e.dd)} alt="" draggable={false} style={{ width: 28, height: 28, borderRadius: "50%", display: "block" }} />
-                  {e.display}
-                </button>
-              );
-            })}
+            {enemies.map((e) => (
+              <EnemyChip key={e.dd} name={e.display} on={foe?.dd === e.dd} onPick={() => pickFoe(e.dd)}
+                colours={colours} rest={T.surface}
+                face={<img src={champImg(e.dd)} alt="" draggable={false} style={{ width: 28, height: 28, borderRadius: "50%", display: "block" }} />} />
+            ))}
             {foeManual && (
-              <button type="button" onClick={() => pickFoe(null)} style={chip(false)}>
-                <span style={{ paddingLeft: 8 }}>Back to auto-detect</span>
+              <button type="button" onClick={() => pickFoe(null)}
+                style={{ border: 0, borderRadius: "999px", padding: "10px 14px", cursor: "pointer", whiteSpace: "nowrap",
+                  background: T.surface, color: T.text, font: `500 13px ${T.font}` }}>
+                Back to auto-detect
               </button>
             )}
           </div>

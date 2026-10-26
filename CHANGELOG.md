@@ -26,8 +26,9 @@ rolled into a numbered version when a build is cut.
   - **Camille Support:** Eclipse is the first item after Bloodsong. Sundered Sky first is now an alternate.
   - **Shyvana Top:** Experimental Hexplate first. Trinity Force first is now an alternate.
   - **Lee Sin Jungle:** Black Cleaver second, and a new rune page: Coup de Grace, with Magical Footwear and Cosmic Insight. Sundered Sky second is now an alternate.
-  - **Ekko Mid:** the Stormsurge alternate now builds Dusk and Dawn second.
-  - **Aurora Mid:** new Stormsurge alternate.
+  - **Ekko Mid:** Stormsurge first, then Dusk and Dawn. Dusk and Dawn first is now an alternate.
+  - **Aurora Mid:** Stormsurge first. Luden's Echo first is now an alternate.
+  - **Shaco Jungle:** new AP alternate built around his boxes: Blackfire Torch, Liandry's Torment and Arcane Comet, maxing W first.
 
 ## [0.21.0] — 2026-10-24
 

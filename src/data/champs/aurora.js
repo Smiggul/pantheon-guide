@@ -20,25 +20,26 @@ export default {
   lanes:["Mid","Top"],
   altBuilds:{
     Mid:[{
-      label:"Stormsurge burst", tag:"alt",
-      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      // Research (2026-10-26, patch 16.21, Emerald+): lolalytics build-itemset, 25,582 games: Stormsurge opens 52.7%, Luden's
-      //   Echo 37.9%; first two Stormsurge > Shadowflame 46.2%, Luden's > Shadowflame 26.5%; first three Stormsurge >
-      //   Shadowflame > Rabadon's 27.9%. OP.GG core: Stormsurge > Shadowflame > Rabadon's 18.9%, plus 9.5% after Dark Seal;
-      //   Luden's lines 6.0% and 4.2%. Added as an alternate, not promoted: the first-item split is close, so under the
-      //   promotion rule Luden's stays main (the owner's call, like Ekko Mid). Same rune page (Electrocute 95.3%).
-      coreNote:"Stormsurge first for more burst: its flat magic penetration hits hardest against a mid laner's low early magic resist, and its Squall finishes targets your rotation already chunked.",
+      label:"Luden's Echo", tag:"alt",
+      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, 16.21): the main build until the owner promoted Stormsurge the same day. Luden's Echo opens
+      //   37.9% of 25,582 lolalytics Emerald+ games; Luden's > Shadowflame is 26.5% of first-two pairs.
+      coreNote:"Luden's Echo first when you want its mana and extra poke damage through the lane.",
       runes:{...AURORA_DEFAULT_RUNES},
-      sideItems:["Luden's Echo","Zhonya's Hourglass","Void Staff","Banshee's Veil","Mejai's Soulstealer"],
+      sideItems:["Stormsurge","Zhonya's Hourglass","Void Staff","Banshee's Veil","Mejai's Soulstealer"],
     }],
   },
   roles:{
     Mid:{
       bans:["Katarina","Twisted Fate","Zed"], replacements:["Ahri","Lux","Syndra"],
       role:"Realm-Hop Skirmish Mage",
-      corePath:"Luden's Echo  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
-      coreNote:"Aurora is a skirmish mage with an assassin's trade pattern: Q marks, E knocks back, and the hop resets make her maddening to punish. Luden's Echo adds burst to the Electrocute rotation, Shadowflame converts chunked targets into executes, and Rabadon's Deathcap scales her into a one-rotation threat. Zhonya's Hourglass covers the melee-range finish her Q recast demands. Her ult warps whole teamfights into her spirit realm — fight inside it, win inside it.",
-      sideItems:["Zhonya's Hourglass","Void Staff","Banshee's Veil","Cosmic Drive","Horizon Focus","Mejai's Soulstealer"],
+      corePath:"Stormsurge  ›  Sorcerer's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap",
+      // Research (2026-10-26, patch 16.21, Emerald+): promoted by the owner from the alternate. lolalytics build-itemset,
+      //   25,582 games: Stormsurge opens 52.7%, Luden's Echo 37.9%; first two Stormsurge > Shadowflame 46.2%; first three
+      //   Stormsurge > Shadowflame > Rabadon's 27.9%. OP.GG core: Stormsurge > Shadowflame > Rabadon's 18.9%, plus 9.5% after
+      //   Dark Seal. Same rune page (Electrocute 95.3%), shared with Top, which keeps Luden's.
+      coreNote:"Aurora is a skirmish mage with an assassin's trade pattern: Q marks, E knocks back, and the hop resets make her maddening to punish. Stormsurge adds burst to the Electrocute rotation and its Squall finishes targets you chunked, Shadowflame converts chunked targets into executes, and Rabadon's Deathcap scales her into a one-rotation threat. Zhonya's Hourglass covers the melee-range finish her Q recast demands. Her ult warps whole teamfights into her spirit realm — fight inside it, win inside it.",
+      sideItems:["Luden's Echo","Zhonya's Hourglass","Void Staff","Banshee's Veil","Cosmic Drive","Mejai's Soulstealer"],
       data:{
         JUGGERNAUT:{ahead:[I("Luden's Echo","Poke rotations they can never answer."),I("Shadowflame","Pen punishes their low MR."),I("Cosmic Drive","Speed to kite the walk-down forever.")],behind:[I("Cosmic Drive","Speed keeps their hands off you."),I("Zhonya's Hourglass","Stasis covers the landed engage."),I("Void Staff","Pen keeps the burst real.")],runes:{...AURORA_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Shadowflame","Burst them mid-engage before the combo lands."),I("Luden's Echo","Full rotation beats their entry damage."),I("Zhonya's Hourglass","Stasis wastes the dive entirely.")],behind:[I("Zhonya's Hourglass","Mandatory — the hop alone won't save you."),I("Banshee's Veil","Blocks the engage opener."),I("Cosmic Drive","Speed to disengage after E.")],runes:{...AURORA_DEFAULT_RUNES}},

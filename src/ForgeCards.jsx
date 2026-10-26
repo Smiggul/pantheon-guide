@@ -17,6 +17,24 @@ const PHASES = new Set(["Lane", "Mid game", "Late game"]);
 const cap1 = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 const listOf = (xs) => (xs.length > 1 ? [...xs.slice(0, -1).flatMap((x, i) => (i ? [", ", x] : [x])), " and ", xs.at(-1)] : xs);
 
+// ── enemy chip ───────────────────────────────────────────────────────────────
+// One enemy champion as a pill that sets the lane opponent: the Enemy team
+// panel on the build page and the in-game view's picker. face is the portrait
+// (the caller's, so each keeps its own image fallback); rest is the background
+// when it is not the opponent, since the two sit on different surfaces.
+export function EnemyChip({ name, face, on, onPick, colours, rest = T.raised }) {
+  return (
+    <button type="button" aria-pressed={!!on} onClick={() => { if (!on) onPick(); }}
+      title={on ? "Your lane opponent" : `Set ${name} as your lane opponent`}
+      style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "4px 12px 4px 4px",
+        borderRadius: "999px", border: 0, cursor: on ? "default" : "pointer", whiteSpace: "nowrap",
+        background: on ? colours?.active || T.raised : rest, color: T.text, font: `500 13px ${T.font}` }}>
+      {face}
+      {name}
+    </button>
+  );
+}
+
 // ── segmented control ────────────────────────────────────────────────────────
 export function Seg({ items, value, onPick, label, colours, disabled = false, title }) {
   return (

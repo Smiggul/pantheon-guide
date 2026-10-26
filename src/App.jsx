@@ -24,7 +24,7 @@ import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
 import { samplePaletteFromUrl } from "./data/samplePalette.js";
 import { inGame as T } from "./theme.js";
-import { Seg, ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding } from "./ForgeCards.jsx";
+import { Seg, ItemSetCard, SituationalCard, SkillsCard, RunesCard, Finding, EnemyChip } from "./ForgeCards.jsx";
 import { champColours, layoutOf, LANE, card as cardStyle, h2 as h2Style, head as headStyle, textBtn } from "./forgeStyle.js";
 
 // ── Live champ-select lookup maps (LCU numeric championId ↔ app champ) ────────
@@ -2274,15 +2274,8 @@ useEffect(() => {
                       const name = DD_TO_CHAMP[m.dd]?.display || m.dd;
                       const ek = `enemy-${m.dd}-${i}`;
                       return (
-                        <button key={ek} type="button" aria-pressed={!!m.isOpp}
-                          onClick={() => { if (!m.isOpp) setOppOverride(m.dd); }}
-                          title={m.isOpp ? "Your lane opponent" : `Set ${name} as your lane opponent`}
-                          style={{ display:"inline-flex", alignItems:"center", gap:"6px", padding:"4px 12px 4px 4px",
-                            borderRadius:"999px", border:0, cursor: m.isOpp ? "default" : "pointer", whiteSpace:"nowrap",
-                            background: m.isOpp ? colours.active : T.raised, color:T.text, font:`500 13px ${T.font}` }}>
-                          {portrait(m.dd, 24, ek, true)}
-                          {name}
-                        </button>
+                        <EnemyChip key={ek} name={name} face={portrait(m.dd, 24, ek, true)} on={m.isOpp}
+                          onPick={() => setOppOverride(m.dd)} colours={colours} />
                       );
                     })}
                     {oppOverride && (

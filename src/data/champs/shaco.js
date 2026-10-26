@@ -18,6 +18,32 @@ export default {
   id:"shaco", display:"Shaco", dd:"Shaco",
   color:"#4a2a0a", glow:"#e08030",
   lanes:["Jungle"],
+  altBuilds:{
+    Jungle:[{
+      label:"AP boxes", tag:"alt",
+      corePath:"Blackfire Torch  ›  Ionian Boots of Lucidity  ›  Liandry's Torment  ›  Imperial Mandate",
+      // Research (2026-10-26, patch 16.21, Emerald+; added at the owner's request): lolalytics build-itemset, 44,243 games:
+      //   Blackfire Torch opens 35.2%, the single most common first item (AD openers together ~56%: Voltaic 20.5%, Youmuu's
+      //   15.6%, Umbral Glaive 12.4%); first two Blackfire > Liandry's 20.3%, Blackfire > Imperial Mandate 11.1%; first three
+      //   Blackfire > Liandry's > Mandate 11.5%. OP.GG's top core row is the same AP line (9.4%). Runes: Arcane Comet is the
+      //   keystone in 25.4% of games, with Axiom Arcanist (25.3%), Transcendence (27.1%) and Gathering Storm (25.0%), and a
+      //   Precision secondary of Legend: Haste (26.8%) and Cut Down (28.5%). Skill order: W > E > Q is the most common max
+      //   order overall (39% of games), which is the box build's. Not split by build, so Claude's calls: Ionian Boots of
+      //   Lucidity (the most common boots overall, 32.8%; the AD lines take Berserker's), Adaptive Force shards, sideItems.
+      coreNote:"AP Shaco plays around his boxes: Jack in the Box fears whoever trips it and keeps firing, and Two-Shiv Poison adds magic damage. Blackfire Torch and Liandry's Torment burn everyone the boxes and poison hit.",
+      skillOrder:["W","E","Q"],
+      runes:{
+        keystone:       "Arcane Comet",
+        primary:        "Sorcery",
+        primaryRunes:   ["Axiom Arcanist","Transcendence","Gathering Storm"],
+        secondary:      "Precision",
+        secondaryRunes: ["Legend: Haste","Cut Down"],
+        shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+        reason:         "Arcane Comet fires off box shots and Two-Shiv Poison, and Axiom Arcanist adds damage to Hallucinate and cuts its cooldown on every takedown. Transcendence and Legend: Haste keep the boxes coming, and Gathering Storm scales the late game.",
+      },
+      sideItems:["Rabadon's Deathcap","Zhonya's Hourglass","Void Staff","Shadowflame","Sorcerer's Shoes"],
+    }],
+  },
   roles:{
     Jungle:{
       bans:["Rammus","Fiddlesticks","Zac"], replacements:["Kayn","Rengar","Nocturne"],
