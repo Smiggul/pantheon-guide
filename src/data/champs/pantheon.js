@@ -93,6 +93,29 @@ export default {
           reason: "Press the Attack rewards the exact three-hit trade Pantheon forces (spear, W-auto, auto) with a burst of bonus damage AND a damage-amp debuff on the target, so your Q follow-up and Voltaic proc hit for more. Presence of Mind funds the Q spam, Coup de Grace executes after the W-stun, and the Resolve secondary is the survivability the aggressive line needs — Bone Plating survives the burst-back after you commit, Overgrowth scales your HP for the drawn-out brawls.",
         },
         sideItems: ["Plated Steelcaps","Mercury's Treads","Chempunk Chainsword","Eclipse","Sterak's Gage","Spear of Shojin","Lord Dominik's Regards","Serpent's Fang","Mortal Reminder","Serylda's Grudge","Maw of Malmortius","Edge of Night","Randuin's Omen","Frozen Heart"],
+      }, {
+        // Research (2026-10-27): Spear Shot, "I Cooked up an Insane Full Tank Pantheon Build!" (26 Oct 2026, one ranked
+        //   win vs K'Sante off a joke-build wheel, 8/6/15). Read from frames: the locked rune page at 1:28 and the
+        //   post-game items at 23:18 (Plated Steelcaps, Iceborn Gauntlet, Titanic Hydra, Heartsteel, two Tunnelers).
+        //   Order from the commentary: Long Sword start, Heartsteel, Iceborn, Steelcaps ("Tabis" at 10:38), Titanic.
+        //   He suggested Black Cleaver in place of Iceborn and Conqueror over Grasp, and closed with "just play K'Sante
+        //   instead". Not a matchup answer: Pantheon Top already wins 53.2% vs K'Sante on 16.21 Emerald+ (1,266 games).
+        //   W text (16.21): max-health damage +0.4% per 100 bonus health, so Heartsteel stacks feed it.
+        label: "Meme Build",
+        tag: "meme",
+        hint: "Full tank",
+        corePath: "Heartsteel  ›  Iceborn Gauntlet  ›  Plated Steelcaps  ›  Titanic Hydra",
+        coreNote: "Full tank. Start Long Sword, rush Heartsteel and stack it in every trade: W deals more max-health damage the more bonus health you have. Iceborn's slow keeps them in reach. Your autos and Q hit for little, so win long fights, not burst trades.",
+        runes: {
+          keystone: "Grasp of the Undying",
+          primary: "Resolve",
+          primaryRunes: ["Demolish", "Bone Plating", "Overgrowth"],
+          secondary: "Sorcery",
+          secondaryRunes: ["Manaflow Band", "Scorch"],
+          shards: ["Adaptive Force", "Adaptive Force", "Health"],
+          reason: "Grasp and Overgrowth stack health for Heartsteel and W. Bone Plating takes the edge off their trades, and Manaflow Band pays for the Q spam.",
+        },
+        sideItems: ["Black Cleaver"],
       }],
       Mid: [{
         label: "Lethality Assassin",

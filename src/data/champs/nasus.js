@@ -28,6 +28,19 @@ export default {
   id:"nasus", display:"Nasus", dd:"Nasus",
   color:"#5a4a1a", glow:"#e0c070",
   lanes:["Top","Jungle"],
+  altBuilds:{
+    Top:[{
+      // Research (2026-10-27): Zwag, "Mega slow Nasus is just straight evil!" (19 Oct 2026, Top, 18/4/4 win). Read from
+      //   frames: the rune page at 0:10, the post-game items at 31:14, the inventory for the order (Chainlaced Crushers by
+      //   12:30, Rylai's by 15:00, Iceborn by 17:30, Frozen Heart by 20:00, Spear of Shojin by 22:30, Death's Dance by
+      //   27:30). W text (16.21): the slow ramps from 35% to 95% over 5 seconds.
+      label:"Meme Build", tag:"meme", hint:"Mega slow",
+      corePath:"Rylai's Crystal Scepter  ›  Iceborn Gauntlet  ›  Frozen Heart  ›  Spear of Shojin",
+      coreNote:"Nobody moves. Rylai's slows with every damaging ability, Iceborn leaves a slow field after Q, and W ramps to a 95% slow. Frozen Heart cuts their attack speed. Keep stacking Q: you still need it to kill. Death's Dance last.",
+      runes:{ keystone:"Fleet Footwork", primary:"Precision", primaryRunes:["Triumph","Legend: Haste","Cut Down"], secondary:"Inspiration", secondaryRunes:["Cash Back","Approach Velocity"], shards:["Ability Haste","Health (scaling)","Tenacity"], reason:"Fleet keeps you farming Q stacks safely. Approach Velocity speeds you toward anyone you've slowed." },
+      sideItems:["Chainlaced Crushers","Death's Dance"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Teemo","Vayne","Gnar"], replacements:["Garen","Darius","Sion"],

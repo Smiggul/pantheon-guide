@@ -2538,7 +2538,7 @@ useEffect(() => {
         const vsClass = vsChamp ? classOf(vsChamp.dd) : null;
         const clsLabel = (c) => (c ? c.charAt(0) + c.slice(1).toLowerCase().replace(/_/g, " ") : "");
         const builds = [{ key:"-1", label: activeChampRole.buildLabel || "Standard" },
-          ...altList.map((b, i) => ({ key:String(i), label:b.label, title: b.tag === "off-meta" ? "Off-meta build" : undefined }))];
+          ...altList.map((b, i) => ({ key:String(i), label:b.label, title: b.tag === "off-meta" ? "Off-meta build" : b.tag === "meme" ? b.hint : undefined }))];
         const importLabel = applyState === "sending" ? "Importing…"
           : applyState?.ok ? "Imported"
           : applyState && applyState.ok === false ? "Retry import"

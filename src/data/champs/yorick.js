@@ -28,6 +28,17 @@ export default {
       coreNote:"Rush Black Cleaver instead of Trinity Force. It wins as often as the Trinity rush, so treat it as a matchup call rather than an upgrade: take it into armor-stacking or melee-heavy teams, where percent armor shred is worth the most. Spear of Shojin or Eclipse second, then Sterak's Gage. Conqueror over Grasp is a reasonable swap into tank tops.",
       runes:{...YORICK_TOP_DEFAULT_RUNES},
       sideItems:["Eclipse","Trinity Force","Hullbreaker","Death's Dance","Thornmail","Spirit Visage","Mercury's Treads"],
+    },{
+      // Research (2026-10-27): More SRO, "Yorick but I'm full lethality and my ghouls get swords!" (23 Oct 2026, Top,
+      //   7/4/9 win). Read from frames: the post-game rune page and items at 30:40 (Doran's Blade, Youmuu's, Boots of
+      //   Swiftness, Bastionbreaker, Voltaic Cyclosword, Serylda's Grudge). Item order and shards are not shown: the
+      //   order is the end-screen slot order and the shards are Yorick's main page. Passive text (16.21): Mist Walkers
+      //   get 20% of his bonus AD.
+      label:"Meme Build", tag:"meme", hint:"Lethality",
+      corePath:"Youmuu's Ghostblade  ›  Bastionbreaker  ›  Voltaic Cyclosword  ›  Serylda's Grudge",
+      coreNote:"Full lethality: your Mist Walkers take a share of your bonus AD, so the whole pack hits harder. Poke with Comet from E, then raise the ghouls and dive with the Maiden. Doran's Blade start, Boots of Swiftness.",
+      runes:{ keystone:"Arcane Comet", primary:"Sorcery", primaryRunes:["Manaflow Band","Transcendence","Gathering Storm"], secondary:"Inspiration", secondaryRunes:["Magical Footwear","Biscuit Delivery"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Comet procs off E for lane poke. Manaflow Band and Biscuit Delivery fund the spells." },
+      sideItems:["Boots of Swiftness"],
     }],
   },
   roles:{

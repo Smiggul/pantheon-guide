@@ -40,6 +40,17 @@ export default {
       coreNote:"Pure durability instead of on-hit DPS. The kit carries it: R disables a tower and its shield and AoE keep you diving, W still heals off every bite, and the passive deals percent-max-health magic damage without damage items. Sunfire, Jak'Sho, Spirit Visage, Thornmail, with Aftershock to punish your own engage. Best into heavy-damage teams or when your team needs a front line: far harder to kill, far less of a carry. Kaenic Rookern into AP, Randuin's or Frozen Heart into crit.",
       runes:{ keystone:"Aftershock", primary:"Resolve", primaryRunes:["Font of Life","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Aftershock turns Volibear's guaranteed E/R engage into a burst of resistances + a damage pop, exactly when he dives in — the tank keystone that rewards his all-in pattern. Font of Life and Conditioning scale his frontline durability, Overgrowth compounds it in longer games; Triumph + Legend: Haste keep him healthy and spamming his kit through the fight." },
       sideItems:["Warmog's Armor","Kaenic Rookern","Frozen Heart","Randuin's Omen","Unending Despair","Mercury's Treads"],
+    },{
+      // Research (2026-10-27): Zwag, "Volibear but I one shot the entire enemy team with chain lightning" (24 Oct 2026,
+      //   Top, 27/6/1 win). Read from frames: the rune page at 0:05, the post-game items at 27:40, the inventory every two
+      //   minutes for the order (Statikk Shiv by 8:00, Spellslinger's Shoes and Lost Chapter by 10:00, Shadowflame by
+      //   18:00, Rabadon's and Stormsurge by 24:00, Void Staff last). Passive text (16.21): the 5-stack lightning deals
+      //   +45% AP to the target and 4 closest enemies, and AP adds attack speed.
+      label:"Meme Build", tag:"meme", hint:"Full AP",
+      corePath:"Statikk Shiv  ›  Spellslinger's Shoes  ›  Shadowflame  ›  Rabadon's Deathcap  ›  Stormsurge",
+      coreNote:"Full AP chain lightning. Your passive's lightning scales with AP and jumps to the 4 closest enemies, and Statikk Shiv's bolts chain on top. Stack the passive in every trade, then dive the backline with R. Void Staff last.",
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Absolute Focus","Gathering Storm"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Press the Attack stacks fast with the passive's attack speed. Absolute Focus and Gathering Storm add AP." },
+      sideItems:["Void Staff"],
     }],
   },
   roles:{

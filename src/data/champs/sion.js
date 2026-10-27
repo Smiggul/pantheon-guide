@@ -64,6 +64,17 @@ export default {
         runes:{ ...SION_MID_DEFAULT_RUNES },
         sideItems:["Plated Steelcaps","Mercury's Treads","Hollow Radiance","Thornmail","Hullbreaker","Jak'Sho, The Protean"],
       }],
+      Top:[{
+        // Research (2026-10-27): Zwag, "When Zwag drops 41 kills with buffed lethality Sion!" (22 Oct 2026, Top, 41/8/5
+        //   win). Read from frames: the rune page at 0:10, the post-game items at 40:40 (no boots), the inventory for the
+        //   order (Youmuu's and Bastionbreaker by 12:30, The Collector by 17:30, Lord Dominik's by 20:00, then Voltaic
+        //   Cyclosword and Infinity Edge). R text (16.21): up to +120% bonus AD, more the further he charges.
+        label:"Meme Build", tag:"meme", hint:"Lethality",
+        corePath:"Youmuu's Ghostblade  ›  Bastionbreaker  ›  The Collector  ›  Lord Dominik's Regards",
+        coreNote:"Lethality, no boots. R hits harder the further you charge, so start it from out of sight and land on the backline. Youmuu's speed and Celerity make up for the missing boots. Then Voltaic Cyclosword and Infinity Edge.",
+        runes:{ keystone:"Stormraider's Surge", primary:"Sorcery", primaryRunes:["Manaflow Band","Celerity","Gathering Storm"], secondary:"Inspiration", secondaryRunes:["Cash Back","Approach Velocity"], shards:["Attack Speed","Move Speed","Health (scaling)"], reason:"Stormraider's and Celerity pile on speed for the charge. Cash Back speeds up the expensive lethality items." },
+        sideItems:["Voltaic Cyclosword","Infinity Edge"],
+      }],
     },
 
     roles:{

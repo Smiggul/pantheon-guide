@@ -167,7 +167,8 @@ const buildTextOf = (c) => {
     if (b?.sideItems) parts.push(b.sideItems.join(" "));
   }
   for (const alts of Object.values(c.altBuilds || {})) {
-    for (const a of alts) if (a?.corePath) parts.push(a.corePath);
+    // Meme builds are for fun, not how the champion is played against you.
+    for (const a of alts) if (a?.corePath && a.tag !== "meme") parts.push(a.corePath);
   }
   return parts.join(" ");
 };

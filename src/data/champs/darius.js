@@ -31,6 +31,20 @@ export default {
   id:"darius", display:"Darius", dd:"Darius",
   color:"#8b0000", glow:"#c0392b",
   lanes:["Top","Jungle"],
+  altBuilds:{
+    Top:[{
+      // Research (2026-10-27): More SRO, "Collector Darius is completely disgusting!" (20 Oct 2026, Top, 10/0/1 win).
+      //   Read from frames: the post-game rune page and items at 19:36 (The Collector, Youmuu's, Boots of Swiftness,
+      //   Doran's Blade, Last Whisper, Cloak of Agility). The page is exactly the Jungle page below, so it is reused.
+      //   Only two items were finished: the third and fourth are Claude's from his Last Whisper and Cloak.
+      //   R text (16.21): true damage scaling with bonus AD, a reset on kill.
+      label:"Meme Build", tag:"meme", hint:"Collector",
+      corePath:"Youmuu's Ghostblade  ›  Boots of Swiftness  ›  The Collector  ›  Lord Dominik's Regards",
+      coreNote:"Every dunk executes: The Collector kills anyone left under 5% health, so R finishes from further out and resets more often. Youmuu's first for the chase. Glass cannon: get five stacks before you commit.",
+      runes:{...DARIUS_JGL_DEFAULT_RUNES},
+      sideItems:["Infinity Edge","Serylda's Grudge"],
+    }],
+  },
   roles:{
     Top:{
       bans:["Cho'Gath","Teemo","Malphite"], replacements:["Renekton","Sett","Wukong"],
