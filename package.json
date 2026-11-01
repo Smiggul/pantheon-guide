@@ -1,7 +1,7 @@
 {
   "name": "frge-gg",
   "private": true,
-  "version": "0.21.102",
+  "version": "0.21.103",
   "license": "UNLICENSED",
   "type": "module",
   "main": "electron/main.cjs",

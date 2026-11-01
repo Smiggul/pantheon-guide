@@ -16,6 +16,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.1.3] — 2026-11-01
+
+### Fixed
+- **Back to the full guide after a game.** The in-game view now closes when your game ends, instead of staying up in the lobby until League closes.
+
 ## [0.21.1.2] — 2026-11-01
 
 ### Fixed
