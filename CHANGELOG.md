@@ -16,6 +16,8 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.1.1] — 2026-11-01
+
 ### Added
 - **Command menu (Ctrl+K):** jump to any champion and lane ("darius jg", "tf mid") or any page (tier list, draft coach, settings) from anywhere in the app. Arrow keys and Enter, Esc closes. The top bar's Search opens it and shows the shortcut.
 - **Level numbers on the skill order.** Every lit level in the 18-level grid shows its number, on the build page and in game.
