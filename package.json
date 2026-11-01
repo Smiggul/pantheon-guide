@@ -17,7 +17,8 @@
     "check:items": "node helpers/check-sr-items.mjs",
     "audit:builds": "node helpers/audit-builds.mjs",
     "gen:boots": "node helpers/gen-boots-timing.mjs",
-    "gen:starts": "node helpers/gen-matchup-starts.mjs"
+    "gen:starts": "node helpers/gen-matchup-starts.mjs",
+    "check:exports": "node helpers/screen-exports.mjs"
   },
   "build": {
     "appId": "gg.frge.app",

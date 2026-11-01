@@ -6,7 +6,7 @@ const THRESH_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock triggers the instant your hook or Flay lands, giving burst resistance right as you become the fight's focus. Font of Life heals your ADC for a share of the target's max HP whenever your CC connects; Bone Plating blunts the return burst and Unflinching keeps your tenacity/resists up while you body-block for the carry. Inspiration secondary is the live standard — Biscuit Delivery solves the mana/sustain of a poke lane and Cosmic Insight shaves cooldowns off Flay, lantern and summoners for more plays.",
 };
 

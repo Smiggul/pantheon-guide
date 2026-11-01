@@ -6,7 +6,7 @@ const LEONA_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Leona scales the best with Aftershock out of any engage support — it triggers the instant Shield of Daybreak or Solar Flare lands, giving immediate burst resistance as you become the fight's focus. Font of Life heals your ADC when your CC connects; Bone Plating survives the return trade after an all-in engage and Unflinching keeps tenacity/resists up while you're locking down their carry. Inspiration secondary — Biscuit Delivery for lane sustain and Cosmic Insight for lower Solar Flare + summoner cooldowns (more engage windows).",
 };
 

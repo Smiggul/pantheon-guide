@@ -30,10 +30,15 @@ if (!res.ok) { console.error(`check-sr-items: could not fetch item.json for ${ve
 const items = (await res.json()).data;
 
 // name -> { onRift, anywhere }
+// inShop: some Rift id is in the store, or is earned (a specialRecipe: support
+// quest upgrades, Seraph's Embrace). Opportunity, Chemtech Putrifier and Demonic
+// Embrace stayed on map 11 with inStore false after Riot took them out of the
+// shop, and passed this check until 2026-11-01.
 const byName = new Map();
 for (const it of Object.values(items)) {
-  const e = byName.get(it.name) || { onRift: false, modes: new Set() };
+  const e = byName.get(it.name) || { onRift: false, inShop: false, modes: new Set() };
   if (it.maps?.["11"]) e.onRift = true;
+  if (it.maps?.["11"] && (it.inStore !== false || it.specialRecipe)) e.inShop = true;
   for (const [m, on] of Object.entries(it.maps || {})) if (on) e.modes.add(m);
   byName.set(it.name, e);
 }
@@ -86,6 +91,7 @@ for (const [name, where] of uses) {
   const e = byName.get(name);
   if (!e) unknown.push([name, where]);
   else if (!e.onRift) notOnRift.push([name, where, [...e.modes].join(",") || "none"]);
+  else if (!e.inShop) notOnRift.push([name, where, "11, but no longer in the shop"]);
   else if (ITEM_IDS[name.toLowerCase()] == null) noExportId.push([name, where]);
 }
 

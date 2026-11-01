@@ -68,7 +68,7 @@ export default {
         shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
         reason: "Hail of Blades front-loads three rapid autos the instant you commit, which on Sett is unusually strong because his passive (Pit Grit) alternates empowered attacks and his Q resets the auto timer — the burst window lands Q, two empowered hits and the E pull before the enemy can react. Taste of Blood over Sudden Impact deliberately — Nightblue TV tested both Sudden Impact and Cheap Shot across seven games and rated them poor on Sett (his E is a pull, not a true dash, so Sudden Impact procs unreliably), while rating Hail of Blades itself highly. Relentless Hunter turns the roam tempo this build wants into map pressure, which is the one thing that offsets Sett's weak gank pattern. Precision secondary keeps Triumph's kill sustain and the attack speed his chain needs.",
       },
-      sideItems: ["Opportunity", "Serylda's Grudge", "Edge of Night", "Axiom Arc", "Youmuu's Ghostblade", "Profane Hydra", "Mercury's Treads", "Sterak's Gage"],
+      sideItems: ["Serylda's Grudge", "Edge of Night", "Axiom Arc", "Youmuu's Ghostblade", "Profane Hydra", "Mercury's Treads", "Sterak's Gage"],
     }],
   },
   roles:{

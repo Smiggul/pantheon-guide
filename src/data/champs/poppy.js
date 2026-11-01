@@ -16,7 +16,7 @@ const POPPY_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Cosmic Insight","Hextech Flashtraption"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Poppy is now stronger on Aftershock than Hail of Blades (52.5% vs sub-51% after the 26.16 Hail of Blades nerf + her W passive-resist buff to 16%): W into a Heroic Charge wall-stun procs Aftershock right as you dive, making the engage far tankier. Font of Life heals your carry off the CC; Bone Plating and Unflinching survive the return fire. Cosmic Insight + Hextech Flashtraption speed Keeper's Verdict and enable surprise long-range engages.",
 };
 

@@ -6,7 +6,7 @@ const SION_TOP_DEFAULT_RUNES = {
   primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
   secondary:      "Inspiration",
   secondaryRunes: ["Approach Velocity","Cash Back"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Grasp procs on every auto and permanently stacks HP, compounding with Heartsteel and W's Soul Furnace HP gain. Demolish converts your HP lead into plates for the splitpush game plan Hullbreaker enables. Overgrowth scales HP further; Approach Velocity chases down targets after an E fear, and Cash Back offsets his mana-hungry early game.",
 };
 
@@ -26,7 +26,7 @@ const SION_MID_DEFAULT_RUNES = {
   primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Same Grasp core as Top and current meta's Inspiration secondary. Biscuit Delivery sustains the early lane so you can leave it to roam; Cosmic Insight adds summoner-spell and item haste for more of the roam-and-threaten pattern that's Mid Sion's actual win condition, since you aren't trying to win lane outright.",
 };
 
@@ -36,7 +36,7 @@ const SION_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Conditioning","Overgrowth"],
   secondary:      "Domination",
   secondaryRunes: ["Sudden Impact","Relentless Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock triggers off Q stun or E fear the instant you engage, giving immediate burst resistance. Font of Life heals your ADC for a share of the target's max HP once your CC lands — direct lane value a splitpush-oriented Demolish doesn't offer. Sudden Impact rewards the R dash-engage; Relentless Hunter lets you roam to swing other lanes.",
 };
 

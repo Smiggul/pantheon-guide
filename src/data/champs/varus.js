@@ -35,7 +35,7 @@ export default {
       label: "Lethality Poke",
       tag: "off-meta",
       corePath: "Youmuu's Ghostblade  ›  Berserker's Greaves  ›  The Collector  ›  Serylda's Grudge",
-      coreNote: "Lethality poke Varus: max Q and play a long-range siege caster, not on-hit DPS. Stack Blight from range with W-empowered autos, then a fully charged Q chunks, often one-shotting a squishy once The Collector's execute is online. Youmuu's gives roam and siege speed plus lethality, The Collector adds the execute, and Serylda's Grudge pens and slows so the poke lands. Opportunity or Edge of Night continue it. You trade the on-hit build's tank shred for burst from fog and siege pressure.",
+      coreNote: "Lethality poke Varus: max Q and play a long-range siege caster, not on-hit DPS. Stack Blight from range with W-empowered autos, then a fully charged Q chunks, often one-shotting a squishy once The Collector's execute is online. Youmuu's gives roam and siege speed plus lethality, The Collector adds the execute, and Serylda's Grudge pens and slows so the poke lands. Edge of Night continues it. You trade the on-hit build's tank shred for burst from fog and siege pressure.",
       runes: {
         keystone: "Dark Harvest",
         primary: "Domination",
@@ -45,7 +45,7 @@ export default {
         shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
         reason: "Dark Harvest snowballs the picks this build farms — each charged-Q kill compounds the burst. Cheap Shot punishes your own W-slow/Q for true damage, Treasure Hunter funds the gold-hungry lethality curve, and the Precision splash (Presence of Mind for the mana to spam Q, Coup de Grace to finish) pays for the poke playstyle.",
       },
-      sideItems: ["Opportunity", "Edge of Night", "Lord Dominik's Regards", "Profane Hydra", "Guardian Angel", "Umbral Glaive"],
+      sideItems: ["Edge of Night", "Lord Dominik's Regards", "Profane Hydra", "Guardian Angel", "Umbral Glaive"],
     }],
   },
   roles:{

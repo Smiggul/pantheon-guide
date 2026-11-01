@@ -16,7 +16,7 @@ const SHEN_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Domination",
   secondaryRunes: ["Sudden Impact","Ultimate Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Shen plays the same protective identity as Top but positioned to peel for a carry — Aftershock triggers the instant Shadow Dash's taunt lands, giving him bonus resistances right as he becomes the fight's focus. Font of Life heals the ADC off the taunt; Bone Plating and Unflinching round out survivability into hard-engage lanes. Sudden Impact procs off the dash itself; Ultimate Hunter reduces Stand United's cooldown for more global saves.",
 };
 
@@ -28,7 +28,7 @@ const SHEN_JGL_DEFAULT_RUNES = {
   primaryRunes:   ["Shield Bash","Conditioning","Overgrowth"],
   secondary:      "Sorcery",
   secondaryRunes: ["Axiom Arcanist","Transcendence"],
-  shards:         ["Ability Haste","Health","Health"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Guardian is the most common Shen jungle keystone on 26.20, in close to three games in five (the sample is small, under 7k Emerald+ games). It shields Shen and the ally he is protecting together, and Stand United already puts him beside the ally who is about to die, anywhere on the map. Shield Bash adds damage to his next hit after every shield, Conditioning and Overgrowth scale the resist and health stat line his tank items build, and the Sorcery splash strengthens his ultimate (Axiom Arcanist) and adds ability haste (Transcendence) for more taunts and more global saves.",
 };
 

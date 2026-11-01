@@ -6,7 +6,7 @@ const RENATA_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Shield Bash","Bone Plating","Unflinching"],
   secondary:      "Domination",
   secondaryRunes: ["Sixth Sense","Relentless Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Guardian shields Renata and her carry the instant a fight starts, matching her enabler identity — Loyalty's chain-shield and Bailout's damage-redirect both reward staying near the ADC. Shield Bash converts that shield into bonus on-hit damage; Bone Plating and Unflinching round out survivability into hard-engage lanes. Sixth Sense and Relentless Hunter add vision-stacking and roam speed for cross-map Hostile Takeover plays.",
 };
 

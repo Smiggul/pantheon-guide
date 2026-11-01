@@ -26,7 +26,7 @@ const FIDDLESTICKS_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Domination",
   secondaryRunes: ["Cheap Shot","Ultimate Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Same Comet-poke identity as Mid, but built for a support's mana curve — Manaflow Band solves the strain of spamming Bountiful Harvest/Dark Wind poke every wave. Cheap Shot and Ultimate Hunter still reward impairing enemies and reduce Crowstorm's cooldown for repeated map-wide engages from the support position, which is exactly what makes Fiddlesticks Support real — he can Crowstorm into any skirmish on the map, not just his own lane.",
 };
 
@@ -36,7 +36,7 @@ const FIDDLESTICKS_TOP_DEFAULT_RUNES = {
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Revitalize"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Same Comet poke pattern as Mid/Support, but with Resolve secondary instead of Domination — Top Fiddlesticks trades roam-and-gank synergy for lane survivability, since he's stuck 1v1 without a jungler's cover. Bone Plating and Revitalize round out the tankiness a tower-focused split-push scarecrow needs to survive poke before Crowstorm comes online.",
 };
 

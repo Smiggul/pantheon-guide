@@ -46,7 +46,7 @@ export default {
       role:"Roam Assassin / Parkour Ganker",
       corePath:"Youmuu's Ghostblade  ›  Ionian Boots of Lucidity  ›  Voltaic Cyclosword  ›  Edge of Night",
       coreNote:"Talon mid is a roam-first assassin — shove the wave, parkour over a wall, and delete a side laner before anyone sees the ping. Youmuu's Ghostblade gives the active move speed his roam timing is built around, Voltaic Cyclosword's energised proc slots straight into the Q opener, and Edge of Night's spell shield lets him jump targets who are saving one answer for him. Serylda's Grudge closes against the armor his kills fund.",
-      sideItems:["Serylda's Grudge","Axiom Arc","Serpent's Fang","Guardian Angel","Maw of Malmortius","Opportunity"],
+      sideItems:["Serylda's Grudge","Axiom Arc","Serpent's Fang","Guardian Angel","Maw of Malmortius"],
       data:{
         JUGGERNAUT:{ahead:[I("Youmuu's Ghostblade","Speed to poke-and-fade — never let them touch you."),I("Serylda's Grudge","Armor pen keeps Q chunks real."),I("Voltaic Cyclosword","Energised burst on every re-engage.")],behind:[I("Edge of Night","Spell shield blocks the pull that starts their kill."),I("Guardian Angel","Insurance against the one landed engage."),I("Maw of Malmortius","If their damage is mixed, the lifeline shield.")],runes:{...TALON_MID_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Voltaic Cyclosword","Burst them mid-dive before their combo lands."),I("Youmuu's Ghostblade","Out-speed their engage tempo."),I("Edge of Night","Blocks the dive-opener entirely.")],behind:[I("Edge of Night","Spell shield answers the engage ability."),I("Guardian Angel","Second life against the dive."),I("Maw of Malmortius","Shield vs AP divers.")],runes:{...TALON_MID_DEFAULT_RUNES}},

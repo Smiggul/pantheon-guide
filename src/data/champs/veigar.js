@@ -26,7 +26,7 @@ const VEIGAR_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Domination",
   secondaryRunes: ["Cheap Shot","Grisly Mementos"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Veigar trades the stacking-scaling identity for early poke-and-cage pressure — Comet punishes every Dark Matter landed from safety, and Event Horizon still traps a target for the ADC to burst down even without a jungler's help. Manaflow Band and Transcendence solve the mana strain and add haste; Scorch adds early lane pressure. Cheap Shot and Grisly Mementos keep the true-damage-on-impair and stacking-AP identity relevant from the support position.",
 };
 

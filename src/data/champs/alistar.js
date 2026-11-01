@@ -6,7 +6,7 @@ const ALISTAR_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Hextech Flashtraption","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock triggers instantly off Headbutt-into-Pulverize, giving Alistar bonus resistances right as he becomes the fight's focus after knocking a target into his own team. Font of Life heals the ADC off that combo's CC; Bone Plating and Unflinching (swap for Second Wind vs poke, Overgrowth vs no-CC lanes) round out survivability. Hextech Flashtraption enables long-range surprise engages; Cosmic Insight speeds up the Headbutt/Pulverize combo's cooldown.",
 };
 

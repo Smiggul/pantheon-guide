@@ -26,7 +26,7 @@ const MALPHITE_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Revitalize"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Malphite plays a poke-and-engage pattern rather than his usual tank-duelist identity — Arcane Comet punishes every landed Seismic Shard from range, matching his kit's long-range poke tool. Manaflow Band and Transcendence solve the mana strain and add haste; Scorch adds early lane pressure. Bone Plating and Revitalize round out survivability and amplify whatever shields/heals his team stacks on top of Unstoppable Force's engage.",
 };
 

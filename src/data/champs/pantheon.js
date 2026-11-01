@@ -65,7 +65,7 @@ export default {
         label: "Lethality Carry",
         tag: "off-meta",
         corePath: "Youmuu's Ghostblade  ›  Voltaic Cyclosword  ›  The Collector  ›  Serylda's Grudge",
-        coreNote: "The greedy glass-cannon line: full lethality, no bruiser durability. Press the Attack and a Sorcery secondary trade survivability for scaling damage, so you fold if caught: play for picks and position. Youmuu's Ghostblade is the roam and lethality spike, Voltaic Cyclosword adds energized burst, The Collector's execute turns spear plus combo into a kill, and Serylda's Grudge pens armor and slows. Then Opportunity, Edge of Night or Profane Hydra.",
+        coreNote: "The greedy glass-cannon line: full lethality, no bruiser durability. Press the Attack and a Sorcery secondary trade survivability for scaling damage, so you fold if caught: play for picks and position. Youmuu's Ghostblade is the roam and lethality spike, Voltaic Cyclosword adds energized burst, The Collector's execute turns spear plus combo into a kill, and Serylda's Grudge pens armor and slows. Then Edge of Night or Profane Hydra.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -75,7 +75,7 @@ export default {
           shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
           reason: "Press the Attack rewards Pantheon's guaranteed three-hit trade (spear, W-auto, auto) with bonus damage AND a damage-amp on the target, so the combo and item procs that follow hit far harder — the burst engine of a lethality carry. The Sorcery secondary is the greedy scaling half: Transcendence gives the ability haste to keep spamming Q, and Gathering Storm stacks raw AD the longer the game runs, so you out-scale the lane into a hyper-carry. Presence of Mind funds the Q spam, Coup de Grace executes low targets, and double Adaptive Force shards maximise the early damage.",
         },
-        sideItems: ["Ionian Boots of Lucidity", "Opportunity", "Edge of Night", "Profane Hydra", "Guardian Angel", "Serpent's Fang"],
+        sideItems: ["Ionian Boots of Lucidity", "Edge of Night", "Profane Hydra", "Guardian Angel", "Serpent's Fang"],
       }, {
         label: "PTA Bruiser",
         tag: "alt",
@@ -132,7 +132,7 @@ export default {
           shards: ["Adaptive Force", "Adaptive Force", "Health (scaling)"],
           reason: "Electrocute completes in one spear-W-auto combo for the burst window; Sudden Impact procs lethality on every E-stun and leap, Treasure Hunter funds the lethality curve off picks, and the Inspiration splash (Biscuit Delivery, Cosmic Insight) sustains the roam and shortens Grand Starfall's cooldown.",
         },
-        sideItems: ["Black Cleaver", "Serylda's Grudge", "Opportunity", "Profane Hydra", "The Collector", "Guardian Angel"],
+        sideItems: ["Black Cleaver", "Serylda's Grudge", "Profane Hydra", "The Collector", "Guardian Angel"],
       }],
     },
 

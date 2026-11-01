@@ -6,7 +6,7 @@ const NAUTILUS_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Shield Bash","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock triggers instantly off Dredge Line's pull or a landed Riptide knock-up, giving Nautilus bonus resistances right as he becomes the fight's focus — without it he's too squishy since his shield alone doesn't provide enough durability to commit. Shield Bash, Bone Plating, and Unflinching round out a full-durability primary tree, letting him fully commit to a Q pull without getting blown up immediately after. Biscuit Delivery and Cosmic Insight solve early sustain and speed up Depth Charge's cooldown.",
 };
 

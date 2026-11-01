@@ -44,6 +44,13 @@ function loadRuneTrees() {
 const TREES = loadRuneTrees();
 const { CHAMPS } = await import(pathToFileURL(path.join(ROOT, "src", "data", "champs", "index.js")).href);
 
+// Riot's stat shard rows (offense, flex, defense), names as SHARD_IDS spells them.
+const SHARD_ROWS = [
+  ["Adaptive Force", "Attack Speed", "Ability Haste"],
+  ["Adaptive Force", "Move Speed", "Health (scaling)"],
+  ["Health", "Tenacity", "Health (scaling)"],
+];
+
 const rowOf = (tree, rune) => (TREES[tree]?.rows || []).findIndex((r) => r.includes(rune));
 const problems = [];
 
@@ -63,6 +70,19 @@ function check(where, r) {
       problems.push(`${where}: ${label} ${tree} takes two runes from one row ` +
         `(${runes.join(" / ")} -> rows ${rows.join(",")})`);
     }
+  }
+  // Stat shards: one per row, and only what Riot's row offers. The client
+  // export maps shards by name alone (SHARD_IDS in lcuData.js), so a shard in
+  // the wrong row imports as something else (Volibear's flat Health in the flex
+  // row, found by the owner on 2026-11-01). Armor and Magic Resist were removed
+  // from the shard rows by Riot.
+  if (r.shards) {
+    if (r.shards.length !== 3) problems.push(`${where}: ${r.shards.length} stat shards, not 3`);
+    r.shards.forEach((s, k) => {
+      if (SHARD_ROWS[k] && !SHARD_ROWS[k].includes(s)) {
+        problems.push(`${where}: shard row ${k + 1} cannot take "${s}" (only ${SHARD_ROWS[k].join(", ")})`);
+      }
+    });
   }
   if (r.primary && r.primary === r.secondary) {
     problems.push(`${where}: primary and secondary are both ${r.primary}`);

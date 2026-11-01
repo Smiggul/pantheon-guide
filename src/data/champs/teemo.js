@@ -59,7 +59,7 @@ export default {
         corePath: "Statikk Shiv  ›  Liandry's Torment  ›  Malignance  ›  Rylai's Crystal Scepter",
         // Research: Current meta replaces the old Nashor's Tooth rush with Statikk Shiv.
         coreNote: "Statikk Shiv first: the on-hit lightning clears waves instantly, so you hit towers earlier and set up R shrooms sooner. Liandry's burns tanks, and Malignance amplifies mushroom map control. Nashor's Tooth is a fine situational pick when the lane calls for sustained DPS over wave-clear speed.",
-        sideItems: ["Sorcerer's Shoes","Plated Steelcaps","Mercury's Treads","Nashor's Tooth","Morellonomicon","Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Demonic Embrace","Cosmic Drive"],
+        sideItems: ["Sorcerer's Shoes","Plated Steelcaps","Mercury's Treads","Nashor's Tooth","Morellonomicon","Shadowflame","Void Staff","Zhonya's Hourglass","Banshee's Veil","Cosmic Drive"],
 
         data: {
           JUGGERNAUT: {
@@ -411,7 +411,7 @@ export default {
         bans:["Blitzcrank","Leona","Nautilus"], replacements:["Zyra","Xerath","Pantheon"],
         corePath: "Malignance  ›  Liandry's Torment  ›  Rylai's Crystal Scepter  ›  Morellonomicon",
         coreNote: "Support Teemo plays for vision denial and choke control. Mushrooms replace wards as zone tools.",
-        sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Void Staff","Demonic Embrace","Shadowflame"],
+        sideItems: ["Sorcerer's Shoes","Ionian Boots of Lucidity","Morellonomicon","Zhonya's Hourglass","Banshee's Veil","Void Staff","Shadowflame"],
 
         data: {
           JUGGERNAUT: {

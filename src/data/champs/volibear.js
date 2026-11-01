@@ -45,7 +45,7 @@ export default {
       label:"Full Tank", tag:"alt",
       corePath:"Sunfire Aegis  ›  Jak'Sho, The Protean  ›  Spirit Visage  ›  Thornmail",
       coreNote:"Pure durability instead of on-hit DPS. The kit carries it: R disables a tower and its shield and AoE keep you diving, W still heals off every bite, and the passive deals percent-max-health magic damage without damage items. Sunfire, Jak'Sho, Spirit Visage, Thornmail, with Aftershock to punish your own engage. Best into heavy-damage teams or when your team needs a front line: far harder to kill, far less of a carry. Kaenic Rookern into AP, Randuin's or Frozen Heart into crit.",
-      runes:{ keystone:"Aftershock", primary:"Resolve", primaryRunes:["Font of Life","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Aftershock turns Volibear's guaranteed E/R engage into a burst of resistances + a damage pop, exactly when he dives in — the tank keystone that rewards his all-in pattern. Font of Life and Conditioning scale his frontline durability, Overgrowth compounds it in longer games; Triumph + Legend: Haste keep him healthy and spamming his kit through the fight." },
+      runes:{ keystone:"Aftershock", primary:"Resolve", primaryRunes:["Font of Life","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Ability Haste","Health (scaling)","Health"], reason:"Aftershock turns Volibear's guaranteed E/R engage into a burst of resistances + a damage pop, exactly when he dives in — the tank keystone that rewards his all-in pattern. Font of Life and Conditioning scale his frontline durability, Overgrowth compounds it in longer games; Triumph + Legend: Haste keep him healthy and spamming his kit through the fight." },
       sideItems:["Warmog's Armor","Kaenic Rookern","Frozen Heart","Randuin's Omen","Unending Despair","Mercury's Treads"],
     },{
       // Research (2026-10-27): Zwag, "Volibear but I one shot the entire enemy team with chain lightning" (24 Oct 2026,
@@ -69,7 +69,7 @@ export default {
       label:"Heartsteel Tank", tag:"alt",
       corePath:"Heartsteel  ›  Statikk Shiv  ›  Thornmail  ›  Spirit Visage",
       coreNote:"Stack health instead of damage: W hits harder and E shields more with every Heartsteel stack. Rush Heartsteel to start stacking early. Rarely built and weaker than the main build, so pick it for long games.",
-      runes:{ keystone:"Grasp of the Undying", primary:"Resolve", primaryRunes:["Demolish","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Attack Speed","Health","Health (scaling)"], reason:"Grasp and Overgrowth add permanent health on top of Heartsteel's. Demolish turns your shoves into plates." },
+      runes:{ keystone:"Grasp of the Undying", primary:"Resolve", primaryRunes:["Demolish","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Attack Speed","Health (scaling)","Health"], reason:"Grasp and Overgrowth add permanent health on top of Heartsteel's. Demolish turns your shoves into plates." },
       sideItems:["Plated Steelcaps","Unending Despair","Randuin's Omen","Kaenic Rookern","Warmog's Armor","Jak'Sho, The Protean"],
     }],
   },

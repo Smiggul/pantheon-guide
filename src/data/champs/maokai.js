@@ -16,7 +16,7 @@ const MAOKAI_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Inspiration",
   secondaryRunes: ["Biscuit Delivery","Cosmic Insight"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock triggers instantly off a landed Twisted Advance pull, giving Maokai bonus resistances right as he becomes the fight's focus after dragging a target into his team. Font of Life heals the ADC off that pull's impair; Bone Plating and Unflinching round out survivability into hard-engage lanes. Biscuit Delivery and Cosmic Insight solve early sustain and speed up his whole ability rotation.",
 };
 

@@ -6,7 +6,7 @@ const YORICK_TOP_DEFAULT_RUNES = {
   primaryRunes:   ["Demolish","Bone Plating","Overgrowth"],
   secondary:      "Precision",
   secondaryRunes: ["Presence of Mind","Legend: Bloodline"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Grasp of the Undying procs off Yorick's auto-attack-heavy split-push trades and grows permanent HP, matching his win condition of outlasting the lane before Maiden of the Mist snowballs. Demolish adds tower pressure between skirmishes; Bone Plating and Overgrowth keep him alive through poke. Presence of Mind solves the mana strain of constant Q/W casts; Legend: Bloodline gives sustain to keep pushing waves and summoning ghouls.",
 };
 
@@ -37,7 +37,7 @@ export default {
       label:"Meme Build", tag:"meme", hint:"Lethality",
       corePath:"Youmuu's Ghostblade  ›  Bastionbreaker  ›  Voltaic Cyclosword  ›  Serylda's Grudge",
       coreNote:"Full lethality: your Mist Walkers take a share of your bonus AD, so the whole pack hits harder. Poke with Comet from E, then raise the ghouls and dive with the Maiden. Doran's Blade start, Boots of Swiftness.",
-      runes:{ keystone:"Arcane Comet", primary:"Sorcery", primaryRunes:["Manaflow Band","Transcendence","Gathering Storm"], secondary:"Inspiration", secondaryRunes:["Magical Footwear","Biscuit Delivery"], shards:["Ability Haste","Health","Health (scaling)"], reason:"Comet procs off E for lane poke. Manaflow Band and Biscuit Delivery fund the spells." },
+      runes:{ keystone:"Arcane Comet", primary:"Sorcery", primaryRunes:["Manaflow Band","Transcendence","Gathering Storm"], secondary:"Inspiration", secondaryRunes:["Magical Footwear","Biscuit Delivery"], shards:["Ability Haste","Health (scaling)","Health"], reason:"Comet procs off E for lane poke. Manaflow Band and Biscuit Delivery fund the spells." },
       sideItems:["Boots of Swiftness"],
     }],
   },

@@ -16,11 +16,19 @@ import { MATCHUP_STARTS, START_SETS } from "./matchupStarts.js";
 export const itemId = (name) =>
   name == null ? null : (ITEM_IDS[String(name).trim().toLowerCase()] ?? null);
 
+// Items you earn rather than buy, exported as the item that becomes them. The
+// shop lists Seraph's Embrace but cannot sell it (Riot: inStore false, upgraded
+// from Archangel's Staff), so an item set naming it gave a slot nobody could buy
+// (found by helpers/screen-exports.mjs, 2026-11-01). The app's own lists still
+// show the finished name.
+const BUY_AS = { "Seraph's Embrace": "Archangel's Staff" };
+
 // names: item names, or [name, count] pairs (two Health Potions with Doran's Ring).
 const itemBlock = (type, names) => {
   const counts = new Map();
   for (const n of names.filter(Boolean)) {
-    const [name, count] = Array.isArray(n) ? n : [n, 1];
+    const [raw, count] = Array.isArray(n) ? n : [n, 1];
+    const name = BUY_AS[raw] || raw;
     counts.set(name, Math.max(counts.get(name) || 0, count));
   }
   return {

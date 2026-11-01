@@ -51,7 +51,7 @@ export default {
       corePath:"Voltaic Cyclosword  ›  Berserker's Greaves  ›  The Collector  ›  Infinity Edge",
       // Research: "Meta Shaco is AD crit" (the current meta build is AD crit, not AP).
       coreNote:"Shaco builds AD crit: Voltaic Cyclosword's energised proc rides the Deceive backstab opener, The Collector executes anyone the burst leaves at 5%, and Infinity Edge multiplies the guaranteed Q crit into true one-shot territory. Lord Dominik's Regards closes against armor. His boxes are the other half of the kit — objective control, anti-facecheck, and free Hail of Blades procs on anyone who walks the wrong path.",
-      sideItems:["Lord Dominik's Regards","Edge of Night","Youmuu's Ghostblade","Guardian Angel","Serpent's Fang","Opportunity"],
+      sideItems:["Lord Dominik's Regards","Edge of Night","Youmuu's Ghostblade","Guardian Angel","Serpent's Fang"],
       data:{
         JUGGERNAUT:{ahead:[I("The Collector","Execute threshold beats their HP stacking."),I("Lord Dominik's Regards","Pen keeps crits real through armor."),I("Voltaic Cyclosword","Burst-and-Deceive-out — never brawl them.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance when they corner you."),I("Youmuu's Ghostblade","Speed to never be catchable.")],runes:{...SHACO_JGL_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Voltaic Cyclosword","Burst them mid-engage from stealth."),I("The Collector","Execute the diver who commits low."),I("Edge of Night","Block the dive-opener.")],behind:[I("Edge of Night","Spell shield answers their engage ability."),I("Guardian Angel","Second life on contested dives."),I("Youmuu's Ghostblade","Speed to escape the collapse.")],runes:{...SHACO_JGL_DEFAULT_RUNES}},

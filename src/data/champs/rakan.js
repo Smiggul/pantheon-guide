@@ -6,7 +6,7 @@ const RAKAN_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Unflinching"],
   secondary:      "Domination",
   secondaryRunes: ["Sixth Sense","Ultimate Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Rakan is a hybrid engage-enchanter, so Guardian's shield covers both his dive-in and his peel identity at once. Font of Life heals the ADC off Grand Entrance's knock-up; Bone Plating and Unflinching cover the all-in commitment his own engage invites. Sixth Sense and Ultimate Hunter add vision-stacking and reduce The Quickness's cooldown for more repeatable engage windows — ability haste is extremely important for how often Rakan wants to dive in and dance back out.",
 };
 

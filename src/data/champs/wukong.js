@@ -42,7 +42,7 @@ export default {
         shards: ["Attack Speed", "Adaptive Force", "Health (scaling)"],
         reason: "Conqueror still stacks fast off the Q-auto-clone flurry but the lethality items convert it to burst; Sudden Impact fires off every W-stealth exit and R knockup, and Treasure Hunter funds the lethality curve for the snowball.",
       },
-      sideItems: ["The Collector", "Edge of Night", "Black Cleaver", "Death's Dance", "Guardian Angel", "Opportunity"],
+      sideItems: ["The Collector", "Edge of Night", "Black Cleaver", "Death's Dance", "Guardian Angel"],
     },{
       label: "Full HP (Exodia)",
       tag: "off-meta",
@@ -56,7 +56,7 @@ export default {
         primaryRunes: ["Triumph", "Legend: Haste", "Last Stand"],
         secondary: "Resolve",
         secondaryRunes: ["Second Wind", "Overgrowth"],
-        shards: ["Ability Haste", "Health", "Health (scaling)"],
+        shards: ["Ability Haste", "Health (scaling)", "Health"],
         reason: "Conqueror + Last Stand reward the drawn-out fights Riftmaker's omnivamp keeps you alive in, and the double Health shard + Overgrowth compound the HP-stacking identity that Heartsteel/Overlord's/passive all scale off. Legend: Haste keeps Q and R flowing through the brawl.",
       },
       sideItems: ["Titanic Hydra", "Unending Despair", "Trinity Force", "Spirit Visage", "Sterak's Gage", "Mercury's Treads"],

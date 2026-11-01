@@ -19,7 +19,7 @@ const CHOGATH_TOP_TANK_RUNES = {
   primaryRunes:   ["Demolish","Conditioning","Overgrowth"],
   secondary:      "Inspiration",
   secondaryRunes: ["Magical Footwear","Approach Velocity"],
-  shards:         ["Attack Speed","Health","Health (scaling)"],
+  shards:         ["Attack Speed","Health (scaling)","Health"],
   reason:         "Grasp of the Undying is the keystone of the Full Tank alternate: roughly three in five Cho'Gath players who open Heartsteel run it on 26.20. It permanently grows his health with every trade, on top of Heartsteel's stacks and Feast's. Demolish turns lane pressure into tower damage, Conditioning and Overgrowth scale the resist and health stat line into the late game, and the Inspiration splash is the common one: Magical Footwear for free boots and Approach Velocity to catch whoever Rupture has slowed. The attack-speed shard speeds up the empowered Vorpal Spikes autos. Hail of Blades is still the most common keystone overall (about 53% of games), but most of its players build the AP Rocketbelt alternate.",
 };
 

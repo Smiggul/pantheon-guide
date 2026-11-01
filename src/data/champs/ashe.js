@@ -16,7 +16,7 @@ const ASHE_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Domination",
   secondaryRunes: ["Cheap Shot","Treasure Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Ashe leans into pure poke — Volley slows and chips HP from max range, and Arcane Comet adds a free proc on every landed hit. Manaflow Band and Transcendence solve the mana strain of constant W spam and add haste; Scorch adds early lane pressure. Cheap Shot adds true damage to anything Volley has slowed; Treasure Hunter funds the poke-item spike faster than a support's gold income alone would allow.",
 };
 

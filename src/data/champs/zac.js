@@ -16,7 +16,7 @@ const ZAC_TOP_DEFAULT_RUNES = {
   primaryRunes:   ["Demolish","Second Wind","Revitalize"],
   secondary:      "Precision",
   secondaryRunes: ["Legend: Haste","Last Stand"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Grasp of the Undying converts Zac's sustained top-lane trades into free permanent HP and bonus damage, fitting a split-push pattern better than Jungle's burst-engage tempo. Demolish adds tower pressure between skirmishes; Second Wind and Revitalize keep him topped up through poke exchanges. Legend: Haste and Last Stand round out a real kill threat in extended duels.",
 };
 
@@ -26,7 +26,7 @@ const ZAC_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Conditioning","Revitalize"],
   secondary:      "Precision",
   secondaryRunes: ["Triumph","Legend: Haste"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Aftershock still fits Support Zac's engage-then-tank pattern, healing the ADC he's protecting via Font of Life instead of Demolish's tower-push value. Revitalize amplifies that heal plus any Locket/shield the team stacks on top. Triumph and Legend: Haste replace Domination's kill-snowball runes — Zac fights constantly in lane and benefits more from sustained gold/haste than roam speed.",
 };
 

@@ -16,7 +16,7 @@ const AMUMU_SUP_DEFAULT_RUNES = {
   primaryRunes:   ["Font of Life","Bone Plating","Overgrowth"],
   secondary:      "Domination",
   secondaryRunes: ["Sudden Impact","Ultimate Hunter"],
-  shards:         ["Ability Haste","Health","Health (scaling)"],
+  shards:         ["Ability Haste","Health (scaling)","Health"],
   reason:         "Support Amumu plays the same guaranteed-stun pattern as Jungle, but positioned to enable a carry instead of farming camps — Aftershock triggers the instant Bandage Toss lands, giving him bonus resistances right as the whole enemy team gets caught in his ultimate's stun radius. Font of Life heals the ADC off the impair; Bone Plating and Overgrowth round out survivability. Sudden Impact procs off the Bandage Toss dash; Ultimate Hunter reduces the AoE stun's cooldown for more repeatable engages.",
 };
 
