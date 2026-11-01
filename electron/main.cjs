@@ -361,7 +361,20 @@ async function pollChampSelect() {
       sendChampSelect({ active: false, reason: "no-client" });
       return;
     }
-    if (res.status === 404) { sendChampSelect({ active: false, reason: "not-in-select" }); return; }
+    if (res.status === 404) {
+      // Outside champ select, say which game phase the client is in, so the app
+      // can leave the in-game view when the game ends instead of keeping it up
+      // in the lobby until League closes (the owner, 2026-11-01). Riot's phases:
+      // None, Lobby, Matchmaking, ReadyCheck, ChampSelect, GameStart,
+      // InProgress, Reconnect, WaitingForStats, PreEndOfGame, EndOfGame, ...
+      let phase = null;
+      try {
+        const g = await lcu("GET", "/lol-gameflow/v1/gameflow-phase", creds);
+        if (g.status === 200 && typeof g.body === "string") phase = g.body;
+      } catch { /* unknown phase: the app keeps its old behaviour */ }
+      sendChampSelect({ active: false, reason: "not-in-select", phase });
+      return;
+    }
     if (res.status !== 200 || !res.body) { sendChampSelect({ active: false, reason: "unavailable" }); return; }
     sendChampSelect(summarizeChampSelect(res.body));
   } finally {

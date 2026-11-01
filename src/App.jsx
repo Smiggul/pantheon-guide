@@ -36,6 +36,10 @@ for (const [dd, key] of Object.entries(CHAMP_KEYS)) KEY_TO_DD[key] = dd;
 const DD_TO_CHAMP = {};          // DDragon id -> CHAMPS entry
 for (const c of CHAMPS) DD_TO_CHAMP[c.dd] = c;
 const POS_ROLE = { top: "Top", jungle: "Jungle", middle: "Mid", bottom: "Bot", utility: "Support" };
+// League client game phases after which no game is running: the in-game view
+// closes on these. GameStart, InProgress and Reconnect keep it (and
+// FailedToLaunch / TerminatedInError, from which the player can reconnect).
+const GAME_OVER_PHASES = new Set(["WaitingForStats", "PreEndOfGame", "EndOfGame", "Lobby", "Matchmaking", "ReadyCheck", "None"]);
 const champByKey = (key) => DD_TO_CHAMP[KEY_TO_DD[key]] || null;
 // Which of a champ's roles matches the client's assigned position (top/jungle/…).
 // Falls back to `fallback`, then the champ's first role — so an off-role / blind
@@ -1561,14 +1565,17 @@ useEffect(() => {
 };
 
   // Freeze the last live champ-select snapshot (with a real champion) so the
-  // matchup + build stay on screen once the game starts. Cleared only when
-  // League fully closes; a new champ select overwrites it.
+  // matchup + build stay on screen once the game starts. Cleared when the game
+  // is over (the client reports a post-game or lobby phase), so the app goes
+  // back to the full guide after a game (the owner, 2026-11-01), or when League
+  // closes; a new champ select overwrites it. A client that reports no phase
+  // keeps the old behaviour.
   useEffect(() => {
     if (!csState) return;
     if (csState.active) {
       const k = csState.championId || csState.championPickIntent;
       if (k && champByKey(k)) setCsFrozen(csState);
-    } else if (csState.reason === "no-client") {
+    } else if (csState.reason === "no-client" || GAME_OVER_PHASES.has(csState.phase)) {
       setCsFrozen(null);
     }
   }, [csState]);
