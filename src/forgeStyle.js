@@ -41,11 +41,14 @@ const rgba = (h, a) => `rgba(${rgb(h).join(",")},${a})`;
 export function champColours(m) {
   const base = norm(m);
   const tint = readable(base);
+  const tintHi = readable(mix(tint, "#ffffff", 0.45));
   return {
     primary: base,                                  // the primary button
     ink: inkOn(base),                               // text on the primary button
     tint,                                           // timeline, level blips
-    tintHi: readable(mix(tint, "#ffffff", 0.45)),   // R levels
+    tintInk: inkOn(tint),                           // the level number on a blip
+    tintHi,                                         // R levels
+    tintHiInk: inkOn(tintHi),                       // the level number on an R blip
     active: rgba(base, 0.3),                        // a selected segment
   };
 }

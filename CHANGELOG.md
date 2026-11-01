@@ -18,6 +18,14 @@ rolled into a numbered version when a build is cut.
 
 ### Added
 - **Command menu (Ctrl+K):** jump to any champion and lane ("darius jg", "tf mid") or any page (tier list, draft coach, settings) from anywhere in the app. Arrow keys and Enter, Esc closes. The top bar's Search opens it and shows the shortcut.
+- **Level numbers on the skill order.** Every lit level in the 18-level grid shows its number, on the build page and in game.
+- **Meme builds** for Pantheon, Volibear, Sion, Nasus, Yorick and Darius Top.
+
+### Changed
+- **Volibear Top:**
+  - New **Heartsteel Tank** alternate: Heartsteel, Statikk Shiv, Thornmail and Spirit Visage, with Grasp of the Undying.
+  - The Statikk alternate is now **Statikk Shiv first**, then Dusk and Dawn and Navori Flickerblade, the way players build it on patch 26.21.
+  - The main rune page takes Adaptive Force in the second shard row.
 
 ## [0.21.1] — 2026-10-26
 

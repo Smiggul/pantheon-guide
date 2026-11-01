@@ -240,13 +240,23 @@ export function SkillsCard({ skills, spells, spellSrc, colours, layout, keyHover
       )}
       {seq && showLevels && (
         <div style={{ display: "grid", gridTemplateColumns: "20px repeat(18, minmax(0, 1fr))", gap: "2px", marginTop: wide ? "12px" : "10px",
-          fontSize: "11px", lineHeight: "14px", color: T.faint }}>
+          fontSize: "11px", lineHeight: "16px", color: T.faint }}>
           {["Q", "W", "E", "R"].map((k) => [
             <span key={k}>{k}</span>,
-            ...Array.from({ length: 18 }, (_, i) => (
-              <i key={`${k}${i}`} title={`Level ${i + 1}`} style={{ height: 14, borderRadius: "3px",
-                background: seq[i] === k ? (k === "R" && !skills?.noUlt ? colours.tintHi : colours.tint) : T.raised }} />
-            )),
+            ...Array.from({ length: 18 }, (_, i) => {
+              // A lit blip carries its level number, so the order reads at a
+              // glance in game without counting columns (the owner, 2026-11-01).
+              const lit = seq[i] === k;
+              const hi = k === "R" && !skills?.noUlt;
+              return (
+                <i key={`${k}${i}`} title={`Level ${i + 1}`} style={{ height: 16, borderRadius: "3px",
+                  background: lit ? (hi ? colours.tintHi : colours.tint) : T.raised,
+                  color: hi ? colours.tintHiInk : colours.tintInk, fontStyle: "normal", fontSize: "9px", lineHeight: "16px",
+                  fontWeight: 700, textAlign: "center", letterSpacing: "-0.3px", overflow: "hidden", fontVariantNumeric: "tabular-nums" }}>
+                  {lit ? i + 1 : null}
+                </i>
+              );
+            }),
           ])}
         </div>
       )}

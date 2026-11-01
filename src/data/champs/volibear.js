@@ -6,7 +6,9 @@ const VOLIBEAR_TOP_DEFAULT_RUNES = {
   primaryRunes:   ["Triumph","Legend: Haste","Last Stand"],
   secondary:      "Resolve",
   secondaryRunes: ["Demolish","Revitalize"],
-  shards:         ["Attack Speed","Health","Health (scaling)"],
+  // Research (2026-11-01, lolalytics 16.21 Emerald+): Most Common page, 62.2% of 90,467 games, takes Adaptive in
+  //   the second shard row; every other row already matched.
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
   reason:         "Lethal Tempo is now the standard Volibear keystone in both lanes — the attack speed compounds with his passive's bonus damage and W healing. Legend: Haste keeps Q/E/R available more often. Demolish converts lane priority into plates under your R tower-disable dives; Revitalize amplifies the W self-heal that anchors his whole trading pattern.",
 };
 
@@ -29,9 +31,14 @@ export default {
   color:"#2e5f8a", glow:"#5dade2",
   altBuilds:{
     Top:[{
-      label:"Statikk Waveclear", tag:"alt",
-      corePath:"Dusk and Dawn  ›  Statikk Shiv  ›  Berserker's Greaves  ›  Spirit Visage",
-      coreNote:"A waveclear-first spin on the on-hit build: keep Dusk and Dawn first for the fast Lethal Tempo on-hit proc, but take Statikk Shiv over Navori Flickerblade. Statikk's energized bolts give Volibear the AoE wave clear and teamfight chip his kit lacks, fast enough to roam or dive with R freely. You trade some single-target DPS for shove pressure and poke: best when you keep getting shoved in or want to force objective tempo. Lethal Tempo as normal.",
+      // Research (2026-11-01, lolalytics 16.21 Emerald+, Volibear Top): Statikk Shiv is now the most common first item
+      //   (40.8% of 77,197 games; Dusk and Dawn 36.9%), but its games split three ways, so Dusk and Dawn > Navori stays
+      //   the most common pair (23.1%) and the main build. The Statikk line players build is Statikk > Dusk and Dawn
+      //   (17.1% of pairs) > Navori (1,111 games, 55.4% WR as a three-item set); OP.GG's second core row is the same
+      //   three items (4.4%, 55.1%). It replaced the old "Statikk Waveclear" (Dusk and Dawn > Statikk, 5.5% of pairs).
+      label:"Statikk Shiv first", tag:"alt",
+      corePath:"Statikk Shiv  ›  Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage",
+      coreNote:"Statikk Shiv first for wave clear: shove, then roam or dive with R. Dusk and Dawn and Navori after it, as in the main build.",
       runes:{...VOLIBEAR_TOP_DEFAULT_RUNES},
       sideItems:["Navori Flickerblade","Wit's End","Thornmail","Kaenic Rookern","Sterak's Gage","Mercury's Treads"],
     },{
@@ -51,6 +58,19 @@ export default {
       coreNote:"Full AP chain lightning. Your passive's lightning scales with AP and jumps to the 4 closest enemies, and Statikk Shiv's bolts chain on top. Stack the passive in every trade, then dive the backline with R. Void Staff last.",
       runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Absolute Focus","Gathering Storm"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Press the Attack stacks fast with the passive's attack speed. Absolute Focus and Gathering Storm add AP." },
       sideItems:["Void Staff"],
+    },{
+      // Research (2026-11-01): the owner asked for a tank Statikk Shiv build with Heartsteel and Thornmail. It is rare:
+      //   lolalytics 16.21 Emerald+ Volibear Top has Heartsteel first in 70 of 77,197 games (26 wins), Heartsteel >
+      //   Statikk in 9 and Statikk > Heartsteel in 7, so there is no sourced order or rune page. Heartsteel first is
+      //   Claude's call, because its permanent health grows with every proc and the procs start when it is bought.
+      //   The kit fits (16.21 ability text): W deals +6% bonus health (+9% on a marked target) and E's shield is 14%
+      //   of max health, so the stacks feed both. Grasp of the Undying is the health-stacking keystone; the Resolve
+      //   rows, Precision secondary and shards are Claude's calls, the shards copied from the old Top page.
+      label:"Heartsteel Tank", tag:"alt",
+      corePath:"Heartsteel  ›  Statikk Shiv  ›  Thornmail  ›  Spirit Visage",
+      coreNote:"Stack health instead of damage: W hits harder and E shields more with every Heartsteel stack. Rush Heartsteel to start stacking early. Rarely built and weaker than the main build, so pick it for long games.",
+      runes:{ keystone:"Grasp of the Undying", primary:"Resolve", primaryRunes:["Demolish","Conditioning","Overgrowth"], secondary:"Precision", secondaryRunes:["Triumph","Legend: Haste"], shards:["Attack Speed","Health","Health (scaling)"], reason:"Grasp and Overgrowth add permanent health on top of Heartsteel's. Demolish turns your shoves into plates." },
+      sideItems:["Plated Steelcaps","Unending Despair","Randuin's Omen","Kaenic Rookern","Warmog's Armor","Jak'Sho, The Protean"],
     }],
   },
   roles:{
