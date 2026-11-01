@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.1.2] — 2026-11-01
+
+### Fixed
+- **Stat shards import correctly.** 32 rune pages, Volibear's included, sent flat Health to the second shard row, which the client can't take. They now import as scaling Health in the second row and flat Health in the third.
+- **No more items you can't buy.** Opportunity, Chemtech Putrifier and Demonic Embrace are gone from the shop and from the builds; supports now take Oblivion Orb against healing. Seraph's Embrace imports as Archangel's Staff, the item you buy.
+
 ## [0.21.1.1] — 2026-11-01
 
 ### Added
