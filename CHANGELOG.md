@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.21.1.4] — 2026-11-02
+
+### Changed
+- **New look.** The forge-frog badge is the app, taskbar and tray icon.
+- **The installer shows the version it installs**, in FRGE colours. Updates install quietly in the background and reopen the app.
+
 ## [0.21.1.3] — 2026-11-01
 
 ### Fixed

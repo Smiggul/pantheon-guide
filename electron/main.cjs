@@ -43,7 +43,8 @@ function createWindow() {
     autoHideMenuBar: true,
     backgroundColor: "#060a0f",
     title: "FRGE.GG",
-    icon: path.join(__dirname, "tray-icon.png"),
+    // The forge-frog badge (docs/brand/v3-*); the tray keeps the 32 px head close-up.
+    icon: path.join(__dirname, "app-icon.png"),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -453,7 +454,8 @@ ipcMain.handle("frge:update-install", () => {
   // fallback guarantees FRGE.GG.exe is actually gone, so the NSIS installer never
   // reports "app is still running" when replacing the files.
   if (tray) { try { tray.destroy(); } catch { /* already gone */ } tray = null; }
-  autoUpdater.quitAndInstall(false, true);
+  // Silent: the themed installer's pages are for first installs; an update just swaps the files and relaunches.
+  autoUpdater.quitAndInstall(true, true);
   setTimeout(() => app.exit(0), 1200);
 });
 
