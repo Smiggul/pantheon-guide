@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.1.1] — 2026-11-18
+
+### Changed
+- **Patch 26.23** (Data Dragon 16.23.1; FRGE skipped 26.22, so this covers both). Champion, item, rune and skin data are up to date, including the new skins for Ahri, Akali, Evelynn, Kai'Sa, Neeko, Sona and Zoe.
+- **Ability text for 26.23**, with the new numbers for this patch's changes: Annie, Azir, Bard, Ezreal, Galio, Gnar, K'Sante, LeBlanc, Master Yi, Mel, Syndra, Vel'Koz and Vi.
+
 ## [0.21.1.4] — 2026-11-02
 
 ### Changed
