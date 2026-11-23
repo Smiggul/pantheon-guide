@@ -1,14 +1,13 @@
 import { I } from "../runeHelpers.js";
 
-// Research: Arcane Comet 53.7% of keystones (First Strike 24.4%), 83,622 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const SYNDRA_MID_DEFAULT_RUNES = {
-  keystone:       "Arcane Comet",
-  primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
-  secondary:      "Inspiration",
-  secondaryRunes: ["Triple Tonic","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health"],
-  reason:         "Arcane Comet lands on every stun and Dark Sphere poke, so she wins lane trades from range. Manaflow Band, Transcendence and Scorch add to that poke; Cosmic Insight gets her spells and summoners back sooner.",
+  keystone:       "First Strike",
+  primary:        "Inspiration",
+  primaryRunes:   ["Magical Footwear","Biscuit Delivery","Cosmic Insight"],
+  secondary:      "Sorcery",
+  secondaryRunes: ["Manaflow Band","Transcendence"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "First Strike rewards Syndra's long-range poke-first playstyle with bonus gold and damage on the opening trade, matching how she wants to whittle a lane down with Dark Sphere before ever committing to an all-in. Magical Footwear and Biscuit Delivery solve the early gold/mana curve; Cosmic Insight speeds up Unleashed Power's cooldown. Manaflow Band and Transcendence add more mana and haste for a long scaling game.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

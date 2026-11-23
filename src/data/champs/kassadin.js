@@ -1,14 +1,13 @@
 import { I } from "../runeHelpers.js";
 
-// Research: Electrocute 60.7% of keystones (First Strike 19.0%), 37,778 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const KASSADIN_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Precision",
-  secondaryRunes: ["Presence of Mind","Last Stand"],
-  shards:         ["Adaptive Force","Health (scaling)","Health (scaling)"],
-  reason:         "Electrocute pays off his Riftwalk all-in with a burst of damage. Sudden Impact adds damage after Riftwalk, Ultimate Hunter brings it back sooner, and Presence of Mind keeps his mana up through the fight.",
+  keystone:       "First Strike",
+  primary:        "Inspiration",
+  primaryRunes:   ["Cash Back","Triple Tonic","Cosmic Insight"],
+  secondary:      "Domination",
+  secondaryRunes: ["Sudden Impact","Ultimate Hunter"],
+  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
+  reason:         "Kassadin's lane is about surviving to level 16, and First Strike converts even passive trading into the gold that accelerates his item spikes. Cash Back and Triple Tonic compound the economy game, Cosmic Insight smooths every cooldown, Sudden Impact procs off every Riftwalk for bonus pen, and Ultimate Hunter is the whole show — more Riftwalks is more mobility, more burst, and more escapes.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -24,7 +23,7 @@ export default {
       bans:["Talon","Zed","Irelia"], replacements:["Fizz","Katarina","Sylas"],
       role:"Void Hyperscaler / Level-16 Monster",
       corePath:"Rod of Ages  ›  Sorcerer's Shoes  ›  Archangel's Staff  ›  Malignance",
-      coreNote:"Kassadin is the purest scaling pick in the game — weak early, unstoppable at three items and level 16. Rod of Ages gives the HP/mana/AP ramp that carries the awkward early game; Archangel's Staff converts the mana stack into AP and eventually a Seraph's lifeline; Malignance hammers Riftwalk's cooldown so the ult becomes a spammable blink. Farm safely, and the game solves itself past 25 minutes.",
+      coreNote:"Kassadin is the purest scaling pick in the game — weak early, unstoppable at three items and level 16. Rod of Ages gives the HP/mana/AP ramp that carries the awkward early game; Archangel's Staff converts the mana stack into AP and eventually a Seraph's lifeline; Malignance hammers Riftwalk's cooldown so the ult becomes a spammable blink. Farm safely, take the free First Strike gold, and the game solves itself past 25 minutes.",
       sideItems:["Seraph's Embrace","Zhonya's Hourglass","Void Staff","Rabadon's Deathcap","Banshee's Veil","Lich Bane"],
       data:{
         JUGGERNAUT:{ahead:[I("Rod of Ages","Ramp HP freely — they can never catch a Riftwalk."),I("Malignance","More blinks = they literally never touch you."),I("Rabadon's Deathcap","Scale the burst past their durability.")],behind:[I("Zhonya's Hourglass","Stasis covers the one mistake they can punish."),I("Archangel's Staff","Seraph's shield doubles the error margin."),I("Void Staff","Pen keeps damage honest.")],runes:{...KASSADIN_MID_DEFAULT_RUNES}},

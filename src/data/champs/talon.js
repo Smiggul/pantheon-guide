@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: win rate over pick rate (owner's rule 2026-11-23): Conqueror 53.2% WR on 47.0% of 18,767 games vs Electrocute 50.5% on 33.8%, a gap well past the noise; lolalytics 16.23 Emerald+ (2026-11-23).
 const TALON_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Absolute Focus","Scorch"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute fires on Talon's basic Q-W-auto pattern and rewards the three-hit passive bleed his whole kit is built around. Sudden Impact procs off every Assassin's Path parkour entry and Q leap, Grisly Mementos stacks haste off the roam-kill loop, and Ultimate Hunter feeds more Shadow Assault windows — his ult is his engage, his escape, and his teamfight burst all at once. Absolute Focus and Scorch make his early lane poke actually hurt.",
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  secondary:      "Domination",
+  secondaryRunes: ["Sudden Impact","Treasure Hunter"],
+  shards:         ["Adaptive Force","Adaptive Force","Health"],
+  reason:         "Conqueror stacks through his combos and heals him while it lasts, so he wins the longer skirmishes his roams start. Sudden Impact adds damage after his leap or stealth; Treasure Hunter pays gold for his takedowns.",
 };
 
 const TALON_JGL_DEFAULT_RUNES = {
