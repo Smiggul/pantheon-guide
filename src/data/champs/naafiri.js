@@ -10,14 +10,15 @@ const NAAFIRI_JGL_DEFAULT_RUNES = {
   reason:         "Conqueror gives Naafiri very good consistent damage in extended jungle skirmishes — every hit from her summoned hound pack stacks toward the omnivamp. Legend: Alacrity feeds more attacks from the hound swarm; Coup de Grace finishes targets already whittled down. Cosmic Insight and Magical Footwear cut cooldowns and get her boots online for free, both funding a faster jungle clear and gank tempo.",
 };
 
+// Research: Deathfire Touch 53.9% of keystones (Hail of Blades 20.8%), 9,138 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const NAAFIRI_MID_DEFAULT_RUNES = {
-  keystone:       "Hail of Blades",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Sixth Sense","Treasure Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Scorch","Transcendence"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Hail of Blades' burst of attack speed lets Naafiri's hound pack land its whole rotation of hits in the first few seconds of a fight, which is exactly the isolated-target burst window her kit is built around. Sudden Impact procs off the Q dash; Treasure Hunter funds her lethality item spike faster than farming alone. Scorch adds early poke pressure; Transcendence adds haste for more frequent all-ins.",
+  keystone:       "Deathfire Touch",
+  primary:        "Sorcery",
+  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
+  secondary:      "Precision",
+  secondaryRunes: ["Legend: Haste","Cut Down"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Deathfire Touch adds a burn on top of her pack's damage, and Manaflow Band and Transcendence keep her casting through lane. Legend: Haste gets her spells back sooner; Cut Down helps against tankier targets.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

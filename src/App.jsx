@@ -22,6 +22,8 @@ import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { laneOpponent } from "./data/laneOpponent.js";
 import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
+import { laneCountersOf } from "./data/laneCounters.js";
+import { bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
@@ -2276,6 +2278,30 @@ useEffect(() => {
                   })}
                 </span>
               ))}
+              {/* Counter picks into the lane opponent, from lolalytics' lane matchup
+                  table (laneCounters.js, `npm run gen:counters`): the champions that
+                  beat them most, measured against both champions' normal win rate.
+                  Restored 2026-11-23: the 22 Oct redesign dropped the old "Lane
+                  counter" row, which ranked by kit traits instead of real games. */}
+              {draftOpen && csOppDd && (() => {
+                const recs = laneCountersOf(csOppDd, csMyRole).filter((r) => DD_TO_CHAMP[r.dd]).slice(0, 5);
+                if (!recs.length) return null;
+                return (
+                  <span style={row}>
+                    <span>Counters</span>
+                    {recs.map((r) => {
+                      const rc = DD_TO_CHAMP[r.dd];
+                      return (
+                        <button key={r.dd} type="button" onClick={() => pickChamp(rc)}
+                          title={`${rc.display}: ${r.wr}% vs ${csOppDisplay} (${r.games.toLocaleString("en-US")} games)`}
+                          style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block" }}>
+                          {portrait(r.dd, 28, `cs-ctr-${r.dd}`)}
+                        </button>
+                      );
+                    })}
+                  </span>
+                );
+              })()}
               {/* controls */}
               <span style={{ ...row, marginLeft:"auto", flexWrap:"wrap" }}>
                 {csMsg && <span style={{ color:T.text }}>{csMsg}</span>}
@@ -2310,6 +2336,54 @@ useEffect(() => {
                         {dmg.join(" · ")}{wideL && flagText ? ` · ${flagText}` : ""}
                       </span>
                     )}
+                    {/* The team build: the game plan's answers to the whole enemy team
+                        (gamePlan.js "team" items, plus boots changed for the team).
+                        They also sit in the item timeline as blue rings, which read as
+                        "gone" after the redesign, so they are named here too. */}
+                    {(() => {
+                      const teamItems = (plan?.phases || []).flatMap((p) => p.items)
+                        .filter((e) => e.tag === "team" || e.by === "team");
+                      if (!teamItems.length) return null;
+                      return (
+                        <span style={row}>
+                          <span>Vs their team</span>
+                          {teamItems.map((e) => {
+                            const src = itemImg(e.name, itemMap);
+                            const title = e.why ? `${e.name}: ${e.why}` : e.name;
+                            // Architecture rule 3: never <img src={null}>; the name stands in.
+                            return src
+                              ? <img key={e.name} src={src} alt={e.name} title={title}
+                                  style={{ width:"24px", height:"24px", borderRadius:"4px" }} />
+                              : <span key={e.name} title={title} style={{ color:T.text }}>{e.name}</span>;
+                          })}
+                        </span>
+                      );
+                    })()}
+                    {/* Best pick into the whole enemy comp (kit traits, counterPicker.js),
+                        while your pick is open. Restored 2026-11-23 with the counters. */}
+                    {draftOpen && members.length >= 2 && (() => {
+                      const cand = CHAMPS.filter((c) => Object.keys(c.roles || {}).includes(csMyRole)).map((c) => c.dd);
+                      const recs = bestCountersVsComp(members.map((m) => m.dd), cand).filter((r) => r.score > 0).slice(0, 5);
+                      if (!recs.length) return null;
+                      const fmt = (h) => Object.entries(h || {}).sort((a, b) => b[1] - a[1]).slice(0, 3)
+                        .map(([t, n]) => `${n}× ${THREAT_LABEL[t]}`).join(", ");
+                      return (
+                        <span style={row}>
+                          <span>Best vs their comp</span>
+                          {recs.map((r) => {
+                            const rc = DD_TO_CHAMP[r.dd];
+                            if (!rc) return null;
+                            return (
+                              <button key={r.dd} type="button" onClick={() => pickChamp(rc)}
+                                title={`${rc.display}: handles ${fmt(r.handles) || "their kit"}`}
+                                style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block" }}>
+                                {portrait(r.dd, 24, `cs-comp-${r.dd}`)}
+                              </button>
+                            );
+                          })}
+                        </span>
+                      );
+                    })()}
                     {enemyPanelOpen && members.map((m, i) => {
                       const name = DD_TO_CHAMP[m.dd]?.display || m.dd;
                       const ek = `enemy-${m.dd}-${i}`;

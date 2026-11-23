@@ -10,14 +10,15 @@ const MALPHITE_TOP_DEFAULT_RUNES = {
   reason:         "Arcane Comet punishes every landed Seismic Shard from range, matching Malphite's poke-then-engage lane pattern. Manaflow Band and Transcendence solve the mana strain of constant Q poke and add haste; Scorch adds early pressure. Overgrowth and Second Wind cover the early game before Unstoppable Force comes online as a game-changing engage.",
 };
 
+// Research: Press the Attack 51.9% of keystones (Conqueror 0.3%), 7,507 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const MALPHITE_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
+  keystone:       "Press the Attack",
   primary:        "Precision",
-  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
   secondary:      "Inspiration",
   secondaryRunes: ["Magical Footwear","Cosmic Insight"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror's stacking omnivamp fuels Malphite's auto-and-Thunderclap jungle clear, keeping him topped up through invades and skirmishes. Legend: Alacrity feeds the auto-trade ramp; Last Stand rewards fighting through low-HP dives before Unstoppable Force turns a gank around. Magical Footwear and Cosmic Insight cut cooldowns and get his boots online for free, funding a faster clear and more frequent ganks.",
+  reason:         "Press the Attack marks a target after three hits, so your whole team hits it harder, and Legend: Alacrity speeds up his clear. Magical Footwear saves the boots gold; Cosmic Insight brings his ultimate back sooner.",
 };
 
 const MALPHITE_SUP_DEFAULT_RUNES = {

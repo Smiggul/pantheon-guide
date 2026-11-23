@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: Lethal Tempo 52.4% of keystones (Conqueror 16.5%), 27,756 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const BELVETH_JGL_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
+  keystone:       "Lethal Tempo",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Alacrity","Coup de Grace"],
   secondary:      "Inspiration",
-  secondaryRunes: ["Magical Footwear","Cosmic Insight"],
-  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Conqueror stacks instantly through Bel'Veth's quad-dash Q weaving and converts into the sustain her extended True Form brawls run on. Triumph refunds HP through the multi-takedown fights her R resets chain into, Legend: Alacrity compounds the attack-speed scaling that literally is her champion identity, Coup de Grace finishes what the dash barrage starts, and the Inspiration economy line accelerates the Kraken Slayer spike while Cosmic Insight brings True Form up for every objective window.",
+  secondaryRunes: ["Triple Tonic","Cash Back"],
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Lethal Tempo builds attack speed through a long fight, which her kit turns straight into damage. Legend: Alacrity adds more; Triumph and Coup de Grace win the resets and close out kills.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

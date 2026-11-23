@@ -18,6 +18,7 @@
     "audit:builds": "node helpers/audit-builds.mjs",
     "gen:boots": "node helpers/gen-boots-timing.mjs",
     "gen:starts": "node helpers/gen-matchup-starts.mjs",
+    "gen:counters": "node helpers/gen-lane-counters.mjs",
     "check:exports": "node helpers/screen-exports.mjs"
   },
   "build": {

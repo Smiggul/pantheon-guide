@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: Press the Attack 54.2% of keystones (Lethal Tempo 32.9%), 31,477 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const AZIR_MID_DEFAULT_RUNES = {
-  keystone:       "Lethal Tempo",
+  keystone:       "Press the Attack",
   primary:        "Precision",
   primaryRunes:   ["Presence of Mind","Legend: Alacrity","Cut Down"],
   secondary:      "Resolve",
   secondaryRunes: ["Bone Plating","Overgrowth"],
   shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
-  reason:         "Azir is an attack-speed mage — his soldiers strike on his auto-attack timer, so Lethal Tempo directly scales his entire damage output. Presence of Mind sustains the mana-hungry poke phase, Legend: Alacrity stacks even more soldier attack speed, and Cut Down helps shred the frontliners who dive him. Bone Plating and Overgrowth patch up his notoriously weak early laning.",
+  reason:         "Press the Attack triggers quickly off his soldiers' attacks and makes the target take more damage from your team. Presence of Mind and Legend: Alacrity keep the soldiers attacking; Bone Plating and Overgrowth help him survive lane all-ins.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -26,7 +27,7 @@ export default {
       //   point of Nashor's-first: behind at two and three items, ahead at four. Players who take it buy
       //   Sorcerer's Shoes and follow with Shadowflame more often than Nashor's Tooth.
       coreNote:"Dusk and Dawn first instead of Nashor's Tooth. Its spellblade loads extra damage into the soldier attack after each ability, so it front-loads short trades rather than buying the sustained soldier DPS Nashor's gives. It is not a stronger build, finishing within about a point of Nashor's first, so pick it for the trading pattern. Pair it with Sorcerer's Shoes and follow with Shadowflame rather than Nashor's Tooth.",
-      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack instead of the main page's Lethal Tempo, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
+      runes:{ keystone:"Press the Attack", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Alacrity","Cut Down"], secondary:"Sorcery", secondaryRunes:["Manaflow Band","Gathering Storm"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Press the Attack like the main page, with a greedier Sorcery secondary in place of Resolve. Presence of Mind and Manaflow Band together fix his mana for the trade-heavy lane this line plays; Legend: Alacrity adds the attack speed his soldiers want; Cut Down and Gathering Storm scale the mid-late teamfight. Swap back to the Resolve secondary into lanes that can kill you early." },
       sideItems:["Nashor's Tooth","Zhonya's Hourglass","Void Staff","Banshee's Veil","Rylai's Crystal Scepter"],
     }],
   },

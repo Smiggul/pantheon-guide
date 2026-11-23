@@ -40,6 +40,7 @@ import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { mainObject } from "./lolalytics-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const argv = process.argv.slice(2);
@@ -61,33 +62,7 @@ const MIN_ROLE = 1000;      // games on the champion-role before its own start i
 const ALT_MIN_PICK = 3;     // an alternative start needs this share of the role's games
 const KEEP_ROWS = 12;       // start-set rows kept per page in the cache extract
 
-// ── qwik/json -> the page's resolved main object ─────────────────────────────
-// A string INSIDE an object or array is a reference (base 36, optionally behind
-// Qwik's marker characters); a string that IS an objs entry is a literal value.
-const MARK = /^[\u0001-\u0007\u0010-\u0019!#&]+/;
-function mainObject(html) {
-  const tag = '<script type="qwik/json">';
-  const i = html.indexOf(tag);
-  if (i < 0) return null;
-  let objs;
-  try { objs = JSON.parse(html.slice(i + tag.length, html.indexOf("</script>", i))).objs; } catch { return null; }
-  const ref = (v) => {
-    if (typeof v !== "string") return null;
-    const s = v.replace(MARK, "");
-    if (!/^[0-9a-z]+$/.test(s)) return null;
-    const n = parseInt(s, 36);
-    return n < objs.length ? n : null;
-  };
-  const expand = (o, d) => {
-    if (d > 14) return null;
-    if (Array.isArray(o)) return o.map((x) => at(x, d + 1));
-    if (o && typeof o === "object") return Object.fromEntries(Object.entries(o).map(([k, x]) => [k, at(x, d + 1)]));
-    return o;
-  };
-  const at = (v, d) => { const n = ref(v); return n == null ? v : expand(objs[n], d); };
-  const main = objs.filter((o) => o && typeof o === "object" && !Array.isArray(o) && "header" in o && "startSet" in o);
-  return main.length ? expand(main[main.length - 1], 0) : null;
-}
+// ── qwik/json -> the page's resolved main object (helpers/lolalytics-page.mjs) ──
 
 // The few fields this helper needs, small enough to cache by the thousand.
 function extract(html, lane) {

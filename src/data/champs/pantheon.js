@@ -35,14 +35,15 @@ const PANTH_MID_DEFAULT_RUNES = {
   reason:         "Domination secondary maximizes the snowball potential unique to Mid — unlike Top, where Conqueror is the whole identity, Mid Pantheon leans into one-shotting squishies and roaming. Cheap Shot adds true damage on every W-stunned target; Relentless Hunter converts kills into faster roams to the side lanes.",
 };
 
+// Research: Press the Attack 68.0% of keystones (Conqueror 16.6%), 35,409 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const PANTH_SUP_DEFAULT_RUNES = {
-  keystone:       "Conqueror",
+  keystone:       "Press the Attack",
   primary:        "Precision",
   primaryRunes:   ["Triumph","Legend: Haste","Coup de Grace"],
   secondary:      "Domination",
   secondaryRunes: ["Cheap Shot","Relentless Hunter"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Coup de Grace executes low-HP targets after your W stun. Cheap Shot adds true damage on every W. Relentless Hunter enables roaming between Bot and Mid after getting kills.",
+  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
+  reason:         "Press the Attack marks a target after three hits, so his trades and your carry's follow-up hit harder. Legend: Haste keeps Spear Shot and his stun coming, Coup de Grace finishes the fights he starts, and Cheap Shot adds damage on the stun.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
