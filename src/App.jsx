@@ -2294,6 +2294,7 @@ useEffect(() => {
                     <span>Your pool</span>
                     {pick.ranked.map((r) => DD_TO_CHAMP[r.dd] && (
                       <button key={r.dd} type="button" onClick={() => pickChamp(DD_TO_CHAMP[r.dd])}
+                        title={`Play ${nm(r)}`} aria-label={`Play ${nm(r)}`}
                         style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block",
                           opacity: r === best || (pick.close && r === others[0]) ? 1 : 0.55 }}>
                         {portrait(r.dd, 28, `cs-pool-${r.dd}`)}
@@ -2786,6 +2787,17 @@ useEffect(() => {
               </button>
               <h1 style={{ margin:0, fontFamily:T.display, fontSize:"28px", lineHeight:"32px", letterSpacing:"-.02em",
                 fontWeight:800, color:T.text }}>{champ.display}</h1>
+              {/* Favourite: the champion FRGE opens on. Back beside the name at the
+                  owner's request (2026-11-23): tucked into Settings, a stray toggle
+                  left him opening on Sett every launch. A text pill, not a star (no
+                  unapproved icons). The Settings toggle stays as a second way in. */}
+              <button type="button" aria-pressed={favId === champ.id} onClick={() => toggleFav(champ)}
+                title={favId === champ.id ? "Stop opening FRGE on this champion" : "Open FRGE on this champion"}
+                style={{ border:0, borderRadius:"999px", padding:"4px 12px", cursor:"pointer", whiteSpace:"nowrap", flex:"none",
+                  font:`500 13px ${T.font}`, background: favId === champ.id ? colours.active : T.raised,
+                  color: favId === champ.id ? T.text : T.muted }}>
+                {favId === champ.id ? "Favourite" : "Set favourite"}
+              </button>
               <Seg label="Role" items={roles.map((r) => ({ key:r, label:r }))} value={currentRole}
                 onPick={(r) => setActiveRole(r)} colours={colours} />
               <div style={{ display:"flex", alignItems:"center", gap:"14px", flexWrap:"wrap", minWidth:0,
