@@ -16,6 +16,20 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.2.1] — 2026-11-23
+
+### Added
+- **Counters in champ select**: the picks that beat your lane opponent, from real matchup win rates.
+- **Your pool**: which of your own champions to play into your lane opponent, with the win rates side by side.
+- **Vs their team**: the items that answer the whole enemy team, each with a short reason, including champions who stack health, armour or magic resist, and crit carries.
+- **Best vs their comp** is back while your pick is open.
+- **Higher win rate builds**: where a build wins clearly more often than the most played one, it is offered as an alternate beside the Standard build.
+- **Favourite button** beside the champion name: FRGE opens on that champion.
+
+### Changed
+- **Against healers**, the anti-heal part (Executioner's Calling, Oblivion Orb, Bramble Vest) is bought in lane and the item finished later.
+- **Builds checked against patch 26.23**: new rune pages for Viktor Bot, Malphite Jungle, Pantheon Support, Swain, Naafiri, Azir, Nunu, Bel'Veth, Talon Mid and Taliyah; new item orders for Draven, Hecarim, Talon Jungle, Zaahen Jungle and Jhin.
+
 ## [0.23.1.1] — 2026-11-18
 
 ### Changed
