@@ -336,7 +336,7 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
   // the lane opponent heals and the item is not already a lane buy.
   const foeHeals = !!lane?.traits?.heals || offLane.length > 0;
   const fullAH = hasFoe && foeHeals ? kept.find((e, i) => EARLY_PART[e.name] && i >= open.length) : null;
-  if (fullAH) fullAH.why = `finish it from the ${EARLY_PART[fullAH.name]} you bought in lane`;
+  if (fullAH) fullAH.why = `finish from ${EARLY_PART[fullAH.name]}`;
   const laneLen = open.length + (mode === "behind" && kept.length > open.length && isDef(kept[open.length]?.name) ? 1 : 0);
   const phases = [
     { key: "lane", title: "Lane", items: kept.slice(0, laneLen) },
@@ -344,7 +344,7 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
     { key: "late", title: "Late game", items: kept.slice(laneLen + 2) },
   ].filter((p) => p.items.length);
   if (fullAH && phases[0]?.key === "lane") phases[0].items.push({ name: EARLY_PART[fullAH.name], tag: "lane", part: true,
-    why: `Grievous Wounds early: ${foe.display}'s healing wins the lane trades without it` });
+    why: `Grievous Wounds early vs ${foe.display}'s healing` });
 
   return {
     phases,

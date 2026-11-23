@@ -101,7 +101,7 @@ for (const c of CHAMPS) {
         if (w && +w.pri?.[0] === +best.id && w.sec?.length === 2 && w.mod?.length === 3) {
           runes = { keystone: name[best.id], primary: tree[best.id], primaryRunes: w.pri.slice(1).map((i) => name[i]),
             secondary: tree[w.sec[0]], secondaryRunes: w.sec.map((i) => name[i]), shards: w.mod.map((i) => SHARD[i] || String(i)),
-            reason: `${name[best.id]} wins more often here than ${main.keystone}: ${best.wr}% to ${a.wr}% on ${gamePatch}.` };
+            reason: `${name[best.id]}: ${best.wr}% win rate (standard ${main.keystone} ${a.wr}%).` };
           ksNote = { from: main.keystone, to: name[best.id], wr: best.wr, n: best.n, base: a.wr };
         } else report.push(`${c.display} ${role}: ${name[best.id]} ${best.wr}% (${best.n}g) beats ${main.keystone} ${a.wr}%, but the Highest Win page runs another keystone: not generated`);
       }
@@ -134,12 +134,12 @@ for (const c of CHAMPS) {
 
     if (!runes && !corePath) continue;
     const bits = [];
-    if (itNote) bits.push(`${itNote.to} first wins ${itNote.wr}% to ${itNote.from}'s ${itNote.base}%`);
-    if (ksNote) bits.push(`${ksNote.to} wins ${ksNote.wr}% to ${ksNote.from}'s ${ksNote.base}%`);
+    if (itNote) bits.push(`${itNote.to} first: ${itNote.wr}% win rate (standard ${itNote.base}%)`);
+    if (ksNote) bits.push(`${ksNote.to}: ${ksNote.wr}% win rate (standard ${ksNote.base}%)`);
     out[`${c.dd}|${role}`] = {
       label: "Higher win rate", tag: "alt", generated: true,
       corePath: corePath || r.corePath,
-      coreNote: `Wins more often than the standard build on ${gamePatch}, though fewer players run it: ${bits.join("; ")}.`,
+      coreNote: `${bits.join(". ")}.`,
       runes: runes || { ...main },
       sideItems: r.sideItems || [],
       research: { patch, ...(ksNote ? { keystone: ksNote } : {}), ...(itNote ? { firstItem: itNote } : {}) },
@@ -158,5 +158,5 @@ ${Object.entries(out).map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(
 };
 `);
 console.log(`gen-winrate-alts: ${Object.keys(out).length} "Higher win rate" alternates, patch ${patch}`);
-for (const [k, v] of Object.entries(out)) console.log(`  ${k.padEnd(20)} ${v.coreNote.replace(/^Wins more often than the standard build on [\d.]+, though fewer players run it: /, "")}`);
+for (const [k, v] of Object.entries(out)) console.log(`  ${k.padEnd(20)} ${v.coreNote}`);
 if (report.length) { console.log("\nNot generated:"); report.forEach((l) => console.log("  " + l)); }
