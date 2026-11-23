@@ -2342,21 +2342,23 @@ useEffect(() => {
                         "gone" after the redesign, so they are named here too. */}
                     {(() => {
                       const teamItems = (plan?.phases || []).flatMap((p) => p.items)
-                        .filter((e) => e.tag === "team" || e.by === "team");
+                        .filter((e) => e.tag === "team" || e.by === "team" || e.teamNote);
                       if (!teamItems.length) return null;
+                      // Each answer with its reason as text, not a hover (the owner, 2026-11-23).
                       return (
-                        <span style={row}>
+                        <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 16px" }}>
                           <span>Vs their team</span>
                           {teamItems.map((e) => {
                             const src = itemImg(e.name, itemMap);
-                            const title = e.why ? `${e.name}: ${e.why}` : e.name;
-                            // Architecture rule 3: never <img src={null}>; the name stands in.
-                            return src
-                              ? <img key={e.name} src={src} alt={e.name} title={title}
-                                  style={{ width:"24px", height:"24px", borderRadius:"4px" }} />
-                              : <span key={e.name} title={title} style={{ color:T.text }}>{e.name}</span>;
+                            return (
+                              <span key={e.name} style={{ ...row, gap:"6px" }}>
+                                {/* Architecture rule 3: never <img src={null}>. */}
+                                {src && <img src={src} alt="" style={{ width:"24px", height:"24px", borderRadius:"4px" }} />}
+                                <span><b style={{ fontWeight:600, color:T.text }}>{e.name}</b>{e.why ? `: ${e.why}` : ""}</span>
+                              </span>
+                            );
                           })}
-                        </span>
+                        </div>
                       );
                     })()}
                     {/* Best pick into the whole enemy comp (kit traits, counterPicker.js),

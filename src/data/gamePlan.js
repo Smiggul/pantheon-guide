@@ -33,8 +33,26 @@
 //  lcuExport.buildItemSet call it, so the client's item set follows the same
 //  order the player sees.
 // ─────────────────────────────────────────────────────────────────────────────
-import { matchupAdvice, foeTraits, isRanged, ADD, MR_ITEMS, ARMOR_SET, ANTIHEAL_ITEMS, LETHALITY } from "./matchupAdjust.js";
+import { matchupAdvice, foeTraits, isRanged, ADD, MR_ITEMS, ARMOR_SET, ANTIHEAL_ITEMS, LETHALITY, HP_ITEMS, ARMOR_ITEMS } from "./matchupAdjust.js";
 import { myProfileOf, teamThreats } from "./enemyTeam.js";
+import { classOf } from "./champClasses.js";
+import { CHAMPS } from "./champs/index.js";
+
+// ── Stackers and crit carries in the enemy team (2026-11-23) ────────────────
+// Read from each enemy's OWN main build in this app's data (audit-builds keeps it
+// current), the way matchupAdjust reads the lane opponent: two or more items of a
+// kind is a stacker. Each answer names the champions in its reason, and the
+// reason is shown as text (not a hover) under the item.
+const CHAMP_BY_DD = Object.fromEntries(CHAMPS.map((c) => [c.dd, c]));
+const MR_STACK_ITEMS = new Set(["Force of Nature", "Kaenic Rookern", "Spirit Visage", "Abyssal Mask", "Maw of Malmortius",
+  "Wit's End", "Jak'Sho, The Protean", "Banshee's Veil", "Hollow Radiance", "Mercurial Scimitar", "Verdant Barrier"]);
+const CRIT_ITEMS = new Set(["Infinity Edge", "The Collector", "Navori Flickerblade", "Yun Tal Wildarrows", "Rapid Firecannon",
+  "Phantom Dancer", "Essence Reaver", "Hexoptics C44", "Immortal Shieldbow", "Stormrazor", "Lord Dominik's Regards", "Bloodthirster"]);
+// Already answering stacked health/armor: percent penetration, armor shred or current-health damage.
+const PEN_ITEMS = new Set(["Lord Dominik's Regards", "Serylda's Grudge", "Black Cleaver", "Mortal Reminder",
+  "Blade of The Ruined King", "Terminus"]);
+const MAGIC_PEN_ITEMS = new Set(["Void Staff", "Cryptbloom"]);
+const BRUISER_CLASSES = new Set(["JUGGERNAUT", "DIVER"]);
 import { BOOTS_TIMING } from "./bootsTiming.js";
 
 const BOOTS = ["Plated Steelcaps", "Mercury's Treads", "Sorcerer's Shoes", "Berserker's Greaves",
@@ -176,6 +194,60 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
     if (team.shields >= 1 && prof.startsWith("AD") && listed().some((n) => LETHALITY.has(n)))
       addTeam("Serpent's Fang", "cuts the shields they lean on");
     if (team.dive >= 1) addTeam(ANTIDIVE[prof], team.dive >= 2 ? "survive their dive" : "survive their assassin");
+
+    // Stackers and crit carries, by name. Item passives as Riot words them (16.23):
+    // LDR Giant Slayer + 35% armor pen, Ruined King Mist's Edge (current health),
+    // Serylda's 35% armor pen, Black Cleaver Carve, Liandry's max-health burn,
+    // Void Staff 40% magic pen, Randuin's Resilience (30% less crit damage).
+    const foes = dds.map((d) => CHAMP_BY_DD[d]).filter(Boolean).map((c) => ({ c, b: foeTraits(c, null).build }));
+    const count = (b, set) => b.filter((n) => set.has(n) && n !== "Plated Steelcaps").length;
+    const hpS = foes.filter((f) => count(f.b, HP_ITEMS) >= 2).map((f) => f.c);
+    const armS = foes.filter((f) => count(f.b, ARMOR_ITEMS) >= 2).map((f) => f.c);
+    const mrS = foes.filter((f) => count(f.b, MR_STACK_ITEMS) >= 2).map((f) => f.c);
+    const critS = foes.filter((f) => count(f.b, CRIT_ITEMS) >= 2).map((f) => f.c);
+    const names = (list) => list.slice(0, 2).map((c) => c.display).join(" and ");
+    const lethal = listed().some((n) => LETHALITY.has(n));
+    // The build may already hold the answer (Jinx builds Lord Dominik's anyway): then the
+    // reason goes on that item instead, so the player still sees why it matters here.
+    const noteOn = (set, why) => {
+      const e = [...entries, ...laneAdds].find((x) => set.has(x.name));
+      if (e && !e.why) { e.why = why; e.teamNote = true; }
+    };
+    // Every stacker is named (up to two), with what the team stacks between them.
+    const who = { list: [...new Set([...hpS, ...armS])],
+      what: hpS.length && armS.length ? "health and armor" : hpS.length ? "health" : "armor" };
+    const PEN_WHY = {
+      "Lord Dominik's Regards": `Giant Slayer and 35% armor pen into ${names(who.list)}'s ${who.what} stacking`,
+      "Serylda's Grudge": `35% armor pen into ${names(who.list)}'s ${who.what} stacking`,
+      "Black Cleaver": `Carve shreds ${names(who.list)}'s armor`,
+      "Blade of The Ruined King": `Mist's Edge hits for a share of current health: ${names(who.list)} stacks ${who.what}`,
+      "Mortal Reminder": `armor pen into ${names(who.list)}'s ${who.what} stacking`,
+      "Terminus": `armor pen on its dark attacks into ${names(who.list)}'s ${who.what} stacking`,
+    };
+    if ((hpS.length || armS.length) && covers(PEN_ITEMS)) {
+      const e = [...entries, ...laneAdds].find((x) => PEN_WHY[x.name]);
+      if (e) noteOn(new Set([e.name]), PEN_WHY[e.name]);
+    }
+    if (prof === "AP" && mrS.length && covers(MAGIC_PEN_ITEMS))
+      noteOn(MAGIC_PEN_ITEMS, `magic pen into ${names(mrS)}'s magic resist stacking`);
+    if ((hpS.length || armS.length) && !covers(PEN_ITEMS)) {
+      if (prof === "AD_RANGED") {
+        addTeam("Lord Dominik's Regards", PEN_WHY["Lord Dominik's Regards"]);
+      } else if (prof === "AD" && lethal) {
+        addTeam("Serylda's Grudge", PEN_WHY["Serylda's Grudge"]);
+      } else if (prof === "AD" && hpS.length) {
+        addTeam("Blade of The Ruined King", PEN_WHY["Blade of The Ruined King"]);
+      } else if (prof === "AD") {
+        addTeam("Black Cleaver", PEN_WHY["Black Cleaver"]);
+      } else if (prof === "AP" && hpS.length) {
+        addTeam("Liandry's Torment", `Torment burns max health: ${names(hpS)} stacks health`);
+      }
+    }
+    if (prof === "AP" && mrS.length && !covers(MAGIC_PEN_ITEMS))
+      addTeam("Void Staff", `40% magic pen into ${names(mrS)}'s magic resist stacking`);
+    if (critS.length && (prof === "TANK" || (prof === "AD" && BRUISER_CLASSES.has(classOf(champ.dd))))
+      && !covers(new Set(["Randuin's Omen"])))
+      addTeam("Randuin's Omen", `Resilience: 30% less damage from ${names(critS)}'s critical strikes`);
     // No lane opponent yet: the team's damage picks the boots instead.
     if (!lane && boots && (boots.name === "Plated Steelcaps" || boots.name === "Mercury's Treads")) {
       const want = apLean || (team.cc >= 2 && !adLean) ? "Mercury's Treads" : adLean ? "Plated Steelcaps" : null;
