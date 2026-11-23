@@ -86,6 +86,13 @@ const tagsFrom = (notes) => {
   for (const p of notes?.plan?.phases || []) for (const e of p.items) m.set(String(e.name).toLowerCase(), e.tag);
   return (name) => { const t = m.get(String(name || "").toLowerCase()); return t === "lane" || t === "team" ? t : null; };
 };
+// ...and the reason each lane / team answer was added, shown as text under the item
+// (the owner, 2026-11-23: "a brief explanation, rather than a hover").
+const whysFrom = (notes) => {
+  const m = new Map();
+  for (const p of notes?.plan?.phases || []) for (const e of p.items) if (e.why) m.set(String(e.name).toLowerCase(), e.why);
+  return (name) => m.get(String(name || "").toLowerCase()) || null;
+};
 
 // ── the item set, as the client receives it ──────────────────────────────────
 // Every block in buying order except Situational (it has its own card). Wide:
@@ -96,6 +103,7 @@ export function ItemSetCard({ blocks, notes, itemName, colours, layout, sub: sub
   const size = wide ? 40 : 34;
   const pad = wide ? 20 : 18;
   const tagOf = tagsFrom(notes);
+  const whyOf = whysFrom(notes);
   const shown = (blocks || []).filter((b) => b.type !== "Situational");
   const firstStart = shown.findIndex((b) => /^Start/.test(b.type));
   const tags = new Set(shown.flatMap((b) => b.items.map((it) => tagOf(itemName(it.id)))).filter(Boolean));
@@ -116,7 +124,12 @@ export function ItemSetCard({ blocks, notes, itemName, colours, layout, sub: sub
               return (
                 <div key={k} style={{ display: "flex", gap: "10px", alignItems: "center", minWidth: 0 }}>
                   <ItemIcon id={it.id} name={name} size={size} tag={t} count={it.count} hover={itemHover} />
-                  <span style={{ minWidth: 0, lineHeight: "18px", color: t === "lane" ? LANE : t === "team" ? TEAM : T.text }}>{name}</span>
+                  <span style={{ minWidth: 0, lineHeight: "18px", color: t === "lane" ? LANE : t === "team" ? TEAM : T.text }}>
+                    {name}
+                    {whyOf(name) && (
+                      <span style={{ display: "block", fontSize: "12px", lineHeight: "16px", color: T.muted }}>{cap1(whyOf(name))}</span>
+                    )}
+                  </span>
                 </div>
               );
             })}

@@ -57,8 +57,9 @@ export default {
     Jungle:{
       bans:["Kayn","Nocturne","Warwick"], replacements:["Wukong","Sett","Shyvana"],
       role:"Off-Meta Skirmish Jungler",
-      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Sundered Sky  ›  Death's Dance",
-      coreNote:"Jungle Zaahen leans on his Determination stacking and self-revive to win extended skirmishes rather than clean gank tempo — same itemization core as Top. Trinity Force and Sundered Sky reward his auto-into-ability trade pattern in every camp clear and 1v1; Plated Steelcaps and Death's Dance let him survive invades long enough for stacks and the resurrection window to take over.",
+      // Research: Trinity > Stridebreaker > Death's Dance the top 3-item order (23%; Trinity > Sundered Sky under 8%), 11,897 games (thin for 3-item orders); lolalytics 16.23 Emerald+ build-itemset, exact 3-item orders (2026-11-23).
+      corePath:"Trinity Force  ›  Plated Steelcaps  ›  Stridebreaker  ›  Death's Dance",
+      coreNote:"Jungle Zaahen leans on his Determination stacking and self-revive to win extended skirmishes rather than clean gank tempo. Trinity Force rewards his auto-into-ability trade pattern in every camp clear and 1v1, and Stridebreaker's dash and slow keep him on his target; Plated Steelcaps and Death's Dance let him survive invades long enough for stacks and the resurrection window to take over.",
       sideItems:["Endless Hunger","Guardian Angel","Sterak's Gage","Force of Nature","Thornmail","Spirit Visage"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Healing wins the extended skirmish."),I("Trinity Force","Proc damage adds up over the fight."),I("Death's Dance","Outlast their sustain with your own.")],behind:[I("Plated Steelcaps","Reduces auto damage from a counter-gank."),I("Thornmail","GW cuts their regen."),I("Sterak's Gage","Shield when the walk-down connects.")],runes:{...ZAAHEN_JGL_DEFAULT_RUNES}},

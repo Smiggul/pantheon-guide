@@ -22,8 +22,9 @@ export default {
     Bot:{
       bans:["Xerath","Ziggs","Ashe"], replacements:["Jinx","Kai'Sa","Yunara"],
       role:"Marksman / Snowball Lane Bully",
-      corePath:"Hubris  ›  Hexoptics C44  ›  Infinity Edge  ›  Lord Dominik's Regards",
-      coreNote:"Draven plays for an all-in snowball lane — catch spinning axes for stacking bonus damage, and the earlier he gets ahead the harder he scales out of control. Hubris rewards aggressive early takedowns with permanent AD; Hexoptics C44 adds an early spike; Infinity Edge and Lord Dominik's Regards scale the crit into a real late-game DPS threat.",
+      // Research: Bloodthirster opens 51% (Hubris 18%) of 39,129 games; Bloodthirster > Hexoptics C44 > Infinity Edge is the top 3-item order (20%, Hubris-first orders under 5%); lolalytics 16.23 Emerald+ build-itemset, exact 3-item orders (2026-11-23).
+      corePath:"Bloodthirster  ›  Hexoptics C44  ›  Infinity Edge  ›  Lord Dominik's Regards",
+      coreNote:"Draven plays for an all-in snowball lane — catch spinning axes for stacking bonus damage, and the earlier he gets ahead the harder he scales out of control. Bloodthirster first gives the life steal and shield that keep him in the long trades his axes win; Hexoptics C44 adds an early spike; Infinity Edge and Lord Dominik's Regards scale the crit into a real late-game DPS threat.",
       sideItems:["Gluttonous Greaves","Mercury's Treads","Bloodthirster","Guardian Angel","Serylda's Grudge","Wit's End"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacking."),I("Hubris","Permanent AD from early takedowns snowballs the lane."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Gluttonous Greaves","Lifesteal to survive."),I("Mercury's Treads","Shorter CC before the kill.")],runes:{...DRAVEN_BOT_DEFAULT_RUNES}},

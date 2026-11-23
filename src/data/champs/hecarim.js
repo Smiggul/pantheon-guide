@@ -22,8 +22,9 @@ export default {
     Jungle:{
       bans:["Skarner","Udyr","Sylas"], replacements:["Jarvan IV","Volibear","Wukong"],
       role:"Momentum Dive Bruiser",
-      corePath:"Spear of Shojin  ›  Ionian Boots of Lucidity  ›  Black Cleaver  ›  Death's Dance",
-      coreNote:"Hecarim is momentum incarnate — every gank starts at 600 move speed and ends with an E charge through someone's health bar. Spear of Shojin feeds the Q-spam haste loop that defines his DPS, Black Cleaver shreds while stacking the HP his dives need, Death's Dance converts burst into a bleed he heals through, and Endless Hunger closes the sustain loop. Onslaught of Shadows is a fear no positioning answers — ult the carry lengthwise and the fight starts 4v5.",
+      // Research: Shojin > Death's Dance 32% of first-two pairs (Shojin > Black Cleaver 15%) of 49,676 games; Shojin > Death's Dance > Endless Hunger the top 3-item order (16%); lolalytics 16.23 Emerald+ build-itemset, exact 3-item orders (2026-11-23).
+      corePath:"Spear of Shojin  ›  Ionian Boots of Lucidity  ›  Death's Dance  ›  Endless Hunger",
+      coreNote:"Hecarim is momentum incarnate — every gank starts at 600 move speed and ends with an E charge through someone's health bar. Spear of Shojin feeds the Q-spam haste loop that defines his DPS, Death's Dance second converts burst into a bleed he heals through, and Endless Hunger closes the sustain loop. Onslaught of Shadows is a fear no positioning answers — ult the carry lengthwise and the fight starts 4v5.",
       sideItems:["Endless Hunger","Maw of Malmortius","Sterak's Gage","Guardian Angel","Sundered Sky","Dead Man's Plate"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred them while Q-spinning through the brawl."),I("Death's Dance","Bleed conversion outlasts their trade pattern."),I("Spear of Shojin","Haste loop means endless Qs.")],behind:[I("Death's Dance","Survive their burst and heal it back."),I("Sterak's Gage","Shield the all-in you can't kite."),I("Dead Man's Plate","Speed to disengage the loss.")],runes:{...HECARIM_JGL_DEFAULT_RUNES}},

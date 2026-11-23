@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: Conqueror 40.5% of keystones (Deathfire Touch 14.6%), 7,692 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const SWAIN_MID_DEFAULT_RUNES = {
-  keystone:       "Deathfire Touch",
-  primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Presence of Mind","Legend: Haste","Last Stand"],
   secondary:      "Resolve",
   secondaryRunes: ["Conditioning","Overgrowth"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Deathfire Touch's DoT fits Swain's sustained-burn identity better than a single poke hit — every ability applies it, stacking with Liandry's on the same target. Manaflow Band solves early mana strain. Transcendence's haste shortens the cooldown loop for more Q poke windows. Conditioning and Overgrowth let Swain survive lane before Demonic Ascension makes him a real teamfight threat.",
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Conqueror stacks over a long fight and heals him from his damage, which suits a mage who wants to stand in the middle of it. Presence of Mind and Legend: Haste keep his abilities flowing; Conditioning and Overgrowth make him harder to burst while he drains.",
 };
 
 const SWAIN_SUP_DEFAULT_RUNES = {

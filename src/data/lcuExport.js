@@ -490,7 +490,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
       plan: plan ? {
         mode,
         phases: plan.phases.map((p) => ({ key: p.key, title: p.title,
-          items: p.items.map((e) => ({ name: e.name, tag: e.by || e.tag, from: e.from || null })) })),
+          items: p.items.map((e) => ({ name: e.name, tag: e.by || e.tag, from: e.from || null, why: e.why || null })) })),
         conflicts: plan.conflicts,
       } : null,
     },

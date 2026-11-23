@@ -42,11 +42,11 @@ const HP_CLASSES = new Set(["JUGGERNAUT", "VANGUARD", "WARDEN"]);
 const BURST_CLASSES = new Set(["ASSASSIN", "BURST_MAGE"]);
 
 // Items that are mostly health, and mostly armor, for reading the opponent's build.
-const HP_ITEMS = new Set(["Heartsteel", "Sunfire Aegis", "Warmog's Armor", "Riftmaker", "Rylai's Crystal Scepter",
+export const HP_ITEMS = new Set(["Heartsteel", "Sunfire Aegis", "Warmog's Armor", "Riftmaker", "Rylai's Crystal Scepter",
   "Liandry's Torment", "Titanic Hydra", "Sterak's Gage", "Spirit Visage", "Jak'Sho, The Protean", "Kaenic Rookern",
   "Unending Despair", "Hollow Radiance", "Overlord's Bloodmail", "Black Cleaver", "Rod of Ages", "Randuin's Omen",
   "Dead Man's Plate", "Force of Nature", "Trinity Force", "Sundered Sky", "Experimental Hexplate", "Cosmic Drive"]);
-const ARMOR_ITEMS = new Set(["Thornmail", "Randuin's Omen", "Frozen Heart", "Dead Man's Plate", "Sunfire Aegis",
+export const ARMOR_ITEMS = new Set(["Thornmail", "Randuin's Omen", "Frozen Heart", "Dead Man's Plate", "Sunfire Aegis",
   "Iceborn Gauntlet", "Plated Steelcaps", "Death's Dance", "Zhonya's Hourglass", "Jak'Sho, The Protean", "Guardian Angel"]);
 
 // Defensive swaps: item -> the same slot's answer to the other damage type, BY

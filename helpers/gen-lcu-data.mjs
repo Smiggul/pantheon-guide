@@ -86,7 +86,9 @@ for (const c of mod.CHAMPS) {
  // Support quest line + finished support items — buildItemSet emits these for
  // every Support role even though no corePath lists the World Atlas start.
  "World Atlas","Runic Compass","Bloodsong","Solstice Sleigh","Celestial Opposition",
- "Dream Maker","Zaz'Zak's Realmspike"].forEach((n) => used.add(n));
+ "Dream Maker","Zaz'Zak's Realmspike",
+ // Anti-heal parts the game plan buys early (gamePlan.js EARLY_PART), finishing the item later.
+ "Executioner's Calling","Oblivion Orb","Bramble Vest"].forEach((n) => used.add(n));
 
 // The lane starts players actually buy (src/data/matchupStarts.js, written by
 // npm run gen:starts) name items no corePath does: Long Sword, Cull, Tear of the

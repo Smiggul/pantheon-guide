@@ -20,26 +20,26 @@ export default {
   lanes:["Bot"],
   altBuilds:{
     Bot:[{
-      label:"Phantom Dancer kite", tag:"alt",
-      corePath:"Hubris  ›  Phantom Dancer  ›  Infinity Edge  ›  Rapid Firecannon",
-      // Research: Move speed on crit scales 0.44% per point of bonus attack speed, so Phantom Dancer's 65% adds roughly
-      //   29%. On 26.20 it is about a quarter of Jhin games against a third for The Collector, with a slightly
-      //   higher win rate.
-      coreNote:"Phantom Dancer looks wrong on a champion who cannot attack faster, but Jhin converts bonus attack speed into AD, and his on-crit move speed scales off that same bonus: Phantom Dancer adds roughly 29% on top of his base 14%, about 43% in total. It turns the most immobile marksman into a kiting one, and wins slightly more often than The Collector second. Take it into dive and assassin threats; The Collector does more damage when you are safe.",
+      label:"Collector execute", tag:"alt",
+      corePath:"Hubris  ›  The Collector  ›  Infinity Edge  ›  Rapid Firecannon",
+      // Research: Hubris > The Collector was the main build until 16.23: 16% of first-two pairs and 49.8% WR over 6,520
+      //   3-item games, vs Hubris > Phantom Dancer 28% and 53.6% over 14,823 (lolalytics 16.23 Emerald+, 2026-11-23).
+      coreNote:"The Collector second executes champions below 5% health, exactly where the fourth shot leaves them, and pays 25 bonus gold per kill. It does more damage than Phantom Dancer when nobody can reach you; take it when their team has no dive.",
       runes:{...JHIN_BOT_DEFAULT_RUNES},
-      sideItems:["Boots of Swiftness","The Collector","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
+      sideItems:["Boots of Swiftness","Phantom Dancer","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
     }],
   },
   roles:{
     Bot:{
       bans:["Draven","Samira","Kalista"], replacements:["Jinx","Caitlyn","Yunara"],
       role:"Marksman / Fourth-Shot Executioner",
-      corePath:"Hubris  ›  The Collector  ›  Infinity Edge  ›  Rapid Firecannon",
-      // Research: Hubris is his first item in about two thirds of Emerald+ games on 26.20, and The Collector is the most
-      //   common second item. Rapid Firecannon and Lord Dominik's Regards are a near-even split fourth. Phantom
-      //   Dancer second is a close second choice.
-      coreNote:"Jhin plays for the fourth-shot crit. Hubris first. The Collector second executes champions below 5% health, exactly where the fourth shot leaves them, and pays 25 bonus gold per kill. Infinity Edge third spikes crit damage, then Rapid Firecannon or Lord Dominik's Regards fourth; take Lord Dominik's into health stackers. Phantom Dancer second is the alternate for when you need to kite rather than execute.",
-      sideItems:["Boots of Swiftness","Phantom Dancer","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
+      // Research: win rate over pick rate (the owner's rule, 2026-11-23): Hubris > Phantom Dancer > Infinity Edge wins
+      //   53.6% over 14,823 games and is now also the most common (28% of first-two pairs); Hubris > The Collector 49.8%
+      //   over 6,520 (lolalytics 16.23 Emerald+). Phantom Dancer's 65% bonus attack speed adds about 29% to his on-crit
+      //   move speed (0.44% per point), on top of the base 14%.
+      corePath:"Hubris  ›  Phantom Dancer  ›  Infinity Edge  ›  Rapid Firecannon",
+      coreNote:"Jhin plays for the fourth-shot crit. Hubris first. Phantom Dancer second looks wrong on a champion who cannot attack faster, but Jhin turns bonus attack speed into AD, and his on-crit move speed scales off it: about 43% in total, so the most immobile marksman can kite. Infinity Edge third spikes crit damage, then Rapid Firecannon or Lord Dominik's Regards; take Lord Dominik's into health stackers. The Collector second is the alternate when nobody can reach you.",
+      sideItems:["Boots of Swiftness","The Collector","Lord Dominik's Regards","Guardian Angel","Mercury's Treads","Bloodthirster"],
       data:{
         JUGGERNAUT:{ahead:[I("Lord Dominik's Regards","Armor pen cuts through their stacked resists."),I("The Collector","Execute finishes what the fourth shot chunked."),I("Infinity Edge","Crit damage wins the trade outright.")],behind:[I("Guardian Angel","Second life vs their walk-down."),I("Mercury's Treads","Shorter CC before the kill."),I("Bloodthirster","Shield + lifesteal to survive.")],runes:{...JHIN_BOT_DEFAULT_RUNES}},
         DIVER:{ahead:[I("Rapid Firecannon","Range + slow kites the dive from max distance."),I("Infinity Edge","Crit damage punishes the failed dive."),I("Boots of Swiftness","Move speed to reposition the fourth shot.")],behind:[I("Boots of Swiftness","Reposition out of their engage range."),I("Mercury's Treads","Shorter CC on their engage."),I("Guardian Angel","Second life.")],runes:{...JHIN_BOT_DEFAULT_RUNES}},

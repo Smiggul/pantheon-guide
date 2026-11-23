@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: Stormraider's Surge 51.5% of keystones (Dark Harvest 25.7%), 21,711 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const NUNU_JGL_DEFAULT_RUNES = {
-  keystone:       "Dark Harvest",
-  primary:        "Domination",
-  primaryRunes:   ["Cheap Shot","Grisly Mementos","Relentless Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Celerity","Waterwalking"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Current Nunu is an AP snowball bomber, not a tank — Dark Harvest stacks off every landed snowball-into-Consume gank and scales the burst curve his one-shot combo depends on. Cheap Shot fires true damage on every W knockup and E root, Grisly Mementos stacks haste off the gank tempo, Relentless Hunter plus Celerity plus Waterwalking make the snowball roll from further than anyone wards, and the whole page turns 'here comes Willump' into a scream with a body count.",
+  keystone:       "Stormraider's Surge",
+  primary:        "Sorcery",
+  primaryRunes:   ["Nimbus Cloak","Celerity","Waterwalking"],
+  secondary:      "Precision",
+  secondaryRunes: ["Triumph","Legend: Haste"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Stormraider's Surge gives speed when he lands his damage, which suits snowball ganks. Nimbus Cloak, Celerity and Waterwalking add more speed around the map; Legend: Haste gets his abilities back sooner.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════

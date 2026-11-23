@@ -1,13 +1,15 @@
 import { I } from "../runeHelpers.js";
 
+// Research: the Standard page is the most played: Stormraider's Surge 41.9% of 27,604 games (50.8% WR), Deathfire Touch
+//   24.9% (49.8%); lolalytics 16.23 Emerald+ (2026-11-23). Summon Aery wins more (53.2% over 4,309) and is the alternate.
 const TALIYAH_MID_DEFAULT_RUNES = {
-  keystone:       "Deathfire Touch",
+  keystone:       "Stormraider's Surge",
   primary:        "Sorcery",
   primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Precision",
-  secondaryRunes: ["Presence of Mind","Legend: Haste"],
-  shards:         ["Ability Haste","Adaptive Force","Health (scaling)"],
-  reason:         "Mid Taliyah plays a control-mage pattern — Worked Ground Q spam over a seismic minefield — and Deathfire Touch adds a burn to every boulder that lands. Manaflow Band and Presence of Mind together erase her mana problems, Transcendence and Legend: Haste feed the Q/W/E cooldown loop her zone control runs on, and Scorch wins the early poke war before her first item comes online.",
+  secondaryRunes: ["Legend: Haste","Presence of Mind"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Stormraider's Surge gives speed when she lands her burst, which suits her roams. Manaflow Band, Transcendence and Scorch add mana and poke; Legend: Haste and Presence of Mind keep her casting.",
 };
 
 const TALIYAH_JGL_DEFAULT_RUNES = {
@@ -46,7 +48,7 @@ export default {
       //   Keystones over 20,829 games: Stormraider's 30.4%, Deathfire Touch 26.1% (the main, WR 50.6%), Aery 25.3% (WR 53.2%,
       //   the best of the three). Page from Skill Capped's "10 Most OP One Trick Builds" (22 Oct 2026): Manaflow Band,
       //   Celerity, Scorch, Legend: Haste, Cut Down, a Move Speed shard. Items match the main build (Blackfire first 73.6%).
-      coreNote:"Summon Aery instead of Deathfire Touch for steadier poke: every Threaded Volley hit sends Aery, and Celerity and the Move Speed shard speed up the roams.",
+      coreNote:"Higher win rate than the standard page (53.2% to 50.8%). Summon Aery instead of Stormraider's Surge for steadier poke: every Threaded Volley hit sends Aery, and Celerity and the Move Speed shard speed up the roams.",
       runes:{...TALIYAH_MID_DEFAULT_RUNES, keystone:"Summon Aery", primaryRunes:["Manaflow Band","Celerity","Scorch"], secondaryRunes:["Legend: Haste","Cut Down"], shards:["Adaptive Force","Move Speed","Health (scaling)"], reason:"Summon Aery adds damage to each poke hit; Manaflow Band funds the spell spam, Celerity strengthens every speed bonus for the roams, and Scorch adds lane poke. Legend: Haste for more Threaded Volleys, Cut Down against tanky targets."},
       sideItems:["Rabadon's Deathcap","Liandry's Torment","Cosmic Drive","Shadowflame","Void Staff","Banshee's Veil"],
     }],

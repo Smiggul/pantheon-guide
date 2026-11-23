@@ -22,6 +22,9 @@ import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { laneOpponent } from "./data/laneOpponent.js";
 import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
+import { laneCountersOf } from "./data/laneCounters.js";
+import { poolPick } from "./data/poolMatchups.js";
+import { bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
 import { randomSkinNum } from "./data/champSkins.js";
@@ -2276,6 +2279,60 @@ useEffect(() => {
                   })}
                 </span>
               ))}
+              {/* Your pool (the owner's personal pick check, 2026-11-23): which of his own
+                  champions to play into this lane opponent, ranked by win rate in his
+                  bracket (poolMatchups.js, helpers/gen-pool-matchups.mjs). Text, not a hover. */}
+              {draftOpen && csOppDd && (() => {
+                const pick = poolPick(csMyRole, csOppDd);
+                if (!pick) return null;
+                const [best, ...others] = pick.ranked;
+                const pct = (r) => `${r[pick.key]}%`;
+                const nm = (r) => DD_TO_CHAMP[r.dd]?.display || r.dd;
+                const lead = pick.close ? `${nm(best)} or ${nm(others[0])}` : nm(best);
+                return (
+                  <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 10px" }}>
+                    <span>Your pool</span>
+                    {pick.ranked.map((r) => DD_TO_CHAMP[r.dd] && (
+                      <button key={r.dd} type="button" onClick={() => pickChamp(DD_TO_CHAMP[r.dd])}
+                        title={`Play ${nm(r)}`} aria-label={`Play ${nm(r)}`}
+                        style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block",
+                          opacity: r === best || (pick.close && r === others[0]) ? 1 : 0.55 }}>
+                        {portrait(r.dd, 28, `cs-pool-${r.dd}`)}
+                      </button>
+                    ))}
+                    <span style={{ color:T.text }}>
+                      <b style={{ fontWeight:600 }}>Play {lead}</b>
+                      {`: ${pct(best)} vs ${csOppDisplay}`}
+                      {others.length ? ` (${others.map((r) => `${nm(r)} ${pct(r)}`).join(", ")})` : ""}
+                      {pick.close ? ". Close: play your comfort pick" : ""}
+                    </span>
+                  </div>
+                );
+              })()}
+              {/* Counter picks into the lane opponent, from lolalytics' lane matchup
+                  table (laneCounters.js, `npm run gen:counters`): the champions that
+                  beat them most, measured against both champions' normal win rate.
+                  Restored 2026-11-23: the 22 Oct redesign dropped the old "Lane
+                  counter" row, which ranked by kit traits instead of real games. */}
+              {draftOpen && csOppDd && (() => {
+                const recs = laneCountersOf(csOppDd, csMyRole).filter((r) => DD_TO_CHAMP[r.dd]).slice(0, 5);
+                if (!recs.length) return null;
+                return (
+                  <span style={row}>
+                    <span>Counters</span>
+                    {recs.map((r) => {
+                      const rc = DD_TO_CHAMP[r.dd];
+                      return (
+                        <button key={r.dd} type="button" onClick={() => pickChamp(rc)}
+                          title={`${rc.display}: ${r.wr}% vs ${csOppDisplay}`}
+                          style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block" }}>
+                          {portrait(r.dd, 28, `cs-ctr-${r.dd}`)}
+                        </button>
+                      );
+                    })}
+                  </span>
+                );
+              })()}
               {/* controls */}
               <span style={{ ...row, marginLeft:"auto", flexWrap:"wrap" }}>
                 {csMsg && <span style={{ color:T.text }}>{csMsg}</span>}
@@ -2310,6 +2367,56 @@ useEffect(() => {
                         {dmg.join(" · ")}{wideL && flagText ? ` · ${flagText}` : ""}
                       </span>
                     )}
+                    {/* The team build: the game plan's answers to the whole enemy team
+                        (gamePlan.js "team" items, plus boots changed for the team).
+                        They also sit in the item timeline as blue rings, which read as
+                        "gone" after the redesign, so they are named here too. */}
+                    {(() => {
+                      const teamItems = (plan?.phases || []).flatMap((p) => p.items)
+                        .filter((e) => e.tag === "team" || e.by === "team" || e.teamNote);
+                      if (!teamItems.length) return null;
+                      // Each answer with its reason as text, not a hover (the owner, 2026-11-23).
+                      return (
+                        <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 16px" }}>
+                          <span>Vs their team</span>
+                          {teamItems.map((e) => {
+                            const src = itemImg(e.name, itemMap);
+                            return (
+                              <span key={e.name} style={{ ...row, gap:"6px" }}>
+                                {/* Architecture rule 3: never <img src={null}>. */}
+                                {src && <img src={src} alt="" style={{ width:"24px", height:"24px", borderRadius:"4px" }} />}
+                                <span><b style={{ fontWeight:600, color:T.text }}>{e.name}</b>{e.why ? `: ${e.why}` : ""}</span>
+                              </span>
+                            );
+                          })}
+                        </div>
+                      );
+                    })()}
+                    {/* Best pick into the whole enemy comp (kit traits, counterPicker.js),
+                        while your pick is open. Restored 2026-11-23 with the counters. */}
+                    {draftOpen && members.length >= 2 && (() => {
+                      const cand = CHAMPS.filter((c) => Object.keys(c.roles || {}).includes(csMyRole)).map((c) => c.dd);
+                      const recs = bestCountersVsComp(members.map((m) => m.dd), cand).filter((r) => r.score > 0).slice(0, 5);
+                      if (!recs.length) return null;
+                      const fmt = (h) => Object.entries(h || {}).sort((a, b) => b[1] - a[1]).slice(0, 3)
+                        .map(([t, n]) => `${n}× ${THREAT_LABEL[t]}`).join(", ");
+                      return (
+                        <span style={row}>
+                          <span>Best vs their comp</span>
+                          {recs.map((r) => {
+                            const rc = DD_TO_CHAMP[r.dd];
+                            if (!rc) return null;
+                            return (
+                              <button key={r.dd} type="button" onClick={() => pickChamp(rc)}
+                                title={`${rc.display}: handles ${fmt(r.handles) || "their kit"}`}
+                                style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block" }}>
+                                {portrait(r.dd, 24, `cs-comp-${r.dd}`)}
+                              </button>
+                            );
+                          })}
+                        </span>
+                      );
+                    })()}
                     {enemyPanelOpen && members.map((m, i) => {
                       const name = DD_TO_CHAMP[m.dd]?.display || m.dd;
                       const ek = `enemy-${m.dd}-${i}`;
@@ -2680,6 +2787,17 @@ useEffect(() => {
               </button>
               <h1 style={{ margin:0, fontFamily:T.display, fontSize:"28px", lineHeight:"32px", letterSpacing:"-.02em",
                 fontWeight:800, color:T.text }}>{champ.display}</h1>
+              {/* Favourite: the champion FRGE opens on. Back beside the name at the
+                  owner's request (2026-11-23): tucked into Settings, a stray toggle
+                  left him opening on Sett every launch. A text pill, not a star (no
+                  unapproved icons). The Settings toggle stays as a second way in. */}
+              <button type="button" aria-pressed={favId === champ.id} onClick={() => toggleFav(champ)}
+                title={favId === champ.id ? "Stop opening FRGE on this champion" : "Open FRGE on this champion"}
+                style={{ border:0, borderRadius:"999px", padding:"4px 12px", cursor:"pointer", whiteSpace:"nowrap", flex:"none",
+                  font:`500 13px ${T.font}`, background: favId === champ.id ? colours.active : T.raised,
+                  color: favId === champ.id ? T.text : T.muted }}>
+                {favId === champ.id ? "Favourite" : "Set favourite"}
+              </button>
               <Seg label="Role" items={roles.map((r) => ({ key:r, label:r }))} value={currentRole}
                 onPick={(r) => setActiveRole(r)} colours={colours} />
               <div style={{ display:"flex", alignItems:"center", gap:"14px", flexWrap:"wrap", minWidth:0,

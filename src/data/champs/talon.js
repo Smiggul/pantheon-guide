@@ -1,13 +1,14 @@
 import { I } from "../runeHelpers.js";
 
+// Research: win rate over pick rate (owner's rule 2026-11-23): Conqueror 53.2% WR on 47.0% of 18,767 games vs Electrocute 50.5% on 33.8%, a gap well past the noise; lolalytics 16.23 Emerald+ (2026-11-23).
 const TALON_MID_DEFAULT_RUNES = {
-  keystone:       "Electrocute",
-  primary:        "Domination",
-  primaryRunes:   ["Sudden Impact","Grisly Mementos","Ultimate Hunter"],
-  secondary:      "Sorcery",
-  secondaryRunes: ["Absolute Focus","Scorch"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Electrocute fires on Talon's basic Q-W-auto pattern and rewards the three-hit passive bleed his whole kit is built around. Sudden Impact procs off every Assassin's Path parkour entry and Q leap, Grisly Mementos stacks haste off the roam-kill loop, and Ultimate Hunter feeds more Shadow Assault windows — his ult is his engage, his escape, and his teamfight burst all at once. Absolute Focus and Scorch make his early lane poke actually hurt.",
+  keystone:       "Conqueror",
+  primary:        "Precision",
+  primaryRunes:   ["Triumph","Legend: Alacrity","Last Stand"],
+  secondary:      "Domination",
+  secondaryRunes: ["Sudden Impact","Treasure Hunter"],
+  shards:         ["Adaptive Force","Adaptive Force","Health"],
+  reason:         "Conqueror stacks through his combos and heals him while it lasts, so he wins the longer skirmishes his roams start. Sudden Impact adds damage after his leap or stealth; Treasure Hunter pays gold for his takedowns.",
 };
 
 const TALON_JGL_DEFAULT_RUNES = {
@@ -66,10 +67,11 @@ export default {
     Jungle:{
       bans:["Rammus","Poppy","Malphite"], replacements:["Kayn","Rengar","Nocturne"],
       role:"Vision-Control Assassin Jungler",
-      corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Bastionbreaker  ›  Voltaic Cyclosword",
+      // Research: Umbral > Voltaic 36% of first-two pairs (Umbral > Bastionbreaker 13%) of 49,004 games; lolalytics 16.23 Emerald+ build-itemset, exact 3-item orders (2026-11-23).
+      corePath:"Umbral Glaive  ›  Boots of Swiftness  ›  Voltaic Cyclosword  ›  Bastionbreaker",
       // Research: Jungle Talon is S tier. Bastionbreaker second and Voltaic third is now the standard core, in close to
       //   half of all three-item games.
-      coreNote:"Jungle Talon runs Fleet Footwork for a sustained clear into Umbral Glaive, whose sweep-on-hit passive erases enemy vision along your parkour gank paths, so your ganks come from angles that were warded seconds ago. Bastionbreaker second adds true damage to your ability hits on top of Umbral's lethality, enough for a two-item one-shot on squishies. Voltaic Cyclosword third frontloads the next gank. Edge of Night and Lord Dominik's Regards follow; Serylda's Grudge closes against stacked armor.",
+      coreNote:"Jungle Talon runs Fleet Footwork for a sustained clear into Umbral Glaive, whose sweep-on-hit passive erases enemy vision along your parkour gank paths, so your ganks come from angles that were warded seconds ago. Voltaic Cyclosword second frontloads the next gank. Bastionbreaker third adds true damage to your ability hits on top of Umbral's lethality. Edge of Night and Lord Dominik's Regards follow; Serylda's Grudge closes against stacked armor.",
       sideItems:["Edge of Night","Lord Dominik's Regards","Serylda's Grudge","Serpent's Fang","Guardian Angel","Youmuu's Ghostblade"],
       data:{
         JUGGERNAUT:{ahead:[I("Voltaic Cyclosword","Burst-and-leave beats their jungle brawl."),I("Serylda's Grudge","Pen keeps chunks real through armor."),I("Axiom Arc","More ults = more skirmish resets.")],behind:[I("Edge of Night","Block the pull that starts their all-in."),I("Guardian Angel","Insurance in forced river fights."),I("Maw of Malmortius","Vs mixed-damage bruisers.")],runes:{...TALON_JGL_DEFAULT_RUNES}},

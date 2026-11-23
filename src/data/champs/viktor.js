@@ -10,14 +10,15 @@ const VIKTOR_MID_DEFAULT_RUNES = {
   reason:         "Deathfire Touch's burn scales far better into teamfights than a single-target keystone, matching Viktor's identity as a control mage who wants to shine in extended 5v5s rather than a single burst window. Manaflow Band and Transcendence solve the mana strain of constant Siphon Power/Gravity Field poke and add haste. Shield Bash and Bone Plating cover the melee-range vulnerability of his early laning phase before Chaos Storm and the Hex Core upgrades come online.",
 };
 
+// Research: Deathfire Touch 95.9% of keystones (Summon Aery 0.9%), 13,180 games; lolalytics 16.23 Emerald+ Most Common page (2026-11-23).
 const VIKTOR_BOT_DEFAULT_RUNES = {
-  keystone:       "Summon Aery",
+  keystone:       "Deathfire Touch",
   primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Transcendence","Gathering Storm"],
-  secondary:      "Precision",
-  secondaryRunes: ["Triumph","Coup de Grace"],
-  shards:         ["Adaptive Force","Adaptive Force","Health (scaling)"],
-  reason:         "Bot Viktor trades Mid's Deathfire Touch for Summon Aery because the lane is different, not because the champion is. With a support applying pressure, Aery lands on a target already committed to a trade and returns damage on every Siphon Power, which suits a two-versus-two far better than a burn tuned for five-man fights. Manaflow Band and Transcendence pay for constant Death Ray waveclear, Gathering Storm matches the scaling pattern a bot-lane mage is drafted for, and Triumph plus Coup de Grace convert the duo-lane skirmishes he is actually in. Health-scaling on the third shard rather than a resist: he has no dash, so the thing that kills him is a single landed pick, and raw health buys the window to Gravity Field out of it.",
+  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
+  secondary:      "Resolve",
+  secondaryRunes: ["Shield Bash","Bone Plating"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "The same keystone as Mid: Deathfire Touch's burn rewards hitting several targets with Death Ray and Chaos Storm. Manaflow Band and Transcendence pay for constant waveclear and add haste; Shield Bash and Bone Plating help him live through 2v2 all-ins.",
 };
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -60,7 +61,7 @@ export default {
       // Research: Added in the 26.19 sweep. Viktor Bot is not a gimmick: S tier, rank 2 of 54 bottom-laners at 53.4% over
       //   ~7.4k Emerald+ games, and roughly a quarter of all Viktor games are played here. Since 26.20 moved Mid
       //   onto Lich Bane as well, the item path is the same in both lanes.
-      coreNote:"Bot Viktor builds the same items as Mid; the rune page is what differs. Mid takes Deathfire Touch for five-man teamfight burn; Bot takes Summon Aery, because a duo lane gives you a support to poke behind and Aery lands every Siphon Power onto a target your partner has already committed to. You have no dash and no escape, so the lane is all about spacing: Gravity Field is a peel tool here, not a zoning tool, and it is the difference between surviving a hook and dying to one.",
+      coreNote:"Bot Viktor builds the same items and takes the same Deathfire Touch page as Mid. You have no dash and no escape, so the lane is all about spacing: Gravity Field is a peel tool here, not a zoning tool, and it is the difference between surviving a hook and dying to one.",
       sideItems:["Shadowflame","Rabadon's Deathcap","Void Staff","Banshee's Veil","Morellonomicon","Stormsurge"],
       data:{
         JUGGERNAUT:{ahead:[I("Blackfire Torch","Burn ticks through the whole walk-down."),I("Lich Bane","Empowered auto punishes each gap-close attempt."),I("Rabadon's Deathcap","Scale past the health they stack.")],behind:[I("Zhonya's Hourglass","Stasis wastes the one commitment they get."),I("Banshee's Veil","Eat the engage tool that starts it."),I("Void Staff","Pen keeps you relevant without a lead.")],runes:{...VIKTOR_BOT_DEFAULT_RUNES}},
