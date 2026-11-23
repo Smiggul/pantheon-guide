@@ -16,6 +16,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.2.2] — 2026-11-23
+
+### Fixed
+- **Your pool, Counters and Best vs their comp skip champions you can't pick**: banned ones, ones another player has locked in, and ones a teammate is hovering. With one pool champion left it names just that one.
+
 ## [0.23.2.1] — 2026-11-23
 
 ### Added
