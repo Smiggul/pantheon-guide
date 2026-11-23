@@ -1,16 +1,15 @@
 import { I } from "../runeHelpers.js";
 
-// Research: win rate over pick rate (owner's rule 2026-11-23): Summon Aery wins 53.2% over 4,309 games vs Stormraider's
-//   Surge 50.8% over 11,568 (the most common) and Deathfire Touch 49.8% over 6,869, a gap past the noise; lolalytics 16.23
-//   Emerald+ (2026-11-23). Rows from Skill Capped's Aery page (22 Oct 2026), which was the Aery alternate until now.
+// Research: the Standard page is the most played: Stormraider's Surge 41.9% of 27,604 games (50.8% WR), Deathfire Touch
+//   24.9% (49.8%); lolalytics 16.23 Emerald+ (2026-11-23). Summon Aery wins more (53.2% over 4,309) and is the alternate.
 const TALIYAH_MID_DEFAULT_RUNES = {
-  keystone:       "Summon Aery",
+  keystone:       "Stormraider's Surge",
   primary:        "Sorcery",
-  primaryRunes:   ["Manaflow Band","Celerity","Scorch"],
+  primaryRunes:   ["Manaflow Band","Transcendence","Scorch"],
   secondary:      "Precision",
-  secondaryRunes: ["Legend: Haste","Cut Down"],
-  shards:         ["Adaptive Force","Move Speed","Health (scaling)"],
-  reason:         "Summon Aery adds damage to each poke hit; Manaflow Band funds the spell spam, Celerity strengthens every speed bonus for the roams, and Scorch adds lane poke. Legend: Haste for more Threaded Volleys, Cut Down against tanky targets.",
+  secondaryRunes: ["Legend: Haste","Presence of Mind"],
+  shards:         ["Attack Speed","Adaptive Force","Health (scaling)"],
+  reason:         "Stormraider's Surge gives speed when she lands her burst, which suits her roams. Manaflow Band, Transcendence and Scorch add mana and poke; Legend: Haste and Presence of Mind keep her casting.",
 };
 
 const TALIYAH_JGL_DEFAULT_RUNES = {
@@ -43,12 +42,14 @@ export default {
       runes:{...TALIYAH_MID_DEFAULT_RUNES},
       sideItems:["Zhonya's Hourglass","Rabadon's Deathcap","Blackfire Torch","Void Staff","Banshee's Veil","Cosmic Drive"],
     }, {
-      label:"Stormraider's Surge", tag:"alt",
+      label:"Summon Aery", tag:"alt",
       corePath:"Blackfire Torch  ›  Ionian Boots of Lucidity  ›  Rylai's Crystal Scepter  ›  Zhonya's Hourglass",
-      // Research: the most played page on 16.23 (Stormraider's 41.9% of 27,604 games, 50.8% WR), the main until the
-      //   win-rate rule moved Aery up (2026-11-23). Rows are lolalytics' Most Common page.
-      coreNote:"Stormraider's Surge instead of Aery: speed when she lands her burst, for faster roams between lanes.",
-      runes:{ keystone:"Stormraider's Surge", primary:"Sorcery", primaryRunes:["Manaflow Band","Transcendence","Scorch"], secondary:"Precision", secondaryRunes:["Legend: Haste","Presence of Mind"], shards:["Attack Speed","Adaptive Force","Health (scaling)"], reason:"Stormraider's Surge gives speed when she lands her burst, which suits her roams. Manaflow Band, Transcendence and Scorch add mana and poke; Legend: Haste and Presence of Mind keep her casting." },
+      // Research (2026-10-26, patch 16.21, lolalytics Emerald+, from the 26.21 YouTube guide sweep):
+      //   Keystones over 20,829 games: Stormraider's 30.4%, Deathfire Touch 26.1% (the main, WR 50.6%), Aery 25.3% (WR 53.2%,
+      //   the best of the three). Page from Skill Capped's "10 Most OP One Trick Builds" (22 Oct 2026): Manaflow Band,
+      //   Celerity, Scorch, Legend: Haste, Cut Down, a Move Speed shard. Items match the main build (Blackfire first 73.6%).
+      coreNote:"Higher win rate than the standard page (53.2% to 50.8% on 26.23). Summon Aery instead of Stormraider's Surge for steadier poke: every Threaded Volley hit sends Aery, and Celerity and the Move Speed shard speed up the roams.",
+      runes:{...TALIYAH_MID_DEFAULT_RUNES, keystone:"Summon Aery", primaryRunes:["Manaflow Band","Celerity","Scorch"], secondaryRunes:["Legend: Haste","Cut Down"], shards:["Adaptive Force","Move Speed","Health (scaling)"], reason:"Summon Aery adds damage to each poke hit; Manaflow Band funds the spell spam, Celerity strengthens every speed bonus for the roams, and Scorch adds lane poke. Legend: Haste for more Threaded Volleys, Cut Down against tanky targets."},
       sideItems:["Rabadon's Deathcap","Liandry's Torment","Cosmic Drive","Shadowflame","Void Staff","Banshee's Veil"],
     }],
   },

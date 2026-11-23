@@ -760,6 +760,7 @@ export const ITEM_IDS = {
   "edge of night": 3814,
   "endless hunger": 2517,
   "essence reaver": 3508,
+  "executioner's calling": 3123,
   "experimental hexplate": 3073,
   "farsight alteration": 3363,
   "fiendhunter bolts": 2512,

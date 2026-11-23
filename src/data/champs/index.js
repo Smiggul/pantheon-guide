@@ -1,3 +1,4 @@
+import { WINRATE_ALTS } from "../winrateAlts.js";
 import pantheon from "./pantheon.js";
 import teemo from "./teemo.js";
 import renekton from "./renekton.js";
@@ -199,3 +200,14 @@ export const CHAMPS = [
   anivia, qiyana, akshan, gangplank, urgot, drmundo, rammus, yuumi,
   corki, kled, illaoi, singed, tryndamere, chogath, trundle, quinn, ivern, zilean,
 ];
+
+// "Higher win rate" alternates (helpers/gen-winrate-alts.mjs, the owner's rule of
+// 2026-11-23): the main build stays the most popular, and a build that wins clearly
+// more often is offered after the authored alternates (appended, because the
+// selected alternate is stored by index).
+for (const [key, alt] of Object.entries(WINRATE_ALTS)) {
+  const [dd, role] = key.split("|");
+  const c = CHAMPS.find((x) => x.dd === dd);
+  if (!c?.roles?.[role]) continue;
+  c.altBuilds = { ...(c.altBuilds || {}), [role]: [...(c.altBuilds?.[role] || []), alt] };
+}

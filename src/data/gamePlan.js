@@ -53,6 +53,9 @@ const PEN_ITEMS = new Set(["Lord Dominik's Regards", "Serylda's Grudge", "Black 
   "Blade of The Ruined King", "Terminus"]);
 const MAGIC_PEN_ITEMS = new Set(["Void Staff", "Cryptbloom"]);
 const BRUISER_CLASSES = new Set(["JUGGERNAUT", "DIVER"]);
+// The cheap Grievous Wounds part of each anti-heal item, bought in lane before the item is finished.
+const EARLY_PART = { "Chempunk Chainsword": "Executioner's Calling", "Mortal Reminder": "Executioner's Calling",
+  "Morellonomicon": "Oblivion Orb", "Thornmail": "Bramble Vest" };
 import { BOOTS_TIMING } from "./bootsTiming.js";
 
 const BOOTS = ["Plated Steelcaps", "Mercury's Treads", "Sorcerer's Shoes", "Berserker's Greaves",
@@ -325,12 +328,23 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
     else spill.push(e);
   }
   const extra = spill.map((e) => e.name);
+  // The nuance (the owner, 2026-11-23): against a sustain laner, buy the cheap
+  // Grievous Wounds part in lane and finish the item later. Rushing the full item
+  // first delays the core spike; the part alone wins the trades their healing would.
+  // The part is a component, so it does not take one of the CAP slots.
+  // Also when the anti-heal item is already in the core (Garen's Mortal Reminder), as long as
+  // the lane opponent heals and the item is not already a lane buy.
+  const foeHeals = !!lane?.traits?.heals || offLane.length > 0;
+  const fullAH = hasFoe && foeHeals ? kept.find((e, i) => EARLY_PART[e.name] && i >= open.length) : null;
+  if (fullAH) fullAH.why = `finish it from the ${EARLY_PART[fullAH.name]} you bought in lane`;
   const laneLen = open.length + (mode === "behind" && kept.length > open.length && isDef(kept[open.length]?.name) ? 1 : 0);
   const phases = [
     { key: "lane", title: "Lane", items: kept.slice(0, laneLen) },
     { key: "mid", title: "Mid game", items: kept.slice(laneLen, laneLen + 2) },
     { key: "late", title: "Late game", items: kept.slice(laneLen + 2) },
   ].filter((p) => p.items.length);
+  if (fullAH && phases[0]?.key === "lane") phases[0].items.push({ name: EARLY_PART[fullAH.name], tag: "lane", part: true,
+    why: `Grievous Wounds early: ${foe.display}'s healing wins the lane trades without it` });
 
   return {
     phases,
