@@ -1639,6 +1639,19 @@ useEffect(() => {
   const csEnemiesLocked = !!dispCs
     && (dispCs.theirTeam || []).some((p) => p.championId > 0);
   const csOppChamp = csOppDd ? DD_TO_CHAMP[csOppDd] : null;
+  // Champions you can't pick now: banned, locked by another player, or hovered by a teammate
+  // (your own hover stays available). Your pool, Counters and Best vs their comp skip them
+  // (2026-11-23: the pool suggested Volibear after a teammate took him and Mordekaiser was banned).
+  const csUnavailable = new Set();
+  if (dispCs) {
+    for (const id of dispCs.bannedChampionIds || []) if (KEY_TO_DD[id]) csUnavailable.add(KEY_TO_DD[id]);
+    const mine = new Set((dispCs.myTeam || []).map((p) => p.cellId));
+    for (const p of [...(dispCs.myTeam || []), ...(dispCs.theirTeam || [])]) {
+      if (p.cellId === dispCs.localCellId) continue;
+      const id = p.championId || (mine.has(p.cellId) ? p.championPickIntent : 0);
+      if (id && KEY_TO_DD[id]) csUnavailable.add(KEY_TO_DD[id]);
+    }
+  }
   const csOppClass = csOppDd ? classOf(csOppDd) : null;
   // Full enemy-team readout: damage split, threat flags, the lane opponent highlighted
   // (the one hovered/locked in client, else the one selected in the app).
@@ -2283,7 +2296,7 @@ useEffect(() => {
                   champions to play into this lane opponent, ranked by win rate in his
                   bracket (poolMatchups.js, helpers/gen-pool-matchups.mjs). Text, not a hover. */}
               {draftOpen && csOppDd && (() => {
-                const pick = poolPick(csMyRole, csOppDd);
+                const pick = poolPick(csMyRole, csOppDd, csUnavailable);
                 if (!pick) return null;
                 const [best, ...others] = pick.ranked;
                 const pct = (r) => `${r[pick.key]}%`;
@@ -2315,7 +2328,8 @@ useEffect(() => {
                   Restored 2026-11-23: the 22 Oct redesign dropped the old "Lane
                   counter" row, which ranked by kit traits instead of real games. */}
               {draftOpen && csOppDd && (() => {
-                const recs = laneCountersOf(csOppDd, csMyRole).filter((r) => DD_TO_CHAMP[r.dd]).slice(0, 5);
+                const recs = laneCountersOf(csOppDd, csMyRole)
+                  .filter((r) => DD_TO_CHAMP[r.dd] && !csUnavailable.has(r.dd)).slice(0, 5);
                 if (!recs.length) return null;
                 return (
                   <span style={row}>
@@ -2395,7 +2409,8 @@ useEffect(() => {
                     {/* Best pick into the whole enemy comp (kit traits, counterPicker.js),
                         while your pick is open. Restored 2026-11-23 with the counters. */}
                     {draftOpen && members.length >= 2 && (() => {
-                      const cand = CHAMPS.filter((c) => Object.keys(c.roles || {}).includes(csMyRole)).map((c) => c.dd);
+                      const cand = CHAMPS.filter((c) => Object.keys(c.roles || {}).includes(csMyRole) && !csUnavailable.has(c.dd))
+                        .map((c) => c.dd);
                       const recs = bestCountersVsComp(members.map((m) => m.dd), cand).filter((r) => r.score > 0).slice(0, 5);
                       if (!recs.length) return null;
                       const fmt = (h) => Object.entries(h || {}).sort((a, b) => b[1] - a[1]).slice(0, 3)
