@@ -123,14 +123,20 @@ export default {
         //   Youmuu's, Eclipse); winning vs an armor-building tank = Cleaver first; behind and the team has AD = Cleaver;
         //   behind otherwise = Sundered Sky to frontline (Eclipse if their team is squishy); never Cyclosword behind.
         //   Death's Dance over Iceborn vs full AD, Sterak's fourth (17:11). "Just go Conqueror" (20:11).
-        //   The order past item 1 is the data's: lolalytics 16.23 Emerald+ build-itemset (2026-11-24, an early sample):
-        //   Eclipse opens 37.3% of 4,839 Pantheon Top games (Bastionbreaker 18.7%, Voltaic 18.1%, Cleaver 13.7%),
-        //   Eclipse > Black Cleaver is the top pair (23.6% of 14,275) and > Death's Dance the top triple (10.9%).
-        //   Not from the video: the rune rows, which are the pre-26.21 Conqueror main page (git 637fddb^).
-        label: "Eclipse Bruiser",
+        //   Chosen by win rate, not pick rate (the owner, 2026-11-24: "use the builds that actually win games"), on
+        //   lolalytics 16.23 Emerald+ (2026-11-24). His default, Eclipse > Black Cleaver, is the most common pair but loses:
+        //   in games that end on two items Black Cleaver > Sundered Sky wins 52.6% of 734 vs 44.9% of 3,371 (+7.7, 2 SE
+        //   4.1). Per slot, Black Cleaver is the best of the big four openers (53.0% of 5,076; Voltaic 52.8%, Bastionbreaker
+        //   52.4%, Eclipse 51.6% of 16,959, the lowest; +1.4, just under 2 SE). Three items: Cleaver > Sundered > Death's
+        //   Dance 60.1% of 243 vs Eclipse > Cleaver > Death's Dance 58.1% of 1,691 (not significant). Sterak's is the most
+        //   common fourth after it (34 games, thin). Voltaic first when ahead is the video's call.
+        //   Runes: Conqueror, the video's keystone and Top's most common (47.0%). Stormraider's wins more overall (53.0% of
+        //   12,910 vs 51.6% of 20,642), but that is mostly the Bastionbreaker line, and runes are not split by build.
+        //   The rows are the pre-26.21 Conqueror main page (git 637fddb^).
+        label: "Cleaver Bruiser",
         tag: "alt",
-        corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Sterak's Gage",
-        coreNote: "Pick item 1 by the game. Winning against a squishy laner: Voltaic Cyclosword or Youmuu's. Their laner builds armor, or you are behind with AD on your team: Black Cleaver first. Behind without much AD on your team: Sundered Sky, and frontline. Otherwise Eclipse, then Black Cleaver. Never Cyclosword when behind. Death's Dance against AD, Sterak's for tenacity.",
+        corePath: "Black Cleaver  ›  Sundered Sky  ›  Death's Dance  ›  Sterak's Gage",
+        coreNote: "Black Cleaver first, then Sundered Sky: the armor shred helps your whole team, and Sundered keeps you alive at the front. Death's Dance against AD, Sterak's for tenacity. Winning against a squishy laner: Voltaic Cyclosword first instead.",
         runes: {
           keystone: "Conqueror",
           primary: "Precision",
@@ -140,22 +146,26 @@ export default {
           shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
           reason: "Conqueror stacks fast on Pantheon: Q and the empowered W build it in one trade. Presence of Mind and Legend: Haste keep Q coming, Last Stand pays off the long bruiser fights, and Transcendence and Scorch add haste and early poke.",
         },
-        sideItems: ["Voltaic Cyclosword", "Youmuu's Ghostblade", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Serpent's Fang", "Plated Steelcaps", "Mercury's Treads"],
+        sideItems: ["Eclipse", "Voltaic Cyclosword", "Youmuu's Ghostblade", "Spear of Shojin", "Maw of Malmortius", "Serpent's Fang", "Plated Steelcaps", "Mercury's Treads"],
       }],
       Jungle: [{
-        // Research (2026-11-24): same video (11:00-14:00): Eclipse first for the clear ("I would never go Sundered
-        //   anymore"), Cleaver is his best 5v5 item whenever the team has AD. Order past item 1 from lolalytics 16.23
-        //   Emerald+ build-itemset (2026-11-24, 1,042 games): Eclipse opens 24.5% (Black Cleaver 39.3%), Eclipse >
-        //   Black Cleaver 17.5% of pairs, and Eclipse > Cleaver > Death's Dance > Guardian Angel is the top Eclipse-led set.
-        label: "Eclipse Clear",
+        // Research (2026-11-24): same video (11:00-14:00). He goes Eclipse first for the clear, but the data says the line
+        //   he credits to pro play wins: Black Cleaver first, "the most optimal item you can buy on Pantheon in a 5v5".
+        //   Chosen by win rate (the owner, 2026-11-24), lolalytics 16.23 Emerald+ (2026-11-24): in games that end on two
+        //   items Black Cleaver > Death's Dance wins 40.9% of 908 vs Eclipse > Black Cleaver 33.3% of 558 (2 SE 5.2); on
+        //   three, Cleaver > Death's Dance > Guardian Angel 62.0% of 728 vs Eclipse > Cleaver > Death's Dance 51.4% of 510
+        //   (2 SE 5.7). It is also the most common line (Black Cleaver opens 31.7% of 12,666 games). Sterak's is the most
+        //   common fourth after it (85 games). Conqueror is both the most common and the best keystone (75.4%, 50.0%).
+        //   The main build's Sundered Sky first is rare (4.7%) but not worse (53.2% of 594, not significant), so it stays.
+        label: "Cleaver Teamfight",
         tag: "alt",
-        corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Guardian Angel",
-        coreNote: "Eclipse first for a faster clear, so you reach ganks and invades sooner. Black Cleaver next: with AD on your team it is your best teamfight item. Death's Dance against AD, Guardian Angel to stay in the fight.",
+        corePath: "Black Cleaver  ›  Death's Dance  ›  Guardian Angel  ›  Sterak's Gage",
+        coreNote: "Black Cleaver first: with AD on your team it is your best teamfight item. Death's Dance and Guardian Angel keep you alive at the front of the fight. Sterak's for tenacity.",
         runes: {
           ...PANTH_JGL_DEFAULT_RUNES,
-          reason: "Conqueror for the bruiser fights, Triumph, Legend: Alacrity and Coup de Grace to clear and finish ganks. Magical Footwear saves the boots gold for Eclipse, and Cosmic Insight cuts Smite and summoner cooldowns.",
+          reason: "Conqueror for the bruiser fights, Triumph, Legend: Alacrity and Coup de Grace to clear and finish ganks. Magical Footwear saves the boots gold for Black Cleaver, and Cosmic Insight cuts Smite and summoner cooldowns.",
         },
-        sideItems: ["Sundered Sky", "Sterak's Gage", "Spear of Shojin", "Maw of Malmortius", "Plated Steelcaps", "Mercury's Treads"],
+        sideItems: ["Eclipse", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Plated Steelcaps", "Mercury's Treads"],
       }],
       Mid: [{
         label: "Lethality Assassin",
