@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.2.3] — 2026-11-24
+
+### Changed
+- **Pantheon Top: new Cleaver Bruiser build**: Black Cleaver › Sundered Sky › Death's Dance › Sterak's Gage, on Conqueror.
+- **Pantheon Jungle: new Cleaver Teamfight build**: Black Cleaver › Death's Dance › Guardian Angel › Sterak's Gage.
+
 ## [0.23.2.2] — 2026-11-23
 
 ### Fixed
