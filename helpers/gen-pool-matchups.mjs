@@ -16,7 +16,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { mainObject } from "./lolalytics-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const POOL = ["Pantheon:Top", "Volibear:Top", "Mordekaiser:Top", "Pantheon:Jungle", "Volibear:Jungle", "MonkeyKing:Jungle"];
+const POOL = ["Pantheon:Top", "Volibear:Top", "Mordekaiser:Top", "Shen:Top", "DrMundo:Top", "Yorick:Top", "Pantheon:Jungle", "Volibear:Jungle", "MonkeyKing:Jungle"];
 const pool = (process.argv.slice(2).length ? process.argv.slice(2) : POOL).map((s) => s.split(":"));
 const ver = fs.readFileSync(path.join(ROOT, "public", "ddragon", "version.txt"), "utf8").trim();
 const patch = ver.split(".").slice(0, 2).join(".");
