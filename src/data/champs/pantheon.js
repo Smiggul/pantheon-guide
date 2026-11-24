@@ -117,6 +117,45 @@ export default {
           reason: "Grasp and Overgrowth stack health for Heartsteel and W. Bone Plating takes the edge off their trades, and Manaflow Band pays for the Q spam.",
         },
         sideItems: ["Black Cleaver"],
+      }, {
+        // Research (2026-11-24): Spear Shot Clips, "Rank 1 Pantheon explains how to Build and Play Pantheon!" (22 Nov 2026),
+        //   his first-item decision chart (0:00-11:00): winning vs a squishy laner = anything aggressive (Cyclosword,
+        //   Youmuu's, Eclipse); winning vs an armor-building tank = Cleaver first; behind and the team has AD = Cleaver;
+        //   behind otherwise = Sundered Sky to frontline (Eclipse if their team is squishy); never Cyclosword behind.
+        //   Death's Dance over Iceborn vs full AD, Sterak's fourth (17:11). "Just go Conqueror" (20:11).
+        //   The order past item 1 is the data's: lolalytics 16.23 Emerald+ build-itemset (2026-11-24, an early sample):
+        //   Eclipse opens 37.3% of 4,839 Pantheon Top games (Bastionbreaker 18.7%, Voltaic 18.1%, Cleaver 13.7%),
+        //   Eclipse > Black Cleaver is the top pair (23.6% of 14,275) and > Death's Dance the top triple (10.9%).
+        //   Not from the video: the rune rows, which are the pre-26.21 Conqueror main page (git 637fddb^).
+        label: "Eclipse Bruiser",
+        tag: "alt",
+        corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Sterak's Gage",
+        coreNote: "Pick item 1 by the game. Winning against a squishy laner: Voltaic Cyclosword or Youmuu's. Their laner builds armor, or you are behind with AD on your team: Black Cleaver first. Behind without much AD on your team: Sundered Sky, and frontline. Otherwise Eclipse, then Black Cleaver. Never Cyclosword when behind. Death's Dance against AD, Sterak's for tenacity.",
+        runes: {
+          keystone: "Conqueror",
+          primary: "Precision",
+          primaryRunes: ["Presence of Mind", "Legend: Haste", "Last Stand"],
+          secondary: "Sorcery",
+          secondaryRunes: ["Transcendence", "Scorch"],
+          shards: ["Ability Haste", "Adaptive Force", "Health (scaling)"],
+          reason: "Conqueror stacks fast on Pantheon: Q and the empowered W build it in one trade. Presence of Mind and Legend: Haste keep Q coming, Last Stand pays off the long bruiser fights, and Transcendence and Scorch add haste and early poke.",
+        },
+        sideItems: ["Voltaic Cyclosword", "Youmuu's Ghostblade", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Serpent's Fang", "Plated Steelcaps", "Mercury's Treads"],
+      }],
+      Jungle: [{
+        // Research (2026-11-24): same video (11:00-14:00): Eclipse first for the clear ("I would never go Sundered
+        //   anymore"), Cleaver is his best 5v5 item whenever the team has AD. Order past item 1 from lolalytics 16.23
+        //   Emerald+ build-itemset (2026-11-24, 1,042 games): Eclipse opens 24.5% (Black Cleaver 39.3%), Eclipse >
+        //   Black Cleaver 17.5% of pairs, and Eclipse > Cleaver > Death's Dance > Guardian Angel is the top Eclipse-led set.
+        label: "Eclipse Clear",
+        tag: "alt",
+        corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Guardian Angel",
+        coreNote: "Eclipse first for a faster clear, so you reach ganks and invades sooner. Black Cleaver next: with AD on your team it is your best teamfight item. Death's Dance against AD, Guardian Angel to stay in the fight.",
+        runes: {
+          ...PANTH_JGL_DEFAULT_RUNES,
+          reason: "Conqueror for the bruiser fights, Triumph, Legend: Alacrity and Coup de Grace to clear and finish ganks. Magical Footwear saves the boots gold for Eclipse, and Cosmic Insight cuts Smite and summoner cooldowns.",
+        },
+        sideItems: ["Sundered Sky", "Sterak's Gage", "Spear of Shojin", "Maw of Malmortius", "Plated Steelcaps", "Mercury's Treads"],
       }],
       Mid: [{
         label: "Lethality Assassin",
