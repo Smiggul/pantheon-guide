@@ -23,7 +23,7 @@ import { laneOpponent } from "./data/laneOpponent.js";
 import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
 import { laneCountersOf } from "./data/laneCounters.js";
-import { poolPick } from "./data/poolMatchups.js";
+import { poolPick } from "./data/poolPick.js";
 import { bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
@@ -2294,7 +2294,7 @@ useEffect(() => {
               ))}
               {/* Your pool (the owner's personal pick check, 2026-11-23): which of his own
                   champions to play into this lane opponent, ranked by win rate in his
-                  bracket (poolMatchups.js, helpers/gen-pool-matchups.mjs). Text, not a hover. */}
+                  bracket (poolPick.js, data from helpers/gen-pool-matchups.mjs). Text, not a hover. */}
               {draftOpen && csOppDd && (() => {
                 const pick = poolPick(csMyRole, csOppDd, csUnavailable);
                 if (!pick) return null;
@@ -2302,10 +2302,12 @@ useEffect(() => {
                 const pct = (r) => `${r[pick.key]}%`;
                 const nm = (r) => DD_TO_CHAMP[r.dd]?.display || r.dd;
                 const lead = pick.close ? `${nm(best)} or ${nm(others[0])}` : nm(best);
+                // Champions with too few games in the bracket come last, marked (poolPick.js).
+                const rest = [...others.map((r) => `${nm(r)} ${pct(r)}`), ...pick.thin.map((r) => `${nm(r)} ${pct(r)}, few games`)];
                 return (
                   <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 10px" }}>
                     <span>Your pool</span>
-                    {pick.ranked.map((r) => DD_TO_CHAMP[r.dd] && (
+                    {[...pick.ranked, ...pick.thin].map((r) => DD_TO_CHAMP[r.dd] && (
                       <button key={r.dd} type="button" onClick={() => pickChamp(DD_TO_CHAMP[r.dd])}
                         title={`Play ${nm(r)}`} aria-label={`Play ${nm(r)}`}
                         style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block",
@@ -2316,8 +2318,10 @@ useEffect(() => {
                     <span style={{ color:T.text }}>
                       <b style={{ fontWeight:600 }}>Play {lead}</b>
                       {`: ${pct(best)} vs ${csOppDisplay}`}
-                      {others.length ? ` (${others.map((r) => `${nm(r)} ${pct(r)}`).join(", ")})` : ""}
+                      {rest.length ? ` (${rest.join("; ")})` : ""}
                       {pick.close ? ". Close: play your comfort pick" : ""}
+                      {pick.fewGames ? `. Few games${pick.key === "hwr" ? " at your rank: Emerald+ rates" : ""}` : ""}
+                      {pick.allLose ? ". All lose this lane" : ""}
                     </span>
                   </div>
                 );

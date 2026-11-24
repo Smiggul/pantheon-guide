@@ -16,6 +16,10 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Fixed
+- **Your pool ranks by your rank's win rates**, even when one of your champions has few games there. That champion now comes last, marked "few games". Into Singed it now suggests Mordekaiser or Volibear, not Volibear alone.
+- **Your pool says when it's a toss-up or a losing lane**: "Close" when the gap could be chance, "Few games" when the numbers are thin, and "All lose this lane" when every option is under 50%.
+
 ## [0.23.2.3] — 2026-11-24
 
 ### Changed

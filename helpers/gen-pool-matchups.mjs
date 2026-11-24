@@ -58,22 +58,6 @@ export const POOL = ${JSON.stringify(pool.map(([dd, role]) => ({ dd, role })))};
 export const POOL_PATCH = ${JSON.stringify(patch)};
 export const POOL_MATCHUPS = ${JSON.stringify(out)};
 
-// The pool ranked into one lane opponent, leaving out champions that can't be picked
-// (\`exclude\`: banned, or taken by another player). Uses the Iron+Bronze win rate when every
-// option has MIN_LOW games there, else Emerald+. A gap under CLOSE points is a toss-up.
-// With one option left it is simply that one (no comparison).
-const MIN_LOW = 150, CLOSE = 1.5;
-export function poolPick(role, foe, exclude = new Set()) {
-  const rows = Object.entries(POOL_MATCHUPS[role]?.[foe] || {})
-    .filter(([dd]) => !exclude.has(dd))
-    .map(([dd, [lwr, ln, hwr, hn]]) => ({ dd, lwr, ln, hwr, hn }));
-  if (rows.length === 0) return null;
-  const low = rows.every((r) => r.lwr != null && r.ln >= MIN_LOW);
-  const key = low ? "lwr" : "hwr";
-  const ranked = rows.filter((r) => r[key] != null && (low || r.hn >= MIN_LOW)).sort((a, b) => b[key] - a[key]);
-  if (ranked.length === 0) return null;
-  const close = ranked.length > 1 && ranked[0][key] - ranked[1][key] < CLOSE;
-  return { bracket: low ? "Iron–Bronze" : "Emerald+", key, ranked, close };
-}
+// The pick logic is in poolPick.js.
 `);
 console.log(`gen-pool-matchups: ${pool.length} pool entries, patch ${patch}`);
