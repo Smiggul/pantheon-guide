@@ -16,11 +16,14 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.4.1] — 2026-11-25
+
 ### Added
 - **Trundle Top**, with its own build and runes, and in your Top pool.
 
 ### Fixed
 - **Your pool no longer names a losing pick.** When every champion in your pool loses the lane, it says so and points you to Counters. Clicking a pool champion opens the lane you're in.
+- **Pantheon always shows in your pool**, your comfort pick. Against rare top laners he used to drop out for lack of games at your rank; he now shows the Emerald+ rate there.
 - **Volibear Top suggests banning Jax, Illaoi and Teemo**, his worst lanes. Fiora and Aatrox are good lanes for him.
 
 ## [0.23.3.1] — 2026-11-24
