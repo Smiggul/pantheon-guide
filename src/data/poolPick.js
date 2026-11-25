@@ -47,3 +47,12 @@ export function poolPick(role, foe, exclude = new Set(), data = POOL_MATCHUPS) {
   const close = !!b && a[key] - b[key] < Math.max(CLOSE, twoSe(a, b, key));
   return { bracket: key === "lwr" ? "Iron–Bronze" : "Emerald+", key, ranked, thin, close, fewGames, allLose: a[key] < 50 };
 }
+
+// The pool champions to recommend: the best, plus the runner-up when the gap is close. None when
+// every option loses (2026-11-25): into Illaoi with Mordekaiser banned, 0.23.2.3 told the owner to
+// "Play Volibear" at 42% and he lost; the strip now sends him to the Counters row instead.
+export function poolLead(pick) {
+  if (!pick || pick.allLose) return [];
+  const [best, second] = pick.ranked;
+  return pick.close && second ? [best.dd, second.dd] : [best.dd];
+}

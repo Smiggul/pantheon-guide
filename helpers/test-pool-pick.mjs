@@ -1,6 +1,6 @@
 // Tests for poolPick (src/data/poolPick.js): node helpers/test-pool-pick.mjs
 import assert from "node:assert/strict";
-import { poolPick } from "../src/data/poolPick.js";
+import { poolPick, poolLead } from "../src/data/poolPick.js";
 
 let n = 0;
 const t = (name, fn) => { fn(); n++; console.log("ok", name); };
@@ -79,6 +79,21 @@ t("excluded champions drop out; one left is no comparison", () => {
 
 t("unknown opponent gives null", () => {
   assert.equal(poolPick("Top", "Nobody", new Set(), DATA), null);
+});
+
+// The 25 Nov 2026 game: into Illaoi with Mordekaiser banned, 0.23.2.3 said "Play Volibear" at 42%.
+const ILLAOI = { Top: { Illaoi: { Volibear: [41.5, 1213, 46.75, 815], Pantheon: [38.2, 416, 54.75, 537], Shen: [42.3, 326, 50.22, 689] } } };
+
+t("when every option loses, no pool champion is the pick", () => {
+  const p = poolPick("Top", "Illaoi", new Set(), ILLAOI);
+  assert.equal(p.allLose, true);
+  assert.deepEqual(poolLead(p), []);
+});
+
+t("a winning pick leads alone, or with the runner-up when close", () => {
+  assert.deepEqual(poolLead(poolPick("Top", "Clear", new Set(), DATA)), ["Pantheon"]);
+  const close = { Top: { X: { Pantheon: [52, 3000, 50, 3000], Volibear: [51.5, 3000, 50, 3000] } } };
+  assert.deepEqual(poolLead(poolPick("Top", "X", new Set(), close)), ["Pantheon", "Volibear"]);
 });
 
 t("reads the bundled data by default", () => {
