@@ -8,6 +8,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { STYLE_IDS, RUNE_IDS, SHARD_IDS, FIRST_BACK, ITEM_IDS, CHAMP_KEYS, PARTYPE } from "./lcuData.js";
 import { gamePlan, bootsTimingOf } from "./gamePlan.js";
+import { corePathFor } from "./corePath.js";
 import { classOf } from "./champClasses.js";
 import { petFor } from "./junglePets.js";
 import { MATCHUP_STARTS, START_SETS } from "./matchupStarts.js";
@@ -353,7 +354,7 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
     };
   }
 
-  const core = String(roleData.corePath || "").split("›").map((s) => s.trim()).filter(Boolean);
+  const core = corePathFor(roleData, mode).split("›").map((s) => s.trim()).filter(Boolean);
   const boots = core.find((n) => BOOTS_LOWER.has(n.toLowerCase()));
   const coreNoBoots = core.filter((n) => n !== boots);
   const firstCore = coreNoBoots[0] || core[0];
@@ -508,8 +509,9 @@ export function buildItemSet(champDd, roleName, enemyClass, roleData, customItem
 export function buildExport(champ, roleName, enemyClass, altBuild = null, runesOverride = null, customItems = null, foe = null, opts = {}) {
   const base = champ.roles ? champ.roles[roleName] : champ; // single-role champs store data flat
   const roleData = altBuild
-    ? { ...base, corePath: altBuild.corePath, sideItems: altBuild.sideItems || base?.sideItems,
-        pet: altBuild.pet || base?.pet }
+    // corePathAhead is reset too: the role's Ahead build must never replace an alternate's.
+    ? { ...base, corePath: altBuild.corePath, corePathAhead: altBuild.corePathAhead,
+        sideItems: altBuild.sideItems || base?.sideItems, pet: altBuild.pet || base?.pet }
     : base;
   const data = base?.data || {};
   const runes = runesOverride

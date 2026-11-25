@@ -193,13 +193,23 @@ export default {
               // 6,373 games, +452 gold at 15). Bans no longer affect the lane start.
               bans:["Malphite","Gangplank","Jax"], replacements:["Renekton","Sett","Wukong"],
               skillOrder:["Q","E","W"], // Top maxes Aegis (E) second, not W
-                        corePath: "Bastionbreaker  ›  Plated Steelcaps  ›  Voltaic Cyclosword  ›  Edge of Night",
-                        // Research (2026-10-26): the Stormraider's line, made the main build by the owner. Spear Shot's build
-                        //   (Rank 1 EUW, October 2026), as it was the "Spear Shot — Stormraider's" alternate. lolalytics 16.21
-                        //   Emerald+: Bastionbreaker opens 34.9% of Pantheon Top games (Eclipse 28.9%, Voltaic 12.4%), and
-                        //   Bastionbreaker > Voltaic is the top first-two pair (31.4% of 45.8k games).
-                        coreNote: "Stormraider's is the point: mobile duelists like Fiora choose when the fight happens, and spacing only goes so far. Stormraider's procs on the combo you already throw, then gives you the speed to reset the spacing on your terms. Bastionbreaker makes the line work: 22 lethality and true damage on ability hits, more than double Voltaic's lethality, on a champion whose damage is mostly abilities. Save Edge of Night's spell shield for the ability that decides the trade. Exhaust over Teleport.",
-                        sideItems: ["Lord Dominik's Regards", "Sundered Sky", "Spear of Shojin", "Maw of Malmortius", "Guardian Angel", "Serpent's Fang", "Youmuu's Ghostblade", "Mercury's Treads"],
+                        // corePath is the Even/Behind build, corePathAhead the Ahead one (src/data/corePath.js).
+                        corePath: "Eclipse  ›  Plated Steelcaps  ›  Black Cleaver  ›  Death's Dance",
+                        corePathAhead: "Voltaic Cyclosword  ›  Plated Steelcaps  ›  Bastionbreaker  ›  Lord Dominik's Regards",
+                        // Research (2026-11-25): the owner kept the Stormraider's page and dropped the Bastionbreaker opener
+                        //   (main since 2026-10-26, from Spear Shot's Rank 1 build) for one opener per game state.
+                        //   lolalytics 16.23 build-itemset, first item (share / win rate of games with 2+ items):
+                        //     Iron     Eclipse 47.6%, Voltaic 21.1%, Bastionbreaker 16.4% (1,615 games)
+                        //     Bronze   Eclipse 47.9%, Voltaic 19.9%, Bastionbreaker 16.3% (5,089)
+                        //     Emerald+ Eclipse 39.4%, Bastionbreaker 18.3%, Voltaic 18.2%, Black Cleaver 12.9% (17,054)
+                        //   Win rates by opener are within noise of each other in every bracket. Orders, Emerald+ (Bronze):
+                        //     Eclipse > Black Cleaver > Death's Dance 27.7% of Eclipse openers (36.3%), the top three-item set;
+                        //     Voltaic > Bastionbreaker > Lord Dominik's 22.0% of Voltaic openers (18.2%; Bronze also has
+                        //     Voltaic > Black Cleaver > Death's Dance at 19.5%). Voltaic = Ahead (its Energized burst and
+                        //     lethality snowball a won lane, as the PTA Bruiser chip already said), Eclipse = Even/Behind
+                        //     (its shield on two hits keeps you in trades you are losing). Item text checked against 16.23.
+                        coreNote: "Stormraider's is the point: it procs on the combo you already throw, then gives you the speed to reset the spacing on your terms. Ahead: Voltaic Cyclosword first, its Energized hit and lethality turn a won lane into one-combo kills, then Bastionbreaker's true damage on abilities and Lord Dominik's against tanks. Even or behind: Eclipse first, its shield on two hits keeps you alive in trades, then Black Cleaver and Death's Dance. Save Edge of Night's spell shield for the ability that decides the trade. Exhaust over Teleport.",
+                        sideItems: ["Edge of Night", "Sundered Sky", "Spear of Shojin", "Sterak's Gage", "Maw of Malmortius", "Guardian Angel", "Serpent's Fang", "Youmuu's Ghostblade", "Mercury's Treads"],
                         // How to play it, from a second high-elo source; every kit fact checked against Riot's 16.21 text
                         playTips: {
           source: "LoL Dobby, \"How a Full AD Pantheon Reached Rank 10\" (19 Oct 2026): a Korean-server Rank 10 Pantheon main on the same Stormraider's line.",
@@ -210,7 +220,7 @@ export default {
             { phase: "Lane", text: "Hold W until they burn a skill or Flash, then follow the Flash with W: the damage procs Stormraider's for the chase, and the same speed gets you out if it goes wrong." },
             { phase: "Level 6", text: "Land a Q, back off fully as if you recalled, then ult as they walk up to farm. Don't W the instant you land; keep W, auto, Q for the finish." },
             { phase: "Level 6", text: "Grand Starfall fills Mortal Will on landing, so you can open with the empowered Q without spending Flash." },
-            { phase: "Mid game", text: "Bastionbreaker first makes the empowered Q hit hard and snowballs off tower plating; Voltaic Cyclosword second. Once you have lethality, the empowered Q alone procs Stormraider's." },
+            { phase: "Mid game", text: "Once you have lethality, the empowered Q alone procs Stormraider's." },
             { phase: "Mid game", text: "Spend Mortal Will on Q rather than W: open Q, Flash, W instead of Flash, W. The empowered Q hits harder and comes back faster for a second Q. With full stacks and a threat on you, Q then E leaves them no counterplay." },
             { phase: "Teamfights", text: "Enemies can stand on your ult landing spot, so keep Flash for after you land. Hunt the marksman, and look for picks with Oracle Lens." },
           ],

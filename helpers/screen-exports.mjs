@@ -127,7 +127,7 @@ for (const champ of CHAMPS) {
           // The matchup's one-click rune swaps (what "Apply" imports).
           if (foe && mode === "behind") {
             const plan = gamePlan({ champ, roleName: role,
-              roleData: alt ? { ...roleData, corePath: alt.corePath, sideItems: alt.sideItems || roleData.sideItems } : roleData,
+              roleData: alt ? { ...roleData, corePath: alt.corePath, corePathAhead: alt.corePathAhead, sideItems: alt.sideItems || roleData.sideItems } : roleData,
               enemyClass: cls, mode, foe, enemies: [], page, curated: !!over });
             if (plan?.lane?.page) {
               const swapped = buildExport(champ, role, cls, alt, plan.lane.page, null, foe, { mode, enemies: [] });

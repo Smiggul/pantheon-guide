@@ -164,6 +164,7 @@ const buildTextOf = (c) => {
   const blocks = c.roles ? Object.values(c.roles) : [c];
   for (const b of blocks) {
     if (b?.corePath) parts.push(b.corePath);
+    if (b?.corePathAhead) parts.push(b.corePathAhead);
     if (b?.sideItems) parts.push(b.sideItems.join(" "));
   }
   for (const alts of Object.values(c.altBuilds || {})) {
