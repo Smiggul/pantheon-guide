@@ -28,6 +28,33 @@ export default {
       coreNote:"The lethality fork: the same Berserker's Greaves and Stridebreaker start, but Youmuu's Ghostblade second instead of Phantom Dancer, which moves to third. Youmuu's active speed closes the gap for Decisive Strike, and the lethality makes Judgment and Demacian Justice delete squishy carries. Take it into squishy teams; keep the Phantom Dancer line into tanky ones. After Youmuu's, take Phantom Dancer, Mortal Reminder or Voltaic Cyclosword third.",
       runes:{...GAREN_TOP_DEFAULT_RUNES},
       sideItems:["Mortal Reminder","Voltaic Cyclosword","Dead Man's Plate","Infinity Edge","Lord Dominik's Regards","Sterak's Gage","Mercury's Treads"],
+    },{
+      // Research (2026-11-25): AddictedToBacon, "The Most Unethical Way to Get LP in League" (24 Nov 2026, two ranked
+      //   wins), crediting the Garen player Elolesio. Sourced from the narration (0:00-0:40): Stormraider's Surge, Nimbus
+      //   Cloak, Absolute Focus, double Adaptive shards, Doran's Blade or Long Sword start; proxy between their tier 1
+      //   and tier 2 turrets, auto the three melees, spin the wave, then invade their jungler if they start topside;
+      //   fails if they guard the entrances or two of them push you off. Items from what he says: Boots of Swiftness
+      //   ("I need Swifties to reach them"), Youmuu's (game 2), "Edge of Night into Voltaic" (8:45), Black Cleaver when
+      //   the team is ahead and he can't kill their tank (22:00). The HUD is too small at 720p to read the order.
+      //   Not sourced: the third Sorcery rune and the Precision secondary (Scorch; Triumph and Last Stand from Garen's
+      //   main page). Rune text 16.23: Absolute Focus gives AD above 70% health; Nimbus Cloak speeds you after any
+      //   summoner spell. The export's "Start, alt" block is already Doran's Blade (30% of Garen Top games).
+      label:"Proxy invade", tag:"off-meta",
+      corePath:"Boots of Swiftness  ›  Youmuu's Ghostblade  ›  Edge of Night  ›  Voltaic Cyclosword",
+      coreNote:"A level 1 cheese for climbing: clear the first wave behind their tower, then invade their jungler. Absolute Focus and two Adaptive shards are what let Judgment clear the wave at level 1. Then build to one-shot: Boots of Swiftness to reach them, Youmuu's, Edge of Night, Voltaic Cyclosword. Black Cleaver instead when your team is ahead and you can't kill their tank.",
+      runes:{ keystone:"Stormraider's Surge", primary:"Sorcery", primaryRunes:["Nimbus Cloak","Absolute Focus","Scorch"], secondary:"Precision", secondaryRunes:["Triumph","Last Stand"], shards:["Adaptive Force","Adaptive Force","Health (scaling)"], reason:"Absolute Focus and the Adaptive shards give the level 1 damage to clear the wave with one spin. Nimbus Cloak's speed after Flash gets you off the proxy, and Stormraider's gives the chase once you're in their jungle." },
+      sideItems:["Black Cleaver","Death's Dance","Guardian Angel","Phantom Dancer","Sterak's Gage"],
+      playTips:{
+        source:"AddictedToBacon, \"The Most Unethical Way to Get LP in League\" (24 Nov 2026), the proxy credited to a Garen main.",
+        tips:[
+          { phase:"Level 1", text:"Start Doran's Blade or Long Sword and take E. Walk past their first tower and wait between their first and second towers before the wave arrives." },
+          { phase:"Level 1", text:"Auto the first three melee minions, then spin on the whole wave. One auto each finishes the melees." },
+          { phase:"Level 1", text:"If their jungler started on your side of the map, go straight into their camp and take it or fight them, with your jungler if they can come." },
+          { phase:"Level 1", text:"It fails if they guard the entrances or two of them come for you. Leave then: Flash, and Nimbus Cloak's speed carries you out." },
+          { phase:"Lane", text:"It costs you a few minions of experience. Worth it most in a lane you would lose anyway." },
+          { phase:"Mid game", text:"Play to one-shot their carry with Q, E and R. If you can't kill their frontline and your team is ahead, go Black Cleaver and help them win." },
+        ],
+      },
     }],
   },
   roles:{

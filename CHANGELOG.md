@@ -16,6 +16,9 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Added
+- **Garen Top: Proxy invade.** A level 1 cheese: clear the first wave behind their tower, then invade their jungler. Stormraider's with Absolute Focus, and play tips for each step.
+
 ## [0.23.5.2] — 2026-11-25
 
 ### Changed
