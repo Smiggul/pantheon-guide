@@ -61,8 +61,12 @@ export default {
       // Bans from poolMatchups.js, Iron+Bronze: Teemo 43.5% (915 games), Kayle 43.7% (311), Jax 44.2% (997).
       bans:["Teemo","Kayle","Jax"], replacements:["Volibear","Mordekaiser","Dr. Mundo"],
       role:"Split-Push Duelist",
-      corePath:"Ravenous Hydra  ›  Plated Steelcaps  ›  Trinity Force  ›  Hullbreaker",
-      coreNote:"Trundle Top wins long trades: Chomp takes their AD and gives it to you, Frozen Domain speeds you up and boosts your healing, and Ravenous Hydra keeps you topped up while you shove. Trinity Force is the dueling spike, Hullbreaker makes you the side lane they must answer, and Subjugate turns their tankiest player into your best stat stick. Death's Dance or Spirit Visage comes fourth.",
+      corePath:"Ravenous Hydra  ›  Plated Steelcaps  ›  Trinity Force  ›  Hullbreaker",
+      corePathAhead:"Trinity Force  ›  Plated Steelcaps  ›  Ravenous Hydra  ›  Hullbreaker",
+      // Research (2026-11-25, lolalytics 16.23 Emerald+): Ravenous Hydra opens 58.0% of games, Blade of The Ruined King
+      //   20.6%, Trinity Force 16.8% (the best-winning, 57.8% of first-three sets), most often into Ravenous > Hullbreaker
+      //   (23%). Trinity's spike is the Ahead opener; Ravenous's lifesteal and wave clear stay Even/Behind.
+      coreNote:"Trundle Top wins long trades: Chomp takes their AD and gives it to you, Frozen Domain speeds you up and boosts your healing, and Ravenous Hydra keeps you topped up while you shove. Ahead: Trinity Force first to turn the lead into kills. Even or behind: Ravenous Hydra first to heal and clear waves. Trinity Force is the dueling spike, Hullbreaker makes you the side lane they must answer, and Subjugate turns their tankiest player into your best stat stick. Death's Dance or Spirit Visage comes fourth.",
       sideItems:["Death's Dance","Spirit Visage","Sterak's Gage","Blade of The Ruined King","Thornmail","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Trinity Force","Chomp their AD and out-trade them."),I("Spirit Visage","Wins the long sustain fight."),I("Thornmail","Cuts their healing.")],behind:[I("Plated Steelcaps","Less damage from their autos."),I("Death's Dance","Spreads their burst out."),I("Thornmail","Cuts their healing.")],runes:{...TRUNDLE_TOP_DEFAULT_RUNES}},

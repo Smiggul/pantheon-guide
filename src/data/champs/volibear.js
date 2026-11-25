@@ -81,8 +81,12 @@ export default {
       bans:["Jax","Illaoi","Teemo"], replacements:["Sett","Renekton","Sion"],
       role:"Juggernaut / Tank",
       corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
+      corePathAhead:"Statikk Shiv  ›  Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage",
       // Research: Current meta favors Dusk and Dawn plus Navori over the older Heartsteel/Sunfire Aegis core.
-      coreNote:"Dusk and Dawn's on-hit and crit hybrid stats and Navori Flickerblade's cooldown refund both feed your passive's per-cast bonus damage directly. Spirit Visage amplifies W self-healing, your core sustain; Thornmail or Force of Nature last, by their damage profile. Heartsteel is a fine alternative for long, scaling matches. R disables the tower: Demolish plus dive is your win condition.",
+      //   2026-11-25 (lolalytics 16.23): Statikk Shiv opens 46.3% of Emerald+ and 50.3% of Bronze games, Dusk and Dawn
+      //   35.7% / 31.3%; Statikk > Dusk and Dawn > Navori is its most common Bronze line (12%). Statikk is the Ahead
+      //   opener (burst and wave clear to snowball), Dusk and Dawn's health the Even/Behind one.
+      coreNote:"Ahead: Statikk Shiv first, its chain lightning wins the next trade and shoves for a dive. Even or behind: Dusk and Dawn first for the health. Dusk and Dawn's on-hit and crit hybrid stats and Navori Flickerblade's cooldown refund both feed your passive's per-cast bonus damage directly. Spirit Visage amplifies W self-healing, your core sustain; Thornmail or Force of Nature last, by their damage profile. Heartsteel is a fine alternative for long, scaling matches. R disables the tower: Demolish plus dive is your win condition.",
       sideItems:["Force of Nature","Dead Man's Plate","Warmog's Armor","Randuin's Omen","Frozen Heart","Abyssal Mask","Mercury's Treads","Plated Steelcaps","Heartsteel","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Sunfire Aegis","Burn stacks while you out-sustain their walk-down with W."),I("Spirit Visage","Amplifies W healing — you win the HP war."),I("Thornmail","GW cuts Darius/Mundo regen while they hit you.")],behind:[I("Thornmail","GW 40% is the equaliser vs their sustain."),I("Spirit Visage","W healing keeps you relevant behind."),I("Warmog's Armor","Regen between waves — never base, never lose tower.")],runes:{...VOLIBEAR_TOP_DEFAULT_RUNES}},
@@ -104,8 +108,11 @@ export default {
       bans:["Kindred","Rek'Sai","Elise"], replacements:["Udyr","Warwick","Sett"],
       role:"Juggernaut / Bruiser",
       corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
+      corePathAhead:"Statikk Shiv  ›  Dusk and Dawn  ›  Spirit Visage  ›  Thornmail",
       // Research: Dusk and Dawn plus Navori feed his passive better than the older Trinity Force/Sundered Sky pattern.
-      coreNote:"Same core as Top: Dusk and Dawn's on-hit and crit hybrid and Navori Flickerblade's cooldown refund feed your passive's per-cast damage. Spirit Visage amplifies the W healing that anchors every gank. Gank with E from fog for the slow field, Q stun on arrival, and R to break tower dives.",
+      //   2026-11-25 (lolalytics 16.23): Dusk and Dawn opens 61.6% of Emerald+ jungle games, Statikk Shiv 20.7% (Bronze
+      //   46.2% / 34.6%); after Statikk the most common Emerald+ line is Dusk and Dawn > Spirit Visage (17%).
+      coreNote:"Ahead: Statikk Shiv first for faster clears and burst on every gank. Even or behind: Dusk and Dawn first for the health. Same core as Top: Dusk and Dawn's on-hit and crit hybrid and Navori Flickerblade's cooldown refund feed your passive's per-cast damage. Spirit Visage amplifies the W healing that anchors every gank. Gank with E from fog for the slow field, Q stun on arrival, and R to break tower dives.",
       sideItems:["Dead Man's Plate","Force of Nature","Wit's End","Blade of The Ruined King","Mercury's Treads","Plated Steelcaps","Trinity Force","Sundered Sky","Titanic Hydra"],
       data:{
         JUGGERNAUT:{ahead:[I("Sundered Sky","Crit-heal bite wins the bruiser mirror."),I("Blade of The Ruined King","% HP shred on their stacked health."),I("Thornmail","GW on their regen while you DPS.")],behind:[I("Sterak's Gage","Shield when their walk-down connects."),I("Thornmail","GW equaliser."),I("Spirit Visage","W healing keeps skirmishes winnable.")],runes:{...VOLIBEAR_JGL_DEFAULT_RUNES}},

@@ -22,10 +22,13 @@ export default {
     Top:[{
       label:"Black Cleaver rush", tag:"alt",
       corePath:"Black Cleaver  ›  Plated Steelcaps  ›  Spear of Shojin  ›  Sterak's Gage",
+      corePathAhead:"Black Cleaver  ›  Plated Steelcaps  ›  Trinity Force  ›  Spear of Shojin",
       // Research: Yorick's second most common first item (about 12% of games), winning as often as the Trinity rush (52.2%
       //   vs 52.0%). Shojin and Eclipse are the two usual follow-ups and win equally often; Sterak's is the most
       //   common third item after Cleaver into Shojin. Source: lolalytics, patch 26.20, Emerald+.
-      coreNote:"Rush Black Cleaver instead of Trinity Force. It wins as often as the Trinity rush, so treat it as a matchup call rather than an upgrade: take it into armor-stacking or melee-heavy teams, where percent armor shred is worth the most. Spear of Shojin or Eclipse second, then Sterak's Gage. Conqueror over Grasp is a reasonable swap into tank tops.",
+      //   2026-11-25 (16.23 Emerald+): after Black Cleaver the most common line is Trinity Force > Shojin (8%), the
+      //   Ahead line (damage); Shojin > Sterak's (6%) stays Even/Behind.
+      coreNote:"Rush Black Cleaver instead of Trinity Force. Ahead: Trinity Force second for more dueling damage. Even or behind: Spear of Shojin then Sterak's Gage to survive. It wins as often as the Trinity rush, so treat it as a matchup call rather than an upgrade: take it into armor-stacking or melee-heavy teams, where percent armor shred is worth the most. Conqueror over Grasp is a reasonable swap into tank tops.",
       runes:{...YORICK_TOP_DEFAULT_RUNES},
       sideItems:["Eclipse","Trinity Force","Hullbreaker","Death's Dance","Thornmail","Spirit Visage","Mercury's Treads"],
     },{
@@ -45,8 +48,12 @@ export default {
     Top:{
       bans:["Fiora","Jayce","Quinn"], replacements:["Darius","Sett","Volibear"],
       role:"Juggernaut / Split-Push Summoner",
-      corePath:"Plated Steelcaps  ›  Trinity Force  ›  Black Cleaver  ›  Spear of Shojin",
-      coreNote:"Yorick plays for relentless split-push pressure — Mourning Mist marks stack toward Awakening's slow, ghouls zone the sidelane, and Maiden of the Mist demands a response. Plated Steelcaps and Trinity Force add early tankiness and damage; Black Cleaver shreds armor for his auto-heavy trades; Spear of Shojin's ability haste keeps ghouls and Maiden summons coming.",
+      corePath:"Plated Steelcaps  ›  Eclipse  ›  Black Cleaver  ›  Spear of Shojin",
+      corePathAhead:"Plated Steelcaps  ›  Trinity Force  ›  Black Cleaver  ›  Spear of Shojin",
+      // Research (2026-11-25, lolalytics 16.23 Emerald+): Trinity Force opens 57.9% of games and stays Ahead. Even/Behind
+      //   is Eclipse (5.0%, the best-winning opener at 59.4% of first-three sets), whose most common line is Black
+      //   Cleaver > Shojin (10%): its shield keeps a losing lane alive. Black Cleaver first is the alternate.
+      coreNote:"Yorick plays for relentless split-push pressure — Mourning Mist marks stack toward Awakening's slow, ghouls zone the sidelane, and Maiden of the Mist demands a response. Ahead: Trinity Force first for damage. Even or behind: Eclipse first, its shield keeps you alive in losing trades. Plated Steelcaps add early tankiness; Black Cleaver shreds armor for his auto-heavy trades; Spear of Shojin's ability haste keeps ghouls and Maiden summons coming.",
       sideItems:["Sterak's Gage","Death's Dance","Force of Nature","Thornmail","Guardian Angel","Mercury's Treads"],
       data:{
         JUGGERNAUT:{ahead:[I("Black Cleaver","Shred their armor stack while ghouls chip away."),I("Trinity Force","Proc damage wins the trade outright."),I("Death's Dance","Outlast their sustain with your own.")],behind:[I("Plated Steelcaps","Reduces auto damage from their all-in."),I("Sterak's Gage","Shield when the walk-down connects."),I("Thornmail","GW cuts their sustain.")],runes:{...YORICK_TOP_DEFAULT_RUNES}},

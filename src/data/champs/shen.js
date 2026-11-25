@@ -54,7 +54,11 @@ export default {
       bans:["Vayne","Fiora","Camille"], replacements:["Sett","Volibear","Jax"],
       role:"Warden / Split-Push-and-Global-Save",
       corePath:"Titanic Hydra  ›  Plated Steelcaps  ›  Dusk and Dawn  ›  Bandlepipes",
-      coreNote:"Shen plays for a split-push-and-global-save pattern — Spirit's Refuge blocks incoming damage, Shadow Dash taunts whatever it hits, and Stand United teleports to and shields any ally anywhere on the map. Titanic Hydra scales off his tank HP for real split-push damage; Plated Steelcaps blunts auto-heavy lane bullies; Dusk and Dawn and Bandlepipes both round out haste and team-wide utility.",
+      corePathAhead:"Heartsteel  ›  Plated Steelcaps  ›  Titanic Hydra  ›  Dusk and Dawn",
+      // Research (2026-11-25, lolalytics 16.23): Titanic Hydra opens 71.4% of Emerald+ games, Heartsteel 14.3% (Bronze
+      //   56.2% / 26.5%). Heartsteel first wins more (62.5% vs 59.0% of first-three sets) and goes Titanic Hydra next;
+      //   it stacks off trades, so it is the Ahead opener. Titanic's wave clear stays the Even/Behind one.
+      coreNote:"Shen plays for a split-push-and-global-save pattern — Spirit's Refuge blocks incoming damage, Shadow Dash taunts whatever it hits, and Stand United teleports to and shields any ally anywhere on the map. Ahead: Heartsteel first and stack it in every trade you win. Even or behind: Titanic Hydra first to clear waves safely. Titanic Hydra scales off his tank HP for real split-push damage; Plated Steelcaps blunts auto-heavy lane bullies; Dusk and Dawn and Bandlepipes both round out haste and team-wide utility.",
       sideItems:["Thornmail","Spirit Visage","Force of Nature","Mercury's Treads","Randuin's Omen","Sunfire Aegis"],
       data:{
         JUGGERNAUT:{ahead:[I("Titanic Hydra","HP-scaled damage wins the sustained trade war."),I("Thornmail","GW cuts their sustain."),I("Dusk and Dawn","Proc damage adds up over the fight.")],behind:[I("Plated Steelcaps","Reduces auto damage from their press."),I("Spirit Visage","Amplify your own sustain."),I("Randuin's Omen","Crit/AS reduction if they build offense.")],runes:{...SHEN_TOP_DEFAULT_RUNES}},

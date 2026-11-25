@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.5.2] — 2026-11-25
+
+### Changed
+- **More of your pool opens by game state.** The Ahead / Even-Behind switch picks a different first or second item on Pantheon Top's Lethality Carry, PTA Bruiser, Cleaver Bruiser and Meme builds, Pantheon Jungle (main and Cleaver Teamfight), Volibear Top and Jungle, Shen Top, Dr. Mundo Top, Yorick Top (main and Black Cleaver rush) and Trundle Top.
+- **Pantheon's Meme Build hits back.** Ahead, Overlord's Bloodmail turns the Heartsteel health into damage, and Sunfire Aegis, Unending Despair, Thornmail and Warmog's are in its situational items.
+
 ## [0.23.5.1] — 2026-11-25
 
 ### Changed
