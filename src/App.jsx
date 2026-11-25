@@ -2308,7 +2308,9 @@ useEffect(() => {
                 const hasCounters = laneCountersOf(csOppDd, csMyRole).some((r) => DD_TO_CHAMP[r.dd] && !csUnavailable.has(r.dd));
                 // Champions with too few games in the bracket come last, marked (poolPick.js).
                 const listed = leadDds.length ? others : pick.ranked;
-                const rest = [...listed.map((r) => `${nm(r)} ${pct(r)}`), ...pick.thin.map((r) => `${nm(r)} ${pct(r)}, few games`)];
+                const rest = [...listed.map((r) => `${nm(r)} ${pct(r)}`), ...pick.thin.map((r) => !("rate" in r) ? `${nm(r)} ${pct(r)}, few games`
+                  : r.rate == null ? `${nm(r)}, few games`
+                  : `${nm(r)} ${r.rate}%${r.rateKey === pick.key ? "" : r.rateKey === "hwr" ? " Emerald+" : " Iron–Bronze"}, few games`)];
                 return (
                   <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 10px" }}>
                     <span>Your pool</span>

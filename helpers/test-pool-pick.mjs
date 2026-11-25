@@ -60,7 +60,7 @@ t("with too few games anywhere it still ranks, flagged", () => {
 });
 
 t("under FLOOR games a champion is neither ranked nor listed", () => {
-  const d = { Top: { X: { Pantheon: [100, 2, 100, 3], Volibear: [44, 500, 50, 500] } } };
+  const d = { Top: { X: { Shen: [100, 2, 100, 3], Volibear: [44, 500, 50, 500] } } };
   const p = poolPick("Top", "X", new Set(), d);
   assert.deepEqual(dds(p.ranked), ["Volibear"]);
   assert.deepEqual(p.thin, []);
@@ -94,6 +94,28 @@ t("a winning pick leads alone, or with the runner-up when close", () => {
   assert.deepEqual(poolLead(poolPick("Top", "Clear", new Set(), DATA)), ["Pantheon"]);
   const close = { Top: { X: { Pantheon: [52, 3000, 50, 3000], Volibear: [51.5, 3000, 50, 3000] } } };
   assert.deepEqual(poolLead(poolPick("Top", "X", new Set(), close)), ["Pantheon", "Volibear"]);
+});
+
+// The comfort pick (2026-11-25): Pantheon, the owner's most-mastered champion, is always listed.
+t("the comfort pick is listed from Emerald+ when his bracket has too few games", () => {
+  const d = { Top: { Ryze: { Pantheon: [46.4, 28, 52.25, 111], Volibear: [44, 500, 50, 500] } } };
+  const pan = poolPick("Top", "Ryze", new Set(), d).thin.find((r) => r.dd === "Pantheon");
+  assert.ok(pan);
+  assert.equal(pan.rateKey, "hwr");
+  assert.equal(pan.rate, 52.25);
+});
+
+t("the comfort pick with too few games anywhere is listed without a rate", () => {
+  const d = { Top: { X: { Pantheon: [100, 2, 100, 3], Volibear: [44, 500, 50, 500] } } };
+  const pan = poolPick("Top", "X", new Set(), d).thin.find((r) => r.dd === "Pantheon");
+  assert.ok(pan);
+  assert.equal(pan.rate, null);
+});
+
+t("a banned or taken comfort pick stays out", () => {
+  const d = { Top: { Ryze: { Pantheon: [46.4, 28, 52.25, 111], Volibear: [44, 500, 50, 500] } } };
+  const p = poolPick("Top", "Ryze", new Set(["Pantheon"]), d);
+  assert.ok(!p.thin.concat(p.ranked).some((r) => r.dd === "Pantheon"));
 });
 
 t("reads the bundled data by default", () => {
