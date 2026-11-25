@@ -75,7 +75,10 @@ export default {
   },
   roles:{
     Top:{
-      bans:["Teemo","Fiora","Aatrox"], replacements:["Sett","Renekton","Sion"],
+      // Research (2026-11-25, lolalytics 16.23, poolMatchups.js): worst lanes in Iron+Bronze are Jax 39.2% (1,723 games),
+      // Illaoi 41.5% (1,213) and Teemo 42.2% (1,638); Emerald+ agrees (46.1 / 46.8 / 46.9%). The old Fiora and Aatrox
+      // bans were good lanes for him (55.4% and 52.7% in Iron+Bronze).
+      bans:["Jax","Illaoi","Teemo"], replacements:["Sett","Renekton","Sion"],
       role:"Juggernaut / Tank",
       corePath:"Dusk and Dawn  ›  Navori Flickerblade  ›  Spirit Visage  ›  Thornmail",
       // Research: Current meta favors Dusk and Dawn plus Navori over the older Heartsteel/Sunfire Aegis core.
