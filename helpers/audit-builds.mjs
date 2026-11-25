@@ -60,7 +60,10 @@ async function audit(c, role, r) {
   if (!tot) { rows.push({ at, err: "empty" }); return; }
   const [topF, topG] = Object.entries(first).sort((a, b) => b[1] - a[1])[0];
   const [topP, topPG] = Object.entries(pair).sort((a, b) => b[1] - a[1])[0] || ["", 0];
-  const mine = items(r.corePath);
+  // A role with two lines (corePathAhead for Ahead, corePath for Even/Behind) is judged by the line whose
+  // opener is more common: the other is a deliberate game-state choice, not drift.
+  const mine = [r.corePath, r.corePathAhead].filter(Boolean).map(items)
+    .sort((a, b) => (first[b[0]] || 0) - (first[a[0]] || 0))[0];
   const myF = mine[0], myP = mine.slice(0, 2).join(" > ");
   rows.push({ at, games: tot,
     myF, myFs: (first[myF] || 0) / tot, topF, topFs: topG / tot,

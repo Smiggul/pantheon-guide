@@ -65,8 +65,12 @@ export default {
       Top: [{
         label: "Lethality Carry",
         tag: "off-meta",
-        corePath: "Youmuu's Ghostblade  ›  Voltaic Cyclosword  ›  The Collector  ›  Serylda's Grudge",
-        coreNote: "The greedy glass-cannon line: full lethality, no bruiser durability. Press the Attack and a Sorcery secondary trade survivability for scaling damage, so you fold if caught: play for picks and position. Youmuu's Ghostblade is the roam and lethality spike, Voltaic Cyclosword adds energized burst, The Collector's execute turns spear plus combo into a kill, and Serylda's Grudge pens armor and slows. Then Edge of Night or Profane Hydra.",
+        // Research (2026-11-25, lolalytics 16.23): Youmuu's opens 2.3% of Emerald+ games; after Youmuu's > Voltaic the
+        //   third item is Bastionbreaker 14.3% or Edge of Night 14.0% (thin, 336 games). Edge of Night never opens (0.1%),
+        //   so the Even/Behind line keeps Youmuu's and swaps Voltaic for it: Spear Shot's chart says never Cyclosword behind.
+        corePath: "Youmuu's Ghostblade  ›  Edge of Night  ›  The Collector  ›  Serylda's Grudge",
+        corePathAhead: "Youmuu's Ghostblade  ›  Voltaic Cyclosword  ›  The Collector  ›  Serylda's Grudge",
+        coreNote: "The greedy glass-cannon line: full lethality, no bruiser durability. Press the Attack and a Sorcery secondary trade survivability for scaling damage, so you fold if caught: play for picks and position. Youmuu's Ghostblade is the roam and lethality spike. Ahead: Voltaic Cyclosword second for energized burst. Even or behind: Edge of Night second, its spell shield blocks the catch. The Collector's execute turns spear plus combo into a kill, and Serylda's Grudge pens armor and slows.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -80,10 +84,13 @@ export default {
       }, {
         label: "PTA Bruiser",
         tag: "alt",
-        corePath: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
+        corePath: "Eclipse  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
+        corePathAhead: "Voltaic Cyclosword  ›  Black Cleaver  ›  Sundered Sky  ›  Death's Dance",
         // Research (2026-10-26): the owner's own Voltaic build, Pantheon Top's main until this date, moved here at his request
         //   ("my own, with my playstyle"), keeping this chip's Press the Attack page.
-        coreNote: "Voltaic Cyclosword first: once you win the early spear trades, its energized proc, move speed and haste turn that lead into repeated one-combo bursts. Take Eclipse first when even or behind. Black Cleaver second keeps the trades snowballing, Sundered Sky adds a guaranteed-crit heal on Q, and Death's Dance outlasts long fights. Chempunk Chainsword only into sustain lanes (Warwick, Darius, Briar). Build toward The Brutalizer from Pickaxe, not Serrated Dirk. Boots by their damage type.",
+        //   2026-11-25: the note's own "Eclipse first when even or behind" became the Even/Behind line (Eclipse > Black
+        //   Cleaver > Sundered Sky is 10.7% of Eclipse openers, lolalytics 16.23 Emerald+).
+        coreNote: "Ahead: Voltaic Cyclosword first: once you win the early spear trades, its energized proc, move speed and haste turn that lead into repeated one-combo bursts. Even or behind: Eclipse first, its shield keeps you in losing trades. Black Cleaver second keeps the trades snowballing, Sundered Sky adds a guaranteed-crit heal on Q, and Death's Dance outlasts long fights. Chempunk Chainsword only into sustain lanes (Warwick, Darius, Briar). Build toward The Brutalizer from Pickaxe, not Serrated Dirk. Boots by their damage type.",
         runes: {
           keystone: "Press the Attack",
           primary: "Precision",
@@ -105,8 +112,14 @@ export default {
         label: "Meme Build",
         tag: "meme",
         hint: "Full tank",
+        //   2026-11-25, the owner asked for swaps "to maximise fun": the Ahead line turns the health into damage.
+        //   Overlord's Bloodmail (16.23): 2.5% of bonus Health as AD, up to 10% more AD at low Health. Titanic Hydra's
+        //   cleave scales with max Health. Heartsteel's stacks feed both. Spear Shot's own line stays as Even/Behind.
+        //   Fun side items: Sunfire Aegis and Unending Despair burn and heal in long fights, Thornmail punishes autos,
+        //   Warmog's regenerates once you pass 2,000 bonus Health.
         corePath: "Heartsteel  ›  Iceborn Gauntlet  ›  Plated Steelcaps  ›  Titanic Hydra",
-        coreNote: "Full tank. Start Long Sword, rush Heartsteel and stack it in every trade: W deals more max-health damage the more bonus health you have. Iceborn's slow keeps them in reach. Your autos and Q hit for little, so win long fights, not burst trades.",
+        corePathAhead: "Heartsteel  ›  Plated Steelcaps  ›  Overlord's Bloodmail  ›  Titanic Hydra",
+        coreNote: "Full tank. Start Long Sword, rush Heartsteel and stack it in every trade: W deals more max-health damage the more bonus health you have. Ahead: Overlord's Bloodmail turns all that health into Attack Damage and Titanic Hydra cleaves off it, so the tank one-shots. Even or behind: Iceborn's slow keeps them in reach and you win long fights, not burst trades.",
         runes: {
           keystone: "Grasp of the Undying",
           primary: "Resolve",
@@ -116,7 +129,7 @@ export default {
           shards: ["Adaptive Force", "Adaptive Force", "Health"],
           reason: "Grasp and Overgrowth stack health for Heartsteel and W. Bone Plating takes the edge off their trades, and Manaflow Band pays for the Q spam.",
         },
-        sideItems: ["Black Cleaver"],
+        sideItems: ["Sunfire Aegis", "Unending Despair", "Thornmail", "Warmog's Armor", "Black Cleaver"],
       }, {
         // Research (2026-11-24): Spear Shot Clips, "Rank 1 Pantheon explains how to Build and Play Pantheon!" (22 Nov 2026),
         //   his first-item decision chart (0:00-11:00): winning vs a squishy laner = anything aggressive (Cyclosword,
@@ -135,8 +148,11 @@ export default {
         //   The rows are the pre-26.21 Conqueror main page (git 637fddb^).
         label: "Cleaver Bruiser",
         tag: "alt",
+        //   2026-11-25: the video's "Voltaic first when winning vs a squishy laner" became the Ahead line. After Voltaic >
+        //   Black Cleaver the third item is Death's Dance 205 games (59%) or Sundered Sky 93 (58%), lolalytics 16.23 Emerald+.
         corePath: "Black Cleaver  ›  Sundered Sky  ›  Death's Dance  ›  Sterak's Gage",
-        coreNote: "Black Cleaver first, then Sundered Sky: the armor shred helps your whole team, and Sundered keeps you alive at the front. Death's Dance against AD, Sterak's for tenacity. Winning against a squishy laner: Voltaic Cyclosword first instead.",
+        corePathAhead: "Voltaic Cyclosword  ›  Black Cleaver  ›  Death's Dance  ›  Sterak's Gage",
+        coreNote: "Even or behind: Black Cleaver first, then Sundered Sky: the armor shred helps your whole team, and Sundered keeps you alive at the front. Ahead against a squishy laner: Voltaic Cyclosword first, then Black Cleaver; ahead against a tank, keep Black Cleaver first. Death's Dance against AD, Sterak's for tenacity.",
         runes: {
           keystone: "Conqueror",
           primary: "Precision",
@@ -159,8 +175,11 @@ export default {
         //   The main build's Sundered Sky first is rare (4.7%) but not worse (53.2% of 594, not significant), so it stays.
         label: "Cleaver Teamfight",
         tag: "alt",
+        //   2026-11-25: Ahead line from Youmuu's openers (8.7% of 16.23 Emerald+ jungle games), whose most common
+        //   continuation is Black Cleaver > Death's Dance (24%).
         corePath: "Black Cleaver  ›  Death's Dance  ›  Guardian Angel  ›  Sterak's Gage",
-        coreNote: "Black Cleaver first: with AD on your team it is your best teamfight item. Death's Dance and Guardian Angel keep you alive at the front of the fight. Sterak's for tenacity.",
+        corePathAhead: "Youmuu's Ghostblade  ›  Black Cleaver  ›  Death's Dance  ›  Guardian Angel",
+        coreNote: "Even or behind: Black Cleaver first: with AD on your team it is your best teamfight item. Ahead: Youmuu's Ghostblade first to gank and roam faster, then Black Cleaver. Death's Dance and Guardian Angel keep you alive at the front of the fight. Sterak's for tenacity.",
         runes: {
           ...PANTH_JGL_DEFAULT_RUNES,
           reason: "Conqueror for the bruiser fights, Triumph, Legend: Alacrity and Coup de Grace to clear and finish ganks. Magical Footwear saves the boots gold for Black Cleaver, and Cosmic Insight cuts Smite and summoner cooldowns.",
@@ -299,9 +318,12 @@ export default {
             Jungle: {  
               bans:["Briar","Wukong","Rek'Sai"], replacements:["Warwick","Udyr","Lee Sin"],
               skillOrder:["Q","W","E"], // Q@1,4,5,7,9 · W@2,8,10,12,13 · E@3,14,15,17,18
-                corePath: "Sundered Sky  ›  Black Cleaver  ›  Guardian Angel  ›  Death's Dance",
+                corePath: "Eclipse  ›  Black Cleaver  ›  Death's Dance  ›  Guardian Angel",
+                corePathAhead: "Sundered Sky  ›  Black Cleaver  ›  Guardian Angel  ›  Death's Dance",
                 // Research: Sundered Sky's crit-heal edges out Eclipse as the priority first item in current meta.
-                coreNote: "Jungle Pantheon relies on early tempo and ganks. Sundered Sky first for its crit-heal; Black Cleaver carries you into mid-game teamfights; Eclipse and Death's Dance round out the burst-into-sustain pattern.",
+                //   2026-11-25 (lolalytics 16.23 Emerald+): Even/Behind line added. Eclipse opens 26.0% of games (Bronze
+                //   34.2%), and Eclipse > Black Cleaver > Death's Dance is 41% of those; Sundered Sky first (4.8%) stays Ahead.
+                coreNote: "Jungle Pantheon relies on early tempo and ganks. Ahead: Sundered Sky first, its crit-heal keeps you diving. Even or behind: Eclipse first, its shield wins the skirmishes you would otherwise lose. Black Cleaver carries you into mid-game teamfights; Death's Dance and Guardian Angel keep you alive at the front.",
                 sideItems: ["Plated Steelcaps","Mercury's Treads","Youmuu's Ghostblade","Edge of Night","Guardian Angel","Spear of Shojin","Maw of Malmortius","Serpent's Fang","Serylda's Grudge","Sterak's Gage"],
 
                 data: {

@@ -33,7 +33,11 @@ export default {
       bans:["Fiora","Gwen","Kayle"], replacements:["Sion","Ornn","K'Sante"],
       role:"Unkillable HP Mountain",
       corePath:"Warmog's Armor  ›  Boots of Swiftness  ›  Heartsteel  ›  Spirit Visage",
-      coreNote:"Mundo goes where he pleases: his passive shrugs off the first CC, his ult regenerates a full health bar, and Warmog's plus Heartsteel stack the health every part of his kit multiplies. Spirit Visage amplifies the whole regeneration engine, Thornmail punishes anyone trying to auto through it, and the cleaver spam chunks harder than his tank frame suggests. His one real weakness is percent-health true damage: ban Fiora or accept a hard lane.",
+      corePathAhead:"Heartsteel  ›  Boots of Swiftness  ›  Warmog's Armor  ›  Spirit Visage",
+      // Research (2026-11-25, lolalytics 16.23): a true split. Warmog's opens 50.6% of Emerald+ games, Heartsteel 47.6%
+      //   (Bronze 38.6% / 57.2%), and each goes into the other. Heartsteel stacks off trades (Ahead); Warmog's regen
+      //   keeps you in lane without trading (Even/Behind).
+      coreNote:"Mundo goes where he pleases: his passive shrugs off the first CC, his ult regenerates a full health bar, and Warmog's plus Heartsteel stack the health every part of his kit multiplies. Ahead: Heartsteel first and stack it in every trade. Even or behind: Warmog's first, its regen keeps you in lane without trading. Spirit Visage amplifies the whole regeneration engine, Thornmail punishes anyone trying to auto through it, and the cleaver spam chunks harder than his tank frame suggests. His one real weakness is percent-health true damage: ban Fiora or accept a hard lane.",
       sideItems:["Thornmail","Randuin's Omen","Kaenic Rookern","Force of Nature","Unending Despair","Overlord's Bloodmail"],
       data:{
         JUGGERNAUT:{ahead:[I("Warmog's Armor","Out-HP the HP war — regen between every trade."),I("Thornmail","Anti-heal their sustain."),I("Heartsteel","Stack the mirror advantage.")],behind:[I("Thornmail","Cut their healing before comparing bars."),I("Spirit Visage","Amplify your regen engine."),I("Randuin's Omen","Slow their walk-down.")],runes:{...DRMUNDO_TOP_DEFAULT_RUNES}},
