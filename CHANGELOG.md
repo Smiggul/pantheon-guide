@@ -16,6 +16,10 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Fixed
+- **Your pool no longer names a losing pick.** When every champion in your pool loses the lane, it says so and points you to Counters.
+- **Volibear Top suggests banning Jax, Illaoi and Teemo**, his worst lanes. Fiora and Aatrox are good lanes for him.
+
 ## [0.23.3.1] — 2026-11-24
 
 ### Added
