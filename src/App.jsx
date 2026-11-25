@@ -2313,7 +2313,7 @@ useEffect(() => {
                   <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 10px" }}>
                     <span>Your pool</span>
                     {[...pick.ranked, ...pick.thin].map((r) => DD_TO_CHAMP[r.dd] && (
-                      <button key={r.dd} type="button" onClick={() => pickChamp(DD_TO_CHAMP[r.dd])}
+                      <button key={r.dd} type="button" onClick={() => { const c = DD_TO_CHAMP[r.dd]; pickChamp(c); if (c.roles?.[csMyRole]) setActiveRole(csMyRole); }}
                         title={`Play ${nm(r)}`} aria-label={`Play ${nm(r)}`}
                         style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block",
                           opacity: leadDds.includes(r.dd) ? 1 : 0.55 }}>
