@@ -23,7 +23,7 @@ import { laneOpponent } from "./data/laneOpponent.js";
 import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
 import { laneCountersOf } from "./data/laneCounters.js";
-import { poolPick } from "./data/poolPick.js";
+import { poolPick, poolLead } from "./data/poolPick.js";
 import { bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
 import { synergiesFor } from "./data/synergies.js";
 import { skinThemeOf } from "./data/skinThemes.js";
@@ -2301,27 +2301,35 @@ useEffect(() => {
                 const [best, ...others] = pick.ranked;
                 const pct = (r) => `${r[pick.key]}%`;
                 const nm = (r) => DD_TO_CHAMP[r.dd]?.display || r.dd;
-                const lead = pick.close ? `${nm(best)} or ${nm(others[0])}` : nm(best);
+                // Who to play (poolLead): none when the whole pool loses this lane, and then the
+                // strip points at the Counters row below instead of naming a losing pick.
+                const leadDds = poolLead(pick);
+                const lead = leadDds.map((dd) => nm({ dd })).join(" or ");
+                const hasCounters = laneCountersOf(csOppDd, csMyRole).some((r) => DD_TO_CHAMP[r.dd] && !csUnavailable.has(r.dd));
                 // Champions with too few games in the bracket come last, marked (poolPick.js).
-                const rest = [...others.map((r) => `${nm(r)} ${pct(r)}`), ...pick.thin.map((r) => `${nm(r)} ${pct(r)}, few games`)];
+                const listed = leadDds.length ? others : pick.ranked;
+                const rest = [...listed.map((r) => `${nm(r)} ${pct(r)}`), ...pick.thin.map((r) => `${nm(r)} ${pct(r)}, few games`)];
                 return (
                   <div style={{ flexBasis:"100%", display:"flex", flexWrap:"wrap", alignItems:"center", gap:"6px 10px" }}>
                     <span>Your pool</span>
                     {[...pick.ranked, ...pick.thin].map((r) => DD_TO_CHAMP[r.dd] && (
-                      <button key={r.dd} type="button" onClick={() => pickChamp(DD_TO_CHAMP[r.dd])}
+                      <button key={r.dd} type="button" onClick={() => { const c = DD_TO_CHAMP[r.dd]; pickChamp(c); if (c.roles?.[csMyRole]) setActiveRole(csMyRole); }}
                         title={`Play ${nm(r)}`} aria-label={`Play ${nm(r)}`}
                         style={{ border:0, padding:0, background:"none", cursor:"pointer", borderRadius:"6px", display:"block",
-                          opacity: r === best || (pick.close && r === others[0]) ? 1 : 0.55 }}>
+                          opacity: leadDds.includes(r.dd) ? 1 : 0.55 }}>
                         {portrait(r.dd, 28, `cs-pool-${r.dd}`)}
                       </button>
                     ))}
                     <span style={{ color:T.text }}>
-                      <b style={{ fontWeight:600 }}>Play {lead}</b>
-                      {`: ${pct(best)} vs ${csOppDisplay}`}
+                      {leadDds.length ? (
+                        <><b style={{ fontWeight:600 }}>Play {lead}</b>{`: ${pct(best)} vs ${csOppDisplay}`}</>
+                      ) : (
+                        <b style={{ fontWeight:600 }}>{`All lose vs ${csOppDisplay}`}</b>
+                      )}
                       {rest.length ? ` (${rest.join("; ")})` : ""}
-                      {pick.close ? ". Close: play your comfort pick" : ""}
+                      {leadDds.length > 1 ? ". Close: play your comfort pick" : ""}
                       {pick.fewGames ? `. Few games${pick.key === "hwr" ? " at your rank: Emerald+ rates" : ""}` : ""}
-                      {pick.allLose ? ". All lose this lane" : ""}
+                      {!leadDds.length && hasCounters ? ". Pick a counter" : ""}
                     </span>
                   </div>
                 );
