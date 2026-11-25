@@ -16,6 +16,11 @@
 import { POOL_MATCHUPS } from "./poolMatchups.js";
 
 const MIN_GAMES = 150, FLOOR = 30, CLOSE = 1.5;
+// The owner's comfort pick (2026-11-25: "my comfort pick, I have the most mastery on him"): always
+// listed, never ranked on thin data. Against rare top laners (Ryze, Corki, Galio) Iron+Bronze has
+// under FLOOR Pantheon games and he used to vanish from 49 of 130 Top opponents. He comes back in
+// `thin` with `rate`/`rateKey`: his bracket's rate, else Emerald+, else null (no usable data).
+export const COMFORT = ["Pantheon"];
 const GAMES = { lwr: "ln", hwr: "hn" };
 
 const has = (r, key, min) => r[key] != null && r[GAMES[key]] >= min;
@@ -41,6 +46,12 @@ export function poolPick(role, foe, exclude = new Set(), data = POOL_MATCHUPS) {
   const [key, min] = tiers[i];
   const ranked = rows.filter((r) => has(r, key, min)).sort(byRate(key));
   const thin = rows.filter((r) => !ranked.includes(r) && has(r, key, FLOOR)).sort(byRate(key));
+  const other = key === "lwr" ? "hwr" : "lwr";
+  for (const r of rows) {
+    if (!COMFORT.includes(r.dd) || ranked.includes(r) || thin.includes(r)) continue;
+    const k = has(r, key, FLOOR) ? key : has(r, other, FLOOR) ? other : null;
+    thin.push({ ...r, rate: k ? r[k] : null, rateKey: k });
+  }
   const fewGames = i > 0;
 
   const [a, b] = ranked;
