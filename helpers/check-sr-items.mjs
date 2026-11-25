@@ -58,6 +58,7 @@ for (const c of CHAMPS) {
   for (const [role, r] of Object.entries(c.roles || {})) {
     const at = `${c.dd} ${role}`;
     split(r.corePath).forEach((n) => note(n, `${at} core`));
+    split(r.corePathAhead).forEach((n) => note(n, `${at} core (ahead)`));
     (r.sideItems || []).forEach((n) => note(n, `${at} side`));
     for (const [cls, v] of Object.entries(r.data || {})) {
       for (const k of ["ahead", "behind"]) (v[k] || []).forEach((e) => note(e?.name, `${at} ${cls}`));

@@ -16,6 +16,9 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Changed
+- **Pantheon Top opens by game state.** Ahead: Voltaic Cyclosword › Bastionbreaker › Lord Dominik's Regards. Even or behind: Eclipse › Black Cleaver › Death's Dance. The Stormraider's runes stay. The Ahead / Even-Behind switch now changes the build card, the game plan and the item set sent to the client.
+
 ## [0.23.4.1] — 2026-11-25
 
 ### Added

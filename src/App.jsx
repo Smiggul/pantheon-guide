@@ -22,6 +22,7 @@ import { analyzeEnemyTeam } from "./data/enemyTeam.js";
 import { laneOpponent } from "./data/laneOpponent.js";
 import { shownVersion } from "./data/appVersion.js";
 import { gamePlan } from "./data/gamePlan.js";
+import { corePathFor } from "./data/corePath.js";
 import { laneCountersOf } from "./data/laneCounters.js";
 import { poolPick, poolLead } from "./data/poolPick.js";
 import { bestCountersVsComp, THREAT_LABEL } from "./data/counterPicker.js";
@@ -707,7 +708,7 @@ useEffect(() => {
   useEffect(() => { setAltBuildIdx(-1); }, [champ.id, currentRole]);
   useEffect(() => { if (currentRole !== "Jungle") setJungleOpen(false); }, [currentRole]);
   const activeAlt = altBuildIdx >= 0 ? altList[altBuildIdx] : null;
-  const buildCorePath  = activeAlt ? activeAlt.corePath  : activeChampRole.corePath;
+  const buildCorePath  = corePathFor(activeAlt || activeChampRole, mode); // corePathAhead when Ahead
   const buildCoreNote  = activeAlt ? activeAlt.coreNote  : activeChampRole.coreNote;
   const buildSideItems = activeAlt ? activeAlt.sideItems : activeChampRole.sideItems;
   // Ability max-priority order (R implied at 6/11/16). null → hide the row.
@@ -1670,7 +1671,8 @@ useEffect(() => {
   const plan = (foeChamp || planEnemies.length >= 2) ? gamePlan({
     champ, roleName: currentRole,
     roleData: activeAlt
-      ? { ...activeChampRole, corePath: activeAlt.corePath, sideItems: activeAlt.sideItems || activeChampRole.sideItems }
+      ? { ...activeChampRole, corePath: activeAlt.corePath, corePathAhead: activeAlt.corePathAhead,
+          sideItems: activeAlt.sideItems || activeChampRole.sideItems }
       : activeChampRole,
     enemyClass: openClass, mode, foe: foeChamp, enemies: planEnemies, page: runeSel,
     curated: !!appliedMatchup,          // a hand-written matchup page already applied

@@ -36,6 +36,7 @@
 import { matchupAdvice, foeTraits, isRanged, ADD, MR_ITEMS, ARMOR_SET, ANTIHEAL_ITEMS, LETHALITY, HP_ITEMS, ARMOR_ITEMS } from "./matchupAdjust.js";
 import { myProfileOf, teamThreats } from "./enemyTeam.js";
 import { classOf } from "./champClasses.js";
+import { corePathFor } from "./corePath.js";
 import { CHAMPS } from "./champs/index.js";
 
 // ── Stackers and crit carries in the enemy team (2026-11-23) ────────────────
@@ -143,7 +144,7 @@ export function gamePlan({ champ, roleName, roleData, enemyClass = null, mode = 
   const prof = base === "AD" && isRanged(champ.dd) ? "AD_RANGED" : base;
   const timing = bootsTimingOf(champ.dd, roleName);
 
-  const authored = split(roleData.corePath);
+  const authored = split(corePathFor(roleData, mode));   // corePathAhead when Ahead
   const coreBoots = authored.find(isBoots) || null;
   const core = authored.filter((n) => !isBoots(n));
   const baseBoots = timing.none && !coreBoots ? null

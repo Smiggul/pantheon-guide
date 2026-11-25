@@ -68,7 +68,8 @@ for (const [id, v] of Object.entries(full)) {
 const mod = await import(pathToFileURL("src/data/champs/index.js").href);
 const used = new Set(), firstCore = new Set();
 const eatRole = (r) => {
-  if (typeof r.corePath === "string") { const p = r.corePath.split("›").map((s) => s.trim()); p.forEach((s) => used.add(s)); if (p[0]) firstCore.add(p[0]); }
+  for (const path of [r.corePath, r.corePathAhead]) // corePathAhead: the Ahead build (src/data/corePath.js)
+    if (typeof path === "string") { const p = path.split("›").map((s) => s.trim()); p.forEach((s) => used.add(s)); if (p[0]) firstCore.add(p[0]); }
   if (Array.isArray(r.sideItems)) r.sideItems.forEach((s) => used.add(s));
   for (const cell of Object.values(r.data || {})) for (const side of ["ahead", "behind"]) for (const e of (cell[side] || [])) if (e?.name) used.add(e.name);
 };
