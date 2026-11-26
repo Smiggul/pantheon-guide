@@ -16,6 +16,11 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.5.4] — 2026-11-26
+
+### Fixed
+- **Garen Top: Proxy invade** now builds what was bought in the video: Stridebreaker, Black Cleaver, Spear of Shojin, then Dead Man's Plate.
+
 ## [0.23.5.3] — 2026-11-26
 
 ### Added
