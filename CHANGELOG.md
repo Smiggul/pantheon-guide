@@ -16,6 +16,12 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+## [0.23.5.3] — 2026-11-26
+
+### Added
+- **Garen Top: Proxy invade.** A level 1 cheese: clear the first wave behind their tower, then invade their jungler. Stormraider's with Absolute Focus, and play tips for each step.
+- **Garen joins your Top pool.** Champ select now ranks him with your other top laners against the lane opponent.
+
 ## [0.23.5.2] — 2026-11-25
 
 ### Changed
