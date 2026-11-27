@@ -16,6 +16,9 @@ rolled into a numbered version when a build is cut.
 
 ## [Unreleased]
 
+### Added
+- **Shen Jungle: River Shen alternate.** Unsealed Spellbook, Bami's Cinder into Heartsteel, Lucidity boots and Dead Man's Plate, with play tips for the clear, the 6-minute Ghost swap and the 10-minute Teleport.
+
 ## [0.23.5.4] — 2026-11-26
 
 ### Fixed

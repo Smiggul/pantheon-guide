@@ -121,6 +121,7 @@ export const FIRST_BACK = {
   "Abyssal Mask": "Negatron Cloak",
   "Archangel's Staff": "Lost Chapter",
   "Axiom Arc": "The Brutalizer",
+  "Bami's Cinder": "Ruby Crystal",
   "Berserker's Greaves": "Boots",
   "Black Cleaver": "Phage",
   "Blackfire Torch": "Lost Chapter",

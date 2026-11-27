@@ -48,6 +48,35 @@ export default {
       runes:{ keystone:"Fleet Footwork", primary:"Precision", primaryRunes:["Presence of Mind","Legend: Haste","Coup de Grace"], secondary:"Sorcery", secondaryRunes:["Transcendence","Gathering Storm"], shards:["Ability Haste","Adaptive Force","Health (scaling)"], reason:"Fleet Footwork gives the constant sustain Shen wants and everything else stacks ability haste — Legend: Haste + Transcendence + the haste shard — because Dusk and Dawn makes him burn Q stacks fast, so haste (not AP) is what scales this build. Gathering Storm carries the AP into the late game." },
       sideItems:["Hextech Rocketbelt","Zhonya's Hourglass","Void Staff","Riftmaker","Mercury's Treads"],
     }],
+    Jungle:[{
+      // Research (2026-11-28): xPetu, "How River Shen Is Taking Over EUW Challenger… *71% WIN RATE*" (8 Nov 2025),
+      //   reviewing a Challenger Shen jungler's games. Sourced from the narration: Flash + Smite with Unsealed Spellbook,
+      //   Magical Footwear, Biscuit Delivery ("free HP by 6 minutes"), Cosmic Insight (item haste for Heartsteel,
+      //   summoner haste), a Domination secondary, Attack Speed + Move Speed shards; Bami's Cinder on the first back
+      //   "always" (900g), Giant's Belt into Heartsteel first ("HP is the most gold-effective stat to increase your
+      //   pet damage"), Ionian Boots of Lucidity, Dead Man's Plate; swaps Ghost first to gank, Teleport at 10 min
+      //   (Unleashed by then), later Exhaust and Cleanse; saves E for Raptors, Q before Wolves, lives around Scuttle.
+      //   Not sourced: the two Domination runes (Ultimate Hunter + Sudden Impact are the most common on lolalytics'
+      //   Spellbook Shen jungle filter, only 20 games on 16.23) and the third shard (Health (scaling)). sideItems are
+      //   Claude's picks: Hollow Radiance / Sunfire finish the Bami's, the rest from the main build's list. The pet
+      //   is left to petFor() (the video never names it). Rune text 16.23: the first swap opens at 6 min, and Smite
+      //   damage goes up after two swaps.
+      label:"River Shen", tag:"off-meta",
+      corePath:"Bami's Cinder  ›  Heartsteel  ›  Ionian Boots of Lucidity  ›  Dead Man's Plate",
+      coreNote:"Shen Jungle built for health and tempo: clear fast, live around Scuttle Crab and gank on repeat, and swap summoners into a second Teleport while Stand United is up. Bami's Cinder on the first back speeds up the clear; Heartsteel first, because health is what makes your clear and Shadow Dash hit harder. Lucidity boots and Cosmic Insight cut your summoner and Heartsteel cooldowns. Dead Man's Plate next to reach the fights.",
+      runes:{ keystone:"Unsealed Spellbook", primary:"Inspiration", primaryRunes:["Magical Footwear","Biscuit Delivery","Cosmic Insight"], secondary:"Domination", secondaryRunes:["Sudden Impact","Ultimate Hunter"], shards:["Attack Speed","Move Speed","Health (scaling)"], reason:"Unsealed Spellbook turns your summoners into a Ghost for an early gank and a second Teleport beside Stand United at 10 minutes. Biscuit Delivery's permanent health and Cosmic Insight's item and summoner haste feed the Heartsteel build. Sudden Impact fires after Shadow Dash; Ultimate Hunter brings Stand United back sooner." },
+      sideItems:["Hollow Radiance","Sunfire Aegis","Spirit Visage","Thornmail","Unending Despair","Mercury's Treads"],
+      playTips:{
+        source:"xPetu, \"How River Shen Is Taking Over EUW Challenger\" (8 Nov 2025).",
+        tips:[
+          { phase:"Level 1", text:"Don't use E on Krugs; save it for Raptors. Use Q on the way to Wolves so its empowered hits are ready when you arrive." },
+          { phase:"Early game", text:"Look for Scuttle Crab and invade angles, then back with 900 gold for Bami's Cinder. Gank as soon as you have it." },
+          { phase:"Early game", text:"Your first swap opens at 6 minutes: take Ghost and go gank." },
+          { phase:"Mid game", text:"Swap to Teleport around 10 minutes, when it's Unleashed. With Stand United up you have two ways across the map: ult onto a fight or Teleport to a ward." },
+          { phase:"Mid game", text:"Later swaps follow the fight: Exhaust into a carry, Cleanse into heavy CC. Smite hits harder after two swaps." },
+        ],
+      },
+    }],
   },
   roles:{
     Top:{
